@@ -3734,7 +3734,7 @@ void GLReplay::GetTextureData(ResourceId tex, const Subresource &sub,
                     dst = data.data() + d * sliceSize;
                     src = dst + (height - 1) * rowSize;
 
-                    for (GLsizei i = 0; i<height> > 1; i++)
+                    for (GLsizei i = 0; i < height>> 1; i++)
                     {
                         memcpy(row, src, rowSize);
                         memcpy(src, dst, rowSize);
