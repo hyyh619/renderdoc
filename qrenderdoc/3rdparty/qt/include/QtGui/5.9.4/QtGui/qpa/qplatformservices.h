@@ -55,7 +55,7 @@ QT_BEGIN_NAMESPACE
 
 class QUrl;
 
-class Q_GUI_EXPORT QPlatformServices
+class Q_GUI_EXPORT    QPlatformServices
 {
 public:
     QPlatformServices();

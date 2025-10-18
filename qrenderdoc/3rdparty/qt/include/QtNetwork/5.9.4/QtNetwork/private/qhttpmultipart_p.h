@@ -59,15 +59,13 @@
 QT_BEGIN_NAMESPACE
 
 
-class QHttpPartPrivate: public QSharedData, public QNetworkHeadersPrivate
+class QHttpPartPrivate : public QSharedData, public QNetworkHeadersPrivate
 {
 public:
     inline QHttpPartPrivate() : bodyDevice(0), headerCreated(false), readPointer(0)
-    {
-    }
+    {}
     ~QHttpPartPrivate()
-    {
-    }
+    {}
 
 
     QHttpPartPrivate(const QHttpPartPrivate &other)
@@ -80,15 +78,17 @@ public:
     inline bool operator==(const QHttpPartPrivate &other) const
     {
         return rawHeaders == other.rawHeaders && body == other.body &&
-                bodyDevice == other.bodyDevice && readPointer == other.readPointer;
+               bodyDevice == other.bodyDevice && readPointer == other.readPointer;
     }
 
-    void setBodyDevice(QIODevice *device) {
-        bodyDevice = device;
+    void setBodyDevice(QIODevice *device)
+    {
+        bodyDevice  = device;
         readPointer = 0;
     }
-    void setBody(const QByteArray &newBody) {
-        body = newBody;
+    void setBody(const QByteArray &newBody)
+    {
+        body        = newBody;
         readPointer = 0;
     }
 
@@ -99,47 +99,49 @@ public:
     qint64 size() const;
     bool reset();
 
-    QByteArray body;
-    QIODevice *bodyDevice;
+    QByteArray      body;
+    QIODevice       *bodyDevice;
 
 private:
     void checkHeaderCreated() const;
 
-    mutable QByteArray header;
-    mutable bool headerCreated;
-    qint64 readPointer;
+    mutable QByteArray      header;
+    mutable bool            headerCreated;
+    qint64                  readPointer;
 };
 
 
 
 class QHttpMultiPartPrivate;
 
-class Q_AUTOTEST_EXPORT QHttpMultiPartIODevice : public QIODevice
+class Q_AUTOTEST_EXPORT    QHttpMultiPartIODevice : public QIODevice
 {
 public:
     QHttpMultiPartIODevice(QHttpMultiPartPrivate *parentMultiPart) :
-            QIODevice(), multiPart(parentMultiPart), readPointer(0), deviceSize(-1) {
-    }
+        QIODevice(), multiPart(parentMultiPart), readPointer(0), deviceSize(-1) {}
 
-    ~QHttpMultiPartIODevice() {
-    }
+    ~QHttpMultiPartIODevice() {}
 
-    virtual bool atEnd() const Q_DECL_OVERRIDE {
+    virtual bool atEnd() const Q_DECL_OVERRIDE
+    {
         return readPointer == size();
     }
 
-    virtual qint64 bytesAvailable() const Q_DECL_OVERRIDE {
+    virtual qint64 bytesAvailable() const Q_DECL_OVERRIDE
+    {
         return size() - readPointer;
     }
 
-    virtual void close() Q_DECL_OVERRIDE {
+    virtual void close() Q_DECL_OVERRIDE
+    {
         readPointer = 0;
         partOffsets.clear();
         deviceSize = -1;
         QIODevice::close();
     }
 
-    virtual qint64 bytesToWrite() const Q_DECL_OVERRIDE {
+    virtual qint64 bytesToWrite() const Q_DECL_OVERRIDE
+    {
         return 0;
     }
 
@@ -149,15 +151,15 @@ public:
     virtual qint64 readData(char *data, qint64 maxSize) Q_DECL_OVERRIDE;
     virtual qint64 writeData(const char *data, qint64 maxSize) Q_DECL_OVERRIDE;
 
-    QHttpMultiPartPrivate *multiPart;
-    qint64 readPointer;
-    mutable QList<qint64> partOffsets;
-    mutable qint64 deviceSize;
+    QHttpMultiPartPrivate       *multiPart;
+    qint64                      readPointer;
+    mutable QList<qint64>       partOffsets;
+    mutable qint64              deviceSize;
 };
 
 
 
-class QHttpMultiPartPrivate: public QObjectPrivate
+class QHttpMultiPartPrivate : public QObjectPrivate
 {
 public:
 
@@ -168,11 +170,10 @@ public:
         delete device;
     }
 
-    QList<QHttpPart> parts;
-    QByteArray boundary;
-    QHttpMultiPart::ContentType contentType;
-    QHttpMultiPartIODevice *device;
-
+    QList<QHttpPart>                parts;
+    QByteArray                      boundary;
+    QHttpMultiPart::ContentType     contentType;
+    QHttpMultiPartIODevice          *device;
 };
 
 QT_END_NAMESPACE

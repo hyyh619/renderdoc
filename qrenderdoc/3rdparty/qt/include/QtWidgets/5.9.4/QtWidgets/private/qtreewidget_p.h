@@ -81,13 +81,15 @@ public:
     explicit QTreeModel(int columns = 0, QTreeWidget *parent = 0);
     ~QTreeModel();
 
-    inline QTreeWidget *view() const
-        { return qobject_cast<QTreeWidget*>(QObject::parent()); }
+    inline QTreeWidget* view() const
+    {
+        return qobject_cast<QTreeWidget*>(QObject::parent());
+    }
 
     void clear();
     void setColumnCount(int columns);
 
-    QTreeWidgetItem *item(const QModelIndex &index) const;
+    QTreeWidgetItem* item(const QModelIndex &index) const;
     void itemChanged(QTreeWidgetItem *item);
 
     QModelIndex index(const QTreeWidgetItem *item, int column) const;
@@ -111,51 +113,53 @@ public:
     void sort(int column, Qt::SortOrder order) Q_DECL_OVERRIDE;
     void ensureSorted(int column, Qt::SortOrder order,
                       int start, int end, const QModelIndex &parent);
-    static bool itemLessThan(const QPair<QTreeWidgetItem*,int> &left,
-                             const QPair<QTreeWidgetItem*,int> &right);
-    static bool itemGreaterThan(const QPair<QTreeWidgetItem*,int> &left,
-                                const QPair<QTreeWidgetItem*,int> &right);
+    static bool itemLessThan(const QPair<QTreeWidgetItem*, int> &left,
+                             const QPair<QTreeWidgetItem*, int> &right);
+    static bool itemGreaterThan(const QPair<QTreeWidgetItem*, int> &left,
+                                const QPair<QTreeWidgetItem*, int> &right);
     static QList<QTreeWidgetItem*>::iterator sortedInsertionIterator(
         const QList<QTreeWidgetItem*>::iterator &begin,
         const QList<QTreeWidgetItem*>::iterator &end,
         Qt::SortOrder order, QTreeWidgetItem *item);
 
-    bool insertRows(int row, int count, const QModelIndex &) Q_DECL_OVERRIDE;
-    bool insertColumns(int column, int count, const QModelIndex &) Q_DECL_OVERRIDE;
+    bool insertRows(int row, int count, const QModelIndex&) Q_DECL_OVERRIDE;
+    bool insertColumns(int column, int count, const QModelIndex&) Q_DECL_OVERRIDE;
 
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) Q_DECL_OVERRIDE;
 
     // dnd
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
 
-    QMimeData *internalMimeData() const;
+    QMimeData* internalMimeData() const;
 
     inline QModelIndex createIndexFromItem(int row, int col, QTreeWidgetItem *item) const
-    { return createIndex(row, col, item); }
+    {
+        return createIndex(row, col, item);
+    }
 
 protected:
-    QTreeModel(QTreeModelPrivate &, QTreeWidget *parent = 0);
+    QTreeModel(QTreeModelPrivate&, QTreeWidget *parent = 0);
     void emitDataChanged(QTreeWidgetItem *item, int column);
     void beginInsertItems(QTreeWidgetItem *parent, int row, int count);
     void endInsertItems();
     void beginRemoveItems(QTreeWidgetItem *parent, int row, int count);
     void endRemoveItems();
     void sortItems(QList<QTreeWidgetItem*> *items, int column, Qt::SortOrder order);
-    void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent*) Q_DECL_OVERRIDE;
 
 private:
-    QTreeWidgetItem *rootItem;
-    QTreeWidgetItem *headerItem;
+    QTreeWidgetItem     *rootItem;
+    QTreeWidgetItem     *headerItem;
 
-    mutable QModelIndexList cachedIndexes;
-    QList<QTreeWidgetItemIterator*> iterators;
+    mutable QModelIndexList             cachedIndexes;
+    QList<QTreeWidgetItemIterator*>     iterators;
 
-    mutable QBasicTimer sortPendingTimer;
-    mutable bool skipPendingSort; //while doing internal operation we don't care about sorting
+    mutable QBasicTimer     sortPendingTimer;
+    mutable bool            skipPendingSort; // while doing internal operation we don't care about sorting
     bool inline executePendingSort() const;
 
     bool isChanging() const;
@@ -165,11 +169,16 @@ private:
 public:
     struct SkipSorting
     {
-        const QTreeModel * const model;
-        const bool previous;
+        const QTreeModel* const model;
+        const bool              previous;
         SkipSorting(const QTreeModel *m) : model(m), previous(model->skipPendingSort)
-        { model->skipPendingSort = true; }
-        ~SkipSorting() { model->skipPendingSort = previous; }
+        {
+            model->skipPendingSort = true;
+        }
+        ~SkipSorting()
+        {
+            model->skipPendingSort = previous;
+        }
     };
     friend struct SkipSorting;
 };
@@ -190,25 +199,27 @@ public:
         : q(item), disabled(false), selected(false), rowGuess(-1), policy(QTreeWidgetItem::DontShowIndicatorWhenChildless) {}
     void propagateDisabled(QTreeWidgetItem *item);
     void sortChildren(int column, Qt::SortOrder order, bool climb);
-    QTreeWidgetItem *q;
-    QVariantList display;
-    uint disabled : 1;
-    uint selected : 1;
-    int rowGuess;
-    QTreeWidgetItem::ChildIndicatorPolicy policy;
+    QTreeWidgetItem                             *q;
+    QVariantList                                display;
+    uint                                        disabled : 1;
+    uint                                        selected : 1;
+    int                                         rowGuess;
+    QTreeWidgetItem::ChildIndicatorPolicy       policy;
 };
 
 
 inline bool QTreeModel::executePendingSort() const
 {
-    if (!skipPendingSort && sortPendingTimer.isActive() && !isChanging()) {
+    if (!skipPendingSort && sortPendingTimer.isActive() && !isChanging())
+    {
         sortPendingTimer.stop();
-        int column = view()->header()->sortIndicatorSection();
-        Qt::SortOrder order = view()->header()->sortIndicatorOrder();
-        QTreeModel *that = const_cast<QTreeModel*>(this);
+        int                 column  = view()->header()->sortIndicatorSection();
+        Qt::SortOrder       order   = view()->header()->sortIndicatorOrder();
+        QTreeModel          *that   = const_cast<QTreeModel*>(this);
         that->sort(column, order);
         return true;
     }
+
     return false;
 }
 
@@ -218,11 +229,18 @@ class QTreeWidgetPrivate : public QTreeViewPrivate
     Q_DECLARE_PUBLIC(QTreeWidget)
 public:
     QTreeWidgetPrivate() : QTreeViewPrivate(), explicitSortColumn(-1) {}
-    inline QTreeModel *treeModel() const { return qobject_cast<QTreeModel*>(model); }
+    inline QTreeModel* treeModel() const
+    {
+        return qobject_cast<QTreeModel*>(model);
+    }
     inline QModelIndex index(const QTreeWidgetItem *item, int column = 0) const
-        { return treeModel()->index(item, column); }
-    inline QTreeWidgetItem *item(const QModelIndex &index) const
-        { return treeModel()->item(index); }
+    {
+        return treeModel()->index(item, column);
+    }
+    inline QTreeWidgetItem* item(const QModelIndex &index) const
+    {
+        return treeModel()->item(index);
+    }
     void _q_emitItemPressed(const QModelIndex &index);
     void _q_emitItemClicked(const QModelIndex &index);
     void _q_emitItemDoubleClicked(const QModelIndex &index);
@@ -236,8 +254,8 @@ public:
     void _q_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
     void _q_selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
 
-     // used by QTreeWidgetItem::sortChildren to make sure the column argument is used
-    int explicitSortColumn;
+    // used by QTreeWidgetItem::sortChildren to make sure the column argument is used
+    int    explicitSortColumn;
 };
 
 QT_END_NAMESPACE

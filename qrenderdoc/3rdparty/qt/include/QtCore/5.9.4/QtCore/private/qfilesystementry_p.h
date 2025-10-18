@@ -70,8 +70,8 @@ public:
 #else
     typedef QString NativePath;
 #endif
-    struct FromNativePath{};
-    struct FromInternalPath{};
+    struct FromNativePath {};
+    struct FromInternalPath {};
 
     QFileSystemEntry();
     explicit QFileSystemEntry(const QString &filePath);
@@ -116,12 +116,12 @@ private:
     // resolves the dots and the separator
     void findFileNameSeparators() const;
 
-    mutable QString m_filePath; // always has slashes as separator
-    mutable NativePath m_nativeFilePath; // native encoding and separators
+    mutable QString         m_filePath; // always has slashes as separator
+    mutable NativePath      m_nativeFilePath; // native encoding and separators
 
-    mutable qint16 m_lastSeparator; // index in m_filePath of last separator
-    mutable qint16 m_firstDotInFileName; // index after m_filePath for first dot (.)
-    mutable qint16 m_lastDotInFileName; // index after m_firstDotInFileName for last dot (.)
+    mutable qint16      m_lastSeparator; // index in m_filePath of last separator
+    mutable qint16      m_firstDotInFileName; // index after m_filePath for first dot (.)
+    mutable qint16      m_lastDotInFileName; // index after m_firstDotInFileName for last dot (.)
 };
 
 QT_END_NAMESPACE

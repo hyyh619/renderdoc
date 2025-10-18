@@ -66,7 +66,8 @@ class QAbstractStatePrivate : public QObjectPrivate
     Q_DECLARE_PUBLIC(QAbstractState)
 
 public:
-    enum StateType {
+    enum StateType
+    {
         AbstractState,
         StandardState,
         FinalState,
@@ -75,12 +76,16 @@ public:
 
     QAbstractStatePrivate(StateType type);
 
-    static QAbstractStatePrivate *get(QAbstractState *q)
-    { return q->d_func(); }
-    static const QAbstractStatePrivate *get(const QAbstractState *q)
-    { return q->d_func(); }
+    static QAbstractStatePrivate* get(QAbstractState *q)
+    {
+        return q->d_func();
+    }
+    static const QAbstractStatePrivate* get(const QAbstractState *q)
+    {
+        return q->d_func();
+    }
 
-    QStateMachine *machine() const;
+    QStateMachine* machine() const;
 
     void callOnEntry(QEvent *e);
     void callOnExit(QEvent *e);
@@ -88,10 +93,10 @@ public:
     void emitEntered();
     void emitExited();
 
-    uint stateType:30;
-    uint isMachine:1;
-    bool active:1;
-    mutable QState *parentState;
+    uint                stateType : 30;
+    uint                isMachine : 1;
+    bool                active : 1;
+    mutable QState      *parentState;
 };
 
 QT_END_NAMESPACE

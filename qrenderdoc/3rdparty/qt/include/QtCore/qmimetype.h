@@ -56,14 +56,17 @@ class QMimeType;
 
 Q_CORE_EXPORT uint qHash(const QMimeType &key, uint seed = 0) Q_DECL_NOTHROW;
 
-class Q_CORE_EXPORT QMimeType
+class Q_CORE_EXPORT    QMimeType
 {
 public:
     QMimeType();
     QMimeType(const QMimeType &other);
-    QMimeType &operator=(const QMimeType &other);
+    QMimeType&operator=(const QMimeType &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QMimeType &operator=(QMimeType &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QMimeType&operator=(QMimeType &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
     void swap(QMimeType &other) Q_DECL_NOTHROW
     {
@@ -107,7 +110,7 @@ protected:
     friend class QMimeTypePrivate;
     friend Q_CORE_EXPORT uint qHash(const QMimeType &key, uint seed) Q_DECL_NOTHROW;
 
-    QExplicitlySharedDataPointer<QMimeTypePrivate> d;
+    QExplicitlySharedDataPointer<QMimeTypePrivate>    d;
 };
 
 Q_DECLARE_SHARED(QMimeType)
@@ -118,6 +121,5 @@ Q_CORE_EXPORT QDebug operator<<(QDebug debug, const QMimeType &mime);
 #endif
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMETYPE_H

@@ -50,10 +50,10 @@
 QT_BEGIN_NAMESPACE
 
 /*
-  Forward declarations only.
+   Forward declarations only.
 
-  In order to use the qDebug() stream, you must #include<QDebug>
-*/
+   In order to use the qDebug() stream, you must #include<QDebug>
+ */
 class QDebug;
 class QNoDebug;
 
@@ -70,11 +70,11 @@ public:
 
     void copy(const QMessageLogContext &logContext);
 
-    int version;
-    int line;
-    const char *file;
-    const char *function;
-    const char *category;
+    int             version;
+    int             line;
+    const char      *file;
+    const char      *function;
+    const char      *category;
 
 private:
     friend class QMessageLogger;
@@ -83,7 +83,7 @@ private:
 
 class QLoggingCategory;
 
-class Q_CORE_EXPORT QMessageLogger
+class Q_CORE_EXPORT    QMessageLogger
 {
     Q_DISABLE_COPY(QMessageLogger)
 public:
@@ -94,13 +94,13 @@ public:
         : context(file, line, function, category) {}
 
     void debug(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
-    void noDebug(const char *, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3)
+    void noDebug(const char*, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3)
     {}
     void info(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
     void warning(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
     void critical(const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
 
-    typedef const QLoggingCategory &(*CategoryFunction)();
+    typedef const QLoggingCategory& (*CategoryFunction)();
 
     void debug(const QLoggingCategory &cat, const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(3, 4);
     void debug(CategoryFunction catFunc, const char *msg, ...) const Q_ATTRIBUTE_FORMAT_PRINTF(3, 4);
@@ -114,7 +114,7 @@ public:
 #ifndef Q_CC_MSVC
     Q_NORETURN
 #endif
-    void fatal(const char *msg, ...) const Q_DECL_NOTHROW Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
+    void fatal(const char *msg, ...) const Q_DECL_NOTHROW    Q_ATTRIBUTE_FORMAT_PRINTF(2, 3);
 
 #ifndef QT_NO_DEBUG_STREAM
     QDebug debug() const;
@@ -134,7 +134,7 @@ public:
 #endif // QT_NO_DEBUG_STREAM
 
 private:
-    QMessageLogContext context;
+    QMessageLogContext    context;
 };
 
 #if !defined(QT_MESSAGELOGCONTEXT) && !defined(QT_NO_MESSAGELOGCONTEXT)
@@ -146,20 +146,20 @@ private:
 #endif
 
 #ifdef QT_MESSAGELOGCONTEXT
-  #define QT_MESSAGELOG_FILE __FILE__
-  #define QT_MESSAGELOG_LINE __LINE__
-  #define QT_MESSAGELOG_FUNC Q_FUNC_INFO
+  #define QT_MESSAGELOG_FILE    __FILE__
+  #define QT_MESSAGELOG_LINE    __LINE__
+  #define QT_MESSAGELOG_FUNC    Q_FUNC_INFO
 #else
-  #define QT_MESSAGELOG_FILE Q_NULLPTR
-  #define QT_MESSAGELOG_LINE 0
-  #define QT_MESSAGELOG_FUNC Q_NULLPTR
+  #define QT_MESSAGELOG_FILE    Q_NULLPTR
+  #define QT_MESSAGELOG_LINE    0
+  #define QT_MESSAGELOG_FUNC    Q_NULLPTR
 #endif
 
-#define qDebug QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).debug
-#define qInfo QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).info
-#define qWarning QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).warning
-#define qCritical QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).critical
-#define qFatal QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).fatal
+#define qDebug      QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).debug
+#define qInfo       QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).info
+#define qWarning    QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).warning
+#define qCritical   QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).critical
+#define qFatal      QMessageLogger(QT_MESSAGELOG_FILE, QT_MESSAGELOG_LINE, QT_MESSAGELOG_FUNC).fatal
 
 #define QT_NO_QDEBUG_MACRO while (false) QMessageLogger().noDebug
 
@@ -176,19 +176,19 @@ private:
 #  define qWarning QT_NO_QDEBUG_MACRO
 #endif
 
-Q_CORE_EXPORT void qt_message_output(QtMsgType, const QMessageLogContext &context,
-                                     const QString &message);
+Q_CORE_EXPORT void    qt_message_output(QtMsgType, const QMessageLogContext &context,
+                                        const QString &message);
 
 Q_CORE_EXPORT void qErrnoWarning(int code, const char *msg, ...);
 Q_CORE_EXPORT void qErrnoWarning(const char *msg, ...);
 
 #if QT_DEPRECATED_SINCE(5, 0)// deprecated. Use qInstallMessageHandler instead!
-typedef void (*QtMsgHandler)(QtMsgType, const char *);
-Q_CORE_EXPORT QT_DEPRECATED QtMsgHandler qInstallMsgHandler(QtMsgHandler);
+typedef void (*QtMsgHandler)(QtMsgType, const char*);
+Q_CORE_EXPORT QT_DEPRECATED QtMsgHandler    qInstallMsgHandler(QtMsgHandler);
 #endif
 
-typedef void (*QtMessageHandler)(QtMsgType, const QMessageLogContext &, const QString &);
-Q_CORE_EXPORT QtMessageHandler qInstallMessageHandler(QtMessageHandler);
+typedef void (*QtMessageHandler)(QtMsgType, const QMessageLogContext&, const QString&);
+Q_CORE_EXPORT QtMessageHandler    qInstallMessageHandler(QtMessageHandler);
 
 Q_CORE_EXPORT void qSetMessagePattern(const QString &messagePattern);
 Q_CORE_EXPORT QString qFormatLogMessage(QtMsgType type, const QMessageLogContext &context,

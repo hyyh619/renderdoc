@@ -71,9 +71,9 @@ class QToolBarPrivate : public QWidgetPrivate
 public:
     inline QToolBarPrivate()
         : explicitIconSize(false), explicitToolButtonStyle(false), movable(true), floatable(true),
-          allowedAreas(Qt::AllToolBarAreas), orientation(Qt::Horizontal),
-          toolButtonStyle(Qt::ToolButtonIconOnly),
-          layout(0), state(0)
+        allowedAreas(Qt::AllToolBarAreas), orientation(Qt::Horizontal),
+        toolButtonStyle(Qt::ToolButtonIconOnly),
+        layout(0), state(0)
 #ifdef Q_OS_OSX
         , macWindowDragging(false)
 #endif
@@ -85,30 +85,31 @@ public:
     void _q_updateIconSize(const QSize &sz);
     void _q_updateToolButtonStyle(Qt::ToolButtonStyle style);
 
-    bool explicitIconSize;
-    bool explicitToolButtonStyle;
-    bool movable;
-    bool floatable;
-    Qt::ToolBarAreas allowedAreas;
-    Qt::Orientation orientation;
-    Qt::ToolButtonStyle toolButtonStyle;
-    QSize iconSize;
+    bool                    explicitIconSize;
+    bool                    explicitToolButtonStyle;
+    bool                    movable;
+    bool                    floatable;
+    Qt::ToolBarAreas        allowedAreas;
+    Qt::Orientation         orientation;
+    Qt::ToolButtonStyle     toolButtonStyle;
+    QSize                   iconSize;
 
-    QAction *toggleViewAction;
+    QAction    *toggleViewAction;
 
-    QToolBarLayout *layout;
+    QToolBarLayout    *layout;
 
-    struct DragState {
-        QPoint pressPos;
-        bool dragging;
-        bool moving;
+    struct DragState
+    {
+        QPoint      pressPos;
+        bool        dragging;
+        bool        moving;
         QLayoutItem *widgetItem;
     };
-    DragState *state;
+    DragState    *state;
 
 #ifdef Q_OS_OSX
-    bool macWindowDragging;
-    QPoint macWindowDragPressPosition;
+    bool        macWindowDragging;
+    QPoint      macWindowDragPressPosition;
 #endif
 
     bool mousePressEvent(QMouseEvent *e);
@@ -124,9 +125,8 @@ public:
     void unplug(const QRect &r);
     void plug(const QRect &r);
 
-    QBasicTimer waitForPopupTimer;
+    QBasicTimer    waitForPopupTimer;
 };
-
 #endif // QT_NO_TOOLBAR
 
 QT_END_NAMESPACE

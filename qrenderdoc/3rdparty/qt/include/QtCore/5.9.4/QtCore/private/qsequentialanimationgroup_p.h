@@ -87,15 +87,15 @@ public:
 
     bool atEnd() const;
 
-    QAbstractAnimation *currentAnimation;
-    int currentAnimationIndex;
+    QAbstractAnimation      *currentAnimation;
+    int                     currentAnimationIndex;
 
     // this is the actual duration of uncontrolled animations
     // it helps seeking and even going forward
-    QVector<int> actualDuration;
+    QVector<int>    actualDuration;
 
     void restart();
-    int lastLoop;
+    int    lastLoop;
 
     // handle time changes
     void rewindForwards(const AnimationIndex &newAnimationIndex);
@@ -106,7 +106,6 @@ public:
 };
 
 QT_END_NAMESPACE
+#endif // QT_NO_ANIMATION
 
-#endif //QT_NO_ANIMATION
-
-#endif //QSEQUENTIALANIMATIONGROUP_P_H
+#endif // QSEQUENTIALANIMATIONGROUP_P_H

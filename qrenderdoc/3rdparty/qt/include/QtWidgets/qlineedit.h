@@ -60,7 +60,7 @@ class QDateTimeEdit;
 class QIcon;
 class QToolButton;
 
-class Q_WIDGETS_EXPORT QLineEdit : public QWidget
+class Q_WIDGETS_EXPORT    QLineEdit : public QWidget
 {
     Q_OBJECT
 
@@ -84,14 +84,15 @@ class Q_WIDGETS_EXPORT QLineEdit : public QWidget
     Q_PROPERTY(Qt::CursorMoveStyle cursorMoveStyle READ cursorMoveStyle WRITE setCursorMoveStyle)
     Q_PROPERTY(bool clearButtonEnabled READ isClearButtonEnabled WRITE setClearButtonEnabled)
 public:
-    enum ActionPosition {
+    enum ActionPosition
+    {
         LeadingPosition,
         TrailingPosition
     };
     Q_ENUM(ActionPosition)
 
     explicit QLineEdit(QWidget *parent = Q_NULLPTR);
-    explicit QLineEdit(const QString &, QWidget *parent = Q_NULLPTR);
+    explicit QLineEdit(const QString&, QWidget *parent = Q_NULLPTR);
     ~QLineEdit();
 
     QString text() const;
@@ -99,7 +100,7 @@ public:
     QString displayText() const;
 
     QString placeholderText() const;
-    void setPlaceholderText(const QString &);
+    void setPlaceholderText(const QString&);
 
     int maxLength() const;
     void setMaxLength(int);
@@ -113,19 +114,19 @@ public:
     enum EchoMode { Normal, NoEcho, Password, PasswordEchoOnEdit };
     Q_ENUM(EchoMode)
     EchoMode echoMode() const;
-    void setEchoMode(EchoMode);
+    void    setEchoMode(EchoMode);
 
     bool isReadOnly() const;
     void setReadOnly(bool);
 
 #ifndef QT_NO_VALIDATOR
-    void setValidator(const QValidator *);
-    const QValidator * validator() const;
+    void setValidator(const QValidator*);
+    const QValidator* validator() const;
 #endif
 
 #if QT_CONFIG(completer)
     void setCompleter(QCompleter *completer);
-    QCompleter *completer() const;
+    QCompleter* completer() const;
 #endif
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -176,11 +177,11 @@ public:
 #if QT_CONFIG(action)
     using QWidget::addAction;
     void addAction(QAction *action, ActionPosition position);
-    QAction *addAction(const QIcon &icon, ActionPosition position);
+    QAction* addAction(const QIcon &icon, ActionPosition position);
 #endif
 
 public Q_SLOTS:
-    void setText(const QString &);
+    void setText(const QString&);
     void clear();
     void selectAll();
     void undo();
@@ -193,45 +194,45 @@ public Q_SLOTS:
 
 public:
     void deselect();
-    void insert(const QString &);
+    void insert(const QString&);
 #ifndef QT_NO_CONTEXTMENU
-    QMenu *createStandardContextMenu();
+    QMenu* createStandardContextMenu();
 #endif
 
 Q_SIGNALS:
-    void textChanged(const QString &);
-    void textEdited(const QString &);
+    void textChanged(const QString&);
+    void textEdited(const QString&);
     void cursorPositionChanged(int, int);
     void returnPressed();
     void editingFinished();
     void selectionChanged();
 
 protected:
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void focusInEvent(QFocusEvent *) Q_DECL_OVERRIDE;
-    void focusOutEvent(QFocusEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent*) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 #ifndef QT_NO_DRAGANDDROP
-    void dragEnterEvent(QDragEnterEvent *) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent*) Q_DECL_OVERRIDE;
     void dragMoveEvent(QDragMoveEvent *e) Q_DECL_OVERRIDE;
     void dragLeaveEvent(QDragLeaveEvent *e) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent*) Q_DECL_OVERRIDE;
 #endif
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
 #ifndef QT_NO_CONTEXTMENU
-    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent*) Q_DECL_OVERRIDE;
 #endif
 
-    void inputMethodEvent(QInputMethodEvent *) Q_DECL_OVERRIDE;
+    void inputMethodEvent(QInputMethodEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionFrame *option) const;
 public:
     QVariant inputMethodQuery(Qt::InputMethodQuery) const Q_DECL_OVERRIDE;
     Q_INVOKABLE QVariant inputMethodQuery(Qt::InputMethodQuery property, QVariant argument) const;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
 protected:
     QRect cursorRect() const;
 

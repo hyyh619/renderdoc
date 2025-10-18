@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include <limits>
 #include "3rdparty/fmt/core.h"
@@ -28,33 +28,33 @@
 
 RD_TEST(VK_Shader_Debug_Zoo, VulkanGraphicsTest)
 {
-  static constexpr const char *Description = "Tests shader debugging on SPIR-V opcodes.";
+    static constexpr const char    *Description = "Tests shader debugging on SPIR-V opcodes.";
 
-  struct ConstsA2V
-  {
-    Vec4f pos;
-    float zero;
-    float one;
-    float negone;
-    Vec2f uv;
-  };
+    struct ConstsA2V
+    {
+        Vec4f   pos;
+        float   zero;
+        float   one;
+        float   negone;
+        Vec2f   uv;
+    };
 
-  struct PushData
-  {
-    Vec4i push;
-    Vec2u bda_uvec2;
-    uint32_t bda_hi;
-    uint32_t bda_lo;
-    uint64_t bda_u64;
-  };
+    struct PushData
+    {
+        Vec4i       push;
+        Vec2u       bda_uvec2;
+        uint32_t    bda_hi;
+        uint32_t    bda_lo;
+        uint64_t    bda_u64;
+    };
 
-  struct BDA_Data
-  {
-    float f32[8];
-  };
+    struct BDA_Data
+    {
+        float f32[8];
+    };
 
-  std::string v2f =
-      R"EOSHADER(
+    std::string    v2f =
+        R"EOSHADER(
 
 struct flatv2f
 {
@@ -77,7 +77,7 @@ layout(location = 3) inout_type v2f linearData;
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 #version 430 core
 
 #define inout_type out
@@ -112,7 +112,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel_glsl_header = R"EOSHADER(
+    std::string    pixel_glsl_header = R"EOSHADER(
 #version 460 core
 
 #extension GL_EXT_samplerless_texture_functions : require
@@ -287,14 +287,14 @@ layout(push_constant) uniform PushData {
 } push;
 )EOSHADER";
 
-  std::string pixel_glsl1 = pixel_glsl_header + R"EOSHADER(
+    std::string    pixel_glsl1 = pixel_glsl_header + R"EOSHADER(
 
 layout(location = 0, index = 0) out vec4 Color;
 
 #define inout_type in
 
 )EOSHADER" + v2f +
-                            R"EOSHADER(
+                                 R"EOSHADER(
 
 vec4 varscope_test(int coord, vec2 inpos_param, vec2 inpos_incr_param)
 {
@@ -676,7 +676,7 @@ void main()
       break;
     }
 )EOSHADER"
-                            R"EOSHADER(
+                                 R"EOSHADER(
     case 51:
     {
       Color = fwidthFine(vec4(inpos, inposIncreased));
@@ -1043,7 +1043,7 @@ void main()
       break;
     }
 )EOSHADER"
-                            R"EOSHADER(
+                                 R"EOSHADER(
     case 102:
     {
       uint a = zerou + 0x0dadbeef;
@@ -1400,7 +1400,7 @@ void main()
     }
 #endif
 )EOSHADER"
-                            R"EOSHADER(
+                                 R"EOSHADER(
     case 153:
     {
       vec3 cubeCoord = vec3(1.0f, -0.3f, 0.9f);
@@ -1655,7 +1655,7 @@ void main()
 
 )EOSHADER";
 
-  std::string vertex2 = R"EOSHADER(
+    std::string    vertex2 = R"EOSHADER(
 #version 460 core
 
 layout(location = 0) in vec4 pos;
@@ -1718,7 +1718,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel_glsl2 = pixel_glsl_header + R"EOSHADER(
+    std::string    pixel_glsl2 = pixel_glsl_header + R"EOSHADER(
 
 layout(location = 0, component = 0) flat in uint test;
 layout(location = 0, component = 1) flat in int zeroi;
@@ -1898,21 +1898,21 @@ void main()
 
 )EOSHADER";
 
-  std::string capabilities = "OpCapability Shader\n";
-  std::string spv_extensions;
-  std::string extinstimport =
-      R"EOSHADER(
+    std::string     capabilities = "OpCapability Shader\n";
+    std::string     spv_extensions;
+    std::string     extinstimport =
+        R"EOSHADER(
     %glsl450 = OpExtInstImport "GLSL.std.450"
 )EOSHADER";
-  std::string executionmodes =
-      R"EOSHADER(
+    std::string    executionmodes =
+        R"EOSHADER(
                OpExecutionMode %main OriginUpperLeft
 )EOSHADER";
-  std::string spv_debug =
-      R"EOSHADER(
+    std::string    spv_debug =
+        R"EOSHADER(
    %filename = OpString "file.foo"
 )EOSHADER";
-  std::string decorations = R"EOSHADER(
+    std::string                 decorations     = R"EOSHADER(
                OpDecorate %flatData Flat
                OpDecorate %flatData Location 1
                OpDecorate %linearData Location 3
@@ -1939,7 +1939,7 @@ void main()
                OpDecorate %buffer DescriptorSet 0
                OpDecorate %buffer Binding 15
 )EOSHADER";
-  std::string typesConstants = R"EOSHADER(
+    std::string                 typesConstants  = R"EOSHADER(
        %void = OpTypeVoid
        %bool = OpTypeBool
       %float = OpTypeFloat 32
@@ -2039,7 +2039,7 @@ void main()
       %v2f_negoneVal_idx = OpConstant %int 5
 
 )EOSHADER";
-  std::string functions = R"EOSHADER(
+    std::string                 functions       = R"EOSHADER(
 
        %doubler = OpFunction %float None %doublerfunc
                   OpLine %filename 123 456
@@ -2063,283 +2063,285 @@ void main()
                   OpLine %filename 799 755
                   OpFunctionEnd
 )EOSHADER";
-  std::vector<std::string> asm_tests;
+    std::vector<std::string>    asm_tests;
 
-  void append_tests(const std::initializer_list<std::string> &tests)
-  {
-    asm_tests.insert(asm_tests.end(), tests.begin(), tests.end());
-  }
-
-  void make_asm_tests()
-  {
-    std::vector<std::string> ret;
-
-    // test binary float maths operations
-    for(const std::string &op : {"OpFAdd", "OpFSub", "OpFMul", "OpFDiv", "OpFMod", "OpFRem"})
+    void append_tests(const std::initializer_list<std::string> &tests)
     {
-      bool div = (op == "OpFDiv" || op == "OpFMod" || op == "OpFRem");
-      bool mod = (op == "OpFMod" || op == "OpFRem");
-      for(const std::string &a : {"15_75", "4_5"})
-      {
-        for(const std::string &b : {"15_75", "4_5"})
-        {
-          // don't test A mod A
-          if(mod && a == b)
-            continue;
-
-          // test A op B and B op A, with neg/pos and dyn/const
-          append_tests({
-              fmt::format("%_x = {0} %float %float_{1} %float_{2}\n"
-                          "%_y = {0} %float %float_neg{1} %float_{2}\n"
-                          "%_z = {0} %float %float_{2} %float_{1}\n"
-                          "%_w = {0} %float %float_neg{2} %float_{1}\n"
-                          "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                          op, a, b),
-              fmt::format("%_x = {0} %float %float_dyn_{1} %float_dyn_{2}\n"
-                          "%_y = {0} %float %float_dyn_neg{1} %float_dyn_{2}\n"
-                          "%_z = {0} %float %float_dyn_{2} %float_dyn_{1}\n"
-                          "%_w = {0} %float %float_dyn_neg{2} %float_dyn_{1}\n"
-                          "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                          op, a, b),
-          });
-
-          if(features.shaderFloat64)
-          {
-            append_tests({
-                fmt::format("%_x = {0} %double %double_{1} %double_{2}\n"
-                            "%_y = {0} %double %double_neg{1} %double_{2}\n"
-                            "%_z = {0} %double %double_{2} %double_{1}\n"
-                            "%_w = {0} %double %double_neg{2} %double_{1}\n"
-                            "%_out_double4 = OpCompositeConstruct %double4 %_x %_y %_z %_w\n",
-                            op, a, b),
-                fmt::format("%_x = {0} %double %double_dyn_{1} %double_dyn_{2}\n"
-                            "%_y = {0} %double %double_dyn_neg{1} %double_dyn_{2}\n"
-                            "%_z = {0} %double %double_dyn_{2} %double_dyn_{1}\n"
-                            "%_w = {0} %double %double_dyn_neg{2} %double_dyn_{1}\n"
-                            "%_out_double4 = OpCompositeConstruct %double4 %_x %_y %_z %_w\n",
-                            op, a, b),
-            });
-          }
-
-          // also test 0 op A/B
-
-          append_tests({
-              fmt::format("%_x = {0} %float %float_0_0 %float_{1}\n"
-                          "%_y = {0} %float %float_0_0 %float_{2}\n"
-                          "%_z = {0} %float %float_0_0 %float_{3}{1}\n"
-                          "%_w = {0} %float %float_0_0 %float_{3}{2}\n"
-                          "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                          op, a, b, mod ? "" : "neg"),
-              fmt::format("%_x = {0} %float %float_dyn_0_0 %float_dyn_{1}\n"
-                          "%_y = {0} %float %float_dyn_0_0 %float_dyn_{2}\n"
-                          "%_z = {0} %float %float_dyn_0_0 %float_dyn_{3}{1}\n"
-                          "%_w = {0} %float %float_dyn_0_0 %float_dyn_{3}{2}\n"
-                          "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                          op, a, b, mod ? "" : "neg"),
-          });
-
-          // if this isn't a divide, test A/B op 0
-          if(!div)
-          {
-            append_tests({
-                fmt::format("%_x = {0} %float %float_{1} %float_0_0\n"
-                            "%_y = {0} %float %float_neg{1} %float_0_0\n"
-                            "%_z = {0} %float %float_{2} %float_0_0\n"
-                            "%_w = {0} %float %float_neg{2} %float_0_0\n"
-                            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                            op, a, b),
-                fmt::format("%_x = {0} %float %float_dyn_{1} %float_dyn_0_0\n"
-                            "%_y = {0} %float %float_dyn_neg{1} %float_dyn_0_0\n"
-                            "%_z = {0} %float %float_dyn_{2} %float_dyn_0_0\n"
-                            "%_w = {0} %float %float_dyn_neg{2} %float_dyn_0_0\n"
-                            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-                            op, a, b),
-            });
-          }
-        }
-      }
+        asm_tests.insert(asm_tests.end(), tests.begin(), tests.end());
     }
 
-    // test binary int maths operations
-    for(const std::string &op :
-        {"OpIAdd", "OpISub", "OpIMul", "OpSDiv", "OpSMod", "OpSRem", "OpUDiv", "OpUMod"})
+    void make_asm_tests()
     {
-      bool div =
-          (op == "OpSDiv" || op == "OpSMod" || op == "OpSRem" || op == "OpUDiv" || op == "OpUMod");
-      bool mod = (op == "OpSMod" || op == "OpSRem" || op == "OpUMod");
-      bool sign = op.find('U') == std::string::npos;
-      for(uint32_t a : {15, 4})
-      {
-        for(uint32_t b : {15, 4})
+        std::vector<std::string>    ret;
+
+        // test binary float maths operations
+        for (const std::string &op : {"OpFAdd", "OpFSub", "OpFMul", "OpFDiv", "OpFMod", "OpFRem"})
         {
-          // don't test A mod A
-          if(mod && a == b)
-            continue;
+            bool    div = (op == "OpFDiv" || op == "OpFMod" || op == "OpFRem");
+            bool    mod = (op == "OpFMod" || op == "OpFRem");
 
-          // test A op B for uint and int (positive)
-          append_tests({
-              fmt::format("%_x = {0} %uint %uint_{1} %uint_{2}\n"
-                          "%_y = {0} %uint %uint_dyn_{1} %uint_{2}\n"
-                          "%_z = {0} %uint %uint_{2} %uint_{1}\n"
-                          "%_w = {0} %uint %uint_dyn_{2} %uint_{1}\n"
-                          "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-                          op, a, b),
-              fmt::format("%_x = {0} %uint %uint_0 %uint_{1}\n"
-                          "%_y = {0} %uint %uint_0 %uint_dyn_{1}\n"
-                          "%_z = {0} %uint %uint_0 %uint_{2}\n"
-                          "%_w = {0} %uint %uint_0 %uint_dyn_{2}\n"
-                          "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-                          op, a, b),
-          });
-
-          // if this is a signed op, test negative values too
-          if(sign && !mod)
-          {
-            append_tests({
-                fmt::format("%_x = {0} %int %int_{1} %int_{2}\n"
-                            "%_y = {0} %int %int_dyn_{1} %int_{2}\n"
-                            "%_z = {0} %int %int_{2} %int_{1}\n"
-                            "%_w = {0} %int %int_dyn_{2} %int_{1}\n"
-                            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-                            op, a, b),
-                fmt::format("%_x = {0} %int %int_0 %int_{1}\n"
-                            "%_y = {0} %int %int_0 %int_dyn_{1}\n"
-                            "%_z = {0} %int %int_0 %int_{2}\n"
-                            "%_w = {0} %int %int_0 %int_dyn_{2}\n"
-                            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-                            op, a, b),
-                fmt::format("%_x = {0} %int %int_neg{1} %int_{2}\n"
-                            "%_y = {0} %int %int_dyn_neg{1} %int_{2}\n"
-                            "%_z = {0} %int %int_neg{2} %int_{1}\n"
-                            "%_w = {0} %int %int_dyn_neg{2} %int_{1}\n"
-                            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-                            op, a, b),
-                fmt::format("%_x = {0} %int %int_0 %int_neg{1}\n"
-                            "%_y = {0} %int %int_0 %int_dyn_neg{1}\n"
-                            "%_z = {0} %int %int_0 %int_neg{2}\n"
-                            "%_w = {0} %int %int_0 %int_dyn_neg{2}\n"
-                            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-                            op, a, b),
-            });
-          }
-
-          // if it's not a divide op, test A/B op 0
-          if(!div)
-          {
-            append_tests({
-                fmt::format("%_x = {0} %uint %uint_{1} %uint_0\n"
-                            "%_y = {0} %uint %uint_{2} %uint_0\n"
-                            "%_z = {0} %uint %uint_dyn_{1} %uint_dyn_0\n"
-                            "%_w = {0} %uint %uint_dyn_{2} %uint_dyn_0\n"
-                            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-                            op, a, b),
-            });
-
-            // and if it's a signed non-divide op, test -A / -B op 0
-            if(sign)
+            for (const std::string &a : {"15_75", "4_5"})
             {
-              append_tests({
-                  fmt::format("%_x = {0} %int %int_neg{1} %int_0\n"
-                              "%_y = {0} %int %int_neg{2} %int_0\n"
-                              "%_z = {0} %int %int_dyn_neg{1} %int_dyn_0\n"
-                              "%_w = {0} %int %int_dyn_neg{2} %int_dyn_0\n"
-                              "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-                              op, a, b),
-              });
+                for (const std::string &b : {"15_75", "4_5"})
+                {
+                    // don't test A mod A
+                    if (mod && a == b)
+                        continue;
+
+                    // test A op B and B op A, with neg/pos and dyn/const
+                    append_tests({
+                        fmt::format("%_x = {0} %float %float_{1} %float_{2}\n"
+                                    "%_y = {0} %float %float_neg{1} %float_{2}\n"
+                                    "%_z = {0} %float %float_{2} %float_{1}\n"
+                                    "%_w = {0} %float %float_neg{2} %float_{1}\n"
+                                    "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                    op, a, b),
+                        fmt::format("%_x = {0} %float %float_dyn_{1} %float_dyn_{2}\n"
+                                    "%_y = {0} %float %float_dyn_neg{1} %float_dyn_{2}\n"
+                                    "%_z = {0} %float %float_dyn_{2} %float_dyn_{1}\n"
+                                    "%_w = {0} %float %float_dyn_neg{2} %float_dyn_{1}\n"
+                                    "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                    op, a, b),
+                    });
+
+                    if (features.shaderFloat64)
+                    {
+                        append_tests({
+                            fmt::format("%_x = {0} %double %double_{1} %double_{2}\n"
+                                        "%_y = {0} %double %double_neg{1} %double_{2}\n"
+                                        "%_z = {0} %double %double_{2} %double_{1}\n"
+                                        "%_w = {0} %double %double_neg{2} %double_{1}\n"
+                                        "%_out_double4 = OpCompositeConstruct %double4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                            fmt::format("%_x = {0} %double %double_dyn_{1} %double_dyn_{2}\n"
+                                        "%_y = {0} %double %double_dyn_neg{1} %double_dyn_{2}\n"
+                                        "%_z = {0} %double %double_dyn_{2} %double_dyn_{1}\n"
+                                        "%_w = {0} %double %double_dyn_neg{2} %double_dyn_{1}\n"
+                                        "%_out_double4 = OpCompositeConstruct %double4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                        });
+                    }
+
+                    // also test 0 op A/B
+
+                    append_tests({
+                        fmt::format("%_x = {0} %float %float_0_0 %float_{1}\n"
+                                    "%_y = {0} %float %float_0_0 %float_{2}\n"
+                                    "%_z = {0} %float %float_0_0 %float_{3}{1}\n"
+                                    "%_w = {0} %float %float_0_0 %float_{3}{2}\n"
+                                    "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                    op, a, b, mod ? "" : "neg"),
+                        fmt::format("%_x = {0} %float %float_dyn_0_0 %float_dyn_{1}\n"
+                                    "%_y = {0} %float %float_dyn_0_0 %float_dyn_{2}\n"
+                                    "%_z = {0} %float %float_dyn_0_0 %float_dyn_{3}{1}\n"
+                                    "%_w = {0} %float %float_dyn_0_0 %float_dyn_{3}{2}\n"
+                                    "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                    op, a, b, mod ? "" : "neg"),
+                    });
+
+                    // if this isn't a divide, test A/B op 0
+                    if (!div)
+                    {
+                        append_tests({
+                            fmt::format("%_x = {0} %float %float_{1} %float_0_0\n"
+                                        "%_y = {0} %float %float_neg{1} %float_0_0\n"
+                                        "%_z = {0} %float %float_{2} %float_0_0\n"
+                                        "%_w = {0} %float %float_neg{2} %float_0_0\n"
+                                        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                            fmt::format("%_x = {0} %float %float_dyn_{1} %float_dyn_0_0\n"
+                                        "%_y = {0} %float %float_dyn_neg{1} %float_dyn_0_0\n"
+                                        "%_z = {0} %float %float_dyn_{2} %float_dyn_0_0\n"
+                                        "%_w = {0} %float %float_dyn_neg{2} %float_dyn_0_0\n"
+                                        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                        });
+                    }
+                }
             }
-          }
         }
-      }
-    }
 
-    // test unary operations
-    append_tests({
-        "%_x = OpFNegate %float %float_10_0\n"
-        "%_y = OpFNegate %float %float_neg10_0\n"
-        "%_z = OpFNegate %float %float_dyn_10_0\n"
-        "%_w = OpFNegate %float %float_dyn_neg10_0\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-
-        "%_x = OpFNegate %float %float_0_0\n"
-        "%_y = OpFNegate %float %float_neg0_0\n"
-        "%_z = OpFNegate %float %float_dyn_0_0\n"
-        "%_w = OpFNegate %float %float_dyn_neg0_0\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-
-        "%_x = OpSNegate %int %int_10\n"
-        "%_y = OpSNegate %int %int_neg10\n"
-        "%_z = OpSNegate %int %int_dyn_10\n"
-        "%_w = OpSNegate %int %int_dyn_neg10\n"
-        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-
-        "%_x = OpSNegate %int %int_0\n"
-        "%_y = OpSNegate %int %int_neg0\n"
-        "%_z = OpSNegate %int %int_dyn_0\n"
-        "%_w = OpSNegate %int %int_dyn_neg0\n"
-        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-    });
-
-    // test bitwise operations
-    append_tests({
-        "%_x = OpBitwiseOr %uint %uint_0x1234 %uint_0xb9c5\n"
-        "%_y = OpBitwiseXor %uint %uint_0x1234 %uint_0xb9c5\n"
-        "%_z = OpBitwiseAnd %uint %uint_0x1234 %uint_0xb9c5\n"
-        "%_w = OpNot %uint %uint_0x1234 \n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-
-        "%_x = OpBitwiseOr %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
-        "%_y = OpBitwiseXor %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
-        "%_z = OpBitwiseAnd %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
-        "%_w = OpNot %uint %uint_dyn_0xb9c5\n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-
-        "%_x = OpBitwiseOr %uint %uint_dyn_0x1234 %uint_0\n"
-        "%_y = OpBitwiseXor %uint %uint_dyn_0x1234 %uint_0\n"
-        "%_z = OpBitwiseAnd %uint %uint_dyn_0x1234 %uint_0\n"
-        "%_w = OpNot %uint %uint_0\n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-
-        "%_x = OpBitwiseOr %uint %uint_0 %uint_dyn_0xb9c5\n"
-        "%_y = OpBitwiseXor %uint %uint_0 %uint_dyn_0xb9c5\n"
-        "%_z = OpBitwiseAnd %uint %uint_0 %uint_dyn_0xb9c5\n"
-        "%_w = OpNot %uint %uint_dyn_0xb9c5\n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
-    });
-
-    // test shifts
-    for(const std::string &op :
-        {"OpShiftLeftLogical", "OpShiftRightLogical", "OpShiftRightArithmetic"})
-    {
-      for(const std::string &dyn : {"", "_dyn"})
-      {
-        for(const std::string &intType : {"int", "uint"})
+        // test binary int maths operations
+        for (const std::string &op :
+             {"OpIAdd", "OpISub", "OpIMul", "OpSDiv", "OpSMod", "OpSRem", "OpUDiv", "OpUMod"})
         {
-          append_tests({
-              fmt::format("%_x = {0} %{1} %{1}{2}_0x1234 %uint_0\n"
-                          "%_y = {0} %{1} %{1}{2}_0x1234 %uint_1\n"
-                          "%_z = {0} %{1} %{1}{2}_0x1234 %uint_2\n"
-                          "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
-                          op, intType, dyn),
+            bool    div =
+                (op == "OpSDiv" || op == "OpSMod" || op == "OpSRem" || op == "OpUDiv" || op == "OpUMod");
+            bool    mod     = (op == "OpSMod" || op == "OpSRem" || op == "OpUMod");
+            bool    sign    = op.find('U') == std::string::npos;
 
-              fmt::format("%_x = {0} %{1} %{1}_0x1234 %uint{2}_0\n"
-                          "%_y = {0} %{1} %{1}_0x1234 %uint{2}_1\n"
-                          "%_z = {0} %{1} %{1}_0x1234 %uint{2}_2\n"
-                          "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
-                          op, intType, dyn),
+            for (uint32_t a : {15, 4})
+            {
+                for (uint32_t b : {15, 4})
+                {
+                    // don't test A mod A
+                    if (mod && a == b)
+                        continue;
 
-              fmt::format("%_x = {0} %{1} %{1}{2}_0x1234 %uint{2}_0\n"
-                          "%_y = {0} %{1} %{1}{2}_0x1234 %uint{2}_1\n"
-                          "%_z = {0} %{1} %{1}{2}_0x1234 %uint{2}_2\n"
-                          "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
-                          op, intType, dyn),
-          });
+                    // test A op B for uint and int (positive)
+                    append_tests({
+                        fmt::format("%_x = {0} %uint %uint_{1} %uint_{2}\n"
+                                    "%_y = {0} %uint %uint_dyn_{1} %uint_{2}\n"
+                                    "%_z = {0} %uint %uint_{2} %uint_{1}\n"
+                                    "%_w = {0} %uint %uint_dyn_{2} %uint_{1}\n"
+                                    "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+                                    op, a, b),
+                        fmt::format("%_x = {0} %uint %uint_0 %uint_{1}\n"
+                                    "%_y = {0} %uint %uint_0 %uint_dyn_{1}\n"
+                                    "%_z = {0} %uint %uint_0 %uint_{2}\n"
+                                    "%_w = {0} %uint %uint_0 %uint_dyn_{2}\n"
+                                    "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+                                    op, a, b),
+                    });
+
+                    // if this is a signed op, test negative values too
+                    if (sign && !mod)
+                    {
+                        append_tests({
+                            fmt::format("%_x = {0} %int %int_{1} %int_{2}\n"
+                                        "%_y = {0} %int %int_dyn_{1} %int_{2}\n"
+                                        "%_z = {0} %int %int_{2} %int_{1}\n"
+                                        "%_w = {0} %int %int_dyn_{2} %int_{1}\n"
+                                        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                            fmt::format("%_x = {0} %int %int_0 %int_{1}\n"
+                                        "%_y = {0} %int %int_0 %int_dyn_{1}\n"
+                                        "%_z = {0} %int %int_0 %int_{2}\n"
+                                        "%_w = {0} %int %int_0 %int_dyn_{2}\n"
+                                        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                            fmt::format("%_x = {0} %int %int_neg{1} %int_{2}\n"
+                                        "%_y = {0} %int %int_dyn_neg{1} %int_{2}\n"
+                                        "%_z = {0} %int %int_neg{2} %int_{1}\n"
+                                        "%_w = {0} %int %int_dyn_neg{2} %int_{1}\n"
+                                        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                            fmt::format("%_x = {0} %int %int_0 %int_neg{1}\n"
+                                        "%_y = {0} %int %int_0 %int_dyn_neg{1}\n"
+                                        "%_z = {0} %int %int_0 %int_neg{2}\n"
+                                        "%_w = {0} %int %int_0 %int_dyn_neg{2}\n"
+                                        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                        });
+                    }
+
+                    // if it's not a divide op, test A/B op 0
+                    if (!div)
+                    {
+                        append_tests({
+                            fmt::format("%_x = {0} %uint %uint_{1} %uint_0\n"
+                                        "%_y = {0} %uint %uint_{2} %uint_0\n"
+                                        "%_z = {0} %uint %uint_dyn_{1} %uint_dyn_0\n"
+                                        "%_w = {0} %uint %uint_dyn_{2} %uint_dyn_0\n"
+                                        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+                                        op, a, b),
+                        });
+
+                        // and if it's a signed non-divide op, test -A / -B op 0
+                        if (sign)
+                        {
+                            append_tests({
+                                fmt::format("%_x = {0} %int %int_neg{1} %int_0\n"
+                                            "%_y = {0} %int %int_neg{2} %int_0\n"
+                                            "%_z = {0} %int %int_dyn_neg{1} %int_dyn_0\n"
+                                            "%_w = {0} %int %int_dyn_neg{2} %int_dyn_0\n"
+                                            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+                                            op, a, b),
+                            });
+                        }
+                    }
+                }
+            }
         }
-      }
-    }
 
-    // test square 2x2 matrix multiplies
-    append_tests({
-        R"EOTEST(
+        // test unary operations
+        append_tests({
+            "%_x = OpFNegate %float %float_10_0\n"
+            "%_y = OpFNegate %float %float_neg10_0\n"
+            "%_z = OpFNegate %float %float_dyn_10_0\n"
+            "%_w = OpFNegate %float %float_dyn_neg10_0\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+
+            "%_x = OpFNegate %float %float_0_0\n"
+            "%_y = OpFNegate %float %float_neg0_0\n"
+            "%_z = OpFNegate %float %float_dyn_0_0\n"
+            "%_w = OpFNegate %float %float_dyn_neg0_0\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+
+            "%_x = OpSNegate %int %int_10\n"
+            "%_y = OpSNegate %int %int_neg10\n"
+            "%_z = OpSNegate %int %int_dyn_10\n"
+            "%_w = OpSNegate %int %int_dyn_neg10\n"
+            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+
+            "%_x = OpSNegate %int %int_0\n"
+            "%_y = OpSNegate %int %int_neg0\n"
+            "%_z = OpSNegate %int %int_dyn_0\n"
+            "%_w = OpSNegate %int %int_dyn_neg0\n"
+            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+        });
+
+        // test bitwise operations
+        append_tests({
+            "%_x = OpBitwiseOr %uint %uint_0x1234 %uint_0xb9c5\n"
+            "%_y = OpBitwiseXor %uint %uint_0x1234 %uint_0xb9c5\n"
+            "%_z = OpBitwiseAnd %uint %uint_0x1234 %uint_0xb9c5\n"
+            "%_w = OpNot %uint %uint_0x1234 \n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+
+            "%_x = OpBitwiseOr %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
+            "%_y = OpBitwiseXor %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
+            "%_z = OpBitwiseAnd %uint %uint_dyn_0x1234 %uint_dyn_0xb9c5\n"
+            "%_w = OpNot %uint %uint_dyn_0xb9c5\n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+
+            "%_x = OpBitwiseOr %uint %uint_dyn_0x1234 %uint_0\n"
+            "%_y = OpBitwiseXor %uint %uint_dyn_0x1234 %uint_0\n"
+            "%_z = OpBitwiseAnd %uint %uint_dyn_0x1234 %uint_0\n"
+            "%_w = OpNot %uint %uint_0\n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+
+            "%_x = OpBitwiseOr %uint %uint_0 %uint_dyn_0xb9c5\n"
+            "%_y = OpBitwiseXor %uint %uint_0 %uint_dyn_0xb9c5\n"
+            "%_z = OpBitwiseAnd %uint %uint_0 %uint_dyn_0xb9c5\n"
+            "%_w = OpNot %uint %uint_dyn_0xb9c5\n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+        });
+
+        // test shifts
+        for (const std::string &op :
+             {"OpShiftLeftLogical", "OpShiftRightLogical", "OpShiftRightArithmetic"})
+        {
+            for (const std::string &dyn : {"", "_dyn"})
+            {
+                for (const std::string &intType : {"int", "uint"})
+                {
+                    append_tests({
+                        fmt::format("%_x = {0} %{1} %{1}{2}_0x1234 %uint_0\n"
+                                    "%_y = {0} %{1} %{1}{2}_0x1234 %uint_1\n"
+                                    "%_z = {0} %{1} %{1}{2}_0x1234 %uint_2\n"
+                                    "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
+                                    op, intType, dyn),
+
+                        fmt::format("%_x = {0} %{1} %{1}_0x1234 %uint{2}_0\n"
+                                    "%_y = {0} %{1} %{1}_0x1234 %uint{2}_1\n"
+                                    "%_z = {0} %{1} %{1}_0x1234 %uint{2}_2\n"
+                                    "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
+                                    op, intType, dyn),
+
+                        fmt::format("%_x = {0} %{1} %{1}{2}_0x1234 %uint{2}_0\n"
+                                    "%_y = {0} %{1} %{1}{2}_0x1234 %uint{2}_1\n"
+                                    "%_z = {0} %{1} %{1}{2}_0x1234 %uint{2}_2\n"
+                                    "%_out_{1}3 = OpCompositeConstruct %{1}3 %_x %_y %_z\n",
+                                    op, intType, dyn),
+                    });
+                }
+            }
+        }
+
+        // test square 2x2 matrix multiplies
+        append_tests({
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_2 %randf_3
         %_mat = OpCompositeConstruct %float2x2 %_cola %_colb
@@ -2348,7 +2350,7 @@ void main()
 
  %_out_float2 = OpMatrixTimesVector %float2 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_2 %randf_3
         %_mat = OpCompositeConstruct %float2x2 %_cola %_colb
@@ -2357,7 +2359,7 @@ void main()
 
  %_out_float2 = OpVectorTimesMatrix %float2 %_vec %_mat
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_2 %randf_3
        %_mat1 = OpCompositeConstruct %float2x2 %_cola %_colb
@@ -2368,7 +2370,7 @@ void main()
 
  %_out_float2 = OpVectorTimesMatrix %float2 %_vec %_mat2
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_2 %randf_3
        %_mat1 = OpCompositeConstruct %float2x2 %_cola %_colb
@@ -2383,7 +2385,7 @@ void main()
 
  %_out_float2 = OpVectorTimesMatrix %float2 %_vec %_mat3
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_2 %randf_3
        %_mat1 = OpCompositeConstruct %float2x2 %_cola %_colb
@@ -2398,11 +2400,11 @@ void main()
 
  %_out_float2 = OpVectorTimesMatrix %float2 %_vec %_mat3
 )EOTEST",
-    });
+        });
 
-    // test rectangular 2x4 / 4x2 matrix multiplies
-    append_tests({
-        R"EOTEST(
+        // test rectangular 2x4 / 4x2 matrix multiplies
+        append_tests({
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
         %_mat = OpCompositeConstruct %float4x2 %_cola %_colb
@@ -2411,7 +2413,7 @@ void main()
 
  %_out_float2 = OpVectorTimesMatrix %float2 %_vec %_mat
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_colc = OpCompositeConstruct %float2 %randf_8 %randf_9
        %_cold = OpCompositeConstruct %float2 %randf_10 %randf_11
        %_cole = OpCompositeConstruct %float2 %randf_12 %randf_13
@@ -2422,7 +2424,7 @@ void main()
 
  %_out_float2 = OpMatrixTimesVector %float2 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
         %_mat = OpCompositeConstruct %float4x2 %_cola %_colb
@@ -2431,7 +2433,7 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_colc = OpCompositeConstruct %float2 %randf_8 %randf_9
        %_cold = OpCompositeConstruct %float2 %randf_10 %randf_11
        %_cole = OpCompositeConstruct %float2 %randf_12 %randf_13
@@ -2442,7 +2444,7 @@ void main()
 
  %_out_float4 = OpVectorTimesMatrix %float4 %_vec %_mat
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_mat1 = OpCompositeConstruct %float4x2 %_cola %_colb
@@ -2459,7 +2461,7 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_mat1 = OpCompositeConstruct %float4x2 %_cola %_colb
@@ -2476,7 +2478,7 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
 
@@ -2486,11 +2488,11 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
         %_vec = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
  %_out_float4 = OpVectorTimesScalar %float4 %_vec %randf_4
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float2 %randf_0 %randf_1
        %_colb = OpCompositeConstruct %float2 %randf_4 %randf_5
        %_colc = OpCompositeConstruct %float2 %randf_8 %randf_9
@@ -2499,7 +2501,7 @@ void main()
 
   %_out_float = OpExtInst %float %glsl450 Determinant %_mat1
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float3 %randf_0 %randf_1 %randf_2
        %_colb = OpCompositeConstruct %float3 %randf_4 %randf_5 %randf_6
        %_colc = OpCompositeConstruct %float3 %randf_8 %randf_9 %randf_10
@@ -2507,7 +2509,7 @@ void main()
 
   %_out_float = OpExtInst %float %glsl450 Determinant %_mat1
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_colc = OpCompositeConstruct %float4 %randf_8 %randf_9 %randf_10 %randf_11
@@ -2516,13 +2518,13 @@ void main()
 
   %_out_float = OpExtInst %float %glsl450 Determinant %_mat1
 )EOTEST",
-    });
+        });
 
-    // test matrix inverse, but round the result to avoid needing to lower our global precision
-    // epsilon
-    for(int dim = 2; dim <= 4; dim++)
-    {
-      std::string test = fmt::format(R"EOTEST(
+        // test matrix inverse, but round the result to avoid needing to lower our global precision
+        // epsilon
+        for (int dim = 2; dim <= 4; dim++)
+        {
+            std::string    test = fmt::format(R"EOTEST(
        %_cola = OpCompositeConstruct %float{0} %randf_0 %randf_1 {1} %randf_2 {2} %randf_3
        %_colb = OpCompositeConstruct %float{0} %randf_4 %randf_5 {1} %randf_6 {2} %randf_7
        %_colc = OpCompositeConstruct %float{0} %randf_8 %randf_9 {1} %randf_10 {2} %randf_11
@@ -2534,14 +2536,15 @@ void main()
 
        %_mat0 = OpExtInst %float{0}x{0} %glsl450 MatrixInverse %_mat
 )EOTEST",
-                                     dim, dim < 3 ? ";" : "", dim < 4 ? ";" : "");
+                                              dim, dim < 3 ? ";" : "", dim < 4 ? ";" : "");
 
-      int i = 0;
-      for(int col = 0; col < dim; col++)
-      {
-        for(int row = 0; row < dim; row++)
-        {
-          test += fmt::format(R"EOTEST(
+            int    i = 0;
+
+            for (int col = 0; col < dim; col++)
+            {
+                for (int row = 0; row < dim; row++)
+                {
+                    test += fmt::format(R"EOTEST(
      %_mat{0}{1}a = OpCompositeExtract %float %_mat{2} {0} {1}
      %_mat{0}{1}b = OpFMul %float %_mat{0}{1}a %float_500_0
      %_mat{0}{1}c = OpExtInst %float %glsl450 RoundEven %_mat{0}{1}b
@@ -2549,68 +2552,68 @@ void main()
 
          %_mat{3} = OpCompositeInsert %float{4}x{4} %_mat{0}{1}d %_mat{2} {0} {1}
 )EOTEST",
-                              col, row, i, i + 1, dim);
-          i++;
+                                        col, row, i, i + 1, dim);
+                    i++;
+                }
+            }
+
+            test += fmt::format("%_out_float{0} = OpMatrixTimesVector %float{0} %_mat{1} %_vec\n", dim, i);
+
+            asm_tests.push_back(test);
         }
-      }
 
-      test += fmt::format("%_out_float{0} = OpMatrixTimesVector %float{0} %_mat{1} %_vec\n", dim, i);
+        // test OpVectorShuffle
+        append_tests({
+            "%_out_float4 = OpVectorShuffle %float4 %float4_0000 %float4_1234 7 6 0 1",
+            "%_out_float4 = OpVectorShuffle %float4 %float4_0000 %float4_dyn_1234 7 6 0 1",
+            "%_out_float4 = OpVectorShuffle %float4 %float4_dyn_0000 %float4_1234 7 6 0 1",
+            "%_out_float4 = OpVectorShuffle %float4 %float4_dyn_0000 %float4_dyn_1234 7 6 0 1",
+            "%_out_float3 = OpVectorShuffle %float3 %float3_000 %float3_123 3 4 5",
+            "%_out_float2 = OpVectorShuffle %float2 %float2_00 %float2_12 2 3",
 
-      asm_tests.push_back(test);
-    }
+            // test 0xffffffff component inputs
+            "%_tmp = OpVectorShuffle %float4 %float4_0000 %float4_1234 5 4 4294967295 4294967295\n"
+            "%_out_float4 = OpVectorShuffle %float4 %_tmp %float4_dyn_1234 0 1 4 5",
+        });
 
-    // test OpVectorShuffle
-    append_tests({
-        "%_out_float4 = OpVectorShuffle %float4 %float4_0000 %float4_1234 7 6 0 1",
-        "%_out_float4 = OpVectorShuffle %float4 %float4_0000 %float4_dyn_1234 7 6 0 1",
-        "%_out_float4 = OpVectorShuffle %float4 %float4_dyn_0000 %float4_1234 7 6 0 1",
-        "%_out_float4 = OpVectorShuffle %float4 %float4_dyn_0000 %float4_dyn_1234 7 6 0 1",
-        "%_out_float3 = OpVectorShuffle %float3 %float3_000 %float3_123 3 4 5",
-        "%_out_float2 = OpVectorShuffle %float2 %float2_00 %float2_12 2 3",
+        // test OpVectorExtractDynamic
+        append_tests({
+            "%_x = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_1\n"
+            "%_y = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_3\n"
+            "%_z = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_2\n"
+            "%_w = OpVectorExtractDynamic %float %float4_dyn_0000 %uint_dyn_2\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+        });
 
-        // test 0xffffffff component inputs
-        "%_tmp = OpVectorShuffle %float4 %float4_0000 %float4_1234 5 4 4294967295 4294967295\n"
-        "%_out_float4 = OpVectorShuffle %float4 %_tmp %float4_dyn_1234 0 1 4 5",
-    });
+        // test OpVectorInsertDynamic
+        append_tests({
+            "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_1",
+            "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_2",
+            "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_0",
+        });
 
-    // test OpVectorExtractDynamic
-    append_tests({
-        "%_x = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_1\n"
-        "%_y = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_3\n"
-        "%_z = OpVectorExtractDynamic %float %float4_dyn_1234 %uint_dyn_2\n"
-        "%_w = OpVectorExtractDynamic %float %float4_dyn_0000 %uint_dyn_2\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-    });
+        // test OpCompositeInsert on vectors
+        append_tests({
+            "          %_b = OpCompositeInsert %float4 %float_15_0 %float4_0000 2\n"
+            "          %_c = OpCompositeInsert %float4 %float_8_8 %_b 1\n"
+            "          %_d = OpCompositeInsert %float4 %float_6_1 %_c 3\n"
+            "%_out_float4 = OpCompositeInsert %float4 %float_2_222 %_d 0\n",
 
-    // test OpVectorInsertDynamic
-    append_tests({
-        "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_1",
-        "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_2",
-        "%_out_float4 = OpVectorInsertDynamic %float4 %float4_dyn_1234 %float_dyn_8_8 %uint_dyn_0",
-    });
+            "          %_b = OpCompositeInsert %float4 %float_dyn_15_0 %float4_dyn_0000 2\n"
+            "          %_c = OpCompositeInsert %float4 %float_dyn_8_8 %_b 1\n"
+            "          %_d = OpCompositeInsert %float4 %float_dyn_6_1 %_c 3\n"
+            "%_out_float4 = OpCompositeInsert %float4 %float_dyn_2_222 %_d 0\n",
+        });
 
-    // test OpCompositeInsert on vectors
-    append_tests({
-        "          %_b = OpCompositeInsert %float4 %float_15_0 %float4_0000 2\n"
-        "          %_c = OpCompositeInsert %float4 %float_8_8 %_b 1\n"
-        "          %_d = OpCompositeInsert %float4 %float_6_1 %_c 3\n"
-        "%_out_float4 = OpCompositeInsert %float4 %float_2_222 %_d 0\n",
+        // test OpCompositeExtract on vectors
+        append_tests({
+            "%_out_float = OpCompositeExtract %float %float4_dyn_1234 0",
+            "%_out_float = OpCompositeExtract %float %float4_dyn_1234 1",
+            "%_out_float = OpCompositeExtract %float %float4_dyn_1234 3",
+        });
 
-        "          %_b = OpCompositeInsert %float4 %float_dyn_15_0 %float4_dyn_0000 2\n"
-        "          %_c = OpCompositeInsert %float4 %float_dyn_8_8 %_b 1\n"
-        "          %_d = OpCompositeInsert %float4 %float_dyn_6_1 %_c 3\n"
-        "%_out_float4 = OpCompositeInsert %float4 %float_dyn_2_222 %_d 0\n",
-    });
-
-    // test OpCompositeExtract on vectors
-    append_tests({
-        "%_out_float = OpCompositeExtract %float %float4_dyn_1234 0",
-        "%_out_float = OpCompositeExtract %float %float4_dyn_1234 1",
-        "%_out_float = OpCompositeExtract %float %float4_dyn_1234 3",
-    });
-
-    // test OpCompositeInsert on structs
-    asm_tests.push_back(R"EOTEST(
+        // test OpCompositeInsert on structs
+        asm_tests.push_back(R"EOTEST(
    %_a = OpCompositeConstruct %float4 %float_dyn_4_2 %float_dyn_1_0 %float_dyn_9_5 %float_dyn_0_01
    %_b = OpCompositeConstruct %float3 %float_dyn_3_5 %float_dyn_5_3 %float_dyn_6_2
 
@@ -2640,210 +2643,210 @@ void main()
 
 )EOTEST");
 
-    // test OpBitCast
-    append_tests({
-        "%_a = OpBitcast %uint %float_dyn_15_0\n"
-        "%_neg = OpBitwiseOr %uint %_a %uint_dyn_0x80000000\n"
-        "%_out_float = OpBitcast %float %_neg\n",
+        // test OpBitCast
+        append_tests({
+            "%_a = OpBitcast %uint %float_dyn_15_0\n"
+            "%_neg = OpBitwiseOr %uint %_a %uint_dyn_0x80000000\n"
+            "%_out_float = OpBitcast %float %_neg\n",
 
-        "%_result = OpBitwiseOr %uint %uint_dyn_0x4200004d %uint_dyn_0xa28b00\n"
-        "%_out_float = OpBitcast %float %_result\n",
-    });
+            "%_result = OpBitwiseOr %uint %uint_dyn_0x4200004d %uint_dyn_0xa28b00\n"
+            "%_out_float = OpBitcast %float %_result\n",
+        });
 
-    // Bitcast vector <-> scalar
-    if(float16Int8Features.shaderInt8 && features.shaderInt16)
-    {
-      append_tests({
-          // u8[2] -> u16
-          "%_result = OpCompositeConstruct %u8v2 %u8_8 %u8_9\n"
-          "%_out_u16 = OpBitcast %u16 %_result\n",
-          // u8[4] -> u32
-          "%_result = OpCompositeConstruct %u8v4 %u8_4 %u8_5 %u8_6 %u8_7\n"
-          "%_out_uint = OpBitcast %uint %_result\n",
-          // u16[2] -> u32
-          "%_result = OpCompositeConstruct %u16v2 %u16_4 %u16_5\n"
-          "%_out_uint = OpBitcast %uint %_result\n",
-          // u16 -> u8[2]
-          "%_out_u8v2 = OpBitcast %u8v2 %u16_1234\n ",
-          // u32 -> u8[4]
-          "%_out_u8v4 = OpBitcast %u8v4 %uint_1234\n ",
-          // u32 -> u16[2]
-          "%_out_u16v2 = OpBitcast %u16v2 %uint_12345\n",
-      });
-    }
+        // Bitcast vector <-> scalar
+        if (float16Int8Features.shaderInt8 && features.shaderInt16)
+        {
+            append_tests({
+                // u8[2] -> u16
+                "%_result = OpCompositeConstruct %u8v2 %u8_8 %u8_9\n"
+                "%_out_u16 = OpBitcast %u16 %_result\n",
+                // u8[4] -> u32
+                "%_result = OpCompositeConstruct %u8v4 %u8_4 %u8_5 %u8_6 %u8_7\n"
+                "%_out_uint = OpBitcast %uint %_result\n",
+                // u16[2] -> u32
+                "%_result = OpCompositeConstruct %u16v2 %u16_4 %u16_5\n"
+                "%_out_uint = OpBitcast %uint %_result\n",
+                // u16 -> u8[2]
+                "%_out_u8v2 = OpBitcast %u8v2 %u16_1234\n ",
+                // u32 -> u8[4]
+                "%_out_u8v4 = OpBitcast %u8v4 %uint_1234\n ",
+                // u32 -> u16[2]
+                "%_out_u16v2 = OpBitcast %u16v2 %uint_12345\n",
+            });
+        }
 
-    if(features.shaderInt16 && features.shaderInt64)
-    {
-      append_tests({
-          // u16[4] -> u64
-          "%_result = OpCompositeConstruct %u16v4 %u16_0 %u16_1 %u16_2 %u16_3\n"
-          "%_out_u64 = OpBitcast %u64 %_result\n",
-          // u64 -> u16[4]
-          "%_out_u16v4 = OpBitcast %u16v4 %u64_1234\n",
-      });
-    }
+        if (features.shaderInt16 && features.shaderInt64)
+        {
+            append_tests({
+                // u16[4] -> u64
+                "%_result = OpCompositeConstruct %u16v4 %u16_0 %u16_1 %u16_2 %u16_3\n"
+                "%_out_u64 = OpBitcast %u64 %_result\n",
+                // u64 -> u16[4]
+                "%_out_u16v4 = OpBitcast %u16v4 %u64_1234\n",
+            });
+        }
 
-    if(features.shaderInt64)
-    {
-      append_tests({
-          // u32[2] -> u64
-          "%_result = OpCompositeConstruct %uint2 %uint_0 %uint_1\n"
-          "%_out_u64 = OpBitcast %u64 %_result\n",
-          // u64 -> u32[2]
-          "%_out_uint2 = OpBitcast %uint2 %u64_1234\n",
-      });
-    }
+        if (features.shaderInt64)
+        {
+            append_tests({
+                // u32[2] -> u64
+                "%_result = OpCompositeConstruct %uint2 %uint_0 %uint_1\n"
+                "%_out_u64 = OpBitcast %u64 %_result\n",
+                // u64 -> u32[2]
+                "%_out_uint2 = OpBitcast %uint2 %u64_1234\n",
+            });
+        }
 
-    if(float16Int8Features.shaderFloat16)
-    {
-      append_tests({
-          // f16[2] -> f32
-          "%_result = OpCompositeConstruct %half2 %half_0_25 %half_0_5\n"
-          "%_out_float = OpBitcast %float %_result\n",
-          // f32 -> f16[2]
-          "%_out_half2 = OpBitcast %half2 %float_1_1125\n",
-      });
-    }
+        if (float16Int8Features.shaderFloat16)
+        {
+            append_tests({
+                // f16[2] -> f32
+                "%_result = OpCompositeConstruct %half2 %half_0_25 %half_0_5\n"
+                "%_out_float = OpBitcast %float %_result\n",
+                // f32 -> f16[2]
+                "%_out_half2 = OpBitcast %half2 %float_1_1125\n",
+            });
+        }
 
-    if(features.shaderFloat64)
-    {
-      append_tests({
-          // f32[2] -> f64
-          "%_result = OpCompositeConstruct %float2 %float_0_5 %float_0_25\n"
-          "%_out_double = OpBitcast %double %_result\n",
-          // f64 -> f32[2]
-          "%_out_float2 = OpBitcast %float2 %double_1024_25\n",
-      });
-    }
+        if (features.shaderFloat64)
+        {
+            append_tests({
+                // f32[2] -> f64
+                "%_result = OpCompositeConstruct %float2 %float_0_5 %float_0_25\n"
+                "%_out_double = OpBitcast %double %_result\n",
+                // f64 -> f32[2]
+                "%_out_float2 = OpBitcast %float2 %double_1024_25\n",
+            });
+        }
 
-    // test ExtInst NMin/NMax/NClamp
-    append_tests({
-        "%_x = OpExtInst %float %glsl450 NMin %nan %oneVal\n"
-        "%_y = OpExtInst %float %glsl450 NMin %oneVal %nan\n"
-        "%_z = OpExtInst %float %glsl450 NMin %nan %nan\n"
-        "%_w = OpExtInst %float %glsl450 NMin %nan %neginf\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+        // test ExtInst NMin/NMax/NClamp
+        append_tests({
+            "%_x = OpExtInst %float %glsl450 NMin %nan %oneVal\n"
+            "%_y = OpExtInst %float %glsl450 NMin %oneVal %nan\n"
+            "%_z = OpExtInst %float %glsl450 NMin %nan %nan\n"
+            "%_w = OpExtInst %float %glsl450 NMin %nan %neginf\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
 
-        "%_x = OpExtInst %float %glsl450 NMax %nan %oneVal\n"
-        "%_y = OpExtInst %float %glsl450 NMax %oneVal %nan\n"
-        "%_z = OpExtInst %float %glsl450 NMax %nan %nan\n"
-        "%_w = OpExtInst %float %glsl450 NMax %nan %neginf\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+            "%_x = OpExtInst %float %glsl450 NMax %nan %oneVal\n"
+            "%_y = OpExtInst %float %glsl450 NMax %oneVal %nan\n"
+            "%_z = OpExtInst %float %glsl450 NMax %nan %nan\n"
+            "%_w = OpExtInst %float %glsl450 NMax %nan %neginf\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
 
-        "%_out_float = OpExtInst %float %glsl450 NClamp %nan %zerof %oneVal",
-    });
+            "%_out_float = OpExtInst %float %glsl450 NClamp %nan %zerof %oneVal",
+        });
 
-    // test ExtInst Modf/ModfStruct and Frexp/FrexpStruct
-    append_tests({
-        "%_x = OpExtInst %float %glsl450 Modf %float_dyn_123_456 %priv_float\n"
-        "%_y = OpLoad %float %priv_float\n"
-        "%_tmp = OpExtInst %f32f32 %glsl450 ModfStruct %float_dyn_789_012\n"
-        "%_z = OpCompositeExtract %float %_tmp 0\n"
-        "%_w = OpCompositeExtract %float %_tmp 1\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+        // test ExtInst Modf/ModfStruct and Frexp/FrexpStruct
+        append_tests({
+            "%_x = OpExtInst %float %glsl450 Modf %float_dyn_123_456 %priv_float\n"
+            "%_y = OpLoad %float %priv_float\n"
+            "%_tmp = OpExtInst %f32f32 %glsl450 ModfStruct %float_dyn_789_012\n"
+            "%_z = OpCompositeExtract %float %_tmp 0\n"
+            "%_w = OpCompositeExtract %float %_tmp 1\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
 
-        "%_x = OpExtInst %float %glsl450 Frexp %float_dyn_123_456 %priv_int\n"
-        "%_yi = OpLoad %int %priv_int\n"
-        "%_y = OpConvertSToF %float %_yi\n"
-        "%_tmp = OpExtInst %f32i32 %glsl450 FrexpStruct %float_dyn_789_012\n"
-        "%_z = OpCompositeExtract %float %_tmp 0\n"
-        "%_wi = OpCompositeExtract %int %_tmp 1\n"
-        "%_w = OpConvertSToF %float %_wi\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
-    });
+            "%_x = OpExtInst %float %glsl450 Frexp %float_dyn_123_456 %priv_int\n"
+            "%_yi = OpLoad %int %priv_int\n"
+            "%_y = OpConvertSToF %float %_yi\n"
+            "%_tmp = OpExtInst %f32i32 %glsl450 FrexpStruct %float_dyn_789_012\n"
+            "%_z = OpCompositeExtract %float %_tmp 0\n"
+            "%_wi = OpCompositeExtract %int %_tmp 1\n"
+            "%_w = OpConvertSToF %float %_wi\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+        });
 
-    // test float <-> int conversions
-    append_tests({
-        "%_x = OpConvertUToF %float %uint_dyn_1234\n"
-        "%_y = OpConvertSToF %float %int_dyn_1234\n"
-        "%_z = OpConvertSToF %float %int_dyn_neg1234\n"
-        "%_w = OpConvertUToF %float %uint_dyn_0\n"
-        "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
+        // test float <-> int conversions
+        append_tests({
+            "%_x = OpConvertUToF %float %uint_dyn_1234\n"
+            "%_y = OpConvertSToF %float %int_dyn_1234\n"
+            "%_z = OpConvertSToF %float %int_dyn_neg1234\n"
+            "%_w = OpConvertUToF %float %uint_dyn_0\n"
+            "%_out_float4 = OpCompositeConstruct %float4 %_x %_y %_z %_w\n",
 
-        "%_x = OpConvertFToU %uint %float_dyn_1_0\n"
-        "%_y = OpConvertFToU %uint %float_dyn_0_0\n"
-        "%_z = OpConvertFToU %uint %float_dyn_1_1\n"
-        "%_w = OpConvertFToU %uint %float_dyn_1_3\n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+            "%_x = OpConvertFToU %uint %float_dyn_1_0\n"
+            "%_y = OpConvertFToU %uint %float_dyn_0_0\n"
+            "%_z = OpConvertFToU %uint %float_dyn_1_1\n"
+            "%_w = OpConvertFToU %uint %float_dyn_1_3\n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
 
-        "%_x = OpConvertFToU %uint %float_dyn_1_0\n"
-        "%_y = OpConvertFToU %uint %float_dyn_1_5\n"
-        "%_z = OpConvertFToU %uint %float_dyn_0_5\n"
-        "%_w = OpConvertFToU %uint %float_dyn_1_7\n"
-        "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
+            "%_x = OpConvertFToU %uint %float_dyn_1_0\n"
+            "%_y = OpConvertFToU %uint %float_dyn_1_5\n"
+            "%_z = OpConvertFToU %uint %float_dyn_0_5\n"
+            "%_w = OpConvertFToU %uint %float_dyn_1_7\n"
+            "%_out_uint4 = OpCompositeConstruct %uint4 %_x %_y %_z %_w\n",
 
-        "%_x = OpConvertFToS %int %float_dyn_1_0\n"
-        "%_y = OpConvertFToS %int %float_dyn_0_0\n"
-        "%_z = OpConvertFToS %int %float_dyn_neg1_0\n"
-        "%_w = OpConvertFToS %int %float_dyn_1_3\n"
-        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+            "%_x = OpConvertFToS %int %float_dyn_1_0\n"
+            "%_y = OpConvertFToS %int %float_dyn_0_0\n"
+            "%_z = OpConvertFToS %int %float_dyn_neg1_0\n"
+            "%_w = OpConvertFToS %int %float_dyn_1_3\n"
+            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
 
-        "%_x = OpConvertFToS %int %float_dyn_1_0\n"
-        "%_y = OpConvertFToS %int %float_dyn_1_5\n"
-        "%_z = OpConvertFToS %int %float_dyn_0_5\n"
-        "%_w = OpConvertFToS %int %float_dyn_neg1_5\n"
-        "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
-    });
+            "%_x = OpConvertFToS %int %float_dyn_1_0\n"
+            "%_y = OpConvertFToS %int %float_dyn_1_5\n"
+            "%_z = OpConvertFToS %int %float_dyn_0_5\n"
+            "%_w = OpConvertFToS %int %float_dyn_neg1_5\n"
+            "%_out_int4 = OpCompositeConstruct %int4 %_x %_y %_z %_w\n",
+        });
 
-    // test copies
-    append_tests({
-        "OpCopyMemory %Color %gl_FragCoord\n"
-        "; no_out\n",
+        // test copies
+        append_tests({
+            "OpCopyMemory %Color %gl_FragCoord\n"
+            "; no_out\n",
 
-        "%_src = OpAccessChain %ptr_Uniform_float4 %buffer %uint_2\n"
-        "%_dst = OpAccessChain %ptr_Uniform_float4 %buffer %uint_4 %uint_3\n"
-        "OpCopyMemory %_dst %_src\n"
-        "OpCopyMemory %Color %_src\n"
-        "; no_out\n",
+            "%_src = OpAccessChain %ptr_Uniform_float4 %buffer %uint_2\n"
+            "%_dst = OpAccessChain %ptr_Uniform_float4 %buffer %uint_4 %uint_3\n"
+            "OpCopyMemory %_dst %_src\n"
+            "OpCopyMemory %Color %_src\n"
+            "; no_out\n",
 
-        "%frag = OpLoad %float4 %gl_FragCoord\n"
-        "%_out_float4 = OpCopyObject %float4 %frag\n",
-    });
+            "%frag = OpLoad %float4 %gl_FragCoord\n"
+            "%_out_float4 = OpCopyObject %float4 %frag\n",
+        });
 
-    // test SSBO pointers
-    append_tests({
-        "%_y = OpAccessChain %ptr_Uniform_dummy %buffer %uint_3\n"
-        "%_src = OpAccessChain %ptr_Uniform_uint4 %_y %uint_0\n"
-        "%_dst = OpAccessChain %ptr_Uniform_uint4 %_y %uint_1\n"
-        "%_tmp = OpLoad %uint4 %_src\n"
-        "OpStore %_dst %_tmp\n"
-        "%_out_uint4 = OpLoad %uint4 %_dst\n",
-    });
+        // test SSBO pointers
+        append_tests({
+            "%_y = OpAccessChain %ptr_Uniform_dummy %buffer %uint_3\n"
+            "%_src = OpAccessChain %ptr_Uniform_uint4 %_y %uint_0\n"
+            "%_dst = OpAccessChain %ptr_Uniform_uint4 %_y %uint_1\n"
+            "%_tmp = OpLoad %uint4 %_src\n"
+            "OpStore %_dst %_tmp\n"
+            "%_out_uint4 = OpLoad %uint4 %_dst\n",
+        });
 
-    // disabled while shaderc has a bug that doesn't respect the target environment
-    /*
-    if(vk_version >= 0x12)
-    {
-      append_tests({
-          "%frag = OpLoad %float4 %gl_FragCoord\n"
-          "%_out_float4 = OpCopyLogical %float4 %frag\n",
-      });
-    }
-    */
+        // disabled while shaderc has a bug that doesn't respect the target environment
+        /*
+           if(vk_version >= 0x12)
+           {
+           append_tests({
+              "%frag = OpLoad %float4 %gl_FragCoord\n"
+              "%_out_float4 = OpCopyLogical %float4 %frag\n",
+           });
+           }
+         */
 
-    if(features.shaderFloat64)
-    {
-      // test pack/unpack from double
-      append_tests({
-          "%_ptr = OpAccessChain %ptr_Uniform_uint2 %cbuffer %uint_16\n"
-          "%_double_pack_source = OpLoad %uint2 %_ptr\n"
-          "%_out_double = OpExtInst %double %glsl450 PackDouble2x32 %_double_pack_source\n",
+        if (features.shaderFloat64)
+        {
+            // test pack/unpack from double
+            append_tests({
+                "%_ptr = OpAccessChain %ptr_Uniform_uint2 %cbuffer %uint_16\n"
+                "%_double_pack_source = OpLoad %uint2 %_ptr\n"
+                "%_out_double = OpExtInst %double %glsl450 PackDouble2x32 %_double_pack_source\n",
 
-          "%_ptr = OpAccessChain %ptr_Uniform_double %cbuffer %uint_17\n"
-          "%_double_unpack_source = OpLoad %double %_ptr\n"
-          "%_out_uint2 = OpExtInst %uint2 %glsl450 UnpackDouble2x32 %_double_unpack_source\n",
+                "%_ptr = OpAccessChain %ptr_Uniform_double %cbuffer %uint_17\n"
+                "%_double_unpack_source = OpLoad %double %_ptr\n"
+                "%_out_uint2 = OpExtInst %uint2 %glsl450 UnpackDouble2x32 %_double_unpack_source\n",
 
-          "%_ptr = OpAccessChain %ptr_Uniform_double %cbuffer %uint_17\n"
-          "%_pi = OpLoad %double %_ptr\n"
-          "%_two = OpFConvert %double %float_2_0\n"
-          "%_out_double = OpFMul %double %_pi %_two\n",
-      });
-    }
+                "%_ptr = OpAccessChain %ptr_Uniform_double %cbuffer %uint_17\n"
+                "%_pi = OpLoad %double %_ptr\n"
+                "%_two = OpFConvert %double %float_2_0\n"
+                "%_out_double = OpFMul %double %_pi %_two\n",
+            });
+        }
 
-    // test pointers into columns of matrices
+        // test pointers into columns of matrices
 
-    append_tests({
-        R"EOTEST(
+        append_tests({
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_colc = OpCompositeConstruct %float4 %randf_8 %randf_9 %randf_10 %randf_11
@@ -2865,7 +2868,7 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_colc = OpCompositeConstruct %float4 %randf_8 %randf_9 %randf_10 %randf_11
@@ -2888,7 +2891,7 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
        %_cola = OpCompositeConstruct %float4 %randf_0 %randf_1 %randf_2 %randf_3
        %_colb = OpCompositeConstruct %float4 %randf_4 %randf_5 %randf_6 %randf_7
        %_colc = OpCompositeConstruct %float4 %randf_8 %randf_9 %randf_10 %randf_11
@@ -2911,15 +2914,15 @@ void main()
 
  %_out_float4 = OpMatrixTimesVector %float4 %_mat %_vec
 )EOTEST",
-    });
+        });
 
-    // test variables with initialisers
-    append_tests({
-        R"EOTEST(
+        // test variables with initialisers
+        append_tests({
+            R"EOTEST(
                  ; this has a constant initialiser, so should already be ready
  %_out_float4 = OpLoad %float4 %priv_float4_init
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
                  ; this is uninitialised, but unforuntately that means we can't test our debugging
                  ; against the real thing when it's undefined. But we can at least expose it so that
                  ; when manually checking we see the uninitialised values
@@ -2927,7 +2930,7 @@ void main()
           %_x = OpExtInst %float4 %glsl450 NClamp %_uninit %float4_0000 %float4_0000
  %_out_float4 = OpFAdd %float4 %_x %float4_1234
 )EOTEST",
-        R"EOTEST(
+            R"EOTEST(
                  ; this is uninitialised, but unforuntately that means we can't test our debugging
                  ; against the real thing when it's undefined. But we can at least expose it so that
                  ; when manually checking we see the uninitialised values
@@ -2935,28 +2938,27 @@ void main()
           %_x = OpExtInst %float4 %glsl450 NClamp %_uninit %float4_0000 %float4_0000
  %_out_float4 = OpFAdd %float4 %_x %float4_1234
 )EOTEST",
-    });
+        });
 
-    // test naming structs. Since we can't easily name auto-generated IDs we use a guid to give the
-    // ID a unique name
-    append_tests({
-        R"EOTEST(
+        // test naming structs. Since we can't easily name auto-generated IDs we use a guid to give the
+        // ID a unique name
+        append_tests({
+            R"EOTEST(
           %_a = OpCompositeConstruct %float4 %float_dyn_4_2 %float_dyn_1_0 %float_dyn_9_5 %float_dyn_0_01
 
 %C14FA880_4F83_4982_BEAD_CE9103446C76 = OpCompositeInsert %parent %_a %null_parent 0
 
 %_out_float4 = OpCompositeExtract %float4 %C14FA880_4F83_4982_BEAD_CE9103446C76 0
 )EOTEST",
-    });
+        });
 
-    spv_debug +=
-        "OpName %C14FA880_4F83_4982_BEAD_CE9103446C76 \"C14FA880_4F83_4982_BEAD_CE9103446C76\"\n";
+        spv_debug +=
+            "OpName %C14FA880_4F83_4982_BEAD_CE9103446C76 \"C14FA880_4F83_4982_BEAD_CE9103446C76\"\n";
 
-    // test OpPhi
-    append_tests({
-
-        // basic simple test
-        R"EOTEST(
+        // test OpPhi
+        append_tests({
+            // basic simple test
+            R"EOTEST(
 OpBranch %_toplabel
 %_toplabel = OpLabel
 
@@ -2984,9 +2986,9 @@ OpBranch %_bottomlabel
 
 )EOTEST",
 
-        // test with a function call in each branch to ensure we still track the last block
-        // accurately
-        R"EOTEST(
+            // test with a function call in each branch to ensure we still track the last block
+            // accurately
+            R"EOTEST(
 OpBranch %_toplabel
 %_toplabel = OpLabel
 
@@ -3013,93 +3015,94 @@ OpBranch %_bottomlabel
 %_bottomlabel = OpLabel
 
 )EOTEST",
-    });
+        });
 
-    // test switch for different integer types
-    std::vector<std::string> intTypes = {"int", "uint"};
-    std::vector<std::string> caseLiterals = {"0x12345678", "0xF2345678"};
-    if(features.shaderInt64)
-    {
-      intTypes.push_back("i64");
-      intTypes.push_back("u64");
-      caseLiterals.push_back("0x1234567812345678");
-      caseLiterals.push_back("0xF234567812345678");
-    }
-    for(size_t i = 0; i < intTypes.size(); ++i)
-    {
-      append_tests({fmt::format(
-          "%_test_switch_{0} = OpIAdd %{0} %{0}_0 %{0}_{1}\n"
-          "OpSelectionMerge %_break_{0} None\n"
-          "OpSwitch %_test_switch_{0} %_default_{0} 2 %_case_{0}_2 {1} %_case_{0}_{1}\n"
-          "%_case_{0}_2 = OpLabel\n"
-          "OpUnreachable\n"
-          "%_case_{0}_{1} = OpLabel\n"
-          "%_out_{0} = OpIAdd %{0} %{0}_0 %{0}_7\n"
-          "OpBranch %_break_{0}\n"
-          "%_default_{0} = OpLabel\n"
-          "OpUnreachable\n"
-          "%_break_{0} = OpLabel\n",
-          intTypes[i], caseLiterals[i])});
-    }
+        // test switch for different integer types
+        std::vector<std::string>    intTypes        = {"int", "uint"};
+        std::vector<std::string>    caseLiterals    = {"0x12345678", "0xF2345678"};
+        if (features.shaderInt64)
+        {
+            intTypes.push_back("i64");
+            intTypes.push_back("u64");
+            caseLiterals.push_back("0x1234567812345678");
+            caseLiterals.push_back("0xF234567812345678");
+        }
 
-    // test buffer device address
-    if(bdaFeatures.bufferDeviceAddress)
-    {
-      // bitcast uint2 address to pointer
-      append_tests({
-          R"EOTEST(
+        for (size_t i = 0; i < intTypes.size(); ++i)
+        {
+            append_tests({fmt::format(
+                              "%_test_switch_{0} = OpIAdd %{0} %{0}_0 %{0}_{1}\n"
+                              "OpSelectionMerge %_break_{0} None\n"
+                              "OpSwitch %_test_switch_{0} %_default_{0} 2 %_case_{0}_2 {1} %_case_{0}_{1}\n"
+                              "%_case_{0}_2 = OpLabel\n"
+                              "OpUnreachable\n"
+                              "%_case_{0}_{1} = OpLabel\n"
+                              "%_out_{0} = OpIAdd %{0} %{0}_0 %{0}_7\n"
+                              "OpBranch %_break_{0}\n"
+                              "%_default_{0} = OpLabel\n"
+                              "OpUnreachable\n"
+                              "%_break_{0} = OpLabel\n",
+                              intTypes[i], caseLiterals[i])});
+        }
+
+        // test buffer device address
+        if (bdaFeatures.bufferDeviceAddress)
+        {
+            // bitcast uint2 address to pointer
+            append_tests({
+                R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_uint2 %push_data %int_1
 %_addr_bda_data_struct = OpLoad %uint2 %_ptr_addr_bda_data_struct
 %_ptr_bda_data_struct = OpBitcast %ptr_PhysicalStorageBuffer_bda_data_struct %_addr_bda_data_struct
 %_ptr_first = OpAccessChain %ptr_PhysicalStorageBuffer_bda_data_struct_first %_ptr_bda_data_struct %int_0
 %_out_float4 = OpLoad %float4 %_ptr_first Aligned 16
 )EOTEST",
-          // OpPtrAccessChain : float[] : ArrayStride 4
-          R"EOTEST(
+                // OpPtrAccessChain : float[] : ArrayStride 4
+                R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_uint2 %push_data %int_1
 %_addr_bda_data_struct = OpLoad %uint2 %_ptr_addr_bda_data_struct
 %_ptr_bda_data_struct = OpBitcast %ptr_PhysicalStorageBuffer_bda_data_struct_f32_4 %_addr_bda_data_struct
 %_ptr_f32 = OpPtrAccessChain %ptr_PhysicalStorageBuffer_f32 %_ptr_bda_data_struct %int_dyn_1
 %_out_float = OpLoad %float %_ptr_f32 Aligned 16
 )EOTEST",
-          // OpPtrAccessChain : float[] : ArrayStride 8
-          R"EOTEST(
+                // OpPtrAccessChain : float[] : ArrayStride 8
+                R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_uint2 %push_data %int_1
 %_addr_bda_data_struct = OpLoad %uint2 %_ptr_addr_bda_data_struct
 %_ptr_bda_data_struct = OpBitcast %ptr_PhysicalStorageBuffer_bda_data_struct_f32_8 %_addr_bda_data_struct
 %_ptr_f32 = OpPtrAccessChain %ptr_PhysicalStorageBuffer_f32 %_ptr_bda_data_struct %int_dyn_1
 %_out_float = OpLoad %float %_ptr_f32 Aligned 16
 )EOTEST",
-          // OpPtrAccessChain : float[] : ArrayStride 12
-          R"EOTEST(
+                // OpPtrAccessChain : float[] : ArrayStride 12
+                R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_uint2 %push_data %int_1
 %_addr_bda_data_struct = OpLoad %uint2 %_ptr_addr_bda_data_struct
 %_ptr_bda_data_struct = OpBitcast %ptr_PhysicalStorageBuffer_bda_data_struct_f32_12 %_addr_bda_data_struct
 %_ptr_f32 = OpPtrAccessChain %ptr_PhysicalStorageBuffer_f32 %_ptr_bda_data_struct %int_dyn_1
 %_out_float = OpLoad %float %_ptr_f32 Aligned 16
 )EOTEST",
-      });
-      if(features.shaderInt64)
-      {
-        append_tests({
-            // Convert u64 address to pointer
-            R"EOTEST(
+            });
+            if (features.shaderInt64)
+            {
+                append_tests({
+                    // Convert u64 address to pointer
+                    R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_u64 %push_data %int_4
 %_addr_bda_data_struct = OpLoad %u64 %_ptr_addr_bda_data_struct
 %_ptr_bda_data_struct = OpConvertUToPtr %ptr_PhysicalStorageBuffer_bda_data_struct %_addr_bda_data_struct
 %_ptr_first = OpAccessChain %ptr_PhysicalStorageBuffer_bda_data_struct_first %_ptr_bda_data_struct %int_1
 %_out_float4 = OpLoad %float4 %_ptr_first Aligned 16
 )EOTEST",
-            // Convert u64 address to pointer back to u64 address
-            R"EOTEST(
+                    // Convert u64 address to pointer back to u64 address
+                    R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_u64 %push_data %int_4
 %_addr = OpLoad %u64 %_ptr_addr_bda_data_struct
 %_addr_bda_data_struct = OpIAdd %u64 %_addr %u64_dyn_8
 %_ptr_bda_data_struct = OpConvertUToPtr %ptr_PhysicalStorageBuffer_bda_data_struct %_addr_bda_data_struct 
 %_out_u64 = OpConvertPtrToU %u64 %_ptr_bda_data_struct
 )EOTEST",
-            // arithmetic on u64 address then convert u64 address to pointer
-            R"EOTEST(
+                    // arithmetic on u64 address then convert u64 address to pointer
+                    R"EOTEST(
 %_ptr_addr_bda_data_struct = OpAccessChain %ptr_PushConstant_u64 %push_data %int_4
 %_addr = OpLoad %u64 %_ptr_addr_bda_data_struct
 %_addr2 = OpIAdd %u64 %_addr %u64_dyn_1023
@@ -3109,8 +3112,8 @@ OpBranch %_bottomlabel
 %_ptr_first = OpInBoundsAccessChain %ptr_PhysicalStorageBuffer_bda_data_struct_first %_ptr_bda_data_struct %int_0
 %_out_float4 = OpLoad %float4 %_ptr_first Aligned 16
 )EOTEST",
-            // form u64 address by arithmetic from two u32 values
-            R"EOTEST(
+                    // form u64 address by arithmetic from two u32 values
+                    R"EOTEST(
 %_ptr_addr_bda_data_struct_hi = OpAccessChain %ptr_PushConstant_uint %push_data %int_2
 %_addr_bda_data_struct_hi = OpLoad %uint %_ptr_addr_bda_data_struct_hi
 %_ptr_addr_bda_data_struct_lo = OpAccessChain %ptr_PushConstant_uint %push_data %int_3
@@ -3123,518 +3126,527 @@ OpBranch %_bottomlabel
 %_ptr_first = OpAccessChain %ptr_PhysicalStorageBuffer_bda_data_struct_first %_ptr_bda_data_struct %int_0
 %_out_float4 = OpLoad %float4 %_ptr_first Aligned 16
 )EOTEST",
-        });
-      }
+                });
+            }
+        }
     }
-  }
 
-  std::string make_pixel_asm()
-  {
-    std::string switch_str = R"EOSHADER(
+    std::string make_pixel_asm()
+    {
+        std::string    switch_str = R"EOSHADER(
                OpSelectionMerge %break None
                OpSwitch %test
                         %default
 )EOSHADER";
 
-    std::set<std::string> null_constants;
-    std::set<float> float_constants = {0.0f, 1.0f, 2.0f, 3.0f, 4.0f};
-    std::set<int32_t> int_constants = {7};
-    std::set<uint32_t> uint_constants;
-    std::set<int64_t> i64_constants;
-    std::set<uint64_t> u64_constants;
-    std::set<uint8_t> u8_constants;
-    std::set<uint16_t> u16_constants;
+        std::set<std::string>       null_constants;
+        std::set<float>             float_constants = {0.0f, 1.0f, 2.0f, 3.0f, 4.0f};
+        std::set<int32_t>           int_constants   = {7};
+        std::set<uint32_t>          uint_constants;
+        std::set<int64_t>           i64_constants;
+        std::set<uint64_t>          u64_constants;
+        std::set<uint8_t>           u8_constants;
+        std::set<uint16_t>          u16_constants;
 
-    std::string cases;
+        std::string    cases;
 
-    for(size_t i = 0; i < asm_tests.size(); i++)
-    {
-      std::string &test = asm_tests[i];
-      // append a newline just so that searching for whitespace always finds it even if the last
-      // thing in the test is a %_foo
-      test += "\n";
-
-      // add the test's case
-      switch_str += fmt::format("{0} %test_{0}\n", i);
-      cases += fmt::format("%test_{} = OpLabel\n", i);
-
-      std::string test_suffix = fmt::format("_{}", i);
-
-      // find any identifiers with the prefix %_ in the test, and append _testindex
-      size_t offs = test.find("%_");
-      while(offs != std::string::npos)
-      {
-        offs = test.find_first_of("\n\t ", offs);
-        test.insert(offs, test_suffix);
-
-        offs = test.find("%_", offs);
-      }
-
-      // find any null constants referenced
-      offs = test.find("%null_");
-      while(offs != std::string::npos)
-      {
-        offs += 6;    // past %null_
-        size_t begin = offs;
-        offs = test.find_first_of("\n\t ", offs);
-        null_constants.insert(test.substr(begin, offs - begin));
-
-        offs = test.find("%null_", offs);
-      }
-
-      // find any float constants referenced
-      for(std::string prefix : {"%float_", "%double_", "%half_"})
-      {
-        offs = test.find(prefix);
-        while(offs != std::string::npos)
+        for (size_t i = 0; i < asm_tests.size(); i++)
         {
-          offs += prefix.size();
+            std::string    &test = asm_tests[i];
+            // append a newline just so that searching for whitespace always finds it even if the last
+            // thing in the test is a %_foo
+            test += "\n";
 
-          // we generate dynamic and negative versions of all constants, skip to the first digit
-          offs = test.find_first_of("0123456789", offs);
+            // add the test's case
+            switch_str  += fmt::format("{0} %test_{0}\n", i);
+            cases       += fmt::format("%test_{} = OpLabel\n", i);
 
-          size_t begin = offs;
-          offs = test.find_first_of("\n\t ", offs);
+            std::string    test_suffix = fmt::format("_{}", i);
 
-          std::string val = test.substr(begin, offs - begin);
+            // find any identifiers with the prefix %_ in the test, and append _testindex
+            size_t    offs = test.find("%_");
 
-          // convert any _ to a .
-          for(char &c : val)
-            if(c == '_')
-              c = '.';
+            while (offs != std::string::npos)
+            {
+                offs = test.find_first_of("\n\t ", offs);
+                test.insert(offs, test_suffix);
 
-          float_constants.insert(std::strtof(val.c_str(), NULL));
+                offs = test.find("%_", offs);
+            }
 
-          offs = test.find(prefix, offs);
+            // find any null constants referenced
+            offs = test.find("%null_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 6; // past %null_
+                size_t    begin = offs;
+                offs = test.find_first_of("\n\t ", offs);
+                null_constants.insert(test.substr(begin, offs - begin));
+
+                offs = test.find("%null_", offs);
+            }
+
+            // find any float constants referenced
+            for (std::string prefix : {"%float_", "%double_", "%half_"})
+            {
+                offs = test.find(prefix);
+
+                while (offs != std::string::npos)
+                {
+                    offs += prefix.size();
+
+                    // we generate dynamic and negative versions of all constants, skip to the first digit
+                    offs = test.find_first_of("0123456789", offs);
+
+                    size_t    begin = offs;
+                    offs = test.find_first_of("\n\t ", offs);
+
+                    std::string    val = test.substr(begin, offs - begin);
+
+                    // convert any _ to a .
+                    for (char &c : val)
+                        if (c == '_')
+                            c = '.';
+
+                    float_constants.insert(std::strtof(val.c_str(), NULL));
+
+                    offs = test.find(prefix, offs);
+                }
+            }
+
+            // find any u8 constants referenced
+            offs = test.find("%u8_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 4; // past %u8_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                uint8_t    val = (uint8_t)std::strtoul(&test[offs], NULL, base);
+                u8_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%u8_", offs);
+            }
+
+            // find any u16 constants referenced
+            offs = test.find("%u16_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 5; // past %u16_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                uint16_t    val = (uint16_t)std::strtoul(&test[offs], NULL, base);
+                u16_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%u16_", offs);
+            }
+
+            // find any int constants referenced
+            offs = test.find("%int_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 5; // past %int_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                int32_t    val = (int32_t)std::strtol(&test[offs], NULL, base);
+                int_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%int_", offs);
+            }
+
+            // find any uint constants referenced
+            offs = test.find("%uint_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 6; // past %uint_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                uint32_t    val = (uint32_t)std::strtoul(&test[offs], NULL, base);
+                uint_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%uint_", offs);
+            }
+
+            // find any i64 constants referenced
+            offs = test.find("%i64_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 5; // past %i64_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                int64_t    val = std::strtoll(&test[offs], NULL, base);
+                i64_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%i64_", offs);
+            }
+
+            // find any u64 constants referenced
+            offs = test.find("%u64_");
+
+            while (offs != std::string::npos)
+            {
+                offs += 5; // past %u64_
+
+                // we generate dynamic and negative versions of all constants, skip to the first digit
+                offs = test.find_first_of("0123456789", offs);
+
+                // handle hex prefix
+                int    base = 10;
+                if (test[offs] == '0' && test[offs + 1] == 'x')
+                {
+                    base    = 16;
+                    offs    += 2;
+                }
+
+                uint64_t    val = std::strtoull(&test[offs], NULL, base);
+                u64_constants.insert(val);
+
+                // if it's a hex constant we'll name it in decimal, rename
+                if (base == 16)
+                {
+                    size_t    end = test.find_first_of("\n\t ", offs);
+                    test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+                }
+
+                offs = test.find("%u64_", offs);
+            }
+
+            // add the test itself now
+            cases   += "\n";
+            cases   += test;
+            cases   += "\n";
+
+            bool    store_out = true;
+
+            if (test.find("%_out_float4") != std::string::npos)
+            {
+                // if the test outputted a float4, we can dump it directly
+                cases += fmt::format("OpStore %Color %_out_float4_{}\n", i);
+            }
+            else
+            {
+                // otherwise convert and up-swizzle to float4 as needed
+                if (test.find("%_out_float_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%Color_{0} = OpCompositeConstruct %float4 "
+                        " %_out_float_{0} %_out_float_{0} %_out_float_{0} %_out_float_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_float2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%Color_{0} = OpVectorShuffle %float4 %_out_float2_{0} %_out_float2_{0} 0 1 0 1\n", i);
+                }
+                else if (test.find("%_out_float3_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%Color_{0} = OpVectorShuffle %float4 %_out_float3_{0} %_out_float3_{0} 0 1 2 0\n", i);
+                }
+                else if (test.find("%_out_double_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_out_float_{0} = OpFConvert %float %_out_double_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 "
+                        " %_out_float_{0} %_out_float_{0} %_out_float_{0} %_out_float_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_double2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_out_float2_{0} = OpFConvert %float2 %_out_double2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_out_float2_{0} %_out_float2_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("%_out_double3_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_out_float3_{0} = OpFConvert %float3 %_out_double3_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_out_float3_{0} %_out_float3_{0} 0 1 2 0\n",
+                        i);
+                }
+                else if (test.find("%_out_double4_") != std::string::npos)
+                {
+                    cases += fmt::format("%Color_{0} = OpFConvert %float4 %_out_double4_{0}\n", i);
+                }
+                else if (test.find("%_out_int_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertSToF %float %_out_int_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_int2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertSToF %float2 %_out_int2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("%_out_int3_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertSToF %float3 %_out_int3_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 2 0\n",
+                        i);
+                }
+                else if (test.find("%_out_int4_") != std::string::npos)
+                {
+                    cases += fmt::format("%Color_{0} = OpConvertSToF %float4 %_out_int4_{0}\n", i);
+                }
+                else if (test.find("%_out_uint_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float %_out_uint_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_uint2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float2 %_out_uint2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("%_out_uint3_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float3 %_out_uint3_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 2 0\n",
+                        i);
+                }
+                else if (test.find("%_out_uint4_") != std::string::npos)
+                {
+                    cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_uint4_{0}\n", i);
+                }
+                else if (test.find("%_out_i64_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertSToF %float %_out_i64_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} "
+                        "%_f_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_u64_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float %_out_u64_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} "
+                        "%_f_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_u8v2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float2 %_out_u8v2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("%_out_u8v4_") != std::string::npos)
+                {
+                    cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_u8v4_{0}\n", i);
+                }
+                else if (test.find("%_out_u16_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float %_out_u16_{0}\n"
+                        "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
+                        i);
+                }
+                else if (test.find("%_out_u16v2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpConvertUToF %float2 %_out_u16v2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("%_out_u16v4_") != std::string::npos)
+                {
+                    cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_u16v4_{0}\n", i);
+                }
+                else if (test.find("%_out_half2_") != std::string::npos)
+                {
+                    cases += fmt::format(
+                        "%_f_{0} = OpFConvert %float2 %_out_half2_{0}\n"
+                        "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
+                        i);
+                }
+                else if (test.find("; no_out") != std::string::npos)
+                {
+                    store_out = false;
+                }
+                else
+                {
+                    TEST_FATAL("Test with no recognised output");
+                }
+
+                if (store_out)
+                    cases += fmt::format("OpStore %Color %Color_{}\n", i);
+            }
+
+            cases += "OpBranch %break\n";
         }
-      }
 
-      // find any u8 constants referenced
-      offs = test.find("%u8_");
-      while(offs != std::string::npos)
-      {
-        offs += 4;    // past %u8_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
+        if (features.shaderFloat64)
         {
-          base = 16;
-          offs += 2;
+            typesConstants +=
+                "%double = OpTypeFloat 64\n"
+                "%double2 = OpTypeVector %double 2\n"
+                "%double3 = OpTypeVector %double 3\n"
+                "%double4 = OpTypeVector %double 4\n"
+                "%double2x2 = OpTypeMatrix %double2 2\n"
+                "%double3x3 = OpTypeMatrix %double3 3\n"
+                "%double2x4 = OpTypeMatrix %double2 4\n"
+                "%double4x2 = OpTypeMatrix %double4 2\n"
+                "%double4x4 = OpTypeMatrix %double4 4\n";
+
+            typesConstants  += "%ptr_Uniform_double = OpTypePointer Uniform %double\n";
+            capabilities    += "OpCapability Float64\n";
         }
 
-        uint8_t val = (uint8_t)std::strtoul(&test[offs], NULL, base);
-        u8_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
+        if (float16Int8Features.shaderFloat16)
         {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+            typesConstants +=
+                "%half = OpTypeFloat 16\n"
+                "%half2 = OpTypeVector %half 2\n";
+            capabilities += "OpCapability Float16\n";
         }
 
-        offs = test.find("%u8_", offs);
-      }
-
-      // find any u16 constants referenced
-      offs = test.find("%u16_");
-      while(offs != std::string::npos)
-      {
-        offs += 5;    // past %u16_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
+        if (float16Int8Features.shaderInt8 || storage8Features.storageBuffer8BitAccess ||
+            storage8Features.uniformAndStorageBuffer8BitAccess || storage8Features.storagePushConstant8)
         {
-          base = 16;
-          offs += 2;
+            typesConstants +=
+                "%i8 = OpTypeInt 8 1\n"
+                "%u8 = OpTypeInt 8 0\n"
+                "%u8v2 = OpTypeVector %u8 2\n"
+                "%u8v4 = OpTypeVector %u8 4\n";
+            capabilities += "OpCapability Int8\n";
         }
 
-        uint16_t val = (uint16_t)std::strtoul(&test[offs], NULL, base);
-        u16_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
+        if (features.shaderInt64)
         {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
+            typesConstants +=
+                "%i64 = OpTypeInt 64 1\n"
+                "%u64 = OpTypeInt 64 0\n";
+            capabilities += "OpCapability Int64\n";
         }
 
-        offs = test.find("%u16_", offs);
-      }
-
-      // find any int constants referenced
-      offs = test.find("%int_");
-      while(offs != std::string::npos)
-      {
-        offs += 5;    // past %int_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
+        if (features.shaderInt16 || storage16Features.storageBuffer16BitAccess ||
+            storage16Features.uniformAndStorageBuffer16BitAccess ||
+            storage16Features.storagePushConstant16 || storage16Features.storageInputOutput16)
         {
-          base = 16;
-          offs += 2;
+            typesConstants +=
+                "%i16 = OpTypeInt 16 1\n"
+                "%u16 = OpTypeInt 16 0\n"
+                "%u16v2 = OpTypeVector %u16 2\n"
+                "%u16v4 = OpTypeVector %u16 4\n";
+            capabilities += "OpCapability Int16\n";
         }
 
-        int32_t val = (int32_t)std::strtol(&test[offs], NULL, base);
-        int_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
+        if (bdaFeatures.bufferDeviceAddress)
         {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
-        }
-
-        offs = test.find("%int_", offs);
-      }
-
-      // find any uint constants referenced
-      offs = test.find("%uint_");
-      while(offs != std::string::npos)
-      {
-        offs += 6;    // past %uint_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
-        {
-          base = 16;
-          offs += 2;
-        }
-
-        uint32_t val = (uint32_t)std::strtoul(&test[offs], NULL, base);
-        uint_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
-        {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
-        }
-
-        offs = test.find("%uint_", offs);
-      }
-
-      // find any i64 constants referenced
-      offs = test.find("%i64_");
-      while(offs != std::string::npos)
-      {
-        offs += 5;    // past %i64_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
-        {
-          base = 16;
-          offs += 2;
-        }
-
-        int64_t val = std::strtoll(&test[offs], NULL, base);
-        i64_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
-        {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
-        }
-
-        offs = test.find("%i64_", offs);
-      }
-
-      // find any u64 constants referenced
-      offs = test.find("%u64_");
-      while(offs != std::string::npos)
-      {
-        offs += 5;    // past %u64_
-
-        // we generate dynamic and negative versions of all constants, skip to the first digit
-        offs = test.find_first_of("0123456789", offs);
-
-        // handle hex prefix
-        int base = 10;
-        if(test[offs] == '0' && test[offs + 1] == 'x')
-        {
-          base = 16;
-          offs += 2;
-        }
-
-        uint64_t val = std::strtoull(&test[offs], NULL, base);
-        u64_constants.insert(val);
-
-        // if it's a hex constant we'll name it in decimal, rename
-        if(base == 16)
-        {
-          size_t end = test.find_first_of("\n\t ", offs);
-          test.replace(offs - 2, end - offs + 2, fmt::format("{}", val));
-        }
-
-        offs = test.find("%u64_", offs);
-      }
-
-      // add the test itself now
-      cases += "\n";
-      cases += test;
-      cases += "\n";
-
-      bool store_out = true;
-
-      if(test.find("%_out_float4") != std::string::npos)
-      {
-        // if the test outputted a float4, we can dump it directly
-        cases += fmt::format("OpStore %Color %_out_float4_{}\n", i);
-      }
-      else
-      {
-        // otherwise convert and up-swizzle to float4 as needed
-        if(test.find("%_out_float_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%Color_{0} = OpCompositeConstruct %float4 "
-              " %_out_float_{0} %_out_float_{0} %_out_float_{0} %_out_float_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_float2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%Color_{0} = OpVectorShuffle %float4 %_out_float2_{0} %_out_float2_{0} 0 1 0 1\n", i);
-        }
-        else if(test.find("%_out_float3_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%Color_{0} = OpVectorShuffle %float4 %_out_float3_{0} %_out_float3_{0} 0 1 2 0\n", i);
-        }
-        else if(test.find("%_out_double_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_out_float_{0} = OpFConvert %float %_out_double_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 "
-              " %_out_float_{0} %_out_float_{0} %_out_float_{0} %_out_float_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_double2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_out_float2_{0} = OpFConvert %float2 %_out_double2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_out_float2_{0} %_out_float2_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("%_out_double3_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_out_float3_{0} = OpFConvert %float3 %_out_double3_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_out_float3_{0} %_out_float3_{0} 0 1 2 0\n",
-              i);
-        }
-        else if(test.find("%_out_double4_") != std::string::npos)
-        {
-          cases += fmt::format("%Color_{0} = OpFConvert %float4 %_out_double4_{0}\n", i);
-        }
-        else if(test.find("%_out_int_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertSToF %float %_out_int_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_int2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertSToF %float2 %_out_int2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("%_out_int3_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertSToF %float3 %_out_int3_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 2 0\n",
-              i);
-        }
-        else if(test.find("%_out_int4_") != std::string::npos)
-        {
-          cases += fmt::format("%Color_{0} = OpConvertSToF %float4 %_out_int4_{0}\n", i);
-        }
-        else if(test.find("%_out_uint_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float %_out_uint_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_uint2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float2 %_out_uint2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("%_out_uint3_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float3 %_out_uint3_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 2 0\n",
-              i);
-        }
-        else if(test.find("%_out_uint4_") != std::string::npos)
-        {
-          cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_uint4_{0}\n", i);
-        }
-        else if(test.find("%_out_i64_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertSToF %float %_out_i64_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} "
-              "%_f_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_u64_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float %_out_u64_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} "
-              "%_f_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_u8v2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float2 %_out_u8v2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("%_out_u8v4_") != std::string::npos)
-        {
-          cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_u8v4_{0}\n", i);
-        }
-        else if(test.find("%_out_u16_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float %_out_u16_{0}\n"
-              "%Color_{0} = OpCompositeConstruct %float4 %_f_{0} %_f_{0} %_f_{0} %_f_{0}\n",
-              i);
-        }
-        else if(test.find("%_out_u16v2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpConvertUToF %float2 %_out_u16v2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("%_out_u16v4_") != std::string::npos)
-        {
-          cases += fmt::format("%Color_{0} = OpConvertUToF %float4 %_out_u16v4_{0}\n", i);
-        }
-        else if(test.find("%_out_half2_") != std::string::npos)
-        {
-          cases += fmt::format(
-              "%_f_{0} = OpFConvert %float2 %_out_half2_{0}\n"
-              "%Color_{0} = OpVectorShuffle %float4 %_f_{0} %_f_{0} 0 1 0 1\n",
-              i);
-        }
-        else if(test.find("; no_out") != std::string::npos)
-        {
-          store_out = false;
-        }
-        else
-        {
-          TEST_FATAL("Test with no recognised output");
-        }
-
-        if(store_out)
-          cases += fmt::format("OpStore %Color %Color_{}\n", i);
-      }
-
-      cases += "OpBranch %break\n";
-    }
-
-    if(features.shaderFloat64)
-    {
-      typesConstants +=
-          "%double = OpTypeFloat 64\n"
-          "%double2 = OpTypeVector %double 2\n"
-          "%double3 = OpTypeVector %double 3\n"
-          "%double4 = OpTypeVector %double 4\n"
-          "%double2x2 = OpTypeMatrix %double2 2\n"
-          "%double3x3 = OpTypeMatrix %double3 3\n"
-          "%double2x4 = OpTypeMatrix %double2 4\n"
-          "%double4x2 = OpTypeMatrix %double4 2\n"
-          "%double4x4 = OpTypeMatrix %double4 4\n";
-
-      typesConstants += "%ptr_Uniform_double = OpTypePointer Uniform %double\n";
-      capabilities += "OpCapability Float64\n";
-    }
-
-    if(float16Int8Features.shaderFloat16)
-    {
-      typesConstants +=
-          "%half = OpTypeFloat 16\n"
-          "%half2 = OpTypeVector %half 2\n";
-      capabilities += "OpCapability Float16\n";
-    }
-
-    if(float16Int8Features.shaderInt8 || storage8Features.storageBuffer8BitAccess ||
-       storage8Features.uniformAndStorageBuffer8BitAccess || storage8Features.storagePushConstant8)
-    {
-      typesConstants +=
-          "%i8 = OpTypeInt 8 1\n"
-          "%u8 = OpTypeInt 8 0\n"
-          "%u8v2 = OpTypeVector %u8 2\n"
-          "%u8v4 = OpTypeVector %u8 4\n";
-      capabilities += "OpCapability Int8\n";
-    }
-
-    if(features.shaderInt64)
-    {
-      typesConstants +=
-          "%i64 = OpTypeInt 64 1\n"
-          "%u64 = OpTypeInt 64 0\n";
-      capabilities += "OpCapability Int64\n";
-    }
-
-    if(features.shaderInt16 || storage16Features.storageBuffer16BitAccess ||
-       storage16Features.uniformAndStorageBuffer16BitAccess ||
-       storage16Features.storagePushConstant16 || storage16Features.storageInputOutput16)
-    {
-      typesConstants +=
-          "%i16 = OpTypeInt 16 1\n"
-          "%u16 = OpTypeInt 16 0\n"
-          "%u16v2 = OpTypeVector %u16 2\n"
-          "%u16v4 = OpTypeVector %u16 4\n";
-      capabilities += "OpCapability Int16\n";
-    }
-
-    if(bdaFeatures.bufferDeviceAddress)
-    {
-      capabilities += "OpCapability PhysicalStorageBufferAddresses\n";
-      spv_extensions += R"EOSHADER(
+            capabilities    += "OpCapability PhysicalStorageBufferAddresses\n";
+            spv_extensions  += R"EOSHADER(
                OpExtension "SPV_KHR_physical_storage_buffer"
 )EOSHADER";
 
-      typesConstants += "%pushdata_struct = OpTypeStruct %int4 %uint2 %uint %uint";
-      if(features.shaderInt64)
-        typesConstants += " %u64\n";
-      else
-        typesConstants += " %uint2\n";
+            typesConstants += "%pushdata_struct = OpTypeStruct %int4 %uint2 %uint %uint";
+            if (features.shaderInt64)
+                typesConstants += " %u64\n";
+            else
+                typesConstants += " %uint2\n";
 
-      typesConstants += R"EOSHADER(
+            typesConstants += R"EOSHADER(
 %ptr_PushConstant_pushdata_struct = OpTypePointer PushConstant %pushdata_struct
 %push_data = OpVariable %ptr_PushConstant_pushdata_struct PushConstant
 
@@ -3642,12 +3654,12 @@ OpBranch %_bottomlabel
 %ptr_PushConstant_uint2 = OpTypePointer PushConstant %uint2
  )EOSHADER";
 
-      if(features.shaderInt64)
-        typesConstants += "%ptr_PushConstant_u64 = OpTypePointer PushConstant %u64\n";
+            if (features.shaderInt64)
+                typesConstants += "%ptr_PushConstant_u64 = OpTypePointer PushConstant %u64\n";
 
-      typesConstants += "%bda_data_struct = OpTypeStruct %float4 %float4";
+            typesConstants += "%bda_data_struct = OpTypeStruct %float4 %float4";
 
-      typesConstants += R"EOSHADER(
+            typesConstants += R"EOSHADER(
 %ptr_PhysicalStorageBuffer_bda_data_struct = OpTypePointer PhysicalStorageBuffer %bda_data_struct
 %ptr_PhysicalStorageBuffer_bda_data_struct_first = OpTypePointer PhysicalStorageBuffer %float4
 %ptr_PhysicalStorageBuffer_bda_data_struct_f32_4 = OpTypePointer PhysicalStorageBuffer %float
@@ -3656,7 +3668,7 @@ OpBranch %_bottomlabel
 %ptr_PhysicalStorageBuffer_f32 = OpTypePointer PhysicalStorageBuffer %float
  )EOSHADER";
 
-      decorations += R"EOSHADER(
+            decorations += R"EOSHADER(
 OpDecorate %ptr_PhysicalStorageBuffer_bda_data_struct_f32_4 ArrayStride 4
 OpDecorate %ptr_PhysicalStorageBuffer_bda_data_struct_f32_8 ArrayStride 8
 OpDecorate %ptr_PhysicalStorageBuffer_bda_data_struct_f32_12 ArrayStride 12
@@ -3671,22 +3683,22 @@ OpDecorate %bda_data_struct Block
 OpMemberDecorate %bda_data_struct 0 Offset 0        ; float f32[0..3]
 OpMemberDecorate %bda_data_struct 1 Offset 16       ; float f32[4..7]
 )EOSHADER";
-    }
+        }
 
-    std::string cbuffer =
-        "%cbuffer_struct = OpTypeStruct %float4 %float4 %float4 %float4 %float4 %float4 %float4 "
-        "                               %float4 %float4 %float4 %float4 %float4 %uint %uint %uint "
-        "                               %uint %uint2";
+        std::string    cbuffer =
+            "%cbuffer_struct = OpTypeStruct %float4 %float4 %float4 %float4 %float4 %float4 %float4 "
+            "                               %float4 %float4 %float4 %float4 %float4 %uint %uint %uint "
+            "                               %uint %uint2";
 
-    if(features.shaderFloat64)
-      cbuffer += " %double";
-    else
-      cbuffer += " %uint2";
+        if (features.shaderFloat64)
+            cbuffer += " %double";
+        else
+            cbuffer += " %uint2";
 
-    cbuffer += "\n";
+        cbuffer += "\n";
 
-    typesConstants += cbuffer;
-    decorations += R"EOSHADER(
+        typesConstants  += cbuffer;
+        decorations     += R"EOSHADER(
 
 OpDecorate %cbuffer_struct Block
 OpDecorate %cbuffer DescriptorSet 0
@@ -3711,100 +3723,105 @@ OpMemberDecorate %cbuffer_struct 16 Offset 208    ; uint2 doubleUnpackSource
 OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
 )EOSHADER";
 
-    typesConstants +=
-        "%ptr_Uniform_cbuffer_struct = OpTypePointer Uniform %cbuffer_struct\n"
-        "%cbuffer = OpVariable %ptr_Uniform_cbuffer_struct Uniform\n";
+        typesConstants +=
+            "%ptr_Uniform_cbuffer_struct = OpTypePointer Uniform %cbuffer_struct\n"
+            "%cbuffer = OpVariable %ptr_Uniform_cbuffer_struct Uniform\n";
 
-    // now generate all the constants
+        // now generate all the constants
 
-    for(const std::string &n : null_constants)
-      typesConstants += fmt::format("%null_{0} = OpConstantNull %{0}\n", n);
+        for (const std::string &n : null_constants)
+            typesConstants += fmt::format("%null_{0} = OpConstantNull %{0}\n", n);
 
-    typesConstants += "\n";
+        typesConstants += "\n";
 
-    for(float f : float_constants)
-    {
-      std::string name = fmt::format("{}", f);
-      for(char &c : name)
-        if(c == '.')
-          c = '_';
-      typesConstants += fmt::format("%float_{} = OpConstant %float {}\n", name, f);
-      typesConstants += fmt::format("%float_neg{} = OpConstant %float -{}\n", name, f);
+        for (float f : float_constants)
+        {
+            std::string    name = fmt::format("{}", f);
 
-      if(float16Int8Features.shaderFloat16)
-      {
-        typesConstants += fmt::format("%half_{} = OpConstant %half {}\n", name, f);
-        typesConstants += fmt::format("%half_neg{} = OpConstant %half -{}\n", name, f);
-      }
+            for (char &c : name)
+                if (c == '.')
+                    c = '_';
 
-      if(features.shaderFloat64)
-      {
-        typesConstants += fmt::format("%double_{} = OpConstant %double {}\n", name, f);
-        typesConstants += fmt::format("%double_neg{} = OpConstant %double -{}\n", name, f);
-      }
-    }
+            typesConstants  += fmt::format("%float_{} = OpConstant %float {}\n", name, f);
+            typesConstants  += fmt::format("%float_neg{} = OpConstant %float -{}\n", name, f);
 
-    typesConstants += "\n";
+            if (float16Int8Features.shaderFloat16)
+            {
+                typesConstants  += fmt::format("%half_{} = OpConstant %half {}\n", name, f);
+                typesConstants  += fmt::format("%half_neg{} = OpConstant %half -{}\n", name, f);
+            }
 
-    if(float16Int8Features.shaderInt8)
-    {
-      typesConstants += "\n";
-      for(uint8_t u : u8_constants)
-        typesConstants += fmt::format("%u8_{0} = OpConstant %u8 {0}\n", u);
-    }
+            if (features.shaderFloat64)
+            {
+                typesConstants  += fmt::format("%double_{} = OpConstant %double {}\n", name, f);
+                typesConstants  += fmt::format("%double_neg{} = OpConstant %double -{}\n", name, f);
+            }
+        }
 
-    if(features.shaderInt16)
-    {
-      typesConstants += "\n";
-      for(uint16_t u : u16_constants)
-        typesConstants += fmt::format("%u16_{0} = OpConstant %u16 {0}\n", u);
-    }
+        typesConstants += "\n";
 
-    for(int32_t i : int_constants)
-    {
-      typesConstants += fmt::format("%int_{0} = OpConstant %int {0}\n", i);
-      typesConstants += fmt::format("%int_neg{0} = OpConstant %int -{0}\n", i);
-    }
+        if (float16Int8Features.shaderInt8)
+        {
+            typesConstants += "\n";
 
-    typesConstants += "\n";
+            for (uint8_t u : u8_constants)
+                typesConstants += fmt::format("%u8_{0} = OpConstant %u8 {0}\n", u);
+        }
 
-    for(uint32_t u : uint_constants)
-      typesConstants += fmt::format("%uint_{0} = OpConstant %uint {0}\n", u);
+        if (features.shaderInt16)
+        {
+            typesConstants += "\n";
 
-    typesConstants += "\n";
+            for (uint16_t u : u16_constants)
+                typesConstants += fmt::format("%u16_{0} = OpConstant %u16 {0}\n", u);
+        }
 
-    if(features.shaderInt64)
-    {
-      for(int64_t i : i64_constants)
-      {
-        typesConstants += fmt::format("%i64_{0} = OpConstant %i64 {0}\n", i);
-        typesConstants += fmt::format("%i64_neg{0} = OpConstant %i64 -{0}\n", i);
-      }
+        for (int32_t i : int_constants)
+        {
+            typesConstants  += fmt::format("%int_{0} = OpConstant %int {0}\n", i);
+            typesConstants  += fmt::format("%int_neg{0} = OpConstant %int -{0}\n", i);
+        }
 
-      typesConstants += "\n";
+        typesConstants += "\n";
 
-      for(uint64_t u : u64_constants)
-      {
-        typesConstants += fmt::format("%u64_{0} = OpConstant %u64 {0}\n", u);
-      }
+        for (uint32_t u : uint_constants)
+            typesConstants += fmt::format("%uint_{0} = OpConstant %uint {0}\n", u);
 
-      typesConstants += "\n";
-    }
-    else
-    {
-      if(!i64_constants.empty())
-        TEST_FATAL("Test using i64 constants without shaderInt64 capability");
-      if(!u64_constants.empty())
-        TEST_FATAL("Test using u64 constants without shaderInt64 capability");
-    }
+        typesConstants += "\n";
 
-    for(size_t i = 0; i < 32; i++)
-      typesConstants += fmt::format("%randf_{} = OpConstant %float {:.3}\n", i, RANDF(0.0f, 1.0f));
+        if (features.shaderInt64)
+        {
+            for (int64_t i : i64_constants)
+            {
+                typesConstants  += fmt::format("%i64_{0} = OpConstant %i64 {0}\n", i);
+                typesConstants  += fmt::format("%i64_neg{0} = OpConstant %i64 -{0}\n", i);
+            }
 
-    typesConstants += "\n";
+            typesConstants += "\n";
 
-    // vector constants here manually, as we can't pull these out easily
-    typesConstants += R"EOSHADER(
+            for (uint64_t u : u64_constants)
+            {
+                typesConstants += fmt::format("%u64_{0} = OpConstant %u64 {0}\n", u);
+            }
+
+            typesConstants += "\n";
+        }
+        else
+        {
+            if (!i64_constants.empty())
+                TEST_FATAL("Test using i64 constants without shaderInt64 capability");
+
+            if (!u64_constants.empty())
+                TEST_FATAL("Test using u64 constants without shaderInt64 capability");
+        }
+
+        for (size_t i = 0; i < 32; i++)
+            typesConstants += fmt::format("%randf_{} = OpConstant %float {:.3}\n", i, RANDF(0.0f, 1.0f));
+
+        typesConstants += "\n";
+
+        // vector constants here manually, as we can't pull these out easily
+        typesConstants += R"EOSHADER(
 
  %float4_0000 = OpConstantComposite %float4 %float_0_0 %float_0_0 %float_0_0 %float_0_0
  %float4_1234 = OpConstantComposite %float4 %float_1_0 %float_2_0 %float_3_0 %float_4_0
@@ -3819,17 +3836,17 @@ OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
 
 )EOSHADER";
 
-    std::string memory_model =
-        (bdaFeatures.bufferDeviceAddress) ? "PhysicalStorageBuffer64" : "Logical";
-    std::string ret = capabilities + spv_extensions + extinstimport +
-                      R"EOSHADER(
+        std::string    memory_model =
+            (bdaFeatures.bufferDeviceAddress) ? "PhysicalStorageBuffer64" : "Logical";
+        std::string    ret = capabilities + spv_extensions + extinstimport +
+                             R"EOSHADER(
                OpMemoryModel )EOSHADER" +
-                      memory_model + " GLSL450\n" +
-                      R"EOSHADER(
+                             memory_model + " GLSL450\n" +
+                             R"EOSHADER(
                OpEntryPoint Fragment %main "main" %flatData %linearData %Color %gl_FragCoord
 )EOSHADER" + executionmodes +
-                      spv_debug + decorations + typesConstants + functions +
-                      R"EOSHADER(
+                             spv_debug + decorations + typesConstants + functions +
+                             R"EOSHADER(
        %main = OpFunction %void None %mainfunc
  %main_begin = OpLabel
    %test_ptr = OpAccessChain %ptr_Input_uint %flatData %flatv2f_test_idx
@@ -3877,57 +3894,59 @@ OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
 
 )EOSHADER";
 
-    if(features.shaderFloat64)
-      ret += "%zerof64 = OpFConvert %double %zerof\n";
+        if (features.shaderFloat64)
+            ret += "%zerof64 = OpFConvert %double %zerof\n";
 
-    if(features.shaderInt64)
-    {
-      ret +=
-          "%_temp = OpCompositeConstruct %uint2 %zerou %zerou\n"
-          "%zerou64 = OpBitcast %u64 %_temp\n";
-    }
+        if (features.shaderInt64)
+        {
+            ret +=
+                "%_temp = OpCompositeConstruct %uint2 %zerou %zerou\n"
+                "%zerou64 = OpBitcast %u64 %_temp\n";
+        }
 
-    // generate dynamic versions of the constants
-    for(float f : float_constants)
-    {
-      std::string name = fmt::format("{}", f);
-      for(char &c : name)
-        if(c == '.')
-          c = '_';
-      ret += fmt::format("%float_dyn_{0} = OpFAdd %float %zerof %float_{0}\n", name);
-      ret += fmt::format("%float_dyn_neg{0} = OpFAdd %float %zerof %float_neg{0}\n", name);
+        // generate dynamic versions of the constants
+        for (float f : float_constants)
+        {
+            std::string    name = fmt::format("{}", f);
 
-      if(features.shaderFloat64)
-      {
-        ret += fmt::format("%double_dyn_{0} = OpFAdd %double %zerof64 %double_{0}\n", name);
-        ret += fmt::format("%double_dyn_neg{0} = OpFAdd %double %zerof64 %double_neg{0}\n", name);
-      }
-    }
+            for (char &c : name)
+                if (c == '.')
+                    c = '_';
 
-    ret += "\n";
+            ret += fmt::format("%float_dyn_{0} = OpFAdd %float %zerof %float_{0}\n", name);
+            ret += fmt::format("%float_dyn_neg{0} = OpFAdd %float %zerof %float_neg{0}\n", name);
 
-    for(int32_t i : int_constants)
-    {
-      ret += fmt::format("%int_dyn_{0} = OpIAdd %int %zeroi %int_{0}\n", i);
-      ret += fmt::format("%int_dyn_neg{0} = OpIAdd %int %zeroi %int_neg{0}\n", i);
-    }
+            if (features.shaderFloat64)
+            {
+                ret += fmt::format("%double_dyn_{0} = OpFAdd %double %zerof64 %double_{0}\n", name);
+                ret += fmt::format("%double_dyn_neg{0} = OpFAdd %double %zerof64 %double_neg{0}\n", name);
+            }
+        }
 
-    ret += "\n";
+        ret += "\n";
 
-    for(uint32_t u : uint_constants)
-      ret += fmt::format("%uint_dyn_{0} = OpIAdd %uint %zerou %uint_{0}\n", u);
+        for (int32_t i : int_constants)
+        {
+            ret += fmt::format("%int_dyn_{0} = OpIAdd %int %zeroi %int_{0}\n", i);
+            ret += fmt::format("%int_dyn_neg{0} = OpIAdd %int %zeroi %int_neg{0}\n", i);
+        }
 
-    for(uint64_t u : u64_constants)
-      ret += fmt::format("%u64_dyn_{0} = OpIAdd %u64 %zerou64 %u64_{0}\n", u);
+        ret += "\n";
 
-    ret += "\n";
+        for (uint32_t u : uint_constants)
+            ret += fmt::format("%uint_dyn_{0} = OpIAdd %uint %zerou %uint_{0}\n", u);
 
-    for(size_t i = 0; i < 32; i++)
-      ret += fmt::format("%randf_dyn_{0} = OpFAdd %float %zerof %randf_{0}\n", i);
+        for (uint64_t u : u64_constants)
+            ret += fmt::format("%u64_dyn_{0} = OpIAdd %u64 %zerou64 %u64_{0}\n", u);
 
-    ret += "\n";
+        ret += "\n";
 
-    ret += R"EOSHADER(
+        for (size_t i = 0; i < 32; i++)
+            ret += fmt::format("%randf_dyn_{0} = OpFAdd %float %zerof %randf_{0}\n", i);
+
+        ret += "\n";
+
+        ret += R"EOSHADER(
 
  %float4_dyn_0000 = OpCompositeConstruct %float4 %float_dyn_0_0 %float_dyn_0_0 %float_dyn_0_0 %float_dyn_0_0
  %float4_dyn_1234 = OpCompositeConstruct %float4 %float_dyn_1_0 %float_dyn_2_0 %float_dyn_3_0 %float_dyn_4_0
@@ -3940,10 +3959,10 @@ OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
 
 )EOSHADER";
 
-    ret += switch_str;
-    ret += cases;
+        ret += switch_str;
+        ret += cases;
 
-    ret += R"EOSHADER(
+        ret += R"EOSHADER(
 
     %default = OpLabel
                OpStore %Color %float4_0000
@@ -3954,881 +3973,900 @@ OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
                OpFunctionEnd
 )EOSHADER";
 
-    return ret;
-  }
-
-  uint32_t vk_version = 0x10;
-
-  VkPhysicalDevice16BitStorageFeaturesKHR storage16Features = {
-      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES_KHR,
-  };
-  VkPhysicalDevice8BitStorageFeaturesKHR storage8Features = {
-      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR,
-  };
-  VkPhysicalDeviceFloat16Int8FeaturesKHR float16Int8Features = {
-      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES_KHR,
-  };
-  VkPhysicalDeviceBufferDeviceAddressFeaturesEXT bdaFeatures = {
-      VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR,
-  };
-
-  void Prepare(int argc, char **argv)
-  {
-    // require descriptor indexing
-    optDevExts.push_back(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
-
-    // dependencies of VK_EXT_descriptor_indexing
-    optDevExts.push_back(VK_KHR_MAINTENANCE3_EXTENSION_NAME);
-
-    // add float16/int8 extensions
-    optDevExts.push_back(VK_KHR_8BIT_STORAGE_EXTENSION_NAME);
-    optDevExts.push_back(VK_KHR_16BIT_STORAGE_EXTENSION_NAME);
-    optDevExts.push_back(VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME);
-
-    // dependencies of VK_KHR_8bit_storage
-    optDevExts.push_back(VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_EXTENSION_NAME);
-
-    // add BDA extension
-    optDevExts.push_back(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
-
-    // we require this to pixel shader debug anyway, so we might as well require it for all tests.
-    features.fragmentStoresAndAtomics = VK_TRUE;
-
-    // this is so widely supported just require it without fallback
-    features.imageCubeArray = VK_TRUE;
-
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    if(!Avail.empty())
-      return;
-
-    const bool descIndexing = std::find(devExts.begin(), devExts.end(),
-                                        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME) != devExts.end();
-    const bool storage16 = std::find(devExts.begin(), devExts.end(),
-                                     VK_KHR_16BIT_STORAGE_EXTENSION_NAME) != devExts.end();
-    const bool storage8 = std::find(devExts.begin(), devExts.end(),
-                                    VK_KHR_8BIT_STORAGE_EXTENSION_NAME) != devExts.end();
-    const bool float16int8 = std::find(devExts.begin(), devExts.end(),
-                                       VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME) != devExts.end();
-    const bool bda = std::find(devExts.begin(), devExts.end(),
-                               VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) != devExts.end();
-
-    vk_version = 0x10;
-
-    if(physProperties.apiVersion >= VK_MAKE_VERSION(1, 1, 0))
-      vk_version = 0x11;
-
-    if(physProperties.apiVersion >= VK_MAKE_VERSION(1, 2, 0))
-      vk_version = 0x12;
-
-#define LIMIT_CHECK(limit, req)                                                     \
-  if(physProperties.limits.limit < req)                                             \
-    Avail = fmt::format("Limit '" #limit "' {} is insufficient (need at least {})", \
-                        physProperties.limits.limit, req);
-
-    if(descIndexing)
-    {
-      LIMIT_CHECK(maxPerStageDescriptorSampledImages, 128);
-      LIMIT_CHECK(maxPerStageDescriptorSamplers, 64);
-      LIMIT_CHECK(maxPerStageDescriptorStorageBuffers, 16);
-      LIMIT_CHECK(maxPerStageDescriptorStorageImages, 64);
+        return ret;
     }
 
-    VkFormatProperties props = {};
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_A2B10G10R10_UINT_PACK32, &props);
+    uint32_t    vk_version = 0x10;
 
-    if((props.bufferFeatures & VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT) == 0)
+    VkPhysicalDevice16BitStorageFeaturesKHR    storage16Features =
     {
-      Avail = "VK_FORMAT_A2B10G10R10_UINT_PACK32 not supported in texel buffers";
-      return;
-    }
-    if((props.bufferFeatures & VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT) == 0)
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_16BIT_STORAGE_FEATURES_KHR,
+    };
+    VkPhysicalDevice8BitStorageFeaturesKHR    storage8Features =
     {
-      Avail = "VK_FORMAT_A2B10G10R10_UINT_PACK32 not supported in texel buffers";
-      return;
-    }
-
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_A2B10G10R10_UNORM_PACK32, &props);
-
-    if((props.bufferFeatures & VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT) == 0)
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_8BIT_STORAGE_FEATURES_KHR,
+    };
+    VkPhysicalDeviceFloat16Int8FeaturesKHR    float16Int8Features =
     {
-      Avail = "VK_FORMAT_A2B10G10R10_UNORM_PACK32 not supported in texel buffers";
-      return;
-    }
-    if((props.bufferFeatures & VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT) == 0)
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_FLOAT16_INT8_FEATURES_KHR,
+    };
+    VkPhysicalDeviceBufferDeviceAddressFeaturesEXT    bdaFeatures =
     {
-      Avail = "VK_FORMAT_A2B10G10R10_UNORM_PACK32 not supported in texel buffers";
-      return;
-    }
-
-    // enable features we can optionally test with.
-    VkPhysicalDeviceFeatures supported;
-    vkGetPhysicalDeviceFeatures(phys, &supported);
-
-    if(supported.shaderFloat64)
-      features.shaderFloat64 = VK_TRUE;
-    if(supported.shaderInt64)
-      features.shaderInt64 = VK_TRUE;
-    if(supported.shaderInt16)
-      features.shaderInt16 = VK_TRUE;
-
-    if(descIndexing)
-    {
-      static VkPhysicalDeviceDescriptorIndexingFeaturesEXT descIndexingFeatures = {
-          VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT,
-      };
-
-      getPhysFeatures2(&descIndexingFeatures);
-
-      // enable descriptor indexing on arrays of all types
-
-      if(!descIndexingFeatures.runtimeDescriptorArray)
-        Avail = "Descriptor indexing feature 'runtimeDescriptorArray' not available";
-      else if(!descIndexingFeatures.shaderUniformTexelBufferArrayDynamicIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderUniformTexelBufferArrayDynamicIndexing' not "
-            "available";
-      else if(!descIndexingFeatures.shaderStorageTexelBufferArrayDynamicIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderStorageTexelBufferArrayDynamicIndexing' not "
-            "available";
-      else if(!descIndexingFeatures.shaderUniformBufferArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderUniformBufferArrayNonUniformIndexing' not "
-            "available";
-      else if(!descIndexingFeatures.shaderSampledImageArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderSampledImageArrayNonUniformIndexing' not available";
-      else if(!descIndexingFeatures.shaderStorageBufferArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderStorageBufferArrayNonUniformIndexing' not "
-            "available";
-      else if(!descIndexingFeatures.shaderStorageImageArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderStorageImageArrayNonUniformIndexing' not available";
-      else if(!descIndexingFeatures.shaderUniformTexelBufferArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderUniformTexelBufferArrayNonUniformIndexing' not "
-            "available";
-      else if(!descIndexingFeatures.shaderStorageTexelBufferArrayNonUniformIndexing)
-        Avail =
-            "Descriptor indexing feature 'shaderStorageTexelBufferArrayNonUniformIndexing' not "
-            "available";
-
-      devInfoNext = &descIndexingFeatures;
-    }
-
-    if(storage16)
-    {
-      // enable all available features
-      getPhysFeatures2(&storage16Features);
-
-      storage16Features.pNext = (void *)devInfoNext;
-      devInfoNext = &storage16Features;
-    }
-
-    if(storage8)
-    {
-      // enable all available features
-      getPhysFeatures2(&storage8Features);
-
-      storage8Features.pNext = (void *)devInfoNext;
-      devInfoNext = &storage8Features;
-    }
-
-    if(float16int8)
-    {
-      // enable all available features
-      getPhysFeatures2(&float16Int8Features);
-
-      float16Int8Features.pNext = (void *)devInfoNext;
-      devInfoNext = &float16Int8Features;
-    }
-
-    if(bda)
-    {
-      getPhysFeatures2(&bdaFeatures);
-      bdaFeatures.pNext = (void *)devInfoNext;
-      devInfoNext = &bdaFeatures;
-    }
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    make_asm_tests();
-
-    const bool descIndexing = std::find(devExts.begin(), devExts.end(),
-                                        VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME) != devExts.end();
-    const bool storage16 = std::find(devExts.begin(), devExts.end(),
-                                     VK_KHR_16BIT_STORAGE_EXTENSION_NAME) != devExts.end();
-    const bool storage8 = std::find(devExts.begin(), devExts.end(),
-                                    VK_KHR_8BIT_STORAGE_EXTENSION_NAME) != devExts.end();
-    const bool float16int8 = std::find(devExts.begin(), devExts.end(),
-                                       VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME) != devExts.end();
-    const bool bda = std::find(devExts.begin(), devExts.end(),
-                               VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) != devExts.end();
-
-    if(storage16)
-      TEST_LOG("Running tests on 16-bit storage");
-
-    if(storage8)
-      TEST_LOG("Running tests on 8-bit storage");
-
-    if(float16int8)
-      TEST_LOG("Running tests on half and int8 arithmetic");
-
-    if(bda)
-      TEST_LOG("Running tests on buffer device address");
-
-    if(features.shaderFloat64)
-      TEST_LOG("Running tests on doubles");
-
-    if(features.shaderInt64)
-      TEST_LOG("Running tests on int64");
-
-    if(features.shaderInt16)
-      TEST_LOG("Running tests on int16 arithmetic");
-
-    pixel_glsl1.replace(pixel_glsl1.find("#define TEST_DESC_INDEXING"),
-                        sizeof("#define TEST_DESC_INDEXING"),
-                        fmt::format("#define TEST_DESC_INDEXING {}", descIndexing ? 1 : 0));
-
-    pixel_glsl2.replace(pixel_glsl2.find("#define TEST_DESC_INDEXING"),
-                        sizeof("#define TEST_DESC_INDEXING"),
-                        fmt::format("#define TEST_DESC_INDEXING {}", descIndexing ? 1 : 0));
-
-    size_t lastTest = pixel_glsl1.rfind("case ");
-    lastTest += sizeof("case ") - 1;
-
-    const uint32_t numGLSL1Tests = atoi(pixel_glsl1.c_str() + lastTest) + 1;
-
-    lastTest = pixel_glsl2.rfind("case ");
-    lastTest += sizeof("case ") - 1;
-
-    const uint32_t numGLSL2Tests = atoi(pixel_glsl2.c_str() + lastTest) + 1;
-
-    const uint32_t numASMTests = (uint32_t)asm_tests.size();
-
-    VkDescriptorSetLayout setlayout0 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1, VK_SHADER_STAGE_VERTEX_BIT},
-        {10, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {11, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {12, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {13, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {14, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {15, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {16, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {17, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {18, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {19, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {21, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {22, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {30, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {31, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {32, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {33, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {34, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {35, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {36, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-    }));
-
-    std::vector<VkDescriptorSetLayout> setLayouts = {setlayout0};
-
-    // this set layout has arrays of each type. We'll uniformly, dynamic-uniformly, and
-    // non-uniformly access each of these
-    VkDescriptorSetLayout setlayout1 = VK_NULL_HANDLE;
-    VkDescriptorSetLayout setlayout2 = VK_NULL_HANDLE;
-
-    if(descIndexing)
-    {
-      setlayout1 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-          {1, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {2, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {3, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {5, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {6, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {7, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {8, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {9, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {21, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
-      }));
-
-      setlayout2 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-          {0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {6, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {7, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {8, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {9, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-
-          {10, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {11, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {12, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {13, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {14, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {15, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {16, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {17, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {18, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {19, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-
-          {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {21, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {22, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {23, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {24, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {25, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {26, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {27, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {28, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {29, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-
-          {30, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {31, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {32, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {33, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {34, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {35, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {36, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {37, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {38, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {39, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-
-          {40, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {41, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {42, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {43, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {44, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {45, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {46, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {47, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {48, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {49, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-
-          {50, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {51, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {52, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {53, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {54, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {55, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {56, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {57, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {58, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-          {59, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-      }));
-
-      setLayouts.push_back(setlayout1);
-      setLayouts.push_back(setlayout2);
-    }
-
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
-        setLayouts, {
-                        vkh::PushConstantRange(VK_SHADER_STAGE_FRAGMENT_BIT, 16, sizeof(PushData)),
-                    }));
-
-    // calculate number of tests, wrapping each row at 256
-    uint32_t texWidth = AlignUp(std::max(std::max(numGLSL1Tests, numGLSL2Tests), numASMTests), 256U);
-    uint32_t texHeight = std::max(1U, texWidth / 256U);
-    texWidth /= texHeight;
-
-    // 4x4 for each test
-    texWidth *= 4;
-    texHeight *= 4;
-
-    AllocatedImage img(
-        this,
-        vkh::ImageCreateInfo(texWidth, texHeight, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
-                             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    VkImageView imgview = createImageView(
-        vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
-
-    vkh::RenderPassCreator renderPassCreateInfo;
-
-    renderPassCreateInfo.attachments.push_back(
-        vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                   VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
-
-    renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
-
-    VkRenderPass renderPass = createRenderPass(renderPassCreateInfo);
-
-    VkFramebuffer framebuffer =
-        createFramebuffer(vkh::FramebufferCreateInfo(renderPass, {imgview}, {texWidth, texHeight}));
-
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
-
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.renderPass = renderPass;
-
-    pipeCreateInfo.vertexInputState.vertexBindingDescriptions = {vkh::vertexBind(0, ConstsA2V)};
-    pipeCreateInfo.vertexInputState.vertexAttributeDescriptions = {
-        vkh::vertexAttr(0, 0, ConstsA2V, pos), vkh::vertexAttr(1, 0, ConstsA2V, zero),
-        vkh::vertexAttr(2, 0, ConstsA2V, one), vkh::vertexAttr(3, 0, ConstsA2V, negone),
-        vkh::vertexAttr(4, 0, ConstsA2V, uv),
+        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_BUFFER_DEVICE_ADDRESS_FEATURES_KHR,
     };
 
-    pipeCreateInfo.stages = {
-        CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(pixel_glsl1, ShaderLang::glsl, ShaderStage::frag, "main"),
-    };
+    void Prepare(int argc, char **argv)
+    {
+        // require descriptor indexing
+        optDevExts.push_back(VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME);
 
-    VkPipeline glslpipe1 = createGraphicsPipeline(pipeCreateInfo);
+        // dependencies of VK_EXT_descriptor_indexing
+        optDevExts.push_back(VK_KHR_MAINTENANCE3_EXTENSION_NAME);
 
-    pipeCreateInfo.stages = {
-        CompileShaderModule(vertex2, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(pixel_glsl2, ShaderLang::glsl, ShaderStage::frag, "main"),
-    };
+        // add float16/int8 extensions
+        optDevExts.push_back(VK_KHR_8BIT_STORAGE_EXTENSION_NAME);
+        optDevExts.push_back(VK_KHR_16BIT_STORAGE_EXTENSION_NAME);
+        optDevExts.push_back(VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME);
 
-    VkPipeline glslpipe2 = createGraphicsPipeline(pipeCreateInfo);
+        // dependencies of VK_KHR_8bit_storage
+        optDevExts.push_back(VK_KHR_STORAGE_BUFFER_STORAGE_CLASS_EXTENSION_NAME);
 
-    SPIRVTarget target = SPIRVTarget::vulkan;
+        // add BDA extension
+        optDevExts.push_back(VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME);
 
-    if(vk_version >= 0x11)
-      target = SPIRVTarget::vulkan11;
-    if(vk_version >= 0x12)
-      target = SPIRVTarget::vulkan12;
+        // we require this to pixel shader debug anyway, so we might as well require it for all tests.
+        features.fragmentStoresAndAtomics = VK_TRUE;
 
-    pipeCreateInfo.stages = {
-        CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(make_pixel_asm(), ShaderLang::spvasm, ShaderStage::frag, "main", {},
-                            target),
-    };
+        // this is so widely supported just require it without fallback
+        features.imageCubeArray = VK_TRUE;
 
-    VkPipeline asmpipe = createGraphicsPipeline(pipeCreateInfo);
+        VulkanGraphicsTest::Prepare(argc, argv);
 
-    float triWidth = 8.0f / float(texWidth);
-    float triHeight = 8.0f / float(texHeight);
+        if (!Avail.empty())
+            return;
 
-    ConstsA2V triangle[] = {
-        {Vec4f(-1.0f, -1.0f, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(0.0f, 0.0f)},
-        {Vec4f(-1.0f + triWidth, -1.0f, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(1.0f, 0.0f)},
-        {Vec4f(-1.0f, -1.0f + triHeight, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(0.0f, 1.0f)},
-    };
+        const bool    descIndexing = std::find(devExts.begin(), devExts.end(),
+                                               VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME) != devExts.end();
+        const bool    storage16 = std::find(devExts.begin(), devExts.end(),
+                                            VK_KHR_16BIT_STORAGE_EXTENSION_NAME) != devExts.end();
+        const bool    storage8 = std::find(devExts.begin(), devExts.end(),
+                                           VK_KHR_8BIT_STORAGE_EXTENSION_NAME) != devExts.end();
+        const bool    float16int8 = std::find(devExts.begin(), devExts.end(),
+                                              VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME) != devExts.end();
+        const bool    bda = std::find(devExts.begin(), devExts.end(),
+                                      VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) != devExts.end();
 
-    AllocatedBuffer vb(this,
-                       vkh::BufferCreateInfo(sizeof(triangle), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT |
-                                                                   VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-                       VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+        vk_version = 0x10;
 
-    vb.upload(triangle);
+        if (physProperties.apiVersion >= VK_MAKE_VERSION(1, 1, 0))
+            vk_version = 0x11;
 
-    Texture rgba8;
-    LoadXPM(SmileyTexture, rgba8);
+        if (physProperties.apiVersion >= VK_MAKE_VERSION(1, 2, 0))
+            vk_version = 0x12;
 
-    AllocatedImage queryTest(this,
-                             vkh::ImageCreateInfo(183, 347, 0, VK_FORMAT_R8G8B8A8_UNORM,
-                                                  VK_IMAGE_USAGE_SAMPLED_BIT, 4, 3),
-                             VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+#define LIMIT_CHECK(limit, req)                                                         \
+    if (physProperties.limits.limit < req)                                              \
+        Avail = fmt::format("Limit '" #limit "' {} is insufficient (need at least {})", \
+                            physProperties.limits.limit, req);
 
-    VkImageView queryTestView = createImageView(vkh::ImageViewCreateInfo(
-        queryTest.image, VK_IMAGE_VIEW_TYPE_2D_ARRAY, VK_FORMAT_R8G8B8A8_UNORM));
+        if (descIndexing)
+        {
+            LIMIT_CHECK(maxPerStageDescriptorSampledImages, 128);
+            LIMIT_CHECK(maxPerStageDescriptorSamplers, 64);
+            LIMIT_CHECK(maxPerStageDescriptorStorageBuffers, 16);
+            LIMIT_CHECK(maxPerStageDescriptorStorageImages, 64);
+        }
 
-    AllocatedImage queryTestMS(
-        this,
-        vkh::ImageCreateInfo(183, 347, 0, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_USAGE_SAMPLED_BIT, 1,
-                             5, VK_SAMPLE_COUNT_4_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        VkFormatProperties    props = {};
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_A2B10G10R10_UINT_PACK32, &props);
 
-    VkImageView queryTestMSView = createImageView(vkh::ImageViewCreateInfo(
-        queryTestMS.image, VK_IMAGE_VIEW_TYPE_2D_ARRAY, VK_FORMAT_R8G8B8A8_UNORM));
+        if ((props.bufferFeatures & VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT) == 0)
+        {
+            Avail = "VK_FORMAT_A2B10G10R10_UINT_PACK32 not supported in texel buffers";
+            return;
+        }
 
-    AllocatedImage smiley(
-        this,
-        vkh::ImageCreateInfo(rgba8.width, rgba8.height, 0, VK_FORMAT_R8G8B8A8_UNORM,
-                             VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        if ((props.bufferFeatures & VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT) == 0)
+        {
+            Avail = "VK_FORMAT_A2B10G10R10_UINT_PACK32 not supported in texel buffers";
+            return;
+        }
 
-    VkImageView smileyview = createImageView(
-        vkh::ImageViewCreateInfo(smiley.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R8G8B8A8_UNORM));
-    AllocatedBuffer uploadBuf(this,
-                              vkh::BufferCreateInfo(rgba8.data.size() * sizeof(uint32_t),
-                                                    VK_BUFFER_USAGE_TRANSFER_SRC_BIT),
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_A2B10G10R10_UNORM_PACK32, &props);
+
+        if ((props.bufferFeatures & VK_FORMAT_FEATURE_STORAGE_TEXEL_BUFFER_BIT) == 0)
+        {
+            Avail = "VK_FORMAT_A2B10G10R10_UNORM_PACK32 not supported in texel buffers";
+            return;
+        }
+
+        if ((props.bufferFeatures & VK_FORMAT_FEATURE_UNIFORM_TEXEL_BUFFER_BIT) == 0)
+        {
+            Avail = "VK_FORMAT_A2B10G10R10_UNORM_PACK32 not supported in texel buffers";
+            return;
+        }
+
+        // enable features we can optionally test with.
+        VkPhysicalDeviceFeatures    supported;
+        vkGetPhysicalDeviceFeatures(phys, &supported);
+
+        if (supported.shaderFloat64)
+            features.shaderFloat64 = VK_TRUE;
+
+        if (supported.shaderInt64)
+            features.shaderInt64 = VK_TRUE;
+
+        if (supported.shaderInt16)
+            features.shaderInt16 = VK_TRUE;
+
+        if (descIndexing)
+        {
+            static VkPhysicalDeviceDescriptorIndexingFeaturesEXT    descIndexingFeatures =
+            {
+                VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_INDEXING_FEATURES_EXT,
+            };
+
+            getPhysFeatures2(&descIndexingFeatures);
+
+            // enable descriptor indexing on arrays of all types
+
+            if (!descIndexingFeatures.runtimeDescriptorArray)
+                Avail = "Descriptor indexing feature 'runtimeDescriptorArray' not available";
+            else if (!descIndexingFeatures.shaderUniformTexelBufferArrayDynamicIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderUniformTexelBufferArrayDynamicIndexing' not "
+                    "available";
+            else if (!descIndexingFeatures.shaderStorageTexelBufferArrayDynamicIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderStorageTexelBufferArrayDynamicIndexing' not "
+                    "available";
+            else if (!descIndexingFeatures.shaderUniformBufferArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderUniformBufferArrayNonUniformIndexing' not "
+                    "available";
+            else if (!descIndexingFeatures.shaderSampledImageArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderSampledImageArrayNonUniformIndexing' not available";
+            else if (!descIndexingFeatures.shaderStorageBufferArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderStorageBufferArrayNonUniformIndexing' not "
+                    "available";
+            else if (!descIndexingFeatures.shaderStorageImageArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderStorageImageArrayNonUniformIndexing' not available";
+            else if (!descIndexingFeatures.shaderUniformTexelBufferArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderUniformTexelBufferArrayNonUniformIndexing' not "
+                    "available";
+            else if (!descIndexingFeatures.shaderStorageTexelBufferArrayNonUniformIndexing)
+                Avail =
+                    "Descriptor indexing feature 'shaderStorageTexelBufferArrayNonUniformIndexing' not "
+                    "available";
+
+            devInfoNext = &descIndexingFeatures;
+        }
+
+        if (storage16)
+        {
+            // enable all available features
+            getPhysFeatures2(&storage16Features);
+
+            storage16Features.pNext = (void*)devInfoNext;
+            devInfoNext             = &storage16Features;
+        }
+
+        if (storage8)
+        {
+            // enable all available features
+            getPhysFeatures2(&storage8Features);
+
+            storage8Features.pNext  = (void*)devInfoNext;
+            devInfoNext             = &storage8Features;
+        }
+
+        if (float16int8)
+        {
+            // enable all available features
+            getPhysFeatures2(&float16Int8Features);
+
+            float16Int8Features.pNext   = (void*)devInfoNext;
+            devInfoNext                 = &float16Int8Features;
+        }
+
+        if (bda)
+        {
+            getPhysFeatures2(&bdaFeatures);
+            bdaFeatures.pNext   = (void*)devInfoNext;
+            devInfoNext         = &bdaFeatures;
+        }
+    }
+
+    int main()
+    {
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        make_asm_tests();
+
+        const bool    descIndexing = std::find(devExts.begin(), devExts.end(),
+                                               VK_EXT_DESCRIPTOR_INDEXING_EXTENSION_NAME) != devExts.end();
+        const bool    storage16 = std::find(devExts.begin(), devExts.end(),
+                                            VK_KHR_16BIT_STORAGE_EXTENSION_NAME) != devExts.end();
+        const bool    storage8 = std::find(devExts.begin(), devExts.end(),
+                                           VK_KHR_8BIT_STORAGE_EXTENSION_NAME) != devExts.end();
+        const bool    float16int8 = std::find(devExts.begin(), devExts.end(),
+                                              VK_KHR_SHADER_FLOAT16_INT8_EXTENSION_NAME) != devExts.end();
+        const bool    bda = std::find(devExts.begin(), devExts.end(),
+                                      VK_KHR_BUFFER_DEVICE_ADDRESS_EXTENSION_NAME) != devExts.end();
+
+        if (storage16)
+            TEST_LOG("Running tests on 16-bit storage");
+
+        if (storage8)
+            TEST_LOG("Running tests on 8-bit storage");
+
+        if (float16int8)
+            TEST_LOG("Running tests on half and int8 arithmetic");
+
+        if (bda)
+            TEST_LOG("Running tests on buffer device address");
+
+        if (features.shaderFloat64)
+            TEST_LOG("Running tests on doubles");
+
+        if (features.shaderInt64)
+            TEST_LOG("Running tests on int64");
+
+        if (features.shaderInt16)
+            TEST_LOG("Running tests on int16 arithmetic");
+
+        pixel_glsl1.replace(pixel_glsl1.find("#define TEST_DESC_INDEXING"),
+                            sizeof("#define TEST_DESC_INDEXING"),
+                            fmt::format("#define TEST_DESC_INDEXING {}", descIndexing ? 1 : 0));
+
+        pixel_glsl2.replace(pixel_glsl2.find("#define TEST_DESC_INDEXING"),
+                            sizeof("#define TEST_DESC_INDEXING"),
+                            fmt::format("#define TEST_DESC_INDEXING {}", descIndexing ? 1 : 0));
+
+        size_t    lastTest = pixel_glsl1.rfind("case ");
+        lastTest += sizeof("case ") - 1;
+
+        const uint32_t    numGLSL1Tests = atoi(pixel_glsl1.c_str() + lastTest) + 1;
+
+        lastTest    = pixel_glsl2.rfind("case ");
+        lastTest    += sizeof("case ") - 1;
+
+        const uint32_t    numGLSL2Tests = atoi(pixel_glsl2.c_str() + lastTest) + 1;
+
+        const uint32_t    numASMTests = (uint32_t)asm_tests.size();
+
+        VkDescriptorSetLayout    setlayout0 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1, VK_SHADER_STAGE_VERTEX_BIT},
+            {10, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {11, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {12, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {13, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {14, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {15, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {16, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {17, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {18, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {19, VK_DESCRIPTOR_TYPE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {21, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {22, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {30, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {31, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {32, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {33, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {34, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {35, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {36, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+        }));
+
+        std::vector<VkDescriptorSetLayout>    setLayouts = {setlayout0};
+
+        // this set layout has arrays of each type. We'll uniformly, dynamic-uniformly, and
+        // non-uniformly access each of these
+        VkDescriptorSetLayout       setlayout1  = VK_NULL_HANDLE;
+        VkDescriptorSetLayout       setlayout2  = VK_NULL_HANDLE;
+
+        if (descIndexing)
+        {
+            setlayout1 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+                {1, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {2, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {3, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {5, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {6, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {7, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {8, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {9, VK_DESCRIPTOR_TYPE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {21, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 14, VK_SHADER_STAGE_FRAGMENT_BIT},
+            }));
+
+            setlayout2 = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+                {0, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {1, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {2, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {3, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {4, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {5, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {6, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {7, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {8, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {9, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+
+                {10, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {11, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {12, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {13, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {14, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {15, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {16, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {17, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {18, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {19, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+
+                {20, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {21, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {22, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {23, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {24, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {25, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {26, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {27, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {28, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {29, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+
+                {30, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {31, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {32, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {33, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {34, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {35, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {36, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {37, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {38, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {39, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+
+                {40, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {41, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {42, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {43, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {44, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {45, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {46, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {47, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {48, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {49, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+
+                {50, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {51, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {52, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {53, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {54, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {55, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {56, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {57, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {58, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+                {59, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            }));
+
+            setLayouts.push_back(setlayout1);
+            setLayouts.push_back(setlayout2);
+        }
+
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
+                                                              setLayouts, {
+            vkh::PushConstantRange(VK_SHADER_STAGE_FRAGMENT_BIT, 16, sizeof(PushData)),
+        }));
+
+        // calculate number of tests, wrapping each row at 256
+        uint32_t    texWidth    = AlignUp(std::max(std::max(numGLSL1Tests, numGLSL2Tests), numASMTests), 256U);
+        uint32_t    texHeight   = std::max(1U, texWidth / 256U);
+        texWidth /= texHeight;
+
+        // 4x4 for each test
+        texWidth    *= 4;
+        texHeight   *= 4;
+
+        AllocatedImage    img(
+            this,
+            vkh::ImageCreateInfo(texWidth, texHeight, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+                                 VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        VkImageView    imgview = createImageView(
+            vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
+
+        vkh::RenderPassCreator    renderPassCreateInfo;
+
+        renderPassCreateInfo.attachments.push_back(
+            vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                       VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
+
+        renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
+
+        VkRenderPass    renderPass = createRenderPass(renderPassCreateInfo);
+
+        VkFramebuffer    framebuffer =
+            createFramebuffer(vkh::FramebufferCreateInfo(renderPass, {imgview}, {texWidth, texHeight}));
+
+        vkh::GraphicsPipelineCreateInfo    pipeCreateInfo;
+
+        pipeCreateInfo.layout       = layout;
+        pipeCreateInfo.renderPass   = renderPass;
+
+        pipeCreateInfo.vertexInputState.vertexBindingDescriptions   = {vkh::vertexBind(0, ConstsA2V)};
+        pipeCreateInfo.vertexInputState.vertexAttributeDescriptions =
+        {
+            vkh::vertexAttr(0, 0, ConstsA2V, pos), vkh::vertexAttr(1, 0, ConstsA2V, zero),
+            vkh::vertexAttr(2, 0, ConstsA2V, one), vkh::vertexAttr(3, 0, ConstsA2V, negone),
+            vkh::vertexAttr(4, 0, ConstsA2V, uv),
+        };
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(pixel_glsl1, ShaderLang::glsl, ShaderStage::frag, "main"),
+        };
+
+        VkPipeline    glslpipe1 = createGraphicsPipeline(pipeCreateInfo);
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(vertex2, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(pixel_glsl2, ShaderLang::glsl, ShaderStage::frag, "main"),
+        };
+
+        VkPipeline    glslpipe2 = createGraphicsPipeline(pipeCreateInfo);
+
+        SPIRVTarget    target = SPIRVTarget::vulkan;
+
+        if (vk_version >= 0x11)
+            target = SPIRVTarget::vulkan11;
+
+        if (vk_version >= 0x12)
+            target = SPIRVTarget::vulkan12;
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(make_pixel_asm(), ShaderLang::spvasm, ShaderStage::frag, "main", {},
+                                target),
+        };
+
+        VkPipeline    asmpipe = createGraphicsPipeline(pipeCreateInfo);
+
+        float       triWidth    = 8.0f / float(texWidth);
+        float       triHeight   = 8.0f / float(texHeight);
+
+        ConstsA2V    triangle[] =
+        {
+            {Vec4f(-1.0f, -1.0f, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(0.0f, 0.0f)},
+            {Vec4f(-1.0f + triWidth, -1.0f, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(1.0f, 0.0f)},
+            {Vec4f(-1.0f, -1.0f + triHeight, triWidth, triHeight), 0.0f, 1.0f, -1.0f, Vec2f(0.0f, 1.0f)},
+        };
+
+        AllocatedBuffer    vb(this,
+                              vkh::BufferCreateInfo(sizeof(triangle), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT |
+                                                    VK_BUFFER_USAGE_TRANSFER_DST_BIT),
                               VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
 
-    AllocatedImage shadowimg(this,
-                             vkh::ImageCreateInfo(16, 16, 0, VK_FORMAT_D32_SFLOAT,
-                                                  VK_IMAGE_USAGE_TRANSFER_DST_BIT |
-                                                      VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
-                                                      VK_IMAGE_USAGE_SAMPLED_BIT),
-                             VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        vb.upload(triangle);
 
-    VkImageView shadowview = createImageView(
-        vkh::ImageViewCreateInfo(shadowimg.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_D32_SFLOAT, {},
-                                 vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT)));
+        Texture    rgba8;
+        LoadXPM(SmileyTexture, rgba8);
 
-    uploadBuf.upload(rgba8.data.data(), rgba8.data.size() * sizeof(uint32_t));
+        AllocatedImage    queryTest(this,
+                                    vkh::ImageCreateInfo(183, 347, 0, VK_FORMAT_R8G8B8A8_UNORM,
+                                                         VK_IMAGE_USAGE_SAMPLED_BIT, 4, 3),
+                                    VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
 
-    std::vector<byte> typeData;
-    typeData.resize(sizeof(Vec4f) * 16 * 16 * 32 * 3);
+        VkImageView    queryTestView = createImageView(vkh::ImageViewCreateInfo(
+                                                           queryTest.image, VK_IMAGE_VIEW_TYPE_2D_ARRAY, VK_FORMAT_R8G8B8A8_UNORM));
 
-    uint32_t typeOffset[] = {
-        // float data
-        sizeof(Vec4f) * 16 * 16 * 32 * 0,
-        // uint data
-        sizeof(Vec4f) * 16 * 16 * 32 * 1,
-        // int data
-        sizeof(Vec4f) * 16 * 16 * 32 * 2,
-    };
+        AllocatedImage    queryTestMS(
+            this,
+            vkh::ImageCreateInfo(183, 347, 0, VK_FORMAT_R8G8B8A8_UNORM, VK_IMAGE_USAGE_SAMPLED_BIT, 1,
+                                 5, VK_SAMPLE_COUNT_4_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
 
-    for(size_t typeVariant = 0; typeVariant < 3; typeVariant++)
-    {
-      byte *dst = typeData.data() + typeOffset[typeVariant];
-      union
-      {
-        float f[4];
-        int i[4];
-      } rnd;
-      memset(&rnd, 0, sizeof(rnd));
+        VkImageView    queryTestMSView = createImageView(vkh::ImageViewCreateInfo(
+                                                             queryTestMS.image, VK_IMAGE_VIEW_TYPE_2D_ARRAY, VK_FORMAT_R8G8B8A8_UNORM));
 
-      for(size_t x = 0; x < 16; x++)
-      {
-        for(size_t y = 0; y < 16; y++)
+        AllocatedImage    smiley(
+            this,
+            vkh::ImageCreateInfo(rgba8.width, rgba8.height, 0, VK_FORMAT_R8G8B8A8_UNORM,
+                                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        VkImageView    smileyview = createImageView(
+            vkh::ImageViewCreateInfo(smiley.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R8G8B8A8_UNORM));
+        AllocatedBuffer    uploadBuf(this,
+                                     vkh::BufferCreateInfo(rgba8.data.size() * sizeof(uint32_t),
+                                                           VK_BUFFER_USAGE_TRANSFER_SRC_BIT),
+                                     VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        AllocatedImage    shadowimg(this,
+                                    vkh::ImageCreateInfo(16, 16, 0, VK_FORMAT_D32_SFLOAT,
+                                                         VK_IMAGE_USAGE_TRANSFER_DST_BIT |
+                                                         VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT |
+                                                         VK_IMAGE_USAGE_SAMPLED_BIT),
+                                    VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        VkImageView    shadowview = createImageView(
+            vkh::ImageViewCreateInfo(shadowimg.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_D32_SFLOAT, {},
+                                     vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT)));
+
+        uploadBuf.upload(rgba8.data.data(), rgba8.data.size() * sizeof(uint32_t));
+
+        std::vector<byte>    typeData;
+        typeData.resize(sizeof(Vec4f) * 16 * 16 * 32 * 3);
+
+        uint32_t    typeOffset[] =
         {
-          for(size_t z = 0; z < 32; z++)
-          {
-            if(typeVariant == 0)
-            {
-              rnd.f[0] = RANDF(-10.0f, 10.0f);
-              rnd.f[1] = RANDF(-10.0f, 10.0f);
-              rnd.f[2] = RANDF(-10.0f, 10.0f);
-              rnd.f[3] = RANDF(-10.0f, 10.0f);
-            }
-            else if(typeVariant == 1)
-            {
-              rnd.i[0] = (int32_t)RANDF(100.0f, 500.0f);
-              rnd.i[1] = (int32_t)RANDF(100.0f, 500.0f);
-              rnd.i[2] = (int32_t)RANDF(100.0f, 500.0f);
-              rnd.i[3] = (int32_t)RANDF(100.0f, 500.0f);
-            }
-            else if(typeVariant == 2)
-            {
-              rnd.i[0] = (int32_t)RANDF(-200.0f, 200.0f);
-              rnd.i[1] = (int32_t)RANDF(-200.0f, 200.0f);
-              rnd.i[2] = (int32_t)RANDF(-200.0f, 200.0f);
-              rnd.i[3] = (int32_t)RANDF(-200.0f, 200.0f);
-            }
-            memcpy(dst, &rnd.f, sizeof(Vec4f));
-          }
-        }
-      }
-    }
+            // float data
+            sizeof(Vec4f) * 16 * 16 * 32 * 0,
+            // uint data
+            sizeof(Vec4f) * 16 * 16 * 32 * 1,
+            // int data
+            sizeof(Vec4f) * 16 * 16 * 32 * 2,
+        };
 
-    AllocatedBuffer typeDataBuf(
-        this, vkh::BufferCreateInfo(typeData.size(), VK_BUFFER_USAGE_TRANSFER_SRC_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    typeDataBuf.upload(typeData.data(), typeData.size());
-
-    AllocatedImage randomcube(
-        this,
-        vkh::ImageCreateInfo(rgba8.width, rgba8.height, 0, VK_FORMAT_R8G8B8A8_UNORM,
-                             VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, 1, 6,
-                             VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    VkImageView randomcubeview = createImageView(vkh::ImageViewCreateInfo(
-        randomcube.image, VK_IMAGE_VIEW_TYPE_CUBE, VK_FORMAT_R8G8B8A8_UNORM));
-
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {
-              vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, smiley.image),
-              vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, randomcube.image),
-              vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, queryTest.image),
-              vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, queryTestMS.image),
-          });
-
-      VkBufferImageCopy copy = {};
-      copy.imageExtent = {rgba8.width, rgba8.height, 1};
-      copy.imageSubresource.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-      copy.imageSubresource.layerCount = 1;
-
-      vkCmdCopyBufferToImage(cmd, uploadBuf.buffer, smiley.image,
-                             VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
-
-      for(uint32_t i = 0; i < 6; i++)
-      {
-        copy.imageSubresource.baseArrayLayer = i;
-        vkCmdCopyBufferToImage(cmd, typeDataBuf.buffer, randomcube.image,
-                               VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
-      }
-
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {
-              vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT,
-                                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                      VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, smiley.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT,
-                                      VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
-                                      VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, randomcube.image),
-          });
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(99, 99, {cmd});
-
-      vkDeviceWaitIdle(device);
-    }
-
-    VkSampler pointsampler = createSampler(vkh::SamplerCreateInfo(VK_FILTER_NEAREST));
-    VkSampler linearsampler = createSampler(vkh::SamplerCreateInfo(VK_FILTER_LINEAR));
-    VkSampler mipsampler = createSampler(vkh::SamplerCreateInfo(VK_FILTER_LINEAR));
-    VkSampler shadowsampler = createSampler(vkh::SamplerCreateInfo(
-        VK_FILTER_LINEAR, VK_SAMPLER_ADDRESS_MODE_REPEAT, 0.0f,
-        VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK, 0.0f, 0.0f, 0.0f, VK_COMPARE_OP_LESS_OR_EQUAL));
-
-    VkDescriptorSet descset0 = allocateDescriptorSet(setlayout0);
-    VkDescriptorSet descset1 = VK_NULL_HANDLE;
-    VkDescriptorSet descset2 = VK_NULL_HANDLE;
-
-    if(descIndexing)
-    {
-      descset1 = allocateDescriptorSet(setlayout1);
-      descset2 = allocateDescriptorSet(setlayout2);
-    }
-
-    Vec4f cbufferdata[64] = {};
-
-    AllocatedBuffer cb(
-        this,
-        vkh::BufferCreateInfo(sizeof(cbufferdata) * 2, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
-                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    cbufferdata[1] = Vec4f(1.1f, 2.2f, 3.3f, 4.4f);
-    cbufferdata[2] = Vec4f(5.5f, 6.6f, 7.7f, 8.8f);
-    cbufferdata[3] = Vec4f(std::numeric_limits<float>::quiet_NaN());
-    cbufferdata[4] = Vec4f(9.9f, 9.99f, 9.999f, 9.999f);
-    cbufferdata[6] = Vec4f(100.0f, 200.0f, 300.0f, 400.0f);
-
-    // unorm2PackSource
-    cbufferdata[7] = Vec4f(99.0f, 28099.0f / 65535.0f, 0.0f, 0.0f);
-    // snorm2PackSource
-    cbufferdata[8] = Vec4f(99.0f, -28099.0f / 32767.0f, 0.0f, 0.0f);
-    // unorm4PackSource
-    cbufferdata[9] = Vec4f(99.0f, 28.0f / 255.0f, 99.0f / 255.0f, 182.0f / 255.0f);
-    // snorm4PackSource
-    cbufferdata[10] = Vec4f(99.0f, -28.0f / 127.0f, 99.0f / 127.0f, -102.0f / 127.0f);
-    // halfPackSource - we pick exact half values to avoid rounding problems
-    cbufferdata[11] = Vec4f(98.125f, 76.375f, 54.5625f, 32.78125f);
-
-    uint32_t index = 4;
-    memcpy(&cbufferdata[1], &index, sizeof(index));
-
-    Vec4u unpack = {};
-
-    // unormUnpackSource
-    unpack.x = 0xf0dd103c;
-    // snormUnpackSource
-    unpack.y = 0xf0dd103c;
-    // halfUnpackSource
-    unpack.z = (uint32_t(MakeHalf(81.5f)) << 16) | MakeHalf(101.03f);
-
-    // unpack sources
-    memcpy(&cbufferdata[12], &unpack, sizeof(unpack));
-
-    double unpackDouble = 3.1415926535;
-    memcpy(&cbufferdata[13].x, &unpackDouble, sizeof(unpackDouble));
-    memcpy(&cbufferdata[14].z, &unpackDouble, sizeof(unpackDouble));
-
-    // move to account for offset
-    memmove(&cbufferdata[16], &cbufferdata[0], sizeof(Vec4f) * 16);
-    memset(&cbufferdata[0], 0, sizeof(Vec4f) * 16);
-
-    cb.upload(cbufferdata);
-
-    AllocatedBuffer texbuffer(
-        this,
-        vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
-                                                       VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    texbuffer.upload(cbufferdata);
-
-    AllocatedBuffer store_buffer(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(Vec4f), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
-                                                        VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    AllocatedBuffer atomic_buffer(
-        this,
-        vkh::BufferCreateInfo(texWidth * texHeight * sizeof(Vec4f),
-                              VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    AllocatedBuffer store_texbuffer(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(Vec4f), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
-                                                        VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    AllocatedBuffer texbuffer_1010102unorm(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
-                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    AllocatedBuffer store_texbuffer_1010102unorm(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
-                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    uint32_t unormdata[64] = {};
-    memset(unormdata, 0x42, sizeof(unormdata));
-
-    texbuffer_1010102unorm.upload(unormdata);
-
-    AllocatedBuffer texbuffer_1010102uint(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
-                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    texbuffer_1010102uint.upload(unormdata);
-
-    AllocatedBuffer store_texbuffer_1010102uint(
-        this,
-        vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
-                                                           VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    VkBuffer bda_data_buffer = VK_NULL_HANDLE;
-    VkDeviceMemory bda_deviceMem = VK_NULL_HANDLE;
-    byte *bda_base_gpuptr = NULL;
-    if(bda)
-    {
-      vkh::BufferCreateInfo bda_buffer_info(sizeof(BDA_Data),
-                                            VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT_KHR);
-      VkMemoryAllocateInfo memAllocInfo = {VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO};
-      VkMemoryAllocateFlagsInfo memAllocFlags = {VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO};
-
-      memAllocFlags.flags = VK_MEMORY_ALLOCATE_DEVICE_ADDRESS_BIT_KHR;
-      memAllocInfo.pNext = &memAllocFlags;
-
-      const VkPhysicalDeviceMemoryProperties *memProps = NULL;
-      vmaGetMemoryProperties(allocator, &memProps);
-
-      vkCreateBuffer(device, bda_buffer_info, NULL, &bda_data_buffer);
-
-      VkMemoryRequirements mrq;
-      vkGetBufferMemoryRequirements(device, bda_data_buffer, &mrq);
-      memAllocInfo.allocationSize = mrq.size;
-      for(uint32_t i = 0; i < memProps->memoryTypeCount; i++)
-      {
-        if((mrq.memoryTypeBits & (1u << i)) &&
-           (memProps->memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+        for (size_t typeVariant = 0; typeVariant < 3; typeVariant++)
         {
-          memAllocInfo.memoryTypeIndex = i;
-          break;
+            byte    *dst = typeData.data() + typeOffset[typeVariant];
+            union
+            {
+                float   f[4];
+                int     i[4];
+            }    rnd;
+            memset(&rnd, 0, sizeof(rnd));
+
+            for (size_t x = 0; x < 16; x++)
+            {
+                for (size_t y = 0; y < 16; y++)
+                {
+                    for (size_t z = 0; z < 32; z++)
+                    {
+                        if (typeVariant == 0)
+                        {
+                            rnd.f[0]    = RANDF(-10.0f, 10.0f);
+                            rnd.f[1]    = RANDF(-10.0f, 10.0f);
+                            rnd.f[2]    = RANDF(-10.0f, 10.0f);
+                            rnd.f[3]    = RANDF(-10.0f, 10.0f);
+                        }
+                        else if (typeVariant == 1)
+                        {
+                            rnd.i[0]    = (int32_t)RANDF(100.0f, 500.0f);
+                            rnd.i[1]    = (int32_t)RANDF(100.0f, 500.0f);
+                            rnd.i[2]    = (int32_t)RANDF(100.0f, 500.0f);
+                            rnd.i[3]    = (int32_t)RANDF(100.0f, 500.0f);
+                        }
+                        else if (typeVariant == 2)
+                        {
+                            rnd.i[0]    = (int32_t)RANDF(-200.0f, 200.0f);
+                            rnd.i[1]    = (int32_t)RANDF(-200.0f, 200.0f);
+                            rnd.i[2]    = (int32_t)RANDF(-200.0f, 200.0f);
+                            rnd.i[3]    = (int32_t)RANDF(-200.0f, 200.0f);
+                        }
+
+                        memcpy(dst, &rnd.f, sizeof(Vec4f));
+                    }
+                }
+            }
         }
-      }
-      vkAllocateMemory(device, &memAllocInfo, NULL, &bda_deviceMem);
-      vkBindBufferMemory(device, bda_data_buffer, bda_deviceMem, 0);
 
-      VkBufferDeviceAddressInfoKHR bda_info = {VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR};
-      bda_info.buffer = bda_data_buffer;
+        AllocatedBuffer    typeDataBuf(
+            this, vkh::BufferCreateInfo(typeData.size(), VK_BUFFER_USAGE_TRANSFER_SRC_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
 
-      VkDeviceAddress bda_Addr = vkGetBufferDeviceAddressKHR(device, &bda_info);
-      bda_base_gpuptr = (byte *)bda_Addr;    // not a valid cpu pointer
+        typeDataBuf.upload(typeData.data(), typeData.size());
 
-      byte *bda_base_cpuptr = NULL;
-      vkMapMemory(device, bda_deviceMem, 0, mrq.size, 0, (void **)&bda_base_cpuptr);
+        AllocatedImage    randomcube(
+            this,
+            vkh::ImageCreateInfo(rgba8.width, rgba8.height, 0, VK_FORMAT_R8G8B8A8_UNORM,
+                                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_SAMPLED_BIT, 1, 6,
+                                 VK_SAMPLE_COUNT_1_BIT, VK_IMAGE_CREATE_CUBE_COMPATIBLE_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
 
-      BDA_Data *bda_data_cpu = (BDA_Data *)bda_base_cpuptr;
-      bda_data_cpu->f32[0] = 0.1f;
-      bda_data_cpu->f32[1] = 0.2f;
-      bda_data_cpu->f32[2] = 0.3f;
-      bda_data_cpu->f32[3] = 0.8f;
-      bda_data_cpu->f32[4] = 0.3f;
-      bda_data_cpu->f32[5] = 0.2f;
-      bda_data_cpu->f32[6] = 0.1f;
-      bda_data_cpu->f32[7] = 0.9f;
-    }
+        VkImageView    randomcubeview = createImageView(vkh::ImageViewCreateInfo(
+                                                            randomcube.image, VK_IMAGE_VIEW_TYPE_CUBE, VK_FORMAT_R8G8B8A8_UNORM));
 
-    AllocatedImage store_image(
-        this,
-        vkh::ImageCreateInfo(128, 128, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
-                             VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-    VkImageView store_view = createImageView(vkh::ImageViewCreateInfo(
-        store_image.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
 
-    AllocatedImage atomic_image(
-        this,
-        vkh::ImageCreateInfo(texWidth, texHeight, 0, VK_FORMAT_R32_UINT,
-                             VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-    VkImageView atomic_view = createImageView(
-        vkh::ImageViewCreateInfo(atomic_image.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32_UINT));
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
 
-    VkBufferView bufview =
-        createBufferView(vkh::BufferViewCreateInfo(texbuffer.buffer, VK_FORMAT_R32G32B32A32_SFLOAT));
-    VkBufferView store_bufview = createBufferView(
-        vkh::BufferViewCreateInfo(store_texbuffer.buffer, VK_FORMAT_R32G32B32A32_SFLOAT));
+            vkh::cmdPipelineBarrier(
+                cmd,
+            {
+                vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, smiley.image),
+                vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, randomcube.image),
+                vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, queryTest.image),
+                vkh::ImageMemoryBarrier(0, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, queryTestMS.image),
+            });
 
-    VkBufferView bufview_1010102unorm = createBufferView(vkh::BufferViewCreateInfo(
-        texbuffer_1010102unorm.buffer, VK_FORMAT_A2B10G10R10_UNORM_PACK32, 96));
-    VkBufferView store_bufview_1010102unorm = createBufferView(vkh::BufferViewCreateInfo(
-        store_texbuffer_1010102unorm.buffer, VK_FORMAT_A2B10G10R10_UNORM_PACK32, 96));
-    VkBufferView bufview_1010102uint = createBufferView(vkh::BufferViewCreateInfo(
-        texbuffer_1010102uint.buffer, VK_FORMAT_A2B10G10R10_UINT_PACK32, 96));
-    VkBufferView store_bufview_1010102uint = createBufferView(vkh::BufferViewCreateInfo(
-        store_texbuffer_1010102uint.buffer, VK_FORMAT_A2B10G10R10_UINT_PACK32, 96));
+            VkBufferImageCopy    copy = {};
+            copy.imageExtent                    = {rgba8.width, rgba8.height, 1};
+            copy.imageSubresource.aspectMask    = VK_IMAGE_ASPECT_COLOR_BIT;
+            copy.imageSubresource.layerCount    = 1;
 
-    setName(pointsampler, "pointsampler");
-    setName(linearsampler, "linearsampler");
-    setName(mipsampler, "mipsampler");
-    setName(queryTest.image, "queryTest");
-    setName(queryTestMS.image, "queryTestMS");
-    setName(smiley.image, "smiley");
-    setName(texbuffer.buffer, "texbuffer");
-    setName(store_buffer.buffer, "store_buffer");
-    setName(atomic_buffer.buffer, "atomic_buffer");
-    setName(store_texbuffer.buffer, "store_texbuffer");
-    setName(store_image.image, "store_image");
-    setName(atomic_image.image, "atomic_image");
-    setName(bufview_1010102unorm, "bufview_1010102unorm");
-    setName(store_bufview_1010102unorm, "store_texbuffer_1010102unorm");
-    setName(bufview_1010102uint, "bufview_1010102uint");
-    setName(store_bufview_1010102uint, "store_bufview_1010102uint");
+            vkCmdCopyBufferToImage(cmd, uploadBuf.buffer, smiley.image,
+                                   VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
 
-    AllocatedImage storezoo_u2D(
-        this,
-        vkh::ImageCreateInfo(16, 16, 0, VK_FORMAT_R32G32B32A32_UINT,
-                             VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-    VkImageView storezoo_u2D_view = createImageView(vkh::ImageViewCreateInfo(
-        storezoo_u2D.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_UINT));
+            for (uint32_t i = 0; i < 6; i++)
+            {
+                copy.imageSubresource.baseArrayLayer = i;
+                vkCmdCopyBufferToImage(cmd, typeDataBuf.buffer, randomcube.image,
+                                       VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, 1, &copy);
+            }
 
-    setName(storezoo_u2D.image, "storezoo_u2D");
+            vkh::cmdPipelineBarrier(
+                cmd,
+            {
+                vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT,
+                                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, smiley.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_READ_BIT,
+                                        VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL,
+                                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, randomcube.image),
+            });
 
-    vkh::updateDescriptorSets(
-        device,
+            vkEndCommandBuffer(cmd);
+
+            Submit(99, 99, {cmd});
+
+            vkDeviceWaitIdle(device);
+        }
+
+        VkSampler       pointsampler    = createSampler(vkh::SamplerCreateInfo(VK_FILTER_NEAREST));
+        VkSampler       linearsampler   = createSampler(vkh::SamplerCreateInfo(VK_FILTER_LINEAR));
+        VkSampler       mipsampler      = createSampler(vkh::SamplerCreateInfo(VK_FILTER_LINEAR));
+        VkSampler       shadowsampler   = createSampler(vkh::SamplerCreateInfo(
+                                                            VK_FILTER_LINEAR, VK_SAMPLER_ADDRESS_MODE_REPEAT, 0.0f,
+                                                            VK_BORDER_COLOR_FLOAT_TRANSPARENT_BLACK, 0.0f, 0.0f, 0.0f, VK_COMPARE_OP_LESS_OR_EQUAL));
+
+        VkDescriptorSet     descset0    = allocateDescriptorSet(setlayout0);
+        VkDescriptorSet     descset1    = VK_NULL_HANDLE;
+        VkDescriptorSet     descset2    = VK_NULL_HANDLE;
+
+        if (descIndexing)
+        {
+            descset1    = allocateDescriptorSet(setlayout1);
+            descset2    = allocateDescriptorSet(setlayout2);
+        }
+
+        Vec4f    cbufferdata[64] = {};
+
+        AllocatedBuffer    cb(
+            this,
+            vkh::BufferCreateInfo(sizeof(cbufferdata) * 2, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        cbufferdata[1]  = Vec4f(1.1f, 2.2f, 3.3f, 4.4f);
+        cbufferdata[2]  = Vec4f(5.5f, 6.6f, 7.7f, 8.8f);
+        cbufferdata[3]  = Vec4f(std::numeric_limits<float>::quiet_NaN());
+        cbufferdata[4]  = Vec4f(9.9f, 9.99f, 9.999f, 9.999f);
+        cbufferdata[6]  = Vec4f(100.0f, 200.0f, 300.0f, 400.0f);
+
+        // unorm2PackSource
+        cbufferdata[7] = Vec4f(99.0f, 28099.0f / 65535.0f, 0.0f, 0.0f);
+        // snorm2PackSource
+        cbufferdata[8] = Vec4f(99.0f, -28099.0f / 32767.0f, 0.0f, 0.0f);
+        // unorm4PackSource
+        cbufferdata[9] = Vec4f(99.0f, 28.0f / 255.0f, 99.0f / 255.0f, 182.0f / 255.0f);
+        // snorm4PackSource
+        cbufferdata[10] = Vec4f(99.0f, -28.0f / 127.0f, 99.0f / 127.0f, -102.0f / 127.0f);
+        // halfPackSource - we pick exact half values to avoid rounding problems
+        cbufferdata[11] = Vec4f(98.125f, 76.375f, 54.5625f, 32.78125f);
+
+        uint32_t    index = 4;
+        memcpy(&cbufferdata[1], &index, sizeof(index));
+
+        Vec4u    unpack = {};
+
+        // unormUnpackSource
+        unpack.x = 0xf0dd103c;
+        // snormUnpackSource
+        unpack.y = 0xf0dd103c;
+        // halfUnpackSource
+        unpack.z = (uint32_t(MakeHalf(81.5f)) << 16) | MakeHalf(101.03f);
+
+        // unpack sources
+        memcpy(&cbufferdata[12], &unpack, sizeof(unpack));
+
+        double    unpackDouble = 3.1415926535;
+        memcpy(&cbufferdata[13].x, &unpackDouble, sizeof(unpackDouble));
+        memcpy(&cbufferdata[14].z, &unpackDouble, sizeof(unpackDouble));
+
+        // move to account for offset
+        memmove(&cbufferdata[16], &cbufferdata[0], sizeof(Vec4f) * 16);
+        memset(&cbufferdata[0], 0, sizeof(Vec4f) * 16);
+
+        cb.upload(cbufferdata);
+
+        AllocatedBuffer    texbuffer(
+            this,
+            vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        texbuffer.upload(cbufferdata);
+
+        AllocatedBuffer    store_buffer(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(Vec4f), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        AllocatedBuffer    atomic_buffer(
+            this,
+            vkh::BufferCreateInfo(texWidth * texHeight * sizeof(Vec4f),
+                                  VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        AllocatedBuffer    store_texbuffer(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(Vec4f), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        AllocatedBuffer    texbuffer_1010102unorm(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        AllocatedBuffer    store_texbuffer_1010102unorm(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        uint32_t    unormdata[64] = {};
+        memset(unormdata, 0x42, sizeof(unormdata));
+
+        texbuffer_1010102unorm.upload(unormdata);
+
+        AllocatedBuffer    texbuffer_1010102uint(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_UNIFORM_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        texbuffer_1010102uint.upload(unormdata);
+
+        AllocatedBuffer    store_texbuffer_1010102uint(
+            this,
+            vkh::BufferCreateInfo(1024 * sizeof(uint32_t), VK_BUFFER_USAGE_STORAGE_TEXEL_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        VkBuffer            bda_data_buffer     = VK_NULL_HANDLE;
+        VkDeviceMemory      bda_deviceMem       = VK_NULL_HANDLE;
+        byte                *bda_base_gpuptr    = NULL;
+        if (bda)
+        {
+            vkh::BufferCreateInfo    bda_buffer_info(sizeof(BDA_Data),
+                                                     VK_BUFFER_USAGE_SHADER_DEVICE_ADDRESS_BIT_KHR);
+            VkMemoryAllocateInfo            memAllocInfo    = {VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO};
+            VkMemoryAllocateFlagsInfo       memAllocFlags   = {VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_FLAGS_INFO};
+
+            memAllocFlags.flags = VK_MEMORY_ALLOCATE_DEVICE_ADDRESS_BIT_KHR;
+            memAllocInfo.pNext  = &memAllocFlags;
+
+            const VkPhysicalDeviceMemoryProperties    *memProps = NULL;
+            vmaGetMemoryProperties(allocator, &memProps);
+
+            vkCreateBuffer(device, bda_buffer_info, NULL, &bda_data_buffer);
+
+            VkMemoryRequirements    mrq;
+            vkGetBufferMemoryRequirements(device, bda_data_buffer, &mrq);
+            memAllocInfo.allocationSize = mrq.size;
+
+            for (uint32_t i = 0; i < memProps->memoryTypeCount; i++)
+            {
+                if ((mrq.memoryTypeBits & (1u << i)) &&
+                    (memProps->memoryTypes[i].propertyFlags & VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT))
+                {
+                    memAllocInfo.memoryTypeIndex = i;
+                    break;
+                }
+            }
+
+            vkAllocateMemory(device, &memAllocInfo, NULL, &bda_deviceMem);
+            vkBindBufferMemory(device, bda_data_buffer, bda_deviceMem, 0);
+
+            VkBufferDeviceAddressInfoKHR    bda_info = {VK_STRUCTURE_TYPE_BUFFER_DEVICE_ADDRESS_INFO_KHR};
+            bda_info.buffer = bda_data_buffer;
+
+            VkDeviceAddress    bda_Addr = vkGetBufferDeviceAddressKHR(device, &bda_info);
+            bda_base_gpuptr = (byte*)bda_Addr; // not a valid cpu pointer
+
+            byte    *bda_base_cpuptr = NULL;
+            vkMapMemory(device, bda_deviceMem, 0, mrq.size, 0, (void**)&bda_base_cpuptr);
+
+            BDA_Data    *bda_data_cpu = (BDA_Data*)bda_base_cpuptr;
+            bda_data_cpu->f32[0]    = 0.1f;
+            bda_data_cpu->f32[1]    = 0.2f;
+            bda_data_cpu->f32[2]    = 0.3f;
+            bda_data_cpu->f32[3]    = 0.8f;
+            bda_data_cpu->f32[4]    = 0.3f;
+            bda_data_cpu->f32[5]    = 0.2f;
+            bda_data_cpu->f32[6]    = 0.1f;
+            bda_data_cpu->f32[7]    = 0.9f;
+        }
+
+        AllocatedImage    store_image(
+            this,
+            vkh::ImageCreateInfo(128, 128, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+                                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        VkImageView    store_view = createImageView(vkh::ImageViewCreateInfo(
+                                                        store_image.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
+
+        AllocatedImage    atomic_image(
+            this,
+            vkh::ImageCreateInfo(texWidth, texHeight, 0, VK_FORMAT_R32_UINT,
+                                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        VkImageView    atomic_view = createImageView(
+            vkh::ImageViewCreateInfo(atomic_image.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32_UINT));
+
+        VkBufferView    bufview =
+            createBufferView(vkh::BufferViewCreateInfo(texbuffer.buffer, VK_FORMAT_R32G32B32A32_SFLOAT));
+        VkBufferView    store_bufview = createBufferView(
+            vkh::BufferViewCreateInfo(store_texbuffer.buffer, VK_FORMAT_R32G32B32A32_SFLOAT));
+
+        VkBufferView    bufview_1010102unorm = createBufferView(vkh::BufferViewCreateInfo(
+                                                                    texbuffer_1010102unorm.buffer, VK_FORMAT_A2B10G10R10_UNORM_PACK32, 96));
+        VkBufferView    store_bufview_1010102unorm = createBufferView(vkh::BufferViewCreateInfo(
+                                                                          store_texbuffer_1010102unorm.buffer, VK_FORMAT_A2B10G10R10_UNORM_PACK32, 96));
+        VkBufferView    bufview_1010102uint = createBufferView(vkh::BufferViewCreateInfo(
+                                                                   texbuffer_1010102uint.buffer, VK_FORMAT_A2B10G10R10_UINT_PACK32, 96));
+        VkBufferView    store_bufview_1010102uint = createBufferView(vkh::BufferViewCreateInfo(
+                                                                         store_texbuffer_1010102uint.buffer, VK_FORMAT_A2B10G10R10_UINT_PACK32, 96));
+
+        setName(pointsampler, "pointsampler");
+        setName(linearsampler, "linearsampler");
+        setName(mipsampler, "mipsampler");
+        setName(queryTest.image, "queryTest");
+        setName(queryTestMS.image, "queryTestMS");
+        setName(smiley.image, "smiley");
+        setName(texbuffer.buffer, "texbuffer");
+        setName(store_buffer.buffer, "store_buffer");
+        setName(atomic_buffer.buffer, "atomic_buffer");
+        setName(store_texbuffer.buffer, "store_texbuffer");
+        setName(store_image.image, "store_image");
+        setName(atomic_image.image, "atomic_image");
+        setName(bufview_1010102unorm, "bufview_1010102unorm");
+        setName(store_bufview_1010102unorm, "store_texbuffer_1010102unorm");
+        setName(bufview_1010102uint, "bufview_1010102uint");
+        setName(store_bufview_1010102uint, "store_bufview_1010102uint");
+
+        AllocatedImage    storezoo_u2D(
+            this,
+            vkh::ImageCreateInfo(16, 16, 0, VK_FORMAT_R32G32B32A32_UINT,
+                                 VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        VkImageView    storezoo_u2D_view = createImageView(vkh::ImageViewCreateInfo(
+                                                               storezoo_u2D.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_UINT));
+
+        setName(storezoo_u2D.image, "storezoo_u2D");
+
+        vkh::updateDescriptorSets(
+            device,
         {
             vkh::WriteDescriptorSet(descset0, 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC,
                                     {vkh::DescriptorBufferInfo(cb.buffer, 0, sizeof(cbufferdata))}),
@@ -4889,296 +4927,304 @@ OpMemberDecorate %cbuffer_struct 17 Offset 216    ; double doublePackSource
                                     {store_bufview_1010102uint}),
         });
 
-    if(descIndexing)
-    {
-      vkh::updateDescriptorSets(
-          device, {
-                      vkh::WriteDescriptorSet(
-                          descset2, 41, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
-                          {vkh::DescriptorImageInfo(storezoo_u2D_view, VK_IMAGE_LAYOUT_GENERAL,
-                                                    VK_NULL_HANDLE)}),
-                  });
-
-      for(uint32_t i = 0; i < 14; i++)
-      {
-        vkh::updateDescriptorSets(
-            device,
-            {
-                vkh::WriteDescriptorSet(descset1, 1, i, VK_DESCRIPTOR_TYPE_SAMPLER,
-                                        {vkh::DescriptorImageInfo(
-                                            VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED, pointsampler)}),
+        if (descIndexing)
+        {
+            vkh::updateDescriptorSets(
+                device, {
                 vkh::WriteDescriptorSet(
-                    descset1, 2, i, VK_DESCRIPTOR_TYPE_SAMPLER,
-                    {vkh::DescriptorImageInfo(VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED,
-                                              linearsampler)}),
-                vkh::WriteDescriptorSet(
-                    descset1, 3, i, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
-                    {vkh::DescriptorImageInfo(shadowview, VK_IMAGE_LAYOUT_GENERAL, VK_NULL_HANDLE)}),
-                vkh::WriteDescriptorSet(
-                    descset1, 4, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    {vkh::DescriptorImageInfo(smileyview, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
-                                              linearsampler)}),
-                vkh::WriteDescriptorSet(descset1, 5, i, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                                        {vkh::DescriptorBufferInfo(store_buffer.buffer)}),
-                vkh::WriteDescriptorSet(
-                    descset1, 6, i, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
-                    {vkh::DescriptorImageInfo(store_view, VK_IMAGE_LAYOUT_GENERAL, VK_NULL_HANDLE)}),
-                vkh::WriteDescriptorSet(descset1, 7, i, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER,
-                                        {bufview}),
-                vkh::WriteDescriptorSet(descset1, 8, i, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER,
-                                        {store_bufview}),
-                vkh::WriteDescriptorSet(
-                    descset1, 9, i, VK_DESCRIPTOR_TYPE_SAMPLER,
-                    {vkh::DescriptorImageInfo(VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED,
-                                              shadowsampler)}),
-
-                vkh::WriteDescriptorSet(
-                    descset1, 20, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    {vkh::DescriptorImageInfo(queryTestView, VK_IMAGE_LAYOUT_GENERAL, mipsampler)}),
-                vkh::WriteDescriptorSet(
-                    descset1, 21, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                    {vkh::DescriptorImageInfo(queryTestMSView, VK_IMAGE_LAYOUT_GENERAL, mipsampler)}),
+                    descset2, 41, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+                    {vkh::DescriptorImageInfo(storezoo_u2D_view, VK_IMAGE_LAYOUT_GENERAL,
+                                              VK_NULL_HANDLE)}),
             });
-      }
+
+            for (uint32_t i = 0; i < 14; i++)
+            {
+                vkh::updateDescriptorSets(
+                    device,
+                {
+                    vkh::WriteDescriptorSet(descset1, 1, i, VK_DESCRIPTOR_TYPE_SAMPLER,
+                                            {vkh::DescriptorImageInfo(
+                                                 VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED, pointsampler)}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 2, i, VK_DESCRIPTOR_TYPE_SAMPLER,
+                        {vkh::DescriptorImageInfo(VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED,
+                                                  linearsampler)}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 3, i, VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE,
+                        {vkh::DescriptorImageInfo(shadowview, VK_IMAGE_LAYOUT_GENERAL, VK_NULL_HANDLE)}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 4, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                        {vkh::DescriptorImageInfo(smileyview, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL,
+                                                  linearsampler)}),
+                    vkh::WriteDescriptorSet(descset1, 5, i, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                            {vkh::DescriptorBufferInfo(store_buffer.buffer)}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 6, i, VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
+                        {vkh::DescriptorImageInfo(store_view, VK_IMAGE_LAYOUT_GENERAL, VK_NULL_HANDLE)}),
+                    vkh::WriteDescriptorSet(descset1, 7, i, VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER,
+                                            {bufview}),
+                    vkh::WriteDescriptorSet(descset1, 8, i, VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER,
+                                            {store_bufview}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 9, i, VK_DESCRIPTOR_TYPE_SAMPLER,
+                        {vkh::DescriptorImageInfo(VK_NULL_HANDLE, VK_IMAGE_LAYOUT_UNDEFINED,
+                                                  shadowsampler)}),
+
+                    vkh::WriteDescriptorSet(
+                        descset1, 20, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                        {vkh::DescriptorImageInfo(queryTestView, VK_IMAGE_LAYOUT_GENERAL, mipsampler)}),
+                    vkh::WriteDescriptorSet(
+                        descset1, 21, i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                        {vkh::DescriptorImageInfo(queryTestMSView, VK_IMAGE_LAYOUT_GENERAL, mipsampler)}),
+                });
+            }
+        }
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
+                                 vkh::ImageSubresourceRange());
+
+            vkh::cmdPipelineBarrier(
+                cmd,
+            {
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, store_image.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, atomic_image.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, storezoo_u2D.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_GENERAL, shadowimg.image,
+                                        vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT)),
+            },
+            {
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT, store_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT, atomic_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT, store_texbuffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT,
+                                         store_texbuffer_1010102uint.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT,
+                                         store_texbuffer_1010102unorm.buffer),
+            });
+
+            vkCmdClearDepthStencilImage(cmd, shadowimg.image, VK_IMAGE_LAYOUT_GENERAL,
+                                        vkh::ClearDepthStencilValue({0.5f, 0}), 1,
+                                        vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT));
+
+            vkCmdClearColorImage(cmd, store_image.image, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(6.66f, 6.66f, 6.66f, 6.66f), 1,
+                                 vkh::ImageSubresourceRange());
+            vkCmdClearColorImage(cmd, atomic_image.image, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(0x42424242U, 0x42424242U, 0x42424242U, 0x42424242U),
+                                 1, vkh::ImageSubresourceRange());
+            vkCmdClearColorImage(cmd, storezoo_u2D.image, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(8U, 18U, 28U, 38U), 1, vkh::ImageSubresourceRange());
+            vkCmdFillBuffer(cmd, store_buffer.buffer, 0, VK_WHOLE_SIZE, 0x42424242);
+            vkCmdFillBuffer(cmd, atomic_buffer.buffer, 0, VK_WHOLE_SIZE, 0x42424242);
+            const float    val = 1.234f;
+            vkCmdFillBuffer(cmd, store_texbuffer.buffer, 0, 128, *(uint32_t*)&val);
+            vkCmdFillBuffer(cmd, store_texbuffer.buffer, 128, VK_WHOLE_SIZE, 0);
+            vkCmdFillBuffer(cmd, store_texbuffer_1010102uint.buffer, 0, 104, 0x42424242);
+            vkCmdFillBuffer(cmd, store_texbuffer_1010102uint.buffer, 104, VK_WHOLE_SIZE, 0);
+            vkCmdFillBuffer(cmd, store_texbuffer_1010102unorm.buffer, 0, 104, 0x42424242);
+            vkCmdFillBuffer(cmd, store_texbuffer_1010102unorm.buffer, 104, VK_WHOLE_SIZE, 0);
+
+            vkh::cmdPipelineBarrier(
+                cmd,
+            {
+                vkh::ImageMemoryBarrier(
+                    VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                    VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, store_image.image),
+                vkh::ImageMemoryBarrier(
+                    VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                    VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, atomic_image.image),
+                vkh::ImageMemoryBarrier(
+                    VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                    VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, storezoo_u2D.image),
+            },
+            {
+                vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT,
+                                         VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         store_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT,
+                                         VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         atomic_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_TRANSFER_WRITE_BIT, store_texbuffer.buffer),
+            });
+
+            VkViewport    v = {};
+            v.maxDepth  = 1.0f;
+            v.width     = (float)texWidth;
+            v.height    = (float)texHeight;
+
+            VkRect2D    s = {};
+            s.extent.width  = texWidth;
+            s.extent.height = texHeight;
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe1);
+            vkCmdSetViewport(cmd, 0, 1, &v);
+            vkCmdSetScissor(cmd, 0, 1, &s);
+            vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
+
+            BDA_Data    *bda_gpuptr = (BDA_Data*)bda_base_gpuptr;
+
+            PushData    pushData;
+            pushData.push       = Vec4i(101, 103, 107, 109);
+            pushData.bda_uvec2  = *(Vec2u*)(&bda_gpuptr);
+            pushData.bda_hi     = (uint64_t)bda_gpuptr >> 32;
+            pushData.bda_lo     = (uint64_t)bda_gpuptr & 0xFFFFFFFF;
+            pushData.bda_u64    = *(uint64_t*)(&bda_gpuptr);
+
+            std::vector<VkDescriptorSet>    descSets = {descset0};
+
+            if (descIndexing)
+            {
+                descSets.push_back(descset1);
+                descSets.push_back(descset2);
+            }
+
+            vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, descSets,
+                                       {0, sizeof(Vec4f) * 16});
+            vkCmdPushConstants(cmd, layout, VK_SHADER_STAGE_FRAGMENT_BIT, 16, sizeof(PushData), &pushData);
+
+            vkCmdBeginRenderPass(cmd,
+                                 vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
+                                                          {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
+                                 VK_SUBPASS_CONTENTS_INLINE);
+
+            pushMarker(cmd, "GLSL1 tests");
+            uint32_t    numTests    = numGLSL1Tests;
+            uint32_t    offset      = 0;
+
+            // loop drawing 256 tests at a time
+            while (numTests > 0)
+            {
+                uint32_t    num = std::min(numTests, 256U);
+                vkCmdDraw(cmd, 3, num, 0, offset);
+                offset      += num;
+                numTests    -= num;
+            }
+
+            popMarker(cmd);
+
+            vkCmdEndRenderPass(cmd);
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, asmpipe);
+
+            vkCmdBeginRenderPass(cmd,
+                                 vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
+                                                          {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
+                                 VK_SUBPASS_CONTENTS_INLINE);
+
+            pushMarker(cmd, "ASM tests");
+            numTests    = numASMTests;
+            offset      = 0;
+
+            // loop drawing 256 tests at a time
+            while (numTests > 0)
+            {
+                uint32_t    num = std::min(numTests, 256U);
+                vkCmdDraw(cmd, 3, num, 0, offset);
+                offset      += num;
+                numTests    -= num;
+            }
+
+            popMarker(cmd);
+
+            vkCmdEndRenderPass(cmd);
+
+            // sync all the storage work
+            vkh::cmdPipelineBarrier(
+                cmd,
+            {
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                        VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
+                                        store_image.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                        VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
+                                        atomic_image.image),
+                vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                        VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
+                                        VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
+                                        storezoo_u2D.image),
+            },
+            {
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         store_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         atomic_buffer.buffer),
+                vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
+                                         store_texbuffer.buffer),
+            });
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe2);
+
+            vkCmdBeginRenderPass(cmd,
+                                 vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
+                                                          {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
+                                 VK_SUBPASS_CONTENTS_INLINE);
+
+            pushMarker(cmd, "GLSL2 tests");
+            numTests    = numGLSL2Tests;
+            offset      = 0;
+
+            // loop drawing 256 tests at a time
+            while (numTests > 0)
+            {
+                uint32_t    num = std::min(numTests, 256U);
+                vkCmdDraw(cmd, 3, num, 0, offset);
+                offset      += num;
+                numTests    -= num;
+            }
+
+            popMarker(cmd);
+
+            vkCmdEndRenderPass(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            Submit(0, 1, {cmd});
+
+            Present();
+        }
+
+        CHECK_VKR(vkDeviceWaitIdle(device));
+
+        if (bda)
+        {
+            vkDestroyBuffer(device, bda_data_buffer, NULL);
+            vkUnmapMemory(device, bda_deviceMem);
+            vkFreeMemory(device, bda_deviceMem, NULL);
+        }
+
+        return 0;
     }
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
-                           vkh::ImageSubresourceRange());
-
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, store_image.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, atomic_image.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, storezoo_u2D.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                      VK_IMAGE_LAYOUT_GENERAL, shadowimg.image,
-                                      vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT)),
-          },
-          {
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT, store_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT, atomic_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT, store_texbuffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT,
-                                       store_texbuffer_1010102uint.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT,
-                                       store_texbuffer_1010102unorm.buffer),
-          });
-
-      vkCmdClearDepthStencilImage(cmd, shadowimg.image, VK_IMAGE_LAYOUT_GENERAL,
-                                  vkh::ClearDepthStencilValue({0.5f, 0}), 1,
-                                  vkh::ImageSubresourceRange(VK_IMAGE_ASPECT_DEPTH_BIT));
-
-      vkCmdClearColorImage(cmd, store_image.image, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(6.66f, 6.66f, 6.66f, 6.66f), 1,
-                           vkh::ImageSubresourceRange());
-      vkCmdClearColorImage(cmd, atomic_image.image, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(0x42424242U, 0x42424242U, 0x42424242U, 0x42424242U),
-                           1, vkh::ImageSubresourceRange());
-      vkCmdClearColorImage(cmd, storezoo_u2D.image, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(8U, 18U, 28U, 38U), 1, vkh::ImageSubresourceRange());
-      vkCmdFillBuffer(cmd, store_buffer.buffer, 0, VK_WHOLE_SIZE, 0x42424242);
-      vkCmdFillBuffer(cmd, atomic_buffer.buffer, 0, VK_WHOLE_SIZE, 0x42424242);
-      const float val = 1.234f;
-      vkCmdFillBuffer(cmd, store_texbuffer.buffer, 0, 128, *(uint32_t *)&val);
-      vkCmdFillBuffer(cmd, store_texbuffer.buffer, 128, VK_WHOLE_SIZE, 0);
-      vkCmdFillBuffer(cmd, store_texbuffer_1010102uint.buffer, 0, 104, 0x42424242);
-      vkCmdFillBuffer(cmd, store_texbuffer_1010102uint.buffer, 104, VK_WHOLE_SIZE, 0);
-      vkCmdFillBuffer(cmd, store_texbuffer_1010102unorm.buffer, 0, 104, 0x42424242);
-      vkCmdFillBuffer(cmd, store_texbuffer_1010102unorm.buffer, 104, VK_WHOLE_SIZE, 0);
-
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {
-              vkh::ImageMemoryBarrier(
-                  VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                  VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, store_image.image),
-              vkh::ImageMemoryBarrier(
-                  VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                  VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, atomic_image.image),
-              vkh::ImageMemoryBarrier(
-                  VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                  VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, storezoo_u2D.image),
-          },
-          {
-              vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT,
-                                       VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       store_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT,
-                                       VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       atomic_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_TRANSFER_WRITE_BIT, store_texbuffer.buffer),
-          });
-
-      VkViewport v = {};
-      v.maxDepth = 1.0f;
-      v.width = (float)texWidth;
-      v.height = (float)texHeight;
-
-      VkRect2D s = {};
-      s.extent.width = texWidth;
-      s.extent.height = texHeight;
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe1);
-      vkCmdSetViewport(cmd, 0, 1, &v);
-      vkCmdSetScissor(cmd, 0, 1, &s);
-      vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
-
-      BDA_Data *bda_gpuptr = (BDA_Data *)bda_base_gpuptr;
-
-      PushData pushData;
-      pushData.push = Vec4i(101, 103, 107, 109);
-      pushData.bda_uvec2 = *(Vec2u *)(&bda_gpuptr);
-      pushData.bda_hi = (uint64_t)bda_gpuptr >> 32;
-      pushData.bda_lo = (uint64_t)bda_gpuptr & 0xFFFFFFFF;
-      pushData.bda_u64 = *(uint64_t *)(&bda_gpuptr);
-
-      std::vector<VkDescriptorSet> descSets = {descset0};
-
-      if(descIndexing)
-      {
-        descSets.push_back(descset1);
-        descSets.push_back(descset2);
-      }
-
-      vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, descSets,
-                                 {0, sizeof(Vec4f) * 16});
-      vkCmdPushConstants(cmd, layout, VK_SHADER_STAGE_FRAGMENT_BIT, 16, sizeof(PushData), &pushData);
-
-      vkCmdBeginRenderPass(cmd,
-                           vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
-                                                    {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
-                           VK_SUBPASS_CONTENTS_INLINE);
-
-      pushMarker(cmd, "GLSL1 tests");
-      uint32_t numTests = numGLSL1Tests;
-      uint32_t offset = 0;
-      // loop drawing 256 tests at a time
-      while(numTests > 0)
-      {
-        uint32_t num = std::min(numTests, 256U);
-        vkCmdDraw(cmd, 3, num, 0, offset);
-        offset += num;
-        numTests -= num;
-      }
-      popMarker(cmd);
-
-      vkCmdEndRenderPass(cmd);
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, asmpipe);
-
-      vkCmdBeginRenderPass(cmd,
-                           vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
-                                                    {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
-                           VK_SUBPASS_CONTENTS_INLINE);
-
-      pushMarker(cmd, "ASM tests");
-      numTests = numASMTests;
-      offset = 0;
-      // loop drawing 256 tests at a time
-      while(numTests > 0)
-      {
-        uint32_t num = std::min(numTests, 256U);
-        vkCmdDraw(cmd, 3, num, 0, offset);
-        offset += num;
-        numTests -= num;
-      }
-      popMarker(cmd);
-
-      vkCmdEndRenderPass(cmd);
-
-      // sync all the storage work
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                      VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
-                                      store_image.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                      VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
-                                      atomic_image.image),
-              vkh::ImageMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                      VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_SHADER_READ_BIT,
-                                      VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL,
-                                      storezoo_u2D.image),
-          },
-          {
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       store_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       atomic_buffer.buffer),
-              vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       VK_ACCESS_SHADER_READ_BIT | VK_ACCESS_SHADER_WRITE_BIT,
-                                       store_texbuffer.buffer),
-          });
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe2);
-
-      vkCmdBeginRenderPass(cmd,
-                           vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
-                                                    {vkh::ClearValue(0.0f, 0.0f, 0.0f, 0.0f)}),
-                           VK_SUBPASS_CONTENTS_INLINE);
-
-      pushMarker(cmd, "GLSL2 tests");
-      numTests = numGLSL2Tests;
-      offset = 0;
-      // loop drawing 256 tests at a time
-      while(numTests > 0)
-      {
-        uint32_t num = std::min(numTests, 256U);
-        vkCmdDraw(cmd, 3, num, 0, offset);
-        offset += num;
-        numTests -= num;
-      }
-      popMarker(cmd);
-
-      vkCmdEndRenderPass(cmd);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(0, 1, {cmd});
-
-      Present();
-    }
-    CHECK_VKR(vkDeviceWaitIdle(device));
-
-    if(bda)
-    {
-      vkDestroyBuffer(device, bda_data_buffer, NULL);
-      vkUnmapMemory(device, bda_deviceMem);
-      vkFreeMemory(device, bda_deviceMem, NULL);
-    }
-    return 0;
-  }
 };
 
 REGISTER_TEST();

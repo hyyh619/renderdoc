@@ -48,24 +48,26 @@ QT_BEGIN_NAMESPACE
 class QDebug;
 class QTouchDevicePrivate;
 
-class Q_GUI_EXPORT QTouchDevice
+class Q_GUI_EXPORT    QTouchDevice
 {
     Q_GADGET
 public:
-    enum DeviceType {
+    enum DeviceType
+    {
         TouchScreen,
         TouchPad
     };
     Q_ENUM(DeviceType)
 
-    enum CapabilityFlag {
-        Position = 0x0001,
-        Area = 0x0002,
-        Pressure = 0x0004,
-        Velocity = 0x0008,
-        RawPositions = 0x0010,
-        NormalizedPosition = 0x0020,
-        MouseEmulation = 0x0040
+    enum CapabilityFlag
+    {
+        Position            = 0x0001,
+        Area                = 0x0002,
+        Pressure            = 0x0004,
+        Velocity            = 0x0008,
+        RawPositions        = 0x0010,
+        NormalizedPosition  = 0x0020,
+        MouseEmulation      = 0x0040
     };
     Q_FLAG(CapabilityFlag)
     Q_DECLARE_FLAGS(Capabilities, CapabilityFlag)
@@ -73,7 +75,7 @@ public:
     QTouchDevice();
     ~QTouchDevice();
 
-    static QList<const QTouchDevice *> devices();
+    static QList<const QTouchDevice*> devices();
 
     QString name() const;
     DeviceType type() const;
@@ -86,14 +88,14 @@ public:
     void setMaximumTouchPoints(int max);
 
 private:
-    QTouchDevicePrivate *d;
+    QTouchDevicePrivate    *d;
     friend class QTouchDevicePrivate;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QTouchDevice::Capabilities)
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QTouchDevice *);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QTouchDevice*);
 #endif
 
 QT_END_NAMESPACE

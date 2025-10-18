@@ -1,27 +1,27 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- * Copyright (c) 2014 Crytek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+* Copyright (c) 2014 Crytek
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -29,10 +29,10 @@
 // Option macros
 // From: http://www.codersnotes.com/notes/easy-preprocessor-defines/
 
-#define OPTION_ON +
-#define OPTION_OFF -
-#define ENABLED(opt) ((1 opt 1) == 2)
-#define DISABLED(opt) ((1 opt 1) == 0)
+#define OPTION_ON   +
+#define OPTION_OFF  -
+#define ENABLED(opt)    ((1 opt 1) == 2)
+#define DISABLED(opt)   ((1 opt 1) == 0)
 
 /////////////////////////////////////////////////
 // Build/machine configuration
@@ -45,11 +45,11 @@
 #endif
 
 #if defined(RELEASE) || defined(_RELEASE)
-#define RDOC_RELEASE OPTION_ON
-#define RDOC_DEVEL OPTION_OFF
+#define RDOC_RELEASE    OPTION_ON
+#define RDOC_DEVEL      OPTION_OFF
 #else
-#define RDOC_RELEASE OPTION_OFF
-#define RDOC_DEVEL OPTION_ON
+#define RDOC_RELEASE    OPTION_OFF
+#define RDOC_DEVEL      OPTION_ON
 #endif
 
 #if defined(_MSC_VER)
@@ -62,53 +62,52 @@
 // particular
 #if defined(RENDERDOC_PLATFORM_WIN32)
 
-#define RDOC_WIN32 OPTION_ON
-#define RDOC_ANDROID OPTION_OFF
-#define RDOC_LINUX OPTION_OFF
-#define RDOC_APPLE OPTION_OFF
-#define RDOC_POSIX OPTION_OFF
-#define RDOC_SWITCH OPTION_OFF
+#define RDOC_WIN32      OPTION_ON
+#define RDOC_ANDROID    OPTION_OFF
+#define RDOC_LINUX      OPTION_OFF
+#define RDOC_APPLE      OPTION_OFF
+#define RDOC_POSIX      OPTION_OFF
+#define RDOC_SWITCH     OPTION_OFF
 
 #elif defined(RENDERDOC_PLATFORM_ANDROID)
 
-#define RDOC_WIN32 OPTION_OFF
-#define RDOC_ANDROID OPTION_ON
-#define RDOC_LINUX OPTION_OFF
-#define RDOC_APPLE OPTION_OFF
-#define RDOC_POSIX OPTION_ON
-#define RDOC_SWITCH OPTION_OFF
+#define RDOC_WIN32      OPTION_OFF
+#define RDOC_ANDROID    OPTION_ON
+#define RDOC_LINUX      OPTION_OFF
+#define RDOC_APPLE      OPTION_OFF
+#define RDOC_POSIX      OPTION_ON
+#define RDOC_SWITCH     OPTION_OFF
 
 #elif defined(RENDERDOC_PLATFORM_LINUX)
 
-#define RDOC_WIN32 OPTION_OFF
-#define RDOC_ANDROID OPTION_OFF
-#define RDOC_LINUX OPTION_ON
-#define RDOC_APPLE OPTION_OFF
-#define RDOC_POSIX OPTION_ON
-#define RDOC_SWITCH OPTION_OFF
+#define RDOC_WIN32      OPTION_OFF
+#define RDOC_ANDROID    OPTION_OFF
+#define RDOC_LINUX      OPTION_ON
+#define RDOC_APPLE      OPTION_OFF
+#define RDOC_POSIX      OPTION_ON
+#define RDOC_SWITCH     OPTION_OFF
 
 #elif defined(RENDERDOC_PLATFORM_APPLE)
 
-#define RDOC_WIN32 OPTION_OFF
-#define RDOC_ANDROID OPTION_OFF
-#define RDOC_LINUX OPTION_OFF
-#define RDOC_APPLE OPTION_ON
-#define RDOC_POSIX OPTION_ON
-#define RDOC_SWITCH OPTION_OFF
+#define RDOC_WIN32      OPTION_OFF
+#define RDOC_ANDROID    OPTION_OFF
+#define RDOC_LINUX      OPTION_OFF
+#define RDOC_APPLE      OPTION_ON
+#define RDOC_POSIX      OPTION_ON
+#define RDOC_SWITCH     OPTION_OFF
 
 #elif defined(RENDERDOC_PLATFORM_SWITCH)
 
-#define RDOC_WIN32 OPTION_OFF
-#define RDOC_ANDROID OPTION_OFF
-#define RDOC_LINUX OPTION_OFF
-#define RDOC_APPLE OPTION_OFF
-#define RDOC_POSIX OPTION_ON
-#define RDOC_SWITCH OPTION_ON
+#define RDOC_WIN32      OPTION_OFF
+#define RDOC_ANDROID    OPTION_OFF
+#define RDOC_LINUX      OPTION_OFF
+#define RDOC_APPLE      OPTION_OFF
+#define RDOC_POSIX      OPTION_ON
+#define RDOC_SWITCH     OPTION_ON
 
 #else
 
 #error "No platform configured in build system"
-
 #endif
 
 // is size_t a real separate type, not just typedef'd to uint32_t or uint64_t (or equivalent)?
@@ -140,18 +139,18 @@
 // Global constants
 enum
 {
-  RenderDoc_FirstTargetControlPort = 38920,
-  RenderDoc_LastTargetControlPort = RenderDoc_FirstTargetControlPort + 7,
-  RenderDoc_RemoteServerPort = 39920,
+    RenderDoc_FirstTargetControlPort    = 38920,
+    RenderDoc_LastTargetControlPort     = RenderDoc_FirstTargetControlPort + 7,
+    RenderDoc_RemoteServerPort          = 39920,
 
-  RenderDoc_ForwardPortBase = 38950,
-  RenderDoc_ForwardTargetControlOffset = 0,
-  RenderDoc_ForwardRemoteServerOffset = 9,
-  RenderDoc_ForwardPortStride = 10,
+    RenderDoc_ForwardPortBase               = 38950,
+    RenderDoc_ForwardTargetControlOffset    = 0,
+    RenderDoc_ForwardRemoteServerOffset     = 9,
+    RenderDoc_ForwardPortStride             = 10,
 };
 
 #define RENDERDOC_VULKAN_LAYER_NAME "VK_LAYER_RENDERDOC_Capture"
-#define RENDERDOC_VULKAN_LAYER_VAR "ENABLE_VULKAN_RENDERDOC_CAPTURE"
+#define RENDERDOC_VULKAN_LAYER_VAR  "ENABLE_VULKAN_RENDERDOC_CAPTURE"
 
 #define RENDERDOC_ANDROID_LIBRARY "libVkLayer_GLES_RenderDoc.so"
 
@@ -189,14 +188,13 @@ enum
 // logs go to stdout/stderr
 #if ENABLED(RDOC_WIN32)
 
-#define OUTPUT_LOG_TO_STDOUT OPTION_OFF
-#define OUTPUT_LOG_TO_STDERR OPTION_OFF
+#define OUTPUT_LOG_TO_STDOUT    OPTION_OFF
+#define OUTPUT_LOG_TO_STDERR    OPTION_OFF
 
 #else
 
-#define OUTPUT_LOG_TO_STDOUT OPTION_OFF
-#define OUTPUT_LOG_TO_STDERR OPTION_OFF
-
+#define OUTPUT_LOG_TO_STDOUT    OPTION_OFF
+#define OUTPUT_LOG_TO_STDERR    OPTION_OFF
 #endif
 
 // logs go to debug output (visual studio output window)
@@ -220,5 +218,4 @@ enum
 
 // otherwise, enable them in development builds
 #define ENABLE_UNIT_TESTS RDOC_DEVEL
-
 #endif

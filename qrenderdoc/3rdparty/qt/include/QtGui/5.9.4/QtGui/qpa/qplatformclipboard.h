@@ -58,12 +58,12 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QPlatformClipboard
+class Q_GUI_EXPORT    QPlatformClipboard
 {
 public:
     virtual ~QPlatformClipboard();
 
-    virtual QMimeData *mimeData(QClipboard::Mode mode = QClipboard::Clipboard);
+    virtual QMimeData* mimeData(QClipboard::Mode mode = QClipboard::Clipboard);
     virtual void setMimeData(QMimeData *data, QClipboard::Mode mode = QClipboard::Clipboard);
     virtual bool supportsMode(QClipboard::Mode mode) const;
     virtual bool ownsMode(QClipboard::Mode mode) const;
@@ -71,7 +71,6 @@ public:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_CLIPBOARD
 
-#endif //QPLATFORMCLIPBOARD_H
+#endif // QPLATFORMCLIPBOARD_H

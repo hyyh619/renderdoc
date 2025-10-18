@@ -63,13 +63,15 @@ QT_BEGIN_NAMESPACE
 class QUrl;
 class QUrlInfoPrivate;
 
-class Q_NETWORK_EXPORT QUrlInfo
+class Q_NETWORK_EXPORT    QUrlInfo
 {
 public:
-    enum PermissionSpec {
-        ReadOwner = 00400, WriteOwner = 00200, ExeOwner = 00100,
-        ReadGroup = 00040, WriteGroup = 00020, ExeGroup = 00010,
-        ReadOther = 00004, WriteOther = 00002, ExeOther = 00001 };
+    enum PermissionSpec
+    {
+        ReadOwner   = 00400, WriteOwner = 00200, ExeOwner = 00100,
+        ReadGroup   = 00040, WriteGroup = 00020, ExeGroup = 00010,
+        ReadOther   = 00004, WriteOther = 00002, ExeOther = 00001
+    };
 
     QUrlInfo();
     QUrlInfo(const QUrlInfo &ui);
@@ -81,7 +83,7 @@ public:
              const QString &group, qint64 size, const QDateTime &lastModified,
              const QDateTime &lastRead, bool isDir, bool isFile, bool isSymLink,
              bool isWritable, bool isReadable, bool isExecutable);
-    QUrlInfo &operator=(const QUrlInfo &ui);
+    QUrlInfo&operator=(const QUrlInfo &ui);
     virtual ~QUrlInfo();
 
     virtual void setName(const QString &name);
@@ -114,18 +116,20 @@ public:
     bool isExecutable() const;
 
     static bool greaterThan(const QUrlInfo &i1, const QUrlInfo &i2,
-                             int sortBy);
+                            int sortBy);
     static bool lessThan(const QUrlInfo &i1, const QUrlInfo &i2,
-                          int sortBy);
+                         int sortBy);
     static bool equal(const QUrlInfo &i1, const QUrlInfo &i2,
-                       int sortBy);
+                      int sortBy);
 
     bool operator==(const QUrlInfo &i) const;
     inline bool operator!=(const QUrlInfo &i) const
-    { return !operator==(i); }
+    {
+        return !operator==(i);
+    }
 
 private:
-    QUrlInfoPrivate *d;
+    QUrlInfoPrivate    *d;
 };
 
 QT_END_NAMESPACE

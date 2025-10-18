@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
 
 class QSocks5SocketEnginePrivate;
 
-class Q_AUTOTEST_EXPORT QSocks5SocketEngine : public QAbstractSocketEngine
+class Q_AUTOTEST_EXPORT    QSocks5SocketEngine : public QAbstractSocketEngine
 {
     Q_OBJECT
 public:
@@ -104,9 +104,9 @@ public:
     qint64 pendingDatagramSize() const Q_DECL_OVERRIDE;
 #endif // QT_NO_UDPSOCKET
 
-    qint64 readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0,
-                        PacketHeaderOptions = WantNone) Q_DECL_OVERRIDE;
-    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader &) Q_DECL_OVERRIDE;
+    qint64    readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0,
+                           PacketHeaderOptions = WantNone) Q_DECL_OVERRIDE;
+    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader&) Q_DECL_OVERRIDE;
     qint64 bytesToWrite() const Q_DECL_OVERRIDE;
 
     int option(SocketOption option) const Q_DECL_OVERRIDE;
@@ -140,7 +140,6 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_emitPendingConnectionNotification())
     Q_PRIVATE_SLOT(d_func(), void _q_controlSocketDisconnected())
     Q_PRIVATE_SLOT(d_func(), void _q_controlSocketStateChanged(QAbstractSocket::SocketState))
-
 };
 
 
@@ -159,7 +158,10 @@ public:
     virtual bool unSeal(const QByteArray &sealedBuf, QByteArray *buf);
     virtual bool unSeal(QTcpSocket *sealedSocket, QByteArray *buf);
 
-    virtual QString errorString() { return QString(); }
+    virtual QString errorString()
+    {
+        return QString();
+    }
 };
 
 class QSocks5PasswordAuthenticator : public QSocks5Authenticator
@@ -173,8 +175,8 @@ public:
     QString errorString() Q_DECL_OVERRIDE;
 
 private:
-    QString userName;
-    QString password;
+    QString     userName;
+    QString     password;
 };
 
 struct QSocks5Data;
@@ -189,7 +191,7 @@ public:
     QSocks5SocketEnginePrivate();
     ~QSocks5SocketEnginePrivate();
 
-   enum Socks5State
+    enum Socks5State
     {
         Uninitialized = 0,
         ConnectError,
@@ -205,7 +207,7 @@ public:
         SocksError,
         HostNameLookupError
     };
-    Socks5State socks5State;
+    Socks5State    socks5State;
 
     enum Socks5Mode
     {
@@ -214,19 +216,19 @@ public:
         BindMode,
         UdpAssociateMode
     };
-    Socks5Mode mode;
+    Socks5Mode    mode;
 
     enum Socks5Error
     {
-        SocksFailure = 0x01,
-        ConnectionNotAllowed = 0x02,
-        NetworkUnreachable = 0x03,
-        HostUnreachable = 0x04,
-        ConnectionRefused = 0x05,
-        TTLExpired = 0x06,
-        CommandNotSupported = 0x07,
+        SocksFailure            = 0x01,
+        ConnectionNotAllowed    = 0x02,
+        NetworkUnreachable      = 0x03,
+        HostUnreachable         = 0x04,
+        ConnectionRefused       = 0x05,
+        TTLExpired              = 0x06,
+        CommandNotSupported     = 0x07,
         AddressTypeNotSupported = 0x08,
-        LastKnownError = AddressTypeNotSupported,
+        LastKnownError          = AddressTypeNotSupported,
         UnknownError
     };
 
@@ -254,41 +256,41 @@ public:
     void _q_controlSocketDisconnected();
     void _q_controlSocketStateChanged(QAbstractSocket::SocketState);
 
-    QNetworkProxy proxyInfo;
+    QNetworkProxy    proxyInfo;
 
-    bool readNotificationEnabled, writeNotificationEnabled, exceptNotificationEnabled;
+    bool    readNotificationEnabled, writeNotificationEnabled, exceptNotificationEnabled;
 
-    qintptr socketDescriptor;
+    qintptr    socketDescriptor;
 
-    QSocks5Data *data;
-    QSocks5ConnectData *connectData;
+    QSocks5Data             *data;
+    QSocks5ConnectData      *connectData;
 #ifndef QT_NO_UDPSOCKET
-    QSocks5UdpAssociateData *udpData;
+    QSocks5UdpAssociateData    *udpData;
 #endif
-    QSocks5BindData *bindData;
-    QString peerName;
-    QByteArray receivedHeaderFragment;
+    QSocks5BindData     *bindData;
+    QString             peerName;
+    QByteArray          receivedHeaderFragment;
 
-    mutable bool readNotificationActivated;
-    mutable bool writeNotificationActivated;
+    mutable bool    readNotificationActivated;
+    mutable bool    writeNotificationActivated;
 
-    bool readNotificationPending;
+    bool    readNotificationPending;
     void _q_emitPendingReadNotification();
     void emitReadNotification();
-    bool writeNotificationPending;
+    bool    writeNotificationPending;
     void _q_emitPendingWriteNotification();
     void emitWriteNotification();
-    bool connectionNotificationPending;
+    bool    connectionNotificationPending;
     void _q_emitPendingConnectionNotification();
     void emitConnectionNotification();
 };
 
-class Q_AUTOTEST_EXPORT QSocks5SocketEngineHandler : public QSocketEngineHandler
+class Q_AUTOTEST_EXPORT    QSocks5SocketEngineHandler : public QSocketEngineHandler
 {
 public:
-    virtual QAbstractSocketEngine *createSocketEngine(QAbstractSocket::SocketType socketType,
-                                                      const QNetworkProxy &, QObject *parent) Q_DECL_OVERRIDE;
-    virtual QAbstractSocketEngine *createSocketEngine(qintptr socketDescriptor, QObject *parent) Q_DECL_OVERRIDE;
+    virtual QAbstractSocketEngine* createSocketEngine(QAbstractSocket::SocketType socketType,
+                                                      const QNetworkProxy&, QObject *parent) Q_DECL_OVERRIDE;
+    virtual QAbstractSocketEngine* createSocketEngine(qintptr socketDescriptor, QObject *parent) Q_DECL_OVERRIDE;
 };
 
 QT_END_NAMESPACE

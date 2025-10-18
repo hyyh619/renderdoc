@@ -6,15 +6,15 @@ extern "C" {
 
 PyAPI_FUNC(int) PyAST_Validate(mod_ty);
 PyAPI_FUNC(mod_ty) PyAST_FromNode(
-    const node *n,
-    PyCompilerFlags *flags,
+    const node * n,
+    PyCompilerFlags * flags,
     const char *filename,       /* decoded from the filesystem encoding */
-    PyArena *arena);
+    PyArena * arena);
 PyAPI_FUNC(mod_ty) PyAST_FromNodeObject(
-    const node *n,
-    PyCompilerFlags *flags,
-    PyObject *filename,
-    PyArena *arena);
+    const node * n,
+    PyCompilerFlags * flags,
+    PyObject * filename,
+    PyArena * arena);
 
 #ifdef __cplusplus
 }

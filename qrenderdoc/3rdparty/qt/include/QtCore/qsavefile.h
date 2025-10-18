@@ -56,7 +56,7 @@ QT_BEGIN_NAMESPACE
 class QAbstractFileEngine;
 class QSaveFilePrivate;
 
-class Q_CORE_EXPORT QSaveFile : public QFileDevice
+class Q_CORE_EXPORT    QSaveFile : public QFileDevice
 {
 #ifndef QT_NO_QOBJECT
     Q_OBJECT
@@ -89,7 +89,10 @@ protected:
 private:
     void close() Q_DECL_OVERRIDE;
 #if !QT_CONFIG(translation)
-    static QString tr(const char *string) { return QString::fromLatin1(string); }
+    static QString tr(const char *string)
+    {
+        return QString::fromLatin1(string);
+    }
 #endif
 
 private:
@@ -97,7 +100,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEMPORARYFILE
 
 #endif // QSAVEFILE_H

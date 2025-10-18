@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QAction;
 
-class Q_WIDGETS_EXPORT QWhatsThis
+class Q_WIDGETS_EXPORT    QWhatsThis
 {
     QWhatsThis() Q_DECL_EQ_DELETE;
 
@@ -62,8 +62,7 @@ public:
     static void showText(const QPoint &pos, const QString &text, QWidget *w = Q_NULLPTR);
     static void hideText();
 
-    static QAction *createAction(QObject *parent = Q_NULLPTR);
-
+    static QAction* createAction(QObject *parent = Q_NULLPTR);
 };
 
 QT_END_NAMESPACE

@@ -63,20 +63,20 @@ Q_FORWARD_DECLARE_OBJC_CLASS(QT_MANGLE_NAMESPACE(QMacAccessibilityElement));
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QAccessibleCache  :public QObject
+class Q_GUI_EXPORT    QAccessibleCache  : public QObject
 {
     Q_OBJECT
 
 public:
-    static QAccessibleCache *instance();
-    QAccessibleInterface *interfaceForId(QAccessible::Id id) const;
+    static QAccessibleCache* instance();
+    QAccessibleInterface* interfaceForId(QAccessible::Id id) const;
     QAccessible::Id idForInterface(QAccessibleInterface *iface) const;
     QAccessible::Id insert(QObject *object, QAccessibleInterface *iface) const;
     void deleteInterface(QAccessible::Id id, QObject *obj = 0);
 
 #ifdef Q_OS_MAC
-    QT_MANGLE_NAMESPACE(QMacAccessibilityElement) *elementForId(QAccessible::Id axid) const;
-    void insertElement(QAccessible::Id axid, QT_MANGLE_NAMESPACE(QMacAccessibilityElement) *element) const;
+    QT_MANGLE_NAMESPACE(QMacAccessibilityElement) * elementForId(QAccessible::Id axid) const;
+    void    insertElement(QAccessible::Id axid, QT_MANGLE_NAMESPACE(QMacAccessibilityElement) * element) const;
 #endif
 
 private Q_SLOTS:
@@ -85,13 +85,13 @@ private Q_SLOTS:
 private:
     QAccessible::Id acquireId() const;
 
-    mutable QHash<QAccessible::Id, QAccessibleInterface *> idToInterface;
-    mutable QHash<QAccessibleInterface *, QAccessible::Id> interfaceToId;
-    mutable QHash<QObject *, QAccessible::Id> objectToId;
+    mutable QHash<QAccessible::Id, QAccessibleInterface*>       idToInterface;
+    mutable QHash<QAccessibleInterface*, QAccessible::Id>       interfaceToId;
+    mutable QHash<QObject*, QAccessible::Id>                    objectToId;
 
 #ifdef Q_OS_MAC
     void removeCocoaElement(QAccessible::Id axid);
-    mutable QHash<QAccessible::Id, QT_MANGLE_NAMESPACE(QMacAccessibilityElement) *> cocoaElements;
+    mutable QHash<QAccessible::Id, QT_MANGLE_NAMESPACE(QMacAccessibilityElement)*>    cocoaElements;
 #endif
 
     friend class QAccessible;
@@ -99,7 +99,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_ACCESSIBILITY
 
 #endif

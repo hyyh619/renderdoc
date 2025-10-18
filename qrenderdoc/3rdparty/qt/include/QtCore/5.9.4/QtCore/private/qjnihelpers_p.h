@@ -64,54 +64,55 @@ class QStringList;
 
 namespace QtAndroidPrivate
 {
-    class Q_CORE_EXPORT ActivityResultListener
+    class Q_CORE_EXPORT    ActivityResultListener
     {
-    public:
+public:
         virtual ~ActivityResultListener();
         virtual bool handleActivityResult(jint requestCode, jint resultCode, jobject data) = 0;
     };
 
-    class Q_CORE_EXPORT NewIntentListener
+    class Q_CORE_EXPORT    NewIntentListener
     {
-    public:
+public:
         virtual ~NewIntentListener();
         virtual bool handleNewIntent(JNIEnv *env, jobject intent) = 0;
     };
 
-    class Q_CORE_EXPORT ResumePauseListener
+    class Q_CORE_EXPORT    ResumePauseListener
     {
-    public:
+public:
         virtual ~ResumePauseListener();
         virtual void handlePause();
         virtual void handleResume();
     };
 
-    class Q_CORE_EXPORT GenericMotionEventListener
+    class Q_CORE_EXPORT    GenericMotionEventListener
     {
-    public:
+public:
         virtual ~GenericMotionEventListener();
         virtual bool handleGenericMotionEvent(jobject event) = 0;
     };
 
-    class Q_CORE_EXPORT KeyEventListener
+    class Q_CORE_EXPORT    KeyEventListener
     {
-    public:
+public:
         virtual ~KeyEventListener();
         virtual bool handleKeyEvent(jobject event) = 0;
     };
 
-    enum class PermissionsResult {
+    enum class PermissionsResult
+    {
         Granted,
         Denied
     };
     typedef QHash<QString,  QtAndroidPrivate::PermissionsResult> PermissionsHash;
-    typedef std::function<void()> Runnable;
-    typedef std::function<void(const PermissionsHash &)> PermissionsResultFunc;
+    typedef std::function<void ()> Runnable;
+    typedef std::function<void (const PermissionsHash&)> PermissionsResultFunc;
 
     Q_CORE_EXPORT jobject activity();
     Q_CORE_EXPORT jobject service();
     Q_CORE_EXPORT jobject context();
-    Q_CORE_EXPORT JavaVM *javaVM();
+    Q_CORE_EXPORT JavaVM* javaVM();
     Q_CORE_EXPORT jint initJNI(JavaVM *vm, JNIEnv *env);
     jobject classLoader();
     Q_CORE_EXPORT jint androidSdkVersion();

@@ -82,7 +82,7 @@ class QAbstractScrollArea;
 class QEvent;
 class QTimerEvent;
 
-class Q_WIDGETS_EXPORT QWidgetTextControl : public QInputControl
+class Q_WIDGETS_EXPORT    QWidgetTextControl : public QInputControl
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QWidgetTextControl)
@@ -102,7 +102,7 @@ public:
     virtual ~QWidgetTextControl();
 
     void setDocument(QTextDocument *document);
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     void setTextCursor(const QTextCursor &cursor);
     QTextCursor textCursor() const;
@@ -129,7 +129,7 @@ public:
 
     Q_INVOKABLE virtual QVariant loadResource(int type, const QUrl &name);
 #ifndef QT_NO_CONTEXTMENU
-    QMenu *createStandardContextMenu(const QPointF &pos, QWidget *parent);
+    QMenu* createStandardContextMenu(const QPointF &pos, QWidget *parent);
 #endif
 
     QTextCursor cursorForPosition(const QPointF &pos) const;
@@ -226,12 +226,12 @@ Q_SIGNALS:
 
     // control signals
     void updateRequest(const QRectF &rect = QRectF());
-    void documentSizeChanged(const QSizeF &);
+    void documentSizeChanged(const QSizeF&);
     void blockCountChanged(int newBlockCount);
     void visibilityRequest(const QRectF &rect);
     void microFocusChanged();
     void linkActivated(const QString &link);
-    void linkHovered(const QString &);
+    void linkHovered(const QString&);
     void modificationChanged(bool m);
 
 public:
@@ -249,13 +249,13 @@ public:
 
     virtual QVariant inputMethodQuery(Qt::InputMethodQuery property, QVariant argument) const;
 
-    virtual QMimeData *createMimeDataFromSelection() const;
+    virtual QMimeData* createMimeDataFromSelection() const;
     virtual bool canInsertFromMimeData(const QMimeData *source) const;
     virtual void insertFromMimeData(const QMimeData *source);
 
     bool setFocusToAnchor(const QTextCursor &newCursor);
     bool setFocusToNextOrPreviousAnchor(bool next);
-    bool findNextPrevAnchor(const QTextCursor& from, bool next, QTextCursor& newAnchor);
+    bool findNextPrevAnchor(const QTextCursor &from, bool next, QTextCursor &newAnchor);
 
 protected:
     virtual void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
@@ -285,7 +285,7 @@ private Q_SLOTS:
     void menuActionTriggered();
 
 private:
-    QObject *editWidget;
+    QObject    *editWidget;
 };
 #endif // QT_NO_CONTEXTMENU
 
@@ -302,7 +302,7 @@ protected:
 private:
     void setup() const;
 
-    mutable QTextDocumentFragment fragment;
+    mutable QTextDocumentFragment    fragment;
 };
 
 QT_END_NAMESPACE

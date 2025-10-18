@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
 
 
 class QNetworkReplyDataImplPrivate;
-class QNetworkReplyDataImpl: public QNetworkReply
+class QNetworkReplyDataImpl : public QNetworkReply
 {
     Q_OBJECT
 public:
@@ -72,7 +72,7 @@ public:
     // reimplemented from QNetworkReply
     virtual void close() Q_DECL_OVERRIDE;
     virtual qint64 bytesAvailable() const Q_DECL_OVERRIDE;
-    virtual bool isSequential () const Q_DECL_OVERRIDE;
+    virtual bool isSequential() const Q_DECL_OVERRIDE;
     qint64 size() const Q_DECL_OVERRIDE;
 
     virtual qint64 readData(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
@@ -80,13 +80,13 @@ public:
     Q_DECLARE_PRIVATE(QNetworkReplyDataImpl)
 };
 
-class QNetworkReplyDataImplPrivate: public QNetworkReplyPrivate
+class QNetworkReplyDataImplPrivate : public QNetworkReplyPrivate
 {
 public:
     QNetworkReplyDataImplPrivate();
     ~QNetworkReplyDataImplPrivate();
 
-    QBuffer decodedData;
+    QBuffer    decodedData;
 
     Q_DECLARE_PUBLIC(QNetworkReplyDataImpl)
 };

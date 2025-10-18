@@ -61,10 +61,10 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_SHORTCUT
 struct QKeyBinding
 {
-    QKeySequence::StandardKey standardKey;
-    uchar priority;
-    uint shortcut;
-    uint platform;
+    QKeySequence::StandardKey   standardKey;
+    uchar                       priority;
+    uint                        shortcut;
+    uint                        platform;
 };
 
 class QKeySequencePrivate
@@ -80,8 +80,8 @@ public:
         std::copy(copy.key, copy.key + MaxKeyCount,
                   QT_MAKE_CHECKED_ARRAY_ITERATOR(key, MaxKeyCount));
     }
-    QAtomicInt ref;
-    int key[MaxKeyCount];
+    QAtomicInt      ref;
+    int             key[MaxKeyCount];
     static QString encodeString(int key, QKeySequence::SequenceFormat format);
     // used in dbusmenu
     Q_GUI_EXPORT static QString keyName(int key, QKeySequence::SequenceFormat format);
@@ -91,4 +91,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif //QKEYSEQUENCE_P_H
+#endif // QKEYSEQUENCE_P_H

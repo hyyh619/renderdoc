@@ -58,13 +58,16 @@ public:
 
 QSize QEglFS8726MHooks::screenSize() const
 {
-    int fd = open("/dev/fb0", O_RDONLY);
-    if (fd == -1) {
+    int    fd = open("/dev/fb0", O_RDONLY);
+
+    if (fd == -1)
+    {
         qFatal("Failed to open fb to detect screen resolution!");
     }
 
-    struct fb_var_screeninfo vinfo;
-    if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo) == -1) {
+    struct fb_var_screeninfo    vinfo;
+    if (ioctl(fd, FBIOGET_VSCREENINFO, &vinfo) == -1)
+    {
         qFatal("Could not get variable screen info");
     }
 
@@ -78,9 +81,9 @@ EGLNativeWindowType QEglFS8726MHooks::createNativeWindow(QPlatformWindow *window
     Q_UNUSED(window)
     Q_UNUSED(format)
 
-    fbdev_window *window = new fbdev_window;
-    window->width = size.width();
-    window->height = size.height();
+    fbdev_window * window   = new fbdev_window;
+    window->width           = size.width();
+    window->height          = size.height();
 
     return window;
 }
@@ -90,7 +93,7 @@ void QEglFS8726MHooks::destroyNativeWindow(EGLNativeWindowType window)
     delete window;
 }
 
-QEglFS8726MHooks eglFS8726MHooks;
-QEglFSHooks *platformHooks = &eglFS8726MHooks;
+QEglFS8726MHooks    eglFS8726MHooks;
+QEglFSHooks         *platformHooks = &eglFS8726MHooks;
 
 QT_END_NAMESPACE

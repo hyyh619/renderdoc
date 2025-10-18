@@ -69,11 +69,11 @@ class QInputMethodPrivate : public QObjectPrivate
 public:
     inline QInputMethodPrivate() : testContext(0)
     {}
-    QPlatformInputContext *platformInputContext() const
+    QPlatformInputContext* platformInputContext() const
     {
         return testContext ? testContext : QGuiApplicationPrivate::platformIntegration()->inputContext();
     }
-    static inline QInputMethodPrivate *get(QInputMethod *inputMethod)
+    static inline QInputMethodPrivate* get(QInputMethod *inputMethod)
     {
         return inputMethod->d_func();
     }
@@ -82,9 +82,9 @@ public:
     void _q_checkFocusObject(QObject *object);
     bool objectAcceptsInputMethod(QObject *object);
 
-    QTransform inputItemTransform;
-    QRectF inputRectangle;
-    QPlatformInputContext *testContext;
+    QTransform                  inputItemTransform;
+    QRectF                      inputRectangle;
+    QPlatformInputContext       *testContext;
 };
 
 QT_END_NAMESPACE

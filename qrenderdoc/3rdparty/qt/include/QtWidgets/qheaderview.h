@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QHeaderViewPrivate;
 class QStyleOptionHeader;
 
-class Q_WIDGETS_EXPORT QHeaderView : public QAbstractItemView
+class Q_WIDGETS_EXPORT    QHeaderView : public QAbstractItemView
 {
     Q_OBJECT
     Q_PROPERTY(bool showSortIndicator READ isSortIndicatorShown WRITE setSortIndicatorShown)
@@ -115,15 +115,27 @@ public:
     void setSectionsMovable(bool movable);
     bool sectionsMovable() const;
 #if QT_DEPRECATED_SINCE(5, 0)
-    inline QT_DEPRECATED void setMovable(bool movable) { setSectionsMovable(movable); }
-    inline QT_DEPRECATED bool isMovable() const { return sectionsMovable(); }
+    inline QT_DEPRECATED void setMovable(bool movable)
+    {
+        setSectionsMovable(movable);
+    }
+    inline QT_DEPRECATED bool isMovable() const
+    {
+        return sectionsMovable();
+    }
 #endif
 
     void setSectionsClickable(bool clickable);
     bool sectionsClickable() const;
 #if QT_DEPRECATED_SINCE(5, 0)
-    inline QT_DEPRECATED void setClickable(bool clickable) { setSectionsClickable(clickable); }
-    inline QT_DEPRECATED bool isClickable() const { return sectionsClickable(); }
+    inline QT_DEPRECATED void setClickable(bool clickable)
+    {
+        setSectionsClickable(clickable);
+    }
+    inline QT_DEPRECATED bool isClickable() const
+    {
+        return sectionsClickable();
+    }
 #endif
 
     void setHighlightSections(bool highlight);
@@ -138,11 +150,17 @@ public:
 
 #if QT_DEPRECATED_SINCE(5, 0)
     inline QT_DEPRECATED void setResizeMode(ResizeMode mode)
-        { setSectionResizeMode(mode); }
+    {
+        setSectionResizeMode(mode);
+    }
     inline QT_DEPRECATED void setResizeMode(int logicalindex, ResizeMode mode)
-        { setSectionResizeMode(logicalindex, mode); }
+    {
+        setSectionResizeMode(logicalindex, mode);
+    }
     inline QT_DEPRECATED ResizeMode resizeMode(int logicalindex) const
-        { return sectionResizeMode(logicalindex); }
+    {
+        return sectionResizeMode(logicalindex);
+    }
 #endif
 
     int stretchSectionCount() const;
@@ -240,8 +258,8 @@ protected:
     QModelIndex indexAt(const QPoint &p) const Q_DECL_OVERRIDE;
     bool isIndexHidden(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
-    QModelIndex moveCursor(CursorAction, Qt::KeyboardModifiers) Q_DECL_OVERRIDE;
-    void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
+    QModelIndex    moveCursor(CursorAction, Qt::KeyboardModifiers) Q_DECL_OVERRIDE;
+    void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags flags) Q_DECL_OVERRIDE;
     QRegion visualRegionForSelection(const QItemSelection &selection) const Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionHeader *option) const;
 
@@ -256,13 +274,21 @@ private:
 };
 
 inline int QHeaderView::logicalIndexAt(int ax, int ay) const
-{ return orientation() == Qt::Horizontal ? logicalIndexAt(ax) : logicalIndexAt(ay); }
+{
+    return orientation() == Qt::Horizontal ? logicalIndexAt(ax) : logicalIndexAt(ay);
+}
 inline int QHeaderView::logicalIndexAt(const QPoint &apos) const
-{ return logicalIndexAt(apos.x(), apos.y()); }
+{
+    return logicalIndexAt(apos.x(), apos.y());
+}
 inline void QHeaderView::hideSection(int alogicalIndex)
-{ setSectionHidden(alogicalIndex, true); }
+{
+    setSectionHidden(alogicalIndex, true);
+}
 inline void QHeaderView::showSection(int alogicalIndex)
-{ setSectionHidden(alogicalIndex, false); }
+{
+    setSectionHidden(alogicalIndex, false);
+}
 
 QT_END_NAMESPACE
 

@@ -55,7 +55,7 @@ class QSize;
 class QVariant;
 
 class QImageIOHandlerPrivate;
-class Q_GUI_EXPORT QImageIOHandler
+class Q_GUI_EXPORT    QImageIOHandler
 {
     Q_DECLARE_PRIVATE(QImageIOHandler)
 public:
@@ -63,7 +63,7 @@ public:
     virtual ~QImageIOHandler();
 
     void setDevice(QIODevice *device);
-    QIODevice *device() const;
+    QIODevice* device() const;
 
     void setFormat(const QByteArray &format);
     void setFormat(const QByteArray &format) const;
@@ -71,11 +71,12 @@ public:
 
     virtual QByteArray name() const;
 
-    virtual bool canRead() const = 0;
-    virtual bool read(QImage *image) = 0;
+    virtual bool canRead() const        = 0;
+    virtual bool read(QImage *image)    = 0;
     virtual bool write(const QImage &image);
 
-    enum ImageOption {
+    enum ImageOption
+    {
         Size,
         ClipRect,
         Description,
@@ -100,15 +101,16 @@ public:
 #endif
     };
 
-    enum Transformation {
-        TransformationNone = 0,
-        TransformationMirror = 1,
-        TransformationFlip = 2,
-        TransformationRotate180 = TransformationMirror | TransformationFlip,
-        TransformationRotate90 = 4,
+    enum Transformation
+    {
+        TransformationNone              = 0,
+        TransformationMirror            = 1,
+        TransformationFlip              = 2,
+        TransformationRotate180         = TransformationMirror | TransformationFlip,
+        TransformationRotate90          = 4,
         TransformationMirrorAndRotate90 = TransformationMirror | TransformationRotate90,
-        TransformationFlipAndRotate90 = TransformationFlip | TransformationRotate90,
-        TransformationRotate270 = TransformationRotate180 | TransformationRotate90
+        TransformationFlipAndRotate90   = TransformationFlip | TransformationRotate90,
+        TransformationRotate270         = TransformationRotate180 | TransformationRotate90
     };
     Q_DECLARE_FLAGS(Transformations, Transformation)
 
@@ -127,7 +129,7 @@ public:
 
 protected:
     QImageIOHandler(QImageIOHandlerPrivate &dd);
-    QScopedPointer<QImageIOHandlerPrivate> d_ptr;
+    QScopedPointer<QImageIOHandlerPrivate>    d_ptr;
 private:
     Q_DISABLE_COPY(QImageIOHandler)
 };
@@ -136,26 +138,26 @@ private:
 
 #define QImageIOHandlerFactoryInterface_iid "org.qt-project.Qt.QImageIOHandlerFactoryInterface"
 
-class Q_GUI_EXPORT QImageIOPlugin : public QObject
+class Q_GUI_EXPORT    QImageIOPlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QImageIOPlugin(QObject *parent = Q_NULLPTR);
     virtual ~QImageIOPlugin();
 
-    enum Capability {
-        CanRead = 0x1,
-        CanWrite = 0x2,
-        CanReadIncremental = 0x4
+    enum Capability
+    {
+        CanRead             = 0x1,
+        CanWrite            = 0x2,
+        CanReadIncremental  = 0x4
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
-    virtual Capabilities capabilities(QIODevice *device, const QByteArray &format) const = 0;
-    virtual QImageIOHandler *create(QIODevice *device, const QByteArray &format = QByteArray()) const = 0;
+    virtual Capabilities capabilities(QIODevice *device, const QByteArray &format) const                = 0;
+    virtual QImageIOHandler* create(QIODevice *device, const QByteArray &format = QByteArray()) const   = 0;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QImageIOPlugin::Capabilities)
-
 #endif // QT_NO_IMAGEFORMATPLUGIN
 
 QT_END_NAMESPACE

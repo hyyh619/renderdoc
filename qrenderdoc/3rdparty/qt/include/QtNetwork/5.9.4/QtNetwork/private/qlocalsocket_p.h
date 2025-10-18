@@ -78,11 +78,9 @@ QT_BEGIN_NAMESPACE
 #if !defined(Q_OS_WIN) || defined(QT_LOCALSOCKET_TCP)
 class QLocalUnixSocket : public QTcpSocket
 {
-
 public:
     QLocalUnixSocket() : QTcpSocket()
-    {
-    };
+    {};
 
     inline void setSocketState(QAbstractSocket::SocketState state)
     {
@@ -109,7 +107,7 @@ public:
         return QTcpSocket::writeData(data, maxSize);
     }
 };
-#endif //#if !defined(Q_OS_WIN) || defined(QT_LOCALSOCKET_TCP)
+#endif // #if !defined(Q_OS_WIN) || defined(QT_LOCALSOCKET_TCP)
 
 class QLocalSocketPrivate : public QIODevicePrivate
 {
@@ -120,8 +118,8 @@ public:
     void init();
 
 #if defined(QT_LOCALSOCKET_TCP)
-    QLocalUnixSocket* tcpSocket;
-    bool ownsTcpSocket;
+    QLocalUnixSocket    *tcpSocket;
+    bool                ownsTcpSocket;
     void setSocket(QLocalUnixSocket*);
     QString generateErrorString(QLocalSocket::LocalSocketError, const QString &function) const;
     void errorOccurred(QLocalSocket::LocalSocketError, const QString &function);
@@ -134,12 +132,12 @@ public:
     void _q_canWrite();
     void _q_pipeClosed();
     void _q_winError(ulong windowsError, const QString &function);
-    HANDLE handle;
-    QWindowsPipeWriter *pipeWriter;
-    QWindowsPipeReader *pipeReader;
-    QLocalSocket::LocalSocketError error;
+    HANDLE                              handle;
+    QWindowsPipeWriter                  *pipeWriter;
+    QWindowsPipeReader                  *pipeReader;
+    QLocalSocket::LocalSocketError      error;
 #else
-    QLocalUnixSocket unixSocket;
+    QLocalUnixSocket    unixSocket;
     QString generateErrorString(QLocalSocket::LocalSocketError, const QString &function) const;
     void errorOccurred(QLocalSocket::LocalSocketError, const QString &function);
     void _q_stateChanged(QAbstractSocket::SocketState newState);
@@ -147,19 +145,18 @@ public:
     void _q_connectToSocket();
     void _q_abortConnectionAttempt();
     void cancelDelayedConnect();
-    QSocketNotifier *delayConnect;
-    QTimer *connectTimer;
-    int connectingSocket;
-    QString connectingName;
-    QIODevice::OpenMode connectingOpenMode;
+    QSocketNotifier         *delayConnect;
+    QTimer                  *connectTimer;
+    int                     connectingSocket;
+    QString                 connectingName;
+    QIODevice::OpenMode     connectingOpenMode;
 #endif
 
-    QString serverName;
-    QString fullServerName;
-    QLocalSocket::LocalSocketState state;
+    QString                             serverName;
+    QString                             fullServerName;
+    QLocalSocket::LocalSocketState      state;
 };
 
 QT_END_NAMESPACE
 
 #endif // QLOCALSOCKET_P_H
-

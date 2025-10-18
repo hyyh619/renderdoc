@@ -71,7 +71,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QLabelPrivate : public QFramePrivate
+class Q_AUTOTEST_EXPORT    QLabelPrivate : public QFramePrivate
 {
     Q_DECLARE_PUBLIC(QLabel)
 public:
@@ -90,7 +90,8 @@ public:
 #ifndef QT_NO_SHORTCUT
     void updateShortcut();
 #endif
-    inline bool needTextControl() const {
+    inline bool needTextControl() const
+    {
         return isTextLabel
                && (isRichText
                    || (!isRichText && (textInteractionFlags & (Qt::TextSelectableByMouse | Qt::TextSelectableByKeyboard))));
@@ -105,51 +106,51 @@ public:
 
     QRectF layoutRect() const;
     QRect documentRect() const;
-    QPoint layoutPoint(const QPoint& p) const;
+    QPoint layoutPoint(const QPoint &p) const;
     Qt::LayoutDirection textDirection() const;
 #ifndef QT_NO_CONTEXTMENU
-    QMenu *createStandardContextMenu(const QPoint &pos);
+    QMenu* createStandardContextMenu(const QPoint &pos);
 #endif
 
-    mutable QSize sh;
-    mutable QSize msh;
-    QString text;
-    QPixmap  *pixmap;
-    QPixmap *scaledpixmap;
-    QImage *cachedimage;
+    mutable QSize       sh;
+    mutable QSize       msh;
+    QString             text;
+    QPixmap             *pixmap;
+    QPixmap             *scaledpixmap;
+    QImage              *cachedimage;
 #ifndef QT_NO_PICTURE
-    QPicture *picture;
+    QPicture    *picture;
 #endif
 #if QT_CONFIG(movie)
-    QPointer<QMovie> movie;
+    QPointer<QMovie>    movie;
 #endif
-    mutable QWidgetTextControl *control;
-    mutable QTextCursor shortcutCursor;
+    mutable QWidgetTextControl      *control;
+    mutable QTextCursor             shortcutCursor;
 #ifndef QT_NO_CURSOR
-    QCursor cursor;
+    QCursor    cursor;
 #endif
 #ifndef QT_NO_SHORTCUT
-    QPointer<QWidget> buddy;
-    int shortcutId;
+    QPointer<QWidget>       buddy;
+    int                     shortcutId;
 #endif
-    Qt::TextFormat textformat;
-    Qt::TextInteractionFlags textInteractionFlags;
-    mutable QSizePolicy sizePolicy;
-    int margin;
-    ushort align;
-    short indent;
-    mutable uint valid_hints : 1;
-    uint scaledcontents : 1;
-    mutable uint textLayoutDirty : 1;
-    mutable uint textDirty : 1;
-    mutable uint isRichText : 1;
-    mutable uint isTextLabel : 1;
-    mutable uint hasShortcut : 1;
+    Qt::TextFormat              textformat;
+    Qt::TextInteractionFlags    textInteractionFlags;
+    mutable QSizePolicy         sizePolicy;
+    int                         margin;
+    ushort                      align;
+    short                       indent;
+    mutable uint                valid_hints : 1;
+    uint                        scaledcontents : 1;
+    mutable uint                textLayoutDirty : 1;
+    mutable uint                textDirty : 1;
+    mutable uint                isRichText : 1;
+    mutable uint                isTextLabel : 1;
+    mutable uint                hasShortcut : 1;
 #ifndef QT_NO_CURSOR
-    uint validCursor : 1;
-    uint onAnchor : 1;
+    uint    validCursor : 1;
+    uint    onAnchor : 1;
 #endif
-    uint openExternalLinks : 1;
+    uint    openExternalLinks : 1;
     // <-- space for more bit field values here
 
     friend class QMessageBoxPrivate;

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QHeaderView;
 class QTableViewPrivate;
 
-class Q_WIDGETS_EXPORT QTableView : public QAbstractItemView
+class Q_WIDGETS_EXPORT    QTableView : public QAbstractItemView
 {
     Q_OBJECT
     Q_PROPERTY(bool showGrid READ showGrid WRITE setShowGrid)
@@ -70,8 +70,8 @@ public:
     void setSelectionModel(QItemSelectionModel *selectionModel) Q_DECL_OVERRIDE;
     void doItemsLayout() Q_DECL_OVERRIDE;
 
-    QHeaderView *horizontalHeader() const;
-    QHeaderView *verticalHeader() const;
+    QHeaderView* horizontalHeader() const;
+    QHeaderView* verticalHeader() const;
     void setHorizontalHeader(QHeaderView *header);
     void setVerticalHeader(QHeaderView *header);
 
@@ -143,7 +143,7 @@ protected Q_SLOTS:
     void columnCountChanged(int oldCount, int newCount);
 
 protected:
-    QTableView(QTableViewPrivate &, QWidget *parent);
+    QTableView(QTableViewPrivate&, QWidget *parent);
     void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
 
     QStyleOptionViewItem viewOptions() const Q_DECL_OVERRIDE;
@@ -174,7 +174,7 @@ protected:
     void selectionChanged(const QItemSelection &selected,
                           const QItemSelection &deselected) Q_DECL_OVERRIDE;
     void currentChanged(const QModelIndex &current,
-                          const QModelIndex &previous) Q_DECL_OVERRIDE;
+                        const QModelIndex &previous) Q_DECL_OVERRIDE;
 
 private:
     friend class QAccessibleItemView;
@@ -184,10 +184,10 @@ private:
     Q_DISABLE_COPY(QTableView)
     Q_PRIVATE_SLOT(d_func(), void _q_selectRow(int))
     Q_PRIVATE_SLOT(d_func(), void _q_selectColumn(int))
-    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanInsertedRows(QModelIndex,int,int))
-    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanInsertedColumns(QModelIndex,int,int))
-    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanRemovedRows(QModelIndex,int,int))
-    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanRemovedColumns(QModelIndex,int,int))
+    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanInsertedRows(QModelIndex, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanInsertedColumns(QModelIndex, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanRemovedRows(QModelIndex, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_updateSpanRemovedColumns(QModelIndex, int, int))
 };
 
 QT_END_NAMESPACE

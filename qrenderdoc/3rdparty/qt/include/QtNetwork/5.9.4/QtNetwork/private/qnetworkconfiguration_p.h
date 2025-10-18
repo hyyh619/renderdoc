@@ -74,27 +74,27 @@ public:
     {}
     virtual ~QNetworkConfigurationPrivate()
     {
-        //release pointers to member configurations
+        // release pointers to member configurations
         serviceNetworkMembers.clear();
     }
 
-    QMap<unsigned int, QNetworkConfigurationPrivatePointer> serviceNetworkMembers;
+    QMap<unsigned int, QNetworkConfigurationPrivatePointer>    serviceNetworkMembers;
 
-    mutable QMutex mutex;
+    mutable QMutex    mutex;
 
-    QString name;
-    QString id;
+    QString     name;
+    QString     id;
 
-    QNetworkConfiguration::StateFlags state;
-    QNetworkConfiguration::Type type;
-    QNetworkConfiguration::Purpose purpose;
-    QNetworkConfiguration::BearerType bearerType;
+    QNetworkConfiguration::StateFlags       state;
+    QNetworkConfiguration::Type             type;
+    QNetworkConfiguration::Purpose          purpose;
+    QNetworkConfiguration::BearerType       bearerType;
 
-    bool isValid;
-    bool roamingSupported;
-    int timeout;
+    bool    isValid;
+    bool    roamingSupported;
+    int     timeout;
 
-    static Q_CONSTEXPR int DefaultTimeout = 30000;
+    static Q_CONSTEXPR int    DefaultTimeout = 30000;
 
 private:
     Q_DISABLE_COPY(QNetworkConfigurationPrivate)

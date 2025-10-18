@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QPushButton;
 class QDialogPrivate;
 
-class Q_WIDGETS_EXPORT QDialog : public QWidget
+class Q_WIDGETS_EXPORT    QDialog : public QWidget
 {
     Q_OBJECT
     friend class QPushButton;
@@ -72,7 +72,7 @@ public:
     void setOrientation(Qt::Orientation orientation);
     Qt::Orientation orientation() const;
 
-    void setExtension(QWidget* extension);
+    void setExtension(QWidget *extension);
     QWidget* extension() const;
 
     QSize sizeHint() const override;
@@ -99,16 +99,16 @@ public Q_SLOTS:
     void showExtension(bool);
 
 protected:
-    QDialog(QDialogPrivate &, QWidget *parent, Qt::WindowFlags f = Qt::WindowFlags());
+    QDialog(QDialogPrivate&, QWidget *parent, Qt::WindowFlags f = Qt::WindowFlags());
 
-    void keyPressEvent(QKeyEvent *) override;
-    void closeEvent(QCloseEvent *) override;
-    void showEvent(QShowEvent *) override;
-    void resizeEvent(QResizeEvent *) override;
+    void keyPressEvent(QKeyEvent*) override;
+    void closeEvent(QCloseEvent*) override;
+    void showEvent(QShowEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
 #ifndef QT_NO_CONTEXTMENU
-    void contextMenuEvent(QContextMenuEvent *) override;
+    void contextMenuEvent(QContextMenuEvent*) override;
 #endif
-    bool eventFilter(QObject *, QEvent *) override;
+    bool eventFilter(QObject*, QEvent*) override;
     void adjustPosition(QWidget*);
 private:
     Q_DECLARE_PRIVATE(QDialog)

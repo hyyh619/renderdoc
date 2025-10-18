@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 
 class QStackedLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QStackedLayout : public QLayout
+class Q_WIDGETS_EXPORT    QStackedLayout : public QLayout
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QStackedLayout)
@@ -57,7 +57,8 @@ class Q_WIDGETS_EXPORT QStackedLayout : public QLayout
     QDOC_PROPERTY(int count READ count)
 
 public:
-    enum StackingMode {
+    enum StackingMode
+    {
         StackOne,
         StackAll
     };
@@ -71,10 +72,10 @@ public:
     int addWidget(QWidget *w);
     int insertWidget(int index, QWidget *w);
 
-    QWidget *currentWidget() const;
+    QWidget* currentWidget() const;
     int currentIndex() const;
     using QLayout::widget;
-    QWidget *widget(int) const;
+    QWidget* widget(int) const;
     int count() const Q_DECL_OVERRIDE;
 
     StackingMode stackingMode() const;
@@ -84,8 +85,8 @@ public:
     void addItem(QLayoutItem *item) Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QSize minimumSize() const Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int) Q_DECL_OVERRIDE;
     void setGeometry(const QRect &rect) Q_DECL_OVERRIDE;
     bool hasHeightForWidth() const Q_DECL_OVERRIDE;
     int heightForWidth(int width) const Q_DECL_OVERRIDE;

@@ -63,11 +63,12 @@ class QPlatformTextureList;
 class QPlatformTextureListWatcher;
 class QWidgetBackingStore;
 
-struct BeginPaintInfo {
+struct BeginPaintInfo
+{
     inline BeginPaintInfo() : wasFlushed(0), nothingToPaint(0), backingStoreRecreated(0) {}
-    uint wasFlushed : 1;
-    uint nothingToPaint : 1;
-    uint backingStoreRecreated : 1;
+    uint    wasFlushed : 1;
+    uint    nothingToPaint : 1;
+    uint    backingStoreRecreated : 1;
 };
 
 #ifndef QT_NO_OPENGL
@@ -81,23 +82,25 @@ public:
     bool isLocked() const;
 
 private slots:
-     void onLockStatusChanged(bool locked);
+    void onLockStatusChanged(bool locked);
 
 private:
-     QHash<QPlatformTextureList *, bool> m_locked;
-     QWidgetBackingStore *m_backingStore;
+    QHash<QPlatformTextureList*, bool>      m_locked;
+    QWidgetBackingStore                     *m_backingStore;
 };
 #endif
 
-class Q_AUTOTEST_EXPORT QWidgetBackingStore
+class Q_AUTOTEST_EXPORT    QWidgetBackingStore
 {
 public:
-    enum UpdateTime {
+    enum UpdateTime
+    {
         UpdateNow,
         UpdateLater
     };
 
-    enum BufferState{
+    enum BufferState
+    {
         BufferValid,
         BufferInvalid
     };
@@ -111,9 +114,15 @@ public:
     void sync();
     void flush(QWidget *widget = 0);
 
-    inline QPoint topLevelOffset() const { return tlwOffset; }
+    inline QPoint topLevelOffset() const
+    {
+        return tlwOffset;
+    }
 
-    QBackingStore *backingStore() const { return store; }
+    QBackingStore* backingStore() const
+    {
+        return store;
+    }
 
     inline bool isDirty() const
     {
@@ -127,22 +136,22 @@ public:
                    BufferState bufferState = BufferValid);
 
 private:
-    QWidget *tlw;
-    QRegion dirtyOnScreen; // needsFlush
-    QRegion dirty; // needsRepaint
-    QRegion dirtyFromPreviousSync;
-    QVector<QWidget *> dirtyWidgets;
-    QVector<QWidget *> dirtyRenderToTextureWidgets;
-    QVector<QWidget *> *dirtyOnScreenWidgets;
-    QList<QWidget *> staticWidgets;
-    QBackingStore *store;
-    uint updateRequestSent : 1;
+    QWidget                 *tlw;
+    QRegion                 dirtyOnScreen; // needsFlush
+    QRegion                 dirty; // needsRepaint
+    QRegion                 dirtyFromPreviousSync;
+    QVector<QWidget*>       dirtyWidgets;
+    QVector<QWidget*>       dirtyRenderToTextureWidgets;
+    QVector<QWidget*>       *dirtyOnScreenWidgets;
+    QList<QWidget*>         staticWidgets;
+    QBackingStore           *store;
+    uint                    updateRequestSent : 1;
 
-    QPoint tlwOffset;
+    QPoint    tlwOffset;
 
-    QPlatformTextureListWatcher *textureListWatcher;
-    QElapsedTimer perfTime;
-    int perfFrames;
+    QPlatformTextureListWatcher     *textureListWatcher;
+    QElapsedTimer                   perfTime;
+    int                             perfFrames;
 
     void sendUpdateRequest(QWidget *widget, UpdateTime updateTime);
 
@@ -174,14 +183,15 @@ private:
 
     inline void addDirtyWidget(QWidget *widget, const QRegion &rgn)
     {
-        if (widget && !widget->d_func()->inDirtyList && !widget->data->in_destructor) {
-            QWidgetPrivate *widgetPrivate = widget->d_func();
+        if (widget && !widget->d_func()->inDirtyList && !widget->data->in_destructor)
+        {
+            QWidgetPrivate    *widgetPrivate = widget->d_func();
 #if QT_CONFIG(graphicseffect)
             if (widgetPrivate->graphicsEffect)
                 widgetPrivate->dirty = widgetPrivate->effectiveRectFor(rgn.boundingRect());
             else
-#endif // QT_CONFIG(graphicseffect)
-                widgetPrivate->dirty = rgn;
+#endif      // QT_CONFIG(graphicseffect)
+            widgetPrivate->dirty = rgn;
             dirtyWidgets.append(widget);
             widgetPrivate->inDirtyList = true;
         }
@@ -189,8 +199,9 @@ private:
 
     inline void addDirtyRenderToTextureWidget(QWidget *widget)
     {
-        if (widget && !widget->d_func()->inDirtyList && !widget->data->in_destructor) {
-            QWidgetPrivate *widgetPrivate = widget->d_func();
+        if (widget && !widget->d_func()->inDirtyList && !widget->data->in_destructor)
+        {
+            QWidgetPrivate    *widgetPrivate = widget->d_func();
             Q_ASSERT(widgetPrivate->renderToTexture);
             dirtyRenderToTextureWidgets.append(widget);
             widgetPrivate->inDirtyList = true;
@@ -199,8 +210,10 @@ private:
 
     inline void dirtyWidgetsRemoveAll(QWidget *widget)
     {
-        int i = 0;
-        while (i < dirtyWidgets.size()) {
+        int    i = 0;
+
+        while (i < dirtyWidgets.size())
+        {
             if (dirtyWidgets.at(i) == widget)
                 dirtyWidgets.remove(i);
             else
@@ -219,25 +232,32 @@ private:
     }
 
     inline void removeStaticWidget(QWidget *widget)
-    { staticWidgets.removeAll(widget); }
+    {
+        staticWidgets.removeAll(widget);
+    }
 
     // Move the reparented widget and all its static children from this backing store
     // to the new backing store if reparented into another top-level / backing store.
     inline void moveStaticWidgets(QWidget *reparented)
     {
         Q_ASSERT(reparented);
-        QWidgetBackingStore *newBs = reparented->d_func()->maybeBackingStore();
+        QWidgetBackingStore    *newBs = reparented->d_func()->maybeBackingStore();
         if (newBs == this)
             return;
 
-        int i = 0;
-        while (i < staticWidgets.size()) {
-            QWidget *w = staticWidgets.at(i);
-            if (reparented == w || reparented->isAncestorOf(w)) {
+        int    i = 0;
+
+        while (i < staticWidgets.size())
+        {
+            QWidget    *w = staticWidgets.at(i);
+            if (reparented == w || reparented->isAncestorOf(w))
+            {
                 staticWidgets.removeAt(i);
                 if (newBs)
                     newBs->addStaticWidget(w);
-            } else {
+            }
+            else
+            {
                 ++i;
             }
         }
@@ -253,10 +273,13 @@ private:
         if (!widget)
             return;
 
-        if (!dirtyOnScreenWidgets) {
-            dirtyOnScreenWidgets = new QVector<QWidget *>;
+        if (!dirtyOnScreenWidgets)
+        {
+            dirtyOnScreenWidgets = new QVector<QWidget*>;
             dirtyOnScreenWidgets->append(widget);
-        } else if (!dirtyOnScreenWidgets->contains(widget)) {
+        }
+        else if (!dirtyOnScreenWidgets->contains(widget))
+        {
             dirtyOnScreenWidgets->append(widget);
         }
     }
@@ -266,8 +289,10 @@ private:
         if (!widget || !dirtyOnScreenWidgets)
             return;
 
-        int i = 0;
-        while (i < dirtyOnScreenWidgets->size()) {
+        int    i = 0;
+
+        while (i < dirtyOnScreenWidgets->size())
+        {
             if (dirtyOnScreenWidgets->at(i) == widget)
                 dirtyOnScreenWidgets->remove(i);
             else
@@ -277,20 +302,23 @@ private:
 
     inline void resetWidget(QWidget *widget)
     {
-        if (widget) {
-            widget->d_func()->inDirtyList = false;
-            widget->d_func()->isScrolled = false;
-            widget->d_func()->isMoved = false;
-            widget->d_func()->dirty = QRegion();
+        if (widget)
+        {
+            widget->d_func()->inDirtyList   = false;
+            widget->d_func()->isScrolled    = false;
+            widget->d_func()->isMoved       = false;
+            widget->d_func()->dirty         = QRegion();
         }
     }
 
     inline void updateStaticContentsSize()
     {
-        for (int i = 0; i < staticWidgets.size(); ++i) {
-            QWidgetPrivate *wd = staticWidgets.at(i)->d_func();
+        for (int i = 0; i < staticWidgets.size(); ++i)
+        {
+            QWidgetPrivate    *wd = staticWidgets.at(i)->d_func();
             if (!wd->extra)
                 wd->createExtra();
+
             wd->extra->staticContentsSize = wd->data.crect.size();
         }
     }
@@ -304,7 +332,7 @@ private:
 #endif
     }
 
-    friend QRegion qt_dirtyRegion(QWidget *);
+    friend QRegion qt_dirtyRegion(QWidget*);
     friend class QWidgetPrivate;
     friend class QWidget;
     friend class QBackingStore;

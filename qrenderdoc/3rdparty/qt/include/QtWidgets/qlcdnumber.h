@@ -45,10 +45,10 @@
 
 QT_BEGIN_NAMESPACE
 
-QT_REQUIRE_CONFIG(lcdnumber);
+    QT_REQUIRE_CONFIG(lcdnumber);
 
 class QLCDNumberPrivate;
-class Q_WIDGETS_EXPORT QLCDNumber : public QFrame // LCD number widget
+class Q_WIDGETS_EXPORT    QLCDNumber : public QFrame // LCD number widget
 {
     Q_OBJECT
     Q_PROPERTY(bool smallDecimalPoint READ smallDecimalPoint WRITE setSmallDecimalPoint)
@@ -59,15 +59,17 @@ class Q_WIDGETS_EXPORT QLCDNumber : public QFrame // LCD number widget
     Q_PROPERTY(int intValue READ intValue WRITE display)
 
 public:
-    explicit QLCDNumber(QWidget* parent = Q_NULLPTR);
-    explicit QLCDNumber(uint numDigits, QWidget* parent = Q_NULLPTR);
+    explicit QLCDNumber(QWidget *parent = Q_NULLPTR);
+    explicit QLCDNumber(uint numDigits, QWidget *parent = Q_NULLPTR);
     ~QLCDNumber();
 
-    enum Mode {
+    enum Mode
+    {
         Hex, Dec, Oct, Bin
     };
     Q_ENUM(Mode)
-    enum SegmentStyle {
+    enum SegmentStyle
+    {
         Outline, Filled, Flat
     };
     Q_ENUM(SegmentStyle)
@@ -80,10 +82,10 @@ public:
     bool checkOverflow(int num) const;
 
     Mode mode() const;
-    void setMode(Mode);
+    void    setMode(Mode);
 
     SegmentStyle segmentStyle() const;
-    void setSegmentStyle(SegmentStyle);
+    void    setSegmentStyle(SegmentStyle);
 
     double value() const;
     int intValue() const;
@@ -105,7 +107,7 @@ Q_SIGNALS:
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 
 public:
 

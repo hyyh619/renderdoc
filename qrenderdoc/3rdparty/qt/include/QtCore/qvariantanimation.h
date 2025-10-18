@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_ANIMATION
 
 class QVariantAnimationPrivate;
-class Q_CORE_EXPORT QVariantAnimation : public QAbstractAnimation
+class Q_CORE_EXPORT    QVariantAnimation : public QAbstractAnimation
 {
     Q_OBJECT
     Q_PROPERTY(QVariant startValue READ startValue WRITE setStartValue)
@@ -104,20 +104,20 @@ protected:
     virtual QVariant interpolated(const QVariant &from, const QVariant &to, qreal progress) const;
 
 private:
-    template <typename T> friend void qRegisterAnimationInterpolator(QVariant (*func)(const T &, const T &, qreal));
+    template<typename T> friend void qRegisterAnimationInterpolator(QVariant (*func)(const T&, const T&, qreal));
     static void registerInterpolator(Interpolator func, int interpolationType);
 
     Q_DISABLE_COPY(QVariantAnimation)
     Q_DECLARE_PRIVATE(QVariantAnimation)
 };
 
-template <typename T>
-void qRegisterAnimationInterpolator(QVariant (*func)(const T &from, const T &to, qreal progress)) {
+template<typename T>
+void qRegisterAnimationInterpolator(QVariant (*func)(const T &from, const T &to, qreal progress))
+{
     QVariantAnimation::registerInterpolator(reinterpret_cast<QVariantAnimation::Interpolator>(func), qMetaTypeId<T>());
 }
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 
-#endif //QVARIANTANIMATION_H
+#endif // QVARIANTANIMATION_H

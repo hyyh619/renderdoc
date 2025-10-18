@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "3rdparty/fmt/core.h"
 #include "vk_test.h"
 
 RD_TEST(VK_Workgroup_Zoo, VulkanGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test of behaviour around workgroup operations in shaders.";
+    static constexpr const char    *Description =
+        "Test of behaviour around workgroup operations in shaders.";
 
-  const std::string common = R"EOSHADER(
+    const std::string    common = R"EOSHADER(
 
 #version 460 core
 #extension GL_KHR_shader_subgroup_basic : enable
@@ -70,7 +70,7 @@ uint GetTest() { return push.test; }
 
 )EOSHADER";
 
-  const std::string compCommon = common + R"EOSHADER(
+    const std::string    compCommon = common + R"EOSHADER(
 
 uvec3 tid;
 uint flatId;
@@ -104,7 +104,7 @@ void Init(vec4 val)
 
 )EOSHADER";
 
-  const std::string testShader = compCommon + R"EOSHADER(
+    const std::string    testShader = compCommon + R"EOSHADER(
 
 vec4 funcD(uint id)
 {
@@ -262,7 +262,7 @@ void main()
 
 )EOSHADER";
 
-  const std::string perfShader = compCommon + R"EOSHADER(
+    const std::string    perfShader = compCommon + R"EOSHADER(
 
 void main()
 {
@@ -322,233 +322,244 @@ void main()
 
 )EOSHADER";
 
-  VkSubgroupFeatureFlags ops = 0;
+    VkSubgroupFeatureFlags    ops = 0;
 
-  void Prepare(int argc, char **argv)
-  {
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    if(!Avail.empty())
-      return;
-
-    if(devVersion < VK_API_VERSION_1_1)
-      Avail = "Vulkan device version isn't 1.1";
-
-    static VkPhysicalDeviceSubgroupProperties subProps = {
-        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES,
-    };
-
-    getPhysProperties2(&subProps);
-
-    if(subProps.subgroupSize < 16)
-      Avail = "Subgroup size is less than 16";
-
-    // require at least a few ops so we only have a few conditional compilations
-    const VkSubgroupFeatureFlags requiredOps =
-        VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_VOTE_BIT |
-        VK_SUBGROUP_FEATURE_ARITHMETIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
-
-    ops = subProps.supportedOperations;
-
-    if((subProps.supportedOperations & requiredOps) != requiredOps)
-      Avail = "Missing ops support";
-
-    if((subProps.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) == 0)
-      Avail = "Missing compute subgroup support";
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    VkDescriptorSetLayout setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-        {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
-    }));
-
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
-        {setlayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 8)}));
-
-    std::map<std::string, std::string> macros;
-
-    int numCompTests = 0;
-
-    size_t pos = 0;
-    while(pos != std::string::npos)
+    void Prepare(int argc, char **argv)
     {
-      pos = testShader.find("IsTest(", pos);
-      if(pos == std::string::npos)
-        break;
-      pos += sizeof("IsTest(") - 1;
-      numCompTests = std::max(numCompTests, atoi(testShader.c_str() + pos) + 1);
+        VulkanGraphicsTest::Prepare(argc, argv);
+
+        if (!Avail.empty())
+            return;
+
+        if (devVersion < VK_API_VERSION_1_1)
+            Avail = "Vulkan device version isn't 1.1";
+
+        static VkPhysicalDeviceSubgroupProperties    subProps =
+        {
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES,
+        };
+
+        getPhysProperties2(&subProps);
+
+        if (subProps.subgroupSize < 16)
+            Avail = "Subgroup size is less than 16";
+
+        // require at least a few ops so we only have a few conditional compilations
+        const VkSubgroupFeatureFlags    requiredOps =
+            VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_VOTE_BIT |
+            VK_SUBGROUP_FEATURE_ARITHMETIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
+
+        ops = subProps.supportedOperations;
+
+        if ((subProps.supportedOperations & requiredOps) != requiredOps)
+            Avail = "Missing ops support";
+
+        if ((subProps.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) == 0)
+            Avail = "Missing compute subgroup support";
     }
 
-    const int32_t countPerfTests = 8;
-
-    if(ops & VK_SUBGROUP_FEATURE_SHUFFLE_BIT)
-      macros["FEAT_SHUFFLE"] = "1";
-    else
-      macros["FEAT_SHUFFLE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT)
-      macros["FEAT_SHUFFLE_RELATIVE"] = "1";
-    else
-      macros["FEAT_SHUFFLE_RELATIVE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_CLUSTERED_BIT)
-      macros["FEAT_CLUSTERED"] = "1";
-    else
-      macros["FEAT_CLUSTERED"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_QUAD_BIT)
-      macros["FEAT_QUAD"] = "1";
-    else
-      macros["FEAT_QUAD"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_ROTATE_BIT_KHR)
-      macros["FEAT_ROTATE"] = "1";
-    else
-      macros["FEAT_ROTATE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR)
-      macros["FEAT_ROTATE_CLUSTERED"] = "1";
-    else
-      macros["FEAT_ROTATE_CLUSTERED"] = "0";
-
-    std::string comppipe_name[1];
-    VkPipeline compPipes[1];
-    uint32_t countPipes = 0;
-    VkPipeline perfPipes[1];
-    uint32_t countPerfPipes = 0;
-
-    macros["COMP_TESTS"] = fmt::format("{}", numCompTests);
-
-    macros["GROUP_SIZE_X"] = "70";
-    macros["GROUP_SIZE_Y"] = "1";
-    macros["GROUP_SIZE_Z"] = "1";
-    comppipe_name[countPipes] = "70x1x1";
-
-    compPipes[countPipes] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(testShader, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-    ++countPipes;
-
-    perfPipes[0] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(perfShader, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-    ++countPerfPipes;
-
-    AllocatedBuffer bufout(
-        this,
-        vkh::BufferCreateInfo(sizeof(Vec4f) * 1024 * numCompTests,
-                              VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    setName(bufout.buffer, "bufout");
-
-    VkDescriptorSet set = allocateDescriptorSet(setlayout);
-
-    vkh::updateDescriptorSets(
-        device, {vkh::WriteDescriptorSet(set, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                                         {vkh::DescriptorBufferInfo(bufout.buffer)})});
-
-    while(Running())
+    int main()
     {
-      VkCommandBuffer cmd = GetCommandBuffer();
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+        VkDescriptorSetLayout    setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
+        }));
 
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
+                                                              {setlayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 8)}));
 
-      vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
+        std::map<std::string, std::string>    macros;
 
-      pushMarker(cmd, "Compute Tests");
+        int    numCompTests = 0;
 
-      for(size_t p = 0; p < countPipes; p++)
-      {
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+        size_t    pos = 0;
 
-        vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
-
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
-
-        pushMarker(cmd, comppipe_name[p]);
-
-        vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, compPipes[p]);
-        vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
-
-        for(int i = 0; i < numCompTests; i++)
+        while (pos != std::string::npos)
         {
-          vkh::cmdPushConstants(cmd, layout, i);
-          vkCmdDispatch(cmd, 2, 1, 1);
+            pos = testShader.find("IsTest(", pos);
+            if (pos == std::string::npos)
+                break;
+
+            pos             += sizeof("IsTest(") - 1;
+            numCompTests    = std::max(numCompTests, atoi(testShader.c_str() + pos) + 1);
         }
 
-        popMarker(cmd);
-      }
+        const int32_t    countPerfTests = 8;
 
-      popMarker(cmd);
+        if (ops & VK_SUBGROUP_FEATURE_SHUFFLE_BIT)
+            macros["FEAT_SHUFFLE"] = "1";
+        else
+            macros["FEAT_SHUFFLE"] = "0";
 
-      pushMarker(cmd, "Perf Tests");
+        if (ops & VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT)
+            macros["FEAT_SHUFFLE_RELATIVE"] = "1";
+        else
+            macros["FEAT_SHUFFLE_RELATIVE"] = "0";
 
-      for(size_t p = 0; p < countPerfPipes; p++)
-      {
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+        if (ops & VK_SUBGROUP_FEATURE_CLUSTERED_BIT)
+            macros["FEAT_CLUSTERED"] = "1";
+        else
+            macros["FEAT_CLUSTERED"] = "0";
 
-        vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
+        if (ops & VK_SUBGROUP_FEATURE_QUAD_BIT)
+            macros["FEAT_QUAD"] = "1";
+        else
+            macros["FEAT_QUAD"] = "0";
 
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+        if (ops & VK_SUBGROUP_FEATURE_ROTATE_BIT_KHR)
+            macros["FEAT_ROTATE"] = "1";
+        else
+            macros["FEAT_ROTATE"] = "0";
 
-        pushMarker(cmd, comppipe_name[p]);
+        if (ops & VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR)
+            macros["FEAT_ROTATE_CLUSTERED"] = "1";
+        else
+            macros["FEAT_ROTATE_CLUSTERED"] = "0";
 
-        vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, perfPipes[p]);
-        vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
+        std::string     comppipe_name[1];
+        VkPipeline      compPipes[1];
+        uint32_t        countPipes = 0;
+        VkPipeline      perfPipes[1];
+        uint32_t        countPerfPipes = 0;
 
-        for(int i = 0; i < countPerfTests; i++)
+        macros["COMP_TESTS"] = fmt::format("{}", numCompTests);
+
+        macros["GROUP_SIZE_X"]      = "70";
+        macros["GROUP_SIZE_Y"]      = "1";
+        macros["GROUP_SIZE_Z"]      = "1";
+        comppipe_name[countPipes]   = "70x1x1";
+
+        compPipes[countPipes] = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                          layout, CompileShaderModule(testShader, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                                      SPIRVTarget::vulkan11)));
+        ++countPipes;
+
+        perfPipes[0] = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                 layout, CompileShaderModule(perfShader, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                             SPIRVTarget::vulkan11)));
+        ++countPerfPipes;
+
+        AllocatedBuffer    bufout(
+            this,
+            vkh::BufferCreateInfo(sizeof(Vec4f) * 1024 * numCompTests,
+                                  VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        setName(bufout.buffer, "bufout");
+
+        VkDescriptorSet    set = allocateDescriptorSet(setlayout);
+
+        vkh::updateDescriptorSets(
+            device, {vkh::WriteDescriptorSet(set, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                             {vkh::DescriptorBufferInfo(bufout.buffer)})});
+
+        while (Running())
         {
-          bool useCpu = (i & 0x1);
-          int count = 0;
-          {
-            int temp = i >> 1;
-            if(temp == 0)
-              count = 100U;
-            if(temp == 1)
-              count = 200U;
-            if(temp == 2)
-              count = 400U;
-            if(temp == 3)
-              count = 5000U;
-          }
-          std::string perfTestName =
-              fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
-          pushMarker(cmd, perfTestName);
-          vkh::cmdPushConstants(cmd, layout, i);
-          vkCmdDispatch(cmd, 2, 1, 1);
-          popMarker(cmd);
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
+
+            pushMarker(cmd, "Compute Tests");
+
+            for (size_t p = 0; p < countPipes; p++)
+            {
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
+
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                pushMarker(cmd, comppipe_name[p]);
+
+                vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, compPipes[p]);
+                vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
+
+                for (int i = 0; i < numCompTests; i++)
+                {
+                    vkh::cmdPushConstants(cmd, layout, i);
+                    vkCmdDispatch(cmd, 2, 1, 1);
+                }
+
+                popMarker(cmd);
+            }
+
+            popMarker(cmd);
+
+            pushMarker(cmd, "Perf Tests");
+
+            for (size_t p = 0; p < countPerfPipes; p++)
+            {
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
+
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                pushMarker(cmd, comppipe_name[p]);
+
+                vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, perfPipes[p]);
+                vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
+
+                for (int i = 0; i < countPerfTests; i++)
+                {
+                    bool    useCpu  = (i & 0x1);
+                    int     count   = 0;
+                    {
+                        int    temp = i >> 1;
+                        if (temp == 0)
+                            count = 100U;
+
+                        if (temp == 1)
+                            count = 200U;
+
+                        if (temp == 2)
+                            count = 400U;
+
+                        if (temp == 3)
+                            count = 5000U;
+                    }
+                    std::string    perfTestName =
+                        fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
+                    pushMarker(cmd, perfTestName);
+                    vkh::cmdPushConstants(cmd, layout, i);
+                    vkCmdDispatch(cmd, 2, 1, 1);
+                    popMarker(cmd);
+                }
+
+                popMarker(cmd);
+            }
+
+            popMarker(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            SubmitAndPresent({cmd});
         }
 
-        popMarker(cmd);
-      }
-
-      popMarker(cmd);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      SubmitAndPresent({cmd});
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

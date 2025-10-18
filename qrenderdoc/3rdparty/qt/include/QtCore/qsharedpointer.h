@@ -53,31 +53,31 @@ QT_BEGIN_NAMESPACE
 
 // These classes are here to fool qdoc into generating a better documentation
 
-template <class T>
+template<class T>
 class QSharedPointer
 {
 public:
     // basic accessor functions
-    T *data() const;
+    T* data() const;
     bool isNull() const;
     operator bool() const;
     bool operator!() const;
-    T &operator*() const;
-    T *operator ->() const;
+    T    &operator*() const;
+    T* operator ->() const;
 
     // constructors
     QSharedPointer();
-    template <typename X> explicit QSharedPointer(X *ptr);
-    template <typename X, typename Deleter> QSharedPointer(X *ptr, Deleter d);
+    template<typename X> explicit QSharedPointer(X *ptr);
+    template<typename X, typename Deleter> QSharedPointer(X *ptr, Deleter d);
     QSharedPointer(std::nullptr_t);
-    template <typename Deleter> QSharedPointer(std::nullptr_t, Deleter d);
+    template<typename Deleter> QSharedPointer(std::nullptr_t, Deleter d);
     QSharedPointer(const QSharedPointer<T> &other);
     QSharedPointer(const QWeakPointer<T> &other);
 
     ~QSharedPointer() { }
 
-    QSharedPointer<T> &operator=(const QSharedPointer<T> &other);
-    QSharedPointer<T> &operator=(const QWeakPointer<T> &other);
+    QSharedPointer<T>&operator=(const QSharedPointer<T> &other);
+    QSharedPointer<T>&operator=(const QWeakPointer<T> &other);
 
     void swap(QSharedPointer<T> &other);
 
@@ -87,20 +87,20 @@ public:
 
     void reset();
     void reset(T *t);
-    template <typename Deleter>
+    template<typename Deleter>
     void reset(T *t, Deleter deleter);
 
     // casts:
-    template <class X> QSharedPointer<X> staticCast() const;
-    template <class X> QSharedPointer<X> dynamicCast() const;
-    template <class X> QSharedPointer<X> constCast() const;
-    template <class X> QSharedPointer<X> objectCast() const;
+    template<class X> QSharedPointer<X> staticCast() const;
+    template<class X> QSharedPointer<X> dynamicCast() const;
+    template<class X> QSharedPointer<X> constCast() const;
+    template<class X> QSharedPointer<X> objectCast() const;
 
     static inline QSharedPointer<T> create();
     static inline QSharedPointer<T> create(...);
 };
 
-template <class T>
+template<class T>
 class QWeakPointer
 {
 public:
@@ -116,22 +116,22 @@ public:
 
     ~QWeakPointer();
 
-    QWeakPointer<T> &operator=(const QWeakPointer<T> &other);
-    QWeakPointer<T> &operator=(const QSharedPointer<T> &other);
+    QWeakPointer<T>&operator=(const QWeakPointer<T> &other);
+    QWeakPointer<T>&operator=(const QSharedPointer<T> &other);
 
     QWeakPointer(const QObject *other);
-    QWeakPointer<T> &operator=(const QObject *other);
+    QWeakPointer<T>&operator=(const QObject *other);
 
     void swap(QWeakPointer<T> &other);
 
-    T *data() const;
+    T* data() const;
     void clear();
 
     QSharedPointer<T> toStrongRef() const;
     QSharedPointer<T> lock() const;
 };
 
-template <class T>
+template<class T>
 class QEnableSharedFromThis
 {
 public:
@@ -158,19 +158,18 @@ template<class T> bool operator!=(const QWeakPointer<T> &lhs, std::nullptr_t);
 template<class T> bool operator==(std::nullptr_t, const QWeakPointer<T> &rhs);
 template<class T> bool operator!=(std::nullptr_t, const QWeakPointer<T> &rhs);
 
-template <class X, class T> QSharedPointer<X> qSharedPointerCast(const QSharedPointer<T> &other);
-template <class X, class T> QSharedPointer<X> qSharedPointerCast(const QWeakPointer<T> &other);
-template <class X, class T> QSharedPointer<X> qSharedPointerDynamicCast(const QSharedPointer<T> &src);
-template <class X, class T> QSharedPointer<X> qSharedPointerDynamicCast(const QWeakPointer<T> &src);
-template <class X, class T> QSharedPointer<X> qSharedPointerConstCast(const QSharedPointer<T> &src);
-template <class X, class T> QSharedPointer<X> qSharedPointerConstCast(const QWeakPointer<T> &src);
-template <class X, class T> QSharedPointer<X> qSharedPointerObjectCast(const QSharedPointer<T> &src);
-template <class X, class T> QSharedPointer<X> qSharedPointerObjectCast(const QWeakPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerCast(const QSharedPointer<T> &other);
+template<class X, class T> QSharedPointer<X> qSharedPointerCast(const QWeakPointer<T> &other);
+template<class X, class T> QSharedPointer<X> qSharedPointerDynamicCast(const QSharedPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerDynamicCast(const QWeakPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerConstCast(const QSharedPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerConstCast(const QWeakPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerObjectCast(const QSharedPointer<T> &src);
+template<class X, class T> QSharedPointer<X> qSharedPointerObjectCast(const QWeakPointer<T> &src);
 
-template <class X, class T> QWeakPointer<X> qWeakPointerCast(const QWeakPointer<T> &src);
+template<class X, class T> QWeakPointer<X> qWeakPointerCast(const QWeakPointer<T> &src);
 
 QT_END_NAMESPACE
-
 #endif // Q_QDOC
 
 #endif // QSHAREDPOINTER_H

@@ -71,13 +71,13 @@ QT_BEGIN_NAMESPACE
 
 class QTextItemInt;
 
-class Q_GUI_EXPORT QTextureGlyphCache : public QFontEngineGlyphCache
+class Q_GUI_EXPORT    QTextureGlyphCache : public QFontEngineGlyphCache
 {
 public:
     QTextureGlyphCache(QFontEngine::GlyphFormat format, const QTransform &matrix)
         : QFontEngineGlyphCache(format, matrix), m_current_fontengine(0),
-                                               m_w(0), m_h(0), m_cx(0), m_cy(0), m_currentRowHeight(0)
-        { }
+        m_w(0), m_h(0), m_cx(0), m_cy(0), m_currentRowHeight(0)
+    { }
 
     ~QTextureGlyphCache();
 
@@ -91,10 +91,11 @@ public:
         }
 
         glyph_t glyph;
-        QFixed subPixelPosition;
+        QFixed  subPixelPosition;
     };
 
-    struct Coord {
+    struct Coord
+    {
         int x;
         int y;
         int w;
@@ -111,18 +112,25 @@ public:
 
     bool populate(QFontEngine *fontEngine, int numGlyphs, const glyph_t *glyphs,
                   const QFixedPoint *positions);
-    bool hasPendingGlyphs() const { return !m_pendingGlyphs.isEmpty(); };
+    bool hasPendingGlyphs() const
+    {
+        return !m_pendingGlyphs.isEmpty();
+    };
     void fillInPendingGlyphs();
 
-    virtual void createTextureData(int width, int height) = 0;
-    virtual void resizeTextureData(int width, int height) = 0;
-    virtual int glyphPadding() const { return 0; }
+    virtual void createTextureData(int width, int height)   = 0;
+    virtual void resizeTextureData(int width, int height)   = 0;
+    virtual int glyphPadding() const
+    {
+        return 0;
+    }
 
     virtual void beginFillTexture() { }
     virtual void fillTexture(const Coord &coord, glyph_t glyph, QFixed subPixelPosition) = 0;
     virtual void endFillTexture() { }
 
-    inline void createCache(int width, int height) {
+    inline void createCache(int width, int height)
+    {
         m_w = width;
         m_h = height;
         createTextureData(width, height);
@@ -135,34 +143,43 @@ public:
         m_h = height;
     }
 
-    inline bool isNull() const { return m_h == 0; }
+    inline bool isNull() const
+    {
+        return m_h == 0;
+    }
 
-    QHash<GlyphAndSubPixelPosition, Coord> coords;
-    virtual int maxTextureWidth() const { return QT_DEFAULT_TEXTURE_GLYPH_CACHE_WIDTH; }
-    virtual int maxTextureHeight() const { return -1; }
+    QHash<GlyphAndSubPixelPosition, Coord>    coords;
+    virtual int maxTextureWidth() const
+    {
+        return QT_DEFAULT_TEXTURE_GLYPH_CACHE_WIDTH;
+    }
+    virtual int maxTextureHeight() const
+    {
+        return -1;
+    }
 
     QImage textureMapForGlyph(glyph_t g, QFixed subPixelPosition) const;
 
 protected:
-    int calculateSubPixelPositionCount(glyph_t) const;
+    int    calculateSubPixelPositionCount(glyph_t) const;
 
-    QFontEngine *m_current_fontengine;
-    QHash<GlyphAndSubPixelPosition, Coord> m_pendingGlyphs;
+    QFontEngine                                 *m_current_fontengine;
+    QHash<GlyphAndSubPixelPosition, Coord>      m_pendingGlyphs;
 
-    int m_w; // image width
-    int m_h; // image height
-    int m_cx; // current x
-    int m_cy; // current y
-    int m_currentRowHeight; // Height of last row
+    int     m_w; // image width
+    int     m_h; // image height
+    int     m_cx; // current x
+    int     m_cy; // current y
+    int     m_currentRowHeight; // Height of last row
 };
 
 inline uint qHash(const QTextureGlyphCache::GlyphAndSubPixelPosition &g)
 {
-    return (g.glyph << 8)  | (g.subPixelPosition * 10).round().toInt();
+    return (g.glyph << 8) | (g.subPixelPosition * 10).round().toInt();
 }
 
 
-class Q_GUI_EXPORT QImageTextureGlyphCache : public QTextureGlyphCache
+class Q_GUI_EXPORT    QImageTextureGlyphCache : public QTextureGlyphCache
 {
 public:
     QImageTextureGlyphCache(QFontEngine::GlyphFormat format, const QTransform &matrix)
@@ -173,10 +190,13 @@ public:
     virtual void resizeTextureData(int width, int height) Q_DECL_OVERRIDE;
     virtual void fillTexture(const Coord &c, glyph_t glyph, QFixed subPixelPosition) Q_DECL_OVERRIDE;
 
-    inline const QImage &image() const { return m_image; }
+    inline const QImage    &image() const
+    {
+        return m_image;
+    }
 
 private:
-    QImage m_image;
+    QImage    m_image;
 };
 
 QT_END_NAMESPACE

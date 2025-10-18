@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QSctpSocketPrivate;
 
-class Q_NETWORK_EXPORT QSctpSocket : public QTcpSocket
+class Q_NETWORK_EXPORT    QSctpSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
@@ -74,7 +74,6 @@ private:
     Q_DISABLE_COPY(QSctpSocket)
     Q_DECLARE_PRIVATE(QSctpSocket)
 };
-
 #endif // QT_NO_SCTP
 
 QT_END_NAMESPACE

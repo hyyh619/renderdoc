@@ -67,15 +67,14 @@ public:
     QLockFilePrivate(const QString &fn)
         : fileName(fn),
 #ifdef Q_OS_WIN
-          fileHandle(INVALID_HANDLE_VALUE),
+        fileHandle(INVALID_HANDLE_VALUE),
 #else
-          fileHandle(-1),
+        fileHandle(-1),
 #endif
-          staleLockTime(30 * 1000), // 30 seconds
-          lockError(QLockFile::NoError),
-          isLocked(false)
-    {
-    }
+        staleLockTime(30 * 1000),   // 30 seconds
+        lockError(QLockFile::NoError),
+        isLocked(false)
+    {}
     QLockFile::LockError tryLock_sys();
     bool removeStaleLock();
     bool getLockInfo(qint64 *pid, QString *hostname, QString *appname) const;
@@ -89,15 +88,15 @@ public:
     static int checkFcntlWorksAfterFlock(const QString &fn);
 #endif
 
-    QString fileName;
+    QString    fileName;
 #ifdef Q_OS_WIN
-    Qt::HANDLE fileHandle;
+    Qt::HANDLE    fileHandle;
 #else
-    int fileHandle;
+    int    fileHandle;
 #endif
-    int staleLockTime; // "int milliseconds" is big enough for 24 days
-    QLockFile::LockError lockError;
-    bool isLocked;
+    int                     staleLockTime; // "int milliseconds" is big enough for 24 days
+    QLockFile::LockError    lockError;
+    bool                    isLocked;
 };
 
 QT_END_NAMESPACE

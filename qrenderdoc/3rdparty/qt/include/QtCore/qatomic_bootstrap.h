@@ -52,7 +52,7 @@ QT_END_NAMESPACE
 #pragma qt_sync_stop_processing
 #endif
 
-template <typename T> struct QAtomicOps: QGenericAtomicOps<QAtomicOps<T> >
+template<typename T> struct QAtomicOps : QGenericAtomicOps<QAtomicOps<T> >
 {
     typedef T Type;
 
@@ -69,24 +69,29 @@ template <typename T> struct QAtomicOps: QGenericAtomicOps<QAtomicOps<T> >
     {
         if (currentValue)
             *currentValue = _q_value;
-        if (_q_value == expectedValue) {
+
+        if (_q_value == expectedValue)
+        {
             _q_value = newValue;
             return true;
         }
+
         return false;
     }
 
     static T fetchAndStoreRelaxed(T &_q_value, T newValue) Q_DECL_NOTHROW
     {
-        T tmp = _q_value;
+        T    tmp = _q_value;
+
         _q_value = newValue;
         return tmp;
     }
 
-    template <typename AdditiveType> static
+    template<typename AdditiveType> static
     T fetchAndAddRelaxed(T &_q_value, AdditiveType valueToAdd) Q_DECL_NOTHROW
     {
-        T returnValue = _q_value;
+        T    returnValue = _q_value;
+
         _q_value += valueToAdd;
         return returnValue;
     }

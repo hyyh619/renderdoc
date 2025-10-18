@@ -8,7 +8,7 @@ extern "C" {
 #ifndef Py_LIMITED_API
 PyAPI_DATA(int) _PyOS_opterr;
 PyAPI_DATA(int) _PyOS_optind;
-PyAPI_DATA(wchar_t *) _PyOS_optarg;
+PyAPI_DATA(wchar_t*) _PyOS_optarg;
 
 PyAPI_FUNC(void) _PyOS_ResetGetOpt(void);
 

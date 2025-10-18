@@ -59,28 +59,31 @@ QT_BEGIN_NAMESPACE
 class QOpenGLContext;
 class QPaintEngine;
 
-class Q_GUI_EXPORT QOpenGLPaintDevicePrivate
+class Q_GUI_EXPORT    QOpenGLPaintDevicePrivate
 {
 public:
     QOpenGLPaintDevicePrivate(const QSize &size);
     virtual ~QOpenGLPaintDevicePrivate();
 
-    static QOpenGLPaintDevicePrivate *get(QOpenGLPaintDevice *dev) { return dev->d_func(); }
+    static QOpenGLPaintDevicePrivate* get(QOpenGLPaintDevice *dev)
+    {
+        return dev->d_func();
+    }
 
     virtual void beginPaint() { }
     virtual void endPaint() { }
 
 public:
-    QSize size;
-    QOpenGLContext *ctx;
+    QSize               size;
+    QOpenGLContext      *ctx;
 
-    qreal dpmx;
-    qreal dpmy;
-    qreal devicePixelRatio;
+    qreal       dpmx;
+    qreal       dpmy;
+    qreal       devicePixelRatio;
 
-    bool flipped;
+    bool    flipped;
 
-    QPaintEngine *engine;
+    QPaintEngine    *engine;
 };
 
 QT_END_NAMESPACE

@@ -58,23 +58,23 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_CODECS
 
-class QIsciiCodec : public QTextCodec {
+class QIsciiCodec : public QTextCodec
+{
 public:
     explicit QIsciiCodec(int i) : idx(i) {}
     ~QIsciiCodec();
 
-    static QTextCodec *create(const char *name);
+    static QTextCodec* create(const char *name);
 
     QByteArray name() const Q_DECL_OVERRIDE;
     int mibEnum() const Q_DECL_OVERRIDE;
 
-    QString convertToUnicode(const char *, int, ConverterState *) const Q_DECL_OVERRIDE;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const Q_DECL_OVERRIDE;
+    QString convertToUnicode(const char*, int, ConverterState*) const Q_DECL_OVERRIDE;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const Q_DECL_OVERRIDE;
 
 private:
-    int idx;
+    int    idx;
 };
-
 #endif // QT_NO_CODECS
 
 QT_END_NAMESPACE

@@ -66,13 +66,13 @@ public:
 
     virtual void setFileName(const QString &file) Q_DECL_OVERRIDE;
 
-    virtual bool open(QIODevice::OpenMode flags) Q_DECL_OVERRIDE ;
+    virtual bool open(QIODevice::OpenMode flags) Q_DECL_OVERRIDE;
     virtual bool close() Q_DECL_OVERRIDE;
     virtual bool flush() Q_DECL_OVERRIDE;
     virtual qint64 size() const Q_DECL_OVERRIDE;
     virtual qint64 pos() const Q_DECL_OVERRIDE;
     virtual bool atEnd() const;
-    virtual bool seek(qint64) Q_DECL_OVERRIDE;
+    virtual bool    seek(qint64) Q_DECL_OVERRIDE;
     virtual qint64 read(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
     virtual qint64 write(const char *data, qint64 len) Q_DECL_OVERRIDE;
 
@@ -100,13 +100,13 @@ public:
 
     virtual QString fileName(QAbstractFileEngine::FileName file) const Q_DECL_OVERRIDE;
 
-    virtual uint ownerId(FileOwner) const Q_DECL_OVERRIDE;
-    virtual QString owner(FileOwner) const Q_DECL_OVERRIDE;
+    virtual uint        ownerId(FileOwner) const Q_DECL_OVERRIDE;
+    virtual QString     owner(FileOwner) const Q_DECL_OVERRIDE;
 
     virtual QDateTime fileTime(FileTime time) const Q_DECL_OVERRIDE;
 
-    virtual Iterator *beginEntryList(QDir::Filters filters, const QStringList &filterNames) Q_DECL_OVERRIDE;
-    virtual Iterator *endEntryList() Q_DECL_OVERRIDE;
+    virtual Iterator* beginEntryList(QDir::Filters filters, const QStringList &filterNames) Q_DECL_OVERRIDE;
+    virtual Iterator* endEntryList() Q_DECL_OVERRIDE;
 
     bool extension(Extension extension, const ExtensionOption *option = 0, ExtensionReturn *output = 0) Q_DECL_OVERRIDE;
     bool supportsExtension(Extension extension) const Q_DECL_OVERRIDE;

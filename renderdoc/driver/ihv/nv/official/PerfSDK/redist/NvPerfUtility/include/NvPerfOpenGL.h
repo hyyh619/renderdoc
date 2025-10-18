@@ -1,18 +1,18 @@
 /*
-* Copyright 2014-2025 NVIDIA Corporation.  All rights reserved.
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-*     http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2014-2025 NVIDIA Corporation.  All rights reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
 #pragma once
 
@@ -20,174 +20,197 @@
 #include "NvPerfDeviceProperties.h"
 #include "nvperf_opengl_host.h"
 #include "nvperf_opengl_target.h"
-//#include "GL/gl.h"
+// #include "GL/gl.h"
 #include <string.h>
-namespace nv { namespace perf {
+namespace nv
+{ namespace perf
+  {
+      // OpenGL Only Utilities
+      //
+      inline std::string OpenGLGetDeviceName()
+      {
+          const GLubyte    *pRenderer = glGetString(eGL_RENDERER);
 
-    // OpenGL Only Utilities
-    //
-    inline std::string OpenGLGetDeviceName()
-    {
-        const GLubyte* pRenderer = glGetString(eGL_RENDERER);
-        if (!pRenderer)
-        {
-            return "";
-        }
+          if (!pRenderer)
+          {
+              return "";
+          }
 
-        return (const char*) pRenderer;
-    }
+          return (const char*) pRenderer;
+      }
 
-    inline bool OpenGLIsNvidiaDevice()
-    {
-        const GLubyte* pVendor = glGetString(eGL_VENDOR);
-        if (!pVendor)
-        {
-            return false;
-        }
+      inline bool OpenGLIsNvidiaDevice()
+      {
+          const GLubyte    *pVendor = glGetString(eGL_VENDOR);
 
-        if (strstr((const char*)pVendor, "NVIDIA"))
-        {
-            return true;
-        }
-        return false;
-    }
+          if (!pVendor)
+          {
+              return false;
+          }
 
-    inline bool OpenGLLoadDriver()
-    {
-        NVPW_OpenGL_LoadDriver_Params loadDriverParams = { NVPW_OpenGL_LoadDriver_Params_STRUCT_SIZE };
-        NVPA_Status nvpaStatus = NVPW_OpenGL_LoadDriver(&loadDriverParams);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(10, "NVPW_OpenGL_LoadDriver failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
-            return false;
-        }
-        return true;
-    }
+          if (strstr((const char*)pVendor, "NVIDIA"))
+          {
+              return true;
+          }
 
-    inline size_t OpenGLGetNvperfDeviceIndex(size_t sliIndex = 0)
-    {
-        NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params getDeviceIndexParams = { NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params_STRUCT_SIZE };
-        getDeviceIndexParams.sliIndex = sliIndex;
+          return false;
+      }
 
-        NVPA_Status nvpaStatus = NVPW_OpenGL_GraphicsContext_GetDeviceIndex(&getDeviceIndexParams);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(20, "NVPW_OpenGL_GraphicsContext_GetDeviceIndex failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
-            return ~size_t(0);
-        }
+      inline bool OpenGLLoadDriver()
+      {
+          NVPW_OpenGL_LoadDriver_Params     loadDriverParams    = { NVPW_OpenGL_LoadDriver_Params_STRUCT_SIZE };
+          NVPA_Status                       nvpaStatus          = NVPW_OpenGL_LoadDriver(&loadDriverParams);
 
-        return getDeviceIndexParams.deviceIndex;
-    }
+          if (nvpaStatus)
+          {
+              NV_PERF_LOG_ERR(10, "NVPW_OpenGL_LoadDriver failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
+              return false;
+          }
 
-    inline DeviceIdentifiers OpenGLGetDeviceIdentifiers(size_t sliIndex = 0)
-    {
-        const size_t deviceIndex = OpenGLGetNvperfDeviceIndex(sliIndex);
+          return true;
+      }
 
-        DeviceIdentifiers deviceIdentifiers = GetDeviceIdentifiers(deviceIndex);
-        return deviceIdentifiers;
-    }
+      inline size_t OpenGLGetNvperfDeviceIndex(size_t sliIndex = 0)
+      {
+          NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params    getDeviceIndexParams = { NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params_STRUCT_SIZE };
 
-    inline ClockInfo OpenGLGetDeviceClockState()
-    {
-        size_t nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
-        return GetDeviceClockState(nvperfDeviceIndex);
-    }
+          getDeviceIndexParams.sliIndex = sliIndex;
 
-    inline bool OpenGLSetDeviceClockState(NVPW_Device_ClockSetting clockSetting)
-    {
-        size_t nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
-        return SetDeviceClockState(nvperfDeviceIndex, clockSetting);
-    }
+          NVPA_Status    nvpaStatus = NVPW_OpenGL_GraphicsContext_GetDeviceIndex(&getDeviceIndexParams);
+          if (nvpaStatus)
+          {
+              NV_PERF_LOG_ERR(20, "NVPW_OpenGL_GraphicsContext_GetDeviceIndex failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
+              return ~size_t(0);
+          }
 
-    inline bool OpenGLSetDeviceClockState(const ClockInfo& clockInfo)
-    {
-        size_t nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
-        return SetDeviceClockState(nvperfDeviceIndex, clockInfo);
-    }
+          return getDeviceIndexParams.deviceIndex;
+      }
 
-    inline size_t OpenGLCalculateMetricsEvaluatorScratchBufferSize(const char* pChipName)
-    {
-        NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize_Params calculateScratchBufferSizeParams = { NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize_Params_STRUCT_SIZE };
-        calculateScratchBufferSizeParams.pChipName = pChipName;
-        NVPA_Status nvpaStatus = NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize(&calculateScratchBufferSizeParams);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(20, "NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
-            return 0;
-        }
-        return calculateScratchBufferSizeParams.scratchBufferSize;
-    }
+      inline DeviceIdentifiers OpenGLGetDeviceIdentifiers(size_t sliIndex = 0)
+      {
+          const size_t    deviceIndex = OpenGLGetNvperfDeviceIndex(sliIndex);
 
-    inline NVPW_MetricsEvaluator* OpenGLCreateMetricsEvaluator(uint8_t* pScratchBuffer, size_t scratchBufferSize, const char* pChipName)
-    {
-        NVPW_OpenGL_MetricsEvaluator_Initialize_Params initializeParams = { NVPW_OpenGL_MetricsEvaluator_Initialize_Params_STRUCT_SIZE };
-        initializeParams.pScratchBuffer = pScratchBuffer;
-        initializeParams.scratchBufferSize = scratchBufferSize;
-        initializeParams.pChipName = pChipName;
-        NVPA_Status nvpaStatus = NVPW_OpenGL_MetricsEvaluator_Initialize(&initializeParams);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(20, "NVPW_OpenGL_MetricsEvaluator_Initialize failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
-            return nullptr;
-        }
-        return initializeParams.pMetricsEvaluator;
-    }
+          DeviceIdentifiers    deviceIdentifiers = GetDeviceIdentifiers(deviceIndex);
 
-}}
+          return deviceIdentifiers;
+      }
 
-namespace nv { namespace perf { namespace profiler {
+      inline ClockInfo OpenGLGetDeviceClockState()
+      {
+          size_t    nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
 
+          return GetDeviceClockState(nvperfDeviceIndex);
+      }
+
+      inline bool OpenGLSetDeviceClockState(NVPW_Device_ClockSetting clockSetting)
+      {
+          size_t    nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
+
+          return SetDeviceClockState(nvperfDeviceIndex, clockSetting);
+      }
+
+      inline bool OpenGLSetDeviceClockState(const ClockInfo &clockInfo)
+      {
+          size_t    nvperfDeviceIndex = OpenGLGetNvperfDeviceIndex();
+
+          return SetDeviceClockState(nvperfDeviceIndex, clockInfo);
+      }
+
+      inline size_t OpenGLCalculateMetricsEvaluatorScratchBufferSize(const char *pChipName)
+      {
+          NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize_Params    calculateScratchBufferSizeParams = { NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize_Params_STRUCT_SIZE };
+
+          calculateScratchBufferSizeParams.pChipName = pChipName;
+          NVPA_Status    nvpaStatus = NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize(&calculateScratchBufferSizeParams);
+          if (nvpaStatus)
+          {
+              NV_PERF_LOG_ERR(20, "NVPW_OpenGL_MetricsEvaluator_CalculateScratchBufferSize failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
+              return 0;
+          }
+
+          return calculateScratchBufferSizeParams.scratchBufferSize;
+      }
+
+      inline NVPW_MetricsEvaluator* OpenGLCreateMetricsEvaluator(uint8_t *pScratchBuffer, size_t scratchBufferSize, const char *pChipName)
+      {
+          NVPW_OpenGL_MetricsEvaluator_Initialize_Params    initializeParams = { NVPW_OpenGL_MetricsEvaluator_Initialize_Params_STRUCT_SIZE };
+
+          initializeParams.pScratchBuffer       = pScratchBuffer;
+          initializeParams.scratchBufferSize    = scratchBufferSize;
+          initializeParams.pChipName            = pChipName;
+          NVPA_Status    nvpaStatus = NVPW_OpenGL_MetricsEvaluator_Initialize(&initializeParams);
+          if (nvpaStatus)
+          {
+              NV_PERF_LOG_ERR(20, "NVPW_OpenGL_MetricsEvaluator_Initialize failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
+              return nullptr;
+          }
+
+          return initializeParams.pMetricsEvaluator;
+      }
+  }
+}
+
+namespace nv
+{ namespace perf
+  { namespace profiler
+                 {
 // Wait Until Next Binary Drop
 
-    inline NVPW_RawCounterConfig* OpenGLCreateRawCounterConfig(const char* pChipName)
-    {
-        NVPW_OpenGL_RawCounterConfig_Create_Params configParams = { NVPW_OpenGL_RawCounterConfig_Create_Params_STRUCT_SIZE };
-        configParams.activityKind = NVPA_ACTIVITY_KIND_PROFILER;
-        configParams.pChipName = pChipName;
+                     inline NVPW_RawCounterConfig* OpenGLCreateRawCounterConfig(const char *pChipName)
+                     {
+                         NVPW_OpenGL_RawCounterConfig_Create_Params    configParams = { NVPW_OpenGL_RawCounterConfig_Create_Params_STRUCT_SIZE };
 
-        NVPA_Status nvpaStatus = NVPW_OpenGL_RawCounterConfig_Create(&configParams);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(20, "NVPW_OpenGL_RawCounterConfig_Create failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
-            return nullptr;
-        }
+                         configParams.activityKind      = NVPA_ACTIVITY_KIND_PROFILER;
+                         configParams.pChipName         = pChipName;
 
-        return configParams.pRawCounterConfig;
-    }
+                         NVPA_Status    nvpaStatus = NVPW_OpenGL_RawCounterConfig_Create(&configParams);
+                         if (nvpaStatus)
+                         {
+                             NV_PERF_LOG_ERR(20, "NVPW_OpenGL_RawCounterConfig_Create failed, nvpaStatus = %s\n", FormatStatus(nvpaStatus).c_str());
+                             return nullptr;
+                         }
 
-    inline bool OpenGLIsGpuSupported(size_t sliIndex = 0)
-    {
-        const size_t deviceIndex = OpenGLGetNvperfDeviceIndex(sliIndex);
+                         return configParams.pRawCounterConfig;
+                     }
 
-        NVPW_OpenGL_Profiler_IsGpuSupported_Params params = { NVPW_OpenGL_Profiler_IsGpuSupported_Params_STRUCT_SIZE };
-        params.deviceIndex = deviceIndex;
-        NVPA_Status nvpaStatus = NVPW_OpenGL_Profiler_IsGpuSupported(&params);
-        if (nvpaStatus)
-        {
-            NV_PERF_LOG_ERR(10, "NVPW_OpenGL_Profiler_IsGpuSupported failed on %s, nvpaStatus = %s\n", OpenGLGetDeviceName().c_str(), FormatStatus(nvpaStatus).c_str());
-            return false;
-        }
+                     inline bool OpenGLIsGpuSupported(size_t sliIndex = 0)
+                     {
+                         const size_t    deviceIndex = OpenGLGetNvperfDeviceIndex(sliIndex);
 
-        if (!params.isSupported)
-        {
-            NV_PERF_LOG_ERR(10, "%s is not supported for profiling\n", OpenGLGetDeviceName().c_str());
-            if (params.gpuArchitectureSupportLevel != NVPW_GPU_ARCHITECTURE_SUPPORT_LEVEL_SUPPORTED)
-            {
-                const DeviceIdentifiers deviceIdentifiers = OpenGLGetDeviceIdentifiers(sliIndex);
-                NV_PERF_LOG_ERR(10, "Unsupported GPU architecture %s\n", deviceIdentifiers.pChipName);
-            }
-            if (params.sliSupportLevel == NVPW_SLI_SUPPORT_LEVEL_UNSUPPORTED)
-            {
-                NV_PERF_LOG_ERR(10, "Devices in SLI configuration are not supported.\n");
-            }
-            if (params.cmpSupportLevel == NVPW_CMP_SUPPORT_LEVEL_UNSUPPORTED)
-            {
-                NV_PERF_LOG_ERR(10, "Cryptomining GPUs (NVIDIA CMP) are not supported.\n");
-            }
-            return false;
-        }
+                         NVPW_OpenGL_Profiler_IsGpuSupported_Params    params = { NVPW_OpenGL_Profiler_IsGpuSupported_Params_STRUCT_SIZE };
 
-        return true;
-    }
+                         params.deviceIndex = deviceIndex;
+                         NVPA_Status    nvpaStatus = NVPW_OpenGL_Profiler_IsGpuSupported(&params);
+                         if (nvpaStatus)
+                         {
+                             NV_PERF_LOG_ERR(10, "NVPW_OpenGL_Profiler_IsGpuSupported failed on %s, nvpaStatus = %s\n", OpenGLGetDeviceName().c_str(), FormatStatus(nvpaStatus).c_str());
+                             return false;
+                         }
 
-}}}
+                         if (!params.isSupported)
+                         {
+                             NV_PERF_LOG_ERR(10, "%s is not supported for profiling\n", OpenGLGetDeviceName().c_str());
+                             if (params.gpuArchitectureSupportLevel != NVPW_GPU_ARCHITECTURE_SUPPORT_LEVEL_SUPPORTED)
+                             {
+                                 const DeviceIdentifiers    deviceIdentifiers = OpenGLGetDeviceIdentifiers(sliIndex);
+                                 NV_PERF_LOG_ERR(10, "Unsupported GPU architecture %s\n", deviceIdentifiers.pChipName);
+                             }
+
+                             if (params.sliSupportLevel == NVPW_SLI_SUPPORT_LEVEL_UNSUPPORTED)
+                             {
+                                 NV_PERF_LOG_ERR(10, "Devices in SLI configuration are not supported.\n");
+                             }
+
+                             if (params.cmpSupportLevel == NVPW_CMP_SUPPORT_LEVEL_UNSUPPORTED)
+                             {
+                                 NV_PERF_LOG_ERR(10, "Cryptomining GPUs (NVIDIA CMP) are not supported.\n");
+                             }
+
+                             return false;
+                         }
+
+                         return true;
+                     }
+                 }
+  }
+}

@@ -67,11 +67,11 @@ public:
         exit.store(true);
     }
 
-    QAtomicInt quitLockRef;
+    QAtomicInt    quitLockRef;
 
-    QBasicAtomicInt exit; // bool
-    QBasicAtomicInt returnCode;
-    bool inExec;
+    QBasicAtomicInt     exit; // bool
+    QBasicAtomicInt     returnCode;
+    bool                inExec;
 
     void ref()
     {
@@ -80,7 +80,8 @@ public:
 
     void deref()
     {
-        if (!quitLockRef.deref() && inExec) {
+        if (!quitLockRef.deref() && inExec)
+        {
             qApp->postEvent(q_ptr, new QEvent(QEvent::Quit));
         }
     }

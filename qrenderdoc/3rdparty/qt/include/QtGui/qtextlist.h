@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QTextListPrivate;
 class QTextCursor;
 
-class Q_GUI_EXPORT QTextList : public QTextBlockGroup
+class Q_GUI_EXPORT    QTextList : public QTextBlockGroup
 {
     Q_OBJECT
 public:
@@ -60,20 +60,25 @@ public:
     int count() const;
 
     inline bool isEmpty() const
-    { return count() == 0; }
+    {
+        return count() == 0;
+    }
 
     QTextBlock item(int i) const;
 
-    int itemNumber(const QTextBlock &) const;
-    QString itemText(const QTextBlock &) const;
+    int itemNumber(const QTextBlock&) const;
+    QString itemText(const QTextBlock&) const;
 
     void removeItem(int i);
-    void remove(const QTextBlock &);
+    void remove(const QTextBlock&);
 
     void add(const QTextBlock &block);
 
     inline void setFormat(const QTextListFormat &format);
-    QTextListFormat format() const { return QTextObject::format().toListFormat(); }
+    QTextListFormat format() const
+    {
+        return QTextObject::format().toListFormat();
+    }
 
 private:
     Q_DISABLE_COPY(QTextList)
@@ -81,7 +86,9 @@ private:
 };
 
 inline void QTextList::setFormat(const QTextListFormat &aformat)
-{ QTextObject::setFormat(aformat); }
+{
+    QTextObject::setFormat(aformat);
+}
 
 QT_END_NAMESPACE
 

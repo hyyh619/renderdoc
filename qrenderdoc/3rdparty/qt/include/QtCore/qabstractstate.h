@@ -50,28 +50,28 @@ class QState;
 class QStateMachine;
 
 class QAbstractStatePrivate;
-class Q_CORE_EXPORT QAbstractState : public QObject
+class Q_CORE_EXPORT    QAbstractState : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool active READ active NOTIFY activeChanged)
 public:
     ~QAbstractState();
 
-    QState *parentState() const;
-    QStateMachine *machine() const;
+    QState* parentState() const;
+    QStateMachine* machine() const;
 
     bool active() const;
 
 Q_SIGNALS:
-    void entered(QPrivateSignal);
-    void exited(QPrivateSignal);
+    void    entered(QPrivateSignal);
+    void    exited(QPrivateSignal);
     void activeChanged(bool active);
 
 protected:
     QAbstractState(QState *parent = Q_NULLPTR);
 
     virtual void onEntry(QEvent *event) = 0;
-    virtual void onExit(QEvent *event) = 0;
+    virtual void onExit(QEvent *event)  = 0;
 
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 

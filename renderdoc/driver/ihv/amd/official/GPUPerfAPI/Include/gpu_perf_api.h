@@ -1,10 +1,10 @@
-//==============================================================================
+// ==============================================================================
 // Copyright (c) 2010-2025 Advanced Micro Devices, Inc. All rights reserved.
 /// @author AMD Developer Tools Team
 /// @file
 /// @brief  This is the header file that must be included by an application that
 ///         wishes to use GPUPerfAPI. It defines all the available entry points.
-//==============================================================================
+// ==============================================================================
 
 #ifndef GPU_PERFORMANCE_API_GPU_PERF_API_H_
 #define GPU_PERFORMANCE_API_GPU_PERF_API_H_
@@ -19,7 +19,7 @@
 #else
 #define GPA_LIB_DECL __declspec(dllimport)
 #endif
-#else  //__linux__
+#else  // __linux__
 #ifdef __cplusplus
 #define GPA_LIB_DECL extern "C"
 #else
@@ -45,8 +45,8 @@
 /// @brief Structure to hold the function table of the exported GPA APIs.
 typedef struct _GpaFunctionTable
 {
-    GpaUInt32 major_version;  ///< API major version.
-    GpaUInt32 minor_version;  ///< API minor version.
+    GpaUInt32   major_version; ///< API major version.
+    GpaUInt32   minor_version; ///< API minor version.
 
 #define GPA_FUNCTION_PREFIX(func) func##PtrType func;  ///< Macro used by gpu_perf_api_functions.h.
 #include "gpu_perf_api_functions.h"
@@ -56,14 +56,13 @@ typedef struct _GpaFunctionTable
     /// @brief Constructor.
     _GpaFunctionTable()
     {
-        major_version = GPA_FUNCTION_TABLE_MAJOR_VERSION_NUMBER;
-        minor_version = GPA_FUNCTION_TABLE_MINOR_VERSION_NUMBER;
+        major_version   = GPA_FUNCTION_TABLE_MAJOR_VERSION_NUMBER;
+        minor_version   = GPA_FUNCTION_TABLE_MINOR_VERSION_NUMBER;
 #define GPA_FUNCTION_PREFIX(func) func = nullptr;  ///< Macro used by gpu_perf_api_functions.h.
 #include "gpu_perf_api_functions.h"
 #undef GPA_FUNCTION_PREFIX
     }
 #endif
-
 } GpaFunctionTable;
 
 #if USE_GPA
@@ -82,7 +81,7 @@ typedef struct _GpaFunctionTable
 /// @return The GPA result status of the operation.
 /// @retval kGpaStatusOk If the operation is successful.
 /// @retval kGpaStatusErrorException If an unexpected error occurred.
-GPA_LIB_DECL GpaStatus GpaGetVersion(GpaUInt32* major_version, GpaUInt32* minor_version, GpaUInt32* build_version, GpaUInt32* update_version);
+GPA_LIB_DECL GpaStatus GpaGetVersion(GpaUInt32 *major_version, GpaUInt32 *minor_version, GpaUInt32 *build_version, GpaUInt32 *update_version);
 
 /// @defgroup gpa_api_table GPA API Function Table
 
@@ -97,7 +96,7 @@ GPA_LIB_DECL GpaStatus GpaGetVersion(GpaUInt32* major_version, GpaUInt32* minor_
 /// @retval kGpaStatusErrorLibLoadMajorVersionMismatch If the major version of the loaded binary does not match the header's.
 /// @retval kGpaStatusErrorLibLoadMinorVersionMismatch If the minor version of the loaded binary does not match the header's.
 /// @retval kGpaStatusErrorException If an unexpected error occurred.
-GPA_LIB_DECL GpaStatus GpaGetFuncTable(void* gpa_func_table);
+GPA_LIB_DECL GpaStatus GpaGetFuncTable(void *gpa_func_table);
 
 /// @defgroup gpa_logging Logging
 
@@ -169,7 +168,7 @@ GPA_LIB_DECL GpaStatus GpaDestroy();
 /// @retval kGpaStatusErrorHardwareNotSupported If the hardware is not supported.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaOpenContext(void* api_context, GpaOpenContextFlags gpa_open_context_flags, GpaContextId* gpa_context_id);
+GPA_LIB_DECL GpaStatus GpaOpenContext(void *api_context, GpaOpenContextFlags gpa_open_context_flags, GpaContextId *gpa_context_id);
 
 /// @brief Closes the specified context, which ends access to GPU performance counters.
 ///
@@ -207,7 +206,7 @@ GPA_LIB_DECL GpaStatus GpaCloseContext(GpaContextId gpa_context_id);
 /// @retval kGpaStatusErrorContextNotFound If the supplied context is invalid.
 /// @retval kGpaStatusErrorContextNotOpen If the supplied context has not been opened.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetSupportedSampleTypes(GpaContextId gpa_context_id, GpaContextSampleTypeFlags* sample_types);
+GPA_LIB_DECL GpaStatus GpaGetSupportedSampleTypes(GpaContextId gpa_context_id, GpaContextSampleTypeFlags *sample_types);
 
 /// @brief Gets the GPU device id and revision id associated with the specified context.
 ///
@@ -224,7 +223,7 @@ GPA_LIB_DECL GpaStatus GpaGetSupportedSampleTypes(GpaContextId gpa_context_id, G
 /// @retval kGpaStatusErrorContextNotOpen If the supplied context has not been opened.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetDeviceAndRevisionId(GpaContextId gpa_context_id, GpaUInt32* device_id, GpaUInt32* revision_id);
+GPA_LIB_DECL GpaStatus GpaGetDeviceAndRevisionId(GpaContextId gpa_context_id, GpaUInt32 *device_id, GpaUInt32 *revision_id);
 
 /// @brief Overrides the device information for the specified context.
 ///
@@ -236,10 +235,10 @@ GPA_LIB_DECL GpaStatus GpaGetDeviceAndRevisionId(GpaContextId gpa_context_id, Gp
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPA_LIB_DECL GpaStatus GpaUpdateDeviceInformation(GpaContextId context_id,
-                                                  GpaUInt32    num_shader_engines,
-                                                  GpaUInt32    num_compute_units,
-                                                  GpaUInt32    num_simds,
-                                                  GpaUInt32    num_waves_per_simd);
+                                                  GpaUInt32 num_shader_engines,
+                                                  GpaUInt32 num_compute_units,
+                                                  GpaUInt32 num_simds,
+                                                  GpaUInt32 num_waves_per_simd);
 
 /// @brief Gets the device name of the GPU associated with the specified context.
 ///
@@ -255,7 +254,7 @@ GPA_LIB_DECL GpaStatus GpaUpdateDeviceInformation(GpaContextId context_id,
 /// @retval kGpaStatusErrorContextNotOpen If the supplied context has not been opened.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetDeviceName(GpaContextId gpa_context_id, const char** device_name);
+GPA_LIB_DECL GpaStatus GpaGetDeviceName(GpaContextId gpa_context_id, const char **device_name);
 
 /// @brief Gets the GPU hardware generation associated with the specified context.
 ///
@@ -271,7 +270,7 @@ GPA_LIB_DECL GpaStatus GpaGetDeviceName(GpaContextId gpa_context_id, const char*
 /// @retval kGpaStatusErrorContextNotOpen If the supplied context has not been opened.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetDeviceGeneration(GpaContextId gpa_context_id, GpaHwGeneration* hardware_generation);
+GPA_LIB_DECL GpaStatus GpaGetDeviceGeneration(GpaContextId gpa_context_id, GpaHwGeneration *hardware_generation);
 
 /// @defgroup gpa_counter_interrogation GPA Counter Interrogation
 
@@ -288,7 +287,7 @@ GPA_LIB_DECL GpaStatus GpaGetDeviceGeneration(GpaContextId gpa_context_id, GpaHw
 /// @retval kGpaStatusErrorSessionNotFound If the supplied session is invalid.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetNumCounters(GpaSessionId gpa_session_id, GpaUInt32* number_of_counters);
+GPA_LIB_DECL GpaStatus GpaGetNumCounters(GpaSessionId gpa_session_id, GpaUInt32 *number_of_counters);
 
 /// @brief Gets the name of the specified counter.
 ///
@@ -305,7 +304,7 @@ GPA_LIB_DECL GpaStatus GpaGetNumCounters(GpaSessionId gpa_session_id, GpaUInt32*
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterName(GpaSessionId gpa_session_id, GpaUInt32 index, const char** counter_name);
+GPA_LIB_DECL GpaStatus GpaGetCounterName(GpaSessionId gpa_session_id, GpaUInt32 index, const char **counter_name);
 
 /// @brief Gets index of a counter given its name (case insensitive).
 ///
@@ -321,7 +320,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterName(GpaSessionId gpa_session_id, GpaUInt32 
 /// @retval kGpaStatusErrorSessionNotFound If the supplied session is invalid.
 /// @retval kGpaStatusErrorCounterNotFound If the supplied counter name cannot be found.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterIndex(GpaSessionId gpa_session_id, const char* counter_name, GpaUInt32* counter_index);
+GPA_LIB_DECL GpaStatus GpaGetCounterIndex(GpaSessionId gpa_session_id, const char *counter_name, GpaUInt32 *counter_index);
 
 /// @brief Gets the group of the specified counter.
 ///
@@ -338,7 +337,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterIndex(GpaSessionId gpa_session_id, const cha
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterGroup(GpaSessionId gpa_session_id, GpaUInt32 index, const char** counter_group);
+GPA_LIB_DECL GpaStatus GpaGetCounterGroup(GpaSessionId gpa_session_id, GpaUInt32 index, const char **counter_group);
 
 /// @brief Gets the description of the specified counter.
 ///
@@ -355,7 +354,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterGroup(GpaSessionId gpa_session_id, GpaUInt32
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterDescription(GpaSessionId gpa_session_id, GpaUInt32 index, const char** counter_description);
+GPA_LIB_DECL GpaStatus GpaGetCounterDescription(GpaSessionId gpa_session_id, GpaUInt32 index, const char **counter_description);
 
 /// @brief Gets the data type of the specified counter.
 ///
@@ -372,7 +371,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterDescription(GpaSessionId gpa_session_id, Gpa
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterDataType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaDataType* counter_data_type);
+GPA_LIB_DECL GpaStatus GpaGetCounterDataType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaDataType *counter_data_type);
 
 /// @brief Gets the usage type of the specified counter.
 ///
@@ -389,7 +388,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterDataType(GpaSessionId gpa_session_id, GpaUIn
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterUsageType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUsageType* counter_usage_type);
+GPA_LIB_DECL GpaStatus GpaGetCounterUsageType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUsageType *counter_usage_type);
 
 /// @brief Gets the UUID of the specified counter.
 ///
@@ -406,7 +405,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterUsageType(GpaSessionId gpa_session_id, GpaUI
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterUuid(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUuid* counter_uuid);
+GPA_LIB_DECL GpaStatus GpaGetCounterUuid(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUuid *counter_uuid);
 
 /// @brief Gets the supported sample type of the specified counter.
 ///
@@ -425,7 +424,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterUuid(GpaSessionId gpa_session_id, GpaUInt32 
 /// @retval kGpaStatusErrorIndexOutOfRange If the counter index is out of range.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetCounterSampleType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaCounterSampleType* counter_sample_type);
+GPA_LIB_DECL GpaStatus GpaGetCounterSampleType(GpaSessionId gpa_session_id, GpaUInt32 index, GpaCounterSampleType *counter_sample_type);
 
 /// @brief Gets a string representation of the specified counter data type.
 ///
@@ -442,7 +441,7 @@ GPA_LIB_DECL GpaStatus GpaGetCounterSampleType(GpaSessionId gpa_session_id, GpaU
 /// @retval kGpaStatusErrorNullPointer If any of the parameters are NULL.
 /// @retval kGpaStatusErrorInvalidParameter An invalid data type was supplied.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetDataTypeAsStr(GpaDataType counter_data_type, const char** type_as_str);
+GPA_LIB_DECL GpaStatus GpaGetDataTypeAsStr(GpaDataType counter_data_type, const char **type_as_str);
 
 /// @brief Gets a string representation of the specified counter usage type.
 ///
@@ -459,7 +458,7 @@ GPA_LIB_DECL GpaStatus GpaGetDataTypeAsStr(GpaDataType counter_data_type, const 
 /// @retval kGpaStatusErrorNullPointer If any of the parameters are NULL.
 /// @retval kGpaStatusErrorInvalidParameter An invalid usage type was supplied.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetUsageTypeAsStr(GpaUsageType counter_usage_type, const char** usage_type_as_str);
+GPA_LIB_DECL GpaStatus GpaGetUsageTypeAsStr(GpaUsageType counter_usage_type, const char **usage_type_as_str);
 
 /// @defgroup gpa_session_handling GPA Session Handling
 
@@ -485,7 +484,7 @@ GPA_LIB_DECL GpaStatus GpaGetUsageTypeAsStr(GpaUsageType counter_usage_type, con
 /// @retval kGpaStatusErrorIncompatibleSampleTypes The supplied sample type is not compatible with the supplied context.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaCreateSession(GpaContextId gpa_context_id, GpaSessionSampleType gpa_session_sample_type, GpaSessionId* gpa_session_id);
+GPA_LIB_DECL GpaStatus GpaCreateSession(GpaContextId gpa_context_id, GpaSessionSampleType gpa_session_sample_type, GpaSessionId *gpa_session_id);
 
 /// @brief Deletes a session object.
 ///
@@ -568,7 +567,7 @@ GPA_LIB_DECL GpaStatus GpaAbortSession(GpaSessionId gpa_session_id);
 /// @param [out] sqtt_instruction_mask The value which will hold the mask of instruction types to be included in the SQTT data.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttGetInstructionMask(GpaSessionId gpa_session_id, GpaSqttInstructionFlags* sqtt_instruction_mask);
+GPA_LIB_DECL GpaStatus GpaSqttGetInstructionMask(GpaSessionId gpa_session_id, GpaSqttInstructionFlags *sqtt_instruction_mask);
 
 /// @brief Sets the mask of instruction types to be included in the SQTT data.
 ///
@@ -592,7 +591,7 @@ GPA_LIB_DECL GpaStatus GpaSqttSetInstructionMask(GpaSessionId gpa_session_id, Gp
 /// @param [out] sqtt_compute_unit_id The value which will hold the compute unit id.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttGetComputeUnitId(GpaSessionId gpa_session_id, GpaUInt32* sqtt_compute_unit_id);
+GPA_LIB_DECL GpaStatus GpaSqttGetComputeUnitId(GpaSessionId gpa_session_id, GpaUInt32 *sqtt_compute_unit_id);
 
 /// @brief Sets the id of the compute unit which should generate the instruction level data.
 ///
@@ -614,7 +613,7 @@ GPA_LIB_DECL GpaStatus GpaSqttSetComputeUnitId(GpaSessionId gpa_session_id, GpaU
 /// @param [in] command_list the command list to begin collecting data
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttBegin(GpaSessionId gpa_session_id, void* command_list);
+GPA_LIB_DECL GpaStatus GpaSqttBegin(GpaSessionId gpa_session_id, void *command_list);
 
 /// End collecting SQTT data
 ///
@@ -624,7 +623,7 @@ GPA_LIB_DECL GpaStatus GpaSqttBegin(GpaSessionId gpa_session_id, void* command_l
 /// @param [in] command_list the command list to end collection of data
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttEnd(GpaSessionId gpa_session_id, void* command_list);
+GPA_LIB_DECL GpaStatus GpaSqttEnd(GpaSessionId gpa_session_id, void *command_list);
 
 /// Get SQTT sample result size
 ///
@@ -634,7 +633,7 @@ GPA_LIB_DECL GpaStatus GpaSqttEnd(GpaSessionId gpa_session_id, void* command_lis
 /// @param [out] sample_result_size_in_bytes returns the number of bytes of data collected
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttGetSampleResultSize(GpaSessionId gpa_session_id, size_t* sample_result_size_in_bytes);
+GPA_LIB_DECL GpaStatus GpaSqttGetSampleResultSize(GpaSessionId gpa_session_id, size_t *sample_result_size_in_bytes);
 
 /// Gets the SQTT sample results
 ///
@@ -645,7 +644,7 @@ GPA_LIB_DECL GpaStatus GpaSqttGetSampleResultSize(GpaSessionId gpa_session_id, s
 /// @param [out] sqtt_results buffer to return results in
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSqttGetSampleResult(GpaSessionId gpa_session_id, size_t sample_result_size_in_bytes, void* sqtt_results);
+GPA_LIB_DECL GpaStatus GpaSqttGetSampleResult(GpaSessionId gpa_session_id, size_t sample_result_size_in_bytes, void *sqtt_results);
 
 /// [Optional] Sets the sample interval for SPM data. The default is 4096.
 ///
@@ -679,7 +678,7 @@ GPA_LIB_DECL GpaStatus GpaSpmSetDuration(GpaSessionId gpa_session_id, GpaUInt32 
 /// @param [in] command_list the command list to begin collecting data
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSpmBegin(GpaSessionId gpa_session_id, void* command_list);
+GPA_LIB_DECL GpaStatus GpaSpmBegin(GpaSessionId gpa_session_id, void *command_list);
 
 /// End collecting SPM data
 ///
@@ -689,7 +688,7 @@ GPA_LIB_DECL GpaStatus GpaSpmBegin(GpaSessionId gpa_session_id, void* command_li
 /// @param [in] command_list the command list to end collecting data
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSpmEnd(GpaSessionId gpa_session_id, void* command_list);
+GPA_LIB_DECL GpaStatus GpaSpmEnd(GpaSessionId gpa_session_id, void *command_list);
 
 /// Get SPM sample result size
 ///
@@ -699,7 +698,7 @@ GPA_LIB_DECL GpaStatus GpaSpmEnd(GpaSessionId gpa_session_id, void* command_list
 /// @param sample_result_size_in_bytes returns the number of bytes of data collected.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSpmGetSampleResultSize(GpaSessionId gpa_session_id, size_t* sample_result_size_in_bytes);
+GPA_LIB_DECL GpaStatus GpaSpmGetSampleResultSize(GpaSessionId gpa_session_id, size_t *sample_result_size_in_bytes);
 
 /// Gets the SPM sample results
 ///
@@ -710,7 +709,7 @@ GPA_LIB_DECL GpaStatus GpaSpmGetSampleResultSize(GpaSessionId gpa_session_id, si
 /// @param [out] spm_results buffer of returned results.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPA_LIB_DECL GpaStatus GpaSpmGetSampleResult(GpaSessionId gpa_session_id, size_t sample_result_size_in_bytes, void* spm_results);
+GPA_LIB_DECL GpaStatus GpaSpmGetSampleResult(GpaSessionId gpa_session_id, size_t sample_result_size_in_bytes, void *spm_results);
 
 /// Calculate derived counters from collected SPM data
 ///
@@ -723,9 +722,9 @@ GPA_LIB_DECL GpaStatus GpaSpmGetSampleResult(GpaSessionId gpa_session_id, size_t
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPA_LIB_DECL GpaStatus GpaSpmCalculateDerivedCounters(GpaSessionId gpa_session_id,
-                                                      GpaSpmData*  spm_data,
-                                                      GpaUInt32    derived_counter_count,
-                                                      GpaUInt64*   derived_counter_results);
+                                                      GpaSpmData *spm_data,
+                                                      GpaUInt32 derived_counter_count,
+                                                      GpaUInt64 *derived_counter_results);
 
 /// @brief Ends sampling with the currently enabled set of counters.
 ///
@@ -813,7 +812,7 @@ GPA_LIB_DECL GpaStatus GpaDisableCounter(GpaSessionId gpa_session_id, GpaUInt32 
 /// @retval kGpaStatusErrorNotEnabled The counter could not be enabled.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaEnableCounterByName(GpaSessionId gpa_session_id, const char* counter_name);
+GPA_LIB_DECL GpaStatus GpaEnableCounterByName(GpaSessionId gpa_session_id, const char *counter_name);
 
 /// @brief Disables the counter with the specified counter name (case insensitive).
 ///
@@ -836,7 +835,7 @@ GPA_LIB_DECL GpaStatus GpaEnableCounterByName(GpaSessionId gpa_session_id, const
 /// @retval kGpaStatusErrorNotEnabled The counter could not be enabled.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaDisableCounterByName(GpaSessionId gpa_session_id, const char* counter_name);
+GPA_LIB_DECL GpaStatus GpaDisableCounterByName(GpaSessionId gpa_session_id, const char *counter_name);
 
 /// @brief Enables all counters.
 ///
@@ -895,7 +894,7 @@ GPA_LIB_DECL GpaStatus GpaDisableAllCounters(GpaSessionId gpa_session_id);
 /// @retval kGpaStatusErrorContextNotOpen The context on this session is not open.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetPassCount(GpaSessionId gpa_session_id, GpaUInt32* number_of_passes);
+GPA_LIB_DECL GpaStatus GpaGetPassCount(GpaSessionId gpa_session_id, GpaUInt32 *number_of_passes);
 
 /// @brief Gets the number of enabled counters.
 ///
@@ -911,7 +910,7 @@ GPA_LIB_DECL GpaStatus GpaGetPassCount(GpaSessionId gpa_session_id, GpaUInt32* n
 /// @retval kGpaStatusErrorContextNotOpen The context on this session is not open.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetNumEnabledCounters(GpaSessionId gpa_session_id, GpaUInt32* enabled_counter_count);
+GPA_LIB_DECL GpaStatus GpaGetNumEnabledCounters(GpaSessionId gpa_session_id, GpaUInt32 *enabled_counter_count);
 
 /// @brief Gets the counter index for an enabled counter.
 ///
@@ -932,7 +931,7 @@ GPA_LIB_DECL GpaStatus GpaGetNumEnabledCounters(GpaSessionId gpa_session_id, Gpa
 /// @retval kGpaStatusErrorIndexOutOfRange The enabled number is higher than the number of enabled counters.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetEnabledIndex(GpaSessionId gpa_session_id, GpaUInt32 enabled_number, GpaUInt32* enabled_counter_index);
+GPA_LIB_DECL GpaStatus GpaGetEnabledIndex(GpaSessionId gpa_session_id, GpaUInt32 enabled_number, GpaUInt32 *enabled_counter_index);
 
 /// @brief Checks whether or not a counter is enabled.
 ///
@@ -975,11 +974,11 @@ GPA_LIB_DECL GpaStatus GpaIsCounterEnabled(GpaSessionId gpa_session_id, GpaUInt3
 /// @retval kGpaStatusErrorCommandListAlreadyStarted The supplied command list has already been started, and cannot be started again.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaBeginCommandList(GpaSessionId       gpa_session_id,
-                                           GpaUInt32          pass_index,
-                                           void*              command_list,
+GPA_LIB_DECL GpaStatus GpaBeginCommandList(GpaSessionId gpa_session_id,
+                                           GpaUInt32 pass_index,
+                                           void *command_list,
                                            GpaCommandListType command_list_type,
-                                           GpaCommandListId*  gpa_command_list_id);
+                                           GpaCommandListId *gpa_command_list_id);
 
 /// @brief Ends command list for sampling.
 ///
@@ -1089,8 +1088,8 @@ GPA_LIB_DECL GpaStatus GpaContinueSampleOnCommandList(GpaUInt32 source_sample_id
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
 GPA_LIB_DECL GpaStatus GpaCopySecondarySamples(GpaCommandListId secondary_gpa_command_list_id,
                                                GpaCommandListId primary_gpa_command_list_id,
-                                               GpaUInt32        number_of_samples,
-                                               GpaUInt32*       new_sample_ids);
+                                               GpaUInt32 number_of_samples,
+                                               GpaUInt32 *new_sample_ids);
 
 /// @brief Gets the number of samples created for the specified session.
 ///
@@ -1108,7 +1107,7 @@ GPA_LIB_DECL GpaStatus GpaCopySecondarySamples(GpaCommandListId secondary_gpa_co
 /// @retval kGpaStatusErrorSessionNotEnded The session has not been ended.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetSampleCount(GpaSessionId gpa_session_id, GpaUInt32* sample_count);
+GPA_LIB_DECL GpaStatus GpaGetSampleCount(GpaSessionId gpa_session_id, GpaUInt32 *sample_count);
 
 /// @brief Gets the sample id by index.
 ///
@@ -1128,7 +1127,7 @@ GPA_LIB_DECL GpaStatus GpaGetSampleCount(GpaSessionId gpa_session_id, GpaUInt32*
 /// @retval kGpaStatusErrorSampleNotFound The supplied index is greater than the number of samples.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetSampleId(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUInt32* sample_id);
+GPA_LIB_DECL GpaStatus GpaGetSampleId(GpaSessionId gpa_session_id, GpaUInt32 index, GpaUInt32 *sample_id);
 
 /// @defgroup gpa_query_results Query Results
 
@@ -1192,7 +1191,7 @@ GPA_LIB_DECL GpaStatus GpaIsSessionComplete(GpaSessionId gpa_session_id);
 /// @retval kGpaStatusErrorSampleNotFound The supplied sample id could not be found.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetSampleResultSize(GpaSessionId gpa_session_id, GpaUInt32 sample_id, size_t* sample_result_size_in_bytes);
+GPA_LIB_DECL GpaStatus GpaGetSampleResultSize(GpaSessionId gpa_session_id, GpaUInt32 sample_id, size_t *sample_result_size_in_bytes);
 
 /// @brief Gets the result data for a given sample.
 ///
@@ -1213,7 +1212,7 @@ GPA_LIB_DECL GpaStatus GpaGetSampleResultSize(GpaSessionId gpa_session_id, GpaUI
 /// @retval kGpaStatusErrorReadingSampleResult The supplied buffer is too small for the sample results.
 /// @retval kGpaStatusErrorFailed If an internal error has occurred.
 /// @retval kGpaStatusErrorException If an unexpected error has occurred.
-GPA_LIB_DECL GpaStatus GpaGetSampleResult(GpaSessionId gpa_session_id, GpaUInt32 sample_id, size_t sample_result_size_in_bytes, void* counter_sample_results);
+GPA_LIB_DECL GpaStatus GpaGetSampleResult(GpaSessionId gpa_session_id, GpaUInt32 sample_id, size_t sample_result_size_in_bytes, void *counter_sample_results);
 
 /// @defgroup gpa_status_query GPA Status/Error Query
 

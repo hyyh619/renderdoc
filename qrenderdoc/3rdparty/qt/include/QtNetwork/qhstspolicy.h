@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QHstsPolicyPrivate;
 class QDateTime;
 class QString;
-class Q_NETWORK_EXPORT QHstsPolicy
+class Q_NETWORK_EXPORT    QHstsPolicy
 {
 public:
     enum PolicyFlag
@@ -64,11 +64,17 @@ public:
     QHstsPolicy(const QDateTime &expiry, PolicyFlags flags, const QString &host,
                 QUrl::ParsingMode mode = QUrl::DecodedMode);
     QHstsPolicy(const QHstsPolicy &rhs);
-    QHstsPolicy &operator=(const QHstsPolicy &rhs);
-    QHstsPolicy &operator=(QHstsPolicy &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QHstsPolicy&operator=(const QHstsPolicy &rhs);
+    QHstsPolicy&operator=(QHstsPolicy &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
     ~QHstsPolicy();
 
-    void swap(QHstsPolicy &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QHstsPolicy &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     void setHost(const QString &host, QUrl::ParsingMode mode = QUrl::DecodedMode);
     QString host(QUrl::ComponentFormattingOptions options = QUrl::FullyDecoded) const;
@@ -81,7 +87,7 @@ public:
 
 private:
 
-    QSharedDataPointer<QHstsPolicyPrivate> d;
+    QSharedDataPointer<QHstsPolicyPrivate>    d;
 
     friend Q_NETWORK_EXPORT bool operator==(const QHstsPolicy &lhs, const QHstsPolicy &rhs);
 };

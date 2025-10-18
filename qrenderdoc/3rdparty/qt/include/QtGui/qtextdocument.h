@@ -76,25 +76,24 @@ namespace Qt
     Q_GUI_EXPORT QString convertFromPlainText(const QString &plain, WhiteSpaceMode mode = WhiteSpacePre);
 
 #ifndef QT_NO_TEXTCODEC
-    Q_GUI_EXPORT QTextCodec *codecForHtml(const QByteArray &ba);
+    Q_GUI_EXPORT QTextCodec* codecForHtml(const QByteArray &ba);
 #endif
 }
 
-class Q_GUI_EXPORT QAbstractUndoItem
+class Q_GUI_EXPORT    QAbstractUndoItem
 {
 public:
-    virtual ~QAbstractUndoItem() = 0;
-    virtual void undo() = 0;
-    virtual void redo() = 0;
+    virtual ~QAbstractUndoItem()    = 0;
+    virtual void undo()             = 0;
+    virtual void redo()             = 0;
 };
 
 inline QAbstractUndoItem::~QAbstractUndoItem()
-{
-}
+{}
 
 class QTextDocumentPrivate;
 
-class Q_GUI_EXPORT QTextDocument : public QObject
+class Q_GUI_EXPORT    QTextDocument : public QObject
 {
     Q_OBJECT
 
@@ -120,7 +119,7 @@ public:
     explicit QTextDocument(const QString &text, QObject *parent = Q_NULLPTR);
     ~QTextDocument();
 
-    QTextDocument *clone(QObject *parent = Q_NULLPTR) const;
+    QTextDocument* clone(QObject *parent = Q_NULLPTR) const;
 
     bool isEmpty() const;
     virtual void clear();
@@ -137,13 +136,14 @@ public:
     int revision() const;
 
     void setDocumentLayout(QAbstractTextDocumentLayout *layout);
-    QAbstractTextDocumentLayout *documentLayout() const;
+    QAbstractTextDocumentLayout* documentLayout() const;
 
-    enum MetaInformation {
+    enum MetaInformation
+    {
         DocumentTitle,
         DocumentUrl
     };
-    void setMetaInformation(MetaInformation info, const QString &);
+    void setMetaInformation(MetaInformation info, const QString&);
     QString metaInformation(MetaInformation info) const;
 
 #ifndef QT_NO_TEXTHTMLPARSER
@@ -178,11 +178,11 @@ public:
     QTextCursor find(const QRegularExpression &expr, const QTextCursor &cursor, FindFlags options = FindFlags()) const;
 #endif
 
-    QTextFrame *frameAt(int pos) const;
-    QTextFrame *rootFrame() const;
+    QTextFrame* frameAt(int pos) const;
+    QTextFrame* rootFrame() const;
 
-    QTextObject *object(int objectIndex) const;
-    QTextObject *objectForFormat(const QTextFormat &) const;
+    QTextObject* object(int objectIndex) const;
+    QTextObject* objectForFormat(const QTextFormat&) const;
 
     QTextBlock findBlock(int pos) const;
     QTextBlock findBlockByNumber(int blockNumber) const;
@@ -205,12 +205,13 @@ public:
 
     void print(QPagedPaintDevice *printer) const;
 
-    enum ResourceType {
-        HtmlResource  = 1,
-        ImageResource = 2,
-        StyleSheetResource = 3,
+    enum ResourceType
+    {
+        HtmlResource        = 1,
+        ImageResource       = 2,
+        StyleSheetResource  = 3,
 
-        UserResource  = 100
+        UserResource = 100
     };
 
     QVariant resource(int type, const QUrl &name) const;
@@ -251,10 +252,11 @@ public:
     void undo(QTextCursor *cursor);
     void redo(QTextCursor *cursor);
 
-    enum Stacks {
-        UndoStack = 0x01,
-        RedoStack = 0x02,
-        UndoAndRedoStacks = UndoStack | RedoStack
+    enum Stacks
+    {
+        UndoStack           = 0x01,
+        RedoStack           = 0x02,
+        UndoAndRedoStacks   = UndoStack | RedoStack
     };
     void clearUndoRedoStacks(Stacks historyToClear = UndoAndRedoStacks);
 
@@ -285,16 +287,16 @@ Q_SIGNALS:
 public Q_SLOTS:
     void undo();
     void redo();
-    void appendUndoItem(QAbstractUndoItem *);
+    void appendUndoItem(QAbstractUndoItem*);
     void setModified(bool m = true);
 
 protected:
-    virtual QTextObject *createObject(const QTextFormat &f);
+    virtual QTextObject* createObject(const QTextFormat &f);
     Q_INVOKABLE virtual QVariant loadResource(int type, const QUrl &name);
 
     QTextDocument(QTextDocumentPrivate &dd, QObject *parent);
 public:
-    QTextDocumentPrivate *docHandle() const;
+    QTextDocumentPrivate* docHandle() const;
 private:
     Q_DISABLE_COPY(QTextDocument)
     Q_DECLARE_PRIVATE(QTextDocument)

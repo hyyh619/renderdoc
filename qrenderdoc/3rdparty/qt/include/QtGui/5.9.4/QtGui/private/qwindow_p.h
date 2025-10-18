@@ -62,9 +62,9 @@
 
 QT_BEGIN_NAMESPACE
 
-#define QWINDOWSIZE_MAX ((1<<24)-1)
+#define QWINDOWSIZE_MAX ((1 << 24) - 1)
 
-class Q_GUI_EXPORT QWindowPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QWindowPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QWindow)
 
@@ -110,8 +110,7 @@ public:
     }
 
     ~QWindowPrivate()
-    {
-    }
+    {}
 
     void init(QScreen *targetScreen = nullptr);
 
@@ -125,15 +124,18 @@ public:
 
     QPoint globalPosition() const;
 
-    QWindow *topLevelWindow() const;
+    QWindow* topLevelWindow() const;
 
-    virtual QWindow *eventReceiver() { Q_Q(QWindow); return q; }
+    virtual QWindow* eventReceiver()
+    {
+        Q_Q(QWindow); return q;
+    }
 
     void updateVisibility();
     void _q_clearAlert();
 
     enum SiblingPosition { PositionTop, PositionBottom };
-    void updateSiblingPosition(SiblingPosition);
+    void    updateSiblingPosition(SiblingPosition);
 
     bool windowRecreationRequired(QScreen *newScreen) const;
     void create(bool recursive, WId nativeHandle = 0);
@@ -142,60 +144,66 @@ public:
     void connectToScreen(QScreen *topLevelScreen);
     void disconnectFromScreen();
     void emitScreenChangedRecursion(QScreen *newScreen);
-    QScreen *screenForGeometry(const QRect &rect);
+    QScreen* screenForGeometry(const QRect &rect);
 
     virtual void clearFocusObject();
     virtual QRectF closestAcceptableGeometry(const QRectF &rect) const;
 
     virtual void processSafeAreaMarginsChanged() {};
 
-    bool isPopup() const { return (windowFlags & Qt::WindowType_Mask) == Qt::Popup; }
+    bool isPopup() const
+    {
+        return (windowFlags&Qt::WindowType_Mask) == Qt::Popup;
+    }
 
-    static QWindowPrivate *get(QWindow *window) { return window->d_func(); }
+    static QWindowPrivate* get(QWindow *window)
+    {
+        return window->d_func();
+    }
 
-    QWindow::SurfaceType surfaceType;
-    Qt::WindowFlags windowFlags;
-    QWindow *parentWindow;
-    QPlatformWindow *platformWindow;
-    bool visible;
-    bool visibilityOnDestroy;
-    bool exposed;
-    QSurfaceFormat requestedFormat;
-    QString windowTitle;
-    QString windowFilePath;
-    QIcon windowIcon;
-    QRect geometry;
-    Qt::WindowState windowState;
-    QWindow::Visibility visibility;
-    bool resizeEventPending;
-    bool receivedExpose;
-    PositionPolicy positionPolicy;
-    bool positionAutomatic;
-    Qt::ScreenOrientation contentOrientation;
-    qreal opacity;
-    QRegion mask;
+    QWindow::SurfaceType        surfaceType;
+    Qt::WindowFlags             windowFlags;
+    QWindow                     *parentWindow;
+    QPlatformWindow             *platformWindow;
+    bool                        visible;
+    bool                        visibilityOnDestroy;
+    bool                        exposed;
+    QSurfaceFormat              requestedFormat;
+    QString                     windowTitle;
+    QString                     windowFilePath;
+    QIcon                       windowIcon;
+    QRect                       geometry;
+    Qt::WindowState             windowState;
+    QWindow::Visibility         visibility;
+    bool                        resizeEventPending;
+    bool                        receivedExpose;
+    PositionPolicy              positionPolicy;
+    bool                        positionAutomatic;
+    Qt::ScreenOrientation       contentOrientation;
+    qreal                       opacity;
+    QRegion                     mask;
 
-    QSize minimumSize;
-    QSize maximumSize;
-    QSize baseSize;
-    QSize sizeIncrement;
+    QSize       minimumSize;
+    QSize       maximumSize;
+    QSize       baseSize;
+    QSize       sizeIncrement;
 
-    Qt::WindowModality modality;
-    bool blockedByModalWindow;
+    Qt::WindowModality      modality;
+    bool                    blockedByModalWindow;
 
-    bool updateRequestPending;
-    int updateTimer;
+    bool    updateRequestPending;
+    int     updateTimer;
 
-    QPointer<QWindow> transientParent;
-    QPointer<QScreen> topLevelScreen;
+    QPointer<QWindow>       transientParent;
+    QPointer<QScreen>       topLevelScreen;
 
 #ifndef QT_NO_CURSOR
-    QCursor cursor;
-    bool hasCursor;
+    QCursor     cursor;
+    bool        hasCursor;
 #endif
 
-    bool compositing;
-    QElapsedTimer lastComposeTime;
+    bool                compositing;
+    QElapsedTimer       lastComposeTime;
 };
 
 

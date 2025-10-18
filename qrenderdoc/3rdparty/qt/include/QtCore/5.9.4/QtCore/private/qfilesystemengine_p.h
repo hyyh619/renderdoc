@@ -85,7 +85,10 @@ public:
 #if defined(Q_OS_DARWIN)
     static QString bundleName(const QFileSystemEntry &entry);
 #else
-    static QString bundleName(const QFileSystemEntry &entry) { Q_UNUSED(entry) return QString(); }
+    static QString bundleName(const QFileSystemEntry &entry)
+    {
+        Q_UNUSED(entry) return QString();
+    }
 #endif
 
     static bool fillMetaData(const QFileSystemEntry &entry, QFileSystemMetaData &data,
@@ -97,8 +100,7 @@ public:
                                QFileSystemMetaData *data = nullptr);
 #endif
 #if defined(Q_OS_WIN)
-
-    static bool uncListSharesOnServer(const QString &server, QStringList *list); //Used also by QFSFileEngineIterator::hasNext()
+    static bool uncListSharesOnServer(const QString &server, QStringList *list); // Used also by QFSFileEngineIterator::hasNext()
     static bool fillMetaData(int fd, QFileSystemMetaData &data,
                              QFileSystemMetaData::MetaDataFlags what);
     static bool fillMetaData(HANDLE fHandle, QFileSystemMetaData &data,
@@ -109,7 +111,7 @@ public:
     static QString owner(const QFileSystemEntry &entry, QAbstractFileEngine::FileOwner own);
     static QString nativeAbsoluteFilePath(const QString &path);
 #endif
-    //homePath, rootPath and tempPath shall return clean paths
+    // homePath, rootPath and tempPath shall return clean paths
     static QString homePath();
     static QString rootPath();
     static QString tempPath();
@@ -129,7 +131,7 @@ public:
     static bool setCurrentPath(const QFileSystemEntry &entry);
     static QFileSystemEntry currentPath();
 
-    static QAbstractFileEngine *resolveEntryAndCreateLegacyEngine(QFileSystemEntry &entry,
+    static QAbstractFileEngine* resolveEntryAndCreateLegacyEngine(QFileSystemEntry &entry,
                                                                   QFileSystemMetaData &data);
 private:
     static QString slowCanonicalized(const QString &path);

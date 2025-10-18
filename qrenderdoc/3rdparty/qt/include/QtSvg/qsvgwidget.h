@@ -55,7 +55,7 @@ class QSvgWidgetPrivate;
 class QPaintEvent;
 class QSvgRenderer;
 
-class Q_SVG_EXPORT QSvgWidget : public QWidget
+class Q_SVG_EXPORT    QSvgWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -63,7 +63,7 @@ public:
     QSvgWidget(const QString &file, QWidget *parent = Q_NULLPTR);
     ~QSvgWidget();
 
-    QSvgRenderer *renderer() const;
+    QSvgRenderer* renderer() const;
 
     QSize sizeHint() const override;
 public Q_SLOTS:
@@ -77,7 +77,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_WIDGETS
 
 #endif // QSVGWIDGET_H

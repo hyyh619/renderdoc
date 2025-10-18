@@ -52,12 +52,13 @@ QT_BEGIN_NAMESPACE
 class QPageLayoutPrivate;
 class QMarginsF;
 
-class Q_GUI_EXPORT QPageLayout
+class Q_GUI_EXPORT    QPageLayout
 {
 public:
 
     // NOTE: Must keep in sync with QPageSize::Unit and QPrinter::Unit
-    enum Unit {
+    enum Unit
+    {
         Millimeter,
         Point,
         Inch,
@@ -67,12 +68,14 @@ public:
     };
 
     // NOTE: Must keep in sync with QPrinter::Orientation
-    enum Orientation {
+    enum Orientation
+    {
         Portrait,
         Landscape
     };
 
-    enum Mode {
+    enum Mode
+    {
         StandardMode,  // Paint Rect includes margins
         FullPageMode   // Paint Rect excludes margins
     };
@@ -83,12 +86,18 @@ public:
                 const QMarginsF &minMargins = QMarginsF(0, 0, 0, 0));
     QPageLayout(const QPageLayout &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QPageLayout &operator=(QPageLayout &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QPageLayout&operator=(QPageLayout &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QPageLayout &operator=(const QPageLayout &other);
+    QPageLayout&operator=(const QPageLayout &other);
     ~QPageLayout();
 
-    void swap(QPageLayout &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QPageLayout &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     friend Q_GUI_EXPORT bool operator==(const QPageLayout &lhs, const QPageLayout &rhs);
     bool isEquivalentTo(const QPageLayout &other) const;
@@ -135,14 +144,16 @@ public:
 
 private:
     friend class QPageLayoutPrivate;
-    QExplicitlySharedDataPointer<QPageLayoutPrivate> d;
+    QExplicitlySharedDataPointer<QPageLayoutPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QPageLayout)
 
 Q_GUI_EXPORT bool operator==(const QPageLayout &lhs, const QPageLayout &rhs);
 inline bool operator!=(const QPageLayout &lhs, const QPageLayout &rhs)
-{ return !operator==(lhs, rhs); }
+{
+    return !operator==(lhs, rhs);
+}
 
 #ifndef QT_NO_DEBUG_STREAM
 Q_GUI_EXPORT QDebug operator<<(QDebug dbg, const QPageLayout &pageLayout);

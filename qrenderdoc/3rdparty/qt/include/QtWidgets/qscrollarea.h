@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QScrollAreaPrivate;
 
-class Q_WIDGETS_EXPORT QScrollArea : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QScrollArea : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_PROPERTY(bool widgetResizable READ widgetResizable WRITE setWidgetResizable)
@@ -59,9 +59,9 @@ public:
     explicit QScrollArea(QWidget *parent = Q_NULLPTR);
     ~QScrollArea();
 
-    QWidget *widget() const;
+    QWidget* widget() const;
     void setWidget(QWidget *widget);
-    QWidget *takeWidget();
+    QWidget* takeWidget();
 
     bool widgetResizable() const;
     void setWidgetResizable(bool resizable);
@@ -78,9 +78,9 @@ public:
 
 protected:
     QScrollArea(QScrollAreaPrivate &dd, QWidget *parent = Q_NULLPTR);
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
     void scrollContentsBy(int dx, int dy) Q_DECL_OVERRIDE;
 
     QSize viewportSizeHint() const Q_DECL_OVERRIDE;

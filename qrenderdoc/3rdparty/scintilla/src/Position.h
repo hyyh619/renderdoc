@@ -1,7 +1,7 @@
 // Scintilla source code edit control
 /** @file Position.h
- ** Defines global type name Position in the Sci internal namespace.
- **/
+** Defines global type name Position in the Sci internal namespace.
+**/
 // Copyright 2015 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
@@ -13,17 +13,16 @@
  * Sometimes used as a character index where it identifies the character after the position.
  */
 
-namespace Sci {
-
-typedef int Position;
+namespace Sci
+{
+    typedef int Position;
 
 // A later version (4.x) of this file may:
-//#if defined(SCI_LARGE_FILE_SUPPORT)
-//typedef std::ptrdiff_t Position;
+// #if defined(SCI_LARGE_FILE_SUPPORT)
+// typedef std::ptrdiff_t Position;
 // or may allow runtime choice between different position sizes.
 
-const Position invalidPosition = -1;
-
+    const Position    invalidPosition = -1;
 }
 
 #endif

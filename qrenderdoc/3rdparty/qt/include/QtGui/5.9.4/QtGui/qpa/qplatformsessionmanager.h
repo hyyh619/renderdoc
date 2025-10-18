@@ -61,7 +61,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QPlatformSessionManager
+class Q_GUI_EXPORT    QPlatformSessionManager
 {
 public:
     explicit QPlatformSessionManager(const QString &id, const QString &key);
@@ -94,19 +94,18 @@ public:
     void appSaveState();
 
 protected:
-    QString m_sessionId;
-    QString m_sessionKey;
+    QString     m_sessionId;
+    QString     m_sessionKey;
 
 private:
-    QStringList m_restartCommand;
-    QStringList m_discardCommand;
-    QSessionManager::RestartHint m_restartHint;
+    QStringList                     m_restartCommand;
+    QStringList                     m_discardCommand;
+    QSessionManager::RestartHint    m_restartHint;
 
     Q_DISABLE_COPY(QPlatformSessionManager)
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SESSIONMANAGER
 
 #endif // QPLATFORMSESSIONMANAGER_H

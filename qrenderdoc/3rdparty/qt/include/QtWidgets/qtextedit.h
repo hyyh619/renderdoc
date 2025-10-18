@@ -58,7 +58,7 @@ class QTextEditPrivate;
 class QMimeData;
 class QPagedPaintDevice;
 
-class Q_WIDGETS_EXPORT QTextEdit : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QTextEdit : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QTextEdit)
@@ -79,10 +79,11 @@ class Q_WIDGETS_EXPORT QTextEdit : public QAbstractScrollArea
     Q_PROPERTY(bool acceptRichText READ acceptRichText WRITE setAcceptRichText)
     Q_PROPERTY(int cursorWidth READ cursorWidth WRITE setCursorWidth)
     Q_PROPERTY(Qt::TextInteractionFlags textInteractionFlags READ textInteractionFlags WRITE setTextInteractionFlags)
-    Q_PROPERTY(QTextDocument *document READ document WRITE setDocument DESIGNABLE false)
+    Q_PROPERTY(QTextDocument * document READ document WRITE setDocument DESIGNABLE false)
     Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText)
 public:
-    enum LineWrapMode {
+    enum LineWrapMode
+    {
         NoWrap,
         WidgetWidth,
         FixedPixelWidth,
@@ -90,10 +91,11 @@ public:
     };
     Q_ENUM(LineWrapMode)
 
-    enum AutoFormattingFlag {
-        AutoNone = 0,
-        AutoBulletList = 0x00000001,
-        AutoAll = 0xffffffff
+    enum AutoFormattingFlag
+    {
+        AutoNone        = 0,
+        AutoBulletList  = 0x00000001,
+        AutoAll         = 0xffffffff
     };
 
     Q_DECLARE_FLAGS(AutoFormatting, AutoFormattingFlag)
@@ -104,7 +106,7 @@ public:
     virtual ~QTextEdit();
 
     void setDocument(QTextDocument *document);
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     void setPlaceholderText(const QString &placeholderText);
     QString placeholderText() const;
@@ -140,14 +142,22 @@ public:
     void setTabChangesFocus(bool b);
 
     inline void setDocumentTitle(const QString &title)
-    { document()->setMetaInformation(QTextDocument::DocumentTitle, title); }
+    {
+        document()->setMetaInformation(QTextDocument::DocumentTitle, title);
+    }
     inline QString documentTitle() const
-    { return document()->metaInformation(QTextDocument::DocumentTitle); }
+    {
+        return document()->metaInformation(QTextDocument::DocumentTitle);
+    }
 
     inline bool isUndoRedoEnabled() const
-    { return document()->isUndoRedoEnabled(); }
+    {
+        return document()->isUndoRedoEnabled();
+    }
     inline void setUndoRedoEnabled(bool enable)
-    { document()->setUndoRedoEnabled(enable); }
+    {
+        document()->setUndoRedoEnabled(enable);
+    }
 
     LineWrapMode lineWrapMode() const;
     void setLineWrapMode(LineWrapMode mode);
@@ -172,15 +182,15 @@ public:
 
     Q_INVOKABLE virtual QVariant loadResource(int type, const QUrl &name);
 #ifndef QT_NO_CONTEXTMENU
-    QMenu *createStandardContextMenu();
-    QMenu *createStandardContextMenu(const QPoint &position);
+    QMenu* createStandardContextMenu();
+    QMenu* createStandardContextMenu(const QPoint &position);
 #endif
 
     QTextCursor cursorForPosition(const QPoint &pos) const;
     QRect cursorRect(const QTextCursor &cursor) const;
     QRect cursorRect() const;
 
-    QString anchorAt(const QPoint& pos) const;
+    QString anchorAt(const QPoint &pos) const;
 
     bool overwriteMode() const;
     void setOverwriteMode(bool overwrite);
@@ -196,7 +206,7 @@ public:
 
     struct ExtraSelection
     {
-        QTextCursor cursor;
+        QTextCursor     cursor;
         QTextCharFormat format;
     };
     void setExtraSelections(const QList<ExtraSelection> &selections);
@@ -284,17 +294,17 @@ protected:
 #endif
     virtual void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     virtual void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent*) Q_DECL_OVERRIDE;
     virtual void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 #if QT_CONFIG(wheelevent)
     virtual void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 #endif
 
-    virtual QMimeData *createMimeDataFromSelection() const;
+    virtual QMimeData* createMimeDataFromSelection() const;
     virtual bool canInsertFromMimeData(const QMimeData *source) const;
     virtual void insertFromMimeData(const QMimeData *source);
 
-    virtual void inputMethodEvent(QInputMethodEvent *) Q_DECL_OVERRIDE;
+    virtual void inputMethodEvent(QInputMethodEvent*) Q_DECL_OVERRIDE;
 
     QTextEdit(QTextEditPrivate &dd, QWidget *parent);
 

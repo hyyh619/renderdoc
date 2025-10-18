@@ -51,14 +51,16 @@ class QTextCursor;
 class QTextTable;
 class QTextTablePrivate;
 
-class Q_GUI_EXPORT QTextTableCell
+class Q_GUI_EXPORT    QTextTableCell
 {
 public:
     QTextTableCell() : table(Q_NULLPTR) {}
     ~QTextTableCell() {}
     QTextTableCell(const QTextTableCell &o) : table(o.table), fragment(o.fragment) {}
-    QTextTableCell &operator=(const QTextTableCell &o)
-    { table = o.table; fragment = o.fragment; return *this; }
+    QTextTableCell&operator=(const QTextTableCell &o)
+    {
+        table = o.table; fragment = o.fragment; return *this;
+    }
 
     void setFormat(const QTextCharFormat &format);
     QTextCharFormat format() const;
@@ -69,7 +71,10 @@ public:
     int rowSpan() const;
     int columnSpan() const;
 
-    inline bool isValid() const { return table != Q_NULLPTR; }
+    inline bool isValid() const
+    {
+        return table != Q_NULLPTR;
+    }
 
     QTextCursor firstCursorPosition() const;
     QTextCursor lastCursorPosition() const;
@@ -77,9 +82,13 @@ public:
     int lastPosition() const;
 
     inline bool operator==(const QTextTableCell &other) const
-    { return table == other.table && fragment == other.fragment; }
+    {
+        return table == other.table && fragment == other.fragment;
+    }
     inline bool operator!=(const QTextTableCell &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
     QTextFrame::iterator begin() const;
     QTextFrame::iterator end() const;
@@ -91,11 +100,11 @@ private:
     QTextTableCell(const QTextTable *t, int f)
         : table(t), fragment(f) {}
 
-    const QTextTable *table;
-    int fragment;
+    const QTextTable    *table;
+    int                 fragment;
 };
 
-class Q_GUI_EXPORT QTextTable : public QTextFrame
+class Q_GUI_EXPORT    QTextTable : public QTextFrame
 {
     Q_OBJECT
 public:
@@ -125,7 +134,10 @@ public:
     QTextCursor rowEnd(const QTextCursor &c) const;
 
     void setFormat(const QTextTableFormat &format);
-    QTextTableFormat format() const { return QTextObject::format().toTableFormat(); }
+    QTextTableFormat format() const
+    {
+        return QTextObject::format().toTableFormat();
+    }
 
 private:
     Q_DISABLE_COPY(QTextTable)

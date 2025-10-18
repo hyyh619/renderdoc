@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "gl_test.h"
 
 RD_TEST(GL_Separable_Geometry_Shaders, OpenGLGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Draws using geometry shadess and separable programs created with glCreateShaderProgramv";
+    static constexpr const char    *Description =
+        "Draws using geometry shadess and separable programs created with glCreateShaderProgramv";
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 #version 420 core
 
@@ -41,7 +41,7 @@ RD_TEST(GL_Separable_Geometry_Shaders, OpenGLGraphicsTest)
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec4 Color;
@@ -64,7 +64,7 @@ void main()
 
 )EOSHADER";
 
-  std::string geom = R"EOSHADER(
+    std::string    geom = R"EOSHADER(
 
 in v2f vertIn[3];
 out v2f vertOut;
@@ -120,7 +120,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 in v2f vertIn;
 
@@ -133,77 +133,77 @@ void main()
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    GLuint vao = MakeVAO();
-    glBindVertexArray(vao);
-
-    GLuint vb = MakeBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(0));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(sizeof(Vec3f)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
-                          (void *)(sizeof(Vec3f) + sizeof(Vec4f)));
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    std::string a = common + vertex;
-    const char *str = a.c_str();
-    GLuint vs = glCreateShaderProgramv(GL_VERTEX_SHADER, 1, &str);
-
-    a = common + pixel;
-    str = a.c_str();
-    GLuint fs = glCreateShaderProgramv(GL_FRAGMENT_SHADER, 1, &str);
-
-    a = common + geom;
-    str = a.c_str();
-    GLuint gs = glCreateShaderProgramv(GL_GEOMETRY_SHADER, 1, &str);
-
-    GLint status = 0;
-    char buffer[1024];
-    glGetProgramiv(gs, GL_LINK_STATUS, &status);
-    if(status == 0)
+    int main()
     {
-      glGetProgramInfoLog(gs, 1024, NULL, buffer);
-      TEST_ERROR("Link error: %s", buffer);
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        GLuint    vao = MakeVAO();
+        glBindVertexArray(vao);
+
+        GLuint    vb = MakeBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vb);
+        glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(0));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(sizeof(Vec3f)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
+                              (void*)(sizeof(Vec3f) + sizeof(Vec4f)));
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+
+        std::string     a       = common + vertex;
+        const char      *str    = a.c_str();
+        GLuint          vs      = glCreateShaderProgramv(GL_VERTEX_SHADER, 1, &str);
+
+        a   = common + pixel;
+        str = a.c_str();
+        GLuint    fs = glCreateShaderProgramv(GL_FRAGMENT_SHADER, 1, &str);
+
+        a   = common + geom;
+        str = a.c_str();
+        GLuint    gs = glCreateShaderProgramv(GL_GEOMETRY_SHADER, 1, &str);
+
+        GLint       status = 0;
+        char        buffer[1024];
+        glGetProgramiv(gs, GL_LINK_STATUS, &status);
+        if (status == 0)
+        {
+            glGetProgramInfoLog(gs, 1024, NULL, buffer);
+            TEST_ERROR("Link error: %s", buffer);
+        }
+
+        GLuint    pipe = MakePipeline();
+
+        glUseProgramStages(pipe, GL_VERTEX_SHADER_BIT, vs);
+        glUseProgramStages(pipe, GL_FRAGMENT_SHADER_BIT, fs);
+        glUseProgramStages(pipe, GL_GEOMETRY_SHADER_BIT, gs);
+
+        while (Running())
+        {
+            float    col[] = {0.2f, 0.2f, 0.2f, 1.0f};
+            glClearBufferfv(GL_COLOR, 0, col);
+
+            glBindVertexArray(vao);
+
+            glBindProgramPipeline(pipe);
+
+            glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            Present();
+        }
+
+        glDeleteProgram(vs);
+        glDeleteProgram(fs);
+        glDeleteProgram(gs);
+
+        return 0;
     }
-
-    GLuint pipe = MakePipeline();
-
-    glUseProgramStages(pipe, GL_VERTEX_SHADER_BIT, vs);
-    glUseProgramStages(pipe, GL_FRAGMENT_SHADER_BIT, fs);
-    glUseProgramStages(pipe, GL_GEOMETRY_SHADER_BIT, gs);
-
-    while(Running())
-    {
-      float col[] = {0.2f, 0.2f, 0.2f, 1.0f};
-      glClearBufferfv(GL_COLOR, 0, col);
-
-      glBindVertexArray(vao);
-
-      glBindProgramPipeline(pipe);
-
-      glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
-
-      glDrawArrays(GL_TRIANGLES, 0, 3);
-
-      Present();
-    }
-
-    glDeleteProgram(vs);
-    glDeleteProgram(fs);
-    glDeleteProgram(gs);
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d11_test.h"
 
 RD_TEST(D3D11_CBuffer_Zoo, D3D11GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Tests every kind of constant that can be in a cbuffer to make sure it's decoded "
-      "correctly";
+    static constexpr const char    *Description =
+        "Tests every kind of constant that can be in a cbuffer to make sure it's decoded "
+        "correctly";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 struct float3_1 { float3 a; float b; };
 
@@ -299,64 +299,65 @@ float4 main() : SV_Target0
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3DBlobPtr vsblob = Compile(D3DDefaultVertex, "main", "vs_5_0");
-    ID3DBlobPtr psblob = Compile(pixel, "main", "ps_5_0");
-
-    CreateDefaultInputLayout(vsblob);
-
-    ID3D11VertexShaderPtr vs = CreateVS(vsblob);
-    ID3D11PixelShaderPtr ps = CreatePS(psblob);
-
-    Vec4f cbufferdata[512];
-
-    for(int i = 0; i < 512; i++)
-      cbufferdata[i] = Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
-
-    float packed_consts[12];
-    for(int i = 0; i < 12; i++)
-      packed_consts[i] = (float)i;
-
-    ID3D11BufferPtr vb = MakeBuffer().Vertex().Data(DefaultTri);
-    ID3D11BufferPtr cb = MakeBuffer().Constant().Data(cbufferdata);
-    ID3D11BufferPtr cb1 = MakeBuffer().Constant().Data(packed_consts);
-
-    ID3D11Texture2DPtr fltTex =
-        MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, screenWidth, screenHeight).RTV().SRV();
-    ID3D11RenderTargetViewPtr fltRT = MakeRTV(fltTex);
-
-    while(Running())
+    int main()
     {
-      ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      IASetVertexBuffer(vb, sizeof(DefaultA2V), 0);
-      ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-      ctx->IASetInputLayout(defaultLayout);
+        ID3DBlobPtr     vsblob  = Compile(D3DDefaultVertex, "main", "vs_5_0");
+        ID3DBlobPtr     psblob  = Compile(pixel, "main", "ps_5_0");
 
-      ctx->VSSetShader(vs, NULL, 0);
-      ctx->PSSetShader(ps, NULL, 0);
+        CreateDefaultInputLayout(vsblob);
 
-      ctx->PSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
-      ctx->PSSetConstantBuffers(1, 1, &cb1.GetInterfacePtr());
+        ID3D11VertexShaderPtr       vs  = CreateVS(vsblob);
+        ID3D11PixelShaderPtr        ps  = CreatePS(psblob);
 
-      RSSetViewport({0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+        Vec4f    cbufferdata[512];
 
-      ctx->OMSetRenderTargets(1, &fltRT.GetInterfacePtr(), NULL);
+        for (int i = 0; i < 512; i++)
+            cbufferdata[i] = Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
 
-      ctx->Draw(3, 0);
+        float    packed_consts[12];
 
-      blitToSwap(fltTex);
+        for (int i = 0; i < 12; i++)
+            packed_consts[i] = (float)i;
 
-      Present();
+        ID3D11BufferPtr     vb  = MakeBuffer().Vertex().Data(DefaultTri);
+        ID3D11BufferPtr     cb  = MakeBuffer().Constant().Data(cbufferdata);
+        ID3D11BufferPtr     cb1 = MakeBuffer().Constant().Data(packed_consts);
+
+        ID3D11Texture2DPtr    fltTex =
+            MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, screenWidth, screenHeight).RTV().SRV();
+        ID3D11RenderTargetViewPtr    fltRT = MakeRTV(fltTex);
+
+        while (Running())
+        {
+            ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            IASetVertexBuffer(vb, sizeof(DefaultA2V), 0);
+            ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            ctx->IASetInputLayout(defaultLayout);
+
+            ctx->VSSetShader(vs, NULL, 0);
+            ctx->PSSetShader(ps, NULL, 0);
+
+            ctx->PSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
+            ctx->PSSetConstantBuffers(1, 1, &cb1.GetInterfacePtr());
+
+            RSSetViewport({0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+
+            ctx->OMSetRenderTargets(1, &fltRT.GetInterfacePtr(), NULL);
+
+            ctx->Draw(3, 0);
+
+            blitToSwap(fltTex);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -65,7 +65,7 @@
 QT_BEGIN_NAMESPACE
 
 class QCalendarPopup;
-class Q_AUTOTEST_EXPORT QDateTimeEditPrivate : public QAbstractSpinBoxPrivate, public QDateTimeParser
+class Q_AUTOTEST_EXPORT    QDateTimeEditPrivate : public QAbstractSpinBoxPrivate, public QDateTimeParser
 {
     Q_DECLARE_PUBLIC(QDateTimeEdit)
 public:
@@ -75,7 +75,7 @@ public:
     void init(const QVariant &var);
     void readLocaleSettings();
 
-    QDateTime validateAndInterpret(QString &input, int &, QValidator::State &state,
+    QDateTime validateAndInterpret(QString &input, int&, QValidator::State &state,
                                    bool fixup = false) const;
     void clearSection(int index);
 
@@ -93,12 +93,27 @@ public:
     void updateEdit() Q_DECL_OVERRIDE;
 
     // Override QDateTimeParser:
-    QString displayText() const Q_DECL_OVERRIDE { return edit->text(); }
-    QDateTime getMinimum() const Q_DECL_OVERRIDE { return minimum.toDateTime(); }
-    QDateTime getMaximum() const Q_DECL_OVERRIDE { return maximum.toDateTime(); }
-    QLocale locale() const Q_DECL_OVERRIDE { return q_func()->locale(); }
+    QString displayText() const Q_DECL_OVERRIDE
+    {
+        return edit->text();
+    }
+    QDateTime getMinimum() const Q_DECL_OVERRIDE
+    {
+        return minimum.toDateTime();
+    }
+    QDateTime getMaximum() const Q_DECL_OVERRIDE
+    {
+        return maximum.toDateTime();
+    }
+    QLocale locale() const Q_DECL_OVERRIDE
+    {
+        return q_func()->locale();
+    }
     QString getAmPmText(AmPm ap, Case cs) const Q_DECL_OVERRIDE;
-    int cursorPosition() const Q_DECL_OVERRIDE { return edit ? edit->cursorPosition() : -1; }
+    int cursorPosition() const Q_DECL_OVERRIDE
+    {
+        return edit ? edit->cursorPosition() : -1;
+    }
 
     int absoluteIndex(QDateTimeEdit::Section s, int index) const;
     int absoluteIndex(const SectionNode &s) const;
@@ -111,7 +126,10 @@ public:
     void updateCache(const QVariant &val, const QString &str) const;
 
     void updateTimeSpec();
-    QString valueToText(const QVariant &var) const { return textFromValue(var); }
+    QString valueToText(const QVariant &var) const
+    {
+        return textFromValue(var);
+    }
 
     void _q_resetButton();
     void updateArrow(QStyle::StateFlag state);
@@ -126,17 +144,17 @@ public:
     void initCalendarPopup(QCalendarWidget *cw = 0);
     void positionCalendarPopup();
 
-    QDateTimeEdit::Sections sections;
-    mutable bool cacheGuard;
+    QDateTimeEdit::Sections     sections;
+    mutable bool                cacheGuard;
 
-    QString defaultDateFormat, defaultTimeFormat, defaultDateTimeFormat, unreversedFormat;
-    mutable QVariant conflictGuard;
-    bool hasHadFocus, formatExplicitlySet, calendarPopup;
-    QStyle::StateFlag arrowState;
-    QCalendarPopup *monthCalendar;
+    QString                 defaultDateFormat, defaultTimeFormat, defaultDateTimeFormat, unreversedFormat;
+    mutable QVariant        conflictGuard;
+    bool                    hasHadFocus, formatExplicitlySet, calendarPopup;
+    QStyle::StateFlag       arrowState;
+    QCalendarPopup          *monthCalendar;
 
 #ifdef QT_KEYPAD_NAVIGATION
-    bool focusOnButton;
+    bool    focusOnButton;
 #endif
 };
 
@@ -146,11 +164,20 @@ class QCalendarPopup : public QWidget
     Q_OBJECT
 public:
     explicit QCalendarPopup(QWidget *parent = 0, QCalendarWidget *cw = 0);
-    QDate selectedDate() { return verifyCalendarInstance()->selectedDate(); }
+    QDate selectedDate()
+    {
+        return verifyCalendarInstance()->selectedDate();
+    }
     void setDate(const QDate &date);
     void setDateRange(const QDate &min, const QDate &max);
-    void setFirstDayOfWeek(Qt::DayOfWeek dow) { verifyCalendarInstance()->setFirstDayOfWeek(dow); }
-    QCalendarWidget *calendarWidget() const { return const_cast<QCalendarPopup*>(this)->verifyCalendarInstance(); }
+    void setFirstDayOfWeek(Qt::DayOfWeek dow)
+    {
+        verifyCalendarInstance()->setFirstDayOfWeek(dow);
+    }
+    QCalendarWidget* calendarWidget() const
+    {
+        return const_cast<QCalendarPopup*>(this)->verifyCalendarInstance();
+    }
     void setCalendarWidget(QCalendarWidget *cw);
 Q_SIGNALS:
     void activated(const QDate &date);
@@ -163,17 +190,17 @@ private Q_SLOTS:
     void dateSelectionChanged();
 
 protected:
-    void hideEvent(QHideEvent *) override;
+    void hideEvent(QHideEvent*) override;
     void mousePressEvent(QMouseEvent *e) override;
-    void mouseReleaseEvent(QMouseEvent *) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
     bool event(QEvent *e) override;
 
 private:
-    QCalendarWidget *verifyCalendarInstance();
+    QCalendarWidget* verifyCalendarInstance();
 
-    QPointer<QCalendarWidget> calendar;
-    QDate oldDate;
-    bool dateChanged;
+    QPointer<QCalendarWidget>       calendar;
+    QDate                           oldDate;
+    bool                            dateChanged;
 };
 
 QT_END_NAMESPACE

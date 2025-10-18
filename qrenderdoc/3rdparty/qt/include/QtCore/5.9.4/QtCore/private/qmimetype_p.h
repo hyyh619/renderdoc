@@ -61,7 +61,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QMimeTypePrivate : public QSharedData
+class Q_AUTOTEST_EXPORT    QMimeTypePrivate : public QSharedData
 {
 public:
     typedef QHash<QString, QString> LocaleHash;
@@ -73,53 +73,52 @@ public:
 
     void addGlobPattern(const QString &pattern);
 
-    bool loaded; // QSharedData leaves a 4 byte gap, so don't put 8 byte members first
-    QString name;
-    LocaleHash localeComments;
-    QString genericIconName;
-    QString iconName;
-    QStringList globPatterns;
+    bool            loaded; // QSharedData leaves a 4 byte gap, so don't put 8 byte members first
+    QString         name;
+    LocaleHash      localeComments;
+    QString         genericIconName;
+    QString         iconName;
+    QStringList     globPatterns;
 };
 
 QT_END_NAMESPACE
 
-#define QMIMETYPE_BUILDER \
-    QT_BEGIN_NAMESPACE \
-    static QMimeType buildQMimeType ( \
-                         const QString &name, \
-                         const QString &genericIconName, \
-                         const QString &iconName, \
-                         const QStringList &globPatterns \
-                     ) \
-    { \
-        QMimeTypePrivate qMimeTypeData; \
-        qMimeTypeData.name = name; \
-        qMimeTypeData.genericIconName = genericIconName; \
-        qMimeTypeData.iconName = iconName; \
-        qMimeTypeData.globPatterns = globPatterns; \
-        return QMimeType(qMimeTypeData); \
-    } \
+#define QMIMETYPE_BUILDER                                  \
+    QT_BEGIN_NAMESPACE                                     \
+    static QMimeType buildQMimeType (                      \
+        const QString &name,                               \
+        const QString &genericIconName,                    \
+        const QString &iconName,                           \
+        const QStringList &globPatterns                    \
+        )                                                  \
+    {                                                      \
+        QMimeTypePrivate    qMimeTypeData;                 \
+        qMimeTypeData.name              = name;            \
+        qMimeTypeData.genericIconName   = genericIconName; \
+        qMimeTypeData.iconName          = iconName;        \
+        qMimeTypeData.globPatterns      = globPatterns;    \
+        return QMimeType(qMimeTypeData);                   \
+    }                                                      \
     QT_END_NAMESPACE
 
 #ifdef Q_COMPILER_RVALUE_REFS
-#define QMIMETYPE_BUILDER_FROM_RVALUE_REFS \
-    QT_BEGIN_NAMESPACE \
-    static QMimeType buildQMimeType ( \
-                         QString &&name, \
-                         QString &&genericIconName, \
-                         QString &&iconName, \
-                         QStringList &&globPatterns \
-                     ) \
-    { \
-        QMimeTypePrivate qMimeTypeData; \
-        qMimeTypeData.name = std::move(name); \
-        qMimeTypeData.genericIconName = std::move(genericIconName); \
-        qMimeTypeData.iconName = std::move(iconName); \
-        qMimeTypeData.globPatterns = std::move(globPatterns); \
-        return QMimeType(qMimeTypeData); \
-    } \
+#define QMIMETYPE_BUILDER_FROM_RVALUE_REFS                            \
+    QT_BEGIN_NAMESPACE                                                \
+    static QMimeType buildQMimeType (                                 \
+        QString && name,                                              \
+        QString && genericIconName,                                   \
+        QString && iconName,                                          \
+        QStringList && globPatterns                                   \
+        )                                                             \
+    {                                                                 \
+        QMimeTypePrivate    qMimeTypeData;                            \
+        qMimeTypeData.name              = std::move(name);            \
+        qMimeTypeData.genericIconName   = std::move(genericIconName); \
+        qMimeTypeData.iconName          = std::move(iconName);        \
+        qMimeTypeData.globPatterns      = std::move(globPatterns);    \
+        return QMimeType(qMimeTypeData);                              \
+    }                                                                 \
     QT_END_NAMESPACE
 #endif
-
 #endif // QT_NO_MIMETYPE
 #endif   // QMIMETYPE_P_H

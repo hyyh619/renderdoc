@@ -53,7 +53,8 @@ typedef QMutableListIterator<QByteArray> QMutableByteArrayListIterator;
 #ifndef Q_QDOC
 typedef QList<QByteArray> QByteArrayList;
 
-namespace QtPrivate {
+namespace QtPrivate
+{
     QByteArray Q_CORE_EXPORT QByteArrayList_join(const QByteArrayList *that, const char *separator, int separatorLength);
 }
 #endif
@@ -61,7 +62,7 @@ namespace QtPrivate {
 #ifdef Q_QDOC
 class QByteArrayList : public QList<QByteArray>
 #else
-template <> struct QListSpecialMethods<QByteArray>
+template<> struct QListSpecialMethods<QByteArray>
 #endif
 {
 #ifndef Q_QDOC
@@ -70,18 +71,29 @@ protected:
 #endif
 public:
     inline QByteArray join() const
-    { return QtPrivate::QByteArrayList_join(self(), Q_NULLPTR, 0); }
+    {
+        return QtPrivate::QByteArrayList_join(self(), Q_NULLPTR, 0);
+    }
     inline QByteArray join(const QByteArray &sep) const
-    { return QtPrivate::QByteArrayList_join(self(), sep.constData(), sep.size()); }
+    {
+        return QtPrivate::QByteArrayList_join(self(), sep.constData(), sep.size());
+    }
     inline QByteArray join(char sep) const
-    { return QtPrivate::QByteArrayList_join(self(), &sep, 1); }
+    {
+        return QtPrivate::QByteArrayList_join(self(), &sep, 1);
+    }
 
 private:
     typedef QList<QByteArray> Self;
-    Self *self() { return static_cast<Self *>(this); }
-    const Self *self() const { return static_cast<const Self *>(this); }
+    Self* self()
+    {
+        return static_cast<Self*>(this);
+    }
+    const Self* self() const
+    {
+        return static_cast<const Self*>(this);
+    }
 };
 
 QT_END_NAMESPACE
-
 #endif // QBYTEARRAYLIST_H

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QFormLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QFormLayout : public QLayout
+class Q_WIDGETS_EXPORT    QFormLayout : public QLayout
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QFormLayout)
@@ -62,28 +62,32 @@ class Q_WIDGETS_EXPORT QFormLayout : public QLayout
     Q_PROPERTY(int verticalSpacing READ verticalSpacing WRITE setVerticalSpacing)
 
 public:
-    enum FieldGrowthPolicy {
+    enum FieldGrowthPolicy
+    {
         FieldsStayAtSizeHint,
         ExpandingFieldsGrow,
         AllNonFixedFieldsGrow
     };
     Q_ENUM(FieldGrowthPolicy)
 
-    enum RowWrapPolicy {
+    enum RowWrapPolicy
+    {
         DontWrapRows,
         WrapLongRows,
         WrapAllRows
     };
     Q_ENUM(RowWrapPolicy)
 
-    enum ItemRole {
-        LabelRole = 0,
-        FieldRole = 1,
-        SpanningRole = 2
+    enum ItemRole
+    {
+        LabelRole       = 0,
+        FieldRole       = 1,
+        SpanningRole    = 2
     };
     Q_ENUM(ItemRole)
 
-    struct TakeRowResult {
+    struct TakeRowResult
+    {
         QLayoutItem *labelItem;
         QLayoutItem *fieldItem;
     };
@@ -134,17 +138,17 @@ public:
     void setWidget(int row, ItemRole role, QWidget *widget);
     void setLayout(int row, ItemRole role, QLayout *layout);
 
-    QLayoutItem *itemAt(int row, ItemRole role) const;
+    QLayoutItem* itemAt(int row, ItemRole role) const;
     void getItemPosition(int index, int *rowPtr, ItemRole *rolePtr) const;
     void getWidgetPosition(QWidget *widget, int *rowPtr, ItemRole *rolePtr) const;
     void getLayoutPosition(QLayout *layout, int *rowPtr, ItemRole *rolePtr) const;
-    QWidget *labelForField(QWidget *field) const;
-    QWidget *labelForField(QLayout *field) const;
+    QWidget* labelForField(QWidget *field) const;
+    QWidget* labelForField(QLayout *field) const;
 
     // reimplemented from QLayout
     void addItem(QLayoutItem *item) Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
 
     void setGeometry(const QRect &rect) Q_DECL_OVERRIDE;
     QSize minimumSize() const Q_DECL_OVERRIDE;

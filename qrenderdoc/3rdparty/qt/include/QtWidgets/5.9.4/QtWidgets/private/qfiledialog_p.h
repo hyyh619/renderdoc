@@ -100,26 +100,28 @@ struct QFileDialogArgs
 {
     QFileDialogArgs() : parent(0), mode(QFileDialog::AnyFile) {}
 
-    QWidget *parent;
-    QString caption;
-    QUrl directory;
-    QString selection;
-    QString filter;
-    QFileDialog::FileMode mode;
-    QFileDialog::Options options;
+    QWidget                 *parent;
+    QString                 caption;
+    QUrl                    directory;
+    QString                 selection;
+    QString                 filter;
+    QFileDialog::FileMode   mode;
+    QFileDialog::Options    options;
 };
 
 #define UrlRole (Qt::UserRole + 1)
 
-class Q_WIDGETS_EXPORT QFileDialogPrivate : public QDialogPrivate
+class Q_WIDGETS_EXPORT    QFileDialogPrivate : public QDialogPrivate
 {
     Q_DECLARE_PUBLIC(QFileDialog)
 
 public:
     QFileDialogPrivate();
 
-    QPlatformFileDialogHelper *platformFileDialogHelper() const
-        { return static_cast<QPlatformFileDialogHelper *>(platformHelper()); }
+    QPlatformFileDialogHelper* platformFileDialogHelper() const
+    {
+        return static_cast<QPlatformFileDialogHelper*>(platformHelper());
+    }
 
     void createToolButtons();
     void createMenuActions();
@@ -150,39 +152,46 @@ public:
     inline QModelIndex select(const QModelIndex &index) const;
     inline QString rootPath() const;
 
-    QLineEdit *lineEdit() const;
+    QLineEdit* lineEdit() const;
 
     static int maxNameLength(const QString &path);
 
     QString basename(const QString &path) const
     {
-        int separator = QDir::toNativeSeparators(path).lastIndexOf(QDir::separator());
+        int    separator = QDir::toNativeSeparators(path).lastIndexOf(QDir::separator());
+
         if (separator != -1)
             return path.mid(separator + 1);
+
         return path;
     }
 
     QDir::Filters filterForMode(QDir::Filters filters) const
     {
-        const QFileDialog::FileMode fileMode = q_func()->fileMode();
-        if (fileMode == QFileDialog::DirectoryOnly) {
+        const QFileDialog::FileMode    fileMode = q_func()->fileMode();
+
+        if (fileMode == QFileDialog::DirectoryOnly)
+        {
             filters |= QDir::Drives | QDir::AllDirs | QDir::Dirs;
             filters &= ~QDir::Files;
-        } else {
+        }
+        else
+        {
             filters |= QDir::Drives | QDir::AllDirs | QDir::Files | QDir::Dirs;
         }
+
         return filters;
     }
 
-    QAbstractItemView *currentView() const;
+    QAbstractItemView* currentView() const;
 
     static inline QString toInternal(const QString &path)
     {
 #if defined(Q_OS_WIN)
-        QString n(path);
+        QString    n(path);
         n.replace(QLatin1Char('\\'), QLatin1Char('/'));
         return n;
-#else // the compile should optimize away this
+#else   // the compile should optimize away this
         return path;
 #endif
     }
@@ -199,7 +208,7 @@ public:
     void emitFilesSelected(const QStringList &files);
 
     void _q_goHome();
-    void _q_pathChanged(const QString &);
+    void _q_pathChanged(const QString&);
     void _q_navigateBackward();
     void _q_navigateForward();
     void _q_navigateToParent();
@@ -210,7 +219,7 @@ public:
     void _q_renameCurrent();
     void _q_deleteCurrent();
     void _q_showHidden();
-    void _q_showHeader(QAction *);
+    void _q_showHeader(QAction*);
     void _q_updateOkButton();
     void _q_currentChanged(const QModelIndex &index);
     void _q_enterDirectory(const QModelIndex &index);
@@ -218,38 +227,38 @@ public:
     void _q_emitUrlsSelected(const QList<QUrl> &files);
     void _q_nativeCurrentChanged(const QUrl &file);
     void _q_nativeEnterDirectory(const QUrl &directory);
-    void _q_goToDirectory(const QString &);
+    void _q_goToDirectory(const QString&);
     void _q_useNameFilter(int index);
     void _q_selectionChanged();
     void _q_goToUrl(const QUrl &url);
-    void _q_autoCompleteFileName(const QString &);
-    void _q_rowsInserted(const QModelIndex & parent);
+    void _q_autoCompleteFileName(const QString&);
+    void _q_rowsInserted(const QModelIndex &parent);
     void _q_fileRenamed(const QString &path, const QString &oldName, const QString &newName);
 
     // layout
 #ifndef QT_NO_PROXYMODEL
-    QAbstractProxyModel *proxyModel;
+    QAbstractProxyModel    *proxyModel;
 #endif
 
     // data
-    QStringList watching;
-    QFileSystemModel *model;
+    QStringList         watching;
+    QFileSystemModel    *model;
 
 #if QT_CONFIG(fscompleter)
-    QFSCompleter *completer;
-#endif //QT_CONFIG(fscompleter)
+    QFSCompleter    *completer;
+#endif // QT_CONFIG(fscompleter)
 
-    QString setWindowTitle;
+    QString    setWindowTitle;
 
-    QStringList currentHistory;
-    int currentHistoryLocation;
+    QStringList     currentHistory;
+    int             currentHistoryLocation;
 
-    QAction *renameAction;
-    QAction *deleteAction;
-    QAction *showHiddenAction;
-    QAction *newFolderAction;
+    QAction     *renameAction;
+    QAction     *deleteAction;
+    QAction     *showHiddenAction;
+    QAction     *newFolderAction;
 
-    bool useDefaultCaption;
+    bool    useDefaultCaption;
 
     // setVisible_sys returns true if it ends up showing a native
     // dialog. Returning false means that a non-native dialog must be
@@ -268,27 +277,27 @@ public:
     inline QString selectedNameFilter_sys() const;
     //////////////////////////////////////////////
 
-    QScopedPointer<Ui_QFileDialog> qFileDialogUi;
+    QScopedPointer<Ui_QFileDialog>    qFileDialogUi;
 
-    QString acceptLabel;
+    QString    acceptLabel;
 
-    QPointer<QObject> receiverToDisconnectOnClose;
-    QByteArray memberToDisconnectOnClose;
-    QByteArray signalToDisconnectOnClose;
+    QPointer<QObject>       receiverToDisconnectOnClose;
+    QByteArray              memberToDisconnectOnClose;
+    QByteArray              signalToDisconnectOnClose;
 
-    QSharedPointer<QFileDialogOptions> options;
+    QSharedPointer<QFileDialogOptions>    options;
 
     // Memory of what was read from QSettings in restoreState() in case widgets are not used
-    QByteArray splitterState;
-    QByteArray headerData;
-    QList<QUrl> sidebarUrls;
+    QByteArray      splitterState;
+    QByteArray      headerData;
+    QList<QUrl>     sidebarUrls;
 
     ~QFileDialogPrivate();
 
 private:
-    virtual void initHelper(QPlatformDialogHelper *) Q_DECL_OVERRIDE;
-    virtual void helperPrepareShow(QPlatformDialogHelper *) Q_DECL_OVERRIDE;
-    virtual void helperDone(QDialog::DialogCode, QPlatformDialogHelper *) Q_DECL_OVERRIDE;
+    virtual void initHelper(QPlatformDialogHelper*) Q_DECL_OVERRIDE;
+    virtual void helperPrepareShow(QPlatformDialogHelper*) Q_DECL_OVERRIDE;
+    virtual void helperDone(QDialog::DialogCode, QPlatformDialogHelper*) Q_DECL_OVERRIDE;
 
     Q_DISABLE_COPY(QFileDialogPrivate)
 };
@@ -297,11 +306,14 @@ class QFileDialogLineEdit : public QLineEdit
 {
 public:
     QFileDialogLineEdit(QWidget *parent = 0) : QLineEdit(parent), d_ptr(0){}
-    void setFileDialogPrivate(QFileDialogPrivate *d_pointer) {d_ptr = d_pointer; }
+    void setFileDialogPrivate(QFileDialogPrivate *d_pointer)
+    {
+        d_ptr = d_pointer;
+    }
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
-    bool hideOnEsc;
+    bool    hideOnEsc;
 private:
-    QFileDialogPrivate *d_ptr;
+    QFileDialogPrivate    *d_ptr;
 };
 
 class QFileDialogComboBox : public QComboBox
@@ -311,13 +323,16 @@ public:
     void setFileDialogPrivate(QFileDialogPrivate *d_pointer);
     void showPopup() Q_DECL_OVERRIDE;
     void setHistory(const QStringList &paths);
-    QStringList history() const { return m_history; }
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    QStringList history() const
+    {
+        return m_history;
+    }
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 
 private:
-    QUrlModel *urlModel;
-    QFileDialogPrivate *d_ptr;
-    QStringList m_history;
+    QUrlModel               *urlModel;
+    QFileDialogPrivate      *d_ptr;
+    QStringList             m_history;
 };
 
 class QFileDialogListView : public QListView
@@ -329,7 +344,7 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 private:
-    QFileDialogPrivate *d_ptr;
+    QFileDialogPrivate    *d_ptr;
 };
 
 class QFileDialogTreeView : public QTreeView
@@ -342,17 +357,19 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *e) Q_DECL_OVERRIDE;
 private:
-    QFileDialogPrivate *d_ptr;
+    QFileDialogPrivate    *d_ptr;
 };
 
-QModelIndex QFileDialogPrivate::mapToSource(const QModelIndex &index) const {
+QModelIndex QFileDialogPrivate::mapToSource(const QModelIndex &index) const
+{
 #ifdef QT_NO_PROXYMODEL
     return index;
 #else
     return proxyModel ? proxyModel->mapToSource(index) : index;
 #endif
 }
-QModelIndex QFileDialogPrivate::mapFromSource(const QModelIndex &index) const {
+QModelIndex QFileDialogPrivate::mapFromSource(const QModelIndex &index) const
+{
 #ifdef QT_NO_PROXYMODEL
     return index;
 #else
@@ -367,7 +384,7 @@ QString QFileDialogPrivate::rootPath() const
 
 void QFileDialogPrivate::setDirectory_sys(const QUrl &directory)
 {
-    QPlatformFileDialogHelper *helper = platformFileDialogHelper();
+    QPlatformFileDialogHelper    *helper = platformFileDialogHelper();
 
     if (!helper)
         return;
@@ -380,12 +397,13 @@ QUrl QFileDialogPrivate::directory_sys() const
 {
     if (QPlatformFileDialogHelper *helper = platformFileDialogHelper())
         return helper->directory();
+
     return QUrl();
 }
 
 void QFileDialogPrivate::selectFile_sys(const QUrl &filename)
 {
-    QPlatformFileDialogHelper *helper = platformFileDialogHelper();
+    QPlatformFileDialogHelper    *helper = platformFileDialogHelper();
 
     if (!helper)
         return;
@@ -398,6 +416,7 @@ QList<QUrl> QFileDialogPrivate::selectedFiles_sys() const
 {
     if (QPlatformFileDialogHelper *helper = platformFileDialogHelper())
         return helper->selectedFiles();
+
     return QList<QUrl>();
 }
 
@@ -431,6 +450,7 @@ QString QFileDialogPrivate::selectedNameFilter_sys() const
 {
     if (QPlatformFileDialogHelper *helper = platformFileDialogHelper())
         return helper->selectedNameFilter();
+
     return QString();
 }
 

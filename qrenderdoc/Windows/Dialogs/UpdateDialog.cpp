@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "UpdateDialog.h"
 #include <QApplication>
@@ -39,245 +39,245 @@
 UpdateDialog::UpdateDialog(QString updateResponse, QWidget *parent)
     : QDialog(parent), ui(new Ui::UpdateDialog)
 {
-  ui->setupUi(this);
+    ui->setupUi(this);
 
-  ui->updateText->setBackgroundRole(QPalette::Base);
-  ui->updateText->setForegroundRole(QPalette::Text);
+    ui->updateText->setBackgroundRole(QPalette::Base);
+    ui->updateText->setForegroundRole(QPalette::Text);
 
-  m_NetManager = new QNetworkAccessManager(this);
+    m_NetManager = new QNetworkAccessManager(this);
 
-  setWindowFlags((windowFlags() | Qt::MSWindowsFixedSizeDialogHint) &
-                 ~Qt::WindowContextHelpButtonHint);
+    setWindowFlags((windowFlags() | Qt::MSWindowsFixedSizeDialogHint) &
+                   ~Qt::WindowContextHelpButtonHint);
 
-  QStringList lines = updateResponse.split(QLatin1Char('\n'), QString::SkipEmptyParts);
+    QStringList    lines = updateResponse.split(QLatin1Char('\n'), QString::SkipEmptyParts);
 
-  m_NewVer = lines[0];
-  m_URL = lines[1];
-  m_Size = lines[2].toUInt();
+    m_NewVer    = lines[0];
+    m_URL       = lines[1];
+    m_Size      = lines[2].toUInt();
 
-  QString notes;
+    QString    notes;
 
-  for(int i = 3; i < lines.count(); i++)
-    notes += lines[i];
+    for (int i = 3; i < lines.count(); i++)
+        notes += lines[i];
 
-  ui->progressText->setVisible(false);
-  ui->progressBar->setVisible(false);
+    ui->progressText->setVisible(false);
+    ui->progressBar->setVisible(false);
 
-  QString text = tr("Update Available - v%1").arg(m_NewVer);
-  ui->updateVer->setText(text);
-  setWindowTitle(text);
+    QString    text = tr("Update Available - v%1").arg(m_NewVer);
+    ui->updateVer->setText(text);
+    setWindowTitle(text);
 
-  ui->updateText->setText(notes);
+    ui->updateText->setText(notes);
 
-  ui->currentVersion->setText(lit(FULL_VERSION_STRING));
-  ui->newVersion->setText(QFormatStr("v%1").arg(m_NewVer));
-  ui->downloadSize->setText(QFormatStr("%1 MB").arg(double(m_Size) / 1000000.0, 0, 'f', 2));
+    ui->currentVersion->setText(lit(FULL_VERSION_STRING));
+    ui->newVersion->setText(QFormatStr("v%1").arg(m_NewVer));
+    ui->downloadSize->setText(QFormatStr("%1 MB").arg(double(m_Size) / 1000000.0, 0, 'f', 2));
 
-  adjustSize();
+    adjustSize();
 }
 
 UpdateDialog::~UpdateDialog()
 {
-  delete m_DownloadTimer;
+    delete m_DownloadTimer;
 
-  delete ui;
+    delete ui;
 }
 
 void UpdateDialog::keyPressEvent(QKeyEvent *e)
 {
-  if(e->key() == Qt::Key_Escape)
-    return;
+    if (e->key() == Qt::Key_Escape)
+        return;
 
-  QDialog::keyPressEvent(e);
+    QDialog::keyPressEvent(e);
 }
 
 void UpdateDialog::closeEvent(QCloseEvent *e)
 {
-  if(ui->close->isEnabled())
-  {
-    QDialog::closeEvent(e);
-    return;
-  }
+    if (ui->close->isEnabled())
+    {
+        QDialog::closeEvent(e);
+        return;
+    }
 
-  e->ignore();
-  return;
+    e->ignore();
+    return;
 }
 
 void UpdateDialog::on_releaseNotes_clicked()
 {
-  QDesktopServices::openUrl(
-      QUrl(lit("https://github.com/baldurk/renderdoc/releases/tag/v%1").arg(m_NewVer)));
+    QDesktopServices::openUrl(
+        QUrl(lit("https://github.com/baldurk/renderdoc/releases/tag/v%1").arg(m_NewVer)));
 }
 
 void UpdateDialog::on_close_clicked()
 {
-  // if there's a pending request, we're cancelling so abort the request. The finished() handler will close the dialog
-  if(m_Request)
-  {
-    m_Cancelled = true;
-    m_Request->abort();
-    return;
-  }
+    // if there's a pending request, we're cancelling so abort the request. The finished() handler will close the dialog
+    if (m_Request)
+    {
+        m_Cancelled = true;
+        m_Request->abort();
+        return;
+    }
 
-  reject();
+    reject();
 }
 
 void UpdateDialog::on_update_clicked()
 {
-  QMessageBox::StandardButton res =
-      RDDialog::question(this, tr("RenderDoc Update"),
-                         tr("This will close RenderDoc immediately - if you have any "
-                            "unsaved work, save it first!\n"
-                            "Continue?"),
-                         QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
+    QMessageBox::StandardButton    res =
+        RDDialog::question(this, tr("RenderDoc Update"),
+                           tr("This will close RenderDoc immediately - if you have any "
+                              "unsaved work, save it first!\n"
+                              "Continue?"),
+                           QMessageBox::Yes | QMessageBox::No | QMessageBox::Cancel);
 
-  if(res == QMessageBox::Yes)
-  {
-    QString runningPrograms;
-    int running = 0;
-
-    uint32_t nextIdent = 0;
-
-    QString localhost = lit("localhost");
-
-    for(;;)
+    if (res == QMessageBox::Yes)
     {
-      // just a sanity check to make sure we don't hit some unexpected case and infinite loop
-      uint32_t prevIdent = nextIdent;
+        QString     runningPrograms;
+        int         running = 0;
 
-      nextIdent = RENDERDOC_EnumerateRemoteTargets("localhost", nextIdent);
+        uint32_t    nextIdent = 0;
 
-      if(nextIdent == 0 || prevIdent >= nextIdent)
-        break;
+        QString    localhost = lit("localhost");
 
-      running++;
+        for (;;)
+        {
+            // just a sanity check to make sure we don't hit some unexpected case and infinite loop
+            uint32_t    prevIdent = nextIdent;
 
-      ITargetControl *conn = RENDERDOC_CreateTargetControl("localhost", nextIdent, "updater", false);
+            nextIdent = RENDERDOC_EnumerateRemoteTargets("localhost", nextIdent);
 
-      if(conn)
-      {
-        if(!runningPrograms.isEmpty())
-          runningPrograms += lit("\n");
+            if (nextIdent == 0 || prevIdent >= nextIdent)
+                break;
 
-        runningPrograms += tr("%1 running %2").arg(conn->GetTarget()).arg(conn->GetAPI());
+            running++;
 
-        conn->Shutdown();
-      }
-    }
+            ITargetControl    *conn = RENDERDOC_CreateTargetControl("localhost", nextIdent, "updater", false);
 
-    if(running > 0)
-    {
-      RDDialog::critical(
-          this, tr("RenderDoc in use"),
-          tr("RenderDoc is currently capturing, cannot update until the program%1 closed:\n\n")
-                  .arg(running > 1 ? lit("s are") : lit(" is")) +
-              runningPrograms);
-      return;
-    }
+            if (conn)
+            {
+                if (!runningPrograms.isEmpty())
+                    runningPrograms += lit("\n");
 
-    ui->metadataFrame->setVisible(false);
-    ui->progressBar->setVisible(true);
-    ui->progressText->setVisible(true);
+                runningPrograms += tr("%1 running %2").arg(conn->GetTarget()).arg(conn->GetAPI());
 
-    ui->progressBar->setMaximum(10000);
-    ui->progressBar->setValue(0);
-    ui->progressText->setText(tr("Preparing Download"));
+                conn->Shutdown();
+            }
+        }
 
-    ui->close->setText(tr("Cancel"));
-    ui->update->setEnabled(false);
+        if (running > 0)
+        {
+            RDDialog::critical(
+                this, tr("RenderDoc in use"),
+                tr("RenderDoc is currently capturing, cannot update until the program%1 closed:\n\n")
+                .arg(running > 1 ? lit("s are") : lit(" is")) +
+                runningPrograms);
+            return;
+        }
 
-    delete m_DownloadTimer;
-    m_DownloadTimer = new QElapsedTimer();
+        ui->metadataFrame->setVisible(false);
+        ui->progressBar->setVisible(true);
+        ui->progressText->setVisible(true);
 
-    m_DownloadTimer->start();
+        ui->progressBar->setMaximum(10000);
+        ui->progressBar->setValue(0);
+        ui->progressText->setText(tr("Preparing Download"));
 
-    m_Request = m_NetManager->get(QNetworkRequest(QUrl(m_URL)));
+        ui->close->setText(tr("Cancel"));
+        ui->update->setEnabled(false);
 
-    QObject::connect(m_Request, &QNetworkReply::downloadProgress, [this](qint64 recvd, qint64 total) {
-      UpdateTransferProgress(recvd, total, m_DownloadTimer, ui->progressBar, ui->progressText,
-                             tr("Downloading update..."));
-    });
+        delete m_DownloadTimer;
+        m_DownloadTimer = new QElapsedTimer();
 
-    QObject::connect(
-        m_Request, OverloadedSlot<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
-        [this](QNetworkReply::NetworkError err) {
-          ui->progressBar->setValue(0);
-          ui->progressText->setText(tr("Network error:\n%1").arg(m_Request->errorString()));
-          ui->update->setEnabled(true);
-          ui->close->setEnabled(true);
-          ui->close->setText(tr("Close"));
-          ui->update->setText(tr("Retry Update"));
+        m_DownloadTimer->start();
+
+        m_Request = m_NetManager->get(QNetworkRequest(QUrl(m_URL)));
+
+        QObject::connect(m_Request, &QNetworkReply::downloadProgress, [this] (qint64 recvd, qint64 total) {
+            UpdateTransferProgress(recvd, total, m_DownloadTimer, ui->progressBar, ui->progressText,
+                                   tr("Downloading update..."));
         });
 
-    QObject::connect(m_Request, &QNetworkReply::finished, [this]() {
-      // if we cancelled, close the dialog now
-      if(m_Cancelled)
-      {
-        m_Request->deleteLater();
-        m_Request = NULL;
-        reject();
-        return;
-      }
+        QObject::connect(
+            m_Request, OverloadedSlot<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+            [this] (QNetworkReply::NetworkError err) {
+            ui->progressBar->setValue(0);
+            ui->progressText->setText(tr("Network error:\n%1").arg(m_Request->errorString()));
+            ui->update->setEnabled(true);
+            ui->close->setEnabled(true);
+            ui->close->setText(tr("Close"));
+            ui->update->setText(tr("Retry Update"));
+        });
 
-      // don't do anything if we're finished after an error
-      if(ui->update->isEnabled())
-      {
-        m_Request->deleteLater();
-        m_Request = NULL;
-        return;
-      }
+        QObject::connect(m_Request, &QNetworkReply::finished, [this] () {
+            // if we cancelled, close the dialog now
+            if (m_Cancelled)
+            {
+                m_Request->deleteLater();
+                m_Request = NULL;
+                reject();
+                return;
+            }
 
-      QDir dir(QDir::tempPath());
+            // don't do anything if we're finished after an error
+            if (ui->update->isEnabled())
+            {
+                m_Request->deleteLater();
+                m_Request = NULL;
+                return;
+            }
 
-      dir.mkdir(lit("RenderDocUpdate"));
-      dir.cd(lit("RenderDocUpdate"));
+            QDir dir(QDir::tempPath());
 
-      QString path = dir.absoluteFilePath(lit("update.zip"));
+            dir.mkdir(lit("RenderDocUpdate"));
+            dir.cd(lit("RenderDocUpdate"));
 
-      {
-        QFile file(path);
-        if(file.open(QIODevice::WriteOnly | QIODevice::Truncate))
-        {
-          file.write(m_Request->readAll());
-        }
-        else
-        {
-          RDDialog::critical(this, tr("Error saving file"),
-                             tr("Couldn't save update file to: %1").arg(path));
-          reject();
-        }
-      }
+            QString path = dir.absoluteFilePath(lit("update.zip"));
 
-      m_Request->deleteLater();
-      m_Request = NULL;
+            {
+                QFile file(path);
+                if (file.open(QIODevice::WriteOnly | QIODevice::Truncate))
+                {
+                    file.write(m_Request->readAll());
+                }
+                else
+                {
+                    RDDialog::critical(this, tr("Error saving file"),
+                                       tr("Couldn't save update file to: %1").arg(path));
+                    reject();
+                }
+            }
 
-      QDir appDir = QFileInfo(QCoreApplication::applicationFilePath()).absoluteDir();
+            m_Request->deleteLater();
+            m_Request = NULL;
 
-      bool success = true;
+            QDir appDir = QFileInfo(QCoreApplication::applicationFilePath()).absoluteDir();
 
-      QString dll = lit("renderdoc.dll");
-      QString cmd = lit("renderdoccmd.exe");
+            bool success = true;
 
-      QFile::remove(dir.absoluteFilePath(dll));
-      QFile::remove(dir.absoluteFilePath(cmd));
+            QString dll = lit("renderdoc.dll");
+            QString cmd = lit("renderdoccmd.exe");
 
-      success &= QFile::copy(appDir.absoluteFilePath(dll), dir.absoluteFilePath(dll));
-      success &= QFile::copy(appDir.absoluteFilePath(cmd), dir.absoluteFilePath(cmd));
+            QFile::remove(dir.absoluteFilePath(dll));
+            QFile::remove(dir.absoluteFilePath(cmd));
 
-      if(!success)
-      {
-        RDDialog::critical(this, tr("Error running updated"),
-                           tr("Couldn't copy updater files to temporary path"));
-        reject();
-      }
+            success &= QFile::copy(appDir.absoluteFilePath(dll), dir.absoluteFilePath(dll));
+            success &= QFile::copy(appDir.absoluteFilePath(cmd), dir.absoluteFilePath(cmd));
 
-      QDir::setCurrent(dir.absolutePath());
+            if (!success)
+            {
+                RDDialog::critical(this, tr("Error running updated"),
+                                   tr("Couldn't copy updater files to temporary path"));
+                reject();
+            }
 
-      success = RunProcessAsAdmin(
-          dir.absoluteFilePath(cmd),
-          QStringList() << lit("upgrade") << lit("--path") << appDir.absolutePath(), NULL, true);
+            QDir::setCurrent(dir.absolutePath());
 
-      exit(0);
-    });
-  }
+            success = RunProcessAsAdmin(
+                dir.absoluteFilePath(cmd),
+                QStringList() << lit("upgrade") << lit("--path") << appDir.absolutePath(), NULL, true);
+
+            exit(0);
+        });
+    }
 }

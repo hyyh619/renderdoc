@@ -10,7 +10,7 @@
 
 typedef enum DXGI_FORMAT
 {
-    DXGI_FORMAT_UNKNOWN	                                = 0,
+    DXGI_FORMAT_UNKNOWN                                 = 0,
     DXGI_FORMAT_R32G32B32A32_TYPELESS                   = 1,
     DXGI_FORMAT_R32G32B32A32_FLOAT                      = 2,
     DXGI_FORMAT_R32G32B32A32_UINT                       = 3,

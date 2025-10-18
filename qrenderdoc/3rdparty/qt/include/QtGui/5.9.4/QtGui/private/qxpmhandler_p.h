@@ -77,23 +77,23 @@ public:
 private:
     bool readHeader();
     bool readImage(QImage *image);
-    enum State {
+    enum State
+    {
         Ready,
         ReadHeader,
         Error
     };
-    State state;
-    int width;
-    int height;
-    int ncols;
-    int cpp;
-    QByteArray buffer;
-    int index;
-    QString fileName;
+    State           state;
+    int             width;
+    int             height;
+    int             ncols;
+    int             cpp;
+    QByteArray      buffer;
+    int             index;
+    QString         fileName;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_IMAGEFORMAT_XPM
 
 #endif // QXPMHANDLER_P_H

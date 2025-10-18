@@ -58,19 +58,22 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QInputDeviceManagerPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QInputDeviceManagerPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QInputDeviceManager)
 
 public:
-    static QInputDeviceManagerPrivate *get(QInputDeviceManager *mgr) { return mgr->d_func(); }
+    static QInputDeviceManagerPrivate* get(QInputDeviceManager *mgr)
+    {
+        return mgr->d_func();
+    }
 
     int deviceCount(QInputDeviceManager::DeviceType type) const;
     void setDeviceCount(QInputDeviceManager::DeviceType type, int count);
 
-    QMap<QInputDeviceManager::DeviceType, int> m_deviceCount;
+    QMap<QInputDeviceManager::DeviceType, int>    m_deviceCount;
 
-    Qt::KeyboardModifiers keyboardModifiers;
+    Qt::KeyboardModifiers    keyboardModifiers;
 };
 
 QT_END_NAMESPACE

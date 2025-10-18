@@ -49,23 +49,26 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QItemSelectionRange
+class Q_CORE_EXPORT    QItemSelectionRange
 {
-
 public:
     inline QItemSelectionRange() : tl(), br() {}
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     // ### Qt 6: remove them all, the compiler-generated ones are fine
     inline QItemSelectionRange(const QItemSelectionRange &other)
         : tl(other.tl), br(other.br) {}
 # ifdef Q_COMPILER_RVALUE_REFS
     QItemSelectionRange(QItemSelectionRange &&other) Q_DECL_NOTHROW
         : tl(std::move(other.tl)), br(std::move(other.br)) {}
-    QItemSelectionRange &operator=(QItemSelectionRange &&other) Q_DECL_NOTHROW
-    { tl = std::move(other.tl); br = std::move(other.br); return *this; }
+    QItemSelectionRange&operator=(QItemSelectionRange &&other) Q_DECL_NOTHROW
+    {
+        tl = std::move(other.tl); br = std::move(other.br); return *this;
+    }
 # endif
-    QItemSelectionRange &operator=(const QItemSelectionRange &other)
-    { tl = other.tl; br = other.br; return *this; }
+    QItemSelectionRange&operator=(const QItemSelectionRange &other)
+    {
+        tl = other.tl; br = other.br; return *this;
+    }
 #endif // Qt < 6
     QItemSelectionRange(const QModelIndex &topL, const QModelIndex &bottomR) : tl(topL), br(bottomR) {}
     explicit QItemSelectionRange(const QModelIndex &index) : tl(index), br(tl) {}
@@ -76,17 +79,47 @@ public:
         qSwap(br, other.br);
     }
 
-    inline int top() const { return tl.row(); }
-    inline int left() const { return tl.column(); }
-    inline int bottom() const { return br.row(); }
-    inline int right() const { return br.column(); }
-    inline int width() const { return br.column() - tl.column() + 1; }
-    inline int height() const { return br.row() - tl.row() + 1; }
+    inline int top() const
+    {
+        return tl.row();
+    }
+    inline int left() const
+    {
+        return tl.column();
+    }
+    inline int bottom() const
+    {
+        return br.row();
+    }
+    inline int right() const
+    {
+        return br.column();
+    }
+    inline int width() const
+    {
+        return br.column() - tl.column() + 1;
+    }
+    inline int height() const
+    {
+        return br.row() - tl.row() + 1;
+    }
 
-    inline const QPersistentModelIndex &topLeft() const { return tl; }
-    inline const QPersistentModelIndex &bottomRight() const { return br; }
-    inline QModelIndex parent() const { return tl.parent(); }
-    inline const QAbstractItemModel *model() const { return tl.model(); }
+    inline const QPersistentModelIndex    &topLeft() const
+    {
+        return tl;
+    }
+    inline const QPersistentModelIndex    &bottomRight() const
+    {
+        return br;
+    }
+    inline QModelIndex parent() const
+    {
+        return tl.parent();
+    }
+    inline const QAbstractItemModel* model() const
+    {
+        return tl.model();
+    }
 
     inline bool contains(const QModelIndex &index) const
     {
@@ -105,15 +138,21 @@ public:
     bool intersects(const QItemSelectionRange &other) const;
 #if QT_DEPRECATED_SINCE(5, 0)
     inline QItemSelectionRange intersect(const QItemSelectionRange &other) const
-        { return intersected(other); }
+    {
+        return intersected(other);
+    }
 #endif
     QItemSelectionRange intersected(const QItemSelectionRange &other) const;
 
 
     inline bool operator==(const QItemSelectionRange &other) const
-        { return (tl == other.tl && br == other.br); }
+    {
+        return (tl == other.tl && br == other.br);
+    }
     inline bool operator!=(const QItemSelectionRange &other) const
-        { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
     bool operator<(const QItemSelectionRange &other) const;
 
     inline bool isValid() const
@@ -127,17 +166,17 @@ public:
     QModelIndexList indexes() const;
 
 private:
-    QPersistentModelIndex tl, br;
+    QPersistentModelIndex    tl, br;
 };
 Q_DECLARE_TYPEINFO(QItemSelectionRange, Q_MOVABLE_TYPE);
 
 class QItemSelection;
 class QItemSelectionModelPrivate;
 
-class Q_CORE_EXPORT QItemSelectionModel : public QObject
+class Q_CORE_EXPORT    QItemSelectionModel : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel *model READ model WRITE setModel NOTIFY modelChanged)
+    Q_PROPERTY(QAbstractItemModel*model READ model WRITE setModel NOTIFY modelChanged)
     Q_PROPERTY(bool hasSelection READ hasSelection NOTIFY selectionChanged STORED false DESIGNABLE false)
     Q_PROPERTY(QModelIndex currentIndex READ currentIndex NOTIFY currentChanged STORED false DESIGNABLE false)
     Q_PROPERTY(QItemSelection selection READ selection NOTIFY selectionChanged STORED false DESIGNABLE false)
@@ -147,18 +186,19 @@ class Q_CORE_EXPORT QItemSelectionModel : public QObject
 
 public:
 
-    enum SelectionFlag {
-        NoUpdate       = 0x0000,
-        Clear          = 0x0001,
-        Select         = 0x0002,
-        Deselect       = 0x0004,
-        Toggle         = 0x0008,
-        Current        = 0x0010,
-        Rows           = 0x0020,
-        Columns        = 0x0040,
-        SelectCurrent  = Select | Current,
-        ToggleCurrent  = Toggle | Current,
-        ClearAndSelect = Clear | Select
+    enum SelectionFlag
+    {
+        NoUpdate        = 0x0000,
+        Clear           = 0x0001,
+        Select          = 0x0002,
+        Deselect        = 0x0004,
+        Toggle          = 0x0008,
+        Current         = 0x0010,
+        Rows            = 0x0020,
+        Columns         = 0x0040,
+        SelectCurrent   = Select | Current,
+        ToggleCurrent   = Toggle | Current,
+        ClearAndSelect  = Clear | Select
     };
 
     Q_DECLARE_FLAGS(SelectionFlags, SelectionFlag)
@@ -185,8 +225,8 @@ public:
     const QItemSelection selection() const;
 
     // ### Qt 6: Merge these two as "QAbstractItemModel *model() const"
-    const QAbstractItemModel *model() const;
-    QAbstractItemModel *model();
+    const QAbstractItemModel* model() const;
+    QAbstractItemModel* model();
 
     void setModel(QAbstractItemModel *model);
 
@@ -213,10 +253,10 @@ protected:
 
 private:
     Q_DISABLE_COPY(QItemSelectionModel)
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeRemoved(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsAboutToBeRemoved(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeInserted(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsAboutToBeInserted(const QModelIndex&, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeRemoved(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsAboutToBeRemoved(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeInserted(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsAboutToBeInserted(const QModelIndex &, int, int))
     Q_PRIVATE_SLOT(d_func(), void _q_layoutAboutToBeChanged(const QList<QPersistentModelIndex> &parents = QList<QPersistentModelIndex>(), QAbstractItemModel::LayoutChangeHint hint = QAbstractItemModel::NoHint))
     Q_PRIVATE_SLOT(d_func(), void _q_layoutChanged(const QList<QPersistentModelIndex> &parents = QList<QPersistentModelIndex>(), QAbstractItemModel::LayoutChangeHint hint = QAbstractItemModel::NoHint))
 };
@@ -224,15 +264,18 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(QItemSelectionModel::SelectionFlags)
 
 // dummy implentation of qHash() necessary for instantiating QList<QItemSelectionRange>::toSet() with MSVC
-inline uint qHash(const QItemSelectionRange &) { return 0; }
+inline uint qHash(const QItemSelectionRange&)
+{
+    return 0;
+}
 
 #ifdef Q_CC_MSVC
 
 /*
-   ### Qt 6:
-   ### This needs to be removed for next releases of Qt. It is a workaround for vc++ because
-   ### Qt exports QItemSelection that inherits QList<QItemSelectionRange>.
-*/
+ ### Qt 6:
+ ### This needs to be removed for next releases of Qt. It is a workaround for vc++ because
+ ### Qt exports QItemSelection that inherits QList<QItemSelectionRange>.
+ */
 
 # ifndef Q_TEMPLATE_EXTERN
 #  if defined(QT_BUILD_CORE_LIB)
@@ -241,10 +284,10 @@ inline uint qHash(const QItemSelectionRange &) { return 0; }
 #   define Q_TEMPLATE_EXTERN extern
 #  endif
 # endif
-Q_TEMPLATE_EXTERN template class Q_CORE_EXPORT QList<QItemSelectionRange>;
+Q_TEMPLATE_EXTERN template class Q_CORE_EXPORT    QList<QItemSelectionRange>;
 #endif // Q_CC_MSVC
 
-class Q_CORE_EXPORT QItemSelection : public QList<QItemSelectionRange>
+class Q_CORE_EXPORT    QItemSelection : public QList<QItemSelectionRange>
 {
 public:
     QItemSelection() Q_DECL_NOTHROW : QList<QItemSelectionRange>() {}
@@ -263,7 +306,7 @@ public:
 Q_DECLARE_SHARED_NOT_MOVABLE_UNTIL_QT6(QItemSelection)
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QItemSelectionRange &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QItemSelectionRange&);
 #endif
 
 QT_END_NAMESPACE

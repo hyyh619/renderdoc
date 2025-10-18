@@ -67,12 +67,12 @@ QT_BEGIN_NAMESPACE
 class QNetworkAddressEntryPrivate
 {
 public:
-    QHostAddress address;
-    QNetmaskAddress netmask;
-    QHostAddress broadcast;
+    QHostAddress        address;
+    QNetmaskAddress     netmask;
+    QHostAddress        broadcast;
 };
 
-class QNetworkInterfacePrivate: public QSharedData
+class QNetworkInterfacePrivate : public QSharedData
 {
 public:
     QNetworkInterfacePrivate() : index(0), flags(0)
@@ -80,20 +80,20 @@ public:
     ~QNetworkInterfacePrivate()
     { }
 
-    int index;                  // interface index, if know
-    QNetworkInterface::InterfaceFlags flags;
+    int                                     index; // interface index, if know
+    QNetworkInterface::InterfaceFlags       flags;
 
-    QString name;
-    QString friendlyName;
-    QString hardwareAddress;
+    QString     name;
+    QString     friendlyName;
+    QString     hardwareAddress;
 
-    QList<QNetworkAddressEntry> addressEntries;
+    QList<QNetworkAddressEntry>    addressEntries;
 
     static QString makeHwAddress(int len, uchar *data);
 
 private:
     // disallow copying -- avoid detaching
-    QNetworkInterfacePrivate &operator=(const QNetworkInterfacePrivate &other);
+    QNetworkInterfacePrivate&operator=(const QNetworkInterfacePrivate &other);
     QNetworkInterfacePrivate(const QNetworkInterfacePrivate &other);
 };
 
@@ -111,15 +111,14 @@ public:
     static QString interfaceNameFromIndex(uint index);
 
     // convenience:
-    QSharedDataPointer<QNetworkInterfacePrivate> empty;
+    QSharedDataPointer<QNetworkInterfacePrivate>    empty;
 
 private:
-    QList<QNetworkInterfacePrivate *> scan();
+    QList<QNetworkInterfacePrivate*> scan();
 };
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_NETWORKINTERFACE
 
 #endif

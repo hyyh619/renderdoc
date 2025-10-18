@@ -76,19 +76,19 @@ public:
 
 private:
     bool readHeader();
-    enum State {
+    enum State
+    {
         Ready,
         ReadHeader,
         Error
     };
-    State state;
-    int width;
-    int height;
-    QString fileName;
+    State       state;
+    int         width;
+    int         height;
+    QString     fileName;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_IMAGEFORMAT_XBM
 
 #endif // QXBMHANDLER_P_H

@@ -49,37 +49,41 @@
 QT_BEGIN_NAMESPACE
 
 
-template <typename T> class QList;
+template<typename T> class QList;
 struct QTextOptionPrivate;
 
-class Q_GUI_EXPORT QTextOption
+class Q_GUI_EXPORT    QTextOption
 {
 public:
-    enum TabType {
+    enum TabType
+    {
         LeftTab,
         RightTab,
         CenterTab,
         DelimiterTab
     };
 
-    struct Q_GUI_EXPORT Tab {
+    struct Q_GUI_EXPORT    Tab
+    {
         inline Tab() : position(80), type(QTextOption::LeftTab) { }
         inline Tab(qreal pos, TabType tabType, QChar delim = QChar())
             : position(pos), type(tabType), delimiter(delim) {}
 
-        inline bool operator==(const Tab &other) const {
+        inline bool operator==(const Tab &other) const
+        {
             return type == other.type
                    && qFuzzyCompare(position, other.position)
                    && delimiter == other.delimiter;
         }
 
-        inline bool operator!=(const Tab &other) const {
+        inline bool operator!=(const Tab &other) const
+        {
             return !operator==(other);
         }
 
-        qreal position;
+        qreal   position;
         TabType type;
-        QChar delimiter;
+        QChar   delimiter;
     };
 
     QTextOption();
@@ -87,38 +91,61 @@ public:
     ~QTextOption();
 
     QTextOption(const QTextOption &o);
-    QTextOption &operator=(const QTextOption &o);
+    QTextOption&operator=(const QTextOption &o);
 
     inline void setAlignment(Qt::Alignment alignment);
-    inline Qt::Alignment alignment() const { return Qt::Alignment(align); }
+    inline Qt::Alignment alignment() const
+    {
+        return Qt::Alignment(align);
+    }
 
-    inline void setTextDirection(Qt::LayoutDirection aDirection) { this->direction = aDirection; }
-    inline Qt::LayoutDirection textDirection() const { return Qt::LayoutDirection(direction); }
+    inline void setTextDirection(Qt::LayoutDirection aDirection)
+    {
+        this->direction = aDirection;
+    }
+    inline Qt::LayoutDirection textDirection() const
+    {
+        return Qt::LayoutDirection(direction);
+    }
 
-    enum WrapMode {
+    enum WrapMode
+    {
         NoWrap,
         WordWrap,
         ManualWrap,
         WrapAnywhere,
         WrapAtWordBoundaryOrAnywhere
     };
-    inline void setWrapMode(WrapMode wrap) { wordWrap = wrap; }
-    inline WrapMode wrapMode() const { return static_cast<WrapMode>(wordWrap); }
+    inline void setWrapMode(WrapMode wrap)
+    {
+        wordWrap = wrap;
+    }
+    inline WrapMode wrapMode() const
+    {
+        return static_cast<WrapMode>(wordWrap);
+    }
 
-    enum Flag {
-        ShowTabsAndSpaces = 0x1,
-        ShowLineAndParagraphSeparators = 0x2,
-        AddSpaceForLineAndParagraphSeparators = 0x4,
-        SuppressColors = 0x8,
-        ShowDocumentTerminator = 0x10,
-        IncludeTrailingSpaces = 0x80000000
+    enum Flag
+    {
+        ShowTabsAndSpaces                       = 0x1,
+        ShowLineAndParagraphSeparators          = 0x2,
+        AddSpaceForLineAndParagraphSeparators   = 0x4,
+        SuppressColors                          = 0x8,
+        ShowDocumentTerminator                  = 0x10,
+        IncludeTrailingSpaces                   = 0x80000000
     };
     Q_DECLARE_FLAGS(Flags, Flag)
     inline void setFlags(Flags flags);
-    inline Flags flags() const { return Flags(f); }
+    inline Flags flags() const
+    {
+        return Flags(f);
+    }
 
     inline void setTabStop(qreal tabStop);
-    inline qreal tabStop() const { return tab; }
+    inline qreal tabStop() const
+    {
+        return tab;
+    }
 
     void setTabArray(const QList<qreal> &tabStops);
     QList<qreal> tabArray() const;
@@ -126,34 +153,46 @@ public:
     void setTabs(const QList<Tab> &tabStops);
     QList<Tab> tabs() const;
 
-    void setUseDesignMetrics(bool b) { design = b; }
-    bool useDesignMetrics() const { return design; }
+    void setUseDesignMetrics(bool b)
+    {
+        design = b;
+    }
+    bool useDesignMetrics() const
+    {
+        return design;
+    }
 
 private:
-    uint align : 8;
-    uint wordWrap : 4;
-    uint design : 1;
-    uint direction : 2;
-    uint unused : 17;
-    uint unused2; // ### Qt 6: remove unnecessary, extra 32 bits
-    uint f;
-    qreal tab;
-    QTextOptionPrivate *d;
+    uint                    align : 8;
+    uint                    wordWrap : 4;
+    uint                    design : 1;
+    uint                    direction : 2;
+    uint                    unused : 17;
+    uint                    unused2; // ### Qt 6: remove unnecessary, extra 32 bits
+    uint                    f;
+    qreal                   tab;
+    QTextOptionPrivate      *d;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QTextOption::Flags)
 
 inline void QTextOption::setAlignment(Qt::Alignment aalignment)
-{ align = aalignment; }
+{
+    align = aalignment;
+}
 
 inline void QTextOption::setFlags(Flags aflags)
-{ f = aflags; }
+{
+    f = aflags;
+}
 
 inline void QTextOption::setTabStop(qreal atabStop)
-{ tab = atabStop; }
+{
+    tab = atabStop;
+}
 
 QT_END_NAMESPACE
 
-Q_DECLARE_METATYPE( QTextOption::Tab )
+Q_DECLARE_METATYPE(QTextOption::Tab)
 
 #endif // QTEXTOPTION_H

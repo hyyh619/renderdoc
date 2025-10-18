@@ -67,88 +67,88 @@ extern "C" {
  *  @{
  */
 
-    typedef struct NVPW_D3D11_RawCounterConfig_Create_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        const char* pChipName;
-        /// [in] one of 'NVPA_ActivityKind'
-        uint32_t activityKind;
-        /// [out] new NVPW_RawCounterConfig object
-        struct NVPW_RawCounterConfig* pRawCounterConfig;
-    } NVPW_D3D11_RawCounterConfig_Create_Params;
+typedef struct NVPW_D3D11_RawCounterConfig_Create_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    const char *pChipName;
+    /// [in] one of 'NVPA_ActivityKind'
+    uint32_t activityKind;
+    /// [out] new NVPW_RawCounterConfig object
+    struct NVPW_RawCounterConfig *pRawCounterConfig;
+} NVPW_D3D11_RawCounterConfig_Create_Params;
 #define NVPW_D3D11_RawCounterConfig_Create_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_D3D11_RawCounterConfig_Create_Params, pRawCounterConfig)
 
-    NVPA_Status NVPW_D3D11_RawCounterConfig_Create(NVPW_D3D11_RawCounterConfig_Create_Params* pParams);
+NVPA_Status NVPW_D3D11_RawCounterConfig_Create(NVPW_D3D11_RawCounterConfig_Create_Params *pParams);
 
 /**
  *  @}
  ******************************************************************************/
- 
-    typedef struct NVPW_D3D11_RawMetricsConfig_Create_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        NVPA_ActivityKind activityKind;
-        /// [in]
-        const char* pChipName;
-        /// [out] new NVPA_RawMetricsConfig object
-        struct NVPA_RawMetricsConfig* pRawMetricsConfig;
-    } NVPW_D3D11_RawMetricsConfig_Create_Params;
+
+typedef struct NVPW_D3D11_RawMetricsConfig_Create_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    NVPA_ActivityKind activityKind;
+    /// [in]
+    const char *pChipName;
+    /// [out] new NVPA_RawMetricsConfig object
+    struct NVPA_RawMetricsConfig *pRawMetricsConfig;
+} NVPW_D3D11_RawMetricsConfig_Create_Params;
 #define NVPW_D3D11_RawMetricsConfig_Create_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_D3D11_RawMetricsConfig_Create_Params, pRawMetricsConfig)
 
-    /// This API is deprecated and will be removed in a future release. Use `NVPW_D3D11_RawCounterConfig_Create`
-    /// instead.
-    NVPA_Status NVPW_D3D11_RawMetricsConfig_Create(NVPW_D3D11_RawMetricsConfig_Create_Params* pParams);
+/// This API is deprecated and will be removed in a future release. Use `NVPW_D3D11_RawCounterConfig_Create`
+/// instead.
+NVPA_Status NVPW_D3D11_RawMetricsConfig_Create(NVPW_D3D11_RawMetricsConfig_Create_Params *pParams);
 
-    typedef struct NVPW_MetricsEvaluator NVPW_MetricsEvaluator;
+typedef struct NVPW_MetricsEvaluator NVPW_MetricsEvaluator;
 
-    typedef struct NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        const char* pChipName;
-        /// [out]
-        size_t scratchBufferSize;
-    } NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params;
+typedef struct NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    const char *pChipName;
+    /// [out]
+    size_t scratchBufferSize;
+} NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params;
 #define NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params, scratchBufferSize)
 
-    NVPA_Status NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize(NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params* pParams);
+NVPA_Status NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize(NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize_Params *pParams);
 
-    typedef struct NVPW_D3D11_MetricsEvaluator_Initialize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        uint8_t* pScratchBuffer;
-        /// [in] the size of the 'pScratchBuffer' array, should be at least the size of the 'scratchBufferSize' returned
-        /// by 'NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize'
-        size_t scratchBufferSize;
-        /// [in] use either 'pChipName' or 'pCounterDataImage', 'pChipName' will create the metrics evaluator based on a
-        /// virtual device while 'pCounterDataImage' will create the metrics evaluator based on the actual device. If
-        /// both are provided, 'pCounterDataImage' will be used
-        const char* pChipName;
-        /// [in]
-        const uint8_t* pCounterDataImage;
-        /// [in] must be provided if 'pCounterDataImage' is not NULL
-        size_t counterDataImageSize;
-        /// [out]
-        struct NVPW_MetricsEvaluator* pMetricsEvaluator;
-    } NVPW_D3D11_MetricsEvaluator_Initialize_Params;
+typedef struct NVPW_D3D11_MetricsEvaluator_Initialize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    uint8_t *pScratchBuffer;
+    /// [in] the size of the 'pScratchBuffer' array, should be at least the size of the 'scratchBufferSize' returned
+    /// by 'NVPW_D3D11_MetricsEvaluator_CalculateScratchBufferSize'
+    size_t scratchBufferSize;
+    /// [in] use either 'pChipName' or 'pCounterDataImage', 'pChipName' will create the metrics evaluator based on a
+    /// virtual device while 'pCounterDataImage' will create the metrics evaluator based on the actual device. If
+    /// both are provided, 'pCounterDataImage' will be used
+    const char *pChipName;
+    /// [in]
+    const uint8_t *pCounterDataImage;
+    /// [in] must be provided if 'pCounterDataImage' is not NULL
+    size_t counterDataImageSize;
+    /// [out]
+    struct NVPW_MetricsEvaluator *pMetricsEvaluator;
+} NVPW_D3D11_MetricsEvaluator_Initialize_Params;
 #define NVPW_D3D11_MetricsEvaluator_Initialize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_D3D11_MetricsEvaluator_Initialize_Params, pMetricsEvaluator)
 
-    NVPA_Status NVPW_D3D11_MetricsEvaluator_Initialize(NVPW_D3D11_MetricsEvaluator_Initialize_Params* pParams);
+NVPA_Status NVPW_D3D11_MetricsEvaluator_Initialize(NVPW_D3D11_MetricsEvaluator_Initialize_Params *pParams);
 
 
 

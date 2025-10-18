@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
 class QPainter;
 class QSvgTinyDocument;
 
-class Q_SVG_PRIVATE_EXPORT QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgNode
 {
 public:
     enum Type
@@ -87,7 +87,8 @@ public:
         USE,
         VIDEO
     };
-    enum DisplayMode {
+    enum DisplayMode
+    {
         InlineMode,
         BlockMode,
         ListItemMode,
@@ -108,40 +109,40 @@ public:
         InheritMode
     };
 public:
-    QSvgNode(QSvgNode *parent=0);
+    QSvgNode(QSvgNode *parent= 0);
     virtual ~QSvgNode();
-    virtual void draw(QPainter *p, QSvgExtraStates &states) =0;
+    virtual void draw(QPainter *p, QSvgExtraStates &states) = 0;
 
-    QSvgNode *parent() const;
+    QSvgNode* parent() const;
     bool isDescendantOf(const QSvgNode *parent) const;
 
     void appendStyleProperty(QSvgStyleProperty *prop, const QString &id);
     void applyStyle(QPainter *p, QSvgExtraStates &states) const;
     void revertStyle(QPainter *p, QSvgExtraStates &states) const;
-    QSvgStyleProperty *styleProperty(QSvgStyleProperty::Type type) const;
-    QSvgFillStyleProperty *styleProperty(const QString &id) const;
+    QSvgStyleProperty* styleProperty(QSvgStyleProperty::Type type) const;
+    QSvgFillStyleProperty* styleProperty(const QString &id) const;
 
-    QSvgTinyDocument *document() const;
+    QSvgTinyDocument* document() const;
 
-    virtual Type type() const =0;
+    virtual Type type() const = 0;
     virtual QRectF bounds(QPainter *p, QSvgExtraStates &states) const;
     virtual QRectF transformedBounds(QPainter *p, QSvgExtraStates &states) const;
     QRectF transformedBounds() const;
 
     void setRequiredFeatures(const QStringList &lst);
-    const QStringList & requiredFeatures() const;
+    const QStringList    &requiredFeatures() const;
 
     void setRequiredExtensions(const QStringList &lst);
-    const QStringList & requiredExtensions() const;
+    const QStringList    &requiredExtensions() const;
 
     void setRequiredLanguages(const QStringList &lst);
-    const QStringList & requiredLanguages() const;
+    const QStringList    &requiredLanguages() const;
 
     void setRequiredFormats(const QStringList &lst);
-    const QStringList & requiredFormats() const;
+    const QStringList    &requiredFormats() const;
 
     void setRequiredFonts(const QStringList &lst);
-    const QStringList & requiredFonts() const;
+    const QStringList    &requiredFonts() const;
 
     void setVisible(bool visible);
     bool isVisible() const;
@@ -155,30 +156,30 @@ public:
     QString xmlClass() const;
     void setXmlClass(const QString &str);
 protected:
-    mutable QSvgStyle m_style;
+    mutable QSvgStyle    m_style;
 
     static qreal strokeWidth(QPainter *p);
 private:
-    QSvgNode   *m_parent;
+    QSvgNode    *m_parent;
 
-    QStringList m_requiredFeatures;
-    QStringList m_requiredExtensions;
-    QStringList m_requiredLanguages;
-    QStringList m_requiredFormats;
-    QStringList m_requiredFonts;
+    QStringList     m_requiredFeatures;
+    QStringList     m_requiredExtensions;
+    QStringList     m_requiredLanguages;
+    QStringList     m_requiredFormats;
+    QStringList     m_requiredFonts;
 
-    bool        m_visible;
+    bool    m_visible;
 
-    QString m_id;
-    QString m_class;
+    QString     m_id;
+    QString     m_class;
 
-    DisplayMode m_displayMode;
-    mutable QRectF m_cachedBounds;
+    DisplayMode         m_displayMode;
+    mutable QRectF      m_cachedBounds;
 
     friend class QSvgTinyDocument;
 };
 
-inline QSvgNode *QSvgNode::parent() const
+inline QSvgNode* QSvgNode::parent() const
 {
     return m_parent;
 }

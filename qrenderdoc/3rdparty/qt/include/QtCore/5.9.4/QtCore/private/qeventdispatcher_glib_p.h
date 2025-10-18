@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
 
 class QEventDispatcherGlibPrivate;
 
-class Q_CORE_EXPORT QEventDispatcherGlib : public QAbstractEventDispatcher
+class Q_CORE_EXPORT    QEventDispatcherGlib : public QAbstractEventDispatcher
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QEventDispatcherGlib)
@@ -98,16 +98,15 @@ struct GSocketNotifierSource;
 struct GTimerSource;
 struct GIdleTimerSource;
 
-class Q_CORE_EXPORT QEventDispatcherGlibPrivate : public QAbstractEventDispatcherPrivate
+class Q_CORE_EXPORT    QEventDispatcherGlibPrivate : public QAbstractEventDispatcherPrivate
 {
-
 public:
     QEventDispatcherGlibPrivate(GMainContext *context = 0);
-    GMainContext *mainContext;
-    GPostEventSource *postEventSource;
-    GSocketNotifierSource *socketNotifierSource;
-    GTimerSource *timerSource;
-    GIdleTimerSource *idleTimerSource;
+    GMainContext                *mainContext;
+    GPostEventSource            *postEventSource;
+    GSocketNotifierSource       *socketNotifierSource;
+    GTimerSource                *timerSource;
+    GIdleTimerSource            *idleTimerSource;
 
     void runTimersOnceWithNormalPriority();
 };

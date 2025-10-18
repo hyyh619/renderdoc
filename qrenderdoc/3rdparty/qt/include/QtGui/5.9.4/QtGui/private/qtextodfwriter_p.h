@@ -79,14 +79,24 @@ class QTextFrame;
 class QTextFragment;
 class QOutputStrategy;
 
-class Q_AUTOTEST_EXPORT QTextOdfWriter {
+class Q_AUTOTEST_EXPORT    QTextOdfWriter
+{
 public:
     QTextOdfWriter(const QTextDocument &document, QIODevice *device);
     bool writeAll();
 
-    void setCodec(QTextCodec *codec) { m_codec = codec; }
-    void setCreateArchive(bool on) { m_createArchive = on; }
-    bool createArchive() const { return m_createArchive; }
+    void setCodec(QTextCodec *codec)
+    {
+        m_codec = codec;
+    }
+    void setCreateArchive(bool on)
+    {
+        m_createArchive = on;
+    }
+    bool createArchive() const
+    {
+        return m_createArchive;
+    }
 
     void writeBlock(QXmlStreamWriter &writer, const QTextBlock &block);
     void writeFormats(QXmlStreamWriter &writer, const QSet<int> &formatIds) const;
@@ -98,19 +108,18 @@ public:
     void writeFrame(QXmlStreamWriter &writer, const QTextFrame *frame);
     void writeInlineCharacter(QXmlStreamWriter &writer, const QTextFragment &fragment) const;
 
-    const QString officeNS, textNS, styleNS, foNS, tableNS, drawNS, xlinkNS, svgNS;
+    const QString    officeNS, textNS, styleNS, foNS, tableNS, drawNS, xlinkNS, svgNS;
 private:
-    const QTextDocument *m_document;
-    QIODevice *m_device;
+    const QTextDocument     *m_document;
+    QIODevice               *m_device;
 
-    QOutputStrategy *m_strategy;
-    QTextCodec *m_codec;
-    bool m_createArchive;
+    QOutputStrategy     *m_strategy;
+    QTextCodec          *m_codec;
+    bool                m_createArchive;
 
-    QStack<QTextList *> m_listStack;
+    QStack<QTextList*>    m_listStack;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEXTODFWRITER
 #endif // QTEXTODFWRITER_H

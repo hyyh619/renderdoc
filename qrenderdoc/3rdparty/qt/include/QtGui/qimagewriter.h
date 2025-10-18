@@ -53,11 +53,12 @@ class QIODevice;
 class QImage;
 
 class QImageWriterPrivate;
-class Q_GUI_EXPORT QImageWriter
+class Q_GUI_EXPORT    QImageWriter
 {
     Q_DECLARE_TR_FUNCTIONS(QImageWriter)
 public:
-    enum ImageWriterError {
+    enum ImageWriterError
+    {
         UnknownError,
         DeviceError,
         UnsupportedFormatError
@@ -72,7 +73,7 @@ public:
     QByteArray format() const;
 
     void setDevice(QIODevice *device);
-    QIODevice *device() const;
+    QIODevice* device() const;
 
     void setFileName(const QString &fileName);
     QString fileName() const;
@@ -118,7 +119,7 @@ public:
 
 private:
     Q_DISABLE_COPY(QImageWriter)
-    QImageWriterPrivate *d;
+    QImageWriterPrivate * d;
 };
 
 QT_END_NAMESPACE

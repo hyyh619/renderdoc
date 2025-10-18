@@ -51,14 +51,14 @@ class QTextDocument;
 class QTextDocumentFragmentPrivate;
 class QTextCursor;
 
-class Q_GUI_EXPORT QTextDocumentFragment
+class Q_GUI_EXPORT    QTextDocumentFragment
 {
 public:
     QTextDocumentFragment();
     explicit QTextDocumentFragment(const QTextDocument *document);
     explicit QTextDocumentFragment(const QTextCursor &range);
     QTextDocumentFragment(const QTextDocumentFragment &rhs);
-    QTextDocumentFragment &operator=(const QTextDocumentFragment &rhs);
+    QTextDocumentFragment&operator=(const QTextDocumentFragment &rhs);
     ~QTextDocumentFragment();
 
     bool isEmpty() const;
@@ -75,7 +75,7 @@ public:
 #endif // QT_NO_TEXTHTMLPARSER
 
 private:
-    QTextDocumentFragmentPrivate *d;
+    QTextDocumentFragmentPrivate    *d;
     friend class QTextCursor;
     friend class QTextDocumentWriter;
 };

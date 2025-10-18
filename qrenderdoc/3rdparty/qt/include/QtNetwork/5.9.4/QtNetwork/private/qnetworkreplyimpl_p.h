@@ -70,7 +70,7 @@ class QAbstractNetworkCache;
 class QNetworkAccessBackend;
 
 class QNetworkReplyImplPrivate;
-class QNetworkReplyImpl: public QNetworkReply
+class QNetworkReplyImpl : public QNetworkReply
 {
     Q_OBJECT
 public:
@@ -84,7 +84,7 @@ public:
     virtual void setReadBufferSize(qint64 size) Q_DECL_OVERRIDE;
 
     virtual qint64 readData(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
-    virtual bool event(QEvent *) Q_DECL_OVERRIDE;
+    virtual bool event(QEvent*) Q_DECL_OVERRIDE;
 
     Q_DECLARE_PRIVATE(QNetworkReplyImpl)
     Q_PRIVATE_SLOT(d_func(), void _q_startOperation())
@@ -108,10 +108,11 @@ protected:
 #endif
 };
 
-class QNetworkReplyImplPrivate: public QNetworkReplyPrivate
+class QNetworkReplyImplPrivate : public QNetworkReplyPrivate
 {
 public:
-    enum InternalNotifications {
+    enum InternalNotifications
+    {
         NotifyDownstreamReadyWrite,
         NotifyCloseDownstreamChannel,
         NotifyCopyFinished
@@ -158,7 +159,7 @@ public:
 
     void setDownloadBuffer(QSharedPointer<char> sp, qint64 size);
     char* getDownloadBuffer(qint64 size);
-    void appendDownstreamDataDownloadBuffer(qint64, qint64);
+    void    appendDownstreamDataDownloadBuffer(qint64, qint64);
 
     void finished();
     void error(QNetworkReply::NetworkError code, const QString &errorString);
@@ -167,43 +168,43 @@ public:
     void encrypted();
     void sslErrors(const QList<QSslError> &errors);
 
-    QNetworkAccessBackend *backend;
-    QIODevice *outgoingData;
-    QSharedPointer<QRingBuffer> outgoingDataBuffer;
-    QIODevice *copyDevice;
-    QAbstractNetworkCache *networkCache() const;
+    QNetworkAccessBackend           *backend;
+    QIODevice                       *outgoingData;
+    QSharedPointer<QRingBuffer>     outgoingDataBuffer;
+    QIODevice                       *copyDevice;
+    QAbstractNetworkCache* networkCache() const;
 
     bool migrateBackend();
 
-    bool cacheEnabled;
-    QIODevice *cacheSaveDevice;
+    bool            cacheEnabled;
+    QIODevice       *cacheSaveDevice;
 
-    NotificationQueue pendingNotifications;
-    bool notificationHandlingPaused;
+    NotificationQueue       pendingNotifications;
+    bool                    notificationHandlingPaused;
 
-    QUrl urlForLastAuthentication;
+    QUrl    urlForLastAuthentication;
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy lastProxyAuthentication;
-    QList<QNetworkProxy> proxyList;
+    QNetworkProxy           lastProxyAuthentication;
+    QList<QNetworkProxy>    proxyList;
 #endif
 
-    qint64 bytesDownloaded;
-    qint64 lastBytesDownloaded;
-    qint64 bytesUploaded;
-    qint64 preMigrationDownloaded;
+    qint64      bytesDownloaded;
+    qint64      lastBytesDownloaded;
+    qint64      bytesUploaded;
+    qint64      preMigrationDownloaded;
 
-    QString httpReasonPhrase;
-    int httpStatusCode;
+    QString     httpReasonPhrase;
+    int         httpStatusCode;
 
-    State state;
+    State    state;
 
     // Only used when the "zero copy" style is used.
     // Please note that the whole "zero copy" download buffer API is private right now. Do not use it.
-    qint64 downloadBufferReadPosition;
-    qint64 downloadBufferCurrentSize;
-    qint64 downloadBufferMaximumSize;
-    QSharedPointer<char> downloadBufferPointer;
-    char* downloadBuffer;
+    qint64                  downloadBufferReadPosition;
+    qint64                  downloadBufferCurrentSize;
+    qint64                  downloadBufferMaximumSize;
+    QSharedPointer<char>    downloadBufferPointer;
+    char                    *downloadBuffer;
 
     Q_DECLARE_PUBLIC(QNetworkReplyImpl)
 };
@@ -221,12 +222,15 @@ public:
 
     void abort() Q_DECL_OVERRIDE { }
 protected:
-    qint64 readData(char *, qint64) Q_DECL_OVERRIDE { return -1; }
+    qint64 readData(char*, qint64) Q_DECL_OVERRIDE
+    {
+        return -1;
+    }
 };
 #endif
 
 QT_END_NAMESPACE
 
-Q_DECLARE_METATYPE(QSharedPointer<char>)
+Q_DECLARE_METATYPE(QSharedPointer<char> )
 
 #endif

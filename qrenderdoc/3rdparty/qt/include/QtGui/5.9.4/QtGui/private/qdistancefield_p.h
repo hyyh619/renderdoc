@@ -69,24 +69,24 @@ int Q_GUI_EXPORT QT_DISTANCEFIELD_SCALE(bool narrowOutlineFont);
 int Q_GUI_EXPORT QT_DISTANCEFIELD_RADIUS(bool narrowOutlineFont);
 int Q_GUI_EXPORT QT_DISTANCEFIELD_HIGHGLYPHCOUNT();
 
-class Q_GUI_EXPORT QDistanceFieldData : public QSharedData
+class Q_GUI_EXPORT    QDistanceFieldData : public QSharedData
 {
 public:
     QDistanceFieldData() : glyph(0), width(0), height(0), nbytes(0), data(0) {}
     QDistanceFieldData(const QDistanceFieldData &other);
     ~QDistanceFieldData();
 
-    static QDistanceFieldData *create(const QSize &size);
-    static QDistanceFieldData *create(const QPainterPath &path, bool doubleResolution);
+    static QDistanceFieldData* create(const QSize &size);
+    static QDistanceFieldData* create(const QPainterPath &path, bool doubleResolution);
 
-    glyph_t glyph;
-    int width;
-    int height;
-    int nbytes;
-    uchar *data;
+    glyph_t     glyph;
+    int         width;
+    int         height;
+    int         nbytes;
+    uchar       *data;
 };
 
-class Q_GUI_EXPORT QDistanceField
+class Q_GUI_EXPORT    QDistanceField
 {
 public:
     QDistanceField();
@@ -107,21 +107,23 @@ public:
 
     QDistanceField copy(const QRect &rect = QRect()) const;
     inline QDistanceField copy(int x, int y, int w, int h) const
-        { return copy(QRect(x, y, w, h)); }
+    {
+        return copy(QRect(x, y, w, h));
+    }
 
-    uchar *bits();
-    const uchar *bits() const;
-    const uchar *constBits() const;
+    uchar* bits();
+    const uchar* bits() const;
+    const uchar* constBits() const;
 
-    uchar *scanLine(int);
-    const uchar *scanLine(int) const;
-    const uchar *constScanLine(int) const;
+    uchar* scanLine(int);
+    const uchar* scanLine(int) const;
+    const uchar* constScanLine(int) const;
 
     QImage toImage(QImage::Format format = QImage::Format_ARGB32_Premultiplied) const;
 
 private:
     QDistanceField(QDistanceFieldData *data);
-    QSharedDataPointer<QDistanceFieldData> d;
+    QSharedDataPointer<QDistanceFieldData>    d;
 
     friend class QDistanceFieldData;
 };

@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QLibraryPrivate;
 class QJsonObject;
 
-class Q_CORE_EXPORT QPluginLoader : public QObject
+class Q_CORE_EXPORT    QPluginLoader : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
@@ -63,7 +63,7 @@ public:
     explicit QPluginLoader(const QString &fileName, QObject *parent = Q_NULLPTR);
     ~QPluginLoader();
 
-    QObject *instance();
+    QObject* instance();
     QJsonObject metaData() const;
 
     static QObjectList staticInstances();
@@ -82,22 +82,21 @@ public:
     QLibrary::LoadHints loadHints() const;
 
 private:
-    QLibraryPrivate *d;
-    bool did_load;
+    QLibraryPrivate     *d;
+    bool                did_load;
     Q_DISABLE_COPY(QPluginLoader)
 };
 
 #else
 
-class Q_CORE_EXPORT QPluginLoader
+class Q_CORE_EXPORT    QPluginLoader
 {
 public:
     static QObjectList staticInstances();
     static QVector<QStaticPlugin> staticPlugins();
 };
-
 #endif // QT_CONFIG(library)
 
 QT_END_NAMESPACE
 
-#endif //QPLUGINLOADER_H
+#endif // QPLUGINLOADER_H

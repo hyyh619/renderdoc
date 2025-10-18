@@ -11,15 +11,14 @@ PyAPI_DATA(PyTypeObject) PyCmpWrapper_Type;
 
 #define PySeqIter_Check(op) (Py_TYPE(op) == &PySeqIter_Type)
 
-PyAPI_FUNC(PyObject *) PySeqIter_New(PyObject *);
+PyAPI_FUNC(PyObject*) PySeqIter_New(PyObject*);
 
 
 #define PyCallIter_Check(op) (Py_TYPE(op) == &PyCallIter_Type)
 
-PyAPI_FUNC(PyObject *) PyCallIter_New(PyObject *, PyObject *);
+PyAPI_FUNC(PyObject*) PyCallIter_New(PyObject*, PyObject*);
 
 #ifdef __cplusplus
 }
 #endif
 #endif /* !Py_ITEROBJECT_H */
-

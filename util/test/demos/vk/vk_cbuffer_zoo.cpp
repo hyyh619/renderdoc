@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "vk_test.h"
 
 RD_TEST(VK_CBuffer_Zoo, VulkanGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Tests every kind of constant that can be in a cbuffer to make sure it's decoded correctly.";
+    static constexpr const char    *Description =
+        "Tests every kind of constant that can be in a cbuffer to make sure it's decoded correctly.";
 
-  std::string glslpixel = R"EOSHADER(
+    std::string    glslpixel = R"EOSHADER(
 #version 460 core
 
 layout(location = 0, index = 0) out vec4 Color;
@@ -290,7 +290,7 @@ void main()
 
 )EOSHADER";
 
-  std::string hlslpixel = R"EOSHADER(
+    std::string    hlslpixel = R"EOSHADER(
 
 struct float3_1 { float3 a; float b; };
 
@@ -555,278 +555,283 @@ float4 main() : SV_Target0
 
 )EOSHADER";
 
-  struct float3_1
-  {
-    float a[3];
-    float b;
-  };
-
-  struct InlineData
-  {
-    float inline_zero[4];
-    float inline_a[4];
-    float inline_b[2], inline_c[2];
-    float3_1 inline_d;
-  };
-
-  void Prepare(int argc, char **argv)
-  {
-    devExts.push_back(VK_KHR_RELAXED_BLOCK_LAYOUT_EXTENSION_NAME);
-    optDevExts.push_back(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME);
-
-    // new glslang has a regression that requires scalar block layout for hlsl and does not support
-    // generating non-scalar layout hlsl packing
-    devExts.push_back(VK_EXT_SCALAR_BLOCK_LAYOUT_EXTENSION_NAME);
-
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    static VkPhysicalDeviceInlineUniformBlockFeaturesEXT inlineFeats = {
-        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT,
+    struct float3_1
+    {
+        float   a[3];
+        float   b;
     };
 
-    if(hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
+    struct InlineData
     {
-      inlineFeats.inlineUniformBlock = VK_TRUE;
-      inlineFeats.pNext = (void *)devInfoNext;
-      devInfoNext = &inlineFeats;
-    }
-
-    static VkPhysicalDeviceScalarBlockLayoutFeaturesEXT scalarFeatures = {
-        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT,
+        float       inline_zero[4];
+        float       inline_a[4];
+        float       inline_b[2], inline_c[2];
+        float3_1    inline_d;
     };
 
-    getPhysFeatures2(&scalarFeatures);
-
-    if(!scalarFeatures.scalarBlockLayout)
-      Avail = "Scalar block layout feature 'scalarBlockLayout' not available";
-
-    scalarFeatures.pNext = (void *)devInfoNext;
-
-    devInfoNext = &scalarFeatures;
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    VkDescriptorType descType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    uint32_t descCount = 1;
-
-    if(hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
+    void Prepare(int argc, char **argv)
     {
-      descType = VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT;
-      descCount = 16 * sizeof(float);
+        devExts.push_back(VK_KHR_RELAXED_BLOCK_LAYOUT_EXTENSION_NAME);
+        optDevExts.push_back(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME);
+
+        // new glslang has a regression that requires scalar block layout for hlsl and does not support
+        // generating non-scalar layout hlsl packing
+        devExts.push_back(VK_EXT_SCALAR_BLOCK_LAYOUT_EXTENSION_NAME);
+
+        VulkanGraphicsTest::Prepare(argc, argv);
+
+        static VkPhysicalDeviceInlineUniformBlockFeaturesEXT    inlineFeats =
+        {
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_INLINE_UNIFORM_BLOCK_FEATURES_EXT,
+        };
+
+        if (hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
+        {
+            inlineFeats.inlineUniformBlock  = VK_TRUE;
+            inlineFeats.pNext               = (void*)devInfoNext;
+            devInfoNext                     = &inlineFeats;
+        }
+
+        static VkPhysicalDeviceScalarBlockLayoutFeaturesEXT    scalarFeatures =
+        {
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SCALAR_BLOCK_LAYOUT_FEATURES_EXT,
+        };
+
+        getPhysFeatures2(&scalarFeatures);
+
+        if (!scalarFeatures.scalarBlockLayout)
+            Avail = "Scalar block layout feature 'scalarBlockLayout' not available";
+
+        scalarFeatures.pNext = (void*)devInfoNext;
+
+        devInfoNext = &scalarFeatures;
     }
 
-    VkDescriptorSetLayout setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-        {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
-        {1, descType, descCount, VK_SHADER_STAGE_FRAGMENT_BIT},
-    }));
-
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo({setlayout}));
-
-    AllocatedImage img(
-        this,
-        vkh::ImageCreateInfo(mainWindow->scissor.extent.width, mainWindow->scissor.extent.height, 0,
-                             VK_FORMAT_R32G32B32A32_SFLOAT,
-                             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    VkImageView imgview = createImageView(
-        vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
-
-    vkh::RenderPassCreator renderPassCreateInfo;
-
-    renderPassCreateInfo.attachments.push_back(
-        vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                   VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
-
-    renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
-
-    VkRenderPass renderPass = createRenderPass(renderPassCreateInfo);
-
-    VkFramebuffer framebuffer = createFramebuffer(
-        vkh::FramebufferCreateInfo(renderPass, {imgview}, mainWindow->scissor.extent));
-
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
-
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.renderPass = renderPass;
-
-    pipeCreateInfo.vertexInputState.vertexBindingDescriptions = {vkh::vertexBind(0, DefaultA2V)};
-    pipeCreateInfo.vertexInputState.vertexAttributeDescriptions = {
-        vkh::vertexAttr(0, 0, DefaultA2V, pos),
-        vkh::vertexAttr(1, 0, DefaultA2V, col),
-        vkh::vertexAttr(2, 0, DefaultA2V, uv),
-    };
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(VKDefaultVertex, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(glslpixel, ShaderLang::glsl, ShaderStage::frag, "main"),
-    };
-
-    float data[2] = {20.0f, 0.0f};
-
-    // data[1] is a bool
-    VkBool32 btrue = true;
-    memcpy(&data[1], &btrue, sizeof(btrue));
-
-    VkSpecializationMapEntry specmap[2] = {
-        {1, 0, sizeof(float)},
-        {3, 4, sizeof(VkBool32)},
-    };
-
-    VkSpecializationInfo spec = {};
-    spec.mapEntryCount = 2;
-    spec.pMapEntries = specmap;
-    spec.dataSize = sizeof(data);
-    spec.pData = data;
-
-    pipeCreateInfo.stages[1].pSpecializationInfo = &spec;
-
-    VkPipeline glslpipe = createGraphicsPipeline(pipeCreateInfo);
-
-    pipeCreateInfo.stages[1] =
-        CompileShaderModule(hlslpixel, ShaderLang::hlsl, ShaderStage::frag, "main");
-
-    VkPipeline hlslpipe = createGraphicsPipeline(pipeCreateInfo);
-
-    AllocatedBuffer vb(
-        this,
-        vkh::BufferCreateInfo(sizeof(DefaultTri),
-                              VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    vb.upload(DefaultTri);
-
-    const size_t bindOffset = 16;
-
-    Vec4f cbufferdata[512 + bindOffset];
-
-    for(int i = 0; i < bindOffset; i++)
-      cbufferdata[i] = Vec4f(-99.9f, -88.8f, -77.7f, -66.6f);
-
-    for(int i = 0; i < 512; i++)
-      cbufferdata[i + bindOffset] =
-          Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
-
-    AllocatedBuffer cb(
-        this,
-        vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
-                                                       VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    cb.upload(cbufferdata);
-
-    InlineData inlinedata = {};
-
-    inlinedata.inline_a[0] = 10.0f;
-    inlinedata.inline_a[1] = 20.0f;
-    inlinedata.inline_a[2] = 30.0f;
-    inlinedata.inline_a[3] = 40.0f;
-
-    inlinedata.inline_b[0] = 50.0f;
-    inlinedata.inline_b[1] = 60.0f;
-
-    inlinedata.inline_c[0] = 70.0f;
-    inlinedata.inline_c[1] = 80.0f;
-
-    inlinedata.inline_d.a[0] = 90.0f;
-    inlinedata.inline_d.a[1] = 100.0f;
-    inlinedata.inline_d.a[2] = 110.0f;
-    inlinedata.inline_d.b = 120.0f;
-
-    AllocatedBuffer inlinecb(
-        this,
-        vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
-                                                       VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
+    int main()
     {
-      byte *ptr = inlinecb.map();
-      memcpy(ptr + bindOffset * sizeof(Vec4f), &inlinedata, sizeof(inlinedata));
-      inlinecb.unmap();
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        VkDescriptorType    descType    = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+        uint32_t            descCount   = 1;
+
+        if (hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
+        {
+            descType    = VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK_EXT;
+            descCount   = 16 * sizeof(float);
+        }
+
+        VkDescriptorSetLayout    setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1, VK_SHADER_STAGE_FRAGMENT_BIT},
+            {1, descType, descCount, VK_SHADER_STAGE_FRAGMENT_BIT},
+        }));
+
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo({setlayout}));
+
+        AllocatedImage    img(
+            this,
+            vkh::ImageCreateInfo(mainWindow->scissor.extent.width, mainWindow->scissor.extent.height, 0,
+                                 VK_FORMAT_R32G32B32A32_SFLOAT,
+                                 VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        VkImageView    imgview = createImageView(
+            vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
+
+        vkh::RenderPassCreator    renderPassCreateInfo;
+
+        renderPassCreateInfo.attachments.push_back(
+            vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                       VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
+
+        renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
+
+        VkRenderPass    renderPass = createRenderPass(renderPassCreateInfo);
+
+        VkFramebuffer    framebuffer = createFramebuffer(
+            vkh::FramebufferCreateInfo(renderPass, {imgview}, mainWindow->scissor.extent));
+
+        vkh::GraphicsPipelineCreateInfo    pipeCreateInfo;
+
+        pipeCreateInfo.layout       = layout;
+        pipeCreateInfo.renderPass   = renderPass;
+
+        pipeCreateInfo.vertexInputState.vertexBindingDescriptions   = {vkh::vertexBind(0, DefaultA2V)};
+        pipeCreateInfo.vertexInputState.vertexAttributeDescriptions =
+        {
+            vkh::vertexAttr(0, 0, DefaultA2V, pos),
+            vkh::vertexAttr(1, 0, DefaultA2V, col),
+            vkh::vertexAttr(2, 0, DefaultA2V, uv),
+        };
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(VKDefaultVertex, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(glslpixel, ShaderLang::glsl, ShaderStage::frag, "main"),
+        };
+
+        float    data[2] = {20.0f, 0.0f};
+
+        // data[1] is a bool
+        VkBool32    btrue = true;
+        memcpy(&data[1], &btrue, sizeof(btrue));
+
+        VkSpecializationMapEntry    specmap[2] =
+        {
+            {1, 0, sizeof(float)},
+            {3, 4, sizeof(VkBool32)},
+        };
+
+        VkSpecializationInfo    spec = {};
+        spec.mapEntryCount  = 2;
+        spec.pMapEntries    = specmap;
+        spec.dataSize       = sizeof(data);
+        spec.pData          = data;
+
+        pipeCreateInfo.stages[1].pSpecializationInfo = &spec;
+
+        VkPipeline    glslpipe = createGraphicsPipeline(pipeCreateInfo);
+
+        pipeCreateInfo.stages[1] =
+            CompileShaderModule(hlslpixel, ShaderLang::hlsl, ShaderStage::frag, "main");
+
+        VkPipeline    hlslpipe = createGraphicsPipeline(pipeCreateInfo);
+
+        AllocatedBuffer    vb(
+            this,
+            vkh::BufferCreateInfo(sizeof(DefaultTri),
+                                  VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        vb.upload(DefaultTri);
+
+        const size_t    bindOffset = 16;
+
+        Vec4f    cbufferdata[512 + bindOffset];
+
+        for (int i = 0; i < bindOffset; i++)
+            cbufferdata[i] = Vec4f(-99.9f, -88.8f, -77.7f, -66.6f);
+
+        for (int i = 0; i < 512; i++)
+            cbufferdata[i + bindOffset] =
+                Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
+
+        AllocatedBuffer    cb(
+            this,
+            vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        cb.upload(cbufferdata);
+
+        InlineData    inlinedata = {};
+
+        inlinedata.inline_a[0]  = 10.0f;
+        inlinedata.inline_a[1]  = 20.0f;
+        inlinedata.inline_a[2]  = 30.0f;
+        inlinedata.inline_a[3]  = 40.0f;
+
+        inlinedata.inline_b[0]  = 50.0f;
+        inlinedata.inline_b[1]  = 60.0f;
+
+        inlinedata.inline_c[0]  = 70.0f;
+        inlinedata.inline_c[1]  = 80.0f;
+
+        inlinedata.inline_d.a[0]    = 90.0f;
+        inlinedata.inline_d.a[1]    = 100.0f;
+        inlinedata.inline_d.a[2]    = 110.0f;
+        inlinedata.inline_d.b       = 120.0f;
+
+        AllocatedBuffer    inlinecb(
+            this,
+            vkh::BufferCreateInfo(sizeof(cbufferdata), VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        {
+            byte    *ptr = inlinecb.map();
+            memcpy(ptr + bindOffset * sizeof(Vec4f), &inlinedata, sizeof(inlinedata));
+            inlinecb.unmap();
+        }
+
+        VkDescriptorSet    descset = allocateDescriptorSet(setlayout);
+
+        vkh::updateDescriptorSets(
+            device, {
+            vkh::WriteDescriptorSet(
+                descset, 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                {vkh::DescriptorBufferInfo(cb.buffer, bindOffset * sizeof(Vec4f))}),
+        });
+
+        if (hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
+        {
+            vkh::updateDescriptorSets(
+                device,
+            {
+                vkh::WriteDescriptorSet(
+                    descset, 1,
+                    vkh::WriteDescriptorSetInlineUniformBlockEXT(&inlinedata, sizeof(inlinedata)),
+                    vkh::DescriptorBufferInfo(cb.buffer, bindOffset * sizeof(Vec4f))),
+            });
+        }
+        else
+        {
+            vkh::updateDescriptorSets(
+                device, {
+                vkh::WriteDescriptorSet(
+                    descset, 1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
+                    {vkh::DescriptorBufferInfo(inlinecb.buffer, bindOffset * sizeof(Vec4f))}),
+            });
+        }
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkCmdBeginRenderPass(cmd,
+                                 vkh::RenderPassBeginInfo(renderPass, framebuffer, mainWindow->scissor,
+                                                          {vkh::ClearValue(0.2f, 0.2f, 0.2f, 1.0f)}),
+                                 VK_SUBPASS_CONTENTS_INLINE);
+
+            vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, {descset}, {});
+            vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
+            vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
+            vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe);
+            vkCmdDraw(cmd, 3, 1, 0, 0);
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, hlslpipe);
+            vkCmdDraw(cmd, 3, 1, 0, 0);
+
+            vkCmdEndRenderPass(cmd);
+
+            vkh::cmdPipelineBarrier(
+                cmd, {
+                vkh::ImageMemoryBarrier(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+                                        VK_ACCESS_TRANSFER_READ_BIT, VK_IMAGE_LAYOUT_GENERAL,
+                                        VK_IMAGE_LAYOUT_GENERAL, img.image),
+            });
+
+            blitToSwap(cmd, img.image, VK_IMAGE_LAYOUT_GENERAL, swapimg, VK_IMAGE_LAYOUT_GENERAL);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            Submit(0, 1, {cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    VkDescriptorSet descset = allocateDescriptorSet(setlayout);
-
-    vkh::updateDescriptorSets(
-        device, {
-                    vkh::WriteDescriptorSet(
-                        descset, 0, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                        {vkh::DescriptorBufferInfo(cb.buffer, bindOffset * sizeof(Vec4f))}),
-                });
-
-    if(hasExt(VK_EXT_INLINE_UNIFORM_BLOCK_EXTENSION_NAME))
-    {
-      vkh::updateDescriptorSets(
-          device,
-          {
-              vkh::WriteDescriptorSet(
-                  descset, 1,
-                  vkh::WriteDescriptorSetInlineUniformBlockEXT(&inlinedata, sizeof(inlinedata)),
-                  vkh::DescriptorBufferInfo(cb.buffer, bindOffset * sizeof(Vec4f))),
-          });
-    }
-    else
-    {
-      vkh::updateDescriptorSets(
-          device, {
-                      vkh::WriteDescriptorSet(
-                          descset, 1, VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
-                          {vkh::DescriptorBufferInfo(inlinecb.buffer, bindOffset * sizeof(Vec4f))}),
-                  });
-    }
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkCmdBeginRenderPass(cmd,
-                           vkh::RenderPassBeginInfo(renderPass, framebuffer, mainWindow->scissor,
-                                                    {vkh::ClearValue(0.2f, 0.2f, 0.2f, 1.0f)}),
-                           VK_SUBPASS_CONTENTS_INLINE);
-
-      vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, {descset}, {});
-      vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
-      vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
-      vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, glslpipe);
-      vkCmdDraw(cmd, 3, 1, 0, 0);
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, hlslpipe);
-      vkCmdDraw(cmd, 3, 1, 0, 0);
-
-      vkCmdEndRenderPass(cmd);
-
-      vkh::cmdPipelineBarrier(
-          cmd, {
-                   vkh::ImageMemoryBarrier(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                                           VK_ACCESS_TRANSFER_READ_BIT, VK_IMAGE_LAYOUT_GENERAL,
-                                           VK_IMAGE_LAYOUT_GENERAL, img.image),
-               });
-
-      blitToSwap(cmd, img.image, VK_IMAGE_LAYOUT_GENERAL, swapimg, VK_IMAGE_LAYOUT_GENERAL);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(0, 1, {cmd});
-
-      Present();
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

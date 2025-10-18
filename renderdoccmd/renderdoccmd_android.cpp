@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "renderdoccmd.h"
 #include <EGL/egl.h>
@@ -38,151 +38,161 @@
 #include <android/log.h>
 #define ANDROID_LOG(...) __android_log_print(ANDROID_LOG_INFO, "renderdoccmd", __VA_ARGS__);
 
-struct android_app *android_state;
-pthread_t cmdthread_handle = 0;
+struct android_app      *android_state;
+pthread_t               cmdthread_handle = 0;
 
 struct PThreadLock
 {
-  PThreadLock(const char *n) : name(n)
-  {
-    ANDROID_LOG("Creating lock %s", name);
-    pthread_mutexattr_init(&mutexattr);
-    pthread_mutexattr_settype(&mutexattr, PTHREAD_MUTEX_RECURSIVE);
-    pthread_mutex_init(&mutex, &mutexattr);
-  }
-  ~PThreadLock()
-  {
-    ANDROID_LOG("Destroying lock %s", name);
-    pthread_mutex_destroy(&mutex);
-    pthread_mutexattr_destroy(&mutexattr);
-  }
-  bool trylock() { return pthread_mutex_trylock(&mutex) == 0; };
-  void lock() { pthread_mutex_lock(&mutex); }
-  void unlock() { pthread_mutex_unlock(&mutex); }
+    PThreadLock(const char *n) : name(n)
+    {
+        ANDROID_LOG("Creating lock %s", name);
+        pthread_mutexattr_init(&mutexattr);
+        pthread_mutexattr_settype(&mutexattr, PTHREAD_MUTEX_RECURSIVE);
+        pthread_mutex_init(&mutex, &mutexattr);
+    }
+    ~PThreadLock()
+    {
+        ANDROID_LOG("Destroying lock %s", name);
+        pthread_mutex_destroy(&mutex);
+        pthread_mutexattr_destroy(&mutexattr);
+    }
+    bool trylock()
+    {
+        return pthread_mutex_trylock(&mutex) == 0;
+    };
+    void lock()
+    {
+        pthread_mutex_lock(&mutex);
+    }
+    void unlock()
+    {
+        pthread_mutex_unlock(&mutex);
+    }
 private:
-  const char *name;
-  pthread_mutex_t mutex;
-  pthread_mutexattr_t mutexattr;
+    const char          *name;
+    pthread_mutex_t     mutex;
+    pthread_mutexattr_t mutexattr;
 };
 
-PThreadLock m_DrawLock("m_DrawLock"), m_CmdLock("m_CmdLock");
+PThreadLock    m_DrawLock("m_DrawLock"), m_CmdLock("m_CmdLock");
 
 void Daemonise()
-{
-}
+{}
 
 // every 15 minutes we fade briefly to avoid burn-in
-const float splashFadePeriod = 45 * 60.0f;
+const float    splashFadePeriod = 45 * 60.0f;
 
 float curtime()
 {
-  timespec ts;
-  clock_gettime(CLOCK_MONOTONIC, &ts);
-  return float(ts.tv_sec) + float(ts.tv_nsec & 0xffffffff) / 1000000000.0f;
+    timespec    ts;
+
+    clock_gettime(CLOCK_MONOTONIC, &ts);
+    return float(ts.tv_sec) + float(ts.tv_nsec & 0xffffffff) / 1000000000.0f;
 }
 
 void DisplayGenericSplash()
 {
-  ANDROID_LOG("Trying to splash");
-  // if something else is drawing and holding the lock, then bail
-  if(!m_DrawLock.trylock())
-    return;
-  ANDROID_LOG("Doing a splash");
+    ANDROID_LOG("Trying to splash");
+    // if something else is drawing and holding the lock, then bail
+    if (!m_DrawLock.trylock())
+        return;
 
-  // since we're not pumping this continually and we only draw when we need to, we can just do the
-  // full initialisation and teardown every time. This means we don't have to pay attention to
-  // whether something else needs to create a context on the window - we just do it
-  // opportunistically when we can hold the draw lock.
-  // This only takes about 30ms anyway, so it's still technically realtime, right!?
+    ANDROID_LOG("Doing a splash");
 
-  // fetch everything dynamically. We can't link against libEGL otherwise it messes with the hooking
-  // in the main library. Just declare local function pointers with the real names
-  void *libEGL = dlopen("libEGL.so", RTLD_NOW);
+    // since we're not pumping this continually and we only draw when we need to, we can just do the
+    // full initialisation and teardown every time. This means we don't have to pay attention to
+    // whether something else needs to create a context on the window - we just do it
+    // opportunistically when we can hold the draw lock.
+    // This only takes about 30ms anyway, so it's still technically realtime, right!?
 
-#define DLSYM_GET(name) decltype(&::name) name = (decltype(&::name))dlsym(libEGL, #name);
-#define GPA_GET(name) decltype(&::name) name = (decltype(&::name))eglGetProcAddress(#name);
+    // fetch everything dynamically. We can't link against libEGL otherwise it messes with the hooking
+    // in the main library. Just declare local function pointers with the real names
+    void    *libEGL = dlopen("libEGL.so", RTLD_NOW);
 
-  DLSYM_GET(eglBindAPI);
-  DLSYM_GET(eglGetDisplay);
-  DLSYM_GET(eglInitialize);
-  DLSYM_GET(eglGetError);
-  DLSYM_GET(eglChooseConfig);
-  DLSYM_GET(eglCreateContext);
-  DLSYM_GET(eglCreateWindowSurface);
-  DLSYM_GET(eglMakeCurrent);
-  DLSYM_GET(eglDestroySurface);
-  DLSYM_GET(eglDestroyContext);
-  DLSYM_GET(eglGetProcAddress);
-  DLSYM_GET(eglSwapBuffers);
-  DLSYM_GET(eglTerminate);
+#define DLSYM_GET(name) decltype(&::name)name   = (decltype(&::name))dlsym(libEGL, #name);
+#define GPA_GET(name)   decltype(&::name)name   = (decltype(&::name))eglGetProcAddress(#name);
 
-  GPA_GET(glCreateShader);
-  GPA_GET(glShaderSource);
-  GPA_GET(glCompileShader);
-  GPA_GET(glCreateProgram);
-  GPA_GET(glAttachShader);
-  GPA_GET(glLinkProgram);
-  GPA_GET(glGetUniformLocation);
-  GPA_GET(glUniform2f);
-  GPA_GET(glUniform1f);
-  GPA_GET(glUseProgram);
-  GPA_GET(glVertexAttribPointer);
-  GPA_GET(glEnableVertexAttribArray);
-  GPA_GET(glDrawArrays);
-  GPA_GET(glGetShaderiv);
-  GPA_GET(glGetShaderInfoLog);
-  GPA_GET(glGetProgramiv);
-  GPA_GET(glGetProgramInfoLog);
+    DLSYM_GET(eglBindAPI);
+    DLSYM_GET(eglGetDisplay);
+    DLSYM_GET(eglInitialize);
+    DLSYM_GET(eglGetError);
+    DLSYM_GET(eglChooseConfig);
+    DLSYM_GET(eglCreateContext);
+    DLSYM_GET(eglCreateWindowSurface);
+    DLSYM_GET(eglMakeCurrent);
+    DLSYM_GET(eglDestroySurface);
+    DLSYM_GET(eglDestroyContext);
+    DLSYM_GET(eglGetProcAddress);
+    DLSYM_GET(eglSwapBuffers);
+    DLSYM_GET(eglTerminate);
 
-  eglBindAPI(EGL_OPENGL_ES_API);
+    GPA_GET(glCreateShader);
+    GPA_GET(glShaderSource);
+    GPA_GET(glCompileShader);
+    GPA_GET(glCreateProgram);
+    GPA_GET(glAttachShader);
+    GPA_GET(glLinkProgram);
+    GPA_GET(glGetUniformLocation);
+    GPA_GET(glUniform2f);
+    GPA_GET(glUniform1f);
+    GPA_GET(glUseProgram);
+    GPA_GET(glVertexAttribPointer);
+    GPA_GET(glEnableVertexAttribArray);
+    GPA_GET(glDrawArrays);
+    GPA_GET(glGetShaderiv);
+    GPA_GET(glGetShaderInfoLog);
+    GPA_GET(glGetProgramiv);
+    GPA_GET(glGetProgramInfoLog);
 
-  EGLDisplay eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
+    eglBindAPI(EGL_OPENGL_ES_API);
 
-  if(eglDisplay && android_state && android_state->window)
-  {
-    ANativeWindow *previewWindow = android_state->window;
+    EGLDisplay    eglDisplay = eglGetDisplay(EGL_DEFAULT_DISPLAY);
 
-    int major = 0, minor = 0;
-    EGLBoolean initialised = eglInitialize(eglDisplay, &major, &minor);
-
-    if(initialised && major >= 1)
+    if (eglDisplay && android_state && android_state->window)
     {
-      const EGLint configAttribs[] = {EGL_RED_SIZE,
-                                      8,
-                                      EGL_GREEN_SIZE,
-                                      8,
-                                      EGL_BLUE_SIZE,
-                                      8,
-                                      EGL_SURFACE_TYPE,
-                                      EGL_WINDOW_BIT,
-                                      EGL_COLOR_BUFFER_TYPE,
-                                      EGL_RGB_BUFFER,
-                                      EGL_RENDERABLE_TYPE,
-                                      EGL_OPENGL_ES2_BIT,
-                                      EGL_NONE};
+        ANativeWindow    *previewWindow = android_state->window;
 
-      EGLint numConfigs;
-      EGLConfig config;
-      if(eglChooseConfig(eglDisplay, configAttribs, &config, 1, &numConfigs))
-      {
-        // we only need GLES 2 for this
-        static const EGLint ctxAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
+        int             major       = 0, minor = 0;
+        EGLBoolean      initialised = eglInitialize(eglDisplay, &major, &minor);
 
-        EGLContext ctx = eglCreateContext(eglDisplay, config, NULL, ctxAttribs);
-        if(ctx)
+        if (initialised && major >= 1)
         {
-          EGLSurface surface = eglCreateWindowSurface(eglDisplay, config, previewWindow, NULL);
+            const EGLint    configAttribs[] = {EGL_RED_SIZE,
+                                               8,
+                                               EGL_GREEN_SIZE,
+                                               8,
+                                               EGL_BLUE_SIZE,
+                                               8,
+                                               EGL_SURFACE_TYPE,
+                                               EGL_WINDOW_BIT,
+                                               EGL_COLOR_BUFFER_TYPE,
+                                               EGL_RGB_BUFFER,
+                                               EGL_RENDERABLE_TYPE,
+                                               EGL_OPENGL_ES2_BIT,
+                                               EGL_NONE};
 
-          if(surface)
-          {
-            eglMakeCurrent(eglDisplay, surface, surface, ctx);
+            EGLint          numConfigs;
+            EGLConfig       config;
+            if (eglChooseConfig(eglDisplay, configAttribs, &config, 1, &numConfigs))
+            {
+                // we only need GLES 2 for this
+                static const EGLint    ctxAttribs[] = {EGL_CONTEXT_CLIENT_VERSION, 2, EGL_NONE};
 
-            // simple pass through shader for the fullscreen triangle verts
-            const char *vertex =
-                "attribute vec2 pos;\n"
-                "void main() { gl_Position = vec4(pos, 0.5, 1.0); }";
+                EGLContext    ctx = eglCreateContext(eglDisplay, config, NULL, ctxAttribs);
+                if (ctx)
+                {
+                    EGLSurface    surface = eglCreateWindowSurface(eglDisplay, config, previewWindow, NULL);
 
-            const char *fragment = R"(
+                    if (surface)
+                    {
+                        eglMakeCurrent(eglDisplay, surface, surface, ctx);
+
+                        // simple pass through shader for the fullscreen triangle verts
+                        const char    *vertex =
+                            "attribute vec2 pos;\n"
+                            "void main() { gl_Position = vec4(pos, 0.5, 1.0); }";
+
+                        const char    *fragment = R"(
 precision highp float;
 
 float circle(in vec2 uv, in vec2 centre, in float radius)
@@ -228,173 +238,174 @@ void main()
 }
 )";
 
-            // compile the shaders and link into a program
-            GLuint vs = glCreateShader(GL_VERTEX_SHADER);
-            glShaderSource(vs, 1, &vertex, NULL);
-            glCompileShader(vs);
+                        // compile the shaders and link into a program
+                        GLuint    vs = glCreateShader(GL_VERTEX_SHADER);
+                        glShaderSource(vs, 1, &vertex, NULL);
+                        glCompileShader(vs);
 
-            GLint status = 0;
-            char buffer[1025] = {0};
-            glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
-            if(status == 0)
+                        GLint       status          = 0;
+                        char        buffer[1025]    = {0};
+                        glGetShaderiv(vs, GL_COMPILE_STATUS, &status);
+                        if (status == 0)
+                        {
+                            glGetShaderInfoLog(vs, 1024, NULL, buffer);
+                            ANDROID_LOG("VS error: %s", buffer);
+                        }
+
+                        GLuint    fs = glCreateShader(GL_FRAGMENT_SHADER);
+                        glShaderSource(fs, 1, &fragment, NULL);
+                        glCompileShader(fs);
+
+                        status = 0;
+                        glGetShaderiv(fs, GL_COMPILE_STATUS, &status);
+                        if (status == 0)
+                        {
+                            glGetShaderInfoLog(fs, 1024, NULL, buffer);
+                            ANDROID_LOG("FS error: %s", buffer);
+                        }
+
+                        GLuint    prog = glCreateProgram();
+                        glAttachShader(prog, vs);
+                        glAttachShader(prog, fs);
+                        glLinkProgram(prog);
+
+                        status = 0;
+                        glGetProgramiv(prog, GL_LINK_STATUS, &status);
+                        if (status == 0)
+                        {
+                            glGetProgramInfoLog(prog, 1024, NULL, buffer);
+                            ANDROID_LOG("Program Error: %s", buffer);
+                        }
+
+                        glUseProgram(prog);
+
+                        // set the resolution
+                        GLuint    loc = glGetUniformLocation(prog, "iResolution");
+                        glUniform2f(loc, float(ANativeWindow_getWidth(previewWindow)),
+                                    float(ANativeWindow_getHeight(previewWindow)));
+
+                        // loop every 15 minutes, with the fade at the end of the period
+                        float    x = splashFadePeriod - fmod(curtime(), splashFadePeriod);
+
+                        // multiply by 4 so the fade happens over a little more than a second instead of
+                        // 6.28 seconds.
+                        x = float(x) * 4.0f;
+
+                        // do one cos loop and finish
+                        if (x >= M_PI * 2.0f)
+                            x = M_PI * 2.0f;
+
+                        float    fade = cosf(x);
+
+                        // set the fade
+                        loc = glGetUniformLocation(prog, "fFade");
+                        glUniform1f(loc, fade);
+
+                        // fullscreen triangle
+                        float    verts[] =
+                        {
+                            -1.0f, -1.0f, // vertex 0
+                            3.0f,  -1.0f,// vertex 1
+                            -1.0f, 3.0f, // vertex 2
+                        };
+
+                        glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, verts);
+                        glEnableVertexAttribArray(0);
+
+                        glDrawArrays(GL_TRIANGLES, 0, 3);
+
+                        eglSwapBuffers(eglDisplay, surface);
+                    }
+                    else
+                    {
+                        ANDROID_LOG("failed making surface: %x", eglGetError());
+                    }
+
+                    eglMakeCurrent(eglDisplay, 0L, 0L, NULL);
+                    eglDestroyContext(eglDisplay, ctx);
+                    eglDestroySurface(eglDisplay, surface);
+                }
+                else
+                {
+                    ANDROID_LOG("failed making context: %x", eglGetError());
+                }
+            }
+            else
             {
-              glGetShaderInfoLog(vs, 1024, NULL, buffer);
-              ANDROID_LOG("VS error: %s", buffer);
+                ANDROID_LOG("failed choosing config");
             }
 
-            GLuint fs = glCreateShader(GL_FRAGMENT_SHADER);
-            glShaderSource(fs, 1, &fragment, NULL);
-            glCompileShader(fs);
-
-            status = 0;
-            glGetShaderiv(fs, GL_COMPILE_STATUS, &status);
-            if(status == 0)
-            {
-              glGetShaderInfoLog(fs, 1024, NULL, buffer);
-              ANDROID_LOG("FS error: %s", buffer);
-            }
-
-            GLuint prog = glCreateProgram();
-            glAttachShader(prog, vs);
-            glAttachShader(prog, fs);
-            glLinkProgram(prog);
-
-            status = 0;
-            glGetProgramiv(prog, GL_LINK_STATUS, &status);
-            if(status == 0)
-            {
-              glGetProgramInfoLog(prog, 1024, NULL, buffer);
-              ANDROID_LOG("Program Error: %s", buffer);
-            }
-
-            glUseProgram(prog);
-
-            // set the resolution
-            GLuint loc = glGetUniformLocation(prog, "iResolution");
-            glUniform2f(loc, float(ANativeWindow_getWidth(previewWindow)),
-                        float(ANativeWindow_getHeight(previewWindow)));
-
-            // loop every 15 minutes, with the fade at the end of the period
-            float x = splashFadePeriod - fmod(curtime(), splashFadePeriod);
-
-            // multiply by 4 so the fade happens over a little more than a second instead of
-            // 6.28 seconds.
-            x = float(x) * 4.0f;
-
-            // do one cos loop and finish
-            if(x >= M_PI * 2.0f)
-              x = M_PI * 2.0f;
-
-            float fade = cosf(x);
-
-            // set the fade
-            loc = glGetUniformLocation(prog, "fFade");
-            glUniform1f(loc, fade);
-
-            // fullscreen triangle
-            float verts[] = {
-                -1.0f, -1.0f,    // vertex 0
-                3.0f,  -1.0f,    // vertex 1
-                -1.0f, 3.0f,     // vertex 2
-            };
-
-            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, verts);
-            glEnableVertexAttribArray(0);
-
-            glDrawArrays(GL_TRIANGLES, 0, 3);
-
-            eglSwapBuffers(eglDisplay, surface);
-          }
-          else
-          {
-            ANDROID_LOG("failed making surface: %x", eglGetError());
-          }
-
-          eglMakeCurrent(eglDisplay, 0L, 0L, NULL);
-          eglDestroyContext(eglDisplay, ctx);
-          eglDestroySurface(eglDisplay, surface);
+            eglTerminate(eglDisplay);
         }
         else
         {
-          ANDROID_LOG("failed making context: %x", eglGetError());
+            ANDROID_LOG("failed to initialise EGL");
         }
-      }
-      else
-      {
-        ANDROID_LOG("failed choosing config");
-      }
-
-      eglTerminate(eglDisplay);
     }
-    else
-    {
-      ANDROID_LOG("failed to initialise EGL");
-    }
-  }
 
-  m_DrawLock.unlock();
-  ANDROID_LOG("Done splashing");
+    m_DrawLock.unlock();
+    ANDROID_LOG("Done splashing");
 }
 
 WindowingData DisplayRemoteServerPreview(bool active, const rdcarray<WindowingSystem> &systems)
 {
-  static bool wasActive = false;
+    static bool    wasActive = false;
 
-  // detect when the preview starts or stops
-  if(wasActive != active)
-  {
-    wasActive = active;
-
-    // if we're opening it, aquire the draw lock, otherwise release it.
-    if(active)
+    // detect when the preview starts or stops
+    if (wasActive != active)
     {
-      ANDROID_LOG("Locking for preview");
-      m_DrawLock.lock();
+        wasActive = active;
+
+        // if we're opening it, aquire the draw lock, otherwise release it.
+        if (active)
+        {
+            ANDROID_LOG("Locking for preview");
+            m_DrawLock.lock();
+        }
+        else
+        {
+            m_DrawLock.unlock();
+            ANDROID_LOG("Unlocking from preview");
+
+            // when we release it, re-draw the splash
+            DisplayGenericSplash();
+        }
     }
-    else
-    {
-      m_DrawLock.unlock();
-      ANDROID_LOG("Unlocking from preview");
 
-      // when we release it, re-draw the splash
-      DisplayGenericSplash();
-    }
-  }
+    WindowingData    ret = {WindowingSystem::Unknown};
 
-  WindowingData ret = {WindowingSystem::Unknown};
+    if (android_state && android_state->window)
+        ret = CreateAndroidWindowingData(android_state->window);
 
-  if(android_state && android_state->window)
-    ret = CreateAndroidWindowingData(android_state->window);
-
-  return ret;
+    return ret;
 }
 
 void DisplayRendererPreview(IReplayController *renderer, TextureDisplay &displayCfg, uint32_t width,
                             uint32_t height, uint32_t numLoops)
 {
-  ANativeWindow *connectionScreenWindow = android_state->window;
+    ANativeWindow    *connectionScreenWindow = android_state->window;
 
-  m_DrawLock.lock();
+    m_DrawLock.lock();
 
-  IReplayOutput *out = renderer->CreateOutput(CreateAndroidWindowingData(connectionScreenWindow),
-                                              ReplayOutputType::Texture);
+    IReplayOutput    *out = renderer->CreateOutput(CreateAndroidWindowingData(connectionScreenWindow),
+                                                   ReplayOutputType::Texture);
 
-  out->SetTextureDisplay(displayCfg);
+    out->SetTextureDisplay(displayCfg);
 
-  if(numLoops == 0)
-    numLoops = 100;
+    if (numLoops == 0)
+        numLoops = 100;
 
-  for(uint32_t i = 0; i < numLoops; i++)
-  {
-    renderer->SetFrameEvent(10000000, true);
+    for (uint32_t i = 0; i < numLoops; i++)
+    {
+        renderer->SetFrameEvent(10000000, true);
 
-    ANDROID_LOG("Frame %u", i);
-    out->Display();
+        ANDROID_LOG("Frame %u", i);
+        out->Display();
 
-    usleep(100000);
-  }
+        usleep(100000);
+    }
 
-  m_DrawLock.unlock();
+    m_DrawLock.unlock();
 }
 
 // Returns the renderdoccmd arguments passed via am start
@@ -402,134 +413,142 @@ void DisplayRendererPreview(IReplayController *renderer, TextureDisplay &display
 // -e renderdoccmd "replay /sdcard/capture.rdc"
 std::vector<std::string> getRenderdoccmdArgs()
 {
-  JNIEnv *env;
-  android_state->activity->vm->AttachCurrentThread(&env, 0);
+    JNIEnv    *env;
 
-  jobject me = android_state->activity->clazz;
+    android_state->activity->vm->AttachCurrentThread(&env, 0);
 
-  jclass acl = env->GetObjectClass(me);    // class pointer of NativeActivity
-  jmethodID giid = env->GetMethodID(acl, "getIntent", "()Landroid/content/Intent;");
-  jobject intent = env->CallObjectMethod(me, giid);    // Got our intent
+    jobject    me = android_state->activity->clazz;
 
-  jclass icl = env->GetObjectClass(intent);    // class pointer of Intent
-  jmethodID gseid =
-      env->GetMethodID(icl, "getStringExtra", "(Ljava/lang/String;)Ljava/lang/String;");
+    jclass          acl     = env->GetObjectClass(me); // class pointer of NativeActivity
+    jmethodID       giid    = env->GetMethodID(acl, "getIntent", "()Landroid/content/Intent;");
+    jobject         intent  = env->CallObjectMethod(me, giid); // Got our intent
 
-  jstring jsParam1 = (jstring)env->CallObjectMethod(intent, gseid, env->NewStringUTF("renderdoccmd"));
+    jclass          icl     = env->GetObjectClass(intent); // class pointer of Intent
+    jmethodID       gseid   =
+        env->GetMethodID(icl, "getStringExtra", "(Ljava/lang/String;)Ljava/lang/String;");
 
-  std::vector<std::string> ret;
-  if(jsParam1)    // Check if arg value found
-  {
-    ret.push_back("renderdoccmd");
-    const char *param1 = env->GetStringUTFChars(jsParam1, 0);
-    std::istringstream iss(param1);
-    while(iss)
+    jstring    jsParam1 = (jstring)env->CallObjectMethod(intent, gseid, env->NewStringUTF("renderdoccmd"));
+
+    std::vector<std::string>    ret;
+    if (jsParam1) // Check if arg value found
     {
-      std::string sub;
-      iss >> sub;
-      ret.push_back(sub);
-    }
-  }
-  android_state->activity->vm->DetachCurrentThread();
+        ret.push_back("renderdoccmd");
+        const char              *param1 = env->GetStringUTFChars(jsParam1, 0);
+        std::istringstream      iss(param1);
 
-  return ret;
+        while (iss)
+        {
+            std::string    sub;
+            iss >> sub;
+            ret.push_back(sub);
+        }
+    }
+
+    android_state->activity->vm->DetachCurrentThread();
+
+    return ret;
 }
 
-void *cmdthread(void *)
+void* cmdthread(void*)
 {
-  std::vector<std::string> args = getRenderdoccmdArgs();
-  if(args.size())
-  {
-    ANDROID_LOG("Entering cmd thread");
-    m_CmdLock.lock();
-    GlobalEnvironment env;
-    renderdoccmd(env, args);
-    m_CmdLock.unlock();
-    ANDROID_LOG("Exiting cmd thread");
-  }
+    std::vector<std::string>    args = getRenderdoccmdArgs();
 
-  // activity is done and should be closed
-  ANativeActivity_finish(android_state->activity);
+    if (args.size())
+    {
+        ANDROID_LOG("Entering cmd thread");
+        m_CmdLock.lock();
+        GlobalEnvironment    env;
+        renderdoccmd(env, args);
+        m_CmdLock.unlock();
+        ANDROID_LOG("Exiting cmd thread");
+    }
 
-  return NULL;
+    // activity is done and should be closed
+    ANativeActivity_finish(android_state->activity);
+
+    return NULL;
 }
 
 void handle_cmd(android_app *app, int32_t cmd)
 {
-  ANDROID_LOG("handle_cmd(%i)", cmd);
-  switch(cmd)
-  {
-    case APP_CMD_INIT_WINDOW:
+    ANDROID_LOG("handle_cmd(%i)", cmd);
+
+    switch (cmd)
     {
-      ANDROID_LOG("APP_CMD_INIT_WINDOW");
-      // if we already have a thread handle, see if it's still running
-      if(cmdthread_handle != 0)
-      {
-        ANDROID_LOG("thread handle exists");
-        // if the thread isn't running anymore, we can acquire m_CmdLock. If so, we need to join the
-        // thread and start afresh. If we can't acquire the lock, the thread is still running so we
-        // leave it alone.
-        if(m_CmdLock.trylock())
+        case APP_CMD_INIT_WINDOW:
         {
-          ANDROID_LOG("thread is dead, reaping");
-          m_CmdLock.unlock();
-          // safe to join here, thread will terminate soon if it hasn't already
-          pthread_join(cmdthread_handle, NULL);
-          cmdthread_handle = 0;
+            ANDROID_LOG("APP_CMD_INIT_WINDOW");
+            // if we already have a thread handle, see if it's still running
+            if (cmdthread_handle != 0)
+            {
+                ANDROID_LOG("thread handle exists");
+                // if the thread isn't running anymore, we can acquire m_CmdLock. If so, we need to join the
+                // thread and start afresh. If we can't acquire the lock, the thread is still running so we
+                // leave it alone.
+                if (m_CmdLock.trylock())
+                {
+                    ANDROID_LOG("thread is dead, reaping");
+                    m_CmdLock.unlock();
+                    // safe to join here, thread will terminate soon if it hasn't already
+                    pthread_join(cmdthread_handle, NULL);
+                    cmdthread_handle = 0;
+                }
+            }
+
+            // if we don't have a command thread, start one.
+            if (cmdthread_handle == 0)
+            {
+                ANDROID_LOG("spawning command thread");
+                pthread_create(&cmdthread_handle, NULL, cmdthread, NULL);
+            }
+
+            DisplayGenericSplash();
+            break;
         }
-      }
 
-      // if we don't have a command thread, start one.
-      if(cmdthread_handle == 0)
-      {
-        ANDROID_LOG("spawning command thread");
-        pthread_create(&cmdthread_handle, NULL, cmdthread, NULL);
-      }
-
-      DisplayGenericSplash();
-      break;
+        case APP_CMD_WINDOW_REDRAW_NEEDED:
+        case APP_CMD_GAINED_FOCUS:
+        case APP_CMD_LOST_FOCUS:
+        {
+            ANDROID_LOG("doing misc splash");
+            DisplayGenericSplash();
+            break;
+        }
     }
-    case APP_CMD_WINDOW_REDRAW_NEEDED:
-    case APP_CMD_GAINED_FOCUS:
-    case APP_CMD_LOST_FOCUS:
-    {
-      ANDROID_LOG("doing misc splash");
-      DisplayGenericSplash();
-      break;
-    }
-  }
 }
 
 void android_main(struct android_app *state)
 {
-  android_state = state;
-  android_state->onAppCmd = handle_cmd;
+    android_state           = state;
+    android_state->onAppCmd = handle_cmd;
 
-  ANDROID_LOG("android_main android_state->window: %p", android_state->window);
+    ANDROID_LOG("android_main android_state->window: %p", android_state->window);
 
-  // Used to poll the events in the main loop
-  int events;
-  android_poll_source *source;
-  float lastSplash = curtime();
-  do
-  {
-    // if we're near the end of the splash period force splashes at 30Hz
-    if(splashFadePeriod - fmod(curtime(), splashFadePeriod) < 10.0f)
+    // Used to poll the events in the main loop
+    int                     events;
+    android_poll_source     *source;
+    float                   lastSplash = curtime();
+
+    do
     {
-      if(curtime() - lastSplash > 1.0f / 30.0f)
-      {
-        DisplayGenericSplash();
-        lastSplash = curtime();
-      }
-    }
+        // if we're near the end of the splash period force splashes at 30Hz
+        if (splashFadePeriod - fmod(curtime(), splashFadePeriod) < 10.0f)
+        {
+            if (curtime() - lastSplash > 1.0f / 30.0f)
+            {
+                DisplayGenericSplash();
+                lastSplash = curtime();
+            }
+        }
 
-    if(ALooper_pollAll(1, nullptr, &events, (void **)&source) >= 0)
-    {
-      if(source != NULL)
-        source->process(android_state, source);
+        if (ALooper_pollAll(1, nullptr, &events, (void**)&source) >= 0)
+        {
+            if (source != NULL)
+                source->process(android_state, source);
+        }
     }
-  } while(android_state->destroyRequested == 0);
+    while (android_state->destroyRequested == 0);
 
-  ANDROID_LOG("android_main exiting");
-  android_state = NULL;
+    ANDROID_LOG("android_main exiting");
+    android_state = NULL;
 }

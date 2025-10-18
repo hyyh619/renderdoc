@@ -52,7 +52,7 @@ class QStyleOptionMenuItem;
 class QWindowsStyle;
 class QPlatformMenuBar;
 
-class Q_WIDGETS_EXPORT QMenuBar : public QWidget
+class Q_WIDGETS_EXPORT    QMenuBar : public QWidget
 {
     Q_OBJECT
 
@@ -64,22 +64,22 @@ public:
     ~QMenuBar();
 
     using QWidget::addAction;
-    QAction *addAction(const QString &text);
-    QAction *addAction(const QString &text, const QObject *receiver, const char* member);
+    QAction* addAction(const QString &text);
+    QAction* addAction(const QString &text, const QObject *receiver, const char *member);
 
-    QAction *addMenu(QMenu *menu);
-    QMenu *addMenu(const QString &title);
-    QMenu *addMenu(const QIcon &icon, const QString &title);
+    QAction* addMenu(QMenu *menu);
+    QMenu* addMenu(const QString &title);
+    QMenu* addMenu(const QIcon &icon, const QString &title);
 
 
-    QAction *addSeparator();
-    QAction *insertSeparator(QAction *before);
+    QAction* addSeparator();
+    QAction* insertSeparator(QAction *before);
 
-    QAction *insertMenu(QAction *before, QMenu *menu);
+    QAction* insertMenu(QAction *before, QMenu *menu);
 
     void clear();
 
-    QAction *activeAction() const;
+    QAction* activeAction() const;
     void setActiveAction(QAction *action);
 
     void setDefaultUp(bool);
@@ -89,11 +89,11 @@ public:
     QSize minimumSizeHint() const override;
     int heightForWidth(int) const override;
 
-    QRect actionGeometry(QAction *) const;
-    QAction *actionAt(const QPoint &) const;
+    QRect actionGeometry(QAction*) const;
+    QAction* actionAt(const QPoint&) const;
 
     void setCornerWidget(QWidget *w, Qt::Corner corner = Qt::TopRightCorner);
-    QWidget *cornerWidget(Qt::Corner corner = Qt::TopRightCorner) const;
+    QWidget* cornerWidget(Qt::Corner corner = Qt::TopRightCorner) const;
 
 #ifdef Q_OS_OSX
     NSMenu* toNSMenu();
@@ -101,7 +101,7 @@ public:
 
     bool isNativeMenuBar() const;
     void setNativeMenuBar(bool nativeMenuBar);
-    QPlatformMenuBar *platformMenuBar();
+    QPlatformMenuBar* platformMenuBar();
 public Q_SLOTS:
     void setVisible(bool visible) override;
 
@@ -110,20 +110,20 @@ Q_SIGNALS:
     void hovered(QAction *action);
 
 protected:
-    void changeEvent(QEvent *) override;
-    void keyPressEvent(QKeyEvent *) override;
-    void mouseReleaseEvent(QMouseEvent *) override;
-    void mousePressEvent(QMouseEvent *) override;
-    void mouseMoveEvent(QMouseEvent *) override;
-    void leaveEvent(QEvent *) override;
-    void paintEvent(QPaintEvent *) override;
-    void resizeEvent(QResizeEvent *) override;
-    void actionEvent(QActionEvent *) override;
-    void focusOutEvent(QFocusEvent *) override;
-    void focusInEvent(QFocusEvent *) override;
-    void timerEvent(QTimerEvent *) override;
-    bool eventFilter(QObject *, QEvent *) override;
-    bool event(QEvent *) override;
+    void changeEvent(QEvent*) override;
+    void keyPressEvent(QKeyEvent*) override;
+    void mouseReleaseEvent(QMouseEvent*) override;
+    void mousePressEvent(QMouseEvent*) override;
+    void mouseMoveEvent(QMouseEvent*) override;
+    void leaveEvent(QEvent*) override;
+    void paintEvent(QPaintEvent*) override;
+    void resizeEvent(QResizeEvent*) override;
+    void actionEvent(QActionEvent*) override;
+    void focusOutEvent(QFocusEvent*) override;
+    void focusInEvent(QFocusEvent*) override;
+    void timerEvent(QTimerEvent*) override;
+    bool eventFilter(QObject*, QEvent*) override;
+    bool event(QEvent*) override;
     void initStyleOption(QStyleOptionMenuItem *option, const QAction *action) const;
 
 private:

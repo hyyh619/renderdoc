@@ -61,18 +61,16 @@ class QSslCertificateExtensionPrivate : public QSharedData
 public:
     inline QSslCertificateExtensionPrivate()
         : critical(false),
-          supported(false)
-    {
-    }
+        supported(false)
+    {}
 
-    QString oid;
-    QString name;
-    QVariant value;
-    bool critical;
-    bool supported;
+    QString     oid;
+    QString     name;
+    QVariant    value;
+    bool        critical;
+    bool        supported;
 };
 
 QT_END_NAMESPACE
 
 #endif // QSSLCERTIFICATEEXTENSION_P_H
-

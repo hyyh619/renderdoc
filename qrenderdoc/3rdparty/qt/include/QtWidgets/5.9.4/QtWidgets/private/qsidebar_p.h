@@ -66,38 +66,39 @@ class QFileSystemModel;
 
 class QSideBarDelegate : public QStyledItemDelegate
 {
- public:
-     QSideBarDelegate(QWidget *parent = 0) : QStyledItemDelegate(parent) {}
-     void initStyleOption(QStyleOptionViewItem *option,
-                          const QModelIndex &index) const Q_DECL_OVERRIDE;
+public:
+    QSideBarDelegate(QWidget *parent = 0) : QStyledItemDelegate(parent) {}
+    void initStyleOption(QStyleOptionViewItem *option,
+                         const QModelIndex &index) const Q_DECL_OVERRIDE;
 };
 
-class Q_AUTOTEST_EXPORT QUrlModel : public QStandardItemModel
+class Q_AUTOTEST_EXPORT    QUrlModel : public QStandardItemModel
 {
     Q_OBJECT
 
 public:
-    enum Roles {
-        UrlRole = Qt::UserRole + 1,
+    enum Roles
+    {
+        UrlRole     = Qt::UserRole + 1,
         EnabledRole = Qt::UserRole + 2
     };
 
     QUrlModel(QObject *parent = 0);
 
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
 #ifndef QT_NO_DRAGANDDROP
     bool canDrop(QDragEnterEvent *event);
     bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
 #endif
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
-    bool setData(const QModelIndex &index, const QVariant &value, int role=Qt::EditRole) Q_DECL_OVERRIDE;
+    bool setData(const QModelIndex &index, const QVariant &value, int role= Qt::EditRole) Q_DECL_OVERRIDE;
 
     void setUrls(const QList<QUrl> &list);
     void addUrls(const QList<QUrl> &urls, int row = -1, bool move = true);
     QList<QUrl> urls() const;
     void setFileSystemModel(QFileSystemModel *model);
-    bool showFullPath;
+    bool    showFullPath;
 
 private Q_SLOTS:
     void dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
@@ -107,19 +108,20 @@ private:
     void setUrl(const QModelIndex &index, const QUrl &url, const QModelIndex &dirIndex);
     void changed(const QString &path);
     void addIndexToWatch(const QString &path, const QModelIndex &index);
-    QFileSystemModel *fileSystemModel;
-    struct WatchItem {
+    QFileSystemModel    *fileSystemModel;
+    struct WatchItem
+    {
         QModelIndex index;
-        QString path;
+        QString     path;
     };
     friend class QTypeInfo<WatchItem>;
 
-    QVector<WatchItem> watching;
-    QList<QUrl> invalidUrls;
+    QVector<WatchItem>      watching;
+    QList<QUrl>             invalidUrls;
 };
 Q_DECLARE_TYPEINFO(QUrlModel::WatchItem, Q_MOVABLE_TYPE);
 
-class Q_AUTOTEST_EXPORT QSidebar : public QListView
+class Q_AUTOTEST_EXPORT    QSidebar : public QListView
 {
     Q_OBJECT
 
@@ -133,14 +135,23 @@ public:
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-    void setUrls(const QList<QUrl> &list) { urlModel->setUrls(list); }
-    void addUrls(const QList<QUrl> &list, int row) { urlModel->addUrls(list, row); }
-    QList<QUrl> urls() const { return urlModel->urls(); }
+    void setUrls(const QList<QUrl> &list)
+    {
+        urlModel->setUrls(list);
+    }
+    void addUrls(const QList<QUrl> &list, int row)
+    {
+        urlModel->addUrls(list, row);
+    }
+    QList<QUrl> urls() const
+    {
+        return urlModel->urls();
+    }
 
     void selectUrl(const QUrl &url);
 
 protected:
-    bool event(QEvent * e) Q_DECL_OVERRIDE;
+    bool event(QEvent *e) Q_DECL_OVERRIDE;
     void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
 #ifndef QT_NO_DRAGANDDROP
     void dragEnterEvent(QDragEnterEvent *event) Q_DECL_OVERRIDE;
@@ -154,10 +165,9 @@ private Q_SLOTS:
     void removeEntry();
 
 private:
-    QUrlModel *urlModel;
+    QUrlModel    *urlModel;
 };
 
 QT_END_NAMESPACE
 
 #endif // QSIDEBAR_H
-

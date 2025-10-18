@@ -61,12 +61,13 @@ QT_BEGIN_NAMESPACE
 
 class QPixmapStylePrivate;
 
-class Q_WIDGETS_EXPORT QPixmapStyle : public QCommonStyle
+class Q_WIDGETS_EXPORT    QPixmapStyle : public QCommonStyle
 {
     Q_OBJECT
 
 public:
-    enum ControlDescriptor {
+    enum ControlDescriptor
+    {
         BG_Background,
         LE_Enabled,             // QLineEdit
         LE_Disabled,
@@ -106,7 +107,8 @@ public:
         SB_Vertical
     };
 
-    enum ControlPixmap {
+    enum ControlPixmap
+    {
         CB_Enabled,             // QCheckBox
         CB_Checked,
         CB_Pressed,
@@ -143,21 +145,21 @@ public:
     void unpolish(QWidget *widget) Q_DECL_OVERRIDE;
 
     void drawPrimitive(PrimitiveElement element, const QStyleOption *option,
-            QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
+                       QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
     void drawControl(ControlElement element, const QStyleOption *option,
-            QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
+                     QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
     void drawComplexControl(ComplexControl cc, const QStyleOptionComplex *option,
-                            QPainter *painter, const QWidget *widget=0) const Q_DECL_OVERRIDE;
+                            QPainter *painter, const QWidget *widget= 0) const Q_DECL_OVERRIDE;
 
     QSize sizeFromContents(ContentsType type, const QStyleOption *option,
-            const QSize &contentsSize, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
+                           const QSize &contentsSize, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
     QRect subElementRect(SubElement element, const QStyleOption *option,
-            const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
+                         const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
     QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *option,
                          SubControl sc, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
 
     int pixelMetric(PixelMetric metric, const QStyleOption *option = Q_NULLPTR,
-            const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
+                    const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
     int styleHint(StyleHint hint, const QStyleOption *option,
                   const QWidget *widget, QStyleHintReturn *returnData) const Q_DECL_OVERRIDE;
     SubControl hitTestComplexControl(ComplexControl control, const QStyleOptionComplex *option,

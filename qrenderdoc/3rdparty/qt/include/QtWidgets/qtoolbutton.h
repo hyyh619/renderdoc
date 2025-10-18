@@ -52,7 +52,7 @@ class QToolButtonPrivate;
 class QMenu;
 class QStyleOptionToolButton;
 
-class Q_WIDGETS_EXPORT QToolButton : public QAbstractButton
+class Q_WIDGETS_EXPORT    QToolButton : public QAbstractButton
 {
     Q_OBJECT
     Q_ENUMS(Qt::ToolButtonStyle Qt::ArrowType)
@@ -64,7 +64,8 @@ class Q_WIDGETS_EXPORT QToolButton : public QAbstractButton
     Q_PROPERTY(Qt::ArrowType arrowType READ arrowType WRITE setArrowType)
 
 public:
-    enum ToolButtonPopupMode {
+    enum ToolButtonPopupMode
+    {
         DelayedPopup,
         MenuButtonPopup,
         InstantPopup
@@ -83,14 +84,14 @@ public:
     void setArrowType(Qt::ArrowType type);
 
 #if QT_CONFIG(menu)
-    void setMenu(QMenu* menu);
+    void setMenu(QMenu *menu);
     QMenu* menu() const;
 
     void setPopupMode(ToolButtonPopupMode mode);
     ToolButtonPopupMode popupMode() const;
 #endif
 
-    QAction *defaultAction() const;
+    QAction* defaultAction() const;
 
     void setAutoRaise(bool enable);
     bool autoRaise() const;
@@ -100,22 +101,22 @@ public Q_SLOTS:
     void showMenu();
 #endif
     void setToolButtonStyle(Qt::ToolButtonStyle style);
-    void setDefaultAction(QAction *);
+    void setDefaultAction(QAction*);
 
 Q_SIGNALS:
-    void triggered(QAction *);
+    void triggered(QAction*);
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void actionEvent(QActionEvent *) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void actionEvent(QActionEvent*) Q_DECL_OVERRIDE;
 
-    void enterEvent(QEvent *) Q_DECL_OVERRIDE;
-    void leaveEvent(QEvent *) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void enterEvent(QEvent*) Q_DECL_OVERRIDE;
+    void leaveEvent(QEvent*) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent*) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
 
     bool hitButton(const QPoint &pos) const Q_DECL_OVERRIDE;
     void nextCheckState() Q_DECL_OVERRIDE;
@@ -131,7 +132,6 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_menuTriggered(QAction*))
 #endif
     Q_PRIVATE_SLOT(d_func(), void _q_actionTriggered())
-
 };
 
 QT_END_NAMESPACE

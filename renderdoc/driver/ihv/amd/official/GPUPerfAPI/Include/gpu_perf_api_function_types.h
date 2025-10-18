@@ -1,4 +1,4 @@
-//==============================================================================
+// ==============================================================================
 // Copyright (c) 2010-2024 Advanced Micro Devices, Inc. All rights reserved.
 /// @author AMD Developer Tools Team
 /// @file
@@ -6,7 +6,7 @@
 ///         different GPUPerfAPI DLLs into an application that supports multiple APIs.
 ///         Applications which statically link to GPUPerfAPI do not need to include
 ///         this file.
-//==============================================================================
+// ==============================================================================
 
 #ifndef GPU_PERFORMANCE_API_GPU_PERF_API_FUNCTION_TYPES_H_
 #define GPU_PERFORMANCE_API_GPU_PERF_API_FUNCTION_TYPES_H_
@@ -215,6 +215,6 @@ typedef GpaStatus (*GpaGetSampleResultSizePtrType)(GpaSessionId, GpaUInt32, size
 typedef GpaStatus (*GpaGetSampleResultPtrType)(GpaSessionId, GpaUInt32, size_t, void*);
 
 /// Typedef for a function pointer for GpaGetStatusAsStr.
-typedef const char* (*GpaGetStatusAsStrPtrType)(GpaStatus);
+typedef const char*(*GpaGetStatusAsStrPtrType)(GpaStatus);
 
 #endif  // GPU_PERFORMANCE_API_GPU_PERF_API_FUNCTION_TYPES_H_

@@ -57,86 +57,92 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QColorProfile
+class Q_GUI_EXPORT    QColorProfile
 {
 public:
-    static QColorProfile *fromGamma(qreal gamma);
-    static QColorProfile *fromSRgb();
+    static QColorProfile* fromGamma(qreal gamma);
+    static QColorProfile* fromSRgb();
 
     // The following methods all convert opaque or unpremultiplied colors:
 
     QRgba64 toLinear64(QRgb rgb32) const
     {
-        ushort r = m_toLinear[qRed(rgb32) << 4];
-        ushort g = m_toLinear[qGreen(rgb32) << 4];
-        ushort b = m_toLinear[qBlue(rgb32) << 4];
-        r = r + (r >> 8);
-        g = g + (g >> 8);
-        b = b + (b >> 8);
+        ushort      r   = m_toLinear[qRed(rgb32) << 4];
+        ushort      g   = m_toLinear[qGreen(rgb32) << 4];
+        ushort      b   = m_toLinear[qBlue(rgb32) << 4];
+
+        r   = r + (r >> 8);
+        g   = g + (g >> 8);
+        b   = b + (b >> 8);
         return QRgba64::fromRgba64(r, g, b, qAlpha(rgb32) * 257);
     }
 
     QRgb toLinear(QRgb rgb32) const
     {
-        uchar r = (m_toLinear[qRed(rgb32) << 4] + 0x80) >> 8;
-        uchar g = (m_toLinear[qGreen(rgb32) << 4] + 0x80) >> 8;
-        uchar b = (m_toLinear[qBlue(rgb32) << 4] + 0x80) >> 8;
+        uchar       r   = (m_toLinear[qRed(rgb32) << 4] + 0x80) >> 8;
+        uchar       g   = (m_toLinear[qGreen(rgb32) << 4] + 0x80) >> 8;
+        uchar       b   = (m_toLinear[qBlue(rgb32) << 4] + 0x80) >> 8;
+
         return qRgba(r, g, b, qAlpha(rgb32));
     }
 
     QRgba64 toLinear(QRgba64 rgb64) const
     {
-        ushort r = rgb64.red();
-        ushort g = rgb64.green();
-        ushort b = rgb64.blue();
-        r = r - (r >> 8);
-        g = g - (g >> 8);
-        b = b - (b >> 8);
-        r = m_toLinear[r >> 4];
-        g = m_toLinear[g >> 4];
-        b = m_toLinear[b >> 4];
-        r = r + (r >> 8);
-        g = g + (g >> 8);
-        b = b + (b >> 8);
+        ushort      r   = rgb64.red();
+        ushort      g   = rgb64.green();
+        ushort      b   = rgb64.blue();
+
+        r   = r - (r >> 8);
+        g   = g - (g >> 8);
+        b   = b - (b >> 8);
+        r   = m_toLinear[r >> 4];
+        g   = m_toLinear[g >> 4];
+        b   = m_toLinear[b >> 4];
+        r   = r + (r >> 8);
+        g   = g + (g >> 8);
+        b   = b + (b >> 8);
         return QRgba64::fromRgba64(r, g, b, rgb64.alpha());
     }
 
     QRgb fromLinear64(QRgba64 rgb64) const
     {
-        ushort r = rgb64.red();
-        ushort g = rgb64.green();
-        ushort b = rgb64.blue();
-        r = r - (r >> 8);
-        g = g - (g >> 8);
-        b = b - (b >> 8);
-        r = (m_fromLinear[r >> 4] + 0x80) >> 8;
-        g = (m_fromLinear[g >> 4] + 0x80) >> 8;
-        b = (m_fromLinear[b >> 4] + 0x80) >> 8;
+        ushort      r   = rgb64.red();
+        ushort      g   = rgb64.green();
+        ushort      b   = rgb64.blue();
+
+        r   = r - (r >> 8);
+        g   = g - (g >> 8);
+        b   = b - (b >> 8);
+        r   = (m_fromLinear[r >> 4] + 0x80) >> 8;
+        g   = (m_fromLinear[g >> 4] + 0x80) >> 8;
+        b   = (m_fromLinear[b >> 4] + 0x80) >> 8;
         return qRgba(r, g, b, rgb64.alpha8());
     }
 
     QRgb fromLinear(QRgb rgb32) const
     {
-        uchar r = (m_fromLinear[qRed(rgb32) << 4] + 0x80) >> 8;
-        uchar g = (m_fromLinear[qGreen(rgb32) << 4] + 0x80) >> 8;
-        uchar b = (m_fromLinear[qBlue(rgb32) << 4] + 0x80) >> 8;
+        uchar       r   = (m_fromLinear[qRed(rgb32) << 4] + 0x80) >> 8;
+        uchar       g   = (m_fromLinear[qGreen(rgb32) << 4] + 0x80) >> 8;
+        uchar       b   = (m_fromLinear[qBlue(rgb32) << 4] + 0x80) >> 8;
+
         return qRgba(r, g, b, qAlpha(rgb32));
     }
 
     QRgba64 fromLinear(QRgba64 rgb64) const
     {
-        ushort r = rgb64.red();
-        ushort g = rgb64.green();
-        ushort b = rgb64.blue();
-        r = r - (r >> 8);
-        g = g - (g >> 8);
-        b = b - (b >> 8);
-        r = m_fromLinear[r >> 4];
-        g = m_fromLinear[g >> 4];
-        b = m_fromLinear[b >> 4];
-        r = r + (r >> 8);
-        g = g + (g >> 8);
-        b = b + (b >> 8);
+        ushort      r   = rgb64.red();
+        ushort      g   = rgb64.green();
+        ushort      b   = rgb64.blue();
+
+        r   = r - (r >> 8);
+        g   = g - (g >> 8);
+        b   = b - (b >> 8);
+        r   = m_fromLinear[r >> 4];
+        g   = m_fromLinear[g >> 4];
+        b   = m_fromLinear[b >> 4];
+        r   = r + (r >> 8);
+        g   = g + (g >> 8);
+        b   = b + (b >> 8);
         return QRgba64::fromRgba64(r, g, b, rgb64.alpha());
     }
 
@@ -147,9 +153,8 @@ private:
     // shifting an accurate conversion.
     // We translate from 0-4080 (255*16) for the same speed up, and to keep
     // the tables small enough to fit in most inner caches.
-    ushort m_toLinear[(255 * 16) + 1]; // [0-4080] -> [0-65280]
-    ushort m_fromLinear[(255 * 16) + 1]; // [0-4080] -> [0-65280]
-
+    ushort      m_toLinear[(255 * 16) + 1]; // [0-4080] -> [0-65280]
+    ushort      m_fromLinear[(255 * 16) + 1]; // [0-4080] -> [0-65280]
 };
 
 QT_END_NAMESPACE

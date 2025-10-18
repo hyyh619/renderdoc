@@ -50,9 +50,8 @@ QT_BEGIN_NAMESPACE
 
 class QSystemSemaphorePrivate;
 
-class Q_CORE_EXPORT QSystemSemaphore
+class Q_CORE_EXPORT    QSystemSemaphore
 {
-
 public:
     enum AccessMode
     {
@@ -87,10 +86,8 @@ private:
     Q_DISABLE_COPY(QSystemSemaphore)
     QScopedPointer<QSystemSemaphorePrivate> d;
 };
-
 #endif // QT_NO_SYSTEMSEMAPHORE
 
 QT_END_NAMESPACE
 
 #endif // QSYSTEMSEMAPHORE_H
-

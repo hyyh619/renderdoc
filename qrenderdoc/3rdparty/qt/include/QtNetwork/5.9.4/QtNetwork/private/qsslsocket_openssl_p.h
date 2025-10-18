@@ -104,7 +104,8 @@ typedef _STACK STACK;
 
 QT_BEGIN_NAMESPACE
 
-struct QSslErrorEntry {
+struct QSslErrorEntry
+{
     int code;
     int depth;
 
@@ -122,13 +123,13 @@ public:
     // SSL context
     bool initSslContext();
     void destroySslContext();
-    SSL *ssl;
-    BIO *readBio;
-    BIO *writeBio;
-    SSL_SESSION *session;
-    QVector<QSslErrorEntry> errorList;
+    SSL                         *ssl;
+    BIO                         *readBio;
+    BIO                         *writeBio;
+    SSL_SESSION                 *session;
+    QVector<QSslErrorEntry>     errorList;
 #if OPENSSL_VERSION_NUMBER >= 0x10001000L
-    static int s_indexForSSLExtraData; // index used in SSL_get_ex_data to get the matching QSslSocketBackendPrivate
+    static int    s_indexForSSLExtraData; // index used in SSL_get_ex_data to get the matching QSslSocketBackendPrivate
 #endif
 
     // Platform specific functions
@@ -147,12 +148,12 @@ public:
     unsigned int tlsPskServerCallback(const char *identity, unsigned char *psk, unsigned int max_psk_len);
 #ifdef Q_OS_WIN
     void fetchCaRootForCert(const QSslCertificate &cert);
-    void _q_caRootLoaded(QSslCertificate,QSslCertificate) Q_DECL_OVERRIDE;
+    void    _q_caRootLoaded(QSslCertificate, QSslCertificate) Q_DECL_OVERRIDE;
 #endif
 
     Q_AUTOTEST_EXPORT static long setupOpenSslOptions(QSsl::SslProtocol protocol, QSsl::SslOptions sslOptions);
     static QSslCipher QSslCipher_from_SSL_CIPHER(SSL_CIPHER *cipher);
-    static QList<QSslCertificate> STACKOFX509_to_QSslCertificates(STACK_OF(X509) *x509);
+    static QList<QSslCertificate>    STACKOFX509_to_QSslCertificates(STACK_OF(X509) * x509);
     static QList<QSslError> verify(const QList<QSslCertificate> &certificateChain, const QString &hostName);
     static QString getErrorsFromOpenSsl();
     static bool importPkcs12(QIODevice *device,
@@ -173,8 +174,8 @@ public slots:
 signals:
     void finished(QSslCertificate brokenChain, QSslCertificate caroot);
 private:
-    QSslCertificate cert;
-    QSslSocket::SslMode mode;
+    QSslCertificate         cert;
+    QSslSocket::SslMode     mode;
 };
 #endif
 

@@ -73,12 +73,12 @@ void qt_blend_argb32_on_argb32_sse2(uchar *destPixels, int dbpl,
                                     int w, int h,
                                     int const_alpha);
 void qt_blend_rgb32_on_rgb32_sse2(uchar *destPixels, int dbpl,
-                                 const uchar *srcPixels, int sbpl,
-                                 int w, int h,
-                                 int const_alpha);
+                                  const uchar *srcPixels, int sbpl,
+                                  int w, int h,
+                                  int const_alpha);
 
-extern CompositionFunction qt_functionForMode_SSE2[];
-extern CompositionFunctionSolid qt_functionForModeSolid_SSE2[];
+extern CompositionFunction          qt_functionForMode_SSE2[];
+extern CompositionFunctionSolid     qt_functionForModeSolid_SSE2[];
 #endif // __SSE2__
 
 static const int numCompositionFunctions = 38;

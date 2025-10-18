@@ -61,7 +61,8 @@ QT_BEGIN_NAMESPACE
 
 
 class QBitmap;
-class QCursorData {
+class QCursorData
+{
 public:
     QCursorData(Qt::CursorShape s = Qt::ArrowCursor);
     ~QCursorData();
@@ -69,18 +70,18 @@ public:
     static void initialize();
     static void cleanup();
 
-    QAtomicInt ref;
-    Qt::CursorShape cshape;
-    QBitmap  *bm, *bmm;
-    QPixmap pixmap;
-    short     hx, hy;
-    static bool initialized;
+    QAtomicInt          ref;
+    Qt::CursorShape     cshape;
+    QBitmap             *bm, *bmm;
+    QPixmap             pixmap;
+    short               hx, hy;
+    static bool         initialized;
     void update();
-    static QCursorData *setBitmap(const QBitmap &bitmap, const QBitmap &mask, int hotX, int hotY,
+    static QCursorData* setBitmap(const QBitmap &bitmap, const QBitmap &mask, int hotX, int hotY,
                                   qreal devicePixelRatio);
 };
 
-extern QCursorData *qt_cursorTable[Qt::LastCursor + 1]; // qcursor.cpp
+extern QCursorData    *qt_cursorTable[Qt::LastCursor + 1]; // qcursor.cpp
 
 QT_END_NAMESPACE
 

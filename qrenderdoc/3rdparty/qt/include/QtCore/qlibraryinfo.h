@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 
 class QStringList;
 
-class Q_CORE_EXPORT QLibraryInfo
+class Q_CORE_EXPORT    QLibraryInfo
 {
 public:
 #if QT_DEPRECATED_SINCE(5, 8)
@@ -60,9 +60,9 @@ public:
 #if QT_DEPRECATED_SINCE(5, 5)
     static QT_DEPRECATED QDate buildDate();
 #endif // QT_DEPRECATED_SINCE(5, 5)
-#endif //QT_NO_DATESTRING
+#endif // QT_NO_DATESTRING
 
-    static const char * build() Q_DECL_NOTHROW;
+    static const char* build() Q_DECL_NOTHROW;
 
     static bool isDebugBuild();
 
@@ -102,10 +102,10 @@ public:
 #endif
         SettingsPath = 100
     };
-    static QString location(LibraryLocation); // ### Qt 6: consider renaming it to path()
+    static QString    location(LibraryLocation); // ### Qt 6: consider renaming it to path()
 #ifdef QT_BUILD_QMAKE
     enum PathGroup { FinalPaths, EffectivePaths, EffectiveSourcePaths, DevicePaths };
-    static QString rawLocation(LibraryLocation, PathGroup);
+    static QString    rawLocation(LibraryLocation, PathGroup);
     static void reload();
 #endif
 

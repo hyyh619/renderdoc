@@ -101,7 +101,9 @@ public:
 
     void repaintCursor();
     inline void repaintSelection()
-    { repaintOldAndNewSelection(QTextCursor()); }
+    {
+        repaintOldAndNewSelection(QTextCursor());
+    }
     void repaintOldAndNewSelection(const QTextCursor &oldSelection);
 
     void selectionChanged(bool forceEmitSelectionChanged = false);
@@ -130,7 +132,9 @@ public:
     QRectF rectForPosition(int position) const;
     QRectF selectionRect(const QTextCursor &cursor) const;
     inline QRectF selectionRect() const
-    { return selectionRect(this->cursor); }
+    {
+        return selectionRect(this->cursor);
+    }
 
     QString anchorForCursor(const QTextCursor &anchor) const;
 
@@ -166,7 +170,7 @@ public:
     bool dragMoveEvent(QEvent *e, const QMimeData *mimeData, const QPointF &pos);
     bool dropEvent(const QMimeData *mimeData, const QPointF &pos, Qt::DropAction dropAction, QObject *source);
 
-    void inputMethodEvent(QInputMethodEvent *);
+    void inputMethodEvent(QInputMethodEvent*);
 
     void activateLinkUnderCursor(QString href = QString());
 
@@ -179,64 +183,64 @@ public:
 
     void append(const QString &text, Qt::TextFormat format = Qt::AutoText);
 
-    QTextDocument *doc;
-    bool cursorOn;
-    bool cursorVisible;
-    QTextCursor cursor;
-    bool cursorIsFocusIndicator;
-    QTextCharFormat lastCharFormat;
+    QTextDocument       *doc;
+    bool                cursorOn;
+    bool                cursorVisible;
+    QTextCursor         cursor;
+    bool                cursorIsFocusIndicator;
+    QTextCharFormat     lastCharFormat;
 
-    QTextCursor dndFeedbackCursor;
+    QTextCursor    dndFeedbackCursor;
 
-    Qt::TextInteractionFlags interactionFlags;
+    Qt::TextInteractionFlags    interactionFlags;
 
-    QBasicTimer cursorBlinkTimer;
-    QBasicTimer trippleClickTimer;
-    QPointF trippleClickPoint;
+    QBasicTimer     cursorBlinkTimer;
+    QBasicTimer     trippleClickTimer;
+    QPointF         trippleClickPoint;
 
-    bool dragEnabled;
+    bool    dragEnabled;
 
-    bool mousePressed;
+    bool    mousePressed;
 
-    bool mightStartDrag;
-    QPoint mousePressPos;
-    QPointer<QWidget> contextWidget;
+    bool                    mightStartDrag;
+    QPoint                  mousePressPos;
+    QPointer<QWidget>       contextWidget;
 
-    int lastSelectionPosition;
-    int lastSelectionAnchor;
+    int     lastSelectionPosition;
+    int     lastSelectionAnchor;
 
-    bool ignoreAutomaticScrollbarAdjustement;
+    bool    ignoreAutomaticScrollbarAdjustement;
 
-    QTextCursor selectedWordOnDoubleClick;
-    QTextCursor selectedBlockOnTrippleClick;
+    QTextCursor     selectedWordOnDoubleClick;
+    QTextCursor     selectedBlockOnTrippleClick;
 
-    bool overwriteMode;
-    bool acceptRichText;
+    bool    overwriteMode;
+    bool    acceptRichText;
 
-    int preeditCursor;
-    bool hideCursor; // used to hide the cursor in the preedit area
+    int     preeditCursor;
+    bool    hideCursor; // used to hide the cursor in the preedit area
 
-    QVector<QAbstractTextDocumentLayout::Selection> extraSelections;
+    QVector<QAbstractTextDocumentLayout::Selection>    extraSelections;
 
-    QPalette palette;
-    bool hasFocus;
+    QPalette    palette;
+    bool        hasFocus;
 #ifdef QT_KEYPAD_NAVIGATION
-    bool hasEditFocus;
+    bool    hasEditFocus;
 #endif
-    bool isEnabled;
+    bool    isEnabled;
 
-    QString highlightedAnchor; // Anchor below cursor
-    QString anchorOnMousePress;
-    bool hadSelectionOnMousePress;
+    QString     highlightedAnchor; // Anchor below cursor
+    QString     anchorOnMousePress;
+    bool        hadSelectionOnMousePress;
 
-    bool ignoreUnusedNavigationEvents;
-    bool openExternalLinks;
+    bool    ignoreUnusedNavigationEvents;
+    bool    openExternalLinks;
 
-    bool wordSelectionEnabled;
+    bool    wordSelectionEnabled;
 
-    QString linkToCopy;
+    QString    linkToCopy;
     void _q_copyLink();
-    void _q_updateBlock(const QTextBlock &);
+    void _q_updateBlock(const QTextBlock&);
     void _q_documentLayoutChanged();
 };
 

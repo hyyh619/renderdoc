@@ -78,8 +78,8 @@
    system headers yet, but we define the missing typedef so that
    the qopenglextensions.cpp code will magically work once Apple
    include the extension in their drivers.
-*/
-typedef void* GLeglImageOES;
+ */
+typedef void*GLeglImageOES;
 
 # elif !defined(Q_OS_DARWIN) // "uncontrolled" ES2 platforms
 
@@ -119,7 +119,7 @@ typedef void* GLeglImageOES;
    typedef for GLchar. Work around it here by adding it. The Kkronos headers
    specify GLChar as a typedef to char, so if an implementation already
    provides it, then this doesn't do any harm.
-*/
+ */
 typedef char GLchar;
 
 #  include <QtGui/qopengles2ext.h>
@@ -200,7 +200,7 @@ typedef ptrdiff_t GLsizeiptrARB;
 /* GL types for program/shader text and shader object handles */
 typedef char GLcharARB;
 # ifdef Q_OS_DARWIN
-typedef void *GLhandleARB;
+typedef void*GLhandleARB;
 # else
 typedef unsigned int GLhandleARB;
 # endif // Q_OS_DARWIN
@@ -233,7 +233,7 @@ typedef long long int int64_t;
 typedef unsigned long long int uint64_t;
 #endif /* __arch64__ */
 #endif /* __STDC__ */
-#elif defined( __VMS ) || defined(__sgi)
+#elif defined(__VMS) || defined(__sgi)
 #include <inttypes.h>
 #elif defined(__SCO__) || defined(__USLC__)
 #include <stdint.h>
@@ -261,7 +261,7 @@ typedef uint64_t GLuint64EXT;
 #ifndef GL_ARB_sync
 typedef int64_t GLint64;
 typedef uint64_t GLuint64;
-typedef struct __GLsync *GLsync;
+typedef struct __GLsync*GLsync;
 #endif
 
 #ifndef GL_ARB_cl_event
@@ -271,15 +271,15 @@ struct _cl_event;
 #endif
 
 #ifndef GL_ARB_debug_output
-typedef void (APIENTRY *GLDEBUGPROCARB)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const GLvoid *userParam);
+typedef void (APIENTRY * GLDEBUGPROCARB)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid *userParam);
 #endif
 
 #ifndef GL_AMD_debug_output
-typedef void (APIENTRY *GLDEBUGPROCAMD)(GLuint id,GLenum category,GLenum severity,GLsizei length,const GLchar *message,GLvoid *userParam);
+typedef void (APIENTRY * GLDEBUGPROCAMD)(GLuint id, GLenum category, GLenum severity, GLsizei length, const GLchar *message, GLvoid *userParam);
 #endif
 
 #ifndef GL_KHR_debug
-typedef void (APIENTRY *GLDEBUGPROC)(GLenum source,GLenum type,GLuint id,GLenum severity,GLsizei length,const GLchar *message,const GLvoid *userParam);
+typedef void (APIENTRY * GLDEBUGPROC)(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar *message, const GLvoid *userParam);
 #endif
 
 #ifndef GL_NV_vdpau_interop
@@ -309,7 +309,6 @@ typedef ptrdiff_t qopengl_GLsizeiptr;
 # endif
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGL_H

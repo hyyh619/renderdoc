@@ -67,7 +67,7 @@ class QDropData;
 class QShapedPixmapWindow;
 class QScreen;
 
-class Q_GUI_EXPORT QBasicDrag : public QPlatformDrag, public QObject
+class Q_GUI_EXPORT    QBasicDrag : public QPlatformDrag, public QObject
 {
 public:
     virtual ~QBasicDrag();
@@ -82,28 +82,55 @@ protected:
 
     virtual void startDrag();
     virtual void cancel();
-    virtual void move(const QPoint &globalPos) = 0;
-    virtual void drop(const QPoint &globalPos) = 0;
+    virtual void move(const QPoint &globalPos)  = 0;
+    virtual void drop(const QPoint &globalPos)  = 0;
     virtual void endDrag();
 
 
     void moveShapedPixmapWindow(const QPoint &deviceIndependentPosition);
-    QShapedPixmapWindow *shapedPixmapWindow() const { return m_drag_icon_window; }
+    QShapedPixmapWindow* shapedPixmapWindow() const
+    {
+        return m_drag_icon_window;
+    }
     void recreateShapedPixmapWindow(QScreen *screen, const QPoint &pos);
     void updateCursor(Qt::DropAction action);
 
-    bool canDrop() const { return m_can_drop; }
-    void setCanDrop(bool c) { m_can_drop = c; }
+    bool canDrop() const
+    {
+        return m_can_drop;
+    }
+    void setCanDrop(bool c)
+    {
+        m_can_drop = c;
+    }
 
-    bool useCompositing() const { return m_useCompositing; }
-    void setUseCompositing(bool on) { m_useCompositing = on; }
+    bool useCompositing() const
+    {
+        return m_useCompositing;
+    }
+    void setUseCompositing(bool on)
+    {
+        m_useCompositing = on;
+    }
 
-    void setScreen(QScreen *screen) { m_screen = screen; }
+    void setScreen(QScreen *screen)
+    {
+        m_screen = screen;
+    }
 
-    Qt::DropAction executedDropAction() const { return m_executed_drop_action; }
-    void  setExecutedDropAction(Qt::DropAction da) { m_executed_drop_action = da; }
+    Qt::DropAction executedDropAction() const
+    {
+        return m_executed_drop_action;
+    }
+    void  setExecutedDropAction(Qt::DropAction da)
+    {
+        m_executed_drop_action = da;
+    }
 
-    QDrag *drag() const { return m_drag; }
+    QDrag* drag() const
+    {
+        return m_drag;
+    }
 
 private:
     void enableEventFilter();
@@ -111,21 +138,21 @@ private:
     void restoreCursor();
     void exitDndEventLoop();
 
-    bool m_restoreCursor;
-    QEventLoop *m_eventLoop;
-    Qt::DropAction m_executed_drop_action;
-    bool m_can_drop;
-    QDrag *m_drag;
-    QShapedPixmapWindow *m_drag_icon_window;
-    bool m_useCompositing;
-    QScreen *m_screen;
+    bool                    m_restoreCursor;
+    QEventLoop              *m_eventLoop;
+    Qt::DropAction          m_executed_drop_action;
+    bool                    m_can_drop;
+    QDrag                   *m_drag;
+    QShapedPixmapWindow     *m_drag_icon_window;
+    bool                    m_useCompositing;
+    QScreen                 *m_screen;
 };
 
-class Q_GUI_EXPORT QSimpleDrag : public QBasicDrag
+class Q_GUI_EXPORT    QSimpleDrag : public QBasicDrag
 {
 public:
     QSimpleDrag();
-    virtual QMimeData *platformDropData() Q_DECL_OVERRIDE;
+    virtual QMimeData* platformDropData() Q_DECL_OVERRIDE;
 
 protected:
     virtual void startDrag() Q_DECL_OVERRIDE;
@@ -134,9 +161,8 @@ protected:
     virtual void drop(const QPoint &globalPos) Q_DECL_OVERRIDE;
 
 private:
-    QWindow *m_current_window;
+    QWindow    *m_current_window;
 };
-
 #endif // QT_NO_DRAGANDDROP
 
 QT_END_NAMESPACE

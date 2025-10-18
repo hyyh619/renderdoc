@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QTcpSocketPrivate;
 
-class Q_NETWORK_EXPORT QTcpSocket : public QAbstractSocket
+class Q_NETWORK_EXPORT    QTcpSocket : public QAbstractSocket
 {
     Q_OBJECT
 public:

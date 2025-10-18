@@ -55,7 +55,7 @@ QT_BEGIN_NAMESPACE
 
 class QSvgGeneratorPrivate;
 
-class Q_SVG_EXPORT QSvgGenerator : public QPaintDevice
+class Q_SVG_EXPORT    QSvgGenerator : public QPaintDevice
 {
     Q_DECLARE_PRIVATE(QSvgGenerator)
 
@@ -64,7 +64,7 @@ class Q_SVG_EXPORT QSvgGenerator : public QPaintDevice
     Q_PROPERTY(QString title READ title WRITE setTitle)
     Q_PROPERTY(QString description READ description WRITE setDescription)
     Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
-    Q_PROPERTY(QIODevice* outputDevice READ outputDevice WRITE setOutputDevice)
+    Q_PROPERTY(QIODevice * outputDevice READ outputDevice WRITE setOutputDevice)
     Q_PROPERTY(int resolution READ resolution WRITE setResolution)
 public:
     QSvgGenerator();
@@ -87,20 +87,19 @@ public:
     QString fileName() const;
     void setFileName(const QString &fileName);
 
-    QIODevice *outputDevice() const;
+    QIODevice* outputDevice() const;
     void setOutputDevice(QIODevice *outputDevice);
 
     void setResolution(int dpi);
     int resolution() const;
 protected:
-    QPaintEngine *paintEngine() const override;
+    QPaintEngine* paintEngine() const override;
     int metric(QPaintDevice::PaintDeviceMetric metric) const override;
 
 private:
-    QScopedPointer<QSvgGeneratorPrivate> d_ptr;
+    QScopedPointer<QSvgGeneratorPrivate>    d_ptr;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SVGGENERATOR
 #endif // QSVGGENERATOR_H

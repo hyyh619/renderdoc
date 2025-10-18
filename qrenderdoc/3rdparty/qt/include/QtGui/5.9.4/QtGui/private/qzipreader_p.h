@@ -64,10 +64,10 @@ QT_BEGIN_NAMESPACE
 
 class QZipReaderPrivate;
 
-class Q_GUI_EXPORT QZipReader
+class Q_GUI_EXPORT    QZipReader
 {
 public:
-    explicit QZipReader(const QString &fileName, QIODevice::OpenMode mode = QIODevice::ReadOnly );
+    explicit QZipReader(const QString &fileName, QIODevice::OpenMode mode = QIODevice::ReadOnly);
 
     explicit QZipReader(QIODevice *device);
     ~QZipReader();
@@ -83,16 +83,19 @@ public:
             : isDir(false), isFile(false), isSymLink(false), crc(0), size(0)
         {}
 
-        bool isValid() const Q_DECL_NOTHROW { return isDir || isFile || isSymLink; }
+        bool isValid() const Q_DECL_NOTHROW
+        {
+            return isDir || isFile || isSymLink;
+        }
 
-        QString filePath;
-        uint isDir : 1;
-        uint isFile : 1;
-        uint isSymLink : 1;
-        QFile::Permissions permissions;
-        uint crc;
-        qint64 size;
-        QDateTime lastModified;
+        QString             filePath;
+        uint                isDir : 1;
+        uint                isFile : 1;
+        uint                isSymLink : 1;
+        QFile::Permissions  permissions;
+        uint                crc;
+        qint64              size;
+        QDateTime           lastModified;
     };
 
     QVector<FileInfo> fileInfoList() const;
@@ -102,7 +105,8 @@ public:
     QByteArray fileData(const QString &fileName) const;
     bool extractAll(const QString &destinationDir) const;
 
-    enum Status {
+    enum Status
+    {
         NoError,
         FileReadError,
         FileOpenError,
@@ -115,13 +119,12 @@ public:
     void close();
 
 private:
-    QZipReaderPrivate *d;
+    QZipReaderPrivate    *d;
     Q_DISABLE_COPY(QZipReader)
 };
 Q_DECLARE_TYPEINFO(QZipReader::FileInfo, Q_MOVABLE_TYPE);
 Q_DECLARE_TYPEINFO(QZipReader::Status, Q_PRIMITIVE_TYPE);
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEXTODFWRITER
 #endif // QZIPREADER_H

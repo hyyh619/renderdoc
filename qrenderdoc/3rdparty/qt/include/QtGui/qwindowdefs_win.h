@@ -57,7 +57,7 @@ QT_END_NAMESPACE
 #define STRICT
 #endif
 #undef NO_STRICT
-#define Q_DECLARE_HANDLE(name) struct name##__; typedef struct name##__ *name
+#define Q_DECLARE_HANDLE(name) struct name##    __; typedef struct name##__*name
 
 #else
 
@@ -66,11 +66,10 @@ QT_END_NAMESPACE
 #endif
 #undef  STRICT
 #define Q_DECLARE_HANDLE(name) typedef HANDLE name
-
 #endif
 
 #ifndef HINSTANCE
-Q_DECLARE_HANDLE(HINSTANCE);
+    Q_DECLARE_HANDLE(HINSTANCE);
 #endif
 #ifndef HDC
 Q_DECLARE_HANDLE(HDC);

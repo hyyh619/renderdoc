@@ -51,7 +51,7 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_GCC("-Wextra")
 
 // High-level atomic integer operations
-template <typename T>
+template<typename T>
 class QAtomicInteger : public QBasicAtomicInteger<T>
 {
 public:
@@ -73,7 +73,7 @@ public:
         this->storeRelease(other.loadAcquire());
     }
 
-    inline QAtomicInteger &operator=(const QAtomicInteger &other) Q_DECL_NOTHROW
+    inline QAtomicInteger&operator=(const QAtomicInteger &other) Q_DECL_NOTHROW
     {
         this->storeRelease(other.loadAcquire());
         return *this;
@@ -86,7 +86,7 @@ public:
     void storeRelease(T newValue);
 
     operator T() const;
-    QAtomicInteger &operator=(T);
+    QAtomicInteger&operator=(T);
 
     static Q_DECL_CONSTEXPR bool isReferenceCountingNative();
     static Q_DECL_CONSTEXPR bool isReferenceCountingWaitFree();
@@ -163,7 +163,7 @@ public:
 };
 
 // High-level atomic pointer operations
-template <typename T>
+template<typename T>
 class QAtomicPointer : public QBasicAtomicPointer<T>
 {
 public:
@@ -183,15 +183,15 @@ public:
         this->storeRelease(other.loadAcquire());
     }
 
-    inline QAtomicPointer<T> &operator=(const QAtomicPointer<T> &other) Q_DECL_NOTHROW
+    inline QAtomicPointer<T>&operator=(const QAtomicPointer<T> &other) Q_DECL_NOTHROW
     {
         this->storeRelease(other.loadAcquire());
         return *this;
     }
 
 #ifdef Q_QDOC
-    T *load() const;
-    T *loadAcquire() const;
+    T* load() const;
+    T* loadAcquire() const;
     void store(T *newValue);
     void storeRelease(T *newValue);
 
@@ -206,18 +206,18 @@ public:
     static Q_DECL_CONSTEXPR bool isFetchAndStoreNative();
     static Q_DECL_CONSTEXPR bool isFetchAndStoreWaitFree();
 
-    T *fetchAndStoreRelaxed(T *newValue);
-    T *fetchAndStoreAcquire(T *newValue);
-    T *fetchAndStoreRelease(T *newValue);
-    T *fetchAndStoreOrdered(T *newValue);
+    T* fetchAndStoreRelaxed(T *newValue);
+    T* fetchAndStoreAcquire(T *newValue);
+    T* fetchAndStoreRelease(T *newValue);
+    T* fetchAndStoreOrdered(T *newValue);
 
     static Q_DECL_CONSTEXPR bool isFetchAndAddNative();
     static Q_DECL_CONSTEXPR bool isFetchAndAddWaitFree();
 
-    T *fetchAndAddRelaxed(qptrdiff valueToAdd);
-    T *fetchAndAddAcquire(qptrdiff valueToAdd);
-    T *fetchAndAddRelease(qptrdiff valueToAdd);
-    T *fetchAndAddOrdered(qptrdiff valueToAdd);
+    T* fetchAndAddRelaxed(qptrdiff valueToAdd);
+    T* fetchAndAddAcquire(qptrdiff valueToAdd);
+    T* fetchAndAddRelease(qptrdiff valueToAdd);
+    T* fetchAndAddOrdered(qptrdiff valueToAdd);
 #endif
 };
 
@@ -232,15 +232,17 @@ QT_WARNING_POP
     shared classes. Your assignment operator should look like this:
 
     \snippet code/src.corelib.thread.qatomic.h 0
-*/
-template <typename T>
-inline void qAtomicAssign(T *&d, T *x)
+ */
+template<typename T>
+inline void qAtomicAssign(T* &d, T *x)
 {
     if (d == x)
         return;
+
     x->ref.ref();
     if (!d->ref.deref())
         delete d;
+
     d = x;
 }
 
@@ -251,13 +253,14 @@ inline void qAtomicAssign(T *&d, T *x)
     function should look like this:
 
     \snippet code/src.corelib.thread.qatomic.h 1
-*/
-template <typename T>
-inline void qAtomicDetach(T *&d)
+ */
+template<typename T>
+inline void qAtomicDetach(T* &d)
 {
     if (d->ref.load() == 1)
         return;
-    T *x = d;
+
+    T    *x = d;
     d = new T(*d);
     if (!x->ref.deref())
         delete x;

@@ -52,20 +52,22 @@ QT_BEGIN_NAMESPACE
 class QCommandLineParserPrivate;
 class QCoreApplication;
 
-class Q_CORE_EXPORT QCommandLineParser
+class Q_CORE_EXPORT    QCommandLineParser
 {
     Q_DECLARE_TR_FUNCTIONS(QCommandLineParser)
 public:
     QCommandLineParser();
     ~QCommandLineParser();
 
-    enum SingleDashWordOptionMode {
+    enum SingleDashWordOptionMode
+    {
         ParseAsCompactedShortOptions,
         ParseAsLongOptions
     };
     void setSingleDashWordOptionMode(SingleDashWordOptionMode parsingMode);
 
-    enum OptionsAfterPositionalArgumentsMode {
+    enum OptionsAfterPositionalArgumentsMode
+    {
         ParseAsOptions,
         ParseAsPositionalArguments
     };

@@ -7,29 +7,31 @@
 extern "C" {
 #endif
 
-typedef struct PyStructSequence_Field {
-    char *name;
-    char *doc;
+typedef struct PyStructSequence_Field
+{
+    char    *name;
+    char    *doc;
 } PyStructSequence_Field;
 
-typedef struct PyStructSequence_Desc {
-    char *name;
-    char *doc;
-    struct PyStructSequence_Field *fields;
-    int n_in_sequence;
+typedef struct PyStructSequence_Desc
+{
+    char                            *name;
+    char                            *doc;
+    struct PyStructSequence_Field   *fields;
+    int                             n_in_sequence;
 } PyStructSequence_Desc;
 
-extern char* PyStructSequence_UnnamedField;
+extern char    *PyStructSequence_UnnamedField;
 
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(void) PyStructSequence_InitType(PyTypeObject *type,
-                                           PyStructSequence_Desc *desc);
-PyAPI_FUNC(int) PyStructSequence_InitType2(PyTypeObject *type,
-                                           PyStructSequence_Desc *desc);
+PyAPI_FUNC(void) PyStructSequence_InitType(PyTypeObject * type,
+                                           PyStructSequence_Desc * desc);
+PyAPI_FUNC(int) PyStructSequence_InitType2(PyTypeObject * type,
+                                           PyStructSequence_Desc * desc);
 #endif
-PyAPI_FUNC(PyTypeObject*) PyStructSequence_NewType(PyStructSequence_Desc *desc);
+PyAPI_FUNC(PyTypeObject*) PyStructSequence_NewType(PyStructSequence_Desc * desc);
 
-PyAPI_FUNC(PyObject *) PyStructSequence_New(PyTypeObject* type);
+PyAPI_FUNC(PyObject*) PyStructSequence_New(PyTypeObject * type);
 
 #ifndef Py_LIMITED_API
 typedef PyTupleObject PyStructSequence;

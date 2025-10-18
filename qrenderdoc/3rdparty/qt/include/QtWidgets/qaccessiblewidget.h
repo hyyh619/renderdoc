@@ -50,22 +50,22 @@ QT_BEGIN_NAMESPACE
 
 class QAccessibleWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QAccessibleWidget : public QAccessibleObject, public QAccessibleActionInterface
+class Q_WIDGETS_EXPORT    QAccessibleWidget : public QAccessibleObject, public QAccessibleActionInterface
 {
 public:
-    explicit QAccessibleWidget(QWidget *o, QAccessible::Role r = QAccessible::Client, const QString& name = QString());
+    explicit QAccessibleWidget(QWidget *o, QAccessible::Role r = QAccessible::Client, const QString &name = QString());
     bool isValid() const Q_DECL_OVERRIDE;
 
-    QWindow *window() const Q_DECL_OVERRIDE;
+    QWindow* window() const Q_DECL_OVERRIDE;
     int childCount() const Q_DECL_OVERRIDE;
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
     QVector<QPair<QAccessibleInterface*, QAccessible::Relation> > relations(QAccessible::Relation match = QAccessible::AllRelations) const Q_DECL_OVERRIDE;
-    QAccessibleInterface *focusChild() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* focusChild() const Q_DECL_OVERRIDE;
 
     QRect rect() const Q_DECL_OVERRIDE;
 
-    QAccessibleInterface *parent() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
 
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
     QAccessible::Role role() const Q_DECL_OVERRIDE;
@@ -74,7 +74,7 @@ public:
     QColor foregroundColor() const Q_DECL_OVERRIDE;
     QColor backgroundColor() const Q_DECL_OVERRIDE;
 
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleActionInterface
     QStringList actionNames() const Q_DECL_OVERRIDE;
@@ -82,17 +82,15 @@ public:
     QStringList keyBindingsForAction(const QString &actionName) const Q_DECL_OVERRIDE;
 protected:
     ~QAccessibleWidget();
-    QWidget *widget() const;
-    QObject *parentObject() const;
+    QWidget* widget() const;
+    QObject* parentObject() const;
 
     void addControllingSignal(const QString &signal);
 
 private:
-    QAccessibleWidgetPrivate *d;
+    QAccessibleWidgetPrivate    *d;
     Q_DISABLE_COPY(QAccessibleWidget)
 };
-
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

@@ -71,10 +71,10 @@ public:
     typedef QHash<QNetworkRequest::KnownHeaders, QVariant> CookedHeadersMap;
     typedef QHash<QNetworkRequest::Attribute, QVariant> AttributesMap;
 
-    RawHeadersList rawHeaders;
-    CookedHeadersMap cookedHeaders;
-    AttributesMap attributes;
-    QPointer<QObject> originatingObject;
+    RawHeadersList          rawHeaders;
+    CookedHeadersMap        cookedHeaders;
+    AttributesMap           attributes;
+    QPointer<QObject>       originatingObject;
 
     RawHeadersList::ConstIterator findRawHeader(const QByteArray &key) const;
     RawHeadersList allRawHeaders() const;

@@ -63,59 +63,68 @@ class QOpenGLDebugLogger;
 class QOpenGLDebugLoggerPrivate;
 class QOpenGLDebugMessagePrivate;
 
-class Q_GUI_EXPORT QOpenGLDebugMessage
+class Q_GUI_EXPORT    QOpenGLDebugMessage
 {
 public:
-    enum Source {
-        InvalidSource        = 0x00000000,
-        APISource            = 0x00000001,
-        WindowSystemSource   = 0x00000002,
-        ShaderCompilerSource = 0x00000004,
-        ThirdPartySource     = 0x00000008,
-        ApplicationSource    = 0x00000010,
-        OtherSource          = 0x00000020,
-        LastSource           = OtherSource, // private API
-        AnySource            = 0xffffffff
+    enum Source
+    {
+        InvalidSource           = 0x00000000,
+        APISource               = 0x00000001,
+        WindowSystemSource      = 0x00000002,
+        ShaderCompilerSource    = 0x00000004,
+        ThirdPartySource        = 0x00000008,
+        ApplicationSource       = 0x00000010,
+        OtherSource             = 0x00000020,
+        LastSource              = OtherSource, // private API
+        AnySource               = 0xffffffff
     };
     Q_DECLARE_FLAGS(Sources, Source)
 
-    enum Type {
-        InvalidType            = 0x00000000,
-        ErrorType              = 0x00000001,
-        DeprecatedBehaviorType = 0x00000002,
-        UndefinedBehaviorType  = 0x00000004,
-        PortabilityType        = 0x00000008,
-        PerformanceType        = 0x00000010,
-        OtherType              = 0x00000020,
-        MarkerType             = 0x00000040,
-        GroupPushType          = 0x00000080,
-        GroupPopType           = 0x00000100,
-        LastType               = GroupPopType, // private API
-        AnyType                = 0xffffffff
+    enum Type
+    {
+        InvalidType             = 0x00000000,
+        ErrorType               = 0x00000001,
+        DeprecatedBehaviorType  = 0x00000002,
+        UndefinedBehaviorType   = 0x00000004,
+        PortabilityType         = 0x00000008,
+        PerformanceType         = 0x00000010,
+        OtherType               = 0x00000020,
+        MarkerType              = 0x00000040,
+        GroupPushType           = 0x00000080,
+        GroupPopType            = 0x00000100,
+        LastType                = GroupPopType, // private API
+        AnyType                 = 0xffffffff
     };
     Q_DECLARE_FLAGS(Types, Type)
 
-    enum Severity {
-        InvalidSeverity      = 0x00000000,
-        HighSeverity         = 0x00000001,
-        MediumSeverity       = 0x00000002,
-        LowSeverity          = 0x00000004,
-        NotificationSeverity = 0x00000008,
-        LastSeverity         = NotificationSeverity, // private API
-        AnySeverity          = 0xffffffff
+    enum Severity
+    {
+        InvalidSeverity         = 0x00000000,
+        HighSeverity            = 0x00000001,
+        MediumSeverity          = 0x00000002,
+        LowSeverity             = 0x00000004,
+        NotificationSeverity    = 0x00000008,
+        LastSeverity            = NotificationSeverity, // private API
+        AnySeverity             = 0xffffffff
     };
     Q_DECLARE_FLAGS(Severities, Severity)
 
     QOpenGLDebugMessage();
     QOpenGLDebugMessage(const QOpenGLDebugMessage &debugMessage);
 
-    QOpenGLDebugMessage &operator=(const QOpenGLDebugMessage &debugMessage);
+    QOpenGLDebugMessage&operator=(const QOpenGLDebugMessage &debugMessage);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QOpenGLDebugMessage &operator=(QOpenGLDebugMessage &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QOpenGLDebugMessage&operator=(QOpenGLDebugMessage &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
     ~QOpenGLDebugMessage();
 
-    void swap(QOpenGLDebugMessage &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QOpenGLDebugMessage &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     Source source() const;
     Type type() const;
@@ -133,12 +142,15 @@ public:
                                                        Type type = OtherType);
 
     bool operator==(const QOpenGLDebugMessage &debugMessage) const;
-    inline bool operator!=(const QOpenGLDebugMessage &debugMessage) const { return !operator==(debugMessage); }
+    inline bool operator!=(const QOpenGLDebugMessage &debugMessage) const
+    {
+        return !operator==(debugMessage);
+    }
 
 private:
     friend class QOpenGLDebugLogger;
     friend class QOpenGLDebugLoggerPrivate;
-    QSharedDataPointer<QOpenGLDebugMessagePrivate> d;
+    QSharedDataPointer<QOpenGLDebugMessagePrivate>    d;
 };
 
 Q_DECLARE_SHARED(QOpenGLDebugMessage)
@@ -155,13 +167,14 @@ Q_GUI_EXPORT QDebug operator<<(QDebug debug, QOpenGLDebugMessage::Severity sever
 
 class QOpenGLDebugLoggerPrivate;
 
-class Q_GUI_EXPORT QOpenGLDebugLogger : public QObject
+class Q_GUI_EXPORT    QOpenGLDebugLogger : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(LoggingMode loggingMode READ loggingMode)
 
 public:
-    enum LoggingMode {
+    enum LoggingMode
+    {
         AsynchronousLogging,
         SynchronousLogging
     };

@@ -59,31 +59,28 @@ class QByteArray;
 
 namespace HPack
 {
-
-struct CodeEntry
-{
-    CodeEntry() : byteValue(),
-                  huffmanCode(),
-                  bitLength()
+    struct CodeEntry
     {
-    }
+        CodeEntry() : byteValue(),
+            huffmanCode(),
+            bitLength()
+        {}
 
-    CodeEntry(quint32 val, quint32 code, quint32 len)
-        : byteValue(val),
-          huffmanCode(code),
-          bitLength(len)
-    {
-    }
+        CodeEntry(quint32 val, quint32 code, quint32 len)
+            : byteValue(val),
+            huffmanCode(code),
+            bitLength(len)
+        {}
 
-    quint32 byteValue;
-    quint32 huffmanCode;
-    quint32 bitLength;
-};
+        quint32 byteValue;
+        quint32 huffmanCode;
+        quint32 bitLength;
+    };
 
-class BitOStream;
+    class BitOStream;
 
-quint64 huffman_encoded_bit_length(const QByteArray &inputData);
-void huffman_encode_string(const QByteArray &inputData, BitOStream &outputStream);
+    quint64 huffman_encoded_bit_length(const QByteArray &inputData);
+    void huffman_encode_string(const QByteArray &inputData, BitOStream &outputStream);
 
 // PrefixTable:
 // Huffman codes with a small bit length
@@ -101,82 +98,77 @@ void huffman_encode_string(const QByteArray &inputData, BitOStream &outputStream
 // there table's data starts in an array of all
 // possible entries ('tableData').
 
-struct PrefixTable
-{
-    PrefixTable()
-        : prefixLength(),
-          indexLength(),
-          offset()
+    struct PrefixTable
     {
-    }
+        PrefixTable()
+            : prefixLength(),
+            indexLength(),
+            offset()
+        {}
 
-    PrefixTable(quint32 prefix, quint32 index)
-        : prefixLength(prefix),
-          indexLength(index),
-          offset()
-    {
-    }
+        PrefixTable(quint32 prefix, quint32 index)
+            : prefixLength(prefix),
+            indexLength(index),
+            offset()
+        {}
 
-    quint32 size()const
-    {
-        // Number of entries table contains:
-        return 1 << indexLength;
-    }
+        quint32 size() const
+        {
+            // Number of entries table contains:
+            return 1 << indexLength;
+        }
 
-    quint32 prefixLength;
-    quint32 indexLength;
-    quint32 offset;
-};
+        quint32 prefixLength;
+        quint32 indexLength;
+        quint32 offset;
+    };
 
 // Table entry is either a terminal entry (thus probably the code found)
 // or points into another table ('nextTable' - index into
 // 'prefixTables' array). If it's a terminal, 'nextTable' index
 // refers to the same table.
 
-struct PrefixTableEntry
-{
-    PrefixTableEntry()
-        : bitLength(),
-          nextTable(),
-          byteValue()
+    struct PrefixTableEntry
     {
-    }
+        PrefixTableEntry()
+            : bitLength(),
+            nextTable(),
+            byteValue()
+        {}
 
-    quint32 bitLength;
-    quint32 nextTable;
-    quint32 byteValue;
-};
-
-class BitIStream;
-
-class HuffmanDecoder
-{
-public:
-    enum class BitConstants
-    {
-        rootPrefix = 9,
-        childPrefix = 6
+        quint32 bitLength;
+        quint32 nextTable;
+        quint32 byteValue;
     };
 
-    HuffmanDecoder();
+    class BitIStream;
 
-    bool decodeStream(BitIStream &inputStream, QByteArray &outputBuffer);
+    class HuffmanDecoder
+    {
+public:
+        enum class BitConstants
+        {
+            rootPrefix  = 9,
+            childPrefix = 6
+        };
+
+        HuffmanDecoder();
+
+        bool decodeStream(BitIStream &inputStream, QByteArray &outputBuffer);
 
 private:
-    quint32 addTable(quint32 prefixLength, quint32 indexLength);
-    PrefixTableEntry tableEntry(const PrefixTable &table, quint32 index);
-    void setTableEntry(const PrefixTable &table, quint32 index, const PrefixTableEntry &entry);
+        quint32 addTable(quint32 prefixLength, quint32 indexLength);
+        PrefixTableEntry tableEntry(const PrefixTable &table, quint32 index);
+        void setTableEntry(const PrefixTable &table, quint32 index, const PrefixTableEntry &entry);
 
-    std::vector<PrefixTable> prefixTables;
-    std::vector<PrefixTableEntry> tableData;
-    quint32 minCodeLength;
-};
+        std::vector<PrefixTable>            prefixTables;
+        std::vector<PrefixTableEntry>       tableData;
+        quint32                             minCodeLength;
+    };
 
-bool huffman_decode_string(BitIStream &inputStream, QByteArray *outputBuffer);
-
+    bool huffman_decode_string(BitIStream &inputStream, QByteArray *outputBuffer);
 } // namespace HPack
 
 QT_END_NAMESPACE
 
 #endif
-

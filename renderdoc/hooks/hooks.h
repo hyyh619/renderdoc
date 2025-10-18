@@ -1,42 +1,45 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- * Copyright (c) 2014 Crytek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+* Copyright (c) 2014 Crytek
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
 #include "os/os_specific.h"
 
-typedef std::function<void(void *, const char *)> FunctionLoadCallback;
+typedef std::function<void (void*, const char*)> FunctionLoadCallback;
 
 struct FunctionHook
 {
-  FunctionHook() : orig(NULL), hook(NULL) {}
-  FunctionHook(const char *f, void **o, void *d) : function(f), orig(o), hook(d) {}
-  bool operator<(const FunctionHook &h) const { return function < h.function; }
-  rdcstr function;
-  void **orig;
-  void *hook;
+    FunctionHook() : orig(NULL), hook(NULL) {}
+    FunctionHook(const char *f, void **o, void *d) : function(f), orig(o), hook(d) {}
+    bool operator<(const FunctionHook &h) const
+    {
+        return function < h.function;
+    }
+    rdcstr  function;
+    void    **orig;
+    void    *hook;
 };
 
 // == Hooking workflow overview ==
@@ -144,77 +147,86 @@ struct LibraryHook;
 class LibraryHooks
 {
 public:
-  // generic, implemented in hooks.cpp to iterate over all registered libraries
-  static void RegisterHooks();
-  static void OptionsUpdated();
-  static void RemoveHookCallbacks();
+    // generic, implemented in hooks.cpp to iterate over all registered libraries
+    static void RegisterHooks();
+    static void OptionsUpdated();
+    static void RemoveHookCallbacks();
 
-  // platform specific implementations
+    // platform specific implementations
 
-  // some platforms may unavoidably hook on replay, this gives them a chance to do any
-  // initialisation needed to ensure those hooks don't do anything
-  static void ReplayInitialise();
+    // some platforms may unavoidably hook on replay, this gives them a chance to do any
+    // initialisation needed to ensure those hooks don't do anything
+    static void ReplayInitialise();
 
-  // Removes hooks (where possible) and restores everything to an un-hooked state
-  static void RemoveHooks();
+    // Removes hooks (where possible) and restores everything to an un-hooked state
+    static void RemoveHooks();
 
-  // refreshes hooks, useful on android where hooking can be unreliable
-  static void Refresh();
+    // refreshes hooks, useful on android where hooking can be unreliable
+    static void Refresh();
 
-  // Ignore this library - i.e. do not hook any calls it makes. Useful in the case where a library
-  // might call in to hooked APIs but we want to treat it as a black box.
-  static void IgnoreLibrary(const char *libraryName);
+    // Ignore this library - i.e. do not hook any calls it makes. Useful in the case where a library
+    // might call in to hooked APIs but we want to treat it as a black box.
+    static void IgnoreLibrary(const char *libraryName);
 
-  // register a library for hooking, providing an optional callback to be called the first time the
-  // library has been loaded and all functions in it hooked.
-  static void RegisterLibraryHook(const char *libraryName, FunctionLoadCallback loadedCallback);
+    // register a library for hooking, providing an optional callback to be called the first time the
+    // library has been loaded and all functions in it hooked.
+    static void RegisterLibraryHook(const char *libraryName, FunctionLoadCallback loadedCallback);
 
-  // registers a function to be hooked, and an optional location of where to store the original
-  // onward function pointer
-  static void RegisterFunctionHook(const char *libraryName, const FunctionHook &hook);
+    // registers a function to be hooked, and an optional location of where to store the original
+    // onward function pointer
+    static void RegisterFunctionHook(const char *libraryName, const FunctionHook &hook);
 
-  // detect if an identifier is present in the current process - used as a marker to indicate
-  // replay-type programs.
-  static bool Detect(const char *identifier);
+    // detect if an identifier is present in the current process - used as a marker to indicate
+    // replay-type programs.
+    static bool Detect(const char *identifier);
 
 private:
-  static void BeginHookRegistration();
-  static void EndHookRegistration();
+    static void BeginHookRegistration();
+    static void EndHookRegistration();
 };
 
 // defines the interface that a library hooking class will implement.
 struct LibraryHook
 {
-  LibraryHook();
-  virtual void RegisterHooks() = 0;
-  virtual void OptionsUpdated() {}
-  virtual void RemoveHooks() {}
+    LibraryHook();
+    virtual void    RegisterHooks() = 0;
+    virtual void    OptionsUpdated() {}
+    virtual void    RemoveHooks() {}
 private:
-  friend class LibraryHooks;
+    friend class LibraryHooks;
 
-  static rdcarray<LibraryHook *> m_Libraries;
+    static rdcarray<LibraryHook*> m_Libraries;
 };
 
-template <typename FuncType>
+template<typename FuncType>
 class HookedFunction
 {
 public:
-  HookedFunction() { orig_funcptr = NULL; }
-  ~HookedFunction() {}
-  FuncType operator()() { return (FuncType)orig_funcptr; }
-  void SetFuncPtr(void *ptr) { orig_funcptr = ptr; }
-  void Register(const char *module_name, const char *function, void *destination_function_ptr)
-  {
-    LibraryHooks::RegisterFunctionHook(
-        module_name, FunctionHook(function, &orig_funcptr, destination_function_ptr));
-  }
+    HookedFunction()
+    {
+        orig_funcptr = NULL;
+    }
+    ~HookedFunction() {}
+    FuncType operator()()
+    {
+        return (FuncType)orig_funcptr;
+    }
+    void SetFuncPtr(void *ptr)
+    {
+        orig_funcptr = ptr;
+    }
+    void Register(const char *module_name, const char *function, void *destination_function_ptr)
+    {
+        LibraryHooks::RegisterFunctionHook(
+            module_name, FunctionHook(function, &orig_funcptr, destination_function_ptr));
+    }
 
 private:
-  void *orig_funcptr;
+    void    *orig_funcptr;
 };
 
 struct ScopedSuppressHooking
 {
-  ScopedSuppressHooking();
-  ~ScopedSuppressHooking();
+    ScopedSuppressHooking();
+    ~ScopedSuppressHooking();
 };

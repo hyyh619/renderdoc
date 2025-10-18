@@ -1,49 +1,49 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_Vertex_Attr_Zoo, D3D12GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
-      "matrices, and formats that require manual decode as they are vertex-buffer exclusive on "
-      "some hardware such as USCALED.";
+    static constexpr const char    *Description =
+        "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
+        "matrices, and formats that require manual decode as they are vertex-buffer exclusive on "
+        "some hardware such as USCALED.";
 
-  struct vertin
-  {
-    int16_t i16[4];
-    uint16_t u16[4];
-    double df[2];
-    float arr0[2];
-    float arr1[2];
-    float arr2[2];
-    float mat0[2];
-    float mat1[2];
-  };
+    struct vertin
+    {
+        int16_t     i16[4];
+        uint16_t    u16[4];
+        double      df[2];
+        float       arr0[2];
+        float       arr1[2];
+        float       arr2[2];
+        float       mat0[2];
+        float       mat1[2];
+    };
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 struct a2v
 {
@@ -62,7 +62,7 @@ struct v2f
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 v2f main(in a2v IN, in uint idx : SV_VertexID)
 {
@@ -76,7 +76,7 @@ v2f main(in a2v IN, in uint idx : SV_VertexID)
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 float4 main(in v2f IN) : SV_Target0
 {
@@ -99,7 +99,7 @@ float4 main(in v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string geom = R"EOSHADER(
+    std::string    geom = R"EOSHADER(
 
 [maxvertexcount(3)]
 void main(triangle v2f input[3], inout TriangleStream<v2f> TriStream)
@@ -116,167 +116,168 @@ void main(triangle v2f input[3], inout TriangleStream<v2f> TriStream)
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    vertin triangle[] = {
-        {
-            {32767, -32768, 32767, -32767},
-            {12345, 6789, 1234, 567},
-            {9.8765432109, -5.6789012345},
-            {1.0f, 2.0f},
-            {3.0f, 4.0f},
-            {5.0f, 6.0f},
-            {7.0, 8.0f},
-            {9.0f, 10.0f},
-        },
-        {
-            {32766, -32766, 16000, -16000},
-            {56, 7890, 123, 4567},
-            {-7.89012345678, 6.54321098765},
-            {11.0f, 12.0f},
-            {13.0f, 14.0f},
-            {15.0f, 16.0f},
-            {17.0, 18.0f},
-            {19.0f, 20.0f},
-        },
-        {
-            {5, -5, 0, 0},
-            {8765, 43210, 987, 65432},
-            {0.1234567890123, 4.5678901234},
-            {21.0f, 22.0f},
-            {23.0f, 24.0f},
-            {25.0f, 26.0f},
-            {27.0, 28.0f},
-            {29.0f, 30.0f},
-        },
-    };
-
-    ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_4_0");
-    ID3DBlobPtr psblob = Compile(common + pixel, "main", "ps_4_0");
-    ID3DBlobPtr gsblob = Compile(common + geom, "main", "gs_4_0");
-
-    ID3D12ResourcePtr vb = MakeBuffer().Data(triangle);
-
-    ID3D12RootSignaturePtr sig = MakeSig({});
-
-    ID3D12PipelineStatePtr pso = MakePSO().RootSig(sig).VS(vsblob).PS(psblob).GS(gsblob).InputLayout({
-        {
-            "SNORM",
-            0,
-            DXGI_FORMAT_R16G16B16A16_SNORM,
-            0,
-            offsetof(vertin, i16),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "UNORM",
-            0,
-            DXGI_FORMAT_R16G16B16A16_UNORM,
-            0,
-            offsetof(vertin, u16),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "UINT",
-            0,
-            DXGI_FORMAT_R16G16B16A16_UINT,
-            0,
-            offsetof(vertin, u16),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "ARRAY",
-            0,
-            DXGI_FORMAT_R32G32_FLOAT,
-            0,
-            offsetof(vertin, arr0),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "ARRAY",
-            1,
-            DXGI_FORMAT_R32G32_FLOAT,
-            0,
-            offsetof(vertin, arr1),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "ARRAY",
-            2,
-            DXGI_FORMAT_R32G32_FLOAT,
-            0,
-            offsetof(vertin, arr2),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "MATRIX",
-            0,
-            DXGI_FORMAT_R32G32_FLOAT,
-            0,
-            offsetof(vertin, mat0),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "MATRIX",
-            1,
-            DXGI_FORMAT_R32G32_FLOAT,
-            0,
-            offsetof(vertin, mat1),
-            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-            0,
-        },
-    });
-
-    ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-
-    while(Running())
+    int main()
     {
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      Reset(cmd);
+        vertin    triangle[] =
+        {
+            {
+                {32767, -32768, 32767, -32767},
+                {12345, 6789, 1234, 567},
+                {9.8765432109, -5.6789012345},
+                {1.0f, 2.0f},
+                {3.0f, 4.0f},
+                {5.0f, 6.0f},
+                {7.0, 8.0f},
+                {9.0f, 10.0f},
+            },
+            {
+                {32766, -32766, 16000, -16000},
+                {56, 7890, 123, 4567},
+                {-7.89012345678, 6.54321098765},
+                {11.0f, 12.0f},
+                {13.0f, 14.0f},
+                {15.0f, 16.0f},
+                {17.0, 18.0f},
+                {19.0f, 20.0f},
+            },
+            {
+                {5, -5, 0, 0},
+                {8765, 43210, 987, 65432},
+                {0.1234567890123, 4.5678901234},
+                {21.0f, 22.0f},
+                {23.0f, 24.0f},
+                {25.0f, 26.0f},
+                {27.0, 28.0f},
+                {29.0f, 30.0f},
+            },
+        };
 
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+        ID3DBlobPtr     vsblob  = Compile(common + vertex, "main", "vs_4_0");
+        ID3DBlobPtr     psblob  = Compile(common + pixel, "main", "ps_4_0");
+        ID3DBlobPtr     gsblob  = Compile(common + geom, "main", "gs_4_0");
 
-      D3D12_CPU_DESCRIPTOR_HANDLE rtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+        ID3D12ResourcePtr    vb = MakeBuffer().Data(triangle);
 
-      ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
+        ID3D12RootSignaturePtr    sig = MakeSig({});
 
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        ID3D12PipelineStatePtr    pso = MakePSO().RootSig(sig).VS(vsblob).PS(psblob).GS(gsblob).InputLayout({
+            {
+                "SNORM",
+                0,
+                DXGI_FORMAT_R16G16B16A16_SNORM,
+                0,
+                offsetof(vertin, i16),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "UNORM",
+                0,
+                DXGI_FORMAT_R16G16B16A16_UNORM,
+                0,
+                offsetof(vertin, u16),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "UINT",
+                0,
+                DXGI_FORMAT_R16G16B16A16_UINT,
+                0,
+                offsetof(vertin, u16),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "ARRAY",
+                0,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                offsetof(vertin, arr0),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "ARRAY",
+                1,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                offsetof(vertin, arr1),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "ARRAY",
+                2,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                offsetof(vertin, arr2),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "MATRIX",
+                0,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                offsetof(vertin, mat0),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "MATRIX",
+                1,
+                DXGI_FORMAT_R32G32_FLOAT,
+                0,
+                offsetof(vertin, mat1),
+                D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+                0,
+            },
+        });
 
-      IASetVertexBuffer(cmd, vb, sizeof(vertin), 0);
-      cmd->SetPipelineState(pso);
-      cmd->SetGraphicsRootSignature(sig);
+        ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 
-      RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+        while (Running())
+        {
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
 
-      OMSetRenderTargets(cmd, {rtv}, {});
+            Reset(cmd);
 
-      cmd->DrawInstanced(3, 1, 0, 0);
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+            D3D12_CPU_DESCRIPTOR_HANDLE    rtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
 
-      cmd->Close();
+            ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
 
-      Submit({cmd});
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-      Present();
+            IASetVertexBuffer(cmd, vb, sizeof(vertin), 0);
+            cmd->SetPipelineState(pso);
+            cmd->SetGraphicsRootSignature(sig);
+
+            RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+            OMSetRenderTargets(cmd, {rtv}, {});
+
+            cmd->DrawInstanced(3, 1, 0, 0);
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            cmd->Close();
+
+            Submit({cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

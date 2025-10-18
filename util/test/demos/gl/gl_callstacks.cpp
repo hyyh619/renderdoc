@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "gl_test.h"
 
@@ -28,10 +28,10 @@
 
 RD_TEST(GL_Callstacks, OpenGLGraphicsTest)
 {
-  static constexpr const char *Description =
-      "This test isn't strictly GL related but tests that callstacks resolve correctly.";
+    static constexpr const char    *Description =
+        "This test isn't strictly GL related but tests that callstacks resolve correctly.";
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 #version 420 core
 
@@ -44,7 +44,7 @@ RD_TEST(GL_Callstacks, OpenGLGraphicsTest)
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec4 Color;
@@ -62,7 +62,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 in v2f vertIn;
 
@@ -75,57 +75,56 @@ void main()
 
 )EOSHADER";
 
-  void testFunction()
-  {
-#line 7000
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    GLuint vao = MakeVAO();
-    glBindVertexArray(vao);
-
-    GLuint vb = MakeBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(0));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(sizeof(Vec3f)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
-                          (void *)(sizeof(Vec3f) + sizeof(Vec4f)));
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    GLuint program = MakeProgram(common + vertex, common + pixel);
-
-    while(Running())
+    void testFunction()
     {
-      float col[] = {0.2f, 0.2f, 0.2f, 1.0f};
-      glClearBufferfv(GL_COLOR, 0, col);
-
-      glBindVertexArray(vao);
-
-      glUseProgram(program);
-
-      glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
-
-#line 8000
-      testFunction();
-
-      Present();
+#line 7000
+        glDrawArrays(GL_TRIANGLES, 0, 3);
     }
 
-    return 0;
-  }
+    int main()
+    {
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        GLuint    vao = MakeVAO();
+        glBindVertexArray(vao);
+
+        GLuint    vb = MakeBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vb);
+        glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
+
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(0));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(sizeof(Vec3f)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
+                              (void*)(sizeof(Vec3f) + sizeof(Vec4f)));
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+
+        GLuint    program = MakeProgram(common + vertex, common + pixel);
+
+        while (Running())
+        {
+            float    col[] = {0.2f, 0.2f, 0.2f, 1.0f};
+            glClearBufferfv(GL_COLOR, 0, col);
+
+            glBindVertexArray(vao);
+
+            glUseProgram(program);
+
+            glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+
+#line 8000
+            testFunction();
+
+            Present();
+        }
+
+        return 0;
+    }
 };
 
 REGISTER_TEST();
-
 #endif

@@ -61,30 +61,31 @@ QT_BEGIN_NAMESPACE
 
 class QPaintDevice;
 
-class Q_GUI_EXPORT QPaintEnginePrivate
+class Q_GUI_EXPORT    QPaintEnginePrivate
 {
     Q_DECLARE_PUBLIC(QPaintEngine)
 public:
     QPaintEnginePrivate() : pdev(0), q_ptr(0), currentClipDevice(0), hasSystemTransform(0),
-                            hasSystemViewport(0) {}
+        hasSystemViewport(0) {}
     virtual ~QPaintEnginePrivate();
 
-    QPaintDevice *pdev;
-    QPaintEngine *q_ptr;
-    QRegion systemClip;
-    QRect systemRect;
-    QRegion systemViewport;
-    QTransform systemTransform;
-    QPaintDevice *currentClipDevice;
-    uint hasSystemTransform : 1;
-    uint hasSystemViewport : 1;
+    QPaintDevice    *pdev;
+    QPaintEngine    *q_ptr;
+    QRegion         systemClip;
+    QRect           systemRect;
+    QRegion         systemViewport;
+    QTransform      systemTransform;
+    QPaintDevice    *currentClipDevice;
+    uint            hasSystemTransform : 1;
+    uint            hasSystemViewport : 1;
 
     inline void transformSystemClip()
     {
         if (systemClip.isEmpty())
             return;
 
-        if (hasSystemTransform) {
+        if (hasSystemTransform)
+        {
             if (systemTransform.type() <= QTransform::TxTranslate)
                 systemClip.translate(qRound(systemTransform.dx()), qRound(systemTransform.dy()));
             else
@@ -92,9 +93,11 @@ public:
         }
 
         // Make sure we're inside the viewport.
-        if (hasSystemViewport) {
+        if (hasSystemViewport)
+        {
             systemClip &= systemViewport;
-            if (systemClip.isEmpty()) {
+            if (systemClip.isEmpty())
+            {
                 // We don't want to paint without system clip, so set it to 1 pixel :)
                 systemClip = QRect(systemViewport.boundingRect().topLeft(), QSize(1, 1));
             }
@@ -106,23 +109,33 @@ public:
         systemTransform = xform;
         if ((hasSystemTransform = !xform.isIdentity()) || hasSystemViewport)
             transformSystemClip();
+
         systemStateChanged();
     }
 
     inline void setSystemViewport(const QRegion &region)
     {
-        systemViewport = region;
-        hasSystemViewport = !systemViewport.isEmpty();
+        systemViewport      = region;
+        hasSystemViewport   = !systemViewport.isEmpty();
     }
 
     virtual void systemStateChanged() { }
 
     void drawBoxTextItem(const QPointF &p, const QTextItemInt &ti);
 
-    static QPaintEnginePrivate *get(QPaintEngine *paintEngine) { return paintEngine->d_func(); }
+    static QPaintEnginePrivate* get(QPaintEngine *paintEngine)
+    {
+        return paintEngine->d_func();
+    }
 
-    virtual QPaintEngine *aggregateEngine() { return 0; }
-    virtual Qt::HANDLE nativeHandle() { return 0; }
+    virtual QPaintEngine* aggregateEngine()
+    {
+        return 0;
+    }
+    virtual Qt::HANDLE nativeHandle()
+    {
+        return 0;
+    }
 };
 
 QT_END_NAMESPACE

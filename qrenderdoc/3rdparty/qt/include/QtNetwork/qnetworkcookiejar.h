@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QNetworkCookie;
 
 class QNetworkCookieJarPrivate;
-class Q_NETWORK_EXPORT QNetworkCookieJar: public QObject
+class Q_NETWORK_EXPORT    QNetworkCookieJar : public QObject
 {
     Q_OBJECT
 public:

@@ -71,7 +71,8 @@ typedef NVPMUINT NVPMCounterID;
 /// The negative result values are thrown on init or if init failed
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef NVPMRESULT_DEFINED
-typedef enum {
+typedef enum
+{
     /// Performance disabled in registry
     NVPM_FAILURE_DISABLED = -5,
     /// Mixed mode (32bit client 64bit kernel) unsupported
@@ -152,7 +153,7 @@ typedef enum {
 /// @param[in] unLevel debug output levels
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMSetWarningLevel_Pfn)(NVPMUINT unLevel);
+typedef NVPMRESULT (NVCALL * NVPMSetWarningLevel_Pfn)(NVPMUINT unLevel);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMGetExtendedError(NVPMUINT *pnError);
@@ -161,7 +162,7 @@ typedef NVPMRESULT (NVCALL *NVPMSetWarningLevel_Pfn)(NVPMUINT unLevel);
 /// @param[out] pnError error code returned here
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetExtendedError_Pfn)(NVPMUINT *pnError);
+typedef NVPMRESULT (NVCALL * NVPMGetExtendedError_Pfn)(NVPMUINT *pnError);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMInit();
@@ -169,7 +170,7 @@ typedef NVPMRESULT (NVCALL *NVPMGetExtendedError_Pfn)(NVPMUINT *pnError);
 /// @brief Initialize NVPMAPI-Next
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMInit_Pfn)();
+typedef NVPMRESULT (NVCALL * NVPMInit_Pfn)();
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMShutdown();
@@ -177,7 +178,7 @@ typedef NVPMRESULT (NVCALL *NVPMInit_Pfn)();
 /// @brief Shutdown NVPMAPI-Next
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMShutdown_Pfn)();
+typedef NVPMRESULT (NVCALL * NVPMShutdown_Pfn)();
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMCreateContextFromOGLContext(APIContextHandle hglrc, NVPMContext *perfCtx);
@@ -187,10 +188,10 @@ typedef NVPMRESULT (NVCALL *NVPMShutdown_Pfn)();
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromOGLContext_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromOGLContext_Pfn)(
     APIContextHandle hglrc,
     NVPMContext *perfCtx
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMCreateContextFromCudaContext(APIContextHandle cuCtx, NVPMContext *perfCtx);
@@ -200,10 +201,10 @@ typedef NVPMRESULT (NVCALL *NVPMCreateContextFromOGLContext_Pfn)(
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromCudaContext_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromCudaContext_Pfn)(
     APIContextHandle cuCtx,
     NVPMContext *perfCtx
-);
+    );
 
 #if defined(_WIN32)
 typedef struct IDirect3DDevice9 IDirect3DDevice9;
@@ -219,10 +220,10 @@ typedef struct ID3D11Device1 ID3D11Device1;
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D9Device_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromD3D9Device_Pfn)(
     IDirect3DDevice9 *pD3D9Device,
     NVPMContext *perfCtx
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMCreateContextFromD3D10Device(ID3D10Device *pD3DDevice, NVPMContext *perfCtx);
@@ -232,10 +233,10 @@ typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D9Device_Pfn)(
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D10Device_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromD3D10Device_Pfn)(
     ID3D10Device *pD3DDevice,
     NVPMContext *perfCtx
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMCreateContextFromD3D11Device(ID3D11Device *pD3DDevice, NVPMContext *perfCtx);
@@ -245,10 +246,10 @@ typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D10Device_Pfn)(
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D11Device_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromD3D11Device_Pfn)(
     ID3D11Device *pD3DDevice,
     NVPMContext *perfCtx
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMCreateContextFromD3D11Device1(ID3D11Device1 *pD3DDevice, NVPMContext *perfCtx);
@@ -258,10 +259,10 @@ typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D11Device_Pfn)(
 /// @param[out] perfCtx pointer to the result NVPMContext
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D11Device1_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMCreateContextFromD3D11Device1_Pfn)(
     ID3D11Device1 *pD3DDevice,
     NVPMContext *perfCtx
-);
+    );
 #endif // _WIN32
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -271,7 +272,7 @@ typedef NVPMRESULT (NVCALL *NVPMCreateContextFromD3D11Device1_Pfn)(
 /// @param[in] perfCtx NVPMContext instance to be destroyed
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMDestroyContext_Pfn)(NVPMContext perfCtx);
+typedef NVPMRESULT (NVCALL * NVPMDestroyContext_Pfn)(NVPMContext perfCtx);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMEnumCounters(NVPMCounterID unCounterID, const char *pcCounterName);
@@ -293,7 +294,7 @@ typedef int (*NVPMEnumFunc)(NVPMCounterID unCounterID, const char *pcCounterName
 /// @return unified return code #NVPMRESULT
 /// @see NVPMEnumFunc
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMEnumCountersByContext_Pfn)(NVPMContext perfCtx, NVPMEnumFunc pEnumFunction);
+typedef NVPMRESULT (NVCALL * NVPMEnumCountersByContext_Pfn)(NVPMContext perfCtx, NVPMEnumFunc pEnumFunction);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMEnumCountersUserData(NVPMCounterID unCounterID, const char *pcCounterName, void *pUserData);
@@ -317,7 +318,7 @@ typedef int (*NVPMEnumFuncUserData)(NVPMCounterID unCounterID, const char *pcCou
 /// @return unified return code #NVPMRESULT
 /// @see NVPMEnumFunc
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMEnumCountersByContextUserData_Pfn)(NVPMContext perfCtx, NVPMEnumFuncUserData pEnumFunction, void *pUserData);
+typedef NVPMRESULT (NVCALL * NVPMEnumCountersByContextUserData_Pfn)(NVPMContext perfCtx, NVPMEnumFuncUserData pEnumFunction, void *pUserData);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @brief Get the name of a counter specified by ID
@@ -326,11 +327,11 @@ typedef NVPMRESULT (NVCALL *NVPMEnumCountersByContextUserData_Pfn)(NVPMContext p
 /// @param[in,out] punLen length of return string ??
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterName_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterName_Pfn)(
     NVPMCounterID unCounterID,
     char *pcString,
     NVPMUINT *punLen
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMGetCounterDescription(NVPMCounterID unCounterID, char *pcString, NVPMUINT *punLen);
@@ -341,11 +342,11 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterName_Pfn)(
 /// @param[in,out] punLen length of return string ??
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterDescription_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterDescription_Pfn)(
     NVPMCounterID unCounterID,
     char *pcString,
     NVPMUINT *punLen
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMAPI_INTERFACE NVPMGetCounterIDByContext(NVPMContext perfCtx, const char *pcString, NVPMCounterID *punCounterID);
@@ -357,7 +358,7 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterDescription_Pfn)(
 ///     interested
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterIDByContext_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterIDByContext_Pfn)(
     NVPMContext perfCtx,
     const char *pcString,
     NVPMCounterID *punCounterID
@@ -372,18 +373,19 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterIDByContext_Pfn)(
 /// @param[out] pfValue returned clock rate in MHz
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterClockRateByContext_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterClockRateByContext_Pfn)(
     NVPMContext perfCtx,
     const char *pcString,
     float *pfValue
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 // Query attribute information for a given counter.  These can be called
 // when enumerating with NVPMEnumCounters();
 ///////////////////////////////////////////////////////////////////////////////
 /// Counter's type
-typedef enum {
+typedef enum
+{
     /// GPU counter
     NVPM_CT_GPU,
     /// OpenGL counter
@@ -399,7 +401,8 @@ typedef enum {
 } NVPMCOUNTERTYPE;
 
 /// Counter display type
-typedef enum {
+typedef enum
+{
     /// Counter should be displayed as a ratio of value/cycles
     NVPM_CD_RATIO,
     /// Counter should be displayed as the value only
@@ -407,7 +410,8 @@ typedef enum {
 } NVPMCOUNTERDISPLAY;
 
 /// Counter value type.
-typedef enum {
+typedef enum
+{
     // 64b unsigned integer
     NVPM_VALUE_TYPE_UINT64,
     // 64b float (double)
@@ -415,7 +419,8 @@ typedef enum {
 } NVPMCOUNTERVALUETYPE;
 
 /// Attribute type used in function NVPMGetCounterAttribute
-typedef enum {
+typedef enum
+{
     /// The type of counter, see NVPMCOUNTERTYPE
     NVPMA_COUNTER_TYPE,
     /// The display hint for the counter, see NVPMCOUNTERDISPLAY
@@ -440,11 +445,11 @@ typedef enum {
 /// @return unified return code #NVPMRESULT
 /// @see NVPMATTRIBUTE
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterAttribute_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterAttribute_Pfn)(
     NVPMCounterID unCounterID,
     NVPMATTRIBUTE nvAttribute,
     NVPMUINT64 *punValue
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMAddCounterByName(NVPMContext perfCtx, const char *pcName);
@@ -455,10 +460,10 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterAttribute_Pfn)(
 /// @param[in] pcName pointer to a string of the counter name
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMAddCounterByName_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMAddCounterByName_Pfn)(
     NVPMContext perfCtx,
     const char *pcName
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMAddCounter(NVPMContext perfCtx, NVPMCounterID unCounterID);
@@ -469,7 +474,7 @@ typedef NVPMRESULT (NVCALL *NVPMAddCounterByName_Pfn)(
 /// @param[in] unCounterID counter ID
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMAddCounter_Pfn)(NVPMContext perfCtx, NVPMCounterID unCounterID);
+typedef NVPMRESULT (NVCALL * NVPMAddCounter_Pfn)(NVPMContext perfCtx, NVPMCounterID unCounterID);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMAddCounters(NVPMContext perfCtx, NVPMUINT unCount, NVPMCounterID *punCounterIDs);
@@ -481,11 +486,11 @@ typedef NVPMRESULT (NVCALL *NVPMAddCounter_Pfn)(NVPMContext perfCtx, NVPMCounter
 /// @param[in] punCounterIDs pointer to the counter ID array
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMAddCounters_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMAddCounters_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT unCount,
     NVPMCounterID *punCounterIDs
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMRemoveCounterByName(NVPMContext perfCtx, const char *pcName);
@@ -496,10 +501,10 @@ typedef NVPMRESULT (NVCALL *NVPMAddCounters_Pfn)(
 /// @param[in] pcName pointer to a string of the counter name
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMRemoveCounterByName_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMRemoveCounterByName_Pfn)(
     NVPMContext perfCtx,
     const char *pcName
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMRemoveCounter(NVPMContext perfCtx, NVPMCounterID unCounterID);
@@ -510,10 +515,10 @@ typedef NVPMRESULT (NVCALL *NVPMRemoveCounterByName_Pfn)(
 /// @param[in] unCounterID counter ID
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMRemoveCounter_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMRemoveCounter_Pfn)(
     NVPMContext perfCtx,
     NVPMCounterID unCounterID
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMRemoveCounters(NVPMContext perfCtx, NVPMUINT unCount, NVPMCounterID *punCounterIDs);
@@ -525,11 +530,11 @@ typedef NVPMRESULT (NVCALL *NVPMRemoveCounter_Pfn)(
 /// @param[in] punCounterIDs pointer to the counter ID array
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMRemoveCounters_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMRemoveCounters_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT unCount,
     NVPMCounterID *punCounterIDs
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMRemoveAllCounters(NVPMContext perfCtx);
@@ -539,7 +544,7 @@ typedef NVPMRESULT (NVCALL *NVPMRemoveCounters_Pfn)(
 /// the performance counters
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMRemoveAllCounters_Pfn)(NVPMContext perfCtx);
+typedef NVPMRESULT (NVCALL * NVPMRemoveAllCounters_Pfn)(NVPMContext perfCtx);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMReserveObjects(NVPMContext perfCtx, NVPMUINT objNum);
@@ -549,10 +554,10 @@ typedef NVPMRESULT (NVCALL *NVPMRemoveAllCounters_Pfn)(NVPMContext perfCtx);
 /// @param[in] objNum number of PerfObjects to be reserved
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMReserveObjects_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMReserveObjects_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT objNum
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMDeleteObjects(NVPMContext perfCtx);
@@ -561,7 +566,7 @@ typedef NVPMRESULT (NVCALL *NVPMReserveObjects_Pfn)(
 /// @param[in] perfCtx Specify which NVPMContext instance to operate
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMDeleteObjects_Pfn)(NVPMContext perfCtx);
+typedef NVPMRESULT (NVCALL * NVPMDeleteObjects_Pfn)(NVPMContext perfCtx);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMBeginExperiment(NVPMContext perfCtx, NVPMUINT *pnNumPasses);
@@ -571,10 +576,10 @@ typedef NVPMRESULT (NVCALL *NVPMDeleteObjects_Pfn)(NVPMContext perfCtx);
 /// @param[out] pnNumPasses return how many passes needed to do this experiment
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMBeginExperiment_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMBeginExperiment_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT *pnNumPasses
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMEndExperiment(NVPMContext perfCtx);
@@ -583,7 +588,7 @@ typedef NVPMRESULT (NVCALL *NVPMBeginExperiment_Pfn)(
 /// @param[in] perfCtx Specify which NVPMContext instance to operate
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMEndExperiment_Pfn)(NVPMContext perfCtx);
+typedef NVPMRESULT (NVCALL * NVPMEndExperiment_Pfn)(NVPMContext perfCtx);
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMBeginPass(NVPMContext perfCtx, NVPMUINT nPass);
@@ -593,10 +598,10 @@ typedef NVPMRESULT (NVCALL *NVPMEndExperiment_Pfn)(NVPMContext perfCtx);
 /// @param[in] nPass specify which pass it's going to be run
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMBeginPass_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMBeginPass_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT nPass
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMEndPass(NVPMContext perfCtx, NVPMUINT nPass);
@@ -606,10 +611,10 @@ typedef NVPMRESULT (NVCALL *NVPMBeginPass_Pfn)(
 /// @param[in] nPass specify which pass to be ended
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMEndPass_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMEndPass_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT nPass
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMBeginObject(NVPMContext perfCtx, NVPMUINT nObjectID);
@@ -619,10 +624,10 @@ typedef NVPMRESULT (NVCALL *NVPMEndPass_Pfn)(
 /// @param[in] nObjectID ID of the NVPMPerfObject to be used
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMBeginObject_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMBeginObject_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT nObjectID
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMEndObject(NVPMContext perfCtx, NVPMUINT nObjectID);
@@ -632,10 +637,10 @@ typedef NVPMRESULT (NVCALL *NVPMBeginObject_Pfn)(
 /// @param[in] nObjectID ID of the NVPMPerfObject to be used
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMEndObject_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMEndObject_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT nObjectID
-);
+    );
 ///////////////////////////////////////////////////////////////////////////////
 // Sample Methods
 // This is the typical "sample now" based interface.  If you pass in an array
@@ -654,7 +659,8 @@ typedef NVPMRESULT (NVCALL *NVPMEndObject_Pfn)(
 ///     ulValue/ulCycles.
 /// @see NVPMSample, NVPMSampleValueEx
 ///////////////////////////////////////////////////////////////////////////////
-typedef struct _NVPMSampleValue {
+typedef struct _NVPMSampleValue
+{
     /// ID of counter
     NVPMCounterID unCounterID;
     /// Value of counter
@@ -677,13 +683,15 @@ typedef struct _NVPMSampleValue {
 ///     it to 0.
 /// @see NVPMSampleEx, NVPMSampleValue
 ///////////////////////////////////////////////////////////////////////////////
-typedef struct _NVPMSampleValueEx {
+typedef struct _NVPMSampleValueEx
+{
     /// Version of struct
     NVPMUINT32 ulVersion;
     /// ID of counter
     NVPMCounterID unCounterID;
     /// Value of counter
-    union {
+    union
+    {
         NVPMUINT64  ulValue;
         NVPMFLOAT64 dValue;
     };
@@ -705,11 +713,11 @@ typedef struct _NVPMSampleValueEx {
 /// nvpm sample value ex version major */
 #define NVPMSAMPLEVALUEEX_VER_1 1
 #define NVPMSAMPLEVALUEEX_VER_2 2
-#define NVPMSAMPLEVALUEEX_VER NVPMSAMPLEVALUEEX_VER_2               // The latest version is VER_2. VER_1 is still supported and
+#define NVPMSAMPLEVALUEEX_VER   NVPMSAMPLEVALUEEX_VER_2             // The latest version is VER_2. VER_1 is still supported and
                                                                     // the old NVPMSampleValueEx is compatible with the new one.
-#define NVPMSAMPLEVALUEEX_VERSION()                         MAKE_NVPMSAMPLEVALUEEX_VERSION( NVPMSAMPLEVALUEEX_VER, sizeof(NVPMSampleValueEx) )
-#define NVPMSAMPLEVALUEEX_VERSION_GET_STRUCT_SIZE(X)        ( (X) & 0xFFFF )
-#define NVPMSAMPLEVALUEEX_VERSION_GET_VERSION(X)            ( (X) >> 16 )
+#define NVPMSAMPLEVALUEEX_VERSION()                         MAKE_NVPMSAMPLEVALUEEX_VERSION(NVPMSAMPLEVALUEEX_VER, sizeof(NVPMSampleValueEx))
+#define NVPMSAMPLEVALUEEX_VERSION_GET_STRUCT_SIZE(X)        ((X) & 0xFFFF)
+#define NVPMSAMPLEVALUEEX_VERSION_GET_VERSION(X)            ((X) >> 16)
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMSample(NVPMContext perfCtx, NVPMSampleValue *pSamples, NVPMUINT *punCount);
@@ -738,11 +746,11 @@ typedef struct _NVPMSampleValueEx {
 /// @see NVPMGetCounterValueByName, NVPMSampleValue, NVPMSampleValueEx,
 ///     NVPMSampleEx
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMSample_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMSample_Pfn)(
     NVPMContext perfCtx,
     NVPMSampleValue *pSamples,
     NVPMUINT *punCount
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMSampleEx(NVPMContext perfCtx, NVPMSampleValueEx *pSamples, NVPMUINT *punCount, NVPMUINT unNVPMSampleValueExVersion);
@@ -774,11 +782,11 @@ typedef NVPMRESULT (NVCALL *NVPMSample_Pfn)(
 ///     NVPMSampleValueEx,
 ///
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMSampleEx_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMSampleEx_Pfn)(
     NVPMContext perfCtx,
     NVPMSampleValueEx *pSamples,
     NVPMUINT *punCount
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMGetCounterValueByName(NVPMContext perfCtx, const char *pcName, NVPMUINT nObjectID, NVPMUINT64 *pulValue, NVPMUINT64 *pulCycles);
@@ -793,13 +801,13 @@ typedef NVPMRESULT (NVCALL *NVPMSampleEx_Pfn)(
 /// @param[out] pOverflow returned overflow flags, if it's nozero, the counter has overflowed. Otherwise it hasn't overflowed.
 /// @return unified return code #NVPMRESULT. If the counter's value type cannot be returned by the called function, NVPM_INCORRECT_VALUE_TYPE will be returned.
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterValueByName_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterValueByName_Pfn)(
     NVPMContext perfCtx,
     const char *pcName,
     NVPMUINT nObjectID,
     NVPMUINT64 *pulValue,
     NVPMUINT64 *pulCycles
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMGetCounterValue{Uint64,Float64}(NVPMContext perfCtx, NVPMCounterID unCounterID, NVPMUINT nObjectID, NVPM{UINT,FLOAT}64 *pulValue, NVPMUINT64 *pulCycles);
@@ -814,31 +822,31 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterValueByName_Pfn)(
 /// @param[out] pOverflow returned overflow flags, if it's nozero, the counter has overflowed. Otherwise it hasn't overflowed.
 /// @return unified return code #NVPMRESULT. If the counter's value type cannot be returned by the called function, NVPM_INCORRECT_VALUE_TYPE will be returned.
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetCounterValue_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterValue_Pfn)(
     NVPMContext perfCtx,
     NVPMCounterID unCounterID,
     NVPMUINT nObjectID,
     NVPMUINT64 *pulValue,
     NVPMUINT64 *pulCycles
-);
+    );
 
-typedef NVPMRESULT (NVCALL *NVPMGetCounterValueUint64_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterValueUint64_Pfn)(
     NVPMContext perfCtx,
     NVPMCounterID unCounterID,
     NVPMUINT nObjectID,
     NVPMUINT64 *pulValue,
     NVPMUINT64 *pulCycles,
     NVPMUINT8 *pOverflow
-);
+    );
 
-typedef NVPMRESULT (NVCALL *NVPMGetCounterValueFloat64_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetCounterValueFloat64_Pfn)(
     NVPMContext perfCtx,
     NVPMCounterID unCounterID,
     NVPMUINT nObjectID,
     NVPMFLOAT64 *pdValue,
     NVPMUINT64 *pulCycles,
     NVPMUINT8 *pOverflow
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMGetGPUBottleneckName(NVPMContext perfCtx, NVPMUINT64 ulValue, char *pcName);
@@ -849,11 +857,11 @@ typedef NVPMRESULT (NVCALL *NVPMGetCounterValueFloat64_Pfn)(
 /// @param[out] pcName returned name string of the given pipeline stage
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetGPUBottleneckName_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMGetGPUBottleneckName_Pfn)(
     NVPMContext perfCtx,
     NVPMUINT64 ulValue,
     char *pcName
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 /// NVPMRESULT NVPMRegisterNewDataProviderCallback(FuncPtrNewDataProvider fpNewDP);
@@ -865,9 +873,9 @@ typedef NVPMRESULT (NVCALL *NVPMGetGPUBottleneckName_Pfn)(
 ///////////////////////////////////////////////////////////////////////////////
 typedef NVPMUINT64 (*FuncPtrNewDataProvider)(void);
 
-typedef NVPMRESULT (NVCALL *NVPMRegisterNewDataProviderCallback_Pfn)(
+typedef NVPMRESULT (NVCALL * NVPMRegisterNewDataProviderCallback_Pfn)(
     FuncPtrNewDataProvider fpNewDP
-);
+    );
 
 ///////////////////////////////////////////////////////////////////////////////
 // This section defines the external/exported interface for NVPMAPI-Next via
@@ -879,82 +887,85 @@ typedef GUID NVPM_UUID;
 #else
 /// The standard UUID definition.  sizeof(NVPM_UUID) *needs* to be 16.
 /// If it isn't on a needed compilation platform, we need nasty Work-ARounds.
-typedef struct NVPM_UUID {
-    NVPMUINT   Data1;
-    NVPMUINT16 Data2;
-    NVPMUINT16 Data3;
-    NVPMUINT8  Data4[8];
+typedef struct NVPM_UUID
+{
+    NVPMUINT    Data1;
+    NVPMUINT16  Data2;
+    NVPMUINT16  Data3;
+    NVPMUINT8   Data4[8];
 } NVPM_UUID;
 #endif
 
 #ifdef NVPM_INITGUID
-    // MSVC seems to require the use of "extern" here, whereas every other
-    // compiler seems require omitting it.
+// MSVC seems to require the use of "extern" here, whereas every other
+// compiler seems require omitting it.
 #if defined(_MSC_VER)
-    #define NVPM_DEFINE_GUID(x__, a, b, c, d0,d1,d2,d3,d4,d5,d6,d7) \
-        extern const NVPM_UUID x__ = {a, b, c, {d0,d1,d2,d3,d4,d5,d6,d7}}
+    #define NVPM_DEFINE_GUID(x__, a, b, c, d0, d1, d2, d3, d4, d5, d6, d7)  \
+    extern const NVPM_UUID x__ = {a, b, c, {d0, d1, d2, d3, d4, d5, d6, d7} \
+    }
 #else // !defined(_MSC_VER)
-    #define NVPM_DEFINE_GUID(x__, a, b, c, d0,d1,d2,d3,d4,d5,d6,d7) \
-        const NVPM_UUID x__ = {a, b, c, {d0,d1,d2,d3,d4,d5,d6,d7}}
+    #define NVPM_DEFINE_GUID(x__, a, b, c, d0, d1, d2, d3, d4, d5, d6, d7) \
+    const NVPM_UUID x__ = {a, b, c, {d0, d1, d2, d3, d4, d5, d6, d7}       \
+    }
 #endif // defined(_MSC_VER)
 #else // !NVPM_INITGUID
-    #define NVPM_DEFINE_GUID(x__, a, b, c, d0,d1,d2,d3,d4,d5,d6,d7) \
-        extern const NVPM_UUID x__
+    #define NVPM_DEFINE_GUID(x__, a, b, c, d0, d1, d2, d3, d4, d5, d6, d7) \
+    extern const NVPM_UUID x__
 #endif // NVPM_INITGUID
 
 // {243E8DA1-4BF8-44B9-98C4-F984D06BDF46}
 NVPM_DEFINE_GUID(ETID_NvPmApi,
-    0x243e8da1, 0x4bf8, 0x44b9, 0x98, 0xc4, 0xf9, 0x84, 0xd0, 0x6b, 0xdf, 0x46);
+                 0x243e8da1, 0x4bf8, 0x44b9, 0x98, 0xc4, 0xf9, 0x84, 0xd0, 0x6b, 0xdf, 0x46);
 
 typedef struct _NvPmApi
 {
     // This export table supports versioning by adding to the end without changing
     // the ETID.  The struct_size field will always be set to the size in bytes of
     // the entire export table structure.
-    NVPMUINT struct_size;
-    NVPMSetWarningLevel_Pfn SetWarningLevel;
-    NVPMGetExtendedError_Pfn GetExtendedError;
-    NVPMInit_Pfn Init;
-    NVPMShutdown_Pfn Shutdown;
-    NVPMCreateContextFromOGLContext_Pfn CreateContextFromOGLContext;
-    NVPMCreateContextFromCudaContext_Pfn CreateContextFromCudaContext;
+    NVPMUINT                                struct_size;
+    NVPMSetWarningLevel_Pfn                 SetWarningLevel;
+    NVPMGetExtendedError_Pfn                GetExtendedError;
+    NVPMInit_Pfn                            Init;
+    NVPMShutdown_Pfn                        Shutdown;
+    NVPMCreateContextFromOGLContext_Pfn     CreateContextFromOGLContext;
+    NVPMCreateContextFromCudaContext_Pfn    CreateContextFromCudaContext;
 #if defined(_WIN32)
-    NVPMCreateContextFromD3D9Device_Pfn CreateContextFromD3D9Device;
-    NVPMCreateContextFromD3D10Device_Pfn CreateContextFromD3D10Device;
-    NVPMCreateContextFromD3D11Device_Pfn CreateContextFromD3D11Device;
-    NVPMCreateContextFromD3D11Device1_Pfn CreateContextFromD3D11Device1;
+    NVPMCreateContextFromD3D9Device_Pfn     CreateContextFromD3D9Device;
+    NVPMCreateContextFromD3D10Device_Pfn    CreateContextFromD3D10Device;
+    NVPMCreateContextFromD3D11Device_Pfn    CreateContextFromD3D11Device;
+    NVPMCreateContextFromD3D11Device1_Pfn   CreateContextFromD3D11Device1;
 #endif
-    NVPMDestroyContext_Pfn DestroyContext;
-    NVPMEnumCountersByContext_Pfn EnumCountersByContext;
-    NVPMGetCounterName_Pfn GetCounterName;
-    NVPMGetCounterDescription_Pfn GetCounterDescription;
-    NVPMGetCounterIDByContext_Pfn GetCounterIDByContext;
-    NVPMGetCounterClockRateByContext_Pfn GetCounterClockRateByContext;
-    NVPMGetCounterAttribute_Pfn GetCounterAttribute;
-    NVPMAddCounterByName_Pfn AddCounterByName;
-    NVPMAddCounter_Pfn AddCounter;
-    NVPMAddCounters_Pfn AddCounters;
-    NVPMRemoveCounterByName_Pfn RemoveCounterByName;
-    NVPMRemoveCounter_Pfn RemoveCounter;
-    NVPMRemoveCounters_Pfn RemoveCounters;
-    NVPMRemoveAllCounters_Pfn RemoveAllCounters;
-    NVPMReserveObjects_Pfn ReserveObjects;
-    NVPMDeleteObjects_Pfn DeleteObjects;
-    NVPMBeginExperiment_Pfn BeginExperiment;
-    NVPMEndExperiment_Pfn EndExperiment;
-    NVPMBeginPass_Pfn BeginPass;
-    NVPMEndPass_Pfn EndPass;
-    NVPMBeginObject_Pfn BeginObject;
-    NVPMEndObject_Pfn EndObject;
-    NVPMSample_Pfn Sample;
-    NVPMSampleEx_Pfn SampleEx;
-    NVPMGetCounterValueByName_Pfn GetCounterValueByName;
-    NVPMGetCounterValue_Pfn GetCounterValue;
-    NVPMGetGPUBottleneckName_Pfn GetGPUBottleneckName;
+    NVPMDestroyContext_Pfn                  DestroyContext;
+    NVPMEnumCountersByContext_Pfn           EnumCountersByContext;
+    NVPMGetCounterName_Pfn                  GetCounterName;
+    NVPMGetCounterDescription_Pfn           GetCounterDescription;
+    NVPMGetCounterIDByContext_Pfn           GetCounterIDByContext;
+    NVPMGetCounterClockRateByContext_Pfn    GetCounterClockRateByContext;
+    NVPMGetCounterAttribute_Pfn             GetCounterAttribute;
+    NVPMAddCounterByName_Pfn                AddCounterByName;
+    NVPMAddCounter_Pfn                      AddCounter;
+    NVPMAddCounters_Pfn                     AddCounters;
+    NVPMRemoveCounterByName_Pfn             RemoveCounterByName;
+    NVPMRemoveCounter_Pfn                   RemoveCounter;
+    NVPMRemoveCounters_Pfn                  RemoveCounters;
+    NVPMRemoveAllCounters_Pfn               RemoveAllCounters;
+    NVPMReserveObjects_Pfn                  ReserveObjects;
+    NVPMDeleteObjects_Pfn                   DeleteObjects;
+    NVPMBeginExperiment_Pfn                 BeginExperiment;
+    NVPMEndExperiment_Pfn                   EndExperiment;
+    NVPMBeginPass_Pfn                       BeginPass;
+    NVPMEndPass_Pfn                         EndPass;
+    NVPMBeginObject_Pfn                     BeginObject;
+    NVPMEndObject_Pfn                       EndObject;
+    NVPMSample_Pfn                          Sample;
+    NVPMSampleEx_Pfn                        SampleEx;
+    NVPMGetCounterValueByName_Pfn           GetCounterValueByName;
+    NVPMGetCounterValue_Pfn                 GetCounterValue;
+    NVPMGetGPUBottleneckName_Pfn            GetGPUBottleneckName;
     NVPMRegisterNewDataProviderCallback_Pfn RegisterNewDataProviderCallback;
-    NVPMGetCounterValueUint64_Pfn GetCounterValueUint64;
-    NVPMGetCounterValueFloat64_Pfn GetCounterValueFloat64;
-    NVPMEnumCountersByContextUserData_Pfn EnumCountersByContextUserData;
+    NVPMGetCounterValueUint64_Pfn           GetCounterValueUint64;
+    NVPMGetCounterValueFloat64_Pfn          GetCounterValueFloat64;
+    NVPMEnumCountersByContextUserData_Pfn   EnumCountersByContextUserData;
 } NvPmApi;
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -965,9 +976,9 @@ typedef struct _NvPmApi
 /// @param[out] void** ppExportTable table exported
 /// @return unified return code #NVPMRESULT
 ///////////////////////////////////////////////////////////////////////////////
-typedef NVPMRESULT (NVCALL *NVPMGetExportTable_Pfn)(
-    const NVPM_UUID* pExportTableId,
-    void** ppExportTable);
+typedef NVPMRESULT (NVCALL * NVPMGetExportTable_Pfn)(
+    const NVPM_UUID *pExportTableId,
+    void **ppExportTable);
 
 #ifdef __cplusplus
 };

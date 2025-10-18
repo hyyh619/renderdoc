@@ -1,27 +1,27 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- * Copyright (c) 2014 Crytek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+* Copyright (c) 2014 Crytek
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -113,20 +113,20 @@ version of RenderDoc that addes a new section type. They should be considered eq
 )");
 enum class SectionType : uint32_t
 {
-  Unknown = 0,
-  First = Unknown,
-  FrameCapture,
-  ResolveDatabase,
-  Bookmarks,
-  Notes,
-  ResourceRenames,
-  AMDRGPProfile,
-  ExtendedThumbnail,
-  EmbeddedLogfile,
-  EditedShaders,
-  D3D12Core,
-  D3D12SDKLayers,
-  Count,
+    Unknown = 0,
+    First   = Unknown,
+    FrameCapture,
+    ResolveDatabase,
+    Bookmarks,
+    Notes,
+    ResourceRenames,
+    AMDRGPProfile,
+    ExtendedThumbnail,
+    EmbeddedLogfile,
+    EditedShaders,
+    D3D12Core,
+    D3D12SDKLayers,
+    Count,
 };
 
 ITERABLE_OPERATORS(SectionType);
@@ -164,13 +164,13 @@ DOCUMENT(R"(Represents the category of debugging variable that a source variable
 )");
 enum class DebugVariableType : uint8_t
 {
-  Undefined,
-  Input,
-  Constant,
-  Sampler,
-  ReadOnlyResource,
-  ReadWriteResource,
-  Variable,
+    Undefined,
+    Input,
+    Constant,
+    Sampler,
+    ReadOnlyResource,
+    ReadWriteResource,
+    Variable,
 };
 
 DECLARE_REFLECTION_ENUM(DebugVariableType);
@@ -264,26 +264,26 @@ DOCUMENT(R"(Represents the base type of a shader variable in debugging or consta
 )");
 enum class VarType : uint8_t
 {
-  Float = 0,
-  Double,
-  Half,
-  SInt,
-  UInt,
-  SShort,
-  UShort,
-  SLong,
-  ULong,
-  SByte,
-  UByte,
-  Bool,
-  Enum,
-  Struct,
-  GPUPointer,
-  ConstantBlock,
-  ReadOnlyResource,
-  ReadWriteResource,
-  Sampler,
-  Unknown = 0xFF,
+    Float = 0,
+    Double,
+    Half,
+    SInt,
+    UInt,
+    SShort,
+    UShort,
+    SLong,
+    ULong,
+    SByte,
+    UByte,
+    Bool,
+    Enum,
+    Struct,
+    GPUPointer,
+    ConstantBlock,
+    ReadOnlyResource,
+    ReadWriteResource,
+    Sampler,
+    Unknown = 0xFF,
 };
 
 DECLARE_REFLECTION_ENUM(VarType);
@@ -296,19 +296,19 @@ DOCUMENT(R"(Get the byte size of a variable type.
 )");
 constexpr uint32_t VarTypeByteSize(VarType type)
 {
-  return (type == VarType::UByte || type == VarType::SByte) ? 1
+    return (type == VarType::UByte || type == VarType::SByte) ? 1
 
-         : (type == VarType::Half || type == VarType::UShort || type == VarType::SShort) ? 2
+           : (type == VarType::Half || type == VarType::UShort || type == VarType::SShort) ? 2
 
-         : (type == VarType::Float || type == VarType::UInt || type == VarType::SInt ||
-            type == VarType::Bool || type == VarType::Enum)
-             ? 4
+           : (type == VarType::Float || type == VarType::UInt || type == VarType::SInt ||
+              type == VarType::Bool || type == VarType::Enum)
+           ? 4
 
-         : (type == VarType::Double || type == VarType::ULong || type == VarType::SLong ||
-            type == VarType::GPUPointer)
-             ? 8
+           : (type == VarType::Double || type == VarType::ULong || type == VarType::SLong ||
+              type == VarType::GPUPointer)
+           ? 8
 
-             : 0;
+           : 0;
 }
 
 DOCUMENT(R"(Represents the component type of a channel in a texture or element in a structure.
@@ -370,16 +370,16 @@ DOCUMENT(R"(Represents the component type of a channel in a texture or element i
 )");
 enum class CompType : uint8_t
 {
-  Typeless = 0,
-  Float,
-  UNorm,
-  SNorm,
-  UInt,
-  SInt,
-  UScaled,
-  SScaled,
-  Depth,
-  UNormSRGB,
+    Typeless = 0,
+    Float,
+    UNorm,
+    SNorm,
+    UInt,
+    SInt,
+    UScaled,
+    SScaled,
+    Depth,
+    UNormSRGB,
 };
 
 DECLARE_REFLECTION_ENUM(CompType);
@@ -392,19 +392,19 @@ DOCUMENT(R"(Get the component type of a variable type.
 )");
 constexpr CompType VarTypeCompType(VarType type)
 {
-  return (type == VarType::Double || type == VarType::Float || type == VarType::Half)
-             ? CompType::Float
+    return (type == VarType::Double || type == VarType::Float || type == VarType::Half)
+           ? CompType::Float
 
-         : (type == VarType::ULong || type == VarType::UInt || type == VarType::UShort ||
-            type == VarType::UByte || type == VarType::Bool || type == VarType::Enum ||
-            type == VarType::GPUPointer)
-             ? CompType::UInt
+           : (type == VarType::ULong || type == VarType::UInt || type == VarType::UShort ||
+              type == VarType::UByte || type == VarType::Bool || type == VarType::Enum ||
+              type == VarType::GPUPointer)
+           ? CompType::UInt
 
-         : (type == VarType::SLong || type == VarType::SInt || type == VarType::SShort ||
-            type == VarType::SByte)
-             ? CompType::SInt
+           : (type == VarType::SLong || type == VarType::SInt || type == VarType::SShort ||
+              type == VarType::SByte)
+           ? CompType::SInt
 
-             : CompType::Typeless;
+           : CompType::Typeless;
 }
 
 DOCUMENT(R"(A single source component for a destination texture swizzle.
@@ -435,12 +435,12 @@ DOCUMENT(R"(A single source component for a destination texture swizzle.
 )");
 enum class TextureSwizzle : uint8_t
 {
-  Red,
-  Green,
-  Blue,
-  Alpha,
-  Zero,
-  One,
+    Red,
+    Green,
+    Blue,
+    Alpha,
+    Zero,
+    One,
 };
 
 DECLARE_REFLECTION_ENUM(TextureSwizzle);
@@ -483,14 +483,14 @@ DOCUMENT(R"(A texture addressing mode in a single direction (U,V or W).
 )");
 enum class AddressMode : uint8_t
 {
-  Wrap,
-  Repeat = Wrap,
-  Mirror,
-  MirrorRepeat = Mirror,
-  MirrorOnce,
-  MirrorClamp = MirrorOnce,
-  ClampEdge,
-  ClampBorder,
+    Wrap,
+    Repeat = Wrap,
+    Mirror,
+    MirrorRepeat = Mirror,
+    MirrorOnce,
+    MirrorClamp = MirrorOnce,
+    ClampEdge,
+    ClampBorder,
 };
 
 DECLARE_REFLECTION_ENUM(AddressMode);
@@ -519,11 +519,11 @@ DOCUMENT(R"(The color model conversion that a YCbCr sampler uses to convert from
 )");
 enum class YcbcrConversion : uint8_t
 {
-  Raw,
-  RangeOnly,
-  BT709,
-  BT601,
-  BT2020,
+    Raw,
+    RangeOnly,
+    BT709,
+    BT601,
+    BT2020,
 };
 
 DECLARE_REFLECTION_ENUM(YcbcrConversion);
@@ -541,8 +541,8 @@ DOCUMENT(R"(Specifies the range of encoded values and their interpretation.
 )");
 enum class YcbcrRange : uint8_t
 {
-  ITUFull,
-  ITUNarrow,
+    ITUFull,
+    ITUNarrow,
 };
 
 DECLARE_REFLECTION_ENUM(YcbcrRange);
@@ -560,8 +560,8 @@ DOCUMENT(R"(Determines where in the pixel downsampled chrome samples are positio
 )");
 enum class ChromaSampleLocation : uint8_t
 {
-  CositedEven,
-  Midpoint,
+    CositedEven,
+    Midpoint,
 };
 
 DECLARE_REFLECTION_ENUM(ChromaSampleLocation);
@@ -673,33 +673,33 @@ API-specific concepts.
 )");
 enum class ResourceType : uint32_t
 {
-  Unknown,
+    Unknown,
 
-  Device,
-  Queue,
-  CommandBuffer,
+    Device,
+    Queue,
+    CommandBuffer,
 
-  Texture,
-  Buffer,
-  View,
-  Sampler,
-  SwapchainImage,
-  Memory,
+    Texture,
+    Buffer,
+    View,
+    Sampler,
+    SwapchainImage,
+    Memory,
 
-  Shader,
-  ShaderBinding,
-  PipelineState,
+    Shader,
+    ShaderBinding,
+    PipelineState,
 
-  StateObject,
-  RenderPass,
+    StateObject,
+    RenderPass,
 
-  Query,
-  Sync,
-  Pool,
+    Query,
+    Sync,
+    Pool,
 
-  AccelerationStructure,
+    AccelerationStructure,
 
-  DescriptorStore,
+    DescriptorStore,
 };
 
 DECLARE_REFLECTION_ENUM(ResourceType);
@@ -756,20 +756,20 @@ DOCUMENT(R"(The dimensionality of a texture binding.
 )");
 enum class TextureType : uint8_t
 {
-  Unknown,
-  First = Unknown,
-  Buffer,
-  Texture1D,
-  Texture1DArray,
-  Texture2D,
-  TextureRect,
-  Texture2DArray,
-  Texture2DMS,
-  Texture2DMSArray,
-  Texture3D,
-  TextureCube,
-  TextureCubeArray,
-  Count,
+    Unknown,
+    First = Unknown,
+    Buffer,
+    Texture1D,
+    Texture1DArray,
+    Texture2D,
+    TextureRect,
+    Texture2DArray,
+    Texture2DMS,
+    Texture2DMSArray,
+    Texture3D,
+    TextureCube,
+    TextureCubeArray,
+    Count,
 };
 
 ITERABLE_OPERATORS(TextureType);
@@ -831,19 +831,19 @@ DOCUMENT(R"(The type of a shader resource bind.
 )");
 enum class BindType : uint32_t
 {
-  Unknown = 0,
-  ConstantBuffer,
-  Sampler,
-  ImageSampler,
-  ReadOnlyImage,
-  ReadWriteImage,
-  ReadOnlyTBuffer,
-  ReadWriteTBuffer,
-  ReadOnlyBuffer,
-  ReadWriteBuffer,
-  ReadOnlyResource,
-  ReadWriteResource,
-  InputAttachment,
+    Unknown = 0,
+    ConstantBuffer,
+    Sampler,
+    ImageSampler,
+    ReadOnlyImage,
+    ReadWriteImage,
+    ReadOnlyTBuffer,
+    ReadWriteTBuffer,
+    ReadOnlyBuffer,
+    ReadWriteBuffer,
+    ReadOnlyResource,
+    ReadWriteResource,
+    InputAttachment,
 };
 
 DECLARE_REFLECTION_ENUM(BindType);
@@ -897,17 +897,17 @@ DOCUMENT(R"(The type of a descriptor.
 )");
 enum class DescriptorType : uint8_t
 {
-  Unknown = 0,
-  ConstantBuffer,
-  Sampler,
-  ImageSampler,
-  Image,
-  Buffer,
-  TypedBuffer,
-  ReadWriteImage,
-  ReadWriteTypedBuffer,
-  ReadWriteBuffer,
-  AccelerationStructure,
+    Unknown = 0,
+    ConstantBuffer,
+    Sampler,
+    ImageSampler,
+    Image,
+    Buffer,
+    TypedBuffer,
+    ReadWriteImage,
+    ReadWriteTypedBuffer,
+    ReadWriteBuffer,
+    AccelerationStructure,
 };
 
 DECLARE_REFLECTION_ENUM(DescriptorType);
@@ -936,11 +936,11 @@ DOCUMENT(R"(The category of a descriptor, corresponding to the interfaces in :cl
 )");
 enum class DescriptorCategory : uint8_t
 {
-  Unknown = 0,
-  ConstantBlock,
-  Sampler,
-  ReadOnlyResource,
-  ReadWriteResource,
+    Unknown = 0,
+    ConstantBlock,
+    Sampler,
+    ReadOnlyResource,
+    ReadWriteResource,
 };
 
 DECLARE_REFLECTION_ENUM(DescriptorCategory);
@@ -953,20 +953,20 @@ DOCUMENT(R"(Get the shader interface category for a given type of descriptor.
 )");
 constexpr DescriptorCategory CategoryForDescriptorType(DescriptorType type)
 {
-  return type == DescriptorType::ConstantBuffer ? DescriptorCategory::ConstantBlock
+    return type == DescriptorType::ConstantBuffer ? DescriptorCategory::ConstantBlock
 
-         : type == DescriptorType::Sampler ? DescriptorCategory::Sampler
+           : type == DescriptorType::Sampler ? DescriptorCategory::Sampler
 
-         : (type == DescriptorType::ImageSampler || type == DescriptorType::Image ||
-            type == DescriptorType::TypedBuffer || type == DescriptorType::Buffer ||
-            type == DescriptorType::AccelerationStructure)
-             ? DescriptorCategory::ReadOnlyResource
+           : (type == DescriptorType::ImageSampler || type == DescriptorType::Image ||
+              type == DescriptorType::TypedBuffer || type == DescriptorType::Buffer ||
+              type == DescriptorType::AccelerationStructure)
+           ? DescriptorCategory::ReadOnlyResource
 
-         : (type == DescriptorType::ReadWriteBuffer || type == DescriptorType::ReadWriteImage ||
-            type == DescriptorType::ReadWriteTypedBuffer)
-             ? DescriptorCategory::ReadWriteResource
+           : (type == DescriptorType::ReadWriteBuffer || type == DescriptorType::ReadWriteImage ||
+              type == DescriptorType::ReadWriteTypedBuffer)
+           ? DescriptorCategory::ReadWriteResource
 
-             : DescriptorCategory::Unknown;
+           : DescriptorCategory::Unknown;
 }
 
 DOCUMENT(R"(Checks if a descriptor type corresponds to a constant block in shader reflection.
@@ -977,7 +977,7 @@ DOCUMENT(R"(Checks if a descriptor type corresponds to a constant block in shade
 )");
 constexpr bool IsConstantBlockDescriptor(DescriptorType type)
 {
-  return CategoryForDescriptorType(type) == DescriptorCategory::ConstantBlock;
+    return CategoryForDescriptorType(type) == DescriptorCategory::ConstantBlock;
 }
 
 DOCUMENT(R"(Checks if a descriptor type corresponds to a sampler in shader reflection. Only dedicated
@@ -990,7 +990,7 @@ resources.
 )");
 constexpr bool IsSamplerDescriptor(DescriptorType type)
 {
-  return CategoryForDescriptorType(type) == DescriptorCategory::Sampler;
+    return CategoryForDescriptorType(type) == DescriptorCategory::Sampler;
 }
 
 DOCUMENT(R"(Checks if a descriptor type corresponds to a read only resource in shader reflection.
@@ -1002,7 +1002,7 @@ Combined image/samplers are reported as read only resources.
 )");
 constexpr bool IsReadOnlyDescriptor(DescriptorType type)
 {
-  return CategoryForDescriptorType(type) == DescriptorCategory::ReadOnlyResource;
+    return CategoryForDescriptorType(type) == DescriptorCategory::ReadOnlyResource;
 }
 
 DOCUMENT(R"(Checks if a descriptor type corresponds to a read write resource in shader reflection.
@@ -1013,7 +1013,7 @@ DOCUMENT(R"(Checks if a descriptor type corresponds to a read write resource in 
 )");
 constexpr bool IsReadWriteDescriptor(DescriptorType type)
 {
-  return CategoryForDescriptorType(type) == DescriptorCategory::ReadWriteResource;
+    return CategoryForDescriptorType(type) == DescriptorCategory::ReadWriteResource;
 }
 
 DOCUMENT3(R"(Annotates a particular built-in input or output from a shader with a special meaning to
@@ -1302,62 +1302,62 @@ to apply to multiple related things - see :data:`ClipDistance`, :data:`CullDista
 )");
 enum class ShaderBuiltin : uint32_t
 {
-  Undefined = 0,
-  First = Undefined,
-  Position,
-  PointSize,
-  ClipDistance,
-  CullDistance,
-  RTIndex,
-  ViewportIndex,
-  VertexIndex,
-  PrimitiveIndex,
-  InstanceIndex,
-  DispatchSize,
-  DispatchThreadIndex,
-  GroupIndex,
-  GroupSize,
-  GroupFlatIndex,
-  GroupThreadIndex,
-  GSInstanceIndex,
-  OutputControlPointIndex,
-  DomainLocation,
-  IsFrontFace,
-  MSAACoverage,
-  MSAASamplePosition,
-  MSAASampleIndex,
-  PatchNumVertices,
-  OuterTessFactor,
-  InsideTessFactor,
-  ColorOutput,
-  DepthOutput,
-  DepthOutputGreaterEqual,
-  DepthOutputLessEqual,
-  BaseVertex,
-  BaseInstance,
-  DrawIndex,
-  StencilReference,
-  PointCoord,
-  IsHelper,
-  SubgroupSize,
-  NumSubgroups,
-  SubgroupIndexInWorkgroup,
-  IndexInSubgroup,
-  SubgroupEqualMask,
-  SubgroupGreaterEqualMask,
-  SubgroupGreaterMask,
-  SubgroupLessEqualMask,
-  SubgroupLessMask,
-  DeviceIndex,
-  IsFullyCovered,
-  FragAreaSize,
-  FragInvocationCount,
-  PackedFragRate,
-  Barycentrics,
-  CullPrimitive,
-  OutputIndices,
-  MultiViewIndex,
-  Count,
+    Undefined   = 0,
+    First       = Undefined,
+    Position,
+    PointSize,
+    ClipDistance,
+    CullDistance,
+    RTIndex,
+    ViewportIndex,
+    VertexIndex,
+    PrimitiveIndex,
+    InstanceIndex,
+    DispatchSize,
+    DispatchThreadIndex,
+    GroupIndex,
+    GroupSize,
+    GroupFlatIndex,
+    GroupThreadIndex,
+    GSInstanceIndex,
+    OutputControlPointIndex,
+    DomainLocation,
+    IsFrontFace,
+    MSAACoverage,
+    MSAASamplePosition,
+    MSAASampleIndex,
+    PatchNumVertices,
+    OuterTessFactor,
+    InsideTessFactor,
+    ColorOutput,
+    DepthOutput,
+    DepthOutputGreaterEqual,
+    DepthOutputLessEqual,
+    BaseVertex,
+    BaseInstance,
+    DrawIndex,
+    StencilReference,
+    PointCoord,
+    IsHelper,
+    SubgroupSize,
+    NumSubgroups,
+    SubgroupIndexInWorkgroup,
+    IndexInSubgroup,
+    SubgroupEqualMask,
+    SubgroupGreaterEqualMask,
+    SubgroupGreaterMask,
+    SubgroupLessEqualMask,
+    SubgroupLessMask,
+    DeviceIndex,
+    IsFullyCovered,
+    FragAreaSize,
+    FragInvocationCount,
+    PackedFragRate,
+    Barycentrics,
+    CullPrimitive,
+    OutputIndices,
+    MultiViewIndex,
+    Count,
 };
 
 ITERABLE_OPERATORS(ShaderBuiltin);
@@ -1380,9 +1380,9 @@ DOCUMENT(R"(The type of :class:`ReplayOutput` to create
 )");
 enum class ReplayOutputType : uint32_t
 {
-  Headless = 0,
-  Texture,
-  Mesh,
+    Headless = 0,
+    Texture,
+    Mesh,
 };
 
 DECLARE_REFLECTION_ENUM(ReplayOutputType);
@@ -1417,14 +1417,14 @@ DOCUMENT(R"(Describes a particular stage in the geometry transformation pipeline
 )");
 enum class MeshDataStage : uint32_t
 {
-  VSIn = 0,
-  First = VSIn,
-  VSOut,
-  GSOut,
-  TaskOut,
-  AmpOut = TaskOut,
-  MeshOut,
-  Count,
+    VSIn    = 0,
+    First   = VSIn,
+    VSOut,
+    GSOut,
+    TaskOut,
+    AmpOut = TaskOut,
+    MeshOut,
+    Count,
 };
 
 DECLARE_REFLECTION_ENUM(MeshDataStage);
@@ -1538,21 +1538,21 @@ See :ref:`the documentation for this feature <render-overlay>`.
 )");
 enum class DebugOverlay : uint32_t
 {
-  NoOverlay = 0,
-  Drawcall,
-  Wireframe,
-  Depth,
-  Stencil,
-  BackfaceCull,
-  ViewportScissor,
-  NaN,
-  Clipping,
-  ClearBeforePass,
-  ClearBeforeDraw,
-  QuadOverdrawPass,
-  QuadOverdrawDraw,
-  TriangleSizePass,
-  TriangleSizeDraw,
+    NoOverlay = 0,
+    Drawcall,
+    Wireframe,
+    Depth,
+    Stencil,
+    BackfaceCull,
+    ViewportScissor,
+    NaN,
+    Clipping,
+    ClearBeforePass,
+    ClearBeforeDraw,
+    QuadOverdrawPass,
+    QuadOverdrawDraw,
+    TriangleSizePass,
+    TriangleSizeDraw,
 };
 
 DECLARE_REFLECTION_ENUM(DebugOverlay);
@@ -1593,16 +1593,16 @@ DOCUMENT(R"(The format of an image file
 )");
 enum class FileType : uint32_t
 {
-  DDS,
-  First = DDS,
-  PNG,
-  JPG,
-  BMP,
-  TGA,
-  HDR,
-  EXR,
-  Raw,
-  Count,
+    DDS,
+    First = DDS,
+    PNG,
+    JPG,
+    BMP,
+    TGA,
+    HDR,
+    EXR,
+    Raw,
+    Count,
 };
 
 ITERABLE_OPERATORS(FileType);
@@ -1630,12 +1630,12 @@ DOCUMENT(R"(What to do with the alpha channel from a texture while saving out to
 )");
 enum class AlphaMapping : uint32_t
 {
-  Discard,
-  First = Discard,
-  BlendToColor,
-  BlendToCheckerboard,
-  Preserve,
-  Count,
+    Discard,
+    First = Discard,
+    BlendToColor,
+    BlendToCheckerboard,
+    Preserve,
+    Count,
 };
 
 ITERABLE_OPERATORS(AlphaMapping);
@@ -1815,35 +1815,35 @@ or formats that don't have equal byte-multiple sizes for each channel.
 )");
 enum class ResourceFormatType : uint8_t
 {
-  Regular = 0,
-  Undefined,
-  BC1,
-  BC2,
-  BC3,
-  BC4,
-  BC5,
-  BC6,
-  BC7,
-  ETC2,
-  EAC,
-  ASTC,
-  R10G10B10A2,
-  R11G11B10,
-  R5G6B5,
-  R5G5B5A1,
-  R9G9B9E5,
-  R4G4B4A4,
-  R4G4,
-  D16S8,
-  D24S8,
-  D32S8,
-  S8,
-  YUV8,
-  YUV10,
-  YUV12,
-  YUV16,
-  PVRTC,
-  A8,
+    Regular = 0,
+    Undefined,
+    BC1,
+    BC2,
+    BC3,
+    BC4,
+    BC5,
+    BC6,
+    BC7,
+    ETC2,
+    EAC,
+    ASTC,
+    R10G10B10A2,
+    R11G11B10,
+    R5G6B5,
+    R5G5B5A1,
+    R9G9B9E5,
+    R4G4B4A4,
+    R4G4,
+    D16S8,
+    D24S8,
+    D32S8,
+    S8,
+    YUV8,
+    YUV10,
+    YUV12,
+    YUV16,
+    PVRTC,
+    A8,
 };
 
 DECLARE_REFLECTION_ENUM(ResourceFormatType);
@@ -1866,9 +1866,9 @@ behaviour.
 )");
 enum class QualityHint : uint32_t
 {
-  DontCare,
-  Nicest,
-  Fastest,
+    DontCare,
+    Nicest,
+    Fastest,
 };
 
 DECLARE_REFLECTION_ENUM(QualityHint);
@@ -1921,17 +1921,17 @@ DOCUMENT(R"(Identifies a GPU vendor.
 )");
 enum class GPUVendor : uint32_t
 {
-  Unknown,
-  ARM,
-  AMD,
-  Broadcom,
-  Imagination,
-  Intel,
-  nVidia,
-  Qualcomm,
-  Verisilicon,
-  Software,
-  Samsung,
+    Unknown,
+    ARM,
+    AMD,
+    Broadcom,
+    Imagination,
+    Intel,
+    nVidia,
+    Qualcomm,
+    Verisilicon,
+    Software,
+    Samsung,
 };
 
 DECLARE_REFLECTION_ENUM(GPUVendor);
@@ -1944,16 +1944,16 @@ DOCUMENT(R"(Get the GPUVendor for a given PCI Vendor ID.
 )");
 constexpr GPUVendor GPUVendorFromPCIVendor(uint32_t vendorID)
 {
-  return vendorID == 0x13B5   ? GPUVendor::ARM
-         : vendorID == 0x1002 ? GPUVendor::AMD
-         : vendorID == 0x1010 ? GPUVendor::Imagination
-         : vendorID == 0x8086 ? GPUVendor::Intel
-         : vendorID == 0x10DE ? GPUVendor::nVidia
-         : vendorID == 0x5143 ? GPUVendor::Qualcomm
-         : vendorID == 0x1AE0 ? GPUVendor::Software    // Google Swiftshader
-         : vendorID == 0x1414 ? GPUVendor::Software    // Microsoft WARP
-         : vendorID == 0x144D ? GPUVendor::Samsung     // Xclipse GPU
-                              : GPUVendor::Unknown;
+    return vendorID == 0x13B5   ? GPUVendor::ARM
+           : vendorID == 0x1002 ? GPUVendor::AMD
+           : vendorID == 0x1010 ? GPUVendor::Imagination
+           : vendorID == 0x8086 ? GPUVendor::Intel
+           : vendorID == 0x10DE ? GPUVendor::nVidia
+           : vendorID == 0x5143 ? GPUVendor::Qualcomm
+           : vendorID == 0x1AE0 ? GPUVendor::Software  // Google Swiftshader
+           : vendorID == 0x1414 ? GPUVendor::Software  // Microsoft WARP
+           : vendorID == 0x144D ? GPUVendor::Samsung   // Xclipse GPU
+           : GPUVendor::Unknown;
 }
 
 DOCUMENT(R"(Identifies a Graphics API.
@@ -1977,10 +1977,10 @@ DOCUMENT(R"(Identifies a Graphics API.
 )");
 enum class GraphicsAPI : uint32_t
 {
-  D3D11,
-  D3D12,
-  OpenGL,
-  Vulkan,
+    D3D11,
+    D3D12,
+    OpenGL,
+    Vulkan,
 };
 
 DECLARE_REFLECTION_ENUM(GraphicsAPI);
@@ -1993,7 +1993,7 @@ DOCUMENT(R"(Check if an API is D3D or not
 )");
 constexpr inline bool IsD3D(GraphicsAPI api)
 {
-  return api == GraphicsAPI::D3D11 || api == GraphicsAPI::D3D12;
+    return api == GraphicsAPI::D3D11 || api == GraphicsAPI::D3D12;
 }
 
 DOCUMENT(R"(Identifies a shader encoding used to pass shader code to an API.
@@ -2047,18 +2047,18 @@ DOCUMENT(R"(Identifies a shader encoding used to pass shader code to an API.
 )");
 enum class ShaderEncoding : uint32_t
 {
-  Unknown,
-  First = Unknown,
-  DXBC,
-  GLSL,
-  SPIRV,
-  SPIRVAsm,
-  HLSL,
-  DXIL,
-  OpenGLSPIRV,
-  OpenGLSPIRVAsm,
-  Slang,
-  Count,
+    Unknown,
+    First = Unknown,
+    DXBC,
+    GLSL,
+    SPIRV,
+    SPIRVAsm,
+    HLSL,
+    DXIL,
+    OpenGLSPIRV,
+    OpenGLSPIRVAsm,
+    Slang,
+    Count,
 };
 
 ITERABLE_OPERATORS(ShaderEncoding);
@@ -2138,23 +2138,23 @@ DOCUMENT(R"(Identifies a particular known tool used for shader processing.
 )");
 enum class KnownShaderTool : uint32_t
 {
-  Unknown,
-  First = Unknown,
-  SPIRV_Cross,
-  spirv_dis,
-  glslangValidatorGLSL,
-  glslangValidatorHLSL,
-  spirv_as,
-  dxcSPIRV,
-  dxcDXIL,
-  fxc,
-  glslangValidatorGLSL_OpenGL,
-  SPIRV_Cross_OpenGL,
-  spirv_as_OpenGL,
-  spirv_dis_OpenGL,
-  slangSPIRV,
-  slangDXIL,
-  Count,
+    Unknown,
+    First = Unknown,
+    SPIRV_Cross,
+    spirv_dis,
+    glslangValidatorGLSL,
+    glslangValidatorHLSL,
+    spirv_as,
+    dxcSPIRV,
+    dxcDXIL,
+    fxc,
+    glslangValidatorGLSL_OpenGL,
+    SPIRV_Cross_OpenGL,
+    spirv_as_OpenGL,
+    spirv_dis_OpenGL,
+    slangSPIRV,
+    slangDXIL,
+    Count,
 };
 
 ITERABLE_OPERATORS(KnownShaderTool);
@@ -2170,23 +2170,23 @@ DOCUMENT(R"(Returns the default executable name with no suffix for a given :clas
 :return: The default executable name for this tool, or an empty string if the tool is unrecognised.
 :rtype: str
 )");
-constexpr inline const char *ToolExecutable(KnownShaderTool tool)
+constexpr inline const char* ToolExecutable(KnownShaderTool tool)
 {
-  return tool == KnownShaderTool::SPIRV_Cross                   ? "spirv-cross"
-         : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? "spirv-cross"
-         : tool == KnownShaderTool::spirv_dis                   ? "spirv-dis"
-         : tool == KnownShaderTool::spirv_dis_OpenGL            ? "spirv-dis"
-         : tool == KnownShaderTool::glslangValidatorGLSL        ? "glslangValidator"
-         : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? "glslangValidator"
-         : tool == KnownShaderTool::glslangValidatorHLSL        ? "glslangValidator"
-         : tool == KnownShaderTool::spirv_as                    ? "spirv-as"
-         : tool == KnownShaderTool::spirv_as_OpenGL             ? "spirv-as"
-         : tool == KnownShaderTool::dxcSPIRV                    ? "dxc"
-         : tool == KnownShaderTool::dxcDXIL                     ? "dxc"
-         : tool == KnownShaderTool::fxc                         ? "fxc"
-         : tool == KnownShaderTool::slangSPIRV                  ? "slangc"
-         : tool == KnownShaderTool::slangDXIL                   ? "slangc"
-                                                                : "";
+    return tool == KnownShaderTool::SPIRV_Cross                   ? "spirv-cross"
+           : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? "spirv-cross"
+           : tool == KnownShaderTool::spirv_dis                   ? "spirv-dis"
+           : tool == KnownShaderTool::spirv_dis_OpenGL            ? "spirv-dis"
+           : tool == KnownShaderTool::glslangValidatorGLSL        ? "glslangValidator"
+           : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? "glslangValidator"
+           : tool == KnownShaderTool::glslangValidatorHLSL        ? "glslangValidator"
+           : tool == KnownShaderTool::spirv_as                    ? "spirv-as"
+           : tool == KnownShaderTool::spirv_as_OpenGL             ? "spirv-as"
+           : tool == KnownShaderTool::dxcSPIRV                    ? "dxc"
+           : tool == KnownShaderTool::dxcDXIL                     ? "dxc"
+           : tool == KnownShaderTool::fxc                         ? "fxc"
+           : tool == KnownShaderTool::slangSPIRV                  ? "slangc"
+           : tool == KnownShaderTool::slangDXIL                   ? "slangc"
+           : "";
 }
 
 DOCUMENT(R"(Returns the expected default input :class:`~renderdoc.ShaderEncoding` that a
@@ -2199,21 +2199,21 @@ tool.
 )");
 constexpr inline ShaderEncoding ToolInput(KnownShaderTool tool)
 {
-  return tool == KnownShaderTool::SPIRV_Cross                   ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? ShaderEncoding::OpenGLSPIRV
-         : tool == KnownShaderTool::spirv_dis                   ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::spirv_dis_OpenGL            ? ShaderEncoding::OpenGLSPIRV
-         : tool == KnownShaderTool::glslangValidatorGLSL        ? ShaderEncoding::GLSL
-         : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? ShaderEncoding::GLSL
-         : tool == KnownShaderTool::glslangValidatorHLSL        ? ShaderEncoding::HLSL
-         : tool == KnownShaderTool::spirv_as                    ? ShaderEncoding::SPIRVAsm
-         : tool == KnownShaderTool::spirv_as_OpenGL             ? ShaderEncoding::OpenGLSPIRVAsm
-         : tool == KnownShaderTool::dxcSPIRV                    ? ShaderEncoding::HLSL
-         : tool == KnownShaderTool::dxcDXIL                     ? ShaderEncoding::HLSL
-         : tool == KnownShaderTool::fxc                         ? ShaderEncoding::HLSL
-         : tool == KnownShaderTool::slangSPIRV                  ? ShaderEncoding::Slang
-         : tool == KnownShaderTool::slangDXIL                   ? ShaderEncoding::Slang
-                                                                : ShaderEncoding::Unknown;
+    return tool == KnownShaderTool::SPIRV_Cross                   ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? ShaderEncoding::OpenGLSPIRV
+           : tool == KnownShaderTool::spirv_dis                   ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::spirv_dis_OpenGL            ? ShaderEncoding::OpenGLSPIRV
+           : tool == KnownShaderTool::glslangValidatorGLSL        ? ShaderEncoding::GLSL
+           : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? ShaderEncoding::GLSL
+           : tool == KnownShaderTool::glslangValidatorHLSL        ? ShaderEncoding::HLSL
+           : tool == KnownShaderTool::spirv_as                    ? ShaderEncoding::SPIRVAsm
+           : tool == KnownShaderTool::spirv_as_OpenGL             ? ShaderEncoding::OpenGLSPIRVAsm
+           : tool == KnownShaderTool::dxcSPIRV                    ? ShaderEncoding::HLSL
+           : tool == KnownShaderTool::dxcDXIL                     ? ShaderEncoding::HLSL
+           : tool == KnownShaderTool::fxc                         ? ShaderEncoding::HLSL
+           : tool == KnownShaderTool::slangSPIRV                  ? ShaderEncoding::Slang
+           : tool == KnownShaderTool::slangDXIL                   ? ShaderEncoding::Slang
+           : ShaderEncoding::Unknown;
 }
 
 DOCUMENT(R"(Returns the expected default output :class:`~renderdoc.ShaderEncoding` that a
@@ -2226,21 +2226,21 @@ tool.
 )");
 constexpr inline ShaderEncoding ToolOutput(KnownShaderTool tool)
 {
-  return tool == KnownShaderTool::SPIRV_Cross                   ? ShaderEncoding::GLSL
-         : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? ShaderEncoding::GLSL
-         : tool == KnownShaderTool::spirv_dis                   ? ShaderEncoding::SPIRVAsm
-         : tool == KnownShaderTool::spirv_dis_OpenGL            ? ShaderEncoding::OpenGLSPIRVAsm
-         : tool == KnownShaderTool::glslangValidatorGLSL        ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? ShaderEncoding::OpenGLSPIRV
-         : tool == KnownShaderTool::glslangValidatorHLSL        ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::spirv_as                    ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::spirv_as_OpenGL             ? ShaderEncoding::OpenGLSPIRV
-         : tool == KnownShaderTool::dxcSPIRV                    ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::dxcDXIL                     ? ShaderEncoding::DXIL
-         : tool == KnownShaderTool::fxc                         ? ShaderEncoding::DXBC
-         : tool == KnownShaderTool::slangSPIRV                  ? ShaderEncoding::SPIRV
-         : tool == KnownShaderTool::slangDXIL                   ? ShaderEncoding::DXIL
-                                                                : ShaderEncoding::Unknown;
+    return tool == KnownShaderTool::SPIRV_Cross                   ? ShaderEncoding::GLSL
+           : tool == KnownShaderTool::SPIRV_Cross_OpenGL          ? ShaderEncoding::GLSL
+           : tool == KnownShaderTool::spirv_dis                   ? ShaderEncoding::SPIRVAsm
+           : tool == KnownShaderTool::spirv_dis_OpenGL            ? ShaderEncoding::OpenGLSPIRVAsm
+           : tool == KnownShaderTool::glslangValidatorGLSL        ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::glslangValidatorGLSL_OpenGL ? ShaderEncoding::OpenGLSPIRV
+           : tool == KnownShaderTool::glslangValidatorHLSL        ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::spirv_as                    ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::spirv_as_OpenGL             ? ShaderEncoding::OpenGLSPIRV
+           : tool == KnownShaderTool::dxcSPIRV                    ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::dxcDXIL                     ? ShaderEncoding::DXIL
+           : tool == KnownShaderTool::fxc                         ? ShaderEncoding::DXBC
+           : tool == KnownShaderTool::slangSPIRV                  ? ShaderEncoding::SPIRV
+           : tool == KnownShaderTool::slangDXIL                   ? ShaderEncoding::DXIL
+           : ShaderEncoding::Unknown;
 }
 
 DOCUMENT(R"(Check whether or not this is a human readable text representation.
@@ -2251,9 +2251,9 @@ DOCUMENT(R"(Check whether or not this is a human readable text representation.
 )");
 constexpr inline bool IsTextRepresentation(ShaderEncoding encoding)
 {
-  return encoding == ShaderEncoding::HLSL || encoding == ShaderEncoding::GLSL ||
-         encoding == ShaderEncoding::SPIRVAsm || encoding == ShaderEncoding::OpenGLSPIRVAsm ||
-         encoding == ShaderEncoding::Slang;
+    return encoding == ShaderEncoding::HLSL || encoding == ShaderEncoding::GLSL ||
+           encoding == ShaderEncoding::SPIRVAsm || encoding == ShaderEncoding::OpenGLSPIRVAsm ||
+           encoding == ShaderEncoding::Slang;
 }
 
 DOCUMENT(R"(A primitive topology used for processing vertex data.
@@ -2441,51 +2441,51 @@ DOCUMENT(R"(A primitive topology used for processing vertex data.
 )");
 enum class Topology : uint32_t
 {
-  Unknown,
-  PointList,
-  LineList,
-  LineStrip,
-  LineLoop,
-  TriangleList,
-  TriangleStrip,
-  TriangleFan,
-  LineList_Adj,
-  LineStrip_Adj,
-  TriangleList_Adj,
-  TriangleStrip_Adj,
-  PatchList,
-  PatchList_1CPs = PatchList,
-  PatchList_2CPs,
-  PatchList_3CPs,
-  PatchList_4CPs,
-  PatchList_5CPs,
-  PatchList_6CPs,
-  PatchList_7CPs,
-  PatchList_8CPs,
-  PatchList_9CPs,
-  PatchList_10CPs,
-  PatchList_11CPs,
-  PatchList_12CPs,
-  PatchList_13CPs,
-  PatchList_14CPs,
-  PatchList_15CPs,
-  PatchList_16CPs,
-  PatchList_17CPs,
-  PatchList_18CPs,
-  PatchList_19CPs,
-  PatchList_20CPs,
-  PatchList_21CPs,
-  PatchList_22CPs,
-  PatchList_23CPs,
-  PatchList_24CPs,
-  PatchList_25CPs,
-  PatchList_26CPs,
-  PatchList_27CPs,
-  PatchList_28CPs,
-  PatchList_29CPs,
-  PatchList_30CPs,
-  PatchList_31CPs,
-  PatchList_32CPs,
+    Unknown,
+    PointList,
+    LineList,
+    LineStrip,
+    LineLoop,
+    TriangleList,
+    TriangleStrip,
+    TriangleFan,
+    LineList_Adj,
+    LineStrip_Adj,
+    TriangleList_Adj,
+    TriangleStrip_Adj,
+    PatchList,
+    PatchList_1CPs = PatchList,
+    PatchList_2CPs,
+    PatchList_3CPs,
+    PatchList_4CPs,
+    PatchList_5CPs,
+    PatchList_6CPs,
+    PatchList_7CPs,
+    PatchList_8CPs,
+    PatchList_9CPs,
+    PatchList_10CPs,
+    PatchList_11CPs,
+    PatchList_12CPs,
+    PatchList_13CPs,
+    PatchList_14CPs,
+    PatchList_15CPs,
+    PatchList_16CPs,
+    PatchList_17CPs,
+    PatchList_18CPs,
+    PatchList_19CPs,
+    PatchList_20CPs,
+    PatchList_21CPs,
+    PatchList_22CPs,
+    PatchList_23CPs,
+    PatchList_24CPs,
+    PatchList_25CPs,
+    PatchList_26CPs,
+    PatchList_27CPs,
+    PatchList_28CPs,
+    PatchList_29CPs,
+    PatchList_30CPs,
+    PatchList_31CPs,
+    PatchList_32CPs,
 };
 
 DECLARE_REFLECTION_ENUM(Topology);
@@ -2500,8 +2500,8 @@ DOCUMENT(R"(Return the patch list ``Topology`` with N control points
 )");
 constexpr inline Topology PatchList_Topology(uint32_t N)
 {
-  return (N < 1 || N > 32) ? Topology::PatchList_1CPs
-                           : Topology(uint32_t(Topology::PatchList_1CPs) + N - 1);
+    return (N < 1 || N > 32) ? Topology::PatchList_1CPs
+           : Topology(uint32_t(Topology::PatchList_1CPs) + N - 1);
 }
 
 DOCUMENT(R"(Return the number of control points in a patch list ``Topology``
@@ -2514,9 +2514,9 @@ DOCUMENT(R"(Return the number of control points in a patch list ``Topology``
 )");
 constexpr inline uint32_t PatchList_Count(Topology topology)
 {
-  return uint32_t(topology) < uint32_t(Topology::PatchList_1CPs)
-             ? 0
-             : uint32_t(topology) - uint32_t(Topology::PatchList_1CPs) + 1;
+    return uint32_t(topology) < uint32_t(Topology::PatchList_1CPs)
+           ? 0
+           : uint32_t(topology) - uint32_t(Topology::PatchList_1CPs) + 1;
 }
 
 DOCUMENT(R"(Check whether or not this is a strip-type topology.
@@ -2527,8 +2527,8 @@ DOCUMENT(R"(Check whether or not this is a strip-type topology.
 )");
 constexpr inline bool IsStrip(Topology topology)
 {
-  return topology == Topology::LineStrip || topology == Topology::TriangleStrip ||
-         topology == Topology::LineStrip_Adj || topology == Topology::TriangleStrip_Adj;
+    return topology == Topology::LineStrip || topology == Topology::TriangleStrip ||
+           topology == Topology::LineStrip_Adj || topology == Topology::TriangleStrip_Adj;
 }
 
 DOCUMENT(R"(The stage in a pipeline where a shader runs
@@ -2608,35 +2608,35 @@ DOCUMENT(R"(The stage in a pipeline where a shader runs
 )");
 enum class ShaderStage : uint8_t
 {
-  Vertex = 0,
-  First = Vertex,
+    Vertex  = 0,
+    First   = Vertex,
 
-  Hull,
-  Tess_Control = Hull,
+    Hull,
+    Tess_Control = Hull,
 
-  Domain,
-  Tess_Eval = Domain,
+    Domain,
+    Tess_Eval = Domain,
 
-  Geometry,
+    Geometry,
 
-  Pixel,
-  Fragment = Pixel,
+    Pixel,
+    Fragment = Pixel,
 
-  Compute,
+    Compute,
 
-  Task,
-  Amplification = Task,
+    Task,
+    Amplification = Task,
 
-  Mesh,
+    Mesh,
 
-  RayGen,
-  Intersection,
-  AnyHit,
-  ClosestHit,
-  Miss,
-  Callable,
+    RayGen,
+    Intersection,
+    AnyHit,
+    ClosestHit,
+    Miss,
+    Callable,
 
-  Count,
+    Count,
 };
 
 ITERABLE_OPERATORS(ShaderStage);
@@ -2644,10 +2644,10 @@ DECLARE_REFLECTION_ENUM(ShaderStage);
 
 #define NumShaderStages arraydim<ShaderStage>()
 
-template <typename integer>
+template<typename integer>
 constexpr inline ShaderStage StageFromIndex(integer stage)
 {
-  return ShaderStage(stage);
+    return ShaderStage(stage);
 }
 
 DOCUMENT(R"(The type of issue that a debug message is about.
@@ -2714,21 +2714,21 @@ DOCUMENT(R"(The type of issue that a debug message is about.
 )");
 enum class MessageCategory : uint32_t
 {
-  Application_Defined = 0,
-  Miscellaneous,
-  Initialization,
-  Cleanup,
-  Compilation,
-  State_Creation,
-  State_Setting,
-  State_Getting,
-  Resource_Manipulation,
-  Execution,
-  Shaders,
-  Deprecated,
-  Undefined,
-  Portability,
-  Performance,
+    Application_Defined = 0,
+    Miscellaneous,
+    Initialization,
+    Cleanup,
+    Compilation,
+    State_Creation,
+    State_Setting,
+    State_Getting,
+    Resource_Manipulation,
+    Execution,
+    Shaders,
+    Deprecated,
+    Undefined,
+    Portability,
+    Performance,
 };
 
 DECLARE_REFLECTION_ENUM(MessageCategory);
@@ -2753,10 +2753,10 @@ DOCUMENT(R"(How serious a debug message is
 )");
 enum class MessageSeverity : uint32_t
 {
-  High = 0,
-  Medium,
-  Low,
-  Info,
+    High = 0,
+    Medium,
+    Low,
+    Info,
 };
 
 DECLARE_REFLECTION_ENUM(MessageSeverity);
@@ -2800,13 +2800,13 @@ DOCUMENT(R"(Where a debug message was reported from
 )");
 enum class MessageSource : uint32_t
 {
-  API = 0,
-  RedundantAPIUse,
-  IncorrectAPIUse,
-  GeneralPerformance,
-  GCNPerformance,
-  RuntimeWarning,
-  UnsupportedConfiguration,
+    API = 0,
+    RedundantAPIUse,
+    IncorrectAPIUse,
+    GeneralPerformance,
+    GCNPerformance,
+    RuntimeWarning,
+    UnsupportedConfiguration,
 };
 
 DECLARE_REFLECTION_ENUM(MessageSource);
@@ -3023,74 +3023,74 @@ Note that a resource may be used for more than one thing in one event, see :clas
 )");
 enum class ResourceUsage : uint32_t
 {
-  Unused,
+    Unused,
 
-  VertexBuffer,
-  IndexBuffer,
+    VertexBuffer,
+    IndexBuffer,
 
-  VS_Constants,
-  HS_Constants,
-  DS_Constants,
-  GS_Constants,
-  PS_Constants,
-  CS_Constants,
-  TS_Constants,
-  MS_Constants,
+    VS_Constants,
+    HS_Constants,
+    DS_Constants,
+    GS_Constants,
+    PS_Constants,
+    CS_Constants,
+    TS_Constants,
+    MS_Constants,
 
-  All_Constants,
+    All_Constants,
 
-  StreamOut,
+    StreamOut,
 
-  VS_Resource,
-  HS_Resource,
-  DS_Resource,
-  GS_Resource,
-  PS_Resource,
-  CS_Resource,
-  TS_Resource,
-  MS_Resource,
+    VS_Resource,
+    HS_Resource,
+    DS_Resource,
+    GS_Resource,
+    PS_Resource,
+    CS_Resource,
+    TS_Resource,
+    MS_Resource,
 
-  All_Resource,
+    All_Resource,
 
-  VS_RWResource,
-  HS_RWResource,
-  DS_RWResource,
-  GS_RWResource,
-  PS_RWResource,
-  CS_RWResource,
-  TS_RWResource,
-  MS_RWResource,
+    VS_RWResource,
+    HS_RWResource,
+    DS_RWResource,
+    GS_RWResource,
+    PS_RWResource,
+    CS_RWResource,
+    TS_RWResource,
+    MS_RWResource,
 
-  All_RWResource,
+    All_RWResource,
 
-  InputTarget,
-  ColorTarget,
-  DepthStencilTarget,
+    InputTarget,
+    ColorTarget,
+    DepthStencilTarget,
 
-  Indirect,
+    Indirect,
 
-  Clear,
-  Discard,
+    Clear,
+    Discard,
 
-  GenMips,
-  Resolve,
-  ResolveSrc,
-  ResolveDst,
-  Copy,
-  CopySrc,
-  CopyDst,
+    GenMips,
+    Resolve,
+    ResolveSrc,
+    ResolveDst,
+    Copy,
+    CopySrc,
+    CopyDst,
 
-  Barrier,
+    Barrier,
 
-  CPUWrite,
+    CPUWrite,
 };
 
 DECLARE_REFLECTION_ENUM(ResourceUsage);
 
-template <typename integer>
+template<typename integer>
 constexpr inline ResourceUsage CBUsage(integer stage)
 {
-  return ResourceUsage(uint32_t(ResourceUsage::VS_Constants) + stage);
+    return ResourceUsage(uint32_t(ResourceUsage::VS_Constants) + stage);
 }
 
 DOCUMENT(R"(Calculate the ``ResourceUsage`` value for constant buffer use at a given shader stage.
@@ -3101,13 +3101,13 @@ DOCUMENT(R"(Calculate the ``ResourceUsage`` value for constant buffer use at a g
 )");
 constexpr inline ResourceUsage CBUsage(ShaderStage stage)
 {
-  return CBUsage(uint32_t(stage));
+    return CBUsage(uint32_t(stage));
 }
 
-template <typename integer>
+template<typename integer>
 constexpr inline ResourceUsage ResUsage(integer stage)
 {
-  return ResourceUsage(uint32_t(ResourceUsage::VS_Resource) + stage);
+    return ResourceUsage(uint32_t(ResourceUsage::VS_Resource) + stage);
 }
 
 DOCUMENT(R"(Calculate the ``ResourceUsage`` value for read-only resource use at a given shader
@@ -3119,13 +3119,13 @@ stage.
 )");
 constexpr inline ResourceUsage ResUsage(ShaderStage stage)
 {
-  return ResUsage(uint32_t(stage));
+    return ResUsage(uint32_t(stage));
 }
 
-template <typename integer>
+template<typename integer>
 constexpr inline ResourceUsage RWResUsage(integer stage)
 {
-  return ResourceUsage(uint32_t(ResourceUsage::VS_RWResource) + stage);
+    return ResourceUsage(uint32_t(ResourceUsage::VS_RWResource) + stage);
 }
 
 DOCUMENT(R"(Calculate the ``ResourceUsage`` value for read-write resource use at a given shader
@@ -3137,7 +3137,7 @@ stage.
 )");
 constexpr inline ResourceUsage RWResUsage(ShaderStage stage)
 {
-  return RWResUsage(uint32_t(stage));
+    return RWResUsage(uint32_t(stage));
 }
 
 DOCUMENT(R"(What kind of visualisation to use when rendering a mesh.
@@ -3169,13 +3169,13 @@ DOCUMENT(R"(What kind of visualisation to use when rendering a mesh.
 )");
 enum class Visualisation : uint32_t
 {
-  NoSolid = 0,
-  Solid,
-  Lit,
-  Secondary,
-  Explode,
-  Meshlet,
-  Count,
+    NoSolid = 0,
+    Solid,
+    Lit,
+    Secondary,
+    Explode,
+    Meshlet,
+    Count,
 };
 
 DECLARE_REFLECTION_ENUM(Visualisation);
@@ -3196,9 +3196,9 @@ DOCUMENT(R"(The fill mode for polygons.
 )");
 enum class FillMode : uint32_t
 {
-  Solid = 0,
-  Wireframe,
-  Point,
+    Solid = 0,
+    Wireframe,
+    Point,
 };
 
 DECLARE_REFLECTION_ENUM(FillMode);
@@ -3223,10 +3223,10 @@ DOCUMENT(R"(The culling mode for polygons.
 )");
 enum class CullMode : uint32_t
 {
-  NoCull = 0,
-  Front,
-  Back,
-  FrontAndBack,
+    NoCull = 0,
+    Front,
+    Back,
+    FrontAndBack,
 };
 
 DECLARE_REFLECTION_ENUM(CullMode);
@@ -3249,9 +3249,9 @@ DOCUMENT(R"(The conservative rasterization mode.
 )");
 enum class ConservativeRaster : uint32_t
 {
-  Disabled = 0,
-  Underestimate,
-  Overestimate,
+    Disabled = 0,
+    Underestimate,
+    Overestimate,
 };
 
 DECLARE_REFLECTION_ENUM(ConservativeRaster);
@@ -3289,13 +3289,13 @@ DOCUMENT(R"(A combiner to apply when determining a pixel shading rate.
 )");
 enum class ShadingRateCombiner : uint32_t
 {
-  Keep,
-  Passthrough = Keep,
-  Replace,
-  Override = Replace,
-  Min,
-  Max,
-  Multiply,
+    Keep,
+    Passthrough = Keep,
+    Replace,
+    Override = Replace,
+    Min,
+    Max,
+    Multiply,
 };
 
 DECLARE_REFLECTION_ENUM(ShadingRateCombiner);
@@ -3326,11 +3326,11 @@ DOCUMENT(R"(The line rasterization mode.
 )");
 enum class LineRaster : uint32_t
 {
-  Default = 0,
-  Rectangular,
-  Bresenham,
-  RectangularSmooth,
-  RectangularD3D,
+    Default = 0,
+    Rectangular,
+    Bresenham,
+    RectangularSmooth,
+    RectangularD3D,
 };
 
 DECLARE_REFLECTION_ENUM(LineRaster);
@@ -3361,11 +3361,11 @@ between mips).
 )");
 enum class FilterMode : uint8_t
 {
-  NoFilter,
-  Point,
-  Linear,
-  Cubic,
-  Anisotropic,
+    NoFilter,
+    Point,
+    Linear,
+    Cubic,
+    Anisotropic,
 };
 
 DECLARE_REFLECTION_ENUM(FilterMode);
@@ -3397,10 +3397,10 @@ DOCUMENT(R"(The function used to process the returned value after interpolation.
 )");
 enum class FilterFunction : uint8_t
 {
-  Normal,
-  Comparison,
-  Minimum,
-  Maximum,
+    Normal,
+    Comparison,
+    Minimum,
+    Maximum,
 };
 
 DECLARE_REFLECTION_ENUM(FilterFunction);
@@ -3442,14 +3442,14 @@ DOCUMENT(R"(A comparison function to return a ``bool`` result from two inputs ``
 )");
 enum class CompareFunction : uint8_t
 {
-  Never,
-  AlwaysTrue,
-  Less,
-  LessEqual,
-  Greater,
-  GreaterEqual,
-  Equal,
-  NotEqual,
+    Never,
+    AlwaysTrue,
+    Less,
+    LessEqual,
+    Greater,
+    GreaterEqual,
+    Equal,
+    NotEqual,
 };
 
 DECLARE_REFLECTION_ENUM(CompareFunction);
@@ -3490,14 +3490,14 @@ DOCUMENT(R"(A stencil operation to apply in stencil processing.
 )");
 enum class StencilOperation : uint32_t
 {
-  Keep,
-  Zero,
-  Replace,
-  IncSat,
-  DecSat,
-  IncWrap,
-  DecWrap,
-  Invert,
+    Keep,
+    Zero,
+    Replace,
+    IncSat,
+    DecSat,
+    IncWrap,
+    DecWrap,
+    Invert,
 };
 
 DECLARE_REFLECTION_ENUM(StencilOperation);
@@ -3596,25 +3596,25 @@ DOCUMENT(R"(A multiplier on one component in the blend equation.
 )");
 enum class BlendMultiplier : uint32_t
 {
-  Zero,
-  One,
-  SrcCol,
-  InvSrcCol,
-  DstCol,
-  InvDstCol,
-  SrcAlpha,
-  InvSrcAlpha,
-  DstAlpha,
-  InvDstAlpha,
-  SrcAlphaSat,
-  FactorRGB,
-  InvFactorRGB,
-  FactorAlpha,
-  InvFactorAlpha,
-  Src1Col,
-  InvSrc1Col,
-  Src1Alpha,
-  InvSrc1Alpha,
+    Zero,
+    One,
+    SrcCol,
+    InvSrcCol,
+    DstCol,
+    InvDstCol,
+    SrcAlpha,
+    InvSrcAlpha,
+    DstAlpha,
+    InvDstAlpha,
+    SrcAlphaSat,
+    FactorRGB,
+    InvFactorRGB,
+    FactorAlpha,
+    InvFactorAlpha,
+    Src1Col,
+    InvSrc1Col,
+    Src1Alpha,
+    InvSrc1Alpha,
 };
 
 DECLARE_REFLECTION_ENUM(BlendMultiplier);
@@ -3649,11 +3649,11 @@ DOCUMENT(R"(A blending operation to apply in color blending.
 )");
 enum class BlendOperation : uint32_t
 {
-  Add,
-  Subtract,
-  ReversedSubtract,
-  Minimum,
-  Maximum,
+    Add,
+    Subtract,
+    ReversedSubtract,
+    Minimum,
+    Maximum,
 };
 
 DECLARE_REFLECTION_ENUM(BlendOperation);
@@ -3735,22 +3735,22 @@ DOCUMENT(R"(A logical operation to apply when writing texture values to an outpu
 )");
 enum class LogicOperation : uint32_t
 {
-  NoOp,
-  Clear,
-  Set,
-  Copy,
-  CopyInverted,
-  Invert,
-  And,
-  Nand,
-  Or,
-  Xor,
-  Nor,
-  Equivalent,
-  AndReverse,
-  AndInverted,
-  OrReverse,
-  OrInverted,
+    NoOp,
+    Clear,
+    Set,
+    Copy,
+    CopyInverted,
+    Invert,
+    And,
+    Nand,
+    Or,
+    Xor,
+    Nor,
+    Equivalent,
+    AndReverse,
+    AndInverted,
+    OrReverse,
+    OrInverted,
 };
 
 DECLARE_REFLECTION_ENUM(LogicOperation);
@@ -3879,45 +3879,45 @@ enumerated with IDs in the appropriate ranges.
 )");
 enum class GPUCounter : uint32_t
 {
-  EventGPUDuration = 1,
-  First = EventGPUDuration,
-  InputVerticesRead,
-  IAPrimitives,
-  GSPrimitives,
-  RasterizerInvocations,
-  RasterizedPrimitives,
-  SamplesPassed,
-  VSInvocations,
-  HSInvocations,
-  TCSInvocations = HSInvocations,
-  DSInvocations,
-  TESInvocations = DSInvocations,
-  GSInvocations,
-  PSInvocations,
-  FSInvocations = PSInvocations,
-  CSInvocations,
-  ASInvocations,
-  TSInvocations = ASInvocations,
-  MSInvocations,
-  Count,
+    EventGPUDuration    = 1,
+    First               = EventGPUDuration,
+    InputVerticesRead,
+    IAPrimitives,
+    GSPrimitives,
+    RasterizerInvocations,
+    RasterizedPrimitives,
+    SamplesPassed,
+    VSInvocations,
+    HSInvocations,
+    TCSInvocations = HSInvocations,
+    DSInvocations,
+    TESInvocations = DSInvocations,
+    GSInvocations,
+    PSInvocations,
+    FSInvocations = PSInvocations,
+    CSInvocations,
+    ASInvocations,
+    TSInvocations = ASInvocations,
+    MSInvocations,
+    Count,
 
-  // IHV specific counters can be set above this point
-  // with ranges reserved for each IHV
-  FirstAMD = 1000000,
+    // IHV specific counters can be set above this point
+    // with ranges reserved for each IHV
+    FirstAMD = 1000000,
 
-  FirstIntel = 2000000,
-  LastAMD = FirstIntel - 1,
+    FirstIntel  = 2000000,
+    LastAMD     = FirstIntel - 1,
 
-  FirstNvidia = 3000000,
-  LastIntel = FirstNvidia - 1,
+    FirstNvidia = 3000000,
+    LastIntel   = FirstNvidia - 1,
 
-  FirstVulkanExtended = 4000000,
-  LastNvidia = FirstVulkanExtended - 1,
+    FirstVulkanExtended = 4000000,
+    LastNvidia          = FirstVulkanExtended - 1,
 
-  FirstARM = 5000000,
-  LastVulkanExtended = FirstARM - 1,
+    FirstARM            = 5000000,
+    LastVulkanExtended  = FirstARM - 1,
 
-  LastARM = 6000000,
+    LastARM = 6000000,
 };
 
 ITERABLE_OPERATORS(GPUCounter);
@@ -3931,7 +3931,7 @@ DOCUMENT(R"(Check whether or not this is a Generic counter.
 )");
 inline constexpr bool IsGenericCounter(GPUCounter c)
 {
-  return c < GPUCounter::Count;
+    return c < GPUCounter::Count;
 }
 
 DOCUMENT(R"(Check whether or not this is an AMD private counter.
@@ -3942,7 +3942,7 @@ DOCUMENT(R"(Check whether or not this is an AMD private counter.
 )");
 inline constexpr bool IsAMDCounter(GPUCounter c)
 {
-  return c >= GPUCounter::FirstAMD && c <= GPUCounter::LastAMD;
+    return c >= GPUCounter::FirstAMD && c <= GPUCounter::LastAMD;
 }
 
 DOCUMENT(R"(Check whether or not this is an Intel private counter.
@@ -3953,7 +3953,7 @@ DOCUMENT(R"(Check whether or not this is an Intel private counter.
 )");
 inline constexpr bool IsIntelCounter(GPUCounter c)
 {
-  return c >= GPUCounter::FirstIntel && c <= GPUCounter::LastIntel;
+    return c >= GPUCounter::FirstIntel && c <= GPUCounter::LastIntel;
 }
 
 DOCUMENT(R"(Check whether or not this is an Nvidia private counter.
@@ -3964,7 +3964,7 @@ DOCUMENT(R"(Check whether or not this is an Nvidia private counter.
 )");
 inline constexpr bool IsNvidiaCounter(GPUCounter c)
 {
-  return c >= GPUCounter::FirstNvidia && c <= GPUCounter::LastNvidia;
+    return c >= GPUCounter::FirstNvidia && c <= GPUCounter::LastNvidia;
 }
 
 DOCUMENT(R"(Check whether or not this is a KHR counter.
@@ -3975,7 +3975,7 @@ DOCUMENT(R"(Check whether or not this is a KHR counter.
 )");
 inline constexpr bool IsVulkanExtendedCounter(GPUCounter c)
 {
-  return c >= GPUCounter::FirstVulkanExtended && c <= GPUCounter::LastVulkanExtended;
+    return c >= GPUCounter::FirstVulkanExtended && c <= GPUCounter::LastVulkanExtended;
 }
 
 DOCUMENT(R"(Check whether or not this is an ARM private counter.
@@ -3986,7 +3986,7 @@ DOCUMENT(R"(Check whether or not this is an ARM private counter.
 )");
 inline constexpr bool IsARMCounter(GPUCounter c)
 {
-  return c >= GPUCounter::FirstARM && c <= GPUCounter::LastARM;
+    return c >= GPUCounter::FirstARM && c <= GPUCounter::LastARM;
 }
 
 DOCUMENT(R"(The unit that GPU counter data is returned in.
@@ -4029,15 +4029,15 @@ DOCUMENT(R"(The unit that GPU counter data is returned in.
 )");
 enum class CounterUnit : uint32_t
 {
-  Absolute,
-  Seconds,
-  Percentage,
-  Ratio,
-  Bytes,
-  Cycles,
-  Hertz,
-  Volt,
-  Celsius
+    Absolute,
+    Seconds,
+    Percentage,
+    Ratio,
+    Bytes,
+    Cycles,
+    Hertz,
+    Volt,
+    Celsius
 };
 
 DECLARE_REFLECTION_ENUM(CounterUnit);
@@ -4054,8 +4054,8 @@ DOCUMENT(R"(The type of camera controls for an :class:`Camera`.
 )");
 enum class CameraType : uint32_t
 {
-  Arcball = 0,
-  FPSLook,
+    Arcball = 0,
+    FPSLook,
 };
 
 DECLARE_REFLECTION_ENUM(CameraType);
@@ -4077,9 +4077,9 @@ DOCUMENT(R"(How supported a given API is on a particular replay instance.
 )");
 enum class ReplaySupport : uint32_t
 {
-  Unsupported,
-  Supported,
-  SuggestRemote,
+    Unsupported,
+    Supported,
+    SuggestRemote,
 };
 
 DECLARE_REFLECTION_ENUM(ReplaySupport);
@@ -4223,45 +4223,45 @@ a remote server.
 )");
 enum class ResultCode : uint32_t
 {
-  Succeeded = 0,
-  UnknownError,
-  InternalError,
-  FileNotFound,
-  InjectionFailed,
-  IncompatibleProcess,
-  NetworkIOFailed,
-  NetworkRemoteBusy,
-  NetworkVersionMismatch,
-  FileIOFailed,
-  FileIncompatibleVersion,
-  FileCorrupted,
-  FileUnrecognised,
-  ImageUnsupported,
-  APIUnsupported,
-  APIInitFailed,
-  APIIncompatibleVersion,
-  APIHardwareUnsupported,
-  APIDataCorrupted,
-  APIReplayFailed,
-  JDWPFailure,
-  AndroidGrantPermissionsFailed,
-  AndroidABINotFound,
-  AndroidAPKFolderNotFound,
-  AndroidAPKInstallFailed,
-  AndroidAPKVerifyFailed,
-  RemoteServerConnectionLost,
-  OutOfMemory,
-  DeviceLost,
-  DataNotAvailable,
-  InvalidParameter,
-  CompressionFailed,
-  AndroidLayerConfFailed,
+    Succeeded = 0,
+    UnknownError,
+    InternalError,
+    FileNotFound,
+    InjectionFailed,
+    IncompatibleProcess,
+    NetworkIOFailed,
+    NetworkRemoteBusy,
+    NetworkVersionMismatch,
+    FileIOFailed,
+    FileIncompatibleVersion,
+    FileCorrupted,
+    FileUnrecognised,
+    ImageUnsupported,
+    APIUnsupported,
+    APIInitFailed,
+    APIIncompatibleVersion,
+    APIHardwareUnsupported,
+    APIDataCorrupted,
+    APIReplayFailed,
+    JDWPFailure,
+    AndroidGrantPermissionsFailed,
+    AndroidABINotFound,
+    AndroidAPKFolderNotFound,
+    AndroidAPKInstallFailed,
+    AndroidAPKVerifyFailed,
+    RemoteServerConnectionLost,
+    OutOfMemory,
+    DeviceLost,
+    DataNotAvailable,
+    InvalidParameter,
+    CompressionFailed,
+    AndroidLayerConfFailed,
 };
 
 DECLARE_REFLECTION_ENUM(ResultCode);
 // need to forward declare this explicitly since ResultCode can be instantiated early in places
 // where we're going to later explicitly instantiate it to define it
-template <>
+template<>
 rdcstr DoStringise(const ResultCode &el);
 
 DOCUMENT(R"(The type of message received from or sent to an application target control connection.
@@ -4312,17 +4312,17 @@ DOCUMENT(R"(The type of message received from or sent to an application target c
 )");
 enum class TargetControlMessageType : uint32_t
 {
-  Unknown = 0,
-  Disconnected,
-  Busy,
-  Noop,
-  NewCapture,
-  CaptureCopied,
-  RegisterAPI,
-  NewChild,
-  CaptureProgress,
-  CapturableWindowCount,
-  RequestShow,
+    Unknown = 0,
+    Disconnected,
+    Busy,
+    Noop,
+    NewCapture,
+    CaptureCopied,
+    RegisterAPI,
+    NewChild,
+    CaptureProgress,
+    CapturableWindowCount,
+    RequestShow,
 };
 
 DECLARE_REFLECTION_ENUM(TargetControlMessageType);
@@ -4343,9 +4343,9 @@ DOCUMENT(R"(How to modify an environment variable.
 )");
 enum class EnvMod : uint32_t
 {
-  Set,
-  Append,
-  Prepend,
+    Set,
+    Append,
+    Prepend,
 };
 
 DECLARE_REFLECTION_ENUM(EnvMod);
@@ -4373,10 +4373,10 @@ DOCUMENT(R"(The separator to use if needed when modifying an environment variabl
 )");
 enum class EnvSep : uint32_t
 {
-  Platform,
-  SemiColon,
-  Colon,
-  NoSep,
+    Platform,
+    SemiColon,
+    Colon,
+    NoSep,
 };
 
 DECLARE_REFLECTION_ENUM(EnvSep);
@@ -4410,15 +4410,14 @@ DOCUMENT(R"(The type of a log message
 )");
 enum class LogType : uint32_t
 {
-  Debug,
-  First = Debug,
-  Comment,
-  Warning,
-  Error,
-  Fatal,
-  Count,
+    Debug,
+    First = Debug,
+    Comment,
+    Warning,
+    Error,
+    Fatal,
+    Count,
 };
-
 #endif
 
 // this is OUTSIDE the #endif because we don't declare these in common.h, so in case they're needed
@@ -4451,12 +4450,12 @@ DOCUMENT(R"(The level of optimisation used in
 )");
 enum class ReplayOptimisationLevel : uint32_t
 {
-  NoOptimisation,
-  First = NoOptimisation,
-  Conservative,
-  Balanced,
-  Fastest,
-  Count,
+    NoOptimisation,
+    First = NoOptimisation,
+    Conservative,
+    Balanced,
+    Fastest,
+    Count,
 };
 
 DECLARE_REFLECTION_ENUM(ReplayOptimisationLevel);
@@ -4501,14 +4500,14 @@ DOCUMENT(R"(Specifies a windowing system to use for creating an output window.
 )");
 enum class WindowingSystem : uint32_t
 {
-  Unknown,
-  Headless,
-  Win32,
-  Xlib,
-  XCB,
-  Android,
-  MacOS,
-  Wayland,
+    Unknown,
+    Headless,
+    Win32,
+    Xlib,
+    XCB,
+    Android,
+    MacOS,
+    Wayland,
 };
 
 DECLARE_REFLECTION_ENUM(WindowingSystem);
@@ -4516,7 +4515,6 @@ DECLARE_REFLECTION_ENUM(WindowingSystem);
 #if defined(ENABLE_PYTHON_FLAG_ENUMS)
 
 ENABLE_PYTHON_FLAG_ENUMS;
-
 #endif
 
 DOCUMENT(R"(A set of flags describing the properties of a path on a remote filesystem.
@@ -4552,14 +4550,14 @@ DOCUMENT(R"(A set of flags describing the properties of a path on a remote files
 )");
 enum class PathProperty : uint32_t
 {
-  NoFlags = 0x0,
-  Directory = 0x1,
-  Hidden = 0x2,
-  Executable = 0x4,
+    NoFlags     = 0x0,
+    Directory   = 0x1,
+    Hidden      = 0x2,
+    Executable  = 0x4,
 
-  ErrorUnknown = 0x2000,
-  ErrorAccessDenied = 0x4000,
-  ErrorInvalidPath = 0x8000,
+    ErrorUnknown        = 0x2000,
+    ErrorAccessDenied   = 0x4000,
+    ErrorInvalidPath    = 0x8000,
 };
 
 BITMASK_OPERATORS(PathProperty);
@@ -4587,10 +4585,10 @@ DOCUMENT(R"(A set of flags describing the properties of a section in a renderdoc
 )");
 enum class SectionFlags : uint32_t
 {
-  NoFlags = 0x0,
-  ASCIIStored = 0x1,
-  LZ4Compressed = 0x2,
-  ZstdCompressed = 0x4,
+    NoFlags         = 0x0,
+    ASCIIStored     = 0x1,
+    LZ4Compressed   = 0x2,
+    ZstdCompressed  = 0x4,
 };
 
 BITMASK_OPERATORS(SectionFlags);
@@ -4624,12 +4622,12 @@ DOCUMENT(R"(A set of flags describing how this buffer may be used
 )");
 enum class BufferCategory : uint32_t
 {
-  NoFlags = 0x0,
-  Vertex = 0x1,
-  Index = 0x2,
-  Constants = 0x4,
-  ReadWrite = 0x8,
-  Indirect = 0x10,
+    NoFlags     = 0x0,
+    Vertex      = 0x1,
+    Index       = 0x2,
+    Constants   = 0x4,
+    ReadWrite   = 0x8,
+    Indirect    = 0x10,
 };
 
 BITMASK_OPERATORS(BufferCategory);
@@ -4671,13 +4669,13 @@ DOCUMENT(R"(A set of flags for descriptor properties.
 )");
 enum class DescriptorFlags : uint8_t
 {
-  NoFlags = 0x0,
-  RawBuffer = 0x1,
-  AppendBuffer = 0x2,
-  CounterBuffer = 0x4,
-  ReadOnlyAccess = 0x8,
-  WriteOnlyAccess = 0x10,
-  InlineData = 0x20,
+    NoFlags         = 0x0,
+    RawBuffer       = 0x1,
+    AppendBuffer    = 0x2,
+    CounterBuffer   = 0x4,
+    ReadOnlyAccess  = 0x8,
+    WriteOnlyAccess = 0x10,
+    InlineData      = 0x20,
 };
 
 BITMASK_OPERATORS(DescriptorFlags);
@@ -4711,12 +4709,12 @@ DOCUMENT(R"(A set of flags describing how this texture may be used
 )");
 enum class TextureCategory : uint32_t
 {
-  NoFlags = 0x0,
-  ShaderRead = 0x1,
-  ColorTarget = 0x2,
-  DepthTarget = 0x4,
-  ShaderReadWrite = 0x8,
-  SwapBuffer = 0x10,
+    NoFlags         = 0x0,
+    ShaderRead      = 0x1,
+    ColorTarget     = 0x2,
+    DepthTarget     = 0x4,
+    ShaderReadWrite = 0x8,
+    SwapBuffer      = 0x10,
 };
 
 BITMASK_OPERATORS(TextureCategory);
@@ -4806,27 +4804,27 @@ DOCUMENT(R"(A set of flags for ``ShaderStage`` stages
 )");
 enum class ShaderStageMask : uint16_t
 {
-  Unknown = 0,
-  Vertex = 1 << uint32_t(ShaderStage::Vertex),
-  Hull = 1 << uint32_t(ShaderStage::Hull),
-  Tess_Control = Hull,
-  Domain = 1 << uint32_t(ShaderStage::Domain),
-  Tess_Eval = Domain,
-  Geometry = 1 << uint32_t(ShaderStage::Geometry),
-  Pixel = 1 << uint32_t(ShaderStage::Pixel),
-  Fragment = Pixel,
-  Compute = 1 << uint32_t(ShaderStage::Compute),
-  Task = 1 << uint32_t(ShaderStage::Task),
-  Amplification = Task,
-  Mesh = 1 << uint32_t(ShaderStage::Mesh),
-  RayGen = 1 << uint32_t(ShaderStage::RayGen),
-  Intersection = 1 << uint32_t(ShaderStage::Intersection),
-  AnyHit = 1 << uint32_t(ShaderStage::AnyHit),
-  ClosestHit = 1 << uint32_t(ShaderStage::ClosestHit),
-  Miss = 1 << uint32_t(ShaderStage::Miss),
-  Callable = 1 << uint32_t(ShaderStage::Callable),
-  All = Vertex | Hull | Domain | Geometry | Pixel | Compute | Task | Mesh | RayGen | Intersection |
-        AnyHit | ClosestHit | Miss | Callable,
+    Unknown         = 0,
+    Vertex          = 1 << uint32_t(ShaderStage::Vertex),
+    Hull            = 1 << uint32_t(ShaderStage::Hull),
+    Tess_Control    = Hull,
+    Domain          = 1 << uint32_t(ShaderStage::Domain),
+    Tess_Eval       = Domain,
+    Geometry        = 1 << uint32_t(ShaderStage::Geometry),
+    Pixel           = 1 << uint32_t(ShaderStage::Pixel),
+    Fragment        = Pixel,
+    Compute         = 1 << uint32_t(ShaderStage::Compute),
+    Task            = 1 << uint32_t(ShaderStage::Task),
+    Amplification   = Task,
+    Mesh            = 1 << uint32_t(ShaderStage::Mesh),
+    RayGen          = 1 << uint32_t(ShaderStage::RayGen),
+    Intersection    = 1 << uint32_t(ShaderStage::Intersection),
+    AnyHit          = 1 << uint32_t(ShaderStage::AnyHit),
+    ClosestHit      = 1 << uint32_t(ShaderStage::ClosestHit),
+    Miss            = 1 << uint32_t(ShaderStage::Miss),
+    Callable        = 1 << uint32_t(ShaderStage::Callable),
+    All             = Vertex | Hull | Domain | Geometry | Pixel | Compute | Task | Mesh | RayGen | Intersection |
+                      AnyHit | ClosestHit | Miss | Callable,
 };
 
 BITMASK_OPERATORS(ShaderStageMask);
@@ -4840,7 +4838,7 @@ DOCUMENT(R"(Calculate the corresponding flag for a shader stage
 )");
 constexpr inline ShaderStageMask MaskForStage(ShaderStage stage)
 {
-  return ShaderStageMask(1 << uint32_t(stage));
+    return ShaderStageMask(1 << uint32_t(stage));
 }
 
 DOCUMENT(R"(For a shader stage mask that only covers one shader stage, return the shader stage.
@@ -4855,15 +4853,15 @@ DOCUMENT(R"(For a shader stage mask that only covers one shader stage, return th
 )");
 constexpr inline ShaderStage FirstStageForMask(ShaderStageMask stageMask)
 {
-  return (stageMask & ShaderStageMask::Vertex)     ? ShaderStage::Vertex
-         : (stageMask & ShaderStageMask::Hull)     ? ShaderStage::Hull
-         : (stageMask & ShaderStageMask::Domain)   ? ShaderStage::Domain
-         : (stageMask & ShaderStageMask::Geometry) ? ShaderStage::Geometry
-         : (stageMask & ShaderStageMask::Pixel)    ? ShaderStage::Pixel
-         : (stageMask & ShaderStageMask::Compute)  ? ShaderStage::Compute
-         : (stageMask & ShaderStageMask::Task)     ? ShaderStage::Task
-         : (stageMask & ShaderStageMask::Mesh)     ? ShaderStage::Mesh
-                                                   : ShaderStage::Count;
+    return (stageMask&ShaderStageMask::Vertex)     ? ShaderStage::Vertex
+           : (stageMask&ShaderStageMask::Hull)     ? ShaderStage::Hull
+           : (stageMask&ShaderStageMask::Domain)   ? ShaderStage::Domain
+           : (stageMask&ShaderStageMask::Geometry) ? ShaderStage::Geometry
+           : (stageMask&ShaderStageMask::Pixel)    ? ShaderStage::Pixel
+           : (stageMask&ShaderStageMask::Compute)  ? ShaderStage::Compute
+           : (stageMask&ShaderStageMask::Task)     ? ShaderStage::Task
+           : (stageMask&ShaderStageMask::Mesh)     ? ShaderStage::Mesh
+           : ShaderStage::Count;
 }
 
 DOCUMENT(R"(A set of flags for events that may occur while debugging a shader
@@ -4886,10 +4884,10 @@ DOCUMENT(R"(A set of flags for events that may occur while debugging a shader
 )");
 enum class ShaderEvents : uint32_t
 {
-  NoEvent = 0,
-  SampleLoadGather = 0x1,
-  GeneratedNanOrInf = 0x2,
-  DebugBreak = 0x4,
+    NoEvent             = 0,
+    SampleLoadGather    = 0x1,
+    GeneratedNanOrInf   = 0x2,
+    DebugBreak          = 0x4,
 };
 
 BITMASK_OPERATORS(ShaderEvents);
@@ -4946,17 +4944,17 @@ displayed
 )");
 enum class ShaderVariableFlags : uint32_t
 {
-  NoFlags = 0x0000,
-  RowMajorMatrix = 0x0001,
-  HexDisplay = 0x0002,
-  BinaryDisplay = 0x0004,
-  RGBDisplay = 0x0008,
-  R11G11B10 = 0x0010,
-  R10G10B10A2 = 0x0020,
-  UNorm = 0x0040,
-  SNorm = 0x0080,
-  Truncated = 0x0100,
-  SignedEnum = 0x0200,
+    NoFlags         = 0x0000,
+    RowMajorMatrix  = 0x0001,
+    HexDisplay      = 0x0002,
+    BinaryDisplay   = 0x0004,
+    RGBDisplay      = 0x0008,
+    R11G11B10       = 0x0010,
+    R10G10B10A2     = 0x0020,
+    UNorm           = 0x0040,
+    SNorm           = 0x0080,
+    Truncated       = 0x0100,
+    SignedEnum      = 0x0200,
 };
 
 BITMASK_OPERATORS(ShaderVariableFlags);
@@ -5078,36 +5076,36 @@ actions.
 )");
 enum class ActionFlags : uint32_t
 {
-  NoFlags = 0x0000,
+    NoFlags = 0x0000,
 
-  // types
-  Clear = 0x0001,
-  Drawcall = 0x0002,
-  Dispatch = 0x0004,
-  MeshDispatch = 0x0008,
-  CmdList = 0x0010,
-  SetMarker = 0x0020,
-  PushMarker = 0x0040,
-  PopMarker = 0x0080,
-  Present = 0x0100,
-  MultiAction = 0x0200,
-  Copy = 0x0400,
-  Resolve = 0x0800,
-  GenMips = 0x1000,
-  PassBoundary = 0x2000,
-  DispatchRay = 0x4000,
-  BuildAccStruct = 0x8000,
+    // types
+    Clear           = 0x0001,
+    Drawcall        = 0x0002,
+    Dispatch        = 0x0004,
+    MeshDispatch    = 0x0008,
+    CmdList         = 0x0010,
+    SetMarker       = 0x0020,
+    PushMarker      = 0x0040,
+    PopMarker       = 0x0080,
+    Present         = 0x0100,
+    MultiAction     = 0x0200,
+    Copy            = 0x0400,
+    Resolve         = 0x0800,
+    GenMips         = 0x1000,
+    PassBoundary    = 0x2000,
+    DispatchRay     = 0x4000,
+    BuildAccStruct  = 0x8000,
 
-  // flags
-  Indexed = 0x010000,
-  Instanced = 0x020000,
-  Auto = 0x040000,
-  Indirect = 0x080000,
-  ClearColor = 0x100000,
-  ClearDepthStencil = 0x200000,
-  BeginPass = 0x400000,
-  EndPass = 0x800000,
-  CommandBufferBoundary = 0x1000000,
+    // flags
+    Indexed                 = 0x010000,
+    Instanced               = 0x020000,
+    Auto                    = 0x040000,
+    Indirect                = 0x080000,
+    ClearColor              = 0x100000,
+    ClearDepthStencil       = 0x200000,
+    BeginPass               = 0x400000,
+    EndPass                 = 0x800000,
+    CommandBufferBoundary   = 0x1000000,
 };
 
 BITMASK_OPERATORS(ActionFlags);
@@ -5165,15 +5163,15 @@ registration.
 )");
 enum class VulkanLayerFlags : uint32_t
 {
-  NoFlags = 0x0,
-  OtherInstallsRegistered = 0x1,
-  ThisInstallRegistered = 0x2,
-  NeedElevation = 0x4,
-  UserRegisterable = 0x8,
-  RegisterAll = 0x10,
-  UpdateAllowed = 0x20,
-  Unfixable = 0x40,
-  Unsupported = 0x80,
+    NoFlags                 = 0x0,
+    OtherInstallsRegistered = 0x1,
+    ThisInstallRegistered   = 0x2,
+    NeedElevation           = 0x4,
+    UserRegisterable        = 0x8,
+    RegisterAll             = 0x10,
+    UpdateAllowed           = 0x20,
+    Unfixable               = 0x40,
+    Unsupported             = 0x80,
 };
 
 BITMASK_OPERATORS(VulkanLayerFlags);
@@ -5195,9 +5193,9 @@ DOCUMENT(R"(INTERNAL: A set of flags giving details of the current status of And
 )");
 enum class AndroidFlags : uint32_t
 {
-  NoFlags = 0x0,
-  Debuggable = 0x1,
-  RootAccess = 0x2,
+    NoFlags     = 0x0,
+    Debuggable  = 0x1,
+    RootAccess  = 0x2,
 };
 
 BITMASK_OPERATORS(AndroidFlags);

@@ -70,92 +70,122 @@ QT_REQUIRE_CONFIG(filesystemmodel);
 
 QT_BEGIN_NAMESPACE
 
-class QExtendedInformation {
+class QExtendedInformation
+{
 public:
     enum Type { Dir, File, System };
 
     QExtendedInformation() {}
     QExtendedInformation(const QFileInfo &info) : mFileInfo(info) {}
 
-    inline bool isDir() { return type() == Dir; }
-    inline bool isFile() { return type() == File; }
-    inline bool isSystem() { return type() == System; }
+    inline bool isDir()
+    {
+        return type() == Dir;
+    }
+    inline bool isFile()
+    {
+        return type() == File;
+    }
+    inline bool isSystem()
+    {
+        return type() == System;
+    }
 
-    bool operator ==(const QExtendedInformation &fileInfo) const {
-       return mFileInfo == fileInfo.mFileInfo
-       && displayType == fileInfo.displayType
-       && permissions() == fileInfo.permissions()
-       && lastModified() == fileInfo.lastModified();
+    bool operator ==(const QExtendedInformation &fileInfo) const
+    {
+        return mFileInfo == fileInfo.mFileInfo
+               && displayType == fileInfo.displayType
+               && permissions() == fileInfo.permissions()
+               && lastModified() == fileInfo.lastModified();
     }
 
 #ifndef QT_NO_FSFILEENGINE
-    bool isCaseSensitive() const {
+    bool isCaseSensitive() const
+    {
         return QFileSystemEngine::isCaseSensitive();
     }
 #endif
 
-    QFile::Permissions permissions() const {
+    QFile::Permissions permissions() const
+    {
         return mFileInfo.permissions();
     }
 
-    Type type() const {
-        if (mFileInfo.isDir()) {
+    Type type() const
+    {
+        if (mFileInfo.isDir())
+        {
             return QExtendedInformation::Dir;
         }
-        if (mFileInfo.isFile()) {
+
+        if (mFileInfo.isFile())
+        {
             return QExtendedInformation::File;
         }
-        if (!mFileInfo.exists() && mFileInfo.isSymLink()) {
+
+        if (!mFileInfo.exists() && mFileInfo.isSymLink())
+        {
             return QExtendedInformation::System;
         }
+
         return QExtendedInformation::System;
     }
 
     bool isSymLink(bool ignoreNtfsSymLinks = false) const
     {
-        if (ignoreNtfsSymLinks) {
+        if (ignoreNtfsSymLinks)
+        {
 #ifdef Q_OS_WIN
             return !mFileInfo.suffix().compare(QLatin1String("lnk"), Qt::CaseInsensitive);
 #endif
         }
+
         return mFileInfo.isSymLink();
     }
 
-    bool isHidden() const {
+    bool isHidden() const
+    {
         return mFileInfo.isHidden();
     }
 
-    QFileInfo fileInfo() const {
+    QFileInfo fileInfo() const
+    {
         return mFileInfo;
     }
 
-    QDateTime lastModified() const {
+    QDateTime lastModified() const
+    {
         return mFileInfo.lastModified();
     }
 
-    qint64 size() const {
-        qint64 size = -1;
+    qint64 size() const
+    {
+        qint64    size = -1;
+
         if (type() == QExtendedInformation::Dir)
             size = 0;
+
         if (type() == QExtendedInformation::File)
             size = mFileInfo.size();
+
         if (!mFileInfo.exists() && !mFileInfo.isSymLink())
             size = -1;
+
         return size;
     }
 
-    QString displayType;
-    QIcon icon;
+    QString     displayType;
+    QIcon       icon;
 
-private :
-    QFileInfo mFileInfo;
+private:
+    QFileInfo    mFileInfo;
 };
 
 class QFileIconProvider;
 
-class Q_AUTOTEST_EXPORT QFileInfoGatherer : public QThread
+class Q_AUTOTEST_EXPORT    QFileInfoGatherer : public QThread
 {
-Q_OBJECT
+    Q_OBJECT
 
 Q_SIGNALS:
     void updates(const QString &directory, const QVector<QPair<QString, QFileInfo> > &updates);
@@ -171,7 +201,7 @@ public:
     void clear();
     void removePath(const QString &path);
     QExtendedInformation getInfo(const QFileInfo &info) const;
-    QFileIconProvider *iconProvider() const;
+    QFileIconProvider* iconProvider() const;
     bool resolveSymlinks() const;
 
 public Q_SLOTS:
@@ -192,22 +222,22 @@ private:
     void fetch(const QFileInfo &info, QElapsedTimer &base, bool &firstTime, QVector<QPair<QString, QFileInfo> > &updatedFiles, const QString &path);
 
 private:
-    mutable QMutex mutex;
+    mutable QMutex    mutex;
     // begin protected by mutex
-    QWaitCondition condition;
-    QStack<QString> path;
-    QStack<QStringList> files;
+    QWaitCondition          condition;
+    QStack<QString>         path;
+    QStack<QStringList>     files;
     // end protected by mutex
-    QAtomicInt abort;
+    QAtomicInt    abort;
 
 #ifndef QT_NO_FILESYSTEMWATCHER
-    QFileSystemWatcher *watcher;
+    QFileSystemWatcher    *watcher;
 #endif
 #ifdef Q_OS_WIN
-    bool m_resolveSymlinks; // not accessed by run()
+    bool    m_resolveSymlinks; // not accessed by run()
 #endif
-    QFileIconProvider *m_iconProvider; // not accessed by run()
-    QFileIconProvider defaultProvider;
+    QFileIconProvider       *m_iconProvider; // not accessed by run()
+    QFileIconProvider       defaultProvider;
 };
 
 QT_END_NAMESPACE

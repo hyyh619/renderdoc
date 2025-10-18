@@ -58,39 +58,46 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QAbstractLayoutStyleInfo {
+class Q_GUI_EXPORT    QAbstractLayoutStyleInfo
+{
 public:
 
     QAbstractLayoutStyleInfo() : m_isWindow(false) {}
     virtual ~QAbstractLayoutStyleInfo() {}
     virtual qreal combinedLayoutSpacing(QLayoutPolicy::ControlTypes /*controls1*/,
-                                        QLayoutPolicy::ControlTypes /*controls2*/, Qt::Orientation /*orientation*/) const {
+                                        QLayoutPolicy::ControlTypes /*controls2*/, Qt::Orientation /*orientation*/) const
+    {
         return -1;
     }
 
     virtual qreal perItemSpacing(QLayoutPolicy::ControlType /*control1*/,
                                  QLayoutPolicy::ControlType /*control2*/,
-                                 Qt::Orientation /*orientation*/) const {
+                                 Qt::Orientation /*orientation*/) const
+    {
         return -1;
     }
 
     virtual qreal spacing(Qt::Orientation orientation) const = 0;
 
-    virtual bool hasChangedCore() const { return false; }   // ### Remove when usage is gone from subclasses
+    virtual bool hasChangedCore() const
+    {
+        return false;
+    }                                                       // ### Remove when usage is gone from subclasses
 
     virtual void invalidate() { }
 
     virtual qreal windowMargin(Qt::Orientation orientation) const = 0;
 
-    bool isWindow() const {
+    bool isWindow() const
+    {
         return m_isWindow;
     }
 
 protected:
-    unsigned m_isWindow : 1;
-    mutable unsigned m_hSpacingState: 2;
-    mutable unsigned m_vSpacingState: 2;
-    mutable qreal m_spacing[2];
+    unsigned            m_isWindow : 1;
+    mutable unsigned    m_hSpacingState : 2;
+    mutable unsigned    m_vSpacingState : 2;
+    mutable qreal       m_spacing[2];
 };
 
 QT_END_NAMESPACE

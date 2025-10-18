@@ -58,7 +58,7 @@ class QDrag;
 class QEvent;
 class QAbstractItemViewPrivate;
 
-class Q_WIDGETS_EXPORT QAbstractItemView : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QAbstractItemView : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_PROPERTY(bool autoScroll READ hasAutoScroll WRITE setAutoScroll)
@@ -81,7 +81,8 @@ class Q_WIDGETS_EXPORT QAbstractItemView : public QAbstractScrollArea
     Q_PROPERTY(ScrollMode horizontalScrollMode READ horizontalScrollMode WRITE setHorizontalScrollMode RESET resetHorizontalScrollMode)
 
 public:
-    enum SelectionMode {
+    enum SelectionMode
+    {
         NoSelection,
         SingleSelection,
         MultiSelection,
@@ -90,14 +91,16 @@ public:
     };
     Q_ENUM(SelectionMode)
 
-    enum SelectionBehavior {
+    enum SelectionBehavior
+    {
         SelectItems,
         SelectRows,
         SelectColumns
     };
     Q_ENUM(SelectionBehavior)
 
-    enum ScrollHint {
+    enum ScrollHint
+    {
         EnsureVisible,
         PositionAtTop,
         PositionAtBottom,
@@ -105,20 +108,22 @@ public:
     };
     Q_ENUM(ScrollHint)
 
-    enum EditTrigger {
-        NoEditTriggers = 0,
-        CurrentChanged = 1,
-        DoubleClicked = 2,
+    enum EditTrigger
+    {
+        NoEditTriggers  = 0,
+        CurrentChanged  = 1,
+        DoubleClicked   = 2,
         SelectedClicked = 4,
-        EditKeyPressed = 8,
-        AnyKeyPressed = 16,
+        EditKeyPressed  = 8,
+        AnyKeyPressed   = 16,
         AllEditTriggers = 31
     };
 
     Q_DECLARE_FLAGS(EditTriggers, EditTrigger)
     Q_FLAG(EditTriggers)
 
-    enum ScrollMode {
+    enum ScrollMode
+    {
         ScrollPerItem,
         ScrollPerPixel
     };
@@ -128,13 +133,13 @@ public:
     ~QAbstractItemView();
 
     virtual void setModel(QAbstractItemModel *model);
-    QAbstractItemModel *model() const;
+    QAbstractItemModel* model() const;
 
     virtual void setSelectionModel(QItemSelectionModel *selectionModel);
-    QItemSelectionModel *selectionModel() const;
+    QItemSelectionModel* selectionModel() const;
 
     void setItemDelegate(QAbstractItemDelegate *delegate);
-    QAbstractItemDelegate *itemDelegate() const;
+    QAbstractItemDelegate* itemDelegate() const;
 
     void setSelectionMode(QAbstractItemView::SelectionMode mode);
     QAbstractItemView::SelectionMode selectionMode() const;
@@ -175,7 +180,8 @@ public:
     void setDragDropOverwriteMode(bool overwrite);
     bool dragDropOverwriteMode() const;
 
-    enum DragDropMode {
+    enum DragDropMode
+    {
         NoDragDrop,
         DragOnly,
         DropOnly,
@@ -202,9 +208,9 @@ public:
 
     virtual void keyboardSearch(const QString &search);
 
-    virtual QRect visualRect(const QModelIndex &index) const = 0;
-    virtual void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible) = 0;
-    virtual QModelIndex indexAt(const QPoint &point) const = 0;
+    virtual QRect visualRect(const QModelIndex &index) const                            = 0;
+    virtual void scrollTo(const QModelIndex &index, ScrollHint hint = EnsureVisible)    = 0;
+    virtual QModelIndex indexAt(const QPoint &point) const                              = 0;
 
     QSize sizeHintForIndex(const QModelIndex &index) const;
     virtual int sizeHintForRow(int row) const;
@@ -214,15 +220,15 @@ public:
     void closePersistentEditor(const QModelIndex &index);
 
     void setIndexWidget(const QModelIndex &index, QWidget *widget);
-    QWidget *indexWidget(const QModelIndex &index) const;
+    QWidget* indexWidget(const QModelIndex &index) const;
 
     void setItemDelegateForRow(int row, QAbstractItemDelegate *delegate);
-    QAbstractItemDelegate *itemDelegateForRow(int row) const;
+    QAbstractItemDelegate* itemDelegateForRow(int row) const;
 
     void setItemDelegateForColumn(int column, QAbstractItemDelegate *delegate);
-    QAbstractItemDelegate *itemDelegateForColumn(int column) const;
+    QAbstractItemDelegate* itemDelegateForColumn(int column) const;
 
-    QAbstractItemDelegate *itemDelegate(const QModelIndex &index) const;
+    QAbstractItemDelegate* itemDelegate(const QModelIndex &index) const;
 
     virtual QVariant inputMethodQuery(Qt::InputMethodQuery query) const Q_DECL_OVERRIDE;
 
@@ -269,7 +275,7 @@ Q_SIGNALS:
     void iconSizeChanged(const QSize &size);
 
 protected:
-    QAbstractItemView(QAbstractItemViewPrivate &, QWidget *parent = Q_NULLPTR);
+    QAbstractItemView(QAbstractItemViewPrivate&, QWidget *parent = Q_NULLPTR);
 
     void setHorizontalStepsPerItem(int steps);
     int horizontalStepsPerItem() const;
@@ -282,13 +288,13 @@ protected:
     virtual QModelIndex moveCursor(CursorAction cursorAction,
                                    Qt::KeyboardModifiers modifiers) = 0;
 
-    virtual int horizontalOffset() const = 0;
-    virtual int verticalOffset() const = 0;
+    virtual int horizontalOffset() const    = 0;
+    virtual int verticalOffset() const      = 0;
 
     virtual bool isIndexHidden(const QModelIndex &index) const = 0;
 
-    virtual void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) = 0;
-    virtual QRegion visualRegionForSelection(const QItemSelection &selection) const = 0;
+    virtual void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command)   = 0;
+    virtual QRegion visualRegionForSelection(const QItemSelection &selection) const             = 0;
     virtual QModelIndexList selectedIndexes() const;
 
     virtual bool edit(const QModelIndex &index, EditTrigger trigger, QEvent *event);
@@ -302,7 +308,8 @@ protected:
 
     virtual QStyleOptionViewItem viewOptions() const;
 
-    enum State {
+    enum State
+    {
         NoState,
         DraggingState,
         DragSelectingState,
@@ -356,13 +363,13 @@ protected:
 private:
     Q_DECLARE_PRIVATE(QAbstractItemView)
     Q_DISABLE_COPY(QAbstractItemView)
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeRemoved(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsRemoved(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsInserted(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsRemoved(const QModelIndex&, int, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_columnsMoved(const QModelIndex&, int, int, const QModelIndex&, int))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsMoved(const QModelIndex&, int, int, const QModelIndex&, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsAboutToBeRemoved(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsRemoved(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsInserted(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsRemoved(const QModelIndex &, int, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_columnsMoved(const QModelIndex &, int, int, const QModelIndex &, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsMoved(const QModelIndex &, int, int, const QModelIndex &, int))
     Q_PRIVATE_SLOT(d_func(), void _q_modelDestroyed())
     Q_PRIVATE_SLOT(d_func(), void _q_layoutChanged())
     Q_PRIVATE_SLOT(d_func(), void _q_headerDataChanged())

@@ -67,69 +67,80 @@ QT_REQUIRE_CONFIG(mdiarea);
 
 QT_BEGIN_NAMESPACE
 
-namespace QMdi {
-class Rearranger
+namespace QMdi
 {
+    class Rearranger
+    {
 public:
-    enum Type {
-        RegularTiler,
-        SimpleCascader,
-        IconTiler
+        enum Type
+        {
+            RegularTiler,
+            SimpleCascader,
+            IconTiler
+        };
+
+        // Rearranges widgets relative to domain.
+        virtual void rearrange(QList<QWidget*> &widgets, const QRect &domain) const = 0;
+        virtual Type type() const                                                   = 0;
+        virtual ~Rearranger() {}
     };
 
-    // Rearranges widgets relative to domain.
-    virtual void rearrange(QList<QWidget *> &widgets, const QRect &domain) const = 0;
-    virtual Type type() const = 0;
-    virtual ~Rearranger() {}
-};
+    class RegularTiler : public Rearranger
+    {
+        // Rearranges widgets according to a regular tiling pattern
+        // covering the entire domain.
+        // Both positions and sizes may change.
+        void rearrange(QList<QWidget*> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
+        Type type() const Q_DECL_OVERRIDE
+        {
+            return Rearranger::RegularTiler;
+        }
+    };
 
-class RegularTiler : public Rearranger
-{
-    // Rearranges widgets according to a regular tiling pattern
-    // covering the entire domain.
-    // Both positions and sizes may change.
-    void rearrange(QList<QWidget *> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
-    Type type() const Q_DECL_OVERRIDE { return Rearranger::RegularTiler; }
-};
+    class SimpleCascader : public Rearranger
+    {
+        // Rearranges widgets according to a simple, regular cascading pattern.
+        // Widgets are resized to minimumSize.
+        // Both positions and sizes may change.
+        void rearrange(QList<QWidget*> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
+        Type type() const Q_DECL_OVERRIDE
+        {
+            return Rearranger::SimpleCascader;
+        }
+    };
 
-class SimpleCascader : public Rearranger
-{
-    // Rearranges widgets according to a simple, regular cascading pattern.
-    // Widgets are resized to minimumSize.
-    // Both positions and sizes may change.
-    void rearrange(QList<QWidget *> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
-    Type type() const Q_DECL_OVERRIDE { return Rearranger::SimpleCascader; }
-};
+    class IconTiler : public Rearranger
+    {
+        // Rearranges icons (assumed to be the same size) according to a regular
+        // tiling pattern filling up the domain from the bottom.
+        // Only positions may change.
+        void rearrange(QList<QWidget*> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
+        Type type() const Q_DECL_OVERRIDE
+        {
+            return Rearranger::IconTiler;
+        }
+    };
 
-class IconTiler : public Rearranger
-{
-    // Rearranges icons (assumed to be the same size) according to a regular
-    // tiling pattern filling up the domain from the bottom.
-    // Only positions may change.
-    void rearrange(QList<QWidget *> &widgets, const QRect &domain) const Q_DECL_OVERRIDE;
-    Type type() const Q_DECL_OVERRIDE { return Rearranger::IconTiler; }
-};
-
-class Placer
-{
+    class Placer
+    {
 public:
-    // Places the rectangle defined by 'size' relative to 'rects' and 'domain'.
-    // Returns the position of the resulting rectangle.
-    virtual QPoint place(
-        const QSize &size, const QVector<QRect> &rects, const QRect &domain) const = 0;
-    virtual ~Placer() {}
-};
+        // Places the rectangle defined by 'size' relative to 'rects' and 'domain'.
+        // Returns the position of the resulting rectangle.
+        virtual QPoint place(
+            const QSize &size, const QVector<QRect> &rects, const QRect &domain) const = 0;
+        virtual ~Placer() {}
+    };
 
-class MinOverlapPlacer : public Placer
-{
-    QPoint place(const QSize &size, const QVector<QRect> &rects, const QRect &domain) const Q_DECL_OVERRIDE;
-    static int accumulatedOverlap(const QRect &source, const QVector<QRect> &rects);
-    static QRect findMinOverlapRect(const QVector<QRect> &source, const QVector<QRect> &rects);
-    static QVector<QRect> getCandidatePlacements(const QSize &size, const QVector<QRect> &rects, const QRect &domain);
-    static QPoint findBestPlacement(const QRect &domain, const QVector<QRect> &rects, QVector<QRect> &source);
-    static QVector<QRect> findNonInsiders(const QRect &domain, QVector<QRect> &source);
-    static QVector<QRect> findMaxOverlappers(const QRect &domain, const QVector<QRect> &source);
-};
+    class MinOverlapPlacer : public Placer
+    {
+        QPoint place(const QSize &size, const QVector<QRect> &rects, const QRect &domain) const Q_DECL_OVERRIDE;
+        static int accumulatedOverlap(const QRect &source, const QVector<QRect> &rects);
+        static QRect findMinOverlapRect(const QVector<QRect> &source, const QVector<QRect> &rects);
+        static QVector<QRect> getCandidatePlacements(const QSize &size, const QVector<QRect> &rects, const QRect &domain);
+        static QPoint findBestPlacement(const QRect &domain, const QVector<QRect> &rects, QVector<QRect> &source);
+        static QVector<QRect> findNonInsiders(const QRect &domain, QVector<QRect> &source);
+        static QVector<QRect> findMaxOverlappers(const QRect &domain, const QVector<QRect> &source);
+    };
 } // namespace QMdi
 
 class QMdiAreaTabBar;
@@ -140,47 +151,47 @@ public:
     QMdiAreaPrivate();
 
     // Variables.
-    QMdi::Rearranger *cascader;
-    QMdi::Rearranger *regularTiler;
-    QMdi::Rearranger *iconTiler;
-    QMdi::Placer *placer;
+    QMdi::Rearranger    *cascader;
+    QMdi::Rearranger    *regularTiler;
+    QMdi::Rearranger    *iconTiler;
+    QMdi::Placer        *placer;
 #if QT_CONFIG(rubberband)
-    QRubberBand *rubberBand;
+    QRubberBand    *rubberBand;
 #endif
-    QMdiAreaTabBar *tabBar;
-    QList<QMdi::Rearranger *> pendingRearrangements;
-    QVector< QPointer<QMdiSubWindow> > pendingPlacements;
-    QVector< QPointer<QMdiSubWindow> > childWindows;
-    QVector<int> indicesToActivatedChildren;
-    QPointer<QMdiSubWindow> active;
-    QPointer<QMdiSubWindow> aboutToBecomeActive;
-    QBrush background;
-    QMdiArea::WindowOrder activationOrder;
-    QMdiArea::AreaOptions options;
-    QMdiArea::ViewMode viewMode;
+    QMdiAreaTabBar                          *tabBar;
+    QList<QMdi::Rearranger*>                pendingRearrangements;
+    QVector<QPointer<QMdiSubWindow> >       pendingPlacements;
+    QVector<QPointer<QMdiSubWindow> >       childWindows;
+    QVector<int>                            indicesToActivatedChildren;
+    QPointer<QMdiSubWindow>                 active;
+    QPointer<QMdiSubWindow>                 aboutToBecomeActive;
+    QBrush                                  background;
+    QMdiArea::WindowOrder                   activationOrder;
+    QMdiArea::AreaOptions                   options;
+    QMdiArea::ViewMode                      viewMode;
 #if QT_CONFIG(tabbar)
-    bool documentMode;
-    bool tabsClosable;
-    bool tabsMovable;
+    bool    documentMode;
+    bool    tabsClosable;
+    bool    tabsMovable;
 #endif
 #if QT_CONFIG(tabwidget)
-    QTabWidget::TabShape tabShape;
-    QTabWidget::TabPosition tabPosition;
+    QTabWidget::TabShape        tabShape;
+    QTabWidget::TabPosition     tabPosition;
 #endif
-    bool ignoreGeometryChange;
-    bool ignoreWindowStateChange;
-    bool isActivated;
-    bool isSubWindowsTiled;
-    bool showActiveWindowMaximized;
-    bool tileCalledFromResizeEvent;
-    bool updatesDisabledByUs;
-    bool inViewModeChange;
-    int indexToNextWindow;
-    int indexToPreviousWindow;
-    int indexToHighlighted;
-    int indexToLastActiveTab;
-    int resizeTimerId;
-    int tabToPreviousTimerId;
+    bool    ignoreGeometryChange;
+    bool    ignoreWindowStateChange;
+    bool    isActivated;
+    bool    isSubWindowsTiled;
+    bool    showActiveWindowMaximized;
+    bool    tileCalledFromResizeEvent;
+    bool    updatesDisabledByUs;
+    bool    inViewModeChange;
+    int     indexToNextWindow;
+    int     indexToPreviousWindow;
+    int     indexToHighlighted;
+    int     indexToLastActiveTab;
+    int     resizeTimerId;
+    int     tabToPreviousTimerId;
 
     // Slots.
     void _q_deactivateAllWindows(QMdiSubWindow *aboutToActivate = 0);
@@ -207,10 +218,10 @@ public:
     void setChildActivationEnabled(bool enable = true, bool onlyNextActivationEvent = false) const;
     QRect resizeToMinimumTileSize(const QSize &minSubWindowSize, int subWindowCount);
     void scrollBarPolicyChanged(Qt::Orientation, Qt::ScrollBarPolicy) Q_DECL_OVERRIDE; // reimp
-    QMdiSubWindow *nextVisibleSubWindow(int increaseFactor, QMdiArea::WindowOrder,
+    QMdiSubWindow* nextVisibleSubWindow(int increaseFactor, QMdiArea::WindowOrder,
                                         int removed = -1, int fromIndex = -1) const;
     void highlightNextSubWindow(int increaseFactor);
-    QList<QMdiSubWindow *> subWindowList(QMdiArea::WindowOrder, bool reversed = false) const;
+    QList<QMdiSubWindow*> subWindowList(QMdiArea::WindowOrder, bool reversed = false) const;
     void disconnectSubWindow(QObject *subWindow);
     void setViewMode(QMdiArea::ViewMode mode);
 #if QT_CONFIG(tabbar)
@@ -223,6 +234,7 @@ public:
         Q_Q(QMdiArea);
         if (resizeTimerId > 0)
             q->killTimer(resizeTimerId);
+
         resizeTimerId = q->startTimer(200);
     }
 
@@ -231,6 +243,7 @@ public:
         Q_Q(QMdiArea);
         if (tabToPreviousTimerId > 0)
             q->killTimer(tabToPreviousTimerId);
+
         tabToPreviousTimerId = q->startTimer(QApplication::keyboardInputInterval());
     }
 
@@ -238,6 +251,7 @@ public:
     {
         if (!subWindow)
             return false;
+
         return subWindow->windowFlags() & Qt::WindowStaysOnTopHint;
     }
 
@@ -245,6 +259,7 @@ public:
     {
         if (!subWindow)
             return true;
+
         return subWindow->d_func()->isExplicitlyDeactivated;
     }
 
@@ -261,6 +276,7 @@ public:
     {
         if (rubberBand && rubberBand->isVisible())
             rubberBand->hide();
+
         indexToHighlighted = -1;
     }
 #endif // QT_CONFIG(rubberband)

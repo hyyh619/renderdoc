@@ -89,7 +89,7 @@ class QWindowContainer;
 class QDebug;
 #endif
 
-class Q_GUI_EXPORT QWindow : public QObject, public QSurface
+class Q_GUI_EXPORT    QWindow : public QObject, public QSurface
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QWindow)
@@ -122,7 +122,8 @@ class Q_GUI_EXPORT QWindow : public QObject, public QSurface
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged REVISION 1)
 
 public:
-    enum Visibility {
+    enum Visibility
+    {
         Hidden = 0,
         AutomaticVisibility,
         Windowed,
@@ -132,7 +133,8 @@ public:
     };
     Q_ENUM(Visibility)
 
-    enum AncestorMode {
+    enum AncestorMode
+    {
         ExcludeTransients,
         IncludeTransients
     };
@@ -154,8 +156,8 @@ public:
 
     WId winId() const;
 
-    QWindow *parent(AncestorMode mode) const;
-    QWindow *parent() const; // ### Qt6: Merge with above
+    QWindow* parent(AncestorMode mode) const;
+    QWindow* parent() const; // ### Qt6: Merge with above
     void setParent(QWindow *parent);
 
     bool isTopLevel() const;
@@ -192,16 +194,28 @@ public:
     void setWindowState(Qt::WindowState state);
 
     void setTransientParent(QWindow *parent);
-    QWindow *transientParent() const;
+    QWindow* transientParent() const;
 
     bool isAncestorOf(const QWindow *child, AncestorMode mode = IncludeTransients) const;
 
     bool isExposed() const;
 
-    inline int minimumWidth() const { return minimumSize().width(); }
-    inline int minimumHeight() const { return minimumSize().height(); }
-    inline int maximumWidth() const { return maximumSize().width(); }
-    inline int maximumHeight() const { return maximumSize().height(); }
+    inline int minimumWidth() const
+    {
+        return minimumSize().width();
+    }
+    inline int minimumHeight() const
+    {
+        return minimumSize().height();
+    }
+    inline int maximumWidth() const
+    {
+        return maximumSize().width();
+    }
+    inline int maximumHeight() const
+    {
+        return maximumSize().height();
+    }
 
     QSize minimumSize() const;
     QSize maximumSize() const;
@@ -223,13 +237,31 @@ public:
     QPoint framePosition() const;
     void setFramePosition(const QPoint &point);
 
-    inline int width() const { return geometry().width(); }
-    inline int height() const { return geometry().height(); }
-    inline int x() const { return geometry().x(); }
-    inline int y() const { return geometry().y(); }
+    inline int width() const
+    {
+        return geometry().width();
+    }
+    inline int height() const
+    {
+        return geometry().height();
+    }
+    inline int x() const
+    {
+        return geometry().x();
+    }
+    inline int y() const
+    {
+        return geometry().y();
+    }
 
-    QSize size() const Q_DECL_OVERRIDE { return geometry().size(); }
-    inline QPoint position() const { return geometry().topLeft(); }
+    QSize size() const Q_DECL_OVERRIDE
+    {
+        return geometry().size();
+    }
+    inline QPoint position() const
+    {
+        return geometry().topLeft();
+    }
 
     void setPosition(const QPoint &pt);
     void setPosition(int posx, int posy);
@@ -245,27 +277,27 @@ public:
 
     void destroy();
 
-    QPlatformWindow *handle() const;
+    QPlatformWindow* handle() const;
 
     bool setKeyboardGrabEnabled(bool grab);
     bool setMouseGrabEnabled(bool grab);
 
-    QScreen *screen() const;
+    QScreen* screen() const;
     void setScreen(QScreen *screen);
 
-    virtual QAccessibleInterface *accessibleRoot() const;
-    virtual QObject *focusObject() const;
+    virtual QAccessibleInterface* accessibleRoot() const;
+    virtual QObject* focusObject() const;
 
     QPoint mapToGlobal(const QPoint &pos) const;
     QPoint mapFromGlobal(const QPoint &pos) const;
 
 #ifndef QT_NO_CURSOR
     QCursor cursor() const;
-    void setCursor(const QCursor &);
+    void setCursor(const QCursor&);
     void unsetCursor();
 #endif
 
-    static QWindow *fromWinId(WId id);
+    static QWindow* fromWinId(WId id);
 
 public Q_SLOTS:
     Q_REVISION(1) void requestActivate();
@@ -284,7 +316,7 @@ public Q_SLOTS:
     void raise();
     void lower();
 
-    void setTitle(const QString &);
+    void setTitle(const QString&);
 
     void setX(int arg);
     void setY(int arg);
@@ -327,29 +359,29 @@ Q_SIGNALS:
     Q_REVISION(1) void opacityChanged(qreal opacity);
 
 protected:
-    virtual void exposeEvent(QExposeEvent *);
-    virtual void resizeEvent(QResizeEvent *);
-    virtual void moveEvent(QMoveEvent *);
-    virtual void focusInEvent(QFocusEvent *);
-    virtual void focusOutEvent(QFocusEvent *);
+    virtual void exposeEvent(QExposeEvent*);
+    virtual void resizeEvent(QResizeEvent*);
+    virtual void moveEvent(QMoveEvent*);
+    virtual void focusInEvent(QFocusEvent*);
+    virtual void focusOutEvent(QFocusEvent*);
 
-    virtual void showEvent(QShowEvent *);
-    virtual void hideEvent(QHideEvent *);
+    virtual void showEvent(QShowEvent*);
+    virtual void hideEvent(QHideEvent*);
     // TODO Qt 6 - add closeEvent virtual handler
 
-    virtual bool event(QEvent *) Q_DECL_OVERRIDE;
-    virtual void keyPressEvent(QKeyEvent *);
-    virtual void keyReleaseEvent(QKeyEvent *);
-    virtual void mousePressEvent(QMouseEvent *);
-    virtual void mouseReleaseEvent(QMouseEvent *);
-    virtual void mouseDoubleClickEvent(QMouseEvent *);
-    virtual void mouseMoveEvent(QMouseEvent *);
+    virtual bool event(QEvent*) Q_DECL_OVERRIDE;
+    virtual void keyPressEvent(QKeyEvent*);
+    virtual void keyReleaseEvent(QKeyEvent*);
+    virtual void mousePressEvent(QMouseEvent*);
+    virtual void mouseReleaseEvent(QMouseEvent*);
+    virtual void mouseDoubleClickEvent(QMouseEvent*);
+    virtual void mouseMoveEvent(QMouseEvent*);
 #if QT_CONFIG(wheelevent)
-    virtual void wheelEvent(QWheelEvent *);
+    virtual void wheelEvent(QWheelEvent*);
 #endif
-    virtual void touchEvent(QTouchEvent *);
+    virtual void touchEvent(QTouchEvent*);
 #if QT_CONFIG(tabletevent)
-    virtual void tabletEvent(QTabletEvent *);
+    virtual void tabletEvent(QTabletEvent*);
 #endif
     virtual bool nativeEvent(const QByteArray &eventType, void *message, long *result);
 
@@ -357,31 +389,35 @@ protected:
 
 private:
     Q_PRIVATE_SLOT(d_func(), void _q_clearAlert())
-    QPlatformSurface *surfaceHandle() const Q_DECL_OVERRIDE;
+    QPlatformSurface * surfaceHandle() const Q_DECL_OVERRIDE;
 
     Q_DISABLE_COPY(QWindow)
 
     friend class QGuiApplication;
     friend class QGuiApplicationPrivate;
     friend class QWindowContainer;
-    friend Q_GUI_EXPORT QWindowPrivate *qt_window_private(QWindow *window);
+    friend Q_GUI_EXPORT QWindowPrivate* qt_window_private(QWindow *window);
 };
 
 #ifndef Q_QDOC
-template <> inline QWindow *qobject_cast<QWindow*>(QObject *o)
+template<> inline QWindow* qobject_cast<QWindow*>(QObject *o)
 {
-    if (!o || !o->isWindowType()) return Q_NULLPTR;
+    if (!o || !o->isWindowType())
+        return Q_NULLPTR;
+
     return static_cast<QWindow*>(o);
 }
-template <> inline const QWindow *qobject_cast<const QWindow*>(const QObject *o)
+template<> inline const QWindow* qobject_cast<const QWindow*>(const QObject *o)
 {
-    if (!o || !o->isWindowType()) return Q_NULLPTR;
+    if (!o || !o->isWindowType())
+        return Q_NULLPTR;
+
     return static_cast<const QWindow*>(o);
 }
 #endif // !Q_QDOC
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QWindow *);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QWindow*);
 #endif
 
 QT_END_NAMESPACE

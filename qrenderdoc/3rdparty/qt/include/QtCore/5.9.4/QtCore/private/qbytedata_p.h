@@ -61,13 +61,12 @@ QT_BEGIN_NAMESPACE
 class QByteDataBuffer
 {
 private:
-    QList<QByteArray> buffers;
-    qint64 bufferCompleteSize;
-    qint64 firstPos;
+    QList<QByteArray>       buffers;
+    qint64                  bufferCompleteSize;
+    qint64                  firstPos;
 public:
     QByteDataBuffer() : bufferCompleteSize(0), firstPos(0)
-    {
-    }
+    {}
 
     ~QByteDataBuffer()
     {
@@ -81,13 +80,14 @@ public:
 
     inline void squeezeFirst()
     {
-        if (!buffers.isEmpty() && firstPos > 0) {
+        if (!buffers.isEmpty() && firstPos > 0)
+        {
             popFront(buffers.first(), firstPos);
             firstPos = 0;
         }
     }
 
-    inline void append(const QByteDataBuffer& other)
+    inline void append(const QByteDataBuffer &other)
     {
         if (other.isEmpty())
             return;
@@ -100,7 +100,7 @@ public:
     }
 
 
-    inline void append(const QByteArray& bd)
+    inline void append(const QByteArray &bd)
     {
         if (bd.isEmpty())
             return;
@@ -109,7 +109,7 @@ public:
         bufferCompleteSize += bd.size();
     }
 
-    inline void prepend(const QByteArray& bd)
+    inline void prepend(const QByteArray &bd)
     {
         if (bd.isEmpty())
             return;
@@ -141,7 +141,7 @@ public:
     inline QByteArray read(qint64 amount)
     {
         amount = qMin(byteAmount(), amount);
-        QByteArray byteData;
+        QByteArray    byteData;
         byteData.resize(amount);
         read(byteData.data(), byteData.size());
         return byteData;
@@ -149,29 +149,33 @@ public:
 
     // return amount bytes. User of this function has to free() its .data!
     // avoid to use this, it will memcpy.
-    qint64 read(char* dst, qint64 amount)
+    qint64 read(char *dst, qint64 amount)
     {
         amount = qMin(amount, byteAmount());
-        qint64 originalAmount = amount;
-        char *writeDst = dst;
+        qint64      originalAmount  = amount;
+        char        *writeDst       = dst;
 
-        while (amount > 0) {
-            const QByteArray &first = buffers.first();
-            qint64 firstSize = first.size() - firstPos;
-            if (amount >= firstSize) {
+        while (amount > 0)
+        {
+            const QByteArray    &first      = buffers.first();
+            qint64              firstSize   = first.size() - firstPos;
+            if (amount >= firstSize)
+            {
                 // take it completely
-                bufferCompleteSize -= firstSize;
-                amount -= firstSize;
+                bufferCompleteSize  -= firstSize;
+                amount              -= firstSize;
                 memcpy(writeDst, first.constData() + firstPos, firstSize);
-                writeDst += firstSize;
-                firstPos = 0;
+                writeDst    += firstSize;
+                firstPos    = 0;
                 buffers.takeFirst();
-            } else {
+            }
+            else
+            {
                 // take a part of it & it is the last one to take
                 bufferCompleteSize -= amount;
                 memcpy(writeDst, first.constData() + firstPos, amount);
-                firstPos += amount;
-                amount = 0;
+                firstPos    += amount;
+                amount      = 0;
             }
         }
 
@@ -180,7 +184,8 @@ public:
 
     inline char getChar()
     {
-        char c;
+        char    c;
+
         read(&c, 1);
         return c;
     }
@@ -188,8 +193,8 @@ public:
     inline void clear()
     {
         buffers.clear();
-        bufferCompleteSize = 0;
-        firstPos = 0;
+        bufferCompleteSize  = 0;
+        firstPos            = 0;
     }
 
     // The byte count of all QByteArrays
@@ -211,13 +216,13 @@ public:
 
     inline qint64 sizeNextBlock() const
     {
-        if(buffers.isEmpty())
+        if (buffers.isEmpty())
             return 0;
         else
             return buffers.first().size() - firstPos;
     }
 
-    inline QByteArray& operator[](int i)
+    inline QByteArray    &operator[](int i)
     {
         if (i == 0)
             squeezeFirst();
@@ -225,17 +230,22 @@ public:
         return buffers[i];
     }
 
-    inline bool canReadLine() const {
-        int i = 0;
-        if (i < buffers.length()) {
+    inline bool canReadLine() const
+    {
+        int    i = 0;
+
+        if (i < buffers.length())
+        {
             if (buffers.at(i).indexOf('\n', firstPos) != -1)
                 return true;
+
             ++i;
 
             for (; i < buffers.length(); i++)
                 if (buffers.at(i).contains('\n'))
                     return true;
         }
+
         return false;
     }
 };

@@ -56,7 +56,7 @@ class QProcessPrivate;
 typedef qint64 Q_PID;
 #else
 QT_END_NAMESPACE
-typedef struct _PROCESS_INFORMATION *Q_PID;
+typedef struct _PROCESS_INFORMATION*Q_PID;
 typedef struct _SECURITY_ATTRIBUTES Q_SECURITY_ATTRIBUTES;
 typedef struct _STARTUPINFOW Q_STARTUPINFO;
 QT_BEGIN_NAMESPACE
@@ -64,22 +64,30 @@ QT_BEGIN_NAMESPACE
 
 class QProcessEnvironmentPrivate;
 
-class Q_CORE_EXPORT QProcessEnvironment
+class Q_CORE_EXPORT    QProcessEnvironment
 {
 public:
     QProcessEnvironment();
     QProcessEnvironment(const QProcessEnvironment &other);
     ~QProcessEnvironment();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QProcessEnvironment &operator=(QProcessEnvironment && other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QProcessEnvironment&operator=(QProcessEnvironment &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QProcessEnvironment &operator=(const QProcessEnvironment &other);
+    QProcessEnvironment&operator=(const QProcessEnvironment &other);
 
-    void swap(QProcessEnvironment &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QProcessEnvironment &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QProcessEnvironment &other) const;
     inline bool operator!=(const QProcessEnvironment &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     bool isEmpty() const;
     void clear();
@@ -100,19 +108,20 @@ public:
 private:
     friend class QProcessPrivate;
     friend class QProcessEnvironmentPrivate;
-    QSharedDataPointer<QProcessEnvironmentPrivate> d;
+    QSharedDataPointer<QProcessEnvironmentPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QProcessEnvironment)
 
 #if QT_CONFIG(process)
 
-class Q_CORE_EXPORT QProcess : public QIODevice
+class Q_CORE_EXPORT    QProcess : public QIODevice
 {
     Q_OBJECT
 public:
-    enum ProcessError {
-        FailedToStart, //### file not found, resource error
+    enum ProcessError
+    {
+        FailedToStart, // ### file not found, resource error
         Crashed,
         Timedout,
         ReadError,
@@ -121,20 +130,23 @@ public:
     };
     Q_ENUM(ProcessError)
 
-    enum ProcessState {
+    enum ProcessState
+    {
         NotRunning,
         Starting,
         Running
     };
     Q_ENUM(ProcessState)
 
-    enum ProcessChannel {
+    enum ProcessChannel
+    {
         StandardOutput,
         StandardError
     };
     Q_ENUM(ProcessChannel)
 
-    enum ProcessChannelMode {
+    enum ProcessChannelMode
+    {
         SeparateChannels,
         MergedChannels,
         ForwardedChannels,
@@ -143,13 +155,15 @@ public:
     };
     Q_ENUM(ProcessChannelMode)
 
-    enum InputChannelMode {
+    enum InputChannelMode
+    {
         ManagedInputChannel,
         ForwardedInputChannel
     };
     Q_ENUM(InputChannelMode)
 
-    enum ExitStatus {
+    enum ExitStatus
+    {
         NormalExit,
         CrashExit
     };
@@ -169,7 +183,7 @@ public:
     void setProgram(const QString &program);
 
     QStringList arguments() const;
-    void setArguments(const QStringList & arguments);
+    void setArguments(const QStringList &arguments);
 
     ProcessChannelMode readChannelMode() const;
     void setReadChannelMode(ProcessChannelMode mode);
@@ -194,18 +208,18 @@ public:
     void setNativeArguments(const QString &arguments);
     struct CreateProcessArguments
     {
-        const wchar_t *applicationName;
-        wchar_t *arguments;
-        Q_SECURITY_ATTRIBUTES *processAttributes;
-        Q_SECURITY_ATTRIBUTES *threadAttributes;
-        bool inheritHandles;
-        unsigned long flags;
-        void *environment;
-        const wchar_t *currentDirectory;
-        Q_STARTUPINFO *startupInfo;
-        Q_PID processInformation;
+        const wchar_t           *applicationName;
+        wchar_t                 *arguments;
+        Q_SECURITY_ATTRIBUTES   *processAttributes;
+        Q_SECURITY_ATTRIBUTES   *threadAttributes;
+        bool                    inheritHandles;
+        unsigned long           flags;
+        void                    *environment;
+        const wchar_t           *currentDirectory;
+        Q_STARTUPINFO           *startupInfo;
+        Q_PID                   processInformation;
     };
-    typedef std::function<void(CreateProcessArguments *)> CreateProcessArgumentModifier;
+    typedef std::function<void (CreateProcessArguments*)> CreateProcessArgumentModifier;
     CreateProcessArgumentModifier createProcessArgumentsModifier() const;
     void setCreateProcessArgumentsModifier(CreateProcessArgumentModifier modifier);
 #endif // Q_OS_WIN || Q_CLANG_QDOC
@@ -248,9 +262,9 @@ public:
     static int execute(const QString &command);
 
     static bool startDetached(const QString &program, const QStringList &arguments,
-                              const QString &workingDirectory
+                              const QString&workingDirectory
 #if defined(Q_QDOC)
-                              = QString()
+                                  = QString()
 #endif
                               , qint64 *pid = Q_NULLPTR);
 #if !defined(Q_QDOC)
@@ -267,17 +281,17 @@ public Q_SLOTS:
     void kill();
 
 Q_SIGNALS:
-    void started(QPrivateSignal);
+    void    started(QPrivateSignal);
     void finished(int exitCode); // ### Qt 6: merge the two signals with a default value
     void finished(int exitCode, QProcess::ExitStatus exitStatus);
-#if QT_DEPRECATED_SINCE(5,6)
+#if QT_DEPRECATED_SINCE(5, 6)
     void error(QProcess::ProcessError error);
 #endif
     void errorOccurred(QProcess::ProcessError error);
-    void stateChanged(QProcess::ProcessState state, QPrivateSignal);
+    void    stateChanged(QProcess::ProcessState state, QPrivateSignal);
 
-    void readyReadStandardOutput(QPrivateSignal);
-    void readyReadStandardError(QPrivateSignal);
+    void    readyReadStandardOutput(QPrivateSignal);
+    void    readyReadStandardError(QPrivateSignal);
 
 protected:
     void setProcessState(ProcessState state);
@@ -299,7 +313,6 @@ private:
     Q_PRIVATE_SLOT(d_func(), bool _q_processDied())
     friend class QProcessManager;
 };
-
 #endif // QT_CONFIG(process)
 
 QT_END_NAMESPACE

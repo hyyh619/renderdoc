@@ -1,41 +1,41 @@
 /****************************************************************************
- **
- ** Copyright (C) 2013 BlackBerry Limited. All rights reserved.
- ** Contact: https://www.qt.io/licensing/
- **
- ** This file is part of the QtCore module of the Qt Toolkit.
- **
- ** $QT_BEGIN_LICENSE:LGPL$
- ** Commercial License Usage
- ** Licensees holding valid commercial Qt licenses may use this file in
- ** accordance with the commercial license agreement provided with the
- ** Software or, alternatively, in accordance with the terms contained in
- ** a written agreement between you and The Qt Company. For licensing terms
- ** and conditions see https://www.qt.io/terms-conditions. For further
- ** information use the contact form at https://www.qt.io/contact-us.
- **
- ** GNU Lesser General Public License Usage
- ** Alternatively, this file may be used under the terms of the GNU Lesser
- ** General Public License version 3 as published by the Free Software
- ** Foundation and appearing in the file LICENSE.LGPL3 included in the
- ** packaging of this file. Please review the following information to
- ** ensure the GNU Lesser General Public License version 3 requirements
- ** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
- **
- ** GNU General Public License Usage
- ** Alternatively, this file may be used under the terms of the GNU
- ** General Public License version 2.0 or (at your option) the GNU General
- ** Public license version 3 or any later version approved by the KDE Free
- ** Qt Foundation. The licenses are as published by the Free Software
- ** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
- ** included in the packaging of this file. Please review the following
- ** information to ensure the GNU General Public License requirements will
- ** be met: https://www.gnu.org/licenses/gpl-2.0.html and
- ** https://www.gnu.org/licenses/gpl-3.0.html.
- **
- ** $QT_END_LICENSE$
- **
- ****************************************************************************/
+**
+** Copyright (C) 2013 BlackBerry Limited. All rights reserved.
+** Contact: https://www.qt.io/licensing/
+**
+** This file is part of the QtCore module of the Qt Toolkit.
+**
+** $QT_BEGIN_LICENSE:LGPL$
+** Commercial License Usage
+** Licensees holding valid commercial Qt licenses may use this file in
+** accordance with the commercial license agreement provided with the
+** Software or, alternatively, in accordance with the terms contained in
+** a written agreement between you and The Qt Company. For licensing terms
+** and conditions see https://www.qt.io/terms-conditions. For further
+** information use the contact form at https://www.qt.io/contact-us.
+**
+** GNU Lesser General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU Lesser
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file LICENSE.LGPL3 included in the
+** packaging of this file. Please review the following information to
+** ensure the GNU Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/lgpl-3.0.html.
+**
+** GNU General Public License Usage
+** Alternatively, this file may be used under the terms of the GNU
+** General Public License version 2.0 or (at your option) the GNU General
+** Public license version 3 or any later version approved by the KDE Free
+** Qt Foundation. The licenses are as published by the Free Software
+** Foundation and appearing in the file LICENSE.GPL2 and LICENSE.GPL3
+** included in the packaging of this file. Please review the following
+** information to ensure the GNU General Public License requirements will
+** be met: https://www.gnu.org/licenses/gpl-2.0.html and
+** https://www.gnu.org/licenses/gpl-3.0.html.
+**
+** $QT_END_LICENSE$
+**
+****************************************************************************/
 
 #ifndef QPPSOBJECTPRIVATE_P_H_
 #define QPPSOBJECTPRIVATE_P_H_
@@ -74,11 +74,11 @@ public:
 
     static QVariantMap variantMapFromPpsAttributeMap(const QPpsAttributeMap &data);
 
-    QSocketNotifier *notifier;
-    QString path;
-    mutable int error;
-    int fd;
-    bool readyReadEnabled;
+    QSocketNotifier     *notifier;
+    QString             path;
+    mutable int         error;
+    int                 fd;
+    bool                readyReadEnabled;
 
 private:
     static QPpsAttribute::Flags readFlags(pps_decoder_t *decoder);
@@ -92,7 +92,7 @@ private:
     static bool decoderPop(pps_decoder_t *decoder);
 
     template<typename T>
-    static QPpsAttribute decodeNestedData(T (*decodeFunction)(pps_decoder_t *, bool *),
+    static QPpsAttribute decodeNestedData(T (*decodeFunction)(pps_decoder_t*, bool*),
                                           pps_decoder_t *decoder);
 
     static void encodeData(pps_encoder_t *encoder, const char *name,
@@ -105,21 +105,27 @@ private:
 
 inline bool QPpsObjectPrivate::decoderPush(pps_decoder_t *decoder, const char *name)
 {
-    pps_decoder_error_t error = pps_decoder_push(decoder, name);
-    if (error != PPS_DECODER_OK) {
+    pps_decoder_error_t    error = pps_decoder_push(decoder, name);
+
+    if (error != PPS_DECODER_OK)
+    {
         qWarning("QPpsObjectPrivate::decodeData: pps_decoder_push failed");
         return false;
     }
+
     return true;
 }
 
 inline bool QPpsObjectPrivate::decoderPop(pps_decoder_t *decoder)
 {
-    pps_decoder_error_t error = pps_decoder_pop(decoder);
-    if (error != PPS_DECODER_OK) {
+    pps_decoder_error_t    error = pps_decoder_pop(decoder);
+
+    if (error != PPS_DECODER_OK)
+    {
         qWarning("QPpsObjectPrivate::decodeData: pps_decoder_pop failed");
         return false;
     }
+
     return true;
 }
 

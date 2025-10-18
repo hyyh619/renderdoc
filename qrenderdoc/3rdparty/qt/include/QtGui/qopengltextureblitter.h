@@ -52,13 +52,14 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLTextureBlitterPrivate;
 
-class Q_GUI_EXPORT QOpenGLTextureBlitter
+class Q_GUI_EXPORT    QOpenGLTextureBlitter
 {
 public:
     QOpenGLTextureBlitter();
     ~QOpenGLTextureBlitter();
 
-    enum Origin {
+    enum Origin
+    {
         OriginBottomLeft,
         OriginTopLeft
     };
@@ -88,7 +89,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif
 
-#endif //QOPENGLTEXTUREBLITTER_H
+#endif // QOPENGLTEXTUREBLITTER_H

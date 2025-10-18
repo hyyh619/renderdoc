@@ -65,7 +65,7 @@ template<typename T>
 struct QVariantIntegrator
 {
     static const bool CanUseInternalSpace = sizeof(T) <= sizeof(QVariant::Private::Data)
-            && ((QTypeInfoQuery<T>::isRelocatable) || std::is_enum<T>::value);
+                                            && ((QTypeInfoQuery<T>::isRelocatable) || std::is_enum<T>::value);
     typedef std::integral_constant<bool, CanUseInternalSpace> CanUseInternalSpace_t;
 };
 Q_STATIC_ASSERT(QVariantIntegrator<double>::CanUseInternalSpace);
@@ -76,76 +76,76 @@ Q_STATIC_ASSERT(QVariantIntegrator<qulonglong>::CanUseInternalSpace);
 
 // takes a type, returns the internal void* pointer cast
 // to a pointer of the input type
-template <typename T>
-inline T *v_cast(const QVariant::Private *nd, T * = 0)
+template<typename T>
+inline T* v_cast(const QVariant::Private *nd, T* = 0)
 {
-    QVariant::Private *d = const_cast<QVariant::Private *>(nd);
+    QVariant::Private    *d = const_cast<QVariant::Private*>(nd);
+
     return !QVariantIntegrator<T>::CanUseInternalSpace
-            ? static_cast<T *>(d->data.shared->ptr)
-            : static_cast<T *>(static_cast<void *>(&d->data.c));
+           ? static_cast<T*>(d->data.shared->ptr)
+           : static_cast<T*>(static_cast<void*>(&d->data.c));
 }
 
 #else // every other compiler in this world
 
-template <typename T>
-inline const T *v_cast(const QVariant::Private *d, T * = 0)
+template<typename T>
+inline const T* v_cast(const QVariant::Private *d, T* = 0)
 {
     return !QVariantIntegrator<T>::CanUseInternalSpace
-            ? static_cast<const T *>(d->data.shared->ptr)
-            : static_cast<const T *>(static_cast<const void *>(&d->data.c));
+           ? static_cast<const T*>(d->data.shared->ptr)
+           : static_cast<const T*>(static_cast<const void*>(&d->data.c));
 }
 
-template <typename T>
-inline T *v_cast(QVariant::Private *d, T * = 0)
+template<typename T>
+inline T* v_cast(QVariant::Private *d, T* = 0)
 {
     return !QVariantIntegrator<T>::CanUseInternalSpace
-            ? static_cast<T *>(d->data.shared->ptr)
-            : static_cast<T *>(static_cast<void *>(&d->data.c));
+           ? static_cast<T*>(d->data.shared->ptr)
+           : static_cast<T*>(static_cast<void*>(&d->data.c));
 }
-
 #endif
 
 
-//a simple template that avoids to allocate 2 memory chunks when creating a QVariant
-template <class T> class QVariantPrivateSharedEx : public QVariant::PrivateShared
+// a simple template that avoids to allocate 2 memory chunks when creating a QVariant
+template<class T> class QVariantPrivateSharedEx : public QVariant::PrivateShared
 {
 public:
-    QVariantPrivateSharedEx() : QVariant::PrivateShared(&m_t), m_t() { }
-    QVariantPrivateSharedEx(const T&t) : QVariant::PrivateShared(&m_t), m_t(t) { }
+    QVariantPrivateSharedEx() :                 QVariant::PrivateShared(&m_t), m_t() { }
+    QVariantPrivateSharedEx(const T &t) :       QVariant::PrivateShared(&m_t), m_t(t) { }
 
 private:
-    T m_t;
+    T    m_t;
 };
 
-template <class T>
+template<class T>
 inline void v_construct_helper(QVariant::Private *x, const T &t, std::true_type)
 {
-    new (&x->data) T(t);
+    new (&x->data)T(t);
     x->is_shared = false;
 }
 
-template <class T>
+template<class T>
 inline void v_construct_helper(QVariant::Private *x, const T &t, std::false_type)
 {
-    x->data.shared = new QVariantPrivateSharedEx<T>(t);
-    x->is_shared = true;
+    x->data.shared  = new QVariantPrivateSharedEx<T>(t);
+    x->is_shared    = true;
 }
 
-template <class T>
+template<class T>
 inline void v_construct_helper(QVariant::Private *x, std::true_type)
 {
-    new (&x->data) T();
+    new (&x->data)T();
     x->is_shared = false;
 }
 
-template <class T>
+template<class T>
 inline void v_construct_helper(QVariant::Private *x, std::false_type)
 {
-    x->data.shared = new QVariantPrivateSharedEx<T>;
-    x->is_shared = true;
+    x->data.shared  = new QVariantPrivateSharedEx<T>;
+    x->is_shared    = true;
 }
 
-template <class T>
+template<class T>
 inline void v_construct(QVariant::Private *x, const T &t)
 {
     // dispatch
@@ -153,31 +153,32 @@ inline void v_construct(QVariant::Private *x, const T &t)
 }
 
 // constructs a new variant if copy is 0, otherwise copy-constructs
-template <class T>
-inline void v_construct(QVariant::Private *x, const void *copy, T * = 0)
+template<class T>
+inline void v_construct(QVariant::Private *x, const void *copy, T* = 0)
 {
     if (copy)
-        v_construct<T>(x, *static_cast<const T *>(copy));
+        v_construct<T>(x, *static_cast<const T*>(copy));
     else
         v_construct_helper<T>(x, typename QVariantIntegrator<T>::CanUseInternalSpace_t());
 }
 
 // deletes the internal structures
-template <class T>
+template<class T>
 inline void v_clear(QVariant::Private *d, T* = 0)
 {
-
-    if (!QVariantIntegrator<T>::CanUseInternalSpace) {
-        //now we need to cast
-        //because QVariant::PrivateShared doesn't have a virtual destructor
+    if (!QVariantIntegrator<T>::CanUseInternalSpace)
+    {
+        // now we need to cast
+        // because QVariant::PrivateShared doesn't have a virtual destructor
         delete static_cast<QVariantPrivateSharedEx<T>*>(d->data.shared);
-    } else {
+    }
+    else
+    {
         v_cast<T>(d)->~T();
     }
-
 }
 
-template <typename T>
+template<typename T>
 struct PrimitiveIsNull
 {
 public:
@@ -187,28 +188,31 @@ public:
     }
 };
 
-template <>
+template<>
 struct PrimitiveIsNull<std::nullptr_t>
 {
 public:
-    static bool isNull(const QVariant::Private *)
+    static bool isNull(const QVariant::Private*)
     {
         return true;
     }
 };
 
 template<class Filter>
-class QVariantComparator {
+class QVariantComparator
+{
     template<typename T, bool IsAcceptedType = Filter::template Acceptor<T>::IsAccepted>
-    struct FilteredComparator {
+    struct FilteredComparator
+    {
         static bool compare(const QVariant::Private *a, const QVariant::Private *b)
         {
             return *v_cast<T>(a) == *v_cast<T>(b);
         }
     };
     template<typename T>
-    struct FilteredComparator<T, /* IsAcceptedType = */ false> {
-        static bool compare(const QVariant::Private *, const QVariant::Private *)
+    struct FilteredComparator<T, /* IsAcceptedType = */ false>
+    {
+        static bool compare(const QVariant::Private*, const QVariant::Private*)
         {
             // It is not possible to construct a QVariant containing not fully defined type
             Q_ASSERT(false);
@@ -228,19 +232,25 @@ public:
         return FilteredComparator<T>::compare(m_a, m_b);
     }
 
-    bool delegate(const void*) { Q_ASSERT(false); return true; }
+    bool delegate(const void*)
+    {
+        Q_ASSERT(false); return true;
+    }
     bool delegate(const QMetaTypeSwitcher::UnknownType*)
     {
         return true; // for historical reason invalid variant == invalid variant
     }
-    bool delegate(const QMetaTypeSwitcher::NotBuiltinType*) { return false; }
+    bool delegate(const QMetaTypeSwitcher::NotBuiltinType*)
+    {
+        return false;
+    }
 protected:
-    const QVariant::Private *m_a;
-    const QVariant::Private *m_b;
+    const QVariant::Private     *m_a;
+    const QVariant::Private     *m_b;
 };
 
 
-Q_CORE_EXPORT const QVariant::Handler *qcoreVariantHandler();
+Q_CORE_EXPORT const QVariant::Handler* qcoreVariantHandler();
 
 template<class Filter>
 class QVariantIsNull
@@ -249,15 +259,16 @@ class QVariantIsNull
     /// This class checks if a type T has method called isNull. Result is kept in the Value property
     /// TODO Can we somehow generalize it? A macro version?
     template<typename T>
-    class HasIsNullMethod {
+    class HasIsNullMethod
+    {
         struct Yes { char unused[1]; };
         struct No { char unused[2]; };
         Q_STATIC_ASSERT(sizeof(Yes) != sizeof(No));
 
-        template<class C> static decltype(static_cast<const C*>(0)->isNull(), Yes()) test(int);
+        template<class C> static decltype(static_cast<const C*>(0)->isNull(), Yes())test(int);
         template<class C> static No test(...);
-    public:
-        static const bool Value = (sizeof(test<T>(0)) == sizeof(Yes));
+public:
+        static const bool    Value = (sizeof(test<T>(0)) == sizeof(Yes));
     };
 
     // TODO This part should go to autotests during HasIsNullMethod generalization.
@@ -268,11 +279,11 @@ class QVariantIsNull
     Q_STATIC_ASSERT(!HasIsNullMethod<SelfTest2>::Value);
     struct SelfTest3 : public SelfTest1 {};
     Q_STATIC_ASSERT(HasIsNullMethod<SelfTest3>::Value);
-    struct SelfTestFinal1 Q_DECL_FINAL { bool isNull() const; };
+    struct SelfTestFinal1    Q_DECL_FINAL { bool isNull() const; };
     Q_STATIC_ASSERT(HasIsNullMethod<SelfTestFinal1>::Value);
-    struct SelfTestFinal2 Q_DECL_FINAL {};
+    struct SelfTestFinal2    Q_DECL_FINAL {};
     Q_STATIC_ASSERT(!HasIsNullMethod<SelfTestFinal2>::Value);
-    struct SelfTestFinal3 Q_DECL_FINAL : public SelfTest1 {};
+    struct SelfTestFinal3    Q_DECL_FINAL : public SelfTest1 {};
     Q_STATIC_ASSERT(HasIsNullMethod<SelfTestFinal3>::Value);
 
     template<typename T, bool HasIsNull = HasIsNullMethod<T>::Value>
@@ -319,23 +330,30 @@ public:
         return CallIsNull<T>::isNull(m_d);
     }
     // we need that as sizof(void) is undefined and it is needed in HasIsNullMethod
-    bool delegate(const void *) { Q_ASSERT(false); return m_d->is_null; }
-    bool delegate(const QMetaTypeSwitcher::UnknownType *) { return m_d->is_null; }
-    bool delegate(const QMetaTypeSwitcher::NotBuiltinType *)
+    bool delegate(const void*)
+    {
+        Q_ASSERT(false); return m_d->is_null;
+    }
+    bool delegate(const QMetaTypeSwitcher::UnknownType*)
+    {
+        return m_d->is_null;
+    }
+    bool delegate(const QMetaTypeSwitcher::NotBuiltinType*)
     {
         // QVariantIsNull is used only for built-in types
         Q_ASSERT(false);
         return m_d->is_null;
     }
 protected:
-    const QVariant::Private *m_d;
+    const QVariant::Private    *m_d;
 };
 
 template<class Filter>
 class QVariantConstructor
 {
     template<typename T, bool IsAcceptedType = Filter::template Acceptor<T>::IsAccepted>
-    struct FilteredConstructor {
+    struct FilteredConstructor
+    {
         FilteredConstructor(const QVariantConstructor &tc)
         {
             v_construct<T>(tc.m_x, tc.m_copy);
@@ -343,7 +361,8 @@ class QVariantConstructor
         }
     };
     template<typename T>
-    struct FilteredConstructor<T, /* IsAcceptedType = */ false> {
+    struct FilteredConstructor<T, /* IsAcceptedType = */ false>
+    {
         FilteredConstructor(const QVariantConstructor &tc)
         {
             // ignore types that lives outside of the current library
@@ -371,38 +390,42 @@ public:
     void delegate(const void*)
     {
         qWarning("Trying to create a QVariant instance of QMetaType::Void type, an invalid QVariant will be constructed instead");
-        m_x->type = QMetaType::UnknownType;
-        m_x->is_shared = false;
-        m_x->is_null = !m_copy;
+        m_x->type       = QMetaType::UnknownType;
+        m_x->is_shared  = false;
+        m_x->is_null    = !m_copy;
     }
 
     void delegate(const QMetaTypeSwitcher::UnknownType*)
     {
-        if (m_x->type != QMetaType::UnknownType) {
+        if (m_x->type != QMetaType::UnknownType)
+        {
             qWarning("Trying to construct an instance of an invalid type, type id: %i", m_x->type);
             m_x->type = QMetaType::UnknownType;
         }
-        m_x->is_shared = false;
-        m_x->is_null = !m_copy;
+
+        m_x->is_shared  = false;
+        m_x->is_null    = !m_copy;
     }
 private:
-    QVariant::Private *m_x;
-    const void *m_copy;
+    QVariant::Private       *m_x;
+    const void              *m_copy;
 };
 
 template<class Filter>
 class QVariantDestructor
 {
     template<typename T, bool IsAcceptedType = Filter::template Acceptor<T>::IsAccepted>
-    struct FilteredDestructor {
+    struct FilteredDestructor
+    {
         FilteredDestructor(QVariant::Private *d)
         {
             v_clear<T>(d);
         }
     };
     template<typename T>
-    struct FilteredDestructor<T, /* IsAcceptedType = */ false> {
-        FilteredDestructor(QVariant::Private *)
+    struct FilteredDestructor<T, /* IsAcceptedType = */ false>
+    {
+        FilteredDestructor(QVariant::Private*)
         {
             // It is not possible to create not accepted type
             Q_ASSERT(false);
@@ -415,15 +438,15 @@ public:
     {}
     ~QVariantDestructor()
     {
-        m_d->type = QVariant::Invalid;
-        m_d->is_null = true;
-        m_d->is_shared = false;
+        m_d->type       = QVariant::Invalid;
+        m_d->is_null    = true;
+        m_d->is_shared  = false;
     }
 
     template<typename T>
     void delegate(const T*)
     {
-        FilteredDestructor<T> cleaner(m_d);
+        FilteredDestructor<T>    cleaner(m_d);
     }
 
     void delegate(const QMetaTypeSwitcher::NotBuiltinType*)
@@ -433,13 +456,17 @@ public:
     }
     // Ignore nonconstructible type
     void delegate(const QMetaTypeSwitcher::UnknownType*) {}
-    void delegate(const void*) { Q_ASSERT(false); }
+    void delegate(const void*)
+    {
+        Q_ASSERT(false);
+    }
 private:
-    QVariant::Private *m_d;
+    QVariant::Private    *m_d;
 };
 
-namespace QVariantPrivate {
-Q_CORE_EXPORT void registerHandler(const int /* Modules::Names */ name, const QVariant::Handler *handler);
+namespace QVariantPrivate
+{
+    Q_CORE_EXPORT void registerHandler(const int /* Modules::Names */ name, const QVariant::Handler *handler);
 }
 
 #if !defined(QT_NO_DEBUG_STREAM)
@@ -447,15 +474,17 @@ template<class Filter>
 class QVariantDebugStream
 {
     template<typename T, bool IsAcceptedType = Filter::template Acceptor<T>::IsAccepted>
-    struct Filtered {
+    struct Filtered
+    {
         Filtered(QDebug dbg, QVariant::Private *d)
         {
             dbg.nospace() << *v_cast<T>(d);
         }
     };
     template<typename T>
-    struct Filtered<T, /* IsAcceptedType = */ false> {
-        Filtered(QDebug /* dbg */, QVariant::Private *)
+    struct Filtered<T, /* IsAcceptedType = */ false>
+    {
+        Filtered(QDebug /* dbg */, QVariant::Private*)
         {
             // It is not possible to construct not acccepted type, QVariantConstructor creates an invalid variant for them
             Q_ASSERT(false);
@@ -471,7 +500,7 @@ public:
     template<typename T>
     void delegate(const T*)
     {
-        Filtered<T> streamIt(m_debugStream, m_d);
+        Filtered<T>    streamIt(m_debugStream, m_d);
         Q_UNUSED(streamIt);
     }
 
@@ -484,10 +513,13 @@ public:
     {
         m_debugStream.nospace() << "QVariant::Invalid";
     }
-    void delegate(const void*) { Q_ASSERT(false); }
+    void delegate(const void*)
+    {
+        Q_ASSERT(false);
+    }
 private:
-    QDebug m_debugStream;
-    QVariant::Private *m_d;
+    QDebug                  m_debugStream;
+    QVariant::Private       *m_d;
 };
 #endif
 

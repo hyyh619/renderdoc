@@ -59,11 +59,11 @@ QT_BEGIN_NAMESPACE
 
 class QTextImageFormat;
 
-class Q_GUI_EXPORT QTextImageHandler : public QObject,
-                                       public QTextObjectInterface
+class Q_GUI_EXPORT    QTextImageHandler : public QObject,
+    public QTextObjectInterface
 {
     Q_OBJECT
-    Q_INTERFACES(QTextObjectInterface)
+                      Q_INTERFACES(QTextObjectInterface)
 public:
     explicit QTextImageHandler(QObject *parent = 0);
 

@@ -57,12 +57,13 @@
 QT_BEGIN_NAMESPACE
 
 class QNetworkSessionPrivate;
-class Q_NETWORK_EXPORT QNetworkSession : public QObject
+class Q_NETWORK_EXPORT    QNetworkSession : public QObject
 {
     Q_OBJECT
 
 public:
-    enum State {
+    enum State
+    {
         Invalid = 0,
         NotAvailable,
         Connecting,
@@ -72,7 +73,8 @@ public:
         Roaming
     };
 
-    enum SessionError {
+    enum SessionError
+    {
         UnknownSessionError = 0,
         SessionAbortedError,
         RoamingError,
@@ -80,9 +82,10 @@ public:
         InvalidConfigurationError
     };
 
-    enum UsagePolicy {
-        NoPolicy = 0,
-        NoBackgroundTrafficPolicy = 1
+    enum UsagePolicy
+    {
+        NoPolicy                    = 0,
+        NoBackgroundTrafficPolicy   = 1
     };
 
     Q_DECLARE_FLAGS(UsagePolicies, UsagePolicy)
@@ -115,7 +118,7 @@ public Q_SLOTS:
     void close();
     void stop();
 
-    //roaming related slots
+    // roaming related slots
     void migrate();
     void ignore();
     void accept();
@@ -137,7 +140,7 @@ protected:
 private:
     Q_DISABLE_COPY(QNetworkSession)
     friend class QNetworkSessionPrivate;
-    QNetworkSessionPrivate *d;
+    QNetworkSessionPrivate    *d;
 };
 
 QT_END_NAMESPACE

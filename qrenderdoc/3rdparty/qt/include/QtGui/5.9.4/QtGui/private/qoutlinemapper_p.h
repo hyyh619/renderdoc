@@ -68,9 +68,9 @@ QT_BEGIN_NAMESPACE
 
 // This limitations comes from qgrayraster.c. Any higher and
 // rasterization of shapes will produce incorrect results.
-const int QT_RASTER_COORD_LIMIT = 32767;
+const int    QT_RASTER_COORD_LIMIT = 32767;
 
-//#define QT_DEBUG_CONVERT
+// #define QT_DEBUG_CONVERT
 
 Q_GUI_EXPORT bool qt_scaleForTransform(const QTransform &transform, qreal *scale);
 
@@ -95,19 +95,18 @@ public:
         m_tags(0),
         m_contours(0),
         m_in_clip_elements(false)
-    {
-    }
+    {}
 
     /*!
-      Sets up the matrix to be used for conversion. This also
-      sets up the qt_path_iterator function that is used as a callback
-      to get points.
-    */
+       Sets up the matrix to be used for conversion. This also
+       sets up the qt_path_iterator function that is used as a callback
+       to get points.
+     */
     void setMatrix(const QTransform &m)
     {
         m_transform = m;
 
-        qreal scale;
+        qreal    scale;
         qt_scaleForTransform(m, &scale);
         m_curve_threshold = scale == 0 ? qreal(0.25) : (qreal(0.25) / scale);
     }
@@ -135,7 +134,8 @@ public:
 
     void convertElements(const QPointF *points, const QPainterPath::ElementType *types, int count);
 
-    inline void moveTo(const QPointF &pt) {
+    inline void moveTo(const QPointF &pt)
+    {
 #ifdef QT_DEBUG_CONVERT
         printf("QOutlineMapper::moveTo() (%f, %f)\n", pt.x(), pt.y());
 #endif
@@ -145,7 +145,8 @@ public:
         m_element_types << QPainterPath::MoveToElement;
     }
 
-    inline void lineTo(const QPointF &pt) {
+    inline void lineTo(const QPointF &pt)
+    {
 #ifdef QT_DEBUG_CONVERT
         printf("QOutlineMapper::lineTo() (%f, %f)\n", pt.x(), pt.y());
 #endif
@@ -155,59 +156,67 @@ public:
 
     void curveTo(const QPointF &cp1, const QPointF &cp2, const QPointF &ep);
 
-    inline void closeSubpath() {
-        int element_count = m_elements.size();
-        if (element_count > 0) {
-            if (m_elements.at(element_count-1) != m_elements.at(m_subpath_start)) {
+    inline void closeSubpath()
+    {
+        int    element_count = m_elements.size();
+
+        if (element_count > 0)
+        {
+            if (m_elements.at(element_count - 1) != m_elements.at(m_subpath_start))
+            {
 #ifdef QT_DEBUG_CONVERT
                 printf(" - implicitly closing\n");
 #endif
                 // Put the object on the stack to avoid the odd case where
                 // lineTo reallocs the databuffer and the QPointF & will
                 // be invalidated.
-                QPointF pt = m_elements.at(m_subpath_start);
+                QPointF    pt = m_elements.at(m_subpath_start);
 
                 // only do lineTo if we have element_type array...
                 if (m_element_types.size())
                     lineTo(pt);
                 else
                     m_elements << pt;
-
             }
         }
     }
 
-    QT_FT_Outline *outline() {
+    QT_FT_Outline* outline()
+    {
         if (m_valid)
             return &m_outline;
+
         return 0;
     }
 
-    QT_FT_Outline *convertPath(const QPainterPath &path);
-    QT_FT_Outline *convertPath(const QVectorPath &path);
+    QT_FT_Outline* convertPath(const QPainterPath &path);
+    QT_FT_Outline* convertPath(const QVectorPath &path);
 
-    inline QPainterPath::ElementType *elementTypes() const { return m_element_types.size() == 0 ? 0 : m_element_types.data(); }
+    inline QPainterPath::ElementType* elementTypes() const
+    {
+        return m_element_types.size() == 0 ? 0 : m_element_types.data();
+    }
 
 public:
-    QDataBuffer<QPainterPath::ElementType> m_element_types;
-    QDataBuffer<QPointF> m_elements;
-    QDataBuffer<QT_FT_Vector> m_points;
-    QDataBuffer<char> m_tags;
-    QDataBuffer<int> m_contours;
+    QDataBuffer<QPainterPath::ElementType>      m_element_types;
+    QDataBuffer<QPointF>                        m_elements;
+    QDataBuffer<QT_FT_Vector>                   m_points;
+    QDataBuffer<char>                           m_tags;
+    QDataBuffer<int>                            m_contours;
 
-    QRect m_clip_rect;
-    QRectF controlPointRect; // only valid after endOutline()
+    QRect       m_clip_rect;
+    QRectF      controlPointRect; // only valid after endOutline()
 
-    QT_FT_Outline m_outline;
+    QT_FT_Outline    m_outline;
 
-    int m_subpath_start;
+    int    m_subpath_start;
 
-    QTransform m_transform;
+    QTransform    m_transform;
 
-    qreal m_curve_threshold;
+    qreal    m_curve_threshold;
 
-    bool m_valid;
-    bool m_in_clip_elements;
+    bool    m_valid;
+    bool    m_in_clip_elements;
 };
 
 QT_END_NAMESPACE

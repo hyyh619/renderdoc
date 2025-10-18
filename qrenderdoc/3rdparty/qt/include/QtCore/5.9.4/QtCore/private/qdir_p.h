@@ -70,7 +70,7 @@ public:
     void initFileEngine();
     void initFileLists(const QDir &dir) const;
 
-    static void sortFileList(QDir::SortFlags, QFileInfoList &, QStringList *, QFileInfoList *);
+    static void sortFileList(QDir::SortFlags, QFileInfoList&, QStringList*, QFileInfoList*);
 
     static inline QChar getFilterSepChar(const QString &nameFilter);
 
@@ -82,19 +82,19 @@ public:
 
     void resolveAbsoluteEntry() const;
 
-    mutable bool fileListsInitialized;
-    mutable QStringList files;
-    mutable QFileInfoList fileInfos;
+    mutable bool                fileListsInitialized;
+    mutable QStringList         files;
+    mutable QFileInfoList       fileInfos;
 
-    QStringList nameFilters;
-    QDir::SortFlags sort;
-    QDir::Filters filters;
+    QStringList         nameFilters;
+    QDir::SortFlags     sort;
+    QDir::Filters       filters;
 
-    QScopedPointer<QAbstractFileEngine> fileEngine;
+    QScopedPointer<QAbstractFileEngine>    fileEngine;
 
-    QFileSystemEntry dirEntry;
-    mutable QFileSystemEntry absoluteDirEntry;
-    mutable QFileSystemMetaData metaData;
+    QFileSystemEntry                dirEntry;
+    mutable QFileSystemEntry        absoluteDirEntry;
+    mutable QFileSystemMetaData     metaData;
 };
 
 QT_END_NAMESPACE

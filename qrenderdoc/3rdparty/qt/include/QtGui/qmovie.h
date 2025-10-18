@@ -60,20 +60,22 @@ class QRect;
 class QSize;
 
 class QMoviePrivate;
-class Q_GUI_EXPORT QMovie : public QObject
+class Q_GUI_EXPORT    QMovie : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QMovie)
     Q_PROPERTY(int speed READ speed WRITE setSpeed)
     Q_PROPERTY(CacheMode cacheMode READ cacheMode WRITE setCacheMode)
 public:
-    enum MovieState {
+    enum MovieState
+    {
         NotRunning,
         Paused,
         Running
     };
     Q_ENUM(MovieState)
-    enum CacheMode {
+    enum CacheMode
+    {
         CacheNone,
         CacheAll
     };
@@ -87,7 +89,7 @@ public:
     static QList<QByteArray> supportedFormats();
 
     void setDevice(QIODevice *device);
-    QIODevice *device() const;
+    QIODevice* device() const;
 
     void setFileName(const QString &fileName);
     QString fileName() const;

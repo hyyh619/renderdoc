@@ -69,15 +69,15 @@ class QFontEngine;
 Q_GUI_EXPORT hb_script_t hb_qt_script_to_script(QChar::Script script);
 Q_GUI_EXPORT QChar::Script hb_qt_script_from_script(hb_script_t script);
 
-Q_GUI_EXPORT hb_unicode_funcs_t *hb_qt_get_unicode_funcs();
+Q_GUI_EXPORT hb_unicode_funcs_t* hb_qt_get_unicode_funcs();
 
 
 // Font
 
-Q_GUI_EXPORT hb_font_funcs_t *hb_qt_get_font_funcs();
+Q_GUI_EXPORT hb_font_funcs_t* hb_qt_get_font_funcs();
 
-Q_GUI_EXPORT hb_face_t *hb_qt_face_get_for_engine(QFontEngine *fe);
-Q_GUI_EXPORT hb_font_t *hb_qt_font_get_for_engine(QFontEngine *fe);
+Q_GUI_EXPORT hb_face_t* hb_qt_face_get_for_engine(QFontEngine *fe);
+Q_GUI_EXPORT hb_font_t* hb_qt_font_get_for_engine(QFontEngine *fe);
 
 Q_GUI_EXPORT void hb_qt_font_set_use_design_metrics(hb_font_t *font, uint value);
 Q_GUI_EXPORT uint hb_qt_font_get_use_design_metrics(hb_font_t *font);

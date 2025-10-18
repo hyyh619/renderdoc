@@ -50,7 +50,7 @@
 QT_BEGIN_NAMESPACE
 
 class QStorageInfoPrivate;
-class Q_CORE_EXPORT QStorageInfo
+class Q_CORE_EXPORT    QStorageInfo
 {
 public:
     QStorageInfo();
@@ -59,13 +59,18 @@ public:
     QStorageInfo(const QStorageInfo &other);
     ~QStorageInfo();
 
-    QStorageInfo &operator=(const QStorageInfo &other);
+    QStorageInfo&operator=(const QStorageInfo &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QStorageInfo &operator=(QStorageInfo &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QStorageInfo&operator=(QStorageInfo &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
     inline void swap(QStorageInfo &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     void setPath(const QString &path);
 
@@ -94,13 +99,14 @@ public:
 private:
     friend class QStorageInfoPrivate;
     friend bool operator==(const QStorageInfo &first, const QStorageInfo &second);
-    QExplicitlySharedDataPointer<QStorageInfoPrivate> d;
+    QExplicitlySharedDataPointer<QStorageInfoPrivate>    d;
 };
 
 inline bool operator==(const QStorageInfo &first, const QStorageInfo &second)
 {
     if (first.d == second.d)
         return true;
+
     return first.device() == second.device() && first.rootPath() == second.rootPath();
 }
 
@@ -110,7 +116,9 @@ inline bool operator!=(const QStorageInfo &first, const QStorageInfo &second)
 }
 
 inline bool QStorageInfo::isRoot() const
-{ return *this == QStorageInfo::root(); }
+{
+    return *this == QStorageInfo::root();
+}
 
 Q_DECLARE_SHARED(QStorageInfo)
 

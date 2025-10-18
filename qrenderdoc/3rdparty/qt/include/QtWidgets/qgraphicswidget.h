@@ -61,7 +61,7 @@ class QStyleOption;
 
 class QGraphicsWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsWidget : public QGraphicsObject, public QGraphicsLayoutItem
+class Q_WIDGETS_EXPORT    QGraphicsWidget : public QGraphicsObject, public QGraphicsLayoutItem
 {
     Q_OBJECT
     Q_INTERFACES(QGraphicsItem QGraphicsLayoutItem)
@@ -78,11 +78,11 @@ class Q_WIDGETS_EXPORT QGraphicsWidget : public QGraphicsObject, public QGraphic
     Q_PROPERTY(QString windowTitle READ windowTitle WRITE setWindowTitle)
     Q_PROPERTY(QRectF geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
     Q_PROPERTY(bool autoFillBackground READ autoFillBackground WRITE setAutoFillBackground)
-    Q_PROPERTY(QGraphicsLayout* layout READ layout WRITE setLayout NOTIFY layoutChanged)
+    Q_PROPERTY(QGraphicsLayout * layout READ layout WRITE setLayout NOTIFY layoutChanged)
 public:
     QGraphicsWidget(QGraphicsItem *parent = Q_NULLPTR, Qt::WindowFlags wFlags = Qt::WindowFlags());
     ~QGraphicsWidget();
-    QGraphicsLayout *layout() const;
+    QGraphicsLayout* layout() const;
     void setLayout(QGraphicsLayout *layout);
     void adjustSize();
 
@@ -90,7 +90,7 @@ public:
     void setLayoutDirection(Qt::LayoutDirection direction);
     void unsetLayoutDirection();
 
-    QStyle *style() const;
+    QStyle* style() const;
     void setStyle(QStyle *style);
 
     QFont font() const;
@@ -103,12 +103,18 @@ public:
     void setAutoFillBackground(bool enabled);
 
     void resize(const QSizeF &size);
-    inline void resize(qreal w, qreal h) { resize(QSizeF(w, h)); }
+    inline void resize(qreal w, qreal h)
+    {
+        resize(QSizeF(w, h));
+    }
     QSizeF size() const;
 
     void setGeometry(const QRectF &rect) Q_DECL_OVERRIDE;
     inline void setGeometry(qreal x, qreal y, qreal w, qreal h);
-    inline QRectF rect() const { return QRectF(QPointF(), size()); }
+    inline QRectF rect() const
+    {
+        return QRectF(QPointF(), size());
+    }
 
     void setContentsMargins(qreal left, qreal top, qreal right, qreal bottom);
     void getContentsMargins(qreal *left, qreal *top, qreal *right, qreal *bottom) const Q_DECL_OVERRIDE;
@@ -131,7 +137,7 @@ public:
     Qt::FocusPolicy focusPolicy() const;
     void setFocusPolicy(Qt::FocusPolicy policy);
     static void setTabOrder(QGraphicsWidget *first, QGraphicsWidget *second);
-    QGraphicsWidget *focusWidget() const;
+    QGraphicsWidget* focusWidget() const;
 
 #ifndef QT_NO_SHORTCUT
     int grabShortcut(const QKeySequence &sequence, Qt::ShortcutContext context = Qt::WindowShortcut);
@@ -141,9 +147,9 @@ public:
 #endif
 
 #ifndef QT_NO_ACTION
-    //actions
+    // actions
     void addAction(QAction *action);
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void addActions(const QList<QAction*> &actions);
     void insertActions(QAction *before, const QList<QAction*> &actions);
 #else
@@ -158,7 +164,8 @@ public:
     void setAttribute(Qt::WidgetAttribute attribute, bool on = true);
     bool testAttribute(Qt::WidgetAttribute attribute) const;
 
-    enum {
+    enum
+    {
         Type = 11
     };
     int type() const Q_DECL_OVERRIDE;
@@ -194,33 +201,33 @@ protected:
     // Scene events
     bool sceneEvent(QEvent *event) Q_DECL_OVERRIDE;
     virtual bool windowFrameEvent(QEvent *e);
-    virtual Qt::WindowFrameSection windowFrameSectionAt(const QPointF& pos) const;
+    virtual Qt::WindowFrameSection windowFrameSectionAt(const QPointF &pos) const;
 
     // Base event handlers
     bool event(QEvent *event) Q_DECL_OVERRIDE;
-    //virtual void actionEvent(QActionEvent *event);
+    // virtual void actionEvent(QActionEvent *event);
     virtual void changeEvent(QEvent *event);
     virtual void closeEvent(QCloseEvent *event);
-    //void create(WId window = 0, bool initializeWindow = true, bool destroyOldWindow = true);
-    //void destroy(bool destroyWindow = true, bool destroySubWindows = true);
+    // void create(WId window = 0, bool initializeWindow = true, bool destroyOldWindow = true);
+    // void destroy(bool destroyWindow = true, bool destroySubWindows = true);
     void focusInEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
     virtual bool focusNextPrevChild(bool next);
     void focusOutEvent(QFocusEvent *event) Q_DECL_OVERRIDE;
     virtual void hideEvent(QHideEvent *event);
-    //virtual int metric(PaintDeviceMetric m ) const;
+    // virtual int metric(PaintDeviceMetric m ) const;
     virtual void moveEvent(QGraphicsSceneMoveEvent *event);
     virtual void polishEvent();
-    //void resetInputContext ();
+    // void resetInputContext ();
     virtual void resizeEvent(QGraphicsSceneResizeEvent *event);
     virtual void showEvent(QShowEvent *event);
-    //virtual void tabletEvent(QTabletEvent *event);
+    // virtual void tabletEvent(QTabletEvent *event);
     virtual void hoverMoveEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
     virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent *event) Q_DECL_OVERRIDE;
     virtual void grabMouseEvent(QEvent *event);
     virtual void ungrabMouseEvent(QEvent *event);
     virtual void grabKeyboardEvent(QEvent *event);
     virtual void ungrabKeyboardEvent(QEvent *event);
-    QGraphicsWidget(QGraphicsWidgetPrivate &, QGraphicsItem *parent, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    QGraphicsWidget(QGraphicsWidgetPrivate&, QGraphicsItem *parent, Qt::WindowFlags wFlags = Qt::WindowFlags());
 
 private:
     Q_DISABLE_COPY(QGraphicsWidget)
@@ -236,9 +243,10 @@ private:
 };
 
 inline void QGraphicsWidget::setGeometry(qreal ax, qreal ay, qreal aw, qreal ah)
-{ setGeometry(QRectF(ax, ay, aw, ah)); }
+{
+    setGeometry(QRectF(ax, ay, aw, ah));
+}
 
 QT_END_NAMESPACE
 
 #endif
-

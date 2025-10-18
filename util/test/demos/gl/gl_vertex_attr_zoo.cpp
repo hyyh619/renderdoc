@@ -1,48 +1,48 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "gl_test.h"
 
 RD_TEST(GL_Vertex_Attr_Zoo, OpenGLGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
-      "and matrices.";
+    static constexpr const char    *Description =
+        "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
+        "and matrices.";
 
-  struct vertin
-  {
-    int16_t i16[4];
-    uint16_t u16[4];
-    double df[2];
-    float arr0[2];
-    float arr1[2];
-    float arr2[2];
-    float mat0[2];
-    float mat1[2];
-  };
+    struct vertin
+    {
+        int16_t     i16[4];
+        uint16_t    u16[4];
+        double      df[2];
+        float       arr0[2];
+        float       arr1[2];
+        float       arr2[2];
+        float       mat0[2];
+        float       mat1[2];
+    };
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 #version 450 core
 
 layout(location = 0) in vec4 InSNorm;
@@ -76,7 +76,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 #version 450 core
 
 layout(location = 0) in vec4 InSNorm;
@@ -124,7 +124,7 @@ void main()
 
 )EOSHADER";
 
-  std::string geom = R"EOSHADER(
+    std::string    geom = R"EOSHADER(
 #version 450 core
 
 layout(triangles) in;
@@ -164,102 +164,103 @@ void main()
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    GLuint vao = MakeVAO();
-    glBindVertexArray(vao);
-
-    vertin triangle[] = {
-        {
-            {32767, -32768, 32767, -32767},
-            {12345, 6789, 1234, 567},
-            {9.8765432109, -5.6789012345},
-            {1.0f, 2.0f},
-            {3.0f, 4.0f},
-            {5.0f, 6.0f},
-            {7.0, 8.0f},
-            {9.0f, 10.0f},
-        },
-        {
-            {32766, -32766, 16000, -16000},
-            {56, 7890, 123, 4567},
-            {-7.89012345678, 6.54321098765},
-            {11.0f, 12.0f},
-            {13.0f, 14.0f},
-            {15.0f, 16.0f},
-            {17.0, 18.0f},
-            {19.0f, 20.0f},
-        },
-        {
-            {5, -5, 0, 0},
-            {8765, 43210, 987, 65432},
-            {0.1234567890123, 4.5678901234},
-            {21.0f, 22.0f},
-            {23.0f, 24.0f},
-            {25.0f, 26.0f},
-            {27.0, 28.0f},
-            {29.0f, 30.0f},
-        },
-    };
-
-    GLuint vb = MakeBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferStorage(GL_ARRAY_BUFFER, sizeof(triangle), triangle, 0);
-
-    // R16G16B16A16_SNORM
-    glVertexAttribPointer(0, 4, GL_SHORT, GL_TRUE, sizeof(vertin), (void *)offsetof(vertin, i16));
-    // R16G16B16A16_UNORM
-    glVertexAttribPointer(1, 4, GL_UNSIGNED_SHORT, GL_TRUE, sizeof(vertin),
-                          (void *)offsetof(vertin, u16));
-    // R16G16B16A16_UINT
-    glVertexAttribIPointer(2, 4, GL_UNSIGNED_SHORT, sizeof(vertin), (void *)offsetof(vertin, u16));
-
-    // R64G64_FLOAT
-    glVertexAttribLPointer(3, 2, GL_DOUBLE, sizeof(vertin), (void *)offsetof(vertin, df));
-
-    // Array[]
-    glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void *)offsetof(vertin, arr0));
-    glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void *)offsetof(vertin, arr1));
-    glVertexAttribPointer(6, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void *)offsetof(vertin, arr2));
-
-    // Matrix
-    glVertexAttribPointer(7, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void *)offsetof(vertin, mat0));
-    glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void *)offsetof(vertin, mat1));
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-    glEnableVertexAttribArray(3);
-    glEnableVertexAttribArray(4);
-    glEnableVertexAttribArray(5);
-    glEnableVertexAttribArray(6);
-    glEnableVertexAttribArray(7);
-    glEnableVertexAttribArray(8);
-
-    GLuint program = MakeProgram(vertex, pixel, geom);
-
-    while(Running())
+    int main()
     {
-      float col[] = {0.2f, 0.2f, 0.2f, 1.0f};
-      glClearBufferfv(GL_COLOR, 0, col);
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-      glBindVertexArray(vao);
+        GLuint    vao = MakeVAO();
+        glBindVertexArray(vao);
 
-      glUseProgram(program);
+        vertin    triangle[] =
+        {
+            {
+                {32767, -32768, 32767, -32767},
+                {12345, 6789, 1234, 567},
+                {9.8765432109, -5.6789012345},
+                {1.0f, 2.0f},
+                {3.0f, 4.0f},
+                {5.0f, 6.0f},
+                {7.0, 8.0f},
+                {9.0f, 10.0f},
+            },
+            {
+                {32766, -32766, 16000, -16000},
+                {56, 7890, 123, 4567},
+                {-7.89012345678, 6.54321098765},
+                {11.0f, 12.0f},
+                {13.0f, 14.0f},
+                {15.0f, 16.0f},
+                {17.0, 18.0f},
+                {19.0f, 20.0f},
+            },
+            {
+                {5, -5, 0, 0},
+                {8765, 43210, 987, 65432},
+                {0.1234567890123, 4.5678901234},
+                {21.0f, 22.0f},
+                {23.0f, 24.0f},
+                {25.0f, 26.0f},
+                {27.0, 28.0f},
+                {29.0f, 30.0f},
+            },
+        };
 
-      glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+        GLuint    vb = MakeBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vb);
+        glBufferStorage(GL_ARRAY_BUFFER, sizeof(triangle), triangle, 0);
 
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+        // R16G16B16A16_SNORM
+        glVertexAttribPointer(0, 4, GL_SHORT, GL_TRUE, sizeof(vertin), (void*)offsetof(vertin, i16));
+        // R16G16B16A16_UNORM
+        glVertexAttribPointer(1, 4, GL_UNSIGNED_SHORT, GL_TRUE, sizeof(vertin),
+                              (void*)offsetof(vertin, u16));
+        // R16G16B16A16_UINT
+        glVertexAttribIPointer(2, 4, GL_UNSIGNED_SHORT, sizeof(vertin), (void*)offsetof(vertin, u16));
 
-      Present();
+        // R64G64_FLOAT
+        glVertexAttribLPointer(3, 2, GL_DOUBLE, sizeof(vertin), (void*)offsetof(vertin, df));
+
+        // Array[]
+        glVertexAttribPointer(4, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void*)offsetof(vertin, arr0));
+        glVertexAttribPointer(5, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void*)offsetof(vertin, arr1));
+        glVertexAttribPointer(6, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void*)offsetof(vertin, arr2));
+
+        // Matrix
+        glVertexAttribPointer(7, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void*)offsetof(vertin, mat0));
+        glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(vertin), (void*)offsetof(vertin, mat1));
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
+        glEnableVertexAttribArray(3);
+        glEnableVertexAttribArray(4);
+        glEnableVertexAttribArray(5);
+        glEnableVertexAttribArray(6);
+        glEnableVertexAttribArray(7);
+        glEnableVertexAttribArray(8);
+
+        GLuint    program = MakeProgram(vertex, pixel, geom);
+
+        while (Running())
+        {
+            float    col[] = {0.2f, 0.2f, 0.2f, 1.0f};
+            glClearBufferfv(GL_COLOR, 0, col);
+
+            glBindVertexArray(vao);
+
+            glUseProgram(program);
+
+            glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

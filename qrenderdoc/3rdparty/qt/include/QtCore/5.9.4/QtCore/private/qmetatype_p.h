@@ -56,49 +56,54 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace QModulesPrivate {
-enum Names { Core, Gui, Widgets, Unknown, ModulesCount /* ModulesCount has to be at the end */ };
-
-static inline int moduleForType(const uint typeId)
+namespace QModulesPrivate
 {
-    if (typeId <= QMetaType::LastCoreType)
-        return Core;
-    if (typeId >= QMetaType::FirstGuiType && typeId <= QMetaType::LastGuiType)
-        return Gui;
-    if (typeId >= QMetaType::FirstWidgetsType && typeId <= QMetaType::LastWidgetsType)
-        return Widgets;
-    return Unknown;
-}
+    enum Names { Core, Gui, Widgets, Unknown, ModulesCount /* ModulesCount has to be at the end */ };
 
-template <typename T>
-class QTypeModuleInfo
-{
+    static inline int moduleForType(const uint typeId)
+    {
+        if (typeId <= QMetaType::LastCoreType)
+            return Core;
+
+        if (typeId >= QMetaType::FirstGuiType && typeId <= QMetaType::LastGuiType)
+            return Gui;
+
+        if (typeId >= QMetaType::FirstWidgetsType && typeId <= QMetaType::LastWidgetsType)
+            return Widgets;
+
+        return Unknown;
+    }
+
+    template<typename T>
+    class QTypeModuleInfo
+    {
 public:
-    enum Module {
-        IsCore = false,
-        IsWidget = false,
-        IsGui = false,
-        IsUnknown = true
+        enum Module
+        {
+            IsCore      = false,
+            IsWidget    = false,
+            IsGui       = false,
+            IsUnknown   = true
+        };
     };
-};
 
-#define QT_ASSIGN_TYPE_TO_MODULE(TYPE, MODULE) \
-template<> \
-class QTypeModuleInfo<TYPE > \
-{ \
-public: \
-    enum Module { \
-        IsCore = (((MODULE) == (QModulesPrivate::Core))), \
-        IsWidget = (((MODULE) == (QModulesPrivate::Widgets))), \
-        IsGui = (((MODULE) == (QModulesPrivate::Gui))), \
-        IsUnknown = !(IsCore || IsWidget || IsGui) \
-    }; \
-    static inline int module() { return MODULE; } \
-    Q_STATIC_ASSERT((IsUnknown && !(IsCore || IsWidget || IsGui)) \
-                 || (IsCore && !(IsUnknown || IsWidget || IsGui)) \
-                 || (IsWidget && !(IsUnknown || IsCore || IsGui)) \
-                 || (IsGui && !(IsUnknown || IsCore || IsWidget))); \
-};
+#define QT_ASSIGN_TYPE_TO_MODULE(TYPE, MODULE)                             \
+    template<>                                                             \
+    class QTypeModuleInfo<TYPE>                                            \
+    {                                                                      \
+public:                                                                    \
+        enum Module {                                                      \
+            IsCore      = (((MODULE) == (QModulesPrivate::Core))),         \
+            IsWidget    = (((MODULE) == (QModulesPrivate::Widgets))),      \
+            IsGui       = (((MODULE) == (QModulesPrivate::Gui))),          \
+            IsUnknown   = !(IsCore || IsWidget || IsGui)                   \
+        };                                                                 \
+        static inline int module() { return MODULE; }                      \
+        Q_STATIC_ASSERT((IsUnknown && !(IsCore || IsWidget || IsGui))      \
+                        || (IsCore && !(IsUnknown || IsWidget || IsGui))   \
+                        || (IsWidget && !(IsUnknown || IsCore || IsGui))   \
+                        || (IsGui && !(IsUnknown || IsCore || IsWidget))); \
+    };
 
 
 #define QT_DECLARE_CORE_MODULE_TYPES_ITER(TypeName, TypeId, Name) \
@@ -108,13 +113,13 @@ public: \
 #define QT_DECLARE_WIDGETS_MODULE_TYPES_ITER(TypeName, TypeId, Name) \
     QT_ASSIGN_TYPE_TO_MODULE(Name, QModulesPrivate::Widgets);
 
-QT_FOR_EACH_STATIC_PRIMITIVE_TYPE(QT_DECLARE_CORE_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_PRIMITIVE_POINTER(QT_DECLARE_CORE_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_CORE_CLASS(QT_DECLARE_CORE_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_CORE_POINTER(QT_DECLARE_CORE_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_CORE_TEMPLATE(QT_DECLARE_CORE_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_GUI_CLASS(QT_DECLARE_GUI_MODULE_TYPES_ITER)
-QT_FOR_EACH_STATIC_WIDGETS_CLASS(QT_DECLARE_WIDGETS_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_PRIMITIVE_TYPE(QT_DECLARE_CORE_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_PRIMITIVE_POINTER(QT_DECLARE_CORE_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_CORE_CLASS(QT_DECLARE_CORE_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_CORE_POINTER(QT_DECLARE_CORE_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_CORE_TEMPLATE(QT_DECLARE_CORE_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_GUI_CLASS(QT_DECLARE_GUI_MODULE_TYPES_ITER)
+    QT_FOR_EACH_STATIC_WIDGETS_CLASS(QT_DECLARE_WIDGETS_MODULE_TYPES_ITER)
 } // namespace QModulesPrivate
 
 #undef QT_DECLARE_CORE_MODULE_TYPES_ITER
@@ -124,25 +129,25 @@ QT_FOR_EACH_STATIC_WIDGETS_CLASS(QT_DECLARE_WIDGETS_MODULE_TYPES_ITER)
 class QMetaTypeInterface
 {
 public:
-    QMetaType::SaveOperator saveOp;
-    QMetaType::LoadOperator loadOp;
-    QMetaType::Constructor constructor;
-    QMetaType::Destructor destructor;
-    int size;
-    QMetaType::TypeFlags::Int flags;
-    const QMetaObject *metaObject;
+    QMetaType::SaveOperator         saveOp;
+    QMetaType::LoadOperator         loadOp;
+    QMetaType::Constructor          constructor;
+    QMetaType::Destructor           destructor;
+    int                             size;
+    QMetaType::TypeFlags::Int       flags;
+    const QMetaObject               *metaObject;
 };
 
 #ifndef QT_NO_DATASTREAM
-#  define QT_METATYPE_INTERFACE_INIT_DATASTREAM_IMPL(Type) \
-    /*saveOp*/(QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Save), \
-    /*loadOp*/(QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Load),
+#  define QT_METATYPE_INTERFACE_INIT_DATASTREAM_IMPL(Type)                                                                     \
+    /*saveOp*/ (QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Save), \
+    /*loadOp*/ (QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Load),
 #  define QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL(Type) \
-    /*saveOp*/ 0, \
+    /*saveOp*/ 0,                                                \
     /*loadOp*/ 0,
 #else
 #  define QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL(Type) \
-    /*saveOp*/ 0, \
+    /*saveOp*/ 0,                                                \
     /*loadOp*/ 0,
 #  define QT_METATYPE_INTERFACE_INIT_DATASTREAM_IMPL(Type) \
     QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL(Type)
@@ -154,99 +159,101 @@ public:
 #define METAOBJECT_DELEGATE(Type) 0
 #endif
 
-#define QT_METATYPE_INTERFACE_INIT_IMPL(Type, DATASTREAM_DELEGATE) \
-{ \
-    DATASTREAM_DELEGATE(Type) \
-    /*constructor*/(QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Construct), \
-    /*destructor*/(QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Destruct), \
-    /*size*/(QTypeInfo<Type>::sizeOf), \
-    /*flags*/QtPrivate::QMetaTypeTypeFlags<Type>::Flags, \
-    /*metaObject*/METAOBJECT_DELEGATE(Type) \
-}
+#define QT_METATYPE_INTERFACE_INIT_IMPL(Type, DATASTREAM_DELEGATE)                                                                           \
+    {                                                                                                                                        \
+        DATASTREAM_DELEGATE(Type)                                                                                                            \
+        /*constructor*/ (QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Construct), \
+        /*destructor*/ (QtMetaTypePrivate::QMetaTypeFunctionHelper<Type, QtMetaTypePrivate::TypeDefinition<Type>::IsAvailable>::Destruct),   \
+        /*size*/ (QTypeInfo<Type>::sizeOf),                                                                                                  \
+        /*flags*/ QtPrivate::QMetaTypeTypeFlags<Type>::Flags,                                                                                \
+        /*metaObject*/ METAOBJECT_DELEGATE(Type)                                                                                             \
+    }
 
 
 /* These  QT_METATYPE_INTERFACE_INIT* macros are used to initialize QMetaTypeInterface instance.
 
- - QT_METATYPE_INTERFACE_INIT(Type) -> It takes Type argument and creates all necessary wrapper functions for the Type,
+   - QT_METATYPE_INTERFACE_INIT(Type) -> It takes Type argument and creates all necessary wrapper functions for the Type,
    it detects if QT_NO_DATASTREAM was defined. Probably it is the macro that you want to use.
 
- - QT_METATYPE_INTERFACE_INIT_EMPTY() -> It initializes an empty QMetaTypeInterface instance.
+   - QT_METATYPE_INTERFACE_INIT_EMPTY() -> It initializes an empty QMetaTypeInterface instance.
 
- - QT_METATYPE_INTERFACE_INIT_NO_DATASTREAM(Type) -> Temporary workaround for missing auto-detection of data stream
+   - QT_METATYPE_INTERFACE_INIT_NO_DATASTREAM(Type) -> Temporary workaround for missing auto-detection of data stream
    operators. It creates same instance as QT_METATYPE_INTERFACE_INIT(Type) but with null stream operators callbacks.
  */
-#define QT_METATYPE_INTERFACE_INIT(Type) QT_METATYPE_INTERFACE_INIT_IMPL(Type, QT_METATYPE_INTERFACE_INIT_DATASTREAM_IMPL)
-#define QT_METATYPE_INTERFACE_INIT_NO_DATASTREAM(Type) QT_METATYPE_INTERFACE_INIT_IMPL(Type, QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL)
-#define QT_METATYPE_INTERFACE_INIT_EMPTY() \
-{ \
-    QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL(void) \
-    /*constructor*/ 0, \
-    /*destructor*/ 0, \
-    /*size*/ 0, \
-    /*flags*/ 0, \
-    /*metaObject*/ 0 \
-}
+#define QT_METATYPE_INTERFACE_INIT(Type)                QT_METATYPE_INTERFACE_INIT_IMPL(Type, QT_METATYPE_INTERFACE_INIT_DATASTREAM_IMPL)
+#define QT_METATYPE_INTERFACE_INIT_NO_DATASTREAM(Type)  QT_METATYPE_INTERFACE_INIT_IMPL(Type, QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL)
+#define QT_METATYPE_INTERFACE_INIT_EMPTY()                     \
+    {                                                          \
+        QT_METATYPE_INTERFACE_INIT_EMPTY_DATASTREAM_IMPL(void) \
+        /*constructor*/ 0,                                     \
+        /*destructor*/ 0,                                      \
+        /*size*/ 0,                                            \
+        /*flags*/ 0,                                           \
+        /*metaObject*/ 0                                       \
+    }
 
-namespace QtMetaTypePrivate {
-template<typename T>
-struct TypeDefinition {
-    static const bool IsAvailable = true;
-};
+namespace QtMetaTypePrivate
+{
+    template<typename T>
+    struct TypeDefinition
+    {
+        static const bool IsAvailable = true;
+    };
 
 // Ignore these types, as incomplete
 #ifdef QT_BOOTSTRAPPED
-template<> struct TypeDefinition<QBitArray> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QEasingCurve> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QJsonArray> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QJsonDocument> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QJsonObject> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QJsonValue> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QModelIndex> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QPersistentModelIndex> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QUrl> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QByteArrayList> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QBitArray> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QEasingCurve> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QJsonArray> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QJsonDocument> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QJsonObject> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QJsonValue> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QModelIndex> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QPersistentModelIndex> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QUrl> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QByteArrayList> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_GEOM_VARIANT
-template<> struct TypeDefinition<QRect> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QRectF> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QSize> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QSizeF> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QLine> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QLineF> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QPoint> { static const bool IsAvailable = false; };
-template<> struct TypeDefinition<QPointF> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QRect> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QRectF> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QSize> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QSizeF> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QLine> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QLineF> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QPoint> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QPointF> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_REGEXP
-template<> struct TypeDefinition<QRegExp> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QRegExp> { static const bool IsAvailable = false; };
 #endif
 #if defined(QT_BOOTSTRAPPED) || defined(QT_NO_REGULAREXPRESSION)
-template<> struct TypeDefinition<QRegularExpression> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QRegularExpression> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_SHORTCUT
-template<> struct TypeDefinition<QKeySequence> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QKeySequence> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_CURSOR
-template<> struct TypeDefinition<QCursor> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QCursor> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_MATRIX4X4
-template<> struct TypeDefinition<QMatrix4x4> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QMatrix4x4> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_VECTOR2D
-template<> struct TypeDefinition<QVector2D> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QVector2D> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_VECTOR3D
-template<> struct TypeDefinition<QVector3D> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QVector3D> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_VECTOR4D
-template<> struct TypeDefinition<QVector4D> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QVector4D> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_QUATERNION
-template<> struct TypeDefinition<QQuaternion> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QQuaternion> { static const bool IsAvailable = false; };
 #endif
 #ifdef QT_NO_ICON
-template<> struct TypeDefinition<QIcon> { static const bool IsAvailable = false; };
+    template<> struct TypeDefinition<QIcon> { static const bool IsAvailable = false; };
 #endif
-} //namespace QtMetaTypePrivate
+} // namespace QtMetaTypePrivate
 
 QT_END_NAMESPACE
 

@@ -59,7 +59,7 @@ QT_BEGIN_NAMESPACE
 
 class QPainter;
 class QOpenGLCustomShaderStagePrivate;
-class Q_GUI_EXPORT QOpenGLCustomShaderStage
+class Q_GUI_EXPORT    QOpenGLCustomShaderStage
 {
     Q_DECLARE_PRIVATE(QOpenGLCustomShaderStage)
 public:
@@ -78,7 +78,7 @@ protected:
     void setSource(const QByteArray&);
 
 private:
-    QOpenGLCustomShaderStagePrivate* d_ptr;
+    QOpenGLCustomShaderStagePrivate    *d_ptr;
 
     Q_DISABLE_COPY(QOpenGLCustomShaderStage)
 };

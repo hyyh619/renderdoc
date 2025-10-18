@@ -58,13 +58,14 @@ QT_BEGIN_NAMESPACE
 
 class QInputDeviceManagerPrivate;
 
-class Q_GUI_EXPORT QInputDeviceManager : public QObject
+class Q_GUI_EXPORT    QInputDeviceManager : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QInputDeviceManager)
 
 public:
-    enum DeviceType {
+    enum DeviceType
+    {
         DeviceTypeUnknown,
         DeviceTypePointer,
         DeviceTypeKeyboard,

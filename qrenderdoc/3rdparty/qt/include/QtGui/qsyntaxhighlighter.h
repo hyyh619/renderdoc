@@ -57,7 +57,7 @@ class QFont;
 class QColor;
 class QTextBlockUserData;
 
-class Q_GUI_EXPORT QSyntaxHighlighter : public QObject
+class Q_GUI_EXPORT    QSyntaxHighlighter : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSyntaxHighlighter)
@@ -67,7 +67,7 @@ public:
     virtual ~QSyntaxHighlighter();
 
     void setDocument(QTextDocument *doc);
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
 public Q_SLOTS:
     void rehighlight();
@@ -86,7 +86,7 @@ protected:
     void setCurrentBlockState(int newState);
 
     void setCurrentBlockUserData(QTextBlockUserData *data);
-    QTextBlockUserData *currentBlockUserData() const;
+    QTextBlockUserData* currentBlockUserData() const;
 
     QTextBlock currentBlock() const;
 
@@ -97,7 +97,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SYNTAXHIGHLIGHTER
 
 #endif // QSYNTAXHIGHLIGHTER_H

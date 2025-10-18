@@ -54,12 +54,12 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_STANDARDITEMMODEL
 
-template <class T> class QList;
+template<class T> class QList;
 
 class QStandardItemModel;
 
 class QStandardItemPrivate;
-class Q_GUI_EXPORT QStandardItem
+class Q_GUI_EXPORT    QStandardItem
 {
 public:
     QStandardItem();
@@ -71,73 +71,86 @@ public:
     virtual QVariant data(int role = Qt::UserRole + 1) const;
     virtual void setData(const QVariant &value, int role = Qt::UserRole + 1);
 
-    inline QString text() const {
+    inline QString text() const
+    {
         return qvariant_cast<QString>(data(Qt::DisplayRole));
     }
     inline void setText(const QString &text);
 
-    inline QIcon icon() const {
+    inline QIcon icon() const
+    {
         return qvariant_cast<QIcon>(data(Qt::DecorationRole));
     }
     inline void setIcon(const QIcon &icon);
 
 #ifndef QT_NO_TOOLTIP
-    inline QString toolTip() const {
+    inline QString toolTip() const
+    {
         return qvariant_cast<QString>(data(Qt::ToolTipRole));
     }
     inline void setToolTip(const QString &toolTip);
 #endif
 
 #ifndef QT_NO_STATUSTIP
-    inline QString statusTip() const {
+    inline QString statusTip() const
+    {
         return qvariant_cast<QString>(data(Qt::StatusTipRole));
     }
     inline void setStatusTip(const QString &statusTip);
 #endif
 
 #if QT_CONFIG(whatsthis)
-    inline QString whatsThis() const {
+    inline QString whatsThis() const
+    {
         return qvariant_cast<QString>(data(Qt::WhatsThisRole));
     }
     inline void setWhatsThis(const QString &whatsThis);
 #endif
 
-    inline QSize sizeHint() const {
+    inline QSize sizeHint() const
+    {
         return qvariant_cast<QSize>(data(Qt::SizeHintRole));
     }
     inline void setSizeHint(const QSize &sizeHint);
 
-    inline QFont font() const {
+    inline QFont font() const
+    {
         return qvariant_cast<QFont>(data(Qt::FontRole));
     }
     inline void setFont(const QFont &font);
 
-    inline Qt::Alignment textAlignment() const {
+    inline Qt::Alignment textAlignment() const
+    {
         return Qt::Alignment(qvariant_cast<int>(data(Qt::TextAlignmentRole)));
     }
     inline void setTextAlignment(Qt::Alignment textAlignment);
 
-    inline QBrush background() const {
+    inline QBrush background() const
+    {
         return qvariant_cast<QBrush>(data(Qt::BackgroundRole));
     }
     inline void setBackground(const QBrush &brush);
 
-    inline QBrush foreground() const {
+    inline QBrush foreground() const
+    {
         return qvariant_cast<QBrush>(data(Qt::ForegroundRole));
     }
     inline void setForeground(const QBrush &brush);
 
-    inline Qt::CheckState checkState() const {
+    inline Qt::CheckState checkState() const
+    {
         return Qt::CheckState(qvariant_cast<int>(data(Qt::CheckStateRole)));
     }
     inline void setCheckState(Qt::CheckState checkState);
 
-    inline QString accessibleText() const {
+    inline QString accessibleText() const
+    {
         return qvariant_cast<QString>(data(Qt::AccessibleTextRole));
     }
     inline void setAccessibleText(const QString &accessibleText);
 
-    inline QString accessibleDescription() const {
+    inline QString accessibleDescription() const
+    {
         return qvariant_cast<QString>(data(Qt::AccessibleDescriptionRole));
     }
     inline void setAccessibleDescription(const QString &accessibleDescription);
@@ -145,58 +158,69 @@ public:
     Qt::ItemFlags flags() const;
     void setFlags(Qt::ItemFlags flags);
 
-    inline bool isEnabled() const {
+    inline bool isEnabled() const
+    {
         return (flags() & Qt::ItemIsEnabled) != 0;
     }
     void setEnabled(bool enabled);
 
-    inline bool isEditable() const {
+    inline bool isEditable() const
+    {
         return (flags() & Qt::ItemIsEditable) != 0;
     }
     void setEditable(bool editable);
 
-    inline bool isSelectable() const {
+    inline bool isSelectable() const
+    {
         return (flags() & Qt::ItemIsSelectable) != 0;
     }
     void setSelectable(bool selectable);
 
-    inline bool isCheckable() const {
+    inline bool isCheckable() const
+    {
         return (flags() & Qt::ItemIsUserCheckable) != 0;
     }
     void setCheckable(bool checkable);
 
-    inline bool isAutoTristate() const {
+    inline bool isAutoTristate() const
+    {
         return (flags() & Qt::ItemIsAutoTristate) != 0;
     }
     void setAutoTristate(bool tristate);
 
-    inline bool isUserTristate() const {
+    inline bool isUserTristate() const
+    {
         return (flags() & Qt::ItemIsUserTristate) != 0;
     }
     void setUserTristate(bool tristate);
 
 #if QT_DEPRECATED_SINCE(5, 6)
-    QT_DEPRECATED bool isTristate() const { return isAutoTristate(); }
+    QT_DEPRECATED bool isTristate() const
+    {
+        return isAutoTristate();
+    }
     QT_DEPRECATED void setTristate(bool tristate);
 #endif
 
 #ifndef QT_NO_DRAGANDDROP
-    inline bool isDragEnabled() const {
+    inline bool isDragEnabled() const
+    {
         return (flags() & Qt::ItemIsDragEnabled) != 0;
     }
     void setDragEnabled(bool dragEnabled);
 
-    inline bool isDropEnabled() const {
+    inline bool isDropEnabled() const
+    {
         return (flags() & Qt::ItemIsDropEnabled) != 0;
     }
     void setDropEnabled(bool dropEnabled);
 #endif // QT_NO_DRAGANDDROP
 
-    QStandardItem *parent() const;
+    QStandardItem* parent() const;
     int row() const;
     int column() const;
     QModelIndex index() const;
-    QStandardItemModel *model() const;
+    QStandardItemModel* model() const;
 
     int rowCount() const;
     void setRowCount(int rows);
@@ -204,7 +228,7 @@ public:
     void setColumnCount(int columns);
 
     bool hasChildren() const;
-    QStandardItem *child(int row, int column = 0) const;
+    QStandardItem* child(int row, int column = 0) const;
     void setChild(int row, int column, QStandardItem *item);
     inline void setChild(int row, QStandardItem *item);
 
@@ -225,13 +249,13 @@ public:
     inline void insertRow(int row, QStandardItem *item);
     inline void appendRow(QStandardItem *item);
 
-    QStandardItem *takeChild(int row, int column = 0);
+    QStandardItem* takeChild(int row, int column = 0);
     QList<QStandardItem*> takeRow(int row);
     QList<QStandardItem*> takeColumn(int column);
 
     void sortChildren(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
-    virtual QStandardItem *clone() const;
+    virtual QStandardItem* clone() const;
 
     enum ItemType { Type = 0, UserType = 1000 };
     virtual int type() const;
@@ -245,8 +269,8 @@ public:
 protected:
     QStandardItem(const QStandardItem &other);
     QStandardItem(QStandardItemPrivate &dd);
-    QStandardItem &operator=(const QStandardItem &other);
-    QScopedPointer<QStandardItemPrivate> d_ptr;
+    QStandardItem&operator=(const QStandardItem &other);
+    QScopedPointer<QStandardItemPrivate>    d_ptr;
 
     void emitDataChanged();
 
@@ -257,71 +281,109 @@ private:
 };
 
 inline void QStandardItem::setText(const QString &atext)
-{ setData(atext, Qt::DisplayRole); }
+{
+    setData(atext, Qt::DisplayRole);
+}
 
 inline void QStandardItem::setIcon(const QIcon &aicon)
-{ setData(aicon, Qt::DecorationRole); }
+{
+    setData(aicon, Qt::DecorationRole);
+}
 
 #ifndef QT_NO_TOOLTIP
 inline void QStandardItem::setToolTip(const QString &atoolTip)
-{ setData(atoolTip, Qt::ToolTipRole); }
+{
+    setData(atoolTip, Qt::ToolTipRole);
+}
 #endif
 
 #ifndef QT_NO_STATUSTIP
 inline void QStandardItem::setStatusTip(const QString &astatusTip)
-{ setData(astatusTip, Qt::StatusTipRole); }
+{
+    setData(astatusTip, Qt::StatusTipRole);
+}
 #endif
 
 #if QT_CONFIG(whatsthis)
 inline void QStandardItem::setWhatsThis(const QString &awhatsThis)
-{ setData(awhatsThis, Qt::WhatsThisRole); }
+{
+    setData(awhatsThis, Qt::WhatsThisRole);
+}
 #endif
 
 inline void QStandardItem::setSizeHint(const QSize &asizeHint)
-{ setData(asizeHint, Qt::SizeHintRole); }
+{
+    setData(asizeHint, Qt::SizeHintRole);
+}
 
 inline void QStandardItem::setFont(const QFont &afont)
-{ setData(afont, Qt::FontRole); }
+{
+    setData(afont, Qt::FontRole);
+}
 
 inline void QStandardItem::setTextAlignment(Qt::Alignment atextAlignment)
-{ setData(int(atextAlignment), Qt::TextAlignmentRole); }
+{
+    setData(int(atextAlignment), Qt::TextAlignmentRole);
+}
 
 inline void QStandardItem::setBackground(const QBrush &abrush)
-{ setData(abrush, Qt::BackgroundRole); }
+{
+    setData(abrush, Qt::BackgroundRole);
+}
 
 inline void QStandardItem::setForeground(const QBrush &abrush)
-{ setData(abrush, Qt::ForegroundRole); }
+{
+    setData(abrush, Qt::ForegroundRole);
+}
 
 inline void QStandardItem::setCheckState(Qt::CheckState acheckState)
-{ setData(acheckState, Qt::CheckStateRole); }
+{
+    setData(acheckState, Qt::CheckStateRole);
+}
 
 inline void QStandardItem::setAccessibleText(const QString &aaccessibleText)
-{ setData(aaccessibleText, Qt::AccessibleTextRole); }
+{
+    setData(aaccessibleText, Qt::AccessibleTextRole);
+}
 
 inline void QStandardItem::setAccessibleDescription(const QString &aaccessibleDescription)
-{ setData(aaccessibleDescription, Qt::AccessibleDescriptionRole); }
+{
+    setData(aaccessibleDescription, Qt::AccessibleDescriptionRole);
+}
 
 inline void QStandardItem::setChild(int arow, QStandardItem *aitem)
-{ setChild(arow, 0, aitem); }
+{
+    setChild(arow, 0, aitem);
+}
 
 inline void QStandardItem::appendRow(const QList<QStandardItem*> &aitems)
-{ insertRow(rowCount(), aitems); }
+{
+    insertRow(rowCount(), aitems);
+}
 
 inline void QStandardItem::appendRows(const QList<QStandardItem*> &aitems)
-{ insertRows(rowCount(), aitems); }
+{
+    insertRows(rowCount(), aitems);
+}
 
 inline void QStandardItem::appendColumn(const QList<QStandardItem*> &aitems)
-{ insertColumn(columnCount(), aitems); }
+{
+    insertColumn(columnCount(), aitems);
+}
 
 inline void QStandardItem::insertRow(int arow, QStandardItem *aitem)
-{ insertRow(arow, QList<QStandardItem*>() << aitem); }
+{
+    insertRow(arow, QList<QStandardItem*>() << aitem);
+}
 
 inline void QStandardItem::appendRow(QStandardItem *aitem)
-{ insertRow(rowCount(), aitem); }
+{
+    insertRow(rowCount(), aitem);
+}
 
 class QStandardItemModelPrivate;
 
-class Q_GUI_EXPORT QStandardItemModel : public QAbstractItemModel
+class Q_GUI_EXPORT    QStandardItemModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(int sortRole READ sortRole WRITE setSortRole)
@@ -331,7 +393,7 @@ public:
     QStandardItemModel(int rows, int columns, QObject *parent = Q_NULLPTR);
     ~QStandardItemModel();
 
-    void setItemRoleNames(const QHash<int,QByteArray> &roleNames);
+    void setItemRoleNames(const QHash<int, QByteArray> &roleNames);
 
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
     QModelIndex parent(const QModelIndex &child) const Q_DECL_OVERRIDE;
@@ -367,17 +429,17 @@ public:
 
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) Q_DECL_OVERRIDE;
 
-    QStandardItem *itemFromIndex(const QModelIndex &index) const;
+    QStandardItem* itemFromIndex(const QModelIndex &index) const;
     QModelIndex indexFromItem(const QStandardItem *item) const;
 
-    QStandardItem *item(int row, int column = 0) const;
+    QStandardItem* item(int row, int column = 0) const;
     void setItem(int row, int column, QStandardItem *item);
     inline void setItem(int row, QStandardItem *item);
-    QStandardItem *invisibleRootItem() const;
+    QStandardItem* invisibleRootItem() const;
 
-    QStandardItem *horizontalHeaderItem(int column) const;
+    QStandardItem* horizontalHeaderItem(int column) const;
     void setHorizontalHeaderItem(int column, QStandardItem *item);
-    QStandardItem *verticalHeaderItem(int row) const;
+    QStandardItem* verticalHeaderItem(int row) const;
     void setVerticalHeaderItem(int row, QStandardItem *item);
 
     void setHorizontalHeaderLabels(const QStringList &labels);
@@ -397,14 +459,14 @@ public:
     inline bool insertRow(int row, const QModelIndex &parent = QModelIndex());
     inline bool insertColumn(int column, const QModelIndex &parent = QModelIndex());
 
-    QStandardItem *takeItem(int row, int column = 0);
+    QStandardItem* takeItem(int row, int column = 0);
     QList<QStandardItem*> takeRow(int row);
     QList<QStandardItem*> takeColumn(int column);
 
-    QStandardItem *takeHorizontalHeaderItem(int column);
-    QStandardItem *takeVerticalHeaderItem(int row);
+    QStandardItem* takeHorizontalHeaderItem(int column);
+    QStandardItem* takeVerticalHeaderItem(int row);
 
-    const QStandardItem *itemPrototype() const;
+    const QStandardItem* itemPrototype() const;
     void setItemPrototype(const QStandardItem *item);
 
     QList<QStandardItem*> findItems(const QString &text,
@@ -415,8 +477,8 @@ public:
     void setSortRole(int role);
 
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
-    bool dropMimeData (const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
     void itemChanged(QStandardItem *item);
@@ -435,26 +497,35 @@ private:
 };
 
 inline void QStandardItemModel::setItem(int arow, QStandardItem *aitem)
-{ setItem(arow, 0, aitem); }
+{
+    setItem(arow, 0, aitem);
+}
 
 inline void QStandardItemModel::appendRow(QStandardItem *aitem)
-{ appendRow(QList<QStandardItem*>() << aitem); }
+{
+    appendRow(QList<QStandardItem*>() << aitem);
+}
 
 inline void QStandardItemModel::insertRow(int arow, QStandardItem *aitem)
-{ insertRow(arow, QList<QStandardItem*>() << aitem); }
+{
+    insertRow(arow, QList<QStandardItem*>() << aitem);
+}
 
 inline bool QStandardItemModel::insertRow(int arow, const QModelIndex &aparent)
-{ return QAbstractItemModel::insertRow(arow, aparent); }
+{
+    return QAbstractItemModel::insertRow(arow, aparent);
+}
 inline bool QStandardItemModel::insertColumn(int acolumn, const QModelIndex &aparent)
-{ return QAbstractItemModel::insertColumn(acolumn, aparent); }
+{
+    return QAbstractItemModel::insertColumn(acolumn, aparent);
+}
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &in, QStandardItem &item);
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &out, const QStandardItem &item);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream &in, QStandardItem &item);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream &out, const QStandardItem &item);
 #endif
-
 #endif // QT_NO_STANDARDITEMMODEL
 
 QT_END_NAMESPACE
 
-#endif //QSTANDARDITEMMODEL_H
+#endif // QSTANDARDITEMMODEL_H

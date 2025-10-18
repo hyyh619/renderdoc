@@ -64,35 +64,53 @@ QT_REQUIRE_CONFIG(tableview);
 QT_BEGIN_NAMESPACE
 
 /** \internal
-*
-* This is a list of span with a binary index to look up quickly a span at a certain index.
-*
-* The index is a map of map.
-* spans are mentaly divided into sub spans so that the start of any subspans doesn't overlap
-* with any other subspans. There is no real representation of the subspans.
-* The key of the first map is the row where the subspan starts, the value of the first map is
-* a list (map) of all subspans that starts at the same row.  It is indexed with its row
-*/
-class Q_AUTOTEST_EXPORT QSpanCollection
+ *
+ * This is a list of span with a binary index to look up quickly a span at a certain index.
+ *
+ * The index is a map of map.
+ * spans are mentaly divided into sub spans so that the start of any subspans doesn't overlap
+ * with any other subspans. There is no real representation of the subspans.
+ * The key of the first map is the row where the subspan starts, the value of the first map is
+ * a list (map) of all subspans that starts at the same row.  It is indexed with its row
+ */
+class Q_AUTOTEST_EXPORT    QSpanCollection
 {
 public:
     struct Span
     {
-        int m_top;
-        int m_left;
-        int m_bottom;
-        int m_right;
-        bool will_be_deleted;
+        int     m_top;
+        int     m_left;
+        int     m_bottom;
+        int     m_right;
+        bool    will_be_deleted;
         Span()
-        : m_top(-1), m_left(-1), m_bottom(-1), m_right(-1), will_be_deleted(false) { }
+            : m_top(-1), m_left(-1), m_bottom(-1), m_right(-1), will_be_deleted(false) { }
         Span(int row, int column, int rowCount, int columnCount)
-        : m_top(row), m_left(column), m_bottom(row+rowCount-1), m_right(column+columnCount-1), will_be_deleted(false) { }
-        inline int top() const { return m_top; }
-        inline int left() const { return m_left; }
-        inline int bottom() const { return m_bottom; }
-        inline int right() const { return m_right; }
-        inline int height() const { return m_bottom - m_top + 1; }
-        inline int width() const { return m_right - m_left + 1; }
+            : m_top(row), m_left(column), m_bottom(row + rowCount - 1), m_right(column + columnCount - 1), will_be_deleted(false) { }
+        inline int top() const
+        {
+            return m_top;
+        }
+        inline int left() const
+        {
+            return m_left;
+        }
+        inline int bottom() const
+        {
+            return m_bottom;
+        }
+        inline int right() const
+        {
+            return m_right;
+        }
+        inline int height() const
+        {
+            return m_bottom - m_top + 1;
+        }
+        inline int width() const
+        {
+            return m_right - m_left + 1;
+        }
     };
 
     ~QSpanCollection()
@@ -102,9 +120,9 @@ public:
 
     void addSpan(Span *span);
     void updateSpan(Span *span, int old_height);
-    Span *spanAt(int x, int y) const;
+    Span* spanAt(int x, int y) const;
     void clear();
-    QList<Span *> spansInRect(int x, int y, int w, int h) const;
+    QList<Span*> spansInRect(int x, int y, int w, int h) const;
 
     void updateInsertedRows(int start, int end);
     void updateInsertedColumns(int start, int end);
@@ -115,18 +133,18 @@ public:
     bool checkConsistency() const;
 #endif
 
-    typedef QLinkedList<Span *> SpanList;
-    SpanList spans; //lists of all spans
+    typedef QLinkedList<Span*> SpanList;
+    SpanList    spans; // lists of all spans
 private:
-    //the indexes are negative so the QMap::lowerBound do what i need.
-    typedef QMap<int, Span *> SubIndex;
+    // the indexes are negative so the QMap::lowerBound do what i need.
+    typedef QMap<int, Span*> SubIndex;
     typedef QMap<int, SubIndex> Index;
-    Index index;
+    Index    index;
 
     bool cleanSpanSubIndex(SubIndex &subindex, int end, bool update = false);
 };
 
-Q_DECLARE_TYPEINFO ( QSpanCollection::Span, Q_MOVABLE_TYPE);
+Q_DECLARE_TYPEINFO (QSpanCollection::Span, Q_MOVABLE_TYPE);
 
 
 class QTableViewPrivate : public QAbstractItemViewPrivate
@@ -135,41 +153,48 @@ class QTableViewPrivate : public QAbstractItemViewPrivate
 public:
     QTableViewPrivate()
         : showGrid(true), gridStyle(Qt::SolidLine),
-          rowSectionAnchor(-1), columnSectionAnchor(-1),
-          columnResizeTimerID(0), rowResizeTimerID(0),
-          horizontalHeader(0), verticalHeader(0),
-          sortingEnabled(false), geometryRecursionBlock(false),
-          visualCursor(QPoint())
- {
-    wrapItemText = true;
+        rowSectionAnchor(-1), columnSectionAnchor(-1),
+        columnResizeTimerID(0), rowResizeTimerID(0),
+        horizontalHeader(0), verticalHeader(0),
+        sortingEnabled(false), geometryRecursionBlock(false),
+        visualCursor(QPoint())
+    {
+        wrapItemText = true;
 #ifndef QT_NO_DRAGANDDROP
-    overwrite = true;
+        overwrite = true;
 #endif
- }
+    }
     void init();
     void trimHiddenSelections(QItemSelectionRange *range) const;
 
-    inline bool isHidden(int row, int col) const {
+    inline bool isHidden(int row, int col) const
+    {
         return verticalHeader->isSectionHidden(row)
-            || horizontalHeader->isSectionHidden(col);
+               || horizontalHeader->isSectionHidden(col);
     }
-    inline int visualRow(int logicalRow) const {
+    inline int visualRow(int logicalRow) const
+    {
         return verticalHeader->visualIndex(logicalRow);
     }
-    inline int visualColumn(int logicalCol) const {
+    inline int visualColumn(int logicalCol) const
+    {
         return horizontalHeader->visualIndex(logicalCol);
     }
-    inline int logicalRow(int visualRow) const {
+    inline int logicalRow(int visualRow) const
+    {
         return verticalHeader->logicalIndex(visualRow);
     }
-    inline int logicalColumn(int visualCol) const {
+    inline int logicalColumn(int visualCol) const
+    {
         return horizontalHeader->logicalIndex(visualCol);
     }
 
-    inline int accessibleTable2Index(const QModelIndex &index) const {
-        const int vHeader = verticalHeader ? 1 : 0;
+    inline int accessibleTable2Index(const QModelIndex &index) const
+    {
+        const int    vHeader = verticalHeader ? 1 : 0;
+
         return (index.row() + (horizontalHeader ? 1 : 0)) * (index.model()->columnCount() + vHeader)
-            + index.column() + vHeader;
+               + index.column() + vHeader;
     }
 
     int sectionSpanEndLogical(const QHeaderView *header, int logical, int span) const;
@@ -182,66 +207,80 @@ public:
     int widthHintForIndex(const QModelIndex &index, int hint, const QStyleOptionViewItem &option) const;
     int heightHintForIndex(const QModelIndex &index, int hint, QStyleOptionViewItem &option) const;
 
-    bool showGrid;
-    Qt::PenStyle gridStyle;
-    int rowSectionAnchor;
-    int columnSectionAnchor;
-    int columnResizeTimerID;
-    int rowResizeTimerID;
-    QVector<int> columnsToUpdate;
-    QVector<int> rowsToUpdate;
-    QHeaderView *horizontalHeader;
-    QHeaderView *verticalHeader;
+    bool            showGrid;
+    Qt::PenStyle    gridStyle;
+    int             rowSectionAnchor;
+    int             columnSectionAnchor;
+    int             columnResizeTimerID;
+    int             rowResizeTimerID;
+    QVector<int>    columnsToUpdate;
+    QVector<int>    rowsToUpdate;
+    QHeaderView     *horizontalHeader;
+    QHeaderView     *verticalHeader;
 #if QT_CONFIG(abstractbutton)
-    QWidget *cornerWidget;
+    QWidget    *cornerWidget;
 #endif
-    bool sortingEnabled;
-    bool geometryRecursionBlock;
-    QPoint visualCursor;  // (Row,column) cell coordinates to track through span navigation.
+    bool        sortingEnabled;
+    bool        geometryRecursionBlock;
+    QPoint      visualCursor; // (Row,column) cell coordinates to track through span navigation.
 
-    QSpanCollection spans;
+    QSpanCollection    spans;
 
     void setSpan(int row, int column, int rowSpan, int columnSpan);
     QSpanCollection::Span span(int row, int column) const;
-    inline int rowSpan(int row, int column) const {
+    inline int rowSpan(int row, int column) const
+    {
         return span(row, column).height();
     }
-    inline int columnSpan(int row, int column) const {
+    inline int columnSpan(int row, int column) const
+    {
         return span(row, column).width();
     }
-    inline bool hasSpans() const {
+    inline bool hasSpans() const
+    {
         return !spans.spans.isEmpty();
     }
-    inline int rowSpanHeight(int row, int span) const {
+    inline int rowSpanHeight(int row, int span) const
+    {
         return sectionSpanSize(verticalHeader, row, span);
     }
-    inline int columnSpanWidth(int column, int span) const {
+    inline int columnSpanWidth(int column, int span) const
+    {
         return sectionSpanSize(horizontalHeader, column, span);
     }
-    inline int rowSpanEndLogical(int row, int span) const {
+    inline int rowSpanEndLogical(int row, int span) const
+    {
         return sectionSpanEndLogical(verticalHeader, row, span);
     }
-    inline int columnSpanEndLogical(int column, int span) const {
+    inline int columnSpanEndLogical(int column, int span) const
+    {
         return sectionSpanEndLogical(horizontalHeader, column, span);
     }
 
-    inline bool isRowHidden(int row) const {
+    inline bool isRowHidden(int row) const
+    {
         return verticalHeader->isSectionHidden(row);
     }
-    inline bool isColumnHidden(int column) const {
+    inline bool isColumnHidden(int column) const
+    {
         return horizontalHeader->isSectionHidden(column);
     }
-    inline bool isCellEnabled(int row, int column) const {
+    inline bool isCellEnabled(int row, int column) const
+    {
         return isIndexEnabled(model->index(row, column, root));
     }
-    inline bool isVisualRowHiddenOrDisabled(int row, int column) const {
-        int r = logicalRow(row);
-        int c = logicalColumn(column);
+    inline bool isVisualRowHiddenOrDisabled(int row, int column) const
+    {
+        int     r   = logicalRow(row);
+        int     c   = logicalColumn(column);
+
         return isRowHidden(r) || !isCellEnabled(r, c);
     }
-    inline bool isVisualColumnHiddenOrDisabled(int row, int column) const {
-        int r = logicalRow(row);
-        int c = logicalColumn(column);
+    inline bool isVisualColumnHiddenOrDisabled(int row, int column) const
+    {
+        int     r   = logicalRow(row);
+        int     c   = logicalColumn(column);
+
         return isColumnHidden(c) || !isCellEnabled(r, c);
     }
 

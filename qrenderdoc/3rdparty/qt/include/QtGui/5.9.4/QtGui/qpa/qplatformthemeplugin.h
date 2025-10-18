@@ -59,14 +59,14 @@ class QPlatformTheme;
 
 #define QPlatformThemeFactoryInterface_iid "org.qt-project.Qt.QPA.QPlatformThemeFactoryInterface.5.1"
 
-class Q_GUI_EXPORT QPlatformThemePlugin : public QObject
+class Q_GUI_EXPORT    QPlatformThemePlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QPlatformThemePlugin(QObject *parent = 0);
     ~QPlatformThemePlugin();
 
-    virtual QPlatformTheme *create(const QString &key, const QStringList &paramList) = 0;
+    virtual QPlatformTheme* create(const QString &key, const QStringList &paramList) = 0;
 };
 
 QT_END_NAMESPACE

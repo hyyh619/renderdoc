@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QSliderPrivate;
 class QStyleOptionSlider;
-class Q_WIDGETS_EXPORT QSlider : public QAbstractSlider
+class Q_WIDGETS_EXPORT    QSlider : public QAbstractSlider
 {
     Q_OBJECT
 
@@ -58,13 +58,14 @@ class Q_WIDGETS_EXPORT QSlider : public QAbstractSlider
     Q_PROPERTY(int tickInterval READ tickInterval WRITE setTickInterval)
 
 public:
-    enum TickPosition {
-        NoTicks = 0,
-        TicksAbove = 1,
-        TicksLeft = TicksAbove,
-        TicksBelow = 2,
-        TicksRight = TicksBelow,
-        TicksBothSides = 3
+    enum TickPosition
+    {
+        NoTicks         = 0,
+        TicksAbove      = 1,
+        TicksLeft       = TicksAbove,
+        TicksBelow      = 2,
+        TicksRight      = TicksBelow,
+        TicksBothSides  = 3
     };
     Q_ENUM(TickPosition)
 

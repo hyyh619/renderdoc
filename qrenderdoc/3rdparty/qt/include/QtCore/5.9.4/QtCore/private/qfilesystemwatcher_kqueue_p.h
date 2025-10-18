@@ -70,7 +70,7 @@ class QKqueueFileSystemWatcherEngine : public QFileSystemWatcherEngine
 public:
     ~QKqueueFileSystemWatcherEngine();
 
-    static QKqueueFileSystemWatcherEngine *create(QObject *parent);
+    static QKqueueFileSystemWatcherEngine* create(QObject *parent);
 
     QStringList addPaths(const QStringList &paths, QStringList *files, QStringList *directories);
     QStringList removePaths(const QStringList &paths, QStringList *files, QStringList *directories);
@@ -81,14 +81,13 @@ private Q_SLOTS:
 private:
     QKqueueFileSystemWatcherEngine(int kqfd, QObject *parent);
 
-    int kqfd;
+    int    kqfd;
 
-    QHash<QString, int> pathToID;
-    QHash<int, QString> idToPath;
-    QSocketNotifier notifier;
+    QHash<QString, int>     pathToID;
+    QHash<int, QString>     idToPath;
+    QSocketNotifier         notifier;
 };
 
 QT_END_NAMESPACE
-
-#endif //QT_NO_FILESYSTEMWATCHER
+#endif // QT_NO_FILESYSTEMWATCHER
 #endif // QFILESYSTEMWATCHER_KQUEUE_P_H

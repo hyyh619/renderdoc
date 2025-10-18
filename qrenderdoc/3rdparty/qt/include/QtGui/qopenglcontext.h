@@ -80,7 +80,7 @@ class QSurface;
 
 class QOpenGLVersionProfilePrivate;
 
-class Q_GUI_EXPORT QOpenGLVersionProfile
+class Q_GUI_EXPORT    QOpenGLVersionProfile
 {
 public:
     QOpenGLVersionProfile();
@@ -88,7 +88,7 @@ public:
     QOpenGLVersionProfile(const QOpenGLVersionProfile &other);
     ~QOpenGLVersionProfile();
 
-    QOpenGLVersionProfile &operator=(const QOpenGLVersionProfile &rhs);
+    QOpenGLVersionProfile&operator=(const QOpenGLVersionProfile &rhs);
 
     QPair<int, int> version() const;
     void setVersion(int majorVersion, int minorVersion);
@@ -101,19 +101,20 @@ public:
     bool isValid() const;
 
 private:
-    QOpenGLVersionProfilePrivate* d;
+    QOpenGLVersionProfilePrivate    *d;
 };
 
 inline uint qHash(const QOpenGLVersionProfile &v, uint seed = 0)
 {
     return qHash(static_cast<int>(v.profile() * 1000)
-               + v.version().first * 100 + v.version().second * 10, seed);
+                 + v.version().first * 100 + v.version().second * 10, seed);
 }
 
 inline bool operator==(const QOpenGLVersionProfile &lhs, const QOpenGLVersionProfile &rhs)
 {
     if (lhs.profile() != rhs.profile())
         return false;
+
     return lhs.version() == rhs.version();
 }
 
@@ -122,16 +123,16 @@ inline bool operator!=(const QOpenGLVersionProfile &lhs, const QOpenGLVersionPro
     return !operator==(lhs, rhs);
 }
 
-class Q_GUI_EXPORT QOpenGLContextGroup : public QObject
+class Q_GUI_EXPORT    QOpenGLContextGroup : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QOpenGLContextGroup)
 public:
     ~QOpenGLContextGroup();
 
-    QList<QOpenGLContext *> shares() const;
+    QList<QOpenGLContext*> shares() const;
 
-    static QOpenGLContextGroup *currentContextGroup();
+    static QOpenGLContextGroup* currentContextGroup();
 
 private:
     QOpenGLContextGroup();
@@ -145,7 +146,7 @@ private:
 
 class QOpenGLTextureHelper;
 
-class Q_GUI_EXPORT QOpenGLContext : public QObject
+class Q_GUI_EXPORT    QOpenGLContext : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QOpenGLContext)
@@ -162,9 +163,9 @@ public:
     bool isValid() const;
 
     QSurfaceFormat format() const;
-    QOpenGLContext *shareContext() const;
-    QOpenGLContextGroup *shareGroup() const;
-    QScreen *screen() const;
+    QOpenGLContext* shareContext() const;
+    QOpenGLContextGroup* shareGroup() const;
+    QScreen* screen() const;
     QVariant nativeHandle() const;
 
     GLuint defaultFramebufferObject() const;
@@ -176,32 +177,34 @@ public:
     QFunctionPointer getProcAddress(const QByteArray &procName) const;
     QFunctionPointer getProcAddress(const char *procName) const;
 
-    QSurface *surface() const;
+    QSurface* surface() const;
 
-    static QOpenGLContext *currentContext();
+    static QOpenGLContext* currentContext();
     static bool areSharing(QOpenGLContext *first, QOpenGLContext *second);
 
-    QPlatformOpenGLContext *handle() const;
-    QPlatformOpenGLContext *shareHandle() const;
+    QPlatformOpenGLContext* handle() const;
+    QPlatformOpenGLContext* shareHandle() const;
 
-    QOpenGLFunctions *functions() const;
-    QOpenGLExtraFunctions *extraFunctions() const;
+    QOpenGLFunctions* functions() const;
+    QOpenGLExtraFunctions* extraFunctions() const;
 
-    QAbstractOpenGLFunctions *versionFunctions(const QOpenGLVersionProfile &versionProfile = QOpenGLVersionProfile()) const;
+    QAbstractOpenGLFunctions* versionFunctions(const QOpenGLVersionProfile &versionProfile = QOpenGLVersionProfile()) const;
 
     template<class TYPE>
-    TYPE *versionFunctions() const
+    TYPE* versionFunctions() const
     {
-        QOpenGLVersionProfile v = TYPE::versionProfile();
+        QOpenGLVersionProfile    v = TYPE::versionProfile();
+
         return static_cast<TYPE*>(versionFunctions(v));
     }
 
     QSet<QByteArray> extensions() const;
     bool hasExtension(const QByteArray &extension) const;
 
-    static void *openGLModuleHandle();
+    static void* openGLModuleHandle();
 
-    enum OpenGLModuleType {
+    enum OpenGLModuleType
+    {
         LibGL,
         LibGLES
     };
@@ -211,7 +214,7 @@ public:
     bool isOpenGLES() const;
 
     static bool supportsThreadedOpenGL();
-    static QOpenGLContext *globalShareContext();
+    static QOpenGLContext* globalShareContext();
 
 Q_SIGNALS:
     void aboutToBeDestroyed();
@@ -233,8 +236,8 @@ private:
     friend class QAbstractOpenGLFunctionsPrivate;
     friend class QOpenGLTexturePrivate;
 
-    void *qGLContextHandle() const;
-    void setQGLContextHandle(void *handle,void (*qGLContextDeleteFunction)(void *));
+    void* qGLContextHandle() const;
+    void setQGLContextHandle(void *handle, void (*qGLContextDeleteFunction)(void*));
     void deleteQGLContext();
 
     QOpenGLVersionFunctionsStorage* functionsBackendStorage() const;
@@ -242,15 +245,14 @@ private:
     void removeExternalFunctions(QAbstractOpenGLFunctions *f);
 
     QOpenGLTextureHelper* textureFunctions() const;
-    void setTextureFunctions(QOpenGLTextureHelper* textureFuncs);
+    void setTextureFunctions(QOpenGLTextureHelper *textureFuncs);
 
     void destroy();
 
-    Q_PRIVATE_SLOT(d_func(), void _q_screenDestroyed(QObject *object))
+    Q_PRIVATE_SLOT(d_func(), void _q_screenDestroyed(QObject * object))
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLCONTEXT_H

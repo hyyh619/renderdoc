@@ -57,13 +57,13 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QRasterPlatformPixmap : public QPlatformPixmap
+class Q_GUI_EXPORT    QRasterPlatformPixmap : public QPlatformPixmap
 {
 public:
     QRasterPlatformPixmap(PixelType type);
     ~QRasterPlatformPixmap();
 
-    QPlatformPixmap *createCompatiblePlatformPixmap() const Q_DECL_OVERRIDE;
+    QPlatformPixmap* createCompatiblePlatformPixmap() const Q_DECL_OVERRIDE;
 
     void resize(int width, int height) Q_DECL_OVERRIDE;
     bool fromData(const uchar *buffer, uint len, const char *format, Qt::ImageConversionFlags flags) Q_DECL_OVERRIDE;
@@ -87,7 +87,7 @@ protected:
     int metric(QPaintDevice::PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
     void createPixmapForImage(QImage sourceImage, Qt::ImageConversionFlags flags);
     void setImage(const QImage &image);
-    QImage image;
+    QImage    image;
     static QImage::Format systemOpaqueFormat();
 
 private:
@@ -100,5 +100,3 @@ private:
 QT_END_NAMESPACE
 
 #endif // QPIXMAP_RASTER_P_H
-
-

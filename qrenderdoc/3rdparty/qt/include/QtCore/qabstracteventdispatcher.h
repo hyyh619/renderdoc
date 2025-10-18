@@ -53,7 +53,7 @@ class QSocketNotifier;
 class QWinEventNotifier;
 #endif
 
-class Q_CORE_EXPORT QAbstractEventDispatcher : public QObject
+class Q_CORE_EXPORT    QAbstractEventDispatcher : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstractEventDispatcher)
@@ -61,9 +61,9 @@ class Q_CORE_EXPORT QAbstractEventDispatcher : public QObject
 public:
     struct TimerInfo
     {
-        int timerId;
-        int interval;
-        Qt::TimerType timerType;
+        int             timerId;
+        int             interval;
+        Qt::TimerType   timerType;
 
         inline TimerInfo(int id, int i, Qt::TimerType t)
             : timerId(id), interval(i), timerType(t)
@@ -73,36 +73,40 @@ public:
     explicit QAbstractEventDispatcher(QObject *parent = Q_NULLPTR);
     ~QAbstractEventDispatcher();
 
-    static QAbstractEventDispatcher *instance(QThread *thread = Q_NULLPTR);
+    static QAbstractEventDispatcher* instance(QThread *thread = Q_NULLPTR);
 
-    virtual bool processEvents(QEventLoop::ProcessEventsFlags flags) = 0;
-    virtual bool hasPendingEvents() = 0; // ### Qt6: remove, mark final or make protected
+    virtual bool processEvents(QEventLoop::ProcessEventsFlags flags)    = 0;
+    virtual bool hasPendingEvents()                                     = 0; // ### Qt6: remove, mark final or make protected
 
-    virtual void registerSocketNotifier(QSocketNotifier *notifier) = 0;
-    virtual void unregisterSocketNotifier(QSocketNotifier *notifier) = 0;
+    virtual void registerSocketNotifier(QSocketNotifier *notifier)      = 0;
+    virtual void unregisterSocketNotifier(QSocketNotifier *notifier)    = 0;
 
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED inline int registerTimer(int interval, QObject *object)
-    { return registerTimer(interval, Qt::CoarseTimer, object); }
+    {
+        return registerTimer(interval, Qt::CoarseTimer, object);
+    }
     QT_DEPRECATED inline void registerTimer(int timerId, int interval, QObject *object)
-    { registerTimer(timerId, interval, Qt::CoarseTimer, object); }
+    {
+        registerTimer(timerId, interval, Qt::CoarseTimer, object);
+    }
 #endif
     int registerTimer(int interval, Qt::TimerType timerType, QObject *object);
     virtual void registerTimer(int timerId, int interval, Qt::TimerType timerType, QObject *object) = 0;
-    virtual bool unregisterTimer(int timerId) = 0;
-    virtual bool unregisterTimers(QObject *object) = 0;
+    virtual bool unregisterTimer(int timerId)                                                       = 0;
+    virtual bool unregisterTimers(QObject *object)                                                  = 0;
     virtual QList<TimerInfo> registeredTimers(QObject *object) const = 0;
 
     virtual int remainingTime(int timerId) = 0;
 
 #if defined(Q_OS_WIN) || defined(Q_QDOC)
-    virtual bool registerEventNotifier(QWinEventNotifier *notifier) = 0;
-    virtual void unregisterEventNotifier(QWinEventNotifier *notifier) = 0;
+    virtual bool registerEventNotifier(QWinEventNotifier *notifier)     = 0;
+    virtual void unregisterEventNotifier(QWinEventNotifier *notifier)   = 0;
 #endif
 
-    virtual void wakeUp() = 0;
-    virtual void interrupt() = 0;
-    virtual void flush() = 0; // ### Qt6: remove, mark final or make protected
+    virtual void wakeUp()       = 0;
+    virtual void interrupt()    = 0;
+    virtual void flush()        = 0; // ### Qt6: remove, mark final or make protected
 
     virtual void startingUp();
     virtual void closingDown();
@@ -112,7 +116,9 @@ public:
     bool filterNativeEvent(const QByteArray &eventType, void *message, long *result);
 #if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED bool filterEvent(void *message)
-    { return filterNativeEvent("", message, Q_NULLPTR); }
+    {
+        return filterNativeEvent("", message, Q_NULLPTR);
+    }
 #endif
 
 Q_SIGNALS:
@@ -120,7 +126,7 @@ Q_SIGNALS:
     void awake();
 
 protected:
-    QAbstractEventDispatcher(QAbstractEventDispatcherPrivate &,
+    QAbstractEventDispatcher(QAbstractEventDispatcherPrivate&,
                              QObject *parent);
 };
 

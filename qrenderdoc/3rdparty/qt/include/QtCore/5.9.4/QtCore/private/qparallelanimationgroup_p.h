@@ -65,12 +65,11 @@ class QParallelAnimationGroupPrivate : public QAnimationGroupPrivate
 public:
     QParallelAnimationGroupPrivate()
         : lastLoop(0), lastCurrentTime(0)
-    {
-    }
+    {}
 
-    QHash<QAbstractAnimation*, int> uncontrolledFinishTime;
-    int lastLoop;
-    int lastCurrentTime;
+    QHash<QAbstractAnimation*, int>     uncontrolledFinishTime;
+    int                                 lastLoop;
+    int                                 lastCurrentTime;
 
     bool shouldAnimationStart(QAbstractAnimation *animation, bool startIfAtEnd) const;
     void applyGroupState(QAbstractAnimation *animation);
@@ -78,14 +77,13 @@ public:
     void connectUncontrolledAnimations();
     void disconnectUncontrolledAnimations();
 
-    void animationRemoved(int index, QAbstractAnimation *) Q_DECL_OVERRIDE;
+    void animationRemoved(int index, QAbstractAnimation*) Q_DECL_OVERRIDE;
 
     // private slot
     void _q_uncontrolledAnimationFinished();
 };
 
 QT_END_NAMESPACE
+#endif // QT_NO_ANIMATION
 
-#endif //QT_NO_ANIMATION
-
-#endif //QPARALLELANIMATIONGROUP_P_H
+#endif // QPARALLELANIMATIONGROUP_P_H

@@ -64,13 +64,13 @@
 QT_BEGIN_NAMESPACE
 
 template<typename T> class QList;
-template <typename T> class QVector;
+template<typename T> class QVector;
 
-class Q_AUTOTEST_EXPORT QHstsCache
+class Q_AUTOTEST_EXPORT    QHstsCache
 {
 public:
 
-    void updateFromHeaders(const QList<QPair<QByteArray, QByteArray>> &headers,
+    void updateFromHeaders(const QList<QPair<QByteArray, QByteArray> > &headers,
                            const QUrl &url);
     void updateFromPolicies(const QVector<QHstsPolicy> &hosts);
     void updateKnownHost(const QUrl &url, const QDateTime &expires,
@@ -90,16 +90,19 @@ private:
         explicit HostName(const QString &n) : name(n) { }
         explicit HostName(const QStringRef &r) : fragment(r) { }
 
-        bool operator < (const HostName &rhs) const
+        bool operator <(const HostName &rhs) const
         {
-            if (fragment.size()) {
+            if (fragment.size())
+            {
                 if (rhs.fragment.size())
                     return fragment < rhs.fragment;
+
                 return fragment < QStringRef(&rhs.name);
             }
 
             if (rhs.fragment.size())
                 return QStringRef(&name) < rhs.fragment;
+
             return name < rhs.name;
         }
 
@@ -107,21 +110,27 @@ private:
         // we use 'fragment' only during lookup, when chopping the complete host
         // name, removing subdomain names (such HostName object is 'transient', it
         // must not outlive the original QString object.
-        QString name;
-        QStringRef fragment;
+        QString     name;
+        QStringRef  fragment;
     };
 
-    mutable QMap<HostName, QHstsPolicy> knownHosts;
+    mutable QMap<HostName, QHstsPolicy>    knownHosts;
 };
 
-class Q_AUTOTEST_EXPORT QHstsHeaderParser
+class Q_AUTOTEST_EXPORT    QHstsHeaderParser
 {
 public:
 
-    bool parse(const QList<QPair<QByteArray, QByteArray>> &headers);
+    bool parse(const QList<QPair<QByteArray, QByteArray> > &headers);
 
-    QDateTime expirationDate() const { return expiry; }
-    bool includeSubDomains() const { return subDomainsFound; }
+    QDateTime expirationDate() const
+    {
+        return expiry;
+    }
+    bool includeSubDomains() const
+    {
+        return subDomainsFound;
+    }
 
 private:
 
@@ -130,14 +139,14 @@ private:
     bool processDirective(const QByteArray &name, const QByteArray &value);
     bool nextToken();
 
-    QByteArray header;
-    QByteArray token;
+    QByteArray      header;
+    QByteArray      token;
 
-    QDateTime expiry;
-    int tokenPos = 0;
-    bool maxAgeFound = false;
-    qint64 maxAge = 0;
-    bool subDomainsFound = false;
+    QDateTime       expiry;
+    int             tokenPos        = 0;
+    bool            maxAgeFound     = false;
+    qint64          maxAge          = 0;
+    bool            subDomainsFound = false;
 };
 
 QT_END_NAMESPACE

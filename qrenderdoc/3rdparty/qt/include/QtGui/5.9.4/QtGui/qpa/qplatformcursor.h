@@ -61,35 +61,48 @@ QT_BEGIN_NAMESPACE
 
 
 // Cursor graphics management
-class Q_GUI_EXPORT QPlatformCursorImage {
+class Q_GUI_EXPORT    QPlatformCursorImage
+{
 public:
     QPlatformCursorImage(const uchar *data, const uchar *mask, int width, int height, int hotX, int hotY)
-    { set(data, mask, width, height, hotX, hotY); }
-    QImage * image() { return &cursorImage; }
-    QPoint hotspot() const { return hot; }
+    {
+        set(data, mask, width, height, hotX, hotY);
+    }
+    QImage* image()
+    {
+        return &cursorImage;
+    }
+    QPoint hotspot() const
+    {
+        return hot;
+    }
     void set(const uchar *data, const uchar *mask, int width, int height, int hotX, int hotY);
     void set(const QImage &image, int hx, int hy);
     void set(Qt::CursorShape);
 private:
     static void createSystemCursor(int id);
-    QImage cursorImage;
-    QPoint hot;
+    QImage      cursorImage;
+    QPoint      hot;
 };
 
-class Q_GUI_EXPORT QPlatformCursor : public QObject {
+class Q_GUI_EXPORT    QPlatformCursor : public QObject
+{
 public:
     QPlatformCursor();
 
     // input methods
-    virtual void pointerEvent(const QMouseEvent & event) { Q_UNUSED(event); }
+    virtual void pointerEvent(const QMouseEvent &event)
+    {
+        Q_UNUSED(event);
+    }
 #ifndef QT_NO_CURSOR
-    virtual void changeCursor(QCursor * windowCursor, QWindow * window) = 0;
+    virtual void changeCursor(QCursor *windowCursor, QWindow *window) = 0;
 #endif
     virtual QPoint pos() const;
     virtual void setPos(const QPoint &pos);
 
 private:
-    friend void qt_qpa_set_cursor(QWidget * w, bool force);
+    friend void qt_qpa_set_cursor(QWidget *w, bool force);
     friend class QApplicationPrivate;
 };
 

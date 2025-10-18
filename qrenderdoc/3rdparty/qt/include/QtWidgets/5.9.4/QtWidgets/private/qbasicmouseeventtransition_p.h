@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
 class QPainterPath;
 
 class QBasicMouseEventTransitionPrivate;
-class Q_AUTOTEST_EXPORT QBasicMouseEventTransition : public QAbstractTransition
+class Q_AUTOTEST_EXPORT    QBasicMouseEventTransition : public QAbstractTransition
 {
     Q_OBJECT
 public:
@@ -84,7 +84,7 @@ public:
 
 protected:
     bool eventTest(QEvent *event) Q_DECL_OVERRIDE;
-    void onTransition(QEvent *) Q_DECL_OVERRIDE;
+    void onTransition(QEvent*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QBasicMouseEventTransition)

@@ -51,7 +51,7 @@ class QGraphicsLayoutPrivate;
 class QGraphicsLayoutItem;
 class QGraphicsWidget;
 
-class Q_WIDGETS_EXPORT QGraphicsLayout : public QGraphicsLayoutItem
+class Q_WIDGETS_EXPORT    QGraphicsLayout : public QGraphicsLayoutItem
 {
 public:
     QGraphicsLayout(QGraphicsLayoutItem *parent = Q_NULLPTR);
@@ -67,14 +67,14 @@ public:
 
     virtual void widgetEvent(QEvent *e);
 
-    virtual int count() const = 0;
-    virtual QGraphicsLayoutItem *itemAt(int i) const = 0;
-    virtual void removeAt(int index) = 0;
+    virtual int count() const                           = 0;
+    virtual QGraphicsLayoutItem* itemAt(int i) const    = 0;
+    virtual void removeAt(int index)                    = 0;
 
     static void setInstantInvalidatePropagation(bool enable);
     static bool instantInvalidatePropagation();
 protected:
-    QGraphicsLayout(QGraphicsLayoutPrivate &, QGraphicsLayoutItem *);
+    QGraphicsLayout(QGraphicsLayoutPrivate&, QGraphicsLayoutItem*);
     void addChildLayoutItem(QGraphicsLayoutItem *layoutItem);
 
 private:

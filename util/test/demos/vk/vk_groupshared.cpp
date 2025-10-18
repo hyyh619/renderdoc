@@ -1,34 +1,34 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "vk_test.h"
 
 RD_TEST(VK_Groupshared, VulkanGraphicsTest)
 {
-  static constexpr const char *Description = "Test of compute shader that uses groupshared memory.";
+    static constexpr const char    *Description = "Test of compute shader that uses groupshared memory.";
 
-  std::string comp = R"EOSHADER(
+    std::string    comp = R"EOSHADER(
 #version 460 core
 
 #define MAX_THREADS 64
@@ -272,98 +272,104 @@ void main()
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    VkDescriptorSetLayout setLayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-        {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
-        {1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
-    }));
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
-        {setLayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 4)}));
-
-    VkPipeline pipe = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp)));
-
-    VkDescriptorSet descSet = allocateDescriptorSet(setLayout);
-
-    float values[64];
-    for(int i = 0; i < 64; i++)
-      values[i] = RANDF(1.0f, 100.0f);
-    AllocatedBuffer inBuf(this,
-                          vkh::BufferCreateInfo(sizeof(values), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT),
-                          VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-    inBuf.upload(values);
-
-    AllocatedBuffer outBuf(
-        this,
-        vkh::BufferCreateInfo(sizeof(Vec4f) * 64, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
-                                                      VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    vkh::updateDescriptorSets(
-        device, {
-                    vkh::WriteDescriptorSet(descSet, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                                            {vkh::DescriptorBufferInfo(inBuf.buffer)}),
-                    vkh::WriteDescriptorSet(descSet, 1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                                            {vkh::DescriptorBufferInfo(outBuf.buffer)}),
-                });
-
-    int numCompTests = 0;
-    size_t pos = 0;
-    while(pos != std::string::npos)
+    int main()
     {
-      pos = comp.find("IsTest(", pos);
-      if(pos == std::string::npos)
-        break;
-      pos += sizeof("IsTest(") - 1;
-      numCompTests = std::max(numCompTests, atoi(comp.c_str() + pos) + 1);
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        VkDescriptorSetLayout    setLayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
+            {1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
+        }));
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
+                                                              {setLayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 4)}));
+
+        VkPipeline    pipe = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                       layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp)));
+
+        VkDescriptorSet    descSet = allocateDescriptorSet(setLayout);
+
+        float    values[64];
+
+        for (int i = 0; i < 64; i++)
+            values[i] = RANDF(1.0f, 100.0f);
+
+        AllocatedBuffer    inBuf(this,
+                                 vkh::BufferCreateInfo(sizeof(values), VK_BUFFER_USAGE_STORAGE_BUFFER_BIT),
+                                 VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+        inBuf.upload(values);
+
+        AllocatedBuffer    outBuf(
+            this,
+            vkh::BufferCreateInfo(sizeof(Vec4f) * 64, VK_BUFFER_USAGE_STORAGE_BUFFER_BIT |
+                                  VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+
+        vkh::updateDescriptorSets(
+            device, {
+            vkh::WriteDescriptorSet(descSet, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                    {vkh::DescriptorBufferInfo(inBuf.buffer)}),
+            vkh::WriteDescriptorSet(descSet, 1, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                    {vkh::DescriptorBufferInfo(outBuf.buffer)}),
+        });
+
+        int         numCompTests    = 0;
+        size_t      pos             = 0;
+
+        while (pos != std::string::npos)
+        {
+            pos = comp.find("IsTest(", pos);
+            if (pos == std::string::npos)
+                break;
+
+            pos             += sizeof("IsTest(") - 1;
+            numCompTests    = std::max(numCompTests, atoi(comp.c_str() + pos) + 1);
+        }
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg = StartUsingBackbuffer(cmd);
+
+            vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
+
+            vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {descSet}, {});
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, pipe);
+
+            pushMarker(cmd, "Compute Tests");
+
+            for (int i = 0; i < numCompTests; ++i)
+            {
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
+                                              outBuf.buffer)});
+
+                vkCmdFillBuffer(cmd, outBuf.buffer, 0, sizeof(Vec4f) * 64, 0);
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
+                                              outBuf.buffer)});
+
+                vkh::cmdPushConstants(cmd, layout, i);
+                vkCmdDispatch(cmd, 1, 1, 1);
+            }
+
+            popMarker(cmd);
+
+            FinishUsingBackbuffer(cmd);
+
+            vkEndCommandBuffer(cmd);
+
+            SubmitAndPresent({cmd});
+        }
+
+        return 0;
     }
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg = StartUsingBackbuffer(cmd);
-
-      vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
-
-      vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {descSet}, {});
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, pipe);
-
-      pushMarker(cmd, "Compute Tests");
-      for(int i = 0; i < numCompTests; ++i)
-      {
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                      outBuf.buffer)});
-
-        vkCmdFillBuffer(cmd, outBuf.buffer, 0, sizeof(Vec4f) * 64, 0);
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
-                                      outBuf.buffer)});
-
-        vkh::cmdPushConstants(cmd, layout, i);
-        vkCmdDispatch(cmd, 1, 1, 1);
-      }
-      popMarker(cmd);
-
-      FinishUsingBackbuffer(cmd);
-
-      vkEndCommandBuffer(cmd);
-
-      SubmitAndPresent({cmd});
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

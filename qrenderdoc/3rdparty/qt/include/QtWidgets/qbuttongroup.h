@@ -51,7 +51,7 @@ class QAbstractButton;
 class QAbstractButtonPrivate;
 class QButtonGroupPrivate;
 
-class Q_WIDGETS_EXPORT QButtonGroup : public QObject
+class Q_WIDGETS_EXPORT    QButtonGroup : public QObject
 {
     Q_OBJECT
 
@@ -63,27 +63,27 @@ public:
     void setExclusive(bool);
     bool exclusive() const;
 
-    void addButton(QAbstractButton *, int id = -1);
-    void removeButton(QAbstractButton *);
+    void addButton(QAbstractButton*, int id = -1);
+    void removeButton(QAbstractButton*);
 
     QList<QAbstractButton*> buttons() const;
 
-    QAbstractButton * checkedButton() const;
+    QAbstractButton* checkedButton() const;
     // no setter on purpose!
 
-    QAbstractButton *button(int id) const;
+    QAbstractButton* button(int id) const;
     void setId(QAbstractButton *button, int id);
     int id(QAbstractButton *button) const;
     int checkedId() const;
 
 Q_SIGNALS:
-    void buttonClicked(QAbstractButton *);
+    void buttonClicked(QAbstractButton*);
     void buttonClicked(int);
-    void buttonPressed(QAbstractButton *);
+    void buttonPressed(QAbstractButton*);
     void buttonPressed(int);
-    void buttonReleased(QAbstractButton *);
+    void buttonReleased(QAbstractButton*);
     void buttonReleased(int);
-    void buttonToggled(QAbstractButton *, bool);
+    void buttonToggled(QAbstractButton*, bool);
     void buttonToggled(int, bool);
 
 private:

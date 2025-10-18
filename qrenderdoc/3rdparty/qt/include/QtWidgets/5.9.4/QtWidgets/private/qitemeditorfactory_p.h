@@ -82,13 +82,12 @@ public Q_SLOTS:
 private:
     void updateMinimumWidth();
 
-    int originalWidth;
-    bool widgetOwnsGeometry;
+    int     originalWidth;
+    bool    widgetOwnsGeometry;
 };
 
 
 QT_END_NAMESPACE
-
 #endif // QT_CONFIG(lineedit)
 
-#endif //QITEMEDITORFACTORY_P_H
+#endif // QITEMEDITORFACTORY_P_H

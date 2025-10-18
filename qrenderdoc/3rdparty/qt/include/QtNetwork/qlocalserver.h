@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QLocalSocket;
 class QLocalServerPrivate;
 
-class Q_NETWORK_EXPORT QLocalServer : public QObject
+class Q_NETWORK_EXPORT    QLocalServer : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QLocalServer)
@@ -60,12 +60,13 @@ Q_SIGNALS:
     void newConnection();
 
 public:
-    enum SocketOption {
-        NoOptions = 0x0,
-        UserAccessOption = 0x01,
-        GroupAccessOption = 0x2,
-        OtherAccessOption = 0x4,
-        WorldAccessOption = 0x7
+    enum SocketOption
+    {
+        NoOptions           = 0x0,
+        UserAccessOption    = 0x01,
+        GroupAccessOption   = 0x2,
+        OtherAccessOption   = 0x4,
+        WorldAccessOption   = 0x7
     };
     Q_FLAG(SocketOption)
     Q_DECLARE_FLAGS(SocketOptions, SocketOption)
@@ -81,7 +82,7 @@ public:
     bool listen(const QString &name);
     bool listen(qintptr socketDescriptor);
     int maxPendingConnections() const;
-    virtual QLocalSocket *nextPendingConnection();
+    virtual QLocalSocket* nextPendingConnection();
     QString serverName() const;
     QString fullServerName() const;
     static bool removeServer(const QString &name);
@@ -105,4 +106,3 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QLocalServer::SocketOptions)
 QT_END_NAMESPACE
 
 #endif // QLOCALSERVER_H
-

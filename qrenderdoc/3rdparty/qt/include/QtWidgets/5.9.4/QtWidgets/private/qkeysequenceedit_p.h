@@ -73,12 +73,12 @@ public:
     void resetState();
     void finishEditing();
 
-    QLineEdit *lineEdit;
-    QKeySequence keySequence;
-    int keyNum;
-    int key[QKeySequencePrivate::MaxKeyCount];
-    int prevKey;
-    int releaseTimer;
+    QLineEdit       *lineEdit;
+    QKeySequence    keySequence;
+    int             keyNum;
+    int             key[QKeySequencePrivate::MaxKeyCount];
+    int             prevKey;
+    int             releaseTimer;
 };
 
 QT_END_NAMESPACE

@@ -59,16 +59,16 @@ QT_BEGIN_NAMESPACE
 
 struct QPixmapStyleDescriptor
 {
-    QString fileName;
-    QSize size;
-    QMargins margins;
-    QTileRules tileRules;
+    QString     fileName;
+    QSize       size;
+    QMargins    margins;
+    QTileRules  tileRules;
 };
 
 struct QPixmapStylePixmap
 {
-    QPixmap pixmap;
-    QMargins margins;
+    QPixmap     pixmap;
+    QMargins    margins;
 };
 
 class QPixmapStylePrivate : public QCommonStylePrivate
@@ -76,8 +76,8 @@ class QPixmapStylePrivate : public QCommonStylePrivate
     Q_DECLARE_PUBLIC(QPixmapStyle)
 
 public:
-    QHash<QPixmapStyle::ControlDescriptor, QPixmapStyleDescriptor> descriptors;
-    QHash<QPixmapStyle::ControlPixmap, QPixmapStylePixmap> pixmaps;
+    QHash<QPixmapStyle::ControlDescriptor, QPixmapStyleDescriptor>      descriptors;
+    QHash<QPixmapStyle::ControlPixmap, QPixmapStylePixmap>              pixmaps;
 
     static QPixmap scale(int w, int h, const QPixmap &pixmap, const QPixmapStyleDescriptor &desc);
 

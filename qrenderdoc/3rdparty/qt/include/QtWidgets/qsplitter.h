@@ -50,11 +50,11 @@ QT_BEGIN_NAMESPACE
 
 class QSplitterPrivate;
 class QTextStream;
-template <typename T> class QList;
+template<typename T> class QList;
 
 class QSplitterHandle;
 
-class Q_WIDGETS_EXPORT QSplitter : public QFrame
+class Q_WIDGETS_EXPORT    QSplitter : public QFrame
 {
     Q_OBJECT
 
@@ -64,13 +64,13 @@ class Q_WIDGETS_EXPORT QSplitter : public QFrame
     Q_PROPERTY(bool childrenCollapsible READ childrenCollapsible WRITE setChildrenCollapsible)
 
 public:
-    explicit QSplitter(QWidget* parent = Q_NULLPTR);
-    explicit QSplitter(Qt::Orientation, QWidget* parent = Q_NULLPTR);
+    explicit QSplitter(QWidget *parent = Q_NULLPTR);
+    explicit QSplitter(Qt::Orientation, QWidget *parent = Q_NULLPTR);
     ~QSplitter();
 
     void addWidget(QWidget *widget);
     void insertWidget(int index, QWidget *widget);
-    QWidget *replaceWidget(int index, QWidget *widget);
+    QWidget* replaceWidget(int index, QWidget *widget);
 
     void setOrientation(Qt::Orientation);
     Qt::Orientation orientation() const;
@@ -97,11 +97,11 @@ public:
     void setHandleWidth(int);
 
     int indexOf(QWidget *w) const;
-    QWidget *widget(int index) const;
+    QWidget* widget(int index) const;
     int count() const;
 
-    void getRange(int index, int *, int *) const;
-    QSplitterHandle *handle(int index) const;
+    void getRange(int index, int*, int*) const;
+    QSplitterHandle* handle(int index) const;
 
     void setStretchFactor(int index, int stretch);
 
@@ -109,14 +109,14 @@ Q_SIGNALS:
     void splitterMoved(int pos, int index);
 
 protected:
-    virtual QSplitterHandle *createHandle();
+    virtual QSplitterHandle* createHandle();
 
-    void childEvent(QChildEvent *) Q_DECL_OVERRIDE;
+    void childEvent(QChildEvent*) Q_DECL_OVERRIDE;
 
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
 
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
     void moveSplitter(int pos, int index);
     void setRubberBand(int position);
     int closestLegalPosition(int, int);
@@ -129,11 +129,11 @@ private:
     friend class QSplitterHandle;
 };
 
-Q_WIDGETS_EXPORT QTextStream& operator<<(QTextStream&, const QSplitter&);
-Q_WIDGETS_EXPORT QTextStream& operator>>(QTextStream&, QSplitter&);
+Q_WIDGETS_EXPORT QTextStream&operator<<(QTextStream&, const QSplitter&);
+Q_WIDGETS_EXPORT QTextStream&operator>>(QTextStream&, QSplitter&);
 
 class QSplitterHandlePrivate;
-class Q_WIDGETS_EXPORT QSplitterHandle : public QWidget
+class Q_WIDGETS_EXPORT    QSplitterHandle : public QWidget
 {
     Q_OBJECT
 public:
@@ -143,17 +143,17 @@ public:
     void setOrientation(Qt::Orientation o);
     Qt::Orientation orientation() const;
     bool opaqueResize() const;
-    QSplitter *splitter() const;
+    QSplitter* splitter() const;
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
 
     void moveSplitter(int p);
     int closestLegalPosition(int p);

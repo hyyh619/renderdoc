@@ -1,31 +1,32 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d11_helpers.h"
 #include "d3d11_test.h"
 
-static const UINT formatStrides[] = {
+static const UINT    formatStrides[] =
+{
     0,        // DXGI_FORMAT_UNKNOWN
     4 * 4,    // DXGI_FORMAT_R32G32B32A32_TYPELESS
     4 * 4,    // DXGI_FORMAT_R32G32B32A32_FLOAT
@@ -146,793 +147,810 @@ static const UINT formatStrides[] = {
 
 D3D11BufferCreator::D3D11BufferCreator(ID3D11DevicePtr dev) : m_Dev(dev)
 {
-  m_BufDesc.ByteWidth = 0;
-  m_BufDesc.MiscFlags = 0;
-  m_BufDesc.StructureByteStride = 0;
-  m_BufDesc.CPUAccessFlags = 0;
-  m_BufDesc.Usage = D3D11_USAGE_DEFAULT;
-  m_BufDesc.BindFlags = 0;
+    m_BufDesc.ByteWidth             = 0;
+    m_BufDesc.MiscFlags             = 0;
+    m_BufDesc.StructureByteStride   = 0;
+    m_BufDesc.CPUAccessFlags        = 0;
+    m_BufDesc.Usage                 = D3D11_USAGE_DEFAULT;
+    m_BufDesc.BindFlags             = 0;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Vertex()
+D3D11BufferCreator&D3D11BufferCreator::Vertex()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_VERTEX_BUFFER;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_VERTEX_BUFFER;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Index()
+D3D11BufferCreator&D3D11BufferCreator::Index()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_INDEX_BUFFER;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_INDEX_BUFFER;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Constant()
+D3D11BufferCreator&D3D11BufferCreator::Constant()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_CONSTANT_BUFFER;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_CONSTANT_BUFFER;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::StreamOut()
+D3D11BufferCreator&D3D11BufferCreator::StreamOut()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_STREAM_OUTPUT;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::SRV()
+D3D11BufferCreator&D3D11BufferCreator::SRV()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::RTV()
+D3D11BufferCreator&D3D11BufferCreator::RTV()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_RENDER_TARGET;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::UAV()
+D3D11BufferCreator&D3D11BufferCreator::UAV()
 {
-  m_BufDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
-  return *this;
+    m_BufDesc.BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Structured(UINT structStride)
+D3D11BufferCreator&D3D11BufferCreator::Structured(UINT structStride)
 {
-  if(structStride > 0 && (m_BufDesc.ByteWidth % structStride) != 0)
-    TEST_FATAL("Invalid structure size - not divisor of byte size");
+    if (structStride > 0 && (m_BufDesc.ByteWidth % structStride) != 0)
+        TEST_FATAL("Invalid structure size - not divisor of byte size");
 
-  m_BufDesc.StructureByteStride = structStride;
-  m_BufDesc.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-  return *this;
+    m_BufDesc.StructureByteStride   = structStride;
+    m_BufDesc.MiscFlags             |= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::ByteAddressed()
+D3D11BufferCreator&D3D11BufferCreator::ByteAddressed()
 {
-  m_BufDesc.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
-  return *this;
+    m_BufDesc.MiscFlags |= D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Mappable()
+D3D11BufferCreator&D3D11BufferCreator::Mappable()
 {
-  m_BufDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-  m_BufDesc.Usage = D3D11_USAGE_DYNAMIC;
-  return *this;
+    m_BufDesc.CPUAccessFlags    = D3D11_CPU_ACCESS_WRITE;
+    m_BufDesc.Usage             = D3D11_USAGE_DYNAMIC;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Immutable()
+D3D11BufferCreator&D3D11BufferCreator::Immutable()
 {
-  m_BufDesc.CPUAccessFlags = 0;
-  m_BufDesc.Usage = D3D11_USAGE_IMMUTABLE;
-  return *this;
+    m_BufDesc.CPUAccessFlags    = 0;
+    m_BufDesc.Usage             = D3D11_USAGE_IMMUTABLE;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Staging()
+D3D11BufferCreator&D3D11BufferCreator::Staging()
 {
-  m_BufDesc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-  m_BufDesc.Usage = D3D11_USAGE_STAGING;
-  return *this;
+    m_BufDesc.CPUAccessFlags    = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+    m_BufDesc.Usage             = D3D11_USAGE_STAGING;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Shared()
+D3D11BufferCreator&D3D11BufferCreator::Shared()
 {
-  m_BufDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-  return *this;
+    m_BufDesc.MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Data(const void *data)
+D3D11BufferCreator&D3D11BufferCreator::Data(const void *data)
 {
-  m_Initdata.pSysMem = data;
-  m_Initdata.SysMemPitch = m_BufDesc.ByteWidth;
-  m_Initdata.SysMemSlicePitch = m_BufDesc.ByteWidth;
-  return *this;
+    m_Initdata.pSysMem          = data;
+    m_Initdata.SysMemPitch      = m_BufDesc.ByteWidth;
+    m_Initdata.SysMemSlicePitch = m_BufDesc.ByteWidth;
+    return *this;
 }
 
-D3D11BufferCreator &D3D11BufferCreator::Size(UINT size)
+D3D11BufferCreator&D3D11BufferCreator::Size(UINT size)
 {
-  if(m_BufDesc.BindFlags & D3D11_BIND_CONSTANT_BUFFER)
-    size = (size + 15) & ~0xf;
+    if (m_BufDesc.BindFlags & D3D11_BIND_CONSTANT_BUFFER)
+        size = (size + 15) & ~0xf;
 
-  m_BufDesc.ByteWidth = size;
+    m_BufDesc.ByteWidth = size;
 
-  m_Initdata.SysMemPitch = size;
-  m_Initdata.SysMemSlicePitch = size;
-  return *this;
+    m_Initdata.SysMemPitch      = size;
+    m_Initdata.SysMemSlicePitch = size;
+    return *this;
 }
 
 D3D11BufferCreator::operator ID3D11BufferPtr() const
 {
-  ID3D11BufferPtr buf;
-  CHECK_HR(m_Dev->CreateBuffer(&m_BufDesc, m_Initdata.pSysMem ? &m_Initdata : NULL, &buf));
-  return buf;
+    ID3D11BufferPtr    buf;
+
+    CHECK_HR(m_Dev->CreateBuffer(&m_BufDesc, m_Initdata.pSysMem ? &m_Initdata : NULL, &buf));
+    return buf;
 }
 
 D3D11TextureCreator::D3D11TextureCreator(ID3D11DevicePtr dev, DXGI_FORMAT format, UINT width,
                                          UINT height, UINT depth)
     : m_Dev(dev)
 {
-  Format = format;
-  Width = width;
-  Height = height;
-  Depth = depth;
+    Format  = format;
+    Width   = width;
+    Height  = height;
+    Depth   = depth;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Mips(UINT mips)
+D3D11TextureCreator&D3D11TextureCreator::Mips(UINT mips)
 {
-  MipLevels = mips;
-  return *this;
+    MipLevels = mips;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Array(UINT size)
+D3D11TextureCreator&D3D11TextureCreator::Array(UINT size)
 {
-  ArraySize = size;
-  return *this;
+    ArraySize = size;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Multisampled(UINT count, UINT quality)
+D3D11TextureCreator&D3D11TextureCreator::Multisampled(UINT count, UINT quality)
 {
-  SampleDesc.Count = count;
-  SampleDesc.Quality = quality;
-  return *this;
+    SampleDesc.Count    = count;
+    SampleDesc.Quality  = quality;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::SRV()
+D3D11TextureCreator&D3D11TextureCreator::SRV()
 {
-  BindFlags |= D3D11_BIND_SHADER_RESOURCE;
-  return *this;
+    BindFlags |= D3D11_BIND_SHADER_RESOURCE;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::UAV()
+D3D11TextureCreator&D3D11TextureCreator::UAV()
 {
-  BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
-  return *this;
+    BindFlags |= D3D11_BIND_UNORDERED_ACCESS;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::RTV()
+D3D11TextureCreator&D3D11TextureCreator::RTV()
 {
-  BindFlags |= D3D11_BIND_RENDER_TARGET;
-  return *this;
+    BindFlags |= D3D11_BIND_RENDER_TARGET;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::DSV()
+D3D11TextureCreator&D3D11TextureCreator::DSV()
 {
-  BindFlags |= D3D11_BIND_DEPTH_STENCIL;
-  return *this;
+    BindFlags |= D3D11_BIND_DEPTH_STENCIL;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Mappable()
+D3D11TextureCreator&D3D11TextureCreator::Mappable()
 {
-  CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-  Usage = D3D11_USAGE_DYNAMIC;
-  return *this;
+    CPUAccessFlags  = D3D11_CPU_ACCESS_WRITE;
+    Usage           = D3D11_USAGE_DYNAMIC;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Staging()
+D3D11TextureCreator&D3D11TextureCreator::Staging()
 {
-  CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
-  Usage = D3D11_USAGE_STAGING;
-  return *this;
+    CPUAccessFlags  = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
+    Usage           = D3D11_USAGE_STAGING;
+    return *this;
 }
 
-D3D11TextureCreator &D3D11TextureCreator::Shared()
+D3D11TextureCreator&D3D11TextureCreator::Shared()
 {
-  MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
-  return *this;
+    MiscFlags |= D3D11_RESOURCE_MISC_SHARED;
+    return *this;
 }
 
 D3D11TextureCreator::operator ID3D11Texture1DPtr() const
 {
-  D3D11_TEXTURE1D_DESC texdesc;
+    D3D11_TEXTURE1D_DESC    texdesc;
 
-  texdesc.Width = Width;
-  texdesc.ArraySize = ArraySize;
-  texdesc.MipLevels = MipLevels;
-  texdesc.MiscFlags = MiscFlags;
-  texdesc.CPUAccessFlags = CPUAccessFlags;
-  texdesc.Usage = Usage;
-  texdesc.BindFlags = BindFlags;
-  texdesc.Format = Format;
+    texdesc.Width           = Width;
+    texdesc.ArraySize       = ArraySize;
+    texdesc.MipLevels       = MipLevels;
+    texdesc.MiscFlags       = MiscFlags;
+    texdesc.CPUAccessFlags  = CPUAccessFlags;
+    texdesc.Usage           = Usage;
+    texdesc.BindFlags       = BindFlags;
+    texdesc.Format          = Format;
 
-  ID3D11Texture1DPtr tex;
-  CHECK_HR(m_Dev->CreateTexture1D(&texdesc, NULL, &tex));
-  return tex;
+    ID3D11Texture1DPtr    tex;
+    CHECK_HR(m_Dev->CreateTexture1D(&texdesc, NULL, &tex));
+    return tex;
 }
 
 D3D11TextureCreator::operator ID3D11Texture2DPtr() const
 {
-  D3D11_TEXTURE2D_DESC texdesc;
+    D3D11_TEXTURE2D_DESC    texdesc;
 
-  texdesc.Width = Width;
-  texdesc.Height = Height;
-  texdesc.ArraySize = ArraySize;
-  texdesc.MipLevels = MipLevels;
-  texdesc.MiscFlags = MiscFlags;
-  texdesc.CPUAccessFlags = CPUAccessFlags;
-  texdesc.Usage = Usage;
-  texdesc.BindFlags = BindFlags;
-  texdesc.Format = Format;
-  texdesc.SampleDesc.Count = SampleDesc.Count;
-  texdesc.SampleDesc.Quality = SampleDesc.Quality;
+    texdesc.Width               = Width;
+    texdesc.Height              = Height;
+    texdesc.ArraySize           = ArraySize;
+    texdesc.MipLevels           = MipLevels;
+    texdesc.MiscFlags           = MiscFlags;
+    texdesc.CPUAccessFlags      = CPUAccessFlags;
+    texdesc.Usage               = Usage;
+    texdesc.BindFlags           = BindFlags;
+    texdesc.Format              = Format;
+    texdesc.SampleDesc.Count    = SampleDesc.Count;
+    texdesc.SampleDesc.Quality  = SampleDesc.Quality;
 
-  ID3D11Texture2DPtr tex;
-  CHECK_HR(m_Dev->CreateTexture2D(&texdesc, NULL, &tex));
-  return tex;
+    ID3D11Texture2DPtr    tex;
+    CHECK_HR(m_Dev->CreateTexture2D(&texdesc, NULL, &tex));
+    return tex;
 }
 
 D3D11TextureCreator::operator ID3D11Texture3DPtr() const
 {
-  D3D11_TEXTURE3D_DESC texdesc;
+    D3D11_TEXTURE3D_DESC    texdesc;
 
-  texdesc.Width = Width;
-  texdesc.Height = Height;
-  texdesc.Depth = Depth;
-  texdesc.MipLevels = MipLevels;
-  texdesc.MiscFlags = MiscFlags;
-  texdesc.CPUAccessFlags = CPUAccessFlags;
-  texdesc.Usage = Usage;
-  texdesc.BindFlags = BindFlags;
-  texdesc.Format = Format;
+    texdesc.Width           = Width;
+    texdesc.Height          = Height;
+    texdesc.Depth           = Depth;
+    texdesc.MipLevels       = MipLevels;
+    texdesc.MiscFlags       = MiscFlags;
+    texdesc.CPUAccessFlags  = CPUAccessFlags;
+    texdesc.Usage           = Usage;
+    texdesc.BindFlags       = BindFlags;
+    texdesc.Format          = Format;
 
-  ID3D11Texture3DPtr tex;
-  CHECK_HR(m_Dev->CreateTexture3D(&texdesc, NULL, &tex));
-  return tex;
+    ID3D11Texture3DPtr    tex;
+    CHECK_HR(m_Dev->CreateTexture3D(&texdesc, NULL, &tex));
+    return tex;
 }
 
 D3D11ViewCreator::D3D11ViewCreator(ID3D11DevicePtr dev, ViewType viewType, ID3D11Buffer *buf)
     : m_Dev(dev), m_ViewType(viewType), m_ResType(ResourceType::Buffer), m_Res(buf)
 {
-  SetupDescriptors();
+    SetupDescriptors();
 }
 
 D3D11ViewCreator::D3D11ViewCreator(ID3D11DevicePtr dev, ViewType viewType, ID3D11Texture1D *tex)
     : m_Dev(dev), m_ViewType(viewType), m_Res(tex)
 {
-  D3D11_TEXTURE1D_DESC texdesc;
-  tex->GetDesc(&texdesc);
+    D3D11_TEXTURE1D_DESC    texdesc;
 
-  m_ResType = ResourceType::Texture1D;
+    tex->GetDesc(&texdesc);
 
-  if(texdesc.ArraySize > 1)
-    m_ResType = ResourceType::Texture1DArray;
+    m_ResType = ResourceType::Texture1D;
 
-  SetupDescriptors();
+    if (texdesc.ArraySize > 1)
+        m_ResType = ResourceType::Texture1DArray;
 
-  Format(texdesc.Format);
+    SetupDescriptors();
+
+    Format(texdesc.Format);
 }
 
 D3D11ViewCreator::D3D11ViewCreator(ID3D11DevicePtr dev, ViewType viewType, ID3D11Texture2D *tex)
     : m_Dev(dev), m_ViewType(viewType), m_Res(tex)
 {
-  D3D11_TEXTURE2D_DESC texdesc;
-  tex->GetDesc(&texdesc);
+    D3D11_TEXTURE2D_DESC    texdesc;
 
-  if(texdesc.SampleDesc.Count > 1)
-  {
-    m_ResType = ResourceType::Texture2DMS;
-    if(texdesc.ArraySize > 1)
-      m_ResType = ResourceType::Texture2DMSArray;
-  }
-  else
-  {
-    m_ResType = ResourceType::Texture2D;
-    if(texdesc.ArraySize > 1)
-      m_ResType = ResourceType::Texture2DArray;
-  }
+    tex->GetDesc(&texdesc);
 
-  SetupDescriptors();
+    if (texdesc.SampleDesc.Count > 1)
+    {
+        m_ResType = ResourceType::Texture2DMS;
+        if (texdesc.ArraySize > 1)
+            m_ResType = ResourceType::Texture2DMSArray;
+    }
+    else
+    {
+        m_ResType = ResourceType::Texture2D;
+        if (texdesc.ArraySize > 1)
+            m_ResType = ResourceType::Texture2DArray;
+    }
 
-  Format(texdesc.Format);
+    SetupDescriptors();
+
+    Format(texdesc.Format);
 }
 
 D3D11ViewCreator::D3D11ViewCreator(ID3D11DevicePtr dev, ViewType viewType, ID3D11Texture3D *tex)
     : m_Dev(dev), m_ViewType(viewType), m_ResType(ResourceType::Texture3D), m_Res(tex)
 {
-  D3D11_TEXTURE3D_DESC texdesc;
-  tex->GetDesc(&texdesc);
+    D3D11_TEXTURE3D_DESC    texdesc;
 
-  SetupDescriptors();
+    tex->GetDesc(&texdesc);
 
-  Format(texdesc.Format);
+    SetupDescriptors();
+
+    Format(texdesc.Format);
 }
 
 void D3D11ViewCreator::SetupDescriptors()
 {
-  memset(&desc, 0, sizeof(desc));
+    memset(&desc, 0, sizeof(desc));
 
-  constexpr D3D11_SRV_DIMENSION srvDim[] = {
-      D3D11_SRV_DIMENSION_BUFFER,              // Buffer
-      D3D11_SRV_DIMENSION_TEXTURE1D,           // Texture1D
-      D3D11_SRV_DIMENSION_TEXTURE1DARRAY,      // Texture1DArray
-      D3D11_SRV_DIMENSION_TEXTURE2D,           // Texture2D
-      D3D11_SRV_DIMENSION_TEXTURE2DARRAY,      // Texture2DArray
-      D3D11_SRV_DIMENSION_TEXTURE2DMS,         // Texture2DMS
-      D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY,    // Texture2DMSArray
-      D3D11_SRV_DIMENSION_TEXTURE3D,           // Texture3D
-  };
-
-  constexpr D3D11_RTV_DIMENSION rtvDim[] = {
-      D3D11_RTV_DIMENSION_BUFFER,              // Buffer
-      D3D11_RTV_DIMENSION_TEXTURE1D,           // Texture1D
-      D3D11_RTV_DIMENSION_TEXTURE1DARRAY,      // Texture1DArray
-      D3D11_RTV_DIMENSION_TEXTURE2D,           // Texture2D
-      D3D11_RTV_DIMENSION_TEXTURE2DARRAY,      // Texture2DArray
-      D3D11_RTV_DIMENSION_TEXTURE2DMS,         // Texture2DMS
-      D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY,    // Texture2DMSArray
-      D3D11_RTV_DIMENSION_TEXTURE3D,           // Texture3D
-  };
-
-  constexpr D3D11_DSV_DIMENSION dsvDim[] = {
-      D3D11_DSV_DIMENSION_UNKNOWN,             // Buffer
-      D3D11_DSV_DIMENSION_TEXTURE1D,           // Texture1D
-      D3D11_DSV_DIMENSION_TEXTURE1DARRAY,      // Texture1DArray
-      D3D11_DSV_DIMENSION_TEXTURE2D,           // Texture2D
-      D3D11_DSV_DIMENSION_TEXTURE2DARRAY,      // Texture2DArray
-      D3D11_DSV_DIMENSION_TEXTURE2DMS,         // Texture2DMS
-      D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY,    // Texture2DMSArray
-      D3D11_DSV_DIMENSION_UNKNOWN,             // Texture3D
-  };
-
-  constexpr D3D11_UAV_DIMENSION uavDim[] = {
-      D3D11_UAV_DIMENSION_BUFFER,            // Buffer
-      D3D11_UAV_DIMENSION_TEXTURE1D,         // Texture1D
-      D3D11_UAV_DIMENSION_TEXTURE1DARRAY,    // Texture1DArray
-      D3D11_UAV_DIMENSION_TEXTURE2D,         // Texture2D
-      D3D11_UAV_DIMENSION_TEXTURE2DARRAY,    // Texture2DArray
-      D3D11_UAV_DIMENSION_UNKNOWN,           // Texture2DMS
-      D3D11_UAV_DIMENSION_UNKNOWN,           // Texture2DMSArray
-      D3D11_UAV_DIMENSION_TEXTURE3D,         // Texture3D
-  };
-
-  if(m_ViewType == ViewType::SRV)
-  {
-    desc.srv.ViewDimension = srvDim[(int)m_ResType];
-
-    if(m_ResType == ResourceType::Buffer)
+    constexpr D3D11_SRV_DIMENSION    srvDim[] =
     {
-      firstElement = &desc.srv.Buffer.FirstElement;
-      numElements = &desc.srv.Buffer.NumElements;
-    }
-  }
-  else if(m_ViewType == ViewType::RTV)
-  {
-    desc.rtv.ViewDimension = rtvDim[(int)m_ResType];
+        D3D11_SRV_DIMENSION_BUFFER,            // Buffer
+        D3D11_SRV_DIMENSION_TEXTURE1D,         // Texture1D
+        D3D11_SRV_DIMENSION_TEXTURE1DARRAY,    // Texture1DArray
+        D3D11_SRV_DIMENSION_TEXTURE2D,         // Texture2D
+        D3D11_SRV_DIMENSION_TEXTURE2DARRAY,    // Texture2DArray
+        D3D11_SRV_DIMENSION_TEXTURE2DMS,       // Texture2DMS
+        D3D11_SRV_DIMENSION_TEXTURE2DMSARRAY,  // Texture2DMSArray
+        D3D11_SRV_DIMENSION_TEXTURE3D,         // Texture3D
+    };
 
-    if(m_ResType == ResourceType::Buffer)
+    constexpr D3D11_RTV_DIMENSION    rtvDim[] =
     {
-      firstElement = &desc.rtv.Buffer.FirstElement;
-      numElements = &desc.rtv.Buffer.NumElements;
-    }
-  }
-  else if(m_ViewType == ViewType::DSV)
-  {
-    desc.dsv.ViewDimension = dsvDim[(int)m_ResType];
+        D3D11_RTV_DIMENSION_BUFFER,            // Buffer
+        D3D11_RTV_DIMENSION_TEXTURE1D,         // Texture1D
+        D3D11_RTV_DIMENSION_TEXTURE1DARRAY,    // Texture1DArray
+        D3D11_RTV_DIMENSION_TEXTURE2D,         // Texture2D
+        D3D11_RTV_DIMENSION_TEXTURE2DARRAY,    // Texture2DArray
+        D3D11_RTV_DIMENSION_TEXTURE2DMS,       // Texture2DMS
+        D3D11_RTV_DIMENSION_TEXTURE2DMSARRAY,  // Texture2DMSArray
+        D3D11_RTV_DIMENSION_TEXTURE3D,         // Texture3D
+    };
 
-    if(desc.dsv.ViewDimension == D3D11_DSV_DIMENSION_UNKNOWN)
-      TEST_FATAL("Unsupported resource for DSV");
-  }
-  else if(m_ViewType == ViewType::UAV)
-  {
-    desc.uav.ViewDimension = uavDim[(int)m_ResType];
-
-    if(desc.uav.ViewDimension == D3D11_UAV_DIMENSION_UNKNOWN)
-      TEST_FATAL("Unsupported resource for UAV");
-
-    if(m_ResType == ResourceType::Buffer)
+    constexpr D3D11_DSV_DIMENSION    dsvDim[] =
     {
-      firstElement = &desc.uav.Buffer.FirstElement;
-      numElements = &desc.uav.Buffer.NumElements;
+        D3D11_DSV_DIMENSION_UNKNOWN,           // Buffer
+        D3D11_DSV_DIMENSION_TEXTURE1D,         // Texture1D
+        D3D11_DSV_DIMENSION_TEXTURE1DARRAY,    // Texture1DArray
+        D3D11_DSV_DIMENSION_TEXTURE2D,         // Texture2D
+        D3D11_DSV_DIMENSION_TEXTURE2DARRAY,    // Texture2DArray
+        D3D11_DSV_DIMENSION_TEXTURE2DMS,       // Texture2DMS
+        D3D11_DSV_DIMENSION_TEXTURE2DMSARRAY,  // Texture2DMSArray
+        D3D11_DSV_DIMENSION_UNKNOWN,           // Texture3D
+    };
+
+    constexpr D3D11_UAV_DIMENSION    uavDim[] =
+    {
+        D3D11_UAV_DIMENSION_BUFFER,          // Buffer
+        D3D11_UAV_DIMENSION_TEXTURE1D,       // Texture1D
+        D3D11_UAV_DIMENSION_TEXTURE1DARRAY,  // Texture1DArray
+        D3D11_UAV_DIMENSION_TEXTURE2D,       // Texture2D
+        D3D11_UAV_DIMENSION_TEXTURE2DARRAY,  // Texture2DArray
+        D3D11_UAV_DIMENSION_UNKNOWN,         // Texture2DMS
+        D3D11_UAV_DIMENSION_UNKNOWN,         // Texture2DMSArray
+        D3D11_UAV_DIMENSION_TEXTURE3D,       // Texture3D
+    };
+
+    if (m_ViewType == ViewType::SRV)
+    {
+        desc.srv.ViewDimension = srvDim[(int)m_ResType];
+
+        if (m_ResType == ResourceType::Buffer)
+        {
+            firstElement    = &desc.srv.Buffer.FirstElement;
+            numElements     = &desc.srv.Buffer.NumElements;
+        }
     }
-  }
+    else if (m_ViewType == ViewType::RTV)
+    {
+        desc.rtv.ViewDimension = rtvDim[(int)m_ResType];
 
-  UINT *pointers[4][8][4] = {
-      // SRV
-      {
-          // &firstMip, &numMips, &firstSlice, &numSlices
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.srv.Texture1D.MostDetailedMip,
-              &desc.srv.Texture1D.MipLevels,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.srv.Texture1DArray.MostDetailedMip,
-              &desc.srv.Texture1DArray.MipLevels,
-              &desc.srv.Texture1DArray.FirstArraySlice,
-              &desc.srv.Texture1DArray.ArraySize,
-          },
-          {
-              &desc.srv.Texture2D.MostDetailedMip,
-              &desc.srv.Texture2D.MipLevels,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.srv.Texture2DArray.MostDetailedMip,
-              &desc.srv.Texture2DArray.MipLevels,
-              &desc.srv.Texture2DArray.FirstArraySlice,
-              &desc.srv.Texture2DArray.ArraySize,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              NULL,
-              NULL,
-              &desc.srv.Texture2DMSArray.FirstArraySlice,
-              &desc.srv.Texture2DMSArray.ArraySize,
-          },
-          {
-              &desc.srv.Texture3D.MostDetailedMip,
-              &desc.srv.Texture2D.MipLevels,
-              NULL,
-              NULL,
-          },
-      },
-      // RTV
-      {
-          // &firstMip, &numMips, &firstSlice, &numSlices
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.rtv.Texture1D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.rtv.Texture1DArray.MipSlice,
-              NULL,
-              &desc.rtv.Texture1DArray.FirstArraySlice,
-              &desc.rtv.Texture1DArray.ArraySize,
-          },
-          {
-              &desc.rtv.Texture2D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.rtv.Texture2DArray.MipSlice,
-              NULL,
-              &desc.rtv.Texture2DArray.FirstArraySlice,
-              &desc.rtv.Texture2DArray.ArraySize,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              NULL,
-              NULL,
-              &desc.rtv.Texture2DMSArray.FirstArraySlice,
-              &desc.rtv.Texture2DMSArray.ArraySize,
-          },
-          {
-              &desc.rtv.Texture3D.MipSlice,
-              NULL,
-              &desc.rtv.Texture3D.FirstWSlice,
-              &desc.rtv.Texture3D.WSize,
-          },
-      },
-      // DSV
-      {
-          // &firstMip, &numMips, &firstSlice, &numSlices
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.dsv.Texture1D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.dsv.Texture1DArray.MipSlice,
-              NULL,
-              &desc.dsv.Texture1DArray.FirstArraySlice,
-              &desc.dsv.Texture1DArray.ArraySize,
-          },
-          {
-              &desc.dsv.Texture2D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.dsv.Texture2DArray.MipSlice,
-              NULL,
-              &desc.dsv.Texture2DArray.FirstArraySlice,
-              &desc.dsv.Texture2DArray.ArraySize,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              NULL,
-              NULL,
-              &desc.dsv.Texture2DMSArray.FirstArraySlice,
-              &desc.dsv.Texture2DMSArray.ArraySize,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-      },
-      // UAV
-      {
-          // &firstMip, &numMips, &firstSlice, &numSlices
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.uav.Texture1D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.uav.Texture1DArray.MipSlice,
-              NULL,
-              &desc.uav.Texture1DArray.FirstArraySlice,
-              &desc.uav.Texture1DArray.ArraySize,
-          },
-          {
-              &desc.uav.Texture2D.MipSlice,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.uav.Texture2DArray.MipSlice,
-              NULL,
-              &desc.uav.Texture2DArray.FirstArraySlice,
-              &desc.uav.Texture2DArray.ArraySize,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              NULL,
-              NULL,
-              NULL,
-              NULL,
-          },
-          {
-              &desc.uav.Texture3D.MipSlice,
-              NULL,
-              &desc.uav.Texture3D.FirstWSlice,
-              &desc.uav.Texture3D.WSize,
-          },
-      },
-  };
+        if (m_ResType == ResourceType::Buffer)
+        {
+            firstElement    = &desc.rtv.Buffer.FirstElement;
+            numElements     = &desc.rtv.Buffer.NumElements;
+        }
+    }
+    else if (m_ViewType == ViewType::DSV)
+    {
+        desc.dsv.ViewDimension = dsvDim[(int)m_ResType];
 
-  if(m_ResType != ResourceType::Buffer)
-  {
-    firstMip = pointers[(int)m_ViewType][(int)m_ResType][0];
-    numMips = pointers[(int)m_ViewType][(int)m_ResType][1];
-    firstSlice = pointers[(int)m_ViewType][(int)m_ResType][2];
-    numSlices = pointers[(int)m_ViewType][(int)m_ResType][3];
+        if (desc.dsv.ViewDimension == D3D11_DSV_DIMENSION_UNKNOWN)
+            TEST_FATAL("Unsupported resource for DSV");
+    }
+    else if (m_ViewType == ViewType::UAV)
+    {
+        desc.uav.ViewDimension = uavDim[(int)m_ResType];
 
-    if(numMips)
-      *numMips = ~0U;
-    if(numSlices)
-      *numSlices = ~0U;
-  }
+        if (desc.uav.ViewDimension == D3D11_UAV_DIMENSION_UNKNOWN)
+            TEST_FATAL("Unsupported resource for UAV");
+
+        if (m_ResType == ResourceType::Buffer)
+        {
+            firstElement    = &desc.uav.Buffer.FirstElement;
+            numElements     = &desc.uav.Buffer.NumElements;
+        }
+    }
+
+    UINT    *pointers[4][8][4] =
+    {
+        // SRV
+        {
+            // &firstMip, &numMips, &firstSlice, &numSlices
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.srv.Texture1D.MostDetailedMip,
+                &desc.srv.Texture1D.MipLevels,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.srv.Texture1DArray.MostDetailedMip,
+                &desc.srv.Texture1DArray.MipLevels,
+                &desc.srv.Texture1DArray.FirstArraySlice,
+                &desc.srv.Texture1DArray.ArraySize,
+            },
+            {
+                &desc.srv.Texture2D.MostDetailedMip,
+                &desc.srv.Texture2D.MipLevels,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.srv.Texture2DArray.MostDetailedMip,
+                &desc.srv.Texture2DArray.MipLevels,
+                &desc.srv.Texture2DArray.FirstArraySlice,
+                &desc.srv.Texture2DArray.ArraySize,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                NULL,
+                NULL,
+                &desc.srv.Texture2DMSArray.FirstArraySlice,
+                &desc.srv.Texture2DMSArray.ArraySize,
+            },
+            {
+                &desc.srv.Texture3D.MostDetailedMip,
+                &desc.srv.Texture2D.MipLevels,
+                NULL,
+                NULL,
+            },
+        },
+        // RTV
+        {
+            // &firstMip, &numMips, &firstSlice, &numSlices
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.rtv.Texture1D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.rtv.Texture1DArray.MipSlice,
+                NULL,
+                &desc.rtv.Texture1DArray.FirstArraySlice,
+                &desc.rtv.Texture1DArray.ArraySize,
+            },
+            {
+                &desc.rtv.Texture2D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.rtv.Texture2DArray.MipSlice,
+                NULL,
+                &desc.rtv.Texture2DArray.FirstArraySlice,
+                &desc.rtv.Texture2DArray.ArraySize,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                NULL,
+                NULL,
+                &desc.rtv.Texture2DMSArray.FirstArraySlice,
+                &desc.rtv.Texture2DMSArray.ArraySize,
+            },
+            {
+                &desc.rtv.Texture3D.MipSlice,
+                NULL,
+                &desc.rtv.Texture3D.FirstWSlice,
+                &desc.rtv.Texture3D.WSize,
+            },
+        },
+        // DSV
+        {
+            // &firstMip, &numMips, &firstSlice, &numSlices
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.dsv.Texture1D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.dsv.Texture1DArray.MipSlice,
+                NULL,
+                &desc.dsv.Texture1DArray.FirstArraySlice,
+                &desc.dsv.Texture1DArray.ArraySize,
+            },
+            {
+                &desc.dsv.Texture2D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.dsv.Texture2DArray.MipSlice,
+                NULL,
+                &desc.dsv.Texture2DArray.FirstArraySlice,
+                &desc.dsv.Texture2DArray.ArraySize,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                NULL,
+                NULL,
+                &desc.dsv.Texture2DMSArray.FirstArraySlice,
+                &desc.dsv.Texture2DMSArray.ArraySize,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+        },
+        // UAV
+        {
+            // &firstMip, &numMips, &firstSlice, &numSlices
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.uav.Texture1D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.uav.Texture1DArray.MipSlice,
+                NULL,
+                &desc.uav.Texture1DArray.FirstArraySlice,
+                &desc.uav.Texture1DArray.ArraySize,
+            },
+            {
+                &desc.uav.Texture2D.MipSlice,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.uav.Texture2DArray.MipSlice,
+                NULL,
+                &desc.uav.Texture2DArray.FirstArraySlice,
+                &desc.uav.Texture2DArray.ArraySize,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                NULL,
+                NULL,
+                NULL,
+                NULL,
+            },
+            {
+                &desc.uav.Texture3D.MipSlice,
+                NULL,
+                &desc.uav.Texture3D.FirstWSlice,
+                &desc.uav.Texture3D.WSize,
+            },
+        },
+    };
+
+    if (m_ResType != ResourceType::Buffer)
+    {
+        firstMip    = pointers[(int)m_ViewType][(int)m_ResType][0];
+        numMips     = pointers[(int)m_ViewType][(int)m_ResType][1];
+        firstSlice  = pointers[(int)m_ViewType][(int)m_ResType][2];
+        numSlices   = pointers[(int)m_ViewType][(int)m_ResType][3];
+
+        if (numMips)
+            *numMips = ~0U;
+
+        if (numSlices)
+            *numSlices = ~0U;
+    }
 }
 
-D3D11ViewCreator &D3D11ViewCreator::Format(DXGI_FORMAT f)
+D3D11ViewCreator&D3D11ViewCreator::Format(DXGI_FORMAT f)
 {
-  // this is always in the same place, just write it once
-  desc.srv.Format = f;
-  return *this;
+    // this is always in the same place, just write it once
+    desc.srv.Format = f;
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::FirstElement(UINT el)
+D3D11ViewCreator&D3D11ViewCreator::FirstElement(UINT el)
 {
-  if(firstElement)
-    *firstElement = el;
-  return *this;
+    if (firstElement)
+        *firstElement = el;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::NumElements(UINT num)
+D3D11ViewCreator&D3D11ViewCreator::NumElements(UINT num)
 {
-  if(numElements)
-    *numElements = num;
-  return *this;
+    if (numElements)
+        *numElements = num;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::FirstMip(UINT mip)
+D3D11ViewCreator&D3D11ViewCreator::FirstMip(UINT mip)
 {
-  if(firstMip)
-    *firstMip = mip;
-  return *this;
+    if (firstMip)
+        *firstMip = mip;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::NumMips(UINT num)
+D3D11ViewCreator&D3D11ViewCreator::NumMips(UINT num)
 {
-  if(numMips)
-    *numMips = num;
-  return *this;
+    if (numMips)
+        *numMips = num;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::FirstSlice(UINT mip)
+D3D11ViewCreator&D3D11ViewCreator::FirstSlice(UINT mip)
 {
-  if(firstSlice)
-    *firstSlice = mip;
-  return *this;
+    if (firstSlice)
+        *firstSlice = mip;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::NumSlices(UINT num)
+D3D11ViewCreator&D3D11ViewCreator::NumSlices(UINT num)
 {
-  if(numSlices)
-    *numSlices = num;
-  return *this;
+    if (numSlices)
+        *numSlices = num;
+
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::ReadOnlyDepth()
+D3D11ViewCreator&D3D11ViewCreator::ReadOnlyDepth()
 {
-  desc.dsv.Flags |= D3D11_DSV_READ_ONLY_DEPTH;
-  return *this;
+    desc.dsv.Flags |= D3D11_DSV_READ_ONLY_DEPTH;
+    return *this;
 }
 
-D3D11ViewCreator &D3D11ViewCreator::ReadOnlyStencil()
+D3D11ViewCreator&D3D11ViewCreator::ReadOnlyStencil()
 {
-  desc.dsv.Flags |= D3D11_DSV_READ_ONLY_STENCIL;
-  return *this;
+    desc.dsv.Flags |= D3D11_DSV_READ_ONLY_STENCIL;
+    return *this;
 }
 
 D3D11ViewCreator::operator ID3D11ShaderResourceViewPtr()
 {
-  if(desc.srv.ViewDimension == D3D11_SRV_DIMENSION_BUFFER)
-  {
-    D3D11_BUFFER_DESC bufdesc;
-    ((ID3D11BufferPtr)m_Res)->GetDesc(&bufdesc);
-
-    if(bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+    if (desc.srv.ViewDimension == D3D11_SRV_DIMENSION_BUFFER)
     {
-      desc.srv.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
-      desc.srv.BufferEx.Flags = D3D11_BUFFEREX_SRV_FLAG_RAW;
+        D3D11_BUFFER_DESC    bufdesc;
+        ((ID3D11BufferPtr)m_Res)->GetDesc(&bufdesc);
+
+        if (bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+        {
+            desc.srv.ViewDimension  = D3D11_SRV_DIMENSION_BUFFEREX;
+            desc.srv.BufferEx.Flags = D3D11_BUFFEREX_SRV_FLAG_RAW;
+        }
+
+        UINT    elementStride = bufdesc.StructureByteStride;
+
+        if (bufdesc.StructureByteStride == 0 && desc.srv.Format == DXGI_FORMAT_UNKNOWN &&
+            (bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS) == 0)
+            TEST_FATAL("Can't create SRV on non-structured non-view buffer with no format");
+
+        if (desc.srv.Format != DXGI_FORMAT_UNKNOWN)
+            elementStride = formatStrides[desc.srv.Format];
+
+        if (desc.srv.Buffer.NumElements == 0)
+            desc.srv.Buffer.NumElements = bufdesc.ByteWidth / std::max(elementStride, 1U);
     }
 
-    UINT elementStride = bufdesc.StructureByteStride;
+    TEST_ASSERT(m_Res, "Must have resource");
+    TEST_ASSERT(m_ViewType == ViewType::SRV, "Casting non-SRV ViewCreator to SRV");
 
-    if(bufdesc.StructureByteStride == 0 && desc.srv.Format == DXGI_FORMAT_UNKNOWN &&
-       (bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS) == 0)
-      TEST_FATAL("Can't create SRV on non-structured non-view buffer with no format");
-
-    if(desc.srv.Format != DXGI_FORMAT_UNKNOWN)
-      elementStride = formatStrides[desc.srv.Format];
-
-    if(desc.srv.Buffer.NumElements == 0)
-      desc.srv.Buffer.NumElements = bufdesc.ByteWidth / std::max(elementStride, 1U);
-  }
-
-  TEST_ASSERT(m_Res, "Must have resource");
-  TEST_ASSERT(m_ViewType == ViewType::SRV, "Casting non-SRV ViewCreator to SRV");
-
-  ID3D11ShaderResourceViewPtr srv;
-  CHECK_HR(m_Dev->CreateShaderResourceView(m_Res, &desc.srv, &srv));
-  return srv;
+    ID3D11ShaderResourceViewPtr    srv;
+    CHECK_HR(m_Dev->CreateShaderResourceView(m_Res, &desc.srv, &srv));
+    return srv;
 }
 
 D3D11ViewCreator::operator ID3D11UnorderedAccessViewPtr()
 {
-  if(desc.uav.ViewDimension == D3D11_UAV_DIMENSION_BUFFER)
-  {
-    D3D11_BUFFER_DESC bufdesc;
-    ((ID3D11BufferPtr)m_Res)->GetDesc(&bufdesc);
+    if (desc.uav.ViewDimension == D3D11_UAV_DIMENSION_BUFFER)
+    {
+        D3D11_BUFFER_DESC    bufdesc;
+        ((ID3D11BufferPtr)m_Res)->GetDesc(&bufdesc);
 
-    if(bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
-      desc.uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
+        if (bufdesc.MiscFlags & D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS)
+            desc.uav.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
 
-    UINT elementStride = bufdesc.StructureByteStride;
+        UINT    elementStride = bufdesc.StructureByteStride;
 
-    if(bufdesc.StructureByteStride == 0 && desc.uav.Format == DXGI_FORMAT_UNKNOWN)
-      TEST_FATAL("Can't create uav on non-structured buffer with no format");
+        if (bufdesc.StructureByteStride == 0 && desc.uav.Format == DXGI_FORMAT_UNKNOWN)
+            TEST_FATAL("Can't create uav on non-structured buffer with no format");
 
-    if(desc.uav.Format != DXGI_FORMAT_UNKNOWN)
-      elementStride = formatStrides[desc.uav.Format];
+        if (desc.uav.Format != DXGI_FORMAT_UNKNOWN)
+            elementStride = formatStrides[desc.uav.Format];
 
-    if(desc.uav.Buffer.NumElements == 0)
-      desc.uav.Buffer.NumElements = bufdesc.ByteWidth / std::max(elementStride, 1U);
-  }
+        if (desc.uav.Buffer.NumElements == 0)
+            desc.uav.Buffer.NumElements = bufdesc.ByteWidth / std::max(elementStride, 1U);
+    }
 
-  TEST_ASSERT(m_Res, "Must have resource");
-  TEST_ASSERT(m_ViewType == ViewType::UAV, "Casting non-UAV ViewCreator to UAV");
+    TEST_ASSERT(m_Res, "Must have resource");
+    TEST_ASSERT(m_ViewType == ViewType::UAV, "Casting non-UAV ViewCreator to UAV");
 
-  ID3D11UnorderedAccessViewPtr uav;
-  CHECK_HR(m_Dev->CreateUnorderedAccessView(m_Res, &desc.uav, &uav));
-  return uav;
+    ID3D11UnorderedAccessViewPtr    uav;
+    CHECK_HR(m_Dev->CreateUnorderedAccessView(m_Res, &desc.uav, &uav));
+    return uav;
 }
 
 D3D11ViewCreator::operator ID3D11RenderTargetViewPtr()
 {
-  TEST_ASSERT(m_Res, "Must have resource");
-  TEST_ASSERT(m_ViewType == ViewType::RTV, "Casting non-RTV ViewCreator to RTV");
+    TEST_ASSERT(m_Res, "Must have resource");
+    TEST_ASSERT(m_ViewType == ViewType::RTV, "Casting non-RTV ViewCreator to RTV");
 
-  ID3D11RenderTargetViewPtr rtv;
-  CHECK_HR(m_Dev->CreateRenderTargetView(m_Res, &desc.rtv, &rtv));
-  return rtv;
+    ID3D11RenderTargetViewPtr    rtv;
+    CHECK_HR(m_Dev->CreateRenderTargetView(m_Res, &desc.rtv, &rtv));
+    return rtv;
 }
 
 D3D11ViewCreator::operator ID3D11DepthStencilViewPtr()
 {
-  TEST_ASSERT(m_Res, "Must have resource");
-  TEST_ASSERT(m_ViewType == ViewType::DSV, "Casting non-DSV ViewCreator to DSV");
+    TEST_ASSERT(m_Res, "Must have resource");
+    TEST_ASSERT(m_ViewType == ViewType::DSV, "Casting non-DSV ViewCreator to DSV");
 
-  ID3D11DepthStencilViewPtr dsv;
-  CHECK_HR(m_Dev->CreateDepthStencilView(m_Res, &desc.dsv, &dsv));
-  return dsv;
+    ID3D11DepthStencilViewPtr    dsv;
+    CHECK_HR(m_Dev->CreateDepthStencilView(m_Res, &desc.dsv, &dsv));
+    return dsv;
 }
 
 D3D11SamplerCreator::D3D11SamplerCreator(ID3D11DevicePtr dev) : m_Dev(dev)
 {
-  m_Desc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
-  m_Desc.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP;
-  m_Desc.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
-  m_Desc.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
-  m_Desc.MipLODBias = 0.0f;
-  m_Desc.MaxAnisotropy = 1;
-  m_Desc.ComparisonFunc = D3D11_COMPARISON_NEVER;
-  m_Desc.BorderColor[0] = 1.0f;
-  m_Desc.BorderColor[1] = 1.0f;
-  m_Desc.BorderColor[2] = 1.0f;
-  m_Desc.BorderColor[3] = 1.0f;
-  m_Desc.MinLOD = -FLT_MAX;
-  m_Desc.MaxLOD = FLT_MAX;
+    m_Desc.Filter           = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    m_Desc.AddressU         = D3D11_TEXTURE_ADDRESS_CLAMP;
+    m_Desc.AddressV         = D3D11_TEXTURE_ADDRESS_CLAMP;
+    m_Desc.AddressW         = D3D11_TEXTURE_ADDRESS_CLAMP;
+    m_Desc.MipLODBias       = 0.0f;
+    m_Desc.MaxAnisotropy    = 1;
+    m_Desc.ComparisonFunc   = D3D11_COMPARISON_NEVER;
+    m_Desc.BorderColor[0]   = 1.0f;
+    m_Desc.BorderColor[1]   = 1.0f;
+    m_Desc.BorderColor[2]   = 1.0f;
+    m_Desc.BorderColor[3]   = 1.0f;
+    m_Desc.MinLOD           = -FLT_MAX;
+    m_Desc.MaxLOD           = FLT_MAX;
 }
 
 D3D11SamplerCreator::operator ID3D11SamplerStatePtr() const
 {
-  ID3D11SamplerStatePtr samp;
-  CHECK_HR(m_Dev->CreateSamplerState(&m_Desc, &samp));
-  return samp;
+    ID3D11SamplerStatePtr    samp;
+
+    CHECK_HR(m_Dev->CreateSamplerState(&m_Desc, &samp));
+    return samp;
 }

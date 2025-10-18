@@ -55,13 +55,14 @@ class QAbstractItemView;
 class QHelpEvent;
 class QAbstractItemDelegatePrivate;
 
-class Q_WIDGETS_EXPORT QAbstractItemDelegate : public QObject
+class Q_WIDGETS_EXPORT    QAbstractItemDelegate : public QObject
 {
     Q_OBJECT
 
 public:
 
-    enum EndEditHint {
+    enum EndEditHint
+    {
         NoHint,
         EditNextItem,
         EditPreviousItem,
@@ -81,7 +82,7 @@ public:
                            const QModelIndex &index) const = 0;
 
     // editing
-    virtual QWidget *createEditor(QWidget *parent,
+    virtual QWidget* createEditor(QWidget *parent,
                                   const QStyleOptionViewItem &option,
                                   const QModelIndex &index) const;
 
@@ -116,10 +117,10 @@ public:
 Q_SIGNALS:
     void commitData(QWidget *editor);
     void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint = NoHint);
-    void sizeHintChanged(const QModelIndex &);
+    void sizeHintChanged(const QModelIndex&);
 
 protected:
-    QAbstractItemDelegate(QObjectPrivate &, QObject *parent = Q_NULLPTR);
+    QAbstractItemDelegate(QObjectPrivate&, QObject *parent = Q_NULLPTR);
 private:
     Q_DECLARE_PRIVATE(QAbstractItemDelegate)
     Q_DISABLE_COPY(QAbstractItemDelegate)

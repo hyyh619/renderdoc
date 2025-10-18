@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_TOOLTIP
 
-class Q_WIDGETS_EXPORT QToolTip
+class Q_WIDGETS_EXPORT    QToolTip
 {
     QToolTip() Q_DECL_EQ_DELETE;
 public:
@@ -56,17 +56,19 @@ public:
     static void showText(const QPoint &pos, const QString &text, QWidget *w = Q_NULLPTR);
     static void showText(const QPoint &pos, const QString &text, QWidget *w, const QRect &rect);
     static void showText(const QPoint &pos, const QString &text, QWidget *w, const QRect &rect, int msecShowTime);
-    static inline void hideText() { showText(QPoint(), QString()); }
+    static inline void hideText()
+    {
+        showText(QPoint(), QString());
+    }
 
     static bool isVisible();
     static QString text();
 
     static QPalette palette();
-    static void setPalette(const QPalette &);
+    static void setPalette(const QPalette&);
     static QFont font();
-    static void setFont(const QFont &);
+    static void setFont(const QFont&);
 };
-
 #endif // QT_NO_TOOLTIP
 
 QT_END_NAMESPACE

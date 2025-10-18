@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
 
 class QFutureWatcherBase;
 class QFutureWatcherBasePrivate : public QObjectPrivate,
-                                  public QFutureCallOutInterface
+    public QFutureCallOutInterface
 {
     Q_DECLARE_PUBLIC(QFutureWatcherBase)
 
@@ -74,15 +74,14 @@ public:
 
     void sendCallOutEvent(QFutureCallOutEvent *event);
 
-    QList<QFutureCallOutEvent *> pendingCallOutEvents;
-    QAtomicInt pendingResultsReady;
-    int maximumPendingResultsReady;
+    QList<QFutureCallOutEvent*>     pendingCallOutEvents;
+    QAtomicInt                      pendingResultsReady;
+    int                             maximumPendingResultsReady;
 
-    QAtomicInt resultAtConnected;
-    bool finished;
+    QAtomicInt      resultAtConnected;
+    bool            finished;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_QFUTURE
 #endif

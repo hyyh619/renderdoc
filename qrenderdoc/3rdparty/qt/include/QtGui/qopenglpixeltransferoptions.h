@@ -50,20 +50,24 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLPixelTransferOptionsData;
 
-class Q_GUI_EXPORT QOpenGLPixelTransferOptions
+class Q_GUI_EXPORT    QOpenGLPixelTransferOptions
 {
 public:
     QOpenGLPixelTransferOptions();
-    QOpenGLPixelTransferOptions(const QOpenGLPixelTransferOptions &);
+    QOpenGLPixelTransferOptions(const QOpenGLPixelTransferOptions&);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QOpenGLPixelTransferOptions &operator=(QOpenGLPixelTransferOptions &&other) Q_DECL_NOTHROW
-    { swap(other); return *this; }
+    QOpenGLPixelTransferOptions&operator=(QOpenGLPixelTransferOptions &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QOpenGLPixelTransferOptions &operator=(const QOpenGLPixelTransferOptions &);
+    QOpenGLPixelTransferOptions&operator=(const QOpenGLPixelTransferOptions&);
     ~QOpenGLPixelTransferOptions();
 
     void swap(QOpenGLPixelTransferOptions &other) Q_DECL_NOTHROW
-    { data.swap(other.data); }
+    {
+        data.swap(other.data);
+    }
 
     void setAlignment(int alignment);
     int alignment() const;
@@ -90,13 +94,12 @@ public:
     bool isSwapBytesEnabled() const;
 
 private:
-    QSharedDataPointer<QOpenGLPixelTransferOptionsData> data;
+    QSharedDataPointer<QOpenGLPixelTransferOptionsData>    data;
 };
 
 Q_DECLARE_SHARED(QOpenGLPixelTransferOptions)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLPIXELUPLOADOPTIONS_H

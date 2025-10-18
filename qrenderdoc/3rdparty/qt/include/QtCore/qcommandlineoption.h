@@ -49,34 +49,40 @@ QT_BEGIN_NAMESPACE
 
 class QCommandLineOptionPrivate;
 
-class Q_CORE_EXPORT QCommandLineOption
+class Q_CORE_EXPORT    QCommandLineOption
 {
 public:
-    enum Flag {
-        HiddenFromHelp = 0x1,
-        ShortOptionStyle = 0x2
+    enum Flag
+    {
+        HiddenFromHelp      = 0x1,
+        ShortOptionStyle    = 0x2
     };
     Q_DECLARE_FLAGS(Flags, Flag)
 
     explicit QCommandLineOption(const QString &name);
     explicit QCommandLineOption(const QStringList &names);
     /*implicit*/ QCommandLineOption(const QString &name, const QString &description,
-                                const QString &valueName = QString(),
-                                const QString &defaultValue = QString());
+                                    const QString &valueName = QString(),
+                                    const QString &defaultValue = QString());
     /*implicit*/ QCommandLineOption(const QStringList &names, const QString &description,
-                                const QString &valueName = QString(),
-                                const QString &defaultValue = QString());
+                                    const QString &valueName = QString(),
+                                    const QString &defaultValue = QString());
     QCommandLineOption(const QCommandLineOption &other);
 
     ~QCommandLineOption();
 
-    QCommandLineOption &operator=(const QCommandLineOption &other);
+    QCommandLineOption&operator=(const QCommandLineOption &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QCommandLineOption &operator=(QCommandLineOption &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QCommandLineOption&operator=(QCommandLineOption &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
     void swap(QCommandLineOption &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     QStringList names() const;
 
@@ -102,7 +108,7 @@ public:
 
 
 private:
-    QSharedDataPointer<QCommandLineOptionPrivate> d;
+    QSharedDataPointer<QCommandLineOptionPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QCommandLineOption)

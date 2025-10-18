@@ -69,14 +69,17 @@ public:
     QOpenGLPoint(const QPointF &p) :
         x(p.x()), y(p.y()) {};
 
-    QOpenGLPoint(const QPointF* p) :
+    QOpenGLPoint(const QPointF *p) :
         x(p->x()), y(p->y()) {};
 
-    GLfloat x;
-    GLfloat y;
+    GLfloat     x;
+    GLfloat     y;
 
-    operator QPointF() {return QPointF(x,y);}
-    operator QPointF() const {return QPointF(x,y);}
+    operator QPointF()
+    {
+        return QPointF(x, y);
+    }
+    operator QPointF() const {return QPointF(x, y); }
 };
 
 struct QOpenGLRect
@@ -92,7 +95,7 @@ struct QOpenGLRect
     GLfloat right;
     GLfloat bottom;
 
-    operator QRectF() const {return QRectF(left, top, right-left, bottom-top);}
+    operator QRectF() const {return QRectF(left, top, right - left, bottom - top); }
 };
 
 class QOpenGL2PEXVertexArray
@@ -106,10 +109,10 @@ public:
 
     inline void addRect(const QRectF &rect)
     {
-        qreal top = rect.top();
-        qreal left = rect.left();
-        qreal bottom = rect.bottom();
-        qreal right = rect.right();
+        qreal       top     = rect.top();
+        qreal       left    = rect.left();
+        qreal       bottom  = rect.bottom();
+        qreal       right   = rect.right();
 
         vertexArray << QOpenGLPoint(left, top)
                     << QOpenGLPoint(right, top)
@@ -121,16 +124,15 @@ public:
 
     inline void addQuad(const QRectF &rect)
     {
-        qreal top = rect.top();
-        qreal left = rect.left();
-        qreal bottom = rect.bottom();
-        qreal right = rect.right();
+        qreal       top     = rect.top();
+        qreal       left    = rect.left();
+        qreal       bottom  = rect.bottom();
+        qreal       right   = rect.right();
 
         vertexArray << QOpenGLPoint(left, top)
                     << QOpenGLPoint(right, top)
                     << QOpenGLPoint(left, bottom)
                     << QOpenGLPoint(right, bottom);
-
     }
 
     inline void addVertex(const GLfloat x, const GLfloat y)
@@ -141,18 +143,30 @@ public:
     void addPath(const QVectorPath &path, GLfloat curveInverseScale, bool outline = true);
     void clear();
 
-    QOpenGLPoint*        data() {return vertexArray.data();}
-    int *stops() const { return vertexArrayStops.data(); }
-    int stopCount() const { return vertexArrayStops.size(); }
+    QOpenGLPoint*        data()
+    {
+        return vertexArray.data();
+    }
+    int* stops() const
+    {
+        return vertexArrayStops.data();
+    }
+    int stopCount() const
+    {
+        return vertexArrayStops.size();
+    }
     QOpenGLRect         boundingRect() const;
 
-    int vertexCount() const { return vertexArray.size(); }
+    int vertexCount() const
+    {
+        return vertexArray.size();
+    }
 
     void lineToArray(const GLfloat x, const GLfloat y);
 
 private:
-    QDataBuffer<QOpenGLPoint> vertexArray;
-    QDataBuffer<int>      vertexArrayStops;
+    QDataBuffer<QOpenGLPoint>       vertexArray;
+    QDataBuffer<int>                vertexArrayStops;
 
     GLfloat     maxX;
     GLfloat     maxY;

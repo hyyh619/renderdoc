@@ -68,20 +68,27 @@ class QNetworkCookieJar;
 class QNetworkAuthenticationCredential
 {
 public:
-    QString domain;
-    QString user;
-    QString password;
-    bool isNull() const {
+    QString     domain;
+    QString     user;
+    QString     password;
+    bool isNull() const
+    {
         return domain.isNull() && user.isNull() && password.isNull();
     }
 };
 Q_DECLARE_TYPEINFO(QNetworkAuthenticationCredential, Q_MOVABLE_TYPE);
 inline bool operator<(const QNetworkAuthenticationCredential &t1, const QString &t2)
-{ return t1.domain < t2; }
+{
+    return t1.domain < t2;
+}
 inline bool operator<(const QString &t1, const QNetworkAuthenticationCredential &t2)
-{ return t1 < t2.domain; }
+{
+    return t1 < t2.domain;
+}
 inline bool operator<(const QNetworkAuthenticationCredential &t1, const QNetworkAuthenticationCredential &t2)
-{ return t1.domain < t2.domain; }
+{
+    return t1.domain < t2.domain;
+}
 
 class QNetworkAccessAuthenticationManager
 {
@@ -90,19 +97,19 @@ public:
 
     void cacheCredentials(const QUrl &url, const QAuthenticator *auth);
     QNetworkAuthenticationCredential fetchCachedCredentials(const QUrl &url,
-                                                             const QAuthenticator *auth = 0);
+                                                            const QAuthenticator *auth = 0);
 
 #ifndef QT_NO_NETWORKPROXY
     void cacheProxyCredentials(const QNetworkProxy &proxy, const QAuthenticator *auth);
     QNetworkAuthenticationCredential fetchCachedProxyCredentials(const QNetworkProxy &proxy,
-                                                             const QAuthenticator *auth = 0);
+                                                                 const QAuthenticator *auth = 0);
 #endif
 
     void clearCache();
 
 protected:
-    QNetworkAccessCache authenticationCache;
-    QMutex mutex;
+    QNetworkAccessCache     authenticationCache;
+    QMutex                  mutex;
 };
 
 QT_END_NAMESPACE

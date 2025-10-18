@@ -68,7 +68,7 @@ class QInotifyFileSystemWatcherEngine : public QFileSystemWatcherEngine
 public:
     ~QInotifyFileSystemWatcherEngine();
 
-    static QInotifyFileSystemWatcherEngine *create(QObject *parent);
+    static QInotifyFileSystemWatcherEngine* create(QObject *parent);
 
     QStringList addPaths(const QStringList &paths, QStringList *files, QStringList *directories) Q_DECL_OVERRIDE;
     QStringList removePaths(const QStringList &paths, QStringList *files, QStringList *directories) Q_DECL_OVERRIDE;
@@ -81,10 +81,10 @@ private:
 
 private:
     QInotifyFileSystemWatcherEngine(int fd, QObject *parent);
-    int inotifyFd;
-    QHash<QString, int> pathToID;
-    QMultiHash<int, QString> idToPath;
-    QSocketNotifier notifier;
+    int                         inotifyFd;
+    QHash<QString, int>         pathToID;
+    QMultiHash<int, QString>    idToPath;
+    QSocketNotifier             notifier;
 };
 
 

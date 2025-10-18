@@ -52,7 +52,7 @@ class QGraphicsAnchorPrivate;
 class QGraphicsAnchorLayout;
 class QGraphicsAnchorLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsAnchor : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsAnchor : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(qreal spacing READ spacing WRITE setSpacing RESET unsetSpacing)
@@ -73,15 +73,15 @@ private:
     friend struct AnchorData;
 };
 
-class Q_WIDGETS_EXPORT QGraphicsAnchorLayout : public QGraphicsLayout
+class Q_WIDGETS_EXPORT    QGraphicsAnchorLayout : public QGraphicsLayout
 {
 public:
     QGraphicsAnchorLayout(QGraphicsLayoutItem *parent = Q_NULLPTR);
     virtual ~QGraphicsAnchorLayout();
 
-    QGraphicsAnchor *addAnchor(QGraphicsLayoutItem *firstItem, Qt::AnchorPoint firstEdge,
+    QGraphicsAnchor* addAnchor(QGraphicsLayoutItem *firstItem, Qt::AnchorPoint firstEdge,
                                QGraphicsLayoutItem *secondItem, Qt::AnchorPoint secondEdge);
-    QGraphicsAnchor *anchor(QGraphicsLayoutItem *firstItem, Qt::AnchorPoint firstEdge,
+    QGraphicsAnchor* anchor(QGraphicsLayoutItem *firstItem, Qt::AnchorPoint firstEdge,
                             QGraphicsLayoutItem *secondItem, Qt::AnchorPoint secondEdge);
 
     void addCornerAnchors(QGraphicsLayoutItem *firstItem, Qt::Corner firstCorner,
@@ -100,7 +100,7 @@ public:
     void removeAt(int index) Q_DECL_OVERRIDE;
     void setGeometry(const QRectF &rect) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
-    QGraphicsLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
+    QGraphicsLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
 
     void invalidate() Q_DECL_OVERRIDE;
 protected:

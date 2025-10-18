@@ -95,12 +95,12 @@ public:
 
     void _q_emitActivated(QPlatformSystemTrayIcon::ActivationReason reason);
 
-    QPointer<QMenu> menu;
-    QIcon icon;
-    QString toolTip;
-    QSystemTrayIconSys *sys;
-    QPlatformSystemTrayIcon *qpa_sys;
-    bool visible;
+    QPointer<QMenu>             menu;
+    QIcon                       icon;
+    QString                     toolTip;
+    QSystemTrayIconSys          *sys;
+    QPlatformSystemTrayIcon     *qpa_sys;
+    bool                        visible;
 
 private:
     void install_sys_qpa();
@@ -118,7 +118,7 @@ public:
                             const QPoint &pos, int timeout, bool showArrow = true);
     static void hideBalloon();
     static bool isBalloonVisible();
-    static void updateBalloonPosition(const QPoint& pos);
+    static void updateBalloonPosition(const QPoint &pos);
 
 private:
     QBalloonTip(const QIcon &icon, const QString &title,
@@ -127,21 +127,19 @@ private:
     void balloon(const QPoint&, int, bool);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *e) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    QSystemTrayIcon *trayIcon;
-    QPixmap pixmap;
-    int timerId;
-    bool showArrow;
+    QSystemTrayIcon     *trayIcon;
+    QPixmap             pixmap;
+    int                 timerId;
+    bool                showArrow;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SYSTEMTRAYICON
 
 #endif // QSYSTEMTRAYICON_P_H
-

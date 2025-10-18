@@ -65,12 +65,13 @@ class QFontEngine;
 class QFreetypeFace;
 class QBuffer;
 
-class Q_GUI_EXPORT QFontEngineQPF2 : public QFontEngine
+class Q_GUI_EXPORT    QFontEngineQPF2 : public QFontEngine
 {
 public:
     // if you add new tags please make sure to update the tables in
     // qpfutil.cpp and tools/makeqpf/qpf2.cpp
-    enum HeaderTag {
+    enum HeaderTag
+    {
         Tag_FontName,          // 0 string
         Tag_FileName,          // 1 string
         Tag_FileIndex,         // 2 quint32
@@ -96,7 +97,8 @@ public:
         NumTags
     };
 
-    enum TagType {
+    enum TagType
+    {
         StringType,
         FixedType,
         UInt8Type,
@@ -110,12 +112,14 @@ public:
         quint16 size;
     };
 
-    enum GlyphFormat {
-        BitmapGlyphs = 1,
-        AlphamapGlyphs = 8
+    enum GlyphFormat
+    {
+        BitmapGlyphs    = 1,
+        AlphamapGlyphs  = 8
     };
 
-    enum {
+    enum
+    {
         CurrentMajorVersion = 2,
         CurrentMinorVersion = 0
     };
@@ -123,7 +127,8 @@ public:
     // The CMap is identical to the TrueType CMap table format
     // The GMap table is a normal array with the total number of
     // covered glyphs in the TrueType font
-    enum BlockTag {
+    enum BlockTag
+    {
         CMapBlock,
         GMapBlock,
         GlyphBlock
@@ -131,10 +136,10 @@ public:
 
     struct Header
     {
-        char magic[4]; // 'QPF2'
+        char    magic[4]; // 'QPF2'
         quint32 lock;  // values: 0 = unlocked, 0xffffffff = read-only, otherwise qws client id of locking process
-        quint8 majorVersion;
-        quint8 minorVersion;
+        quint8  majorVersion;
+        quint8  minorVersion;
         quint16 dataSize;
     };
 
@@ -147,23 +152,26 @@ public:
 
     struct Glyph
     {
-        quint8 width;
-        quint8 height;
-        quint8 bytesPerLine;
-        qint8 x;
-        qint8 y;
-        qint8 advance;
+        quint8  width;
+        quint8  height;
+        quint8  bytesPerLine;
+        qint8   x;
+        qint8   y;
+        qint8   advance;
     };
 
     QFontEngineQPF2(const QFontDef &def, const QByteArray &data);
     ~QFontEngineQPF2();
 
-    FaceId faceId() const Q_DECL_OVERRIDE { return face_id; }
+    FaceId faceId() const Q_DECL_OVERRIDE
+    {
+        return face_id;
+    }
     bool getSfntTableData(uint tag, uchar *buffer, uint *length) const Q_DECL_OVERRIDE;
 
     virtual glyph_t glyphIndex(uint ucs4) const Q_DECL_OVERRIDE;
     bool stringToCMap(const QChar *str, int len, QGlyphLayout *glyphs, int *nglyphs, ShaperFlags flags) const Q_DECL_OVERRIDE;
-    void recalcAdvances(QGlyphLayout *, ShaperFlags) const Q_DECL_OVERRIDE;
+    void    recalcAdvances(QGlyphLayout*, ShaperFlags) const Q_DECL_OVERRIDE;
 
     void addOutlineToPath(qreal x, qreal y, const QGlyphLayout &glyphs, QPainterPath *path, QTextItem::RenderFlags flags) Q_DECL_OVERRIDE;
     QImage alphaMapForGlyph(glyph_t t) Q_DECL_OVERRIDE;
@@ -181,33 +189,36 @@ public:
     QFixed underlinePosition() const Q_DECL_OVERRIDE;
     QFixed lineThickness() const Q_DECL_OVERRIDE;
 
-    virtual int glyphCount() const Q_DECL_OVERRIDE { return glyphMapEntries; }
+    virtual int glyphCount() const Q_DECL_OVERRIDE
+    {
+        return glyphMapEntries;
+    }
 
     bool isValid() const;
 
-    const Glyph *findGlyph(glyph_t g) const;
+    const Glyph* findGlyph(glyph_t g) const;
 
     static bool verifyHeader(const uchar *data, int size);
     static QVariant extractHeaderField(const uchar *data, HeaderTag tag);
 
 private:
 
-    const uchar *fontData;
-    int dataSize;
-    const uchar *cmap;
-    quint32 cmapOffset;
-    int cmapSize;
-    quint32 glyphMapOffset;
-    quint32 glyphMapEntries;
-    quint32 glyphDataOffset;
-    quint32 glyphDataSize;
-    QString internalFileName;
-    QString encodedFileName;
-    bool readOnly;
+    const uchar     *fontData;
+    int             dataSize;
+    const uchar     *cmap;
+    quint32         cmapOffset;
+    int             cmapSize;
+    quint32         glyphMapOffset;
+    quint32         glyphMapEntries;
+    quint32         glyphDataOffset;
+    quint32         glyphDataSize;
+    QString         internalFileName;
+    QString         encodedFileName;
+    bool            readOnly;
 
-    FaceId face_id;
-    QByteArray freetypeCMapTable;
-    mutable bool kerning_pairs_loaded;
+    FaceId          face_id;
+    QByteArray      freetypeCMapTable;
+    mutable bool    kerning_pairs_loaded;
 };
 
 struct QPF2Generator
@@ -215,24 +226,42 @@ struct QPF2Generator
     QPF2Generator(QBuffer *device, QFontEngine *engine)
         : dev(device), fe(engine) {}
 
-    void generate();
-    void writeHeader();
-    void writeGMap();
-    void writeBlock(QFontEngineQPF2::BlockTag tag, const QByteArray &data);
+    void    generate();
+    void    writeHeader();
+    void    writeGMap();
+    void    writeBlock(QFontEngineQPF2::BlockTag tag, const QByteArray &data);
 
-    void writeTaggedString(QFontEngineQPF2::HeaderTag tag, const QByteArray &string);
-    void writeTaggedUInt32(QFontEngineQPF2::HeaderTag tag, quint32 value);
-    void writeTaggedUInt8(QFontEngineQPF2::HeaderTag tag, quint8 value);
-    void writeTaggedQFixed(QFontEngineQPF2::HeaderTag tag, QFixed value);
+    void    writeTaggedString(QFontEngineQPF2::HeaderTag tag, const QByteArray &string);
+    void    writeTaggedUInt32(QFontEngineQPF2::HeaderTag tag, quint32 value);
+    void    writeTaggedUInt8(QFontEngineQPF2::HeaderTag tag, quint8 value);
+    void    writeTaggedQFixed(QFontEngineQPF2::HeaderTag tag, QFixed value);
 
-    void writeUInt16(quint16 value) { value = qToBigEndian(value); dev->write((const char *)&value, sizeof(value)); }
-    void writeUInt32(quint32 value) { value = qToBigEndian(value); dev->write((const char *)&value, sizeof(value)); }
-    void writeUInt8(quint8 value) { dev->write((const char *)&value, sizeof(value)); }
-    void writeInt8(qint8 value) { dev->write((const char *)&value, sizeof(value)); }
+    void writeUInt16(quint16 value)
+    {
+        value = qToBigEndian(value); dev->write((const char*)&value, sizeof(value));
+    }
+    void writeUInt32(quint32 value)
+    {
+        value = qToBigEndian(value); dev->write((const char*)&value, sizeof(value));
+    }
+    void writeUInt8(quint8 value)
+    {
+        dev->write((const char*)&value, sizeof(value));
+    }
+    void writeInt8(qint8 value)
+    {
+        dev->write((const char*)&value, sizeof(value));
+    }
 
-    void align4() { while (dev->pos() & 3) { dev->putChar('\0'); } }
+    void align4()
+    {
+        while (dev->pos() & 3)
+        {
+            dev->putChar('\0');
+        }
+    }
 
-    QBuffer *dev;
+    QBuffer     *dev;
     QFontEngine *fe;
 };
 

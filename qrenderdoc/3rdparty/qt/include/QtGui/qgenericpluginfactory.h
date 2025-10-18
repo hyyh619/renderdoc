@@ -49,11 +49,11 @@ QT_BEGIN_NAMESPACE
 class QString;
 class QObject;
 
-class Q_GUI_EXPORT QGenericPluginFactory
+class Q_GUI_EXPORT    QGenericPluginFactory
 {
 public:
     static QStringList keys();
-    static QObject *create(const QString&, const QString &);
+    static QObject* create(const QString&, const QString&);
 };
 
 QT_END_NAMESPACE

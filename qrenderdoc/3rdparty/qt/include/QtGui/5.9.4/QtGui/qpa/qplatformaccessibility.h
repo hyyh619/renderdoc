@@ -58,7 +58,7 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QPlatformAccessibility
+class Q_GUI_EXPORT    QPlatformAccessibility
 {
 public:
     QPlatformAccessibility();
@@ -69,15 +69,17 @@ public:
     virtual void initialize();
     virtual void cleanup();
 
-    inline bool isActive() const { return m_active; }
+    inline bool isActive() const
+    {
+        return m_active;
+    }
     void setActive(bool active);
 
 private:
-    bool m_active;
+    bool    m_active;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_ACCESSIBILITY
 
 #endif // QPLATFORMACCESSIBILITY_H

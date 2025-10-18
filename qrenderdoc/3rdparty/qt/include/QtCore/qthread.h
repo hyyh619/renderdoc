@@ -52,19 +52,20 @@ class QThreadPrivate;
 class QAbstractEventDispatcher;
 
 #ifndef QT_NO_THREAD
-class Q_CORE_EXPORT QThread : public QObject
+class Q_CORE_EXPORT    QThread : public QObject
 {
     Q_OBJECT
 public:
     static Qt::HANDLE currentThreadId() Q_DECL_NOTHROW Q_DECL_PURE_FUNCTION;
-    static QThread *currentThread();
+    static QThread* currentThread();
     static int idealThreadCount() Q_DECL_NOTHROW;
     static void yieldCurrentThread();
 
     explicit QThread(QObject *parent = Q_NULLPTR);
     ~QThread();
 
-    enum Priority {
+    enum Priority
+    {
         IdlePriority,
 
         LowestPriority,
@@ -92,14 +93,14 @@ public:
 
     void exit(int retcode = 0);
 
-    QAbstractEventDispatcher *eventDispatcher() const;
+    QAbstractEventDispatcher* eventDispatcher() const;
     void setEventDispatcher(QAbstractEventDispatcher *eventDispatcher);
 
     bool event(QEvent *event) Q_DECL_OVERRIDE;
     int loopLevel() const;
 
 public Q_SLOTS:
-    void start(Priority = InheritPriority);
+    void    start(Priority = InheritPriority);
     void terminate();
     void quit();
 
@@ -112,8 +113,8 @@ public:
     static void usleep(unsigned long);
 
 Q_SIGNALS:
-    void started(QPrivateSignal);
-    void finished(QPrivateSignal);
+    void    started(QPrivateSignal);
+    void    finished(QPrivateSignal);
 
 protected:
     virtual void run();
@@ -133,10 +134,13 @@ private:
 
 #else // QT_NO_THREAD
 
-class Q_CORE_EXPORT QThread : public QObject
+class Q_CORE_EXPORT    QThread : public QObject
 {
 public:
-    static Qt::HANDLE currentThreadId() { return Qt::HANDLE(currentThread()); }
+    static Qt::HANDLE currentThreadId()
+    {
+        return Qt::HANDLE(currentThread());
+    }
     static QThread* currentThread();
 
 protected:
@@ -144,14 +148,13 @@ protected:
 
 private:
     explicit QThread(QObject *parent = nullptr);
-    static QThread *instance;
+    static QThread    *instance;
 
     friend class QCoreApplication;
     friend class QThreadData;
     friend class QAdoptedThread;
     Q_DECLARE_PRIVATE(QThread)
 };
-
 #endif // QT_NO_THREAD
 
 QT_END_NAMESPACE

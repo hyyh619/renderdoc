@@ -65,7 +65,7 @@ QT_BEGIN_NAMESPACE
 class QFlickGesturePrivate;
 class QGraphicsItem;
 
-class Q_WIDGETS_EXPORT QFlickGesture : public QGesture
+class Q_WIDGETS_EXPORT    QFlickGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QFlickGesture)
@@ -85,11 +85,11 @@ class QFlickGesturePrivate : public QGesturePrivate
 public:
     QFlickGesturePrivate();
 
-    QPointer<QObject> receiver;
-    QScroller *receiverScroller;
-    Qt::MouseButton button; // NoButton == Touch
-    bool macIgnoreWheel;
-    static PressDelayHandler *pressDelayHandler;
+    QPointer<QObject>           receiver;
+    QScroller                   *receiverScroller;
+    Qt::MouseButton             button; // NoButton == Touch
+    bool                        macIgnoreWheel;
+    static PressDelayHandler    *pressDelayHandler;
 };
 
 class QFlickGestureRecognizer : public QGestureRecognizer
@@ -97,16 +97,15 @@ class QFlickGestureRecognizer : public QGestureRecognizer
 public:
     QFlickGestureRecognizer(Qt::MouseButton button);
 
-    QGesture *create(QObject *target) override;
+    QGesture* create(QObject *target) override;
     QGestureRecognizer::Result recognize(QGesture *state, QObject *watched, QEvent *event) override;
     void reset(QGesture *state) override;
 
 private:
-    Qt::MouseButton button; // NoButton == Touch
+    Qt::MouseButton    button; // NoButton == Touch
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_GESTURES
 
 #endif // QFLICKGESTURE_P_H

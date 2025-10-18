@@ -112,14 +112,13 @@ private:
     typedef void (QOPENGLF_APIENTRYP qt_BindVertexArray_t)(GLuint array);
     typedef GLboolean (QOPENGLF_APIENTRYP qt_IsVertexArray_t)(GLuint array);
 
-    qt_GenVertexArrays_t GenVertexArrays;
-    qt_DeleteVertexArrays_t DeleteVertexArrays;
-    qt_BindVertexArray_t BindVertexArray;
-    qt_IsVertexArray_t IsVertexArray;
+    qt_GenVertexArrays_t        GenVertexArrays;
+    qt_DeleteVertexArrays_t     DeleteVertexArrays;
+    qt_BindVertexArray_t        BindVertexArray;
+    qt_IsVertexArray_t          IsVertexArray;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLVERTEXARRAYOBJECT_P_H

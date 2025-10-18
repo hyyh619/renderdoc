@@ -80,8 +80,8 @@ private Q_SLOTS:
 
 private:
     typedef QHash<QWidget*, QPointer<QPropertyAnimation> > AnimationMap;
-    AnimationMap m_animation_map;
-    QMainWindowLayout *m_mainWindowLayout;
+    AnimationMap            m_animation_map;
+    QMainWindowLayout       *m_mainWindowLayout;
 };
 
 QT_END_NAMESPACE

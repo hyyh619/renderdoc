@@ -71,25 +71,25 @@ public:
     QIcon getIcon(QStyle::StandardPixmap name) const;
     QIcon getIcon(const QFileInfo &fi) const;
 
-    QFileIconProvider *q_ptr;
-    const QString homePath;
-    QFileIconProvider::Options options;
+    QFileIconProvider               *q_ptr;
+    const QString                   homePath;
+    QFileIconProvider::Options      options;
 
 private:
-    mutable QIcon file;
-    mutable QIcon fileLink;
-    mutable QIcon directory;
-    mutable QIcon directoryLink;
-    mutable QIcon harddisk;
-    mutable QIcon floppy;
-    mutable QIcon cdrom;
-    mutable QIcon ram;
-    mutable QIcon network;
-    mutable QIcon computer;
-    mutable QIcon desktop;
-    mutable QIcon trashcan;
-    mutable QIcon generic;
-    mutable QIcon home;
+    mutable QIcon       file;
+    mutable QIcon       fileLink;
+    mutable QIcon       directory;
+    mutable QIcon       directoryLink;
+    mutable QIcon       harddisk;
+    mutable QIcon       floppy;
+    mutable QIcon       cdrom;
+    mutable QIcon       ram;
+    mutable QIcon       network;
+    mutable QIcon       computer;
+    mutable QIcon       desktop;
+    mutable QIcon       trashcan;
+    mutable QIcon       generic;
+    mutable QIcon       home;
 };
 
 QT_END_NAMESPACE

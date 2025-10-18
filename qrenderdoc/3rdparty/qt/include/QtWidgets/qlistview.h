@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QListViewPrivate;
 
-class Q_WIDGETS_EXPORT QListView : public QAbstractItemView
+class Q_WIDGETS_EXPORT    QListView : public QAbstractItemView
 {
     Q_OBJECT
     Q_PROPERTY(Movement movement READ movement WRITE setMovement)
@@ -137,7 +137,7 @@ Q_SIGNALS:
     void indexesMoved(const QModelIndexList &indexes);
 
 protected:
-    QListView(QListViewPrivate &, QWidget *parent = Q_NULLPTR);
+    QListView(QListViewPrivate&, QWidget *parent = Q_NULLPTR);
 
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 

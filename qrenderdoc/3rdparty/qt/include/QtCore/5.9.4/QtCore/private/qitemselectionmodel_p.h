@@ -55,12 +55,12 @@
 
 QT_BEGIN_NAMESPACE
 
-class QItemSelectionModelPrivate: public QObjectPrivate
+class QItemSelectionModelPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QItemSelectionModel)
 public:
     QItemSelectionModelPrivate()
-      : model(0),
+        : model(0),
         currentCommand(QItemSelectionModel::NoUpdate),
         tableSelected(false), tableColCount(0), tableRowCount(0) {}
 
@@ -78,7 +78,8 @@ public:
 
     inline void remove(QList<QItemSelectionRange> &r)
     {
-        QList<QItemSelectionRange>::const_iterator it = r.constBegin();
+        QList<QItemSelectionRange>::const_iterator    it = r.constBegin();
+
         for (; it != r.constEnd(); ++it)
             ranges.removeAll(*it);
     }
@@ -90,19 +91,19 @@ public:
             currentSelection.clear();
     }
 
-    QPointer<QAbstractItemModel> model;
-    QItemSelection ranges;
-    QItemSelection currentSelection;
-    QPersistentModelIndex currentIndex;
-    QItemSelectionModel::SelectionFlags currentCommand;
-    QVector<QPersistentModelIndex> savedPersistentIndexes;
-    QVector<QPersistentModelIndex> savedPersistentCurrentIndexes;
-    QVector<QPair<QPersistentModelIndex, uint> > savedPersistentRowLengths;
-    QVector<QPair<QPersistentModelIndex, uint> > savedPersistentCurrentRowLengths;
+    QPointer<QAbstractItemModel>                    model;
+    QItemSelection                                  ranges;
+    QItemSelection                                  currentSelection;
+    QPersistentModelIndex                           currentIndex;
+    QItemSelectionModel::SelectionFlags             currentCommand;
+    QVector<QPersistentModelIndex>                  savedPersistentIndexes;
+    QVector<QPersistentModelIndex>                  savedPersistentCurrentIndexes;
+    QVector<QPair<QPersistentModelIndex, uint> >    savedPersistentRowLengths;
+    QVector<QPair<QPersistentModelIndex, uint> >    savedPersistentCurrentRowLengths;
     // optimization when all indexes are selected
-    bool tableSelected;
-    QPersistentModelIndex tableParent;
-    int tableColCount, tableRowCount;
+    bool                        tableSelected;
+    QPersistentModelIndex       tableParent;
+    int                         tableColCount, tableRowCount;
 };
 
 QT_END_NAMESPACE

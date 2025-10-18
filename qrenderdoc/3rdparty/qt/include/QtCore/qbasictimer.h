@@ -48,15 +48,25 @@ QT_BEGIN_NAMESPACE
 
 class QObject;
 
-class Q_CORE_EXPORT QBasicTimer
+class Q_CORE_EXPORT    QBasicTimer
 {
-    int id;
+    int    id;
 public:
     inline QBasicTimer() : id(0) {}
-    inline ~QBasicTimer() { if (id) stop(); }
+    inline ~QBasicTimer()
+    {
+        if (id)
+            stop();
+    }
 
-    inline bool isActive() const { return id != 0; }
-    inline int timerId() const { return id; }
+    inline bool isActive() const
+    {
+        return id != 0;
+    }
+    inline int timerId() const
+    {
+        return id;
+    }
 
     void start(int msec, QObject *obj);
     void start(int msec, Qt::TimerType timerType, QObject *obj);

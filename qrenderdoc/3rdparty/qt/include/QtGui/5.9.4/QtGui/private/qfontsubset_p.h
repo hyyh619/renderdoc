@@ -67,7 +67,8 @@ public:
         addGlyph(0);
 #endif
     }
-    ~QFontSubset() {
+    ~QFontSubset()
+    {
         if (!fontEngine->ref.deref())
             delete fontEngine;
     }
@@ -83,15 +84,18 @@ public:
 
     int addGlyph(int index);
 #endif
-    const int object_id;
-    bool noEmbed;
-    QFontEngine *fontEngine;
-    QVector<int> glyph_indices;
-    mutable int downloaded_glyphs;
-    mutable bool standard_font;
-    int nGlyphs() const { return glyph_indices.size(); }
-    mutable QFixed emSquare;
-    mutable QVector<QFixed> widths;
+    const int       object_id;
+    bool            noEmbed;
+    QFontEngine     *fontEngine;
+    QVector<int>    glyph_indices;
+    mutable int     downloaded_glyphs;
+    mutable bool    standard_font;
+    int nGlyphs() const
+    {
+        return glyph_indices.size();
+    }
+    mutable QFixed              emSquare;
+    mutable QVector<QFixed>     widths;
 };
 
 QT_END_NAMESPACE

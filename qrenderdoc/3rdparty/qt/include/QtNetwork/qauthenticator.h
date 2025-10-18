@@ -50,17 +50,20 @@ QT_BEGIN_NAMESPACE
 class QAuthenticatorPrivate;
 class QUrl;
 
-class Q_NETWORK_EXPORT QAuthenticator
+class Q_NETWORK_EXPORT    QAuthenticator
 {
 public:
     QAuthenticator();
     ~QAuthenticator();
 
     QAuthenticator(const QAuthenticator &other);
-    QAuthenticator &operator=(const QAuthenticator &other);
+    QAuthenticator&operator=(const QAuthenticator &other);
 
     bool operator==(const QAuthenticator &other) const;
-    inline bool operator!=(const QAuthenticator &other) const { return !operator==(other); }
+    inline bool operator!=(const QAuthenticator &other) const
+    {
+        return !operator==(other);
+    }
 
     QString user() const;
     void setUser(const QString &user);
@@ -79,7 +82,7 @@ public:
     void detach();
 private:
     friend class QAuthenticatorPrivate;
-    QAuthenticatorPrivate *d;
+    QAuthenticatorPrivate    *d;
 };
 
 QT_END_NAMESPACE

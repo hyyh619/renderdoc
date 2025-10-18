@@ -50,19 +50,19 @@ QT_BEGIN_NAMESPACE
 class QPauseAnimation;
 class QSequentialAnimationGroupPrivate;
 
-class Q_CORE_EXPORT QSequentialAnimationGroup : public QAnimationGroup
+class Q_CORE_EXPORT    QSequentialAnimationGroup : public QAnimationGroup
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractAnimation* currentAnimation READ currentAnimation NOTIFY currentAnimationChanged)
+    Q_PROPERTY(QAbstractAnimation*currentAnimation READ currentAnimation NOTIFY currentAnimationChanged)
 
 public:
     QSequentialAnimationGroup(QObject *parent = Q_NULLPTR);
     ~QSequentialAnimationGroup();
 
-    QPauseAnimation *addPause(int msecs);
-    QPauseAnimation *insertPause(int index, int msecs);
+    QPauseAnimation* addPause(int msecs);
+    QPauseAnimation* insertPause(int index, int msecs);
 
-    QAbstractAnimation *currentAnimation() const;
+    QAbstractAnimation* currentAnimation() const;
     int duration() const Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
@@ -81,9 +81,8 @@ private:
     Q_DECLARE_PRIVATE(QSequentialAnimationGroup)
     Q_PRIVATE_SLOT(d_func(), void _q_uncontrolledAnimationFinished())
 };
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 
-#endif //QSEQUENTIALANIMATIONGROUP_H
+#endif // QSEQUENTIALANIMATIONGROUP_H

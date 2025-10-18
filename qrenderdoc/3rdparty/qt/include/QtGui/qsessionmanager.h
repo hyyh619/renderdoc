@@ -55,7 +55,7 @@ class QGuiApplication;
 
 class QSessionManagerPrivate;
 
-class Q_GUI_EXPORT  QSessionManager : public QObject
+class Q_GUI_EXPORT    QSessionManager : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSessionManager)
@@ -71,13 +71,14 @@ public:
 
     void cancel();
 
-    enum RestartHint {
+    enum RestartHint
+    {
         RestartIfRunning,
         RestartAnyway,
         RestartImmediately,
         RestartNever
     };
-    void setRestartHint(RestartHint);
+    void    setRestartHint(RestartHint);
     RestartHint restartHint() const;
 
     void setRestartCommand(const QStringList&);
@@ -85,8 +86,8 @@ public:
     void setDiscardCommand(const QStringList&);
     QStringList discardCommand() const;
 
-    void setManagerProperty(const QString& name, const QString& value);
-    void setManagerProperty(const QString& name, const QStringList& value);
+    void setManagerProperty(const QString &name, const QString &value);
+    void setManagerProperty(const QString &name, const QStringList &value);
 
     bool isPhase2() const;
     void requestPhase2();
@@ -97,7 +98,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SESSIONMANAGER
 
 #endif // QSESSIONMANAGER_H

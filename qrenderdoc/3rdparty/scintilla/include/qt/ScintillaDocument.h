@@ -10,7 +10,8 @@
 class WatcherHelper;
 
 #ifdef SCI_NAMESPACE
-namespace Scintilla {
+namespace Scintilla
+{
 #endif
 
 #ifndef EXPORT_IMPORT_API
@@ -20,24 +21,24 @@ namespace Scintilla {
 #else
 // Defining dllimport upsets moc
 #define EXPORT_IMPORT_API __declspec(dllimport)
-//#define EXPORT_IMPORT_API
+// #define EXPORT_IMPORT_API
 #endif
 #else
 #define EXPORT_IMPORT_API
 #endif
 #endif
 
-class EXPORT_IMPORT_API ScintillaDocument : public QObject
+class EXPORT_IMPORT_API    ScintillaDocument : public QObject
 {
     Q_OBJECT
 
-    void *pdoc;
-    WatcherHelper *docWatcher;
+    void                *pdoc;
+    WatcherHelper       *docWatcher;
 
 public:
-    explicit ScintillaDocument(QObject *parent = 0, void *pdoc_=0);
+    explicit ScintillaDocument(QObject *parent = 0, void *pdoc_= 0);
     virtual ~ScintillaDocument();
-    void *pointer();
+    void* pointer();
 
     int line_from_position(int pos);
     bool is_cr_lf(int pos);
@@ -83,8 +84,8 @@ public:
 private:
     void emit_modify_attempt();
     void emit_save_point(bool atSavePoint);
-    void emit_modified(int position, int modification_type, const QByteArray& text, int length,
-	int linesAdded, int line, int foldLevelNow, int foldLevelPrev);
+    void emit_modified(int position, int modification_type, const QByteArray &text, int length,
+                       int linesAdded, int line, int foldLevelNow, int foldLevelPrev);
     void emit_style_needed(int pos);
     void emit_lexer_changed();
     void emit_error_occurred(int status);
@@ -92,14 +93,13 @@ private:
 signals:
     void modify_attempt();
     void save_point(bool atSavePoint);
-    void modified(int position, int modification_type, const QByteArray& text, int length,
-	int linesAdded, int line, int foldLevelNow, int foldLevelPrev);
+    void modified(int position, int modification_type, const QByteArray &text, int length,
+                  int linesAdded, int line, int foldLevelNow, int foldLevelPrev);
     void style_needed(int pos);
     void lexer_changed();
     void error_occurred(int status);
 
     friend class ::WatcherHelper;
-
 };
 
 #ifdef SCI_NAMESPACE

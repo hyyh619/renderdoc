@@ -57,28 +57,27 @@
 
 QT_BEGIN_NAMESPACE
 
-struct QFileSelectorSharedData //Not QSharedData because currently is just a global store
+struct QFileSelectorSharedData // Not QSharedData because currently is just a global store
 {
     QStringList staticSelectors;
     QStringList preloadedStatics;
 };
 
-class Q_CORE_EXPORT QFileSelectorPrivate : QObjectPrivate //Exported for use in other modules (like QtGui)
+class Q_CORE_EXPORT    QFileSelectorPrivate : QObjectPrivate // Exported for use in other modules (like QtGui)
 {
     Q_DECLARE_PUBLIC(QFileSelector)
 public:
     static void updateSelectors();
     static QStringList platformSelectors();
-    static void addStatics(const QStringList &); //For loading GUI statics from other Qt modules
+    static void addStatics(const QStringList&);  // For loading GUI statics from other Qt modules
     static QString selectionHelper(const QString &path, const QString &fileName,
                                    const QStringList &selectors, const QChar &indicator = QLatin1Char('+'));
     QFileSelectorPrivate();
     QString select(const QString &filePath) const;
 
-    QStringList extras;
+    QStringList    extras;
 };
 
 QT_END_NAMESPACE
 
 #endif
-

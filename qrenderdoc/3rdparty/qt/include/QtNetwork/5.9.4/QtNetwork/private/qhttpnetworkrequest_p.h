@@ -63,10 +63,11 @@ QT_BEGIN_NAMESPACE
 class QNonContiguousByteDevice;
 
 class QHttpNetworkRequestPrivate;
-class Q_AUTOTEST_EXPORT QHttpNetworkRequest: public QHttpNetworkHeader
+class Q_AUTOTEST_EXPORT    QHttpNetworkRequest : public QHttpNetworkHeader
 {
 public:
-    enum Operation {
+    enum Operation
+    {
         Options,
         Get,
         Head,
@@ -78,7 +79,8 @@ public:
         Custom
     };
 
-    enum Priority {
+    enum Priority
+    {
         HighPriority,
         NormalPriority,
         LowPriority
@@ -87,7 +89,7 @@ public:
     explicit QHttpNetworkRequest(const QUrl &url = QUrl(), Operation operation = Get, Priority priority = NormalPriority);
     QHttpNetworkRequest(const QHttpNetworkRequest &other);
     virtual ~QHttpNetworkRequest();
-    QHttpNetworkRequest &operator=(const QHttpNetworkRequest &other);
+    QHttpNetworkRequest&operator=(const QHttpNetworkRequest &other);
     bool operator==(const QHttpNetworkRequest &other) const;
 
     QUrl url() const Q_DECL_OVERRIDE;
@@ -144,7 +146,7 @@ public:
     QByteArray uri(bool throughProxy) const;
 
 private:
-    QSharedDataPointer<QHttpNetworkRequestPrivate> d;
+    QSharedDataPointer<QHttpNetworkRequestPrivate>    d;
     friend class QHttpNetworkRequestPrivate;
     friend class QHttpNetworkConnectionPrivate;
     friend class QHttpNetworkConnectionChannel;
@@ -157,26 +159,26 @@ class QHttpNetworkRequestPrivate : public QHttpNetworkHeaderPrivate
 {
 public:
     QHttpNetworkRequestPrivate(QHttpNetworkRequest::Operation op,
-        QHttpNetworkRequest::Priority pri, const QUrl &newUrl = QUrl());
+                               QHttpNetworkRequest::Priority pri, const QUrl &newUrl = QUrl());
     QHttpNetworkRequestPrivate(const QHttpNetworkRequestPrivate &other);
     ~QHttpNetworkRequestPrivate();
     bool operator==(const QHttpNetworkRequestPrivate &other) const;
 
     static QByteArray header(const QHttpNetworkRequest &request, bool throughProxy);
 
-    QHttpNetworkRequest::Operation operation;
-    QByteArray customVerb;
-    QHttpNetworkRequest::Priority priority;
-    mutable QNonContiguousByteDevice* uploadByteDevice;
-    bool autoDecompress;
-    bool pipeliningAllowed;
-    bool spdyAllowed;
-    bool http2Allowed;
-    bool withCredentials;
-    bool ssl;
-    bool preConnect;
-    int redirectCount;
-    QNetworkRequest::RedirectPolicy redirectPolicy;
+    QHttpNetworkRequest::Operation      operation;
+    QByteArray                          customVerb;
+    QHttpNetworkRequest::Priority       priority;
+    mutable QNonContiguousByteDevice    *uploadByteDevice;
+    bool                                autoDecompress;
+    bool                                pipeliningAllowed;
+    bool                                spdyAllowed;
+    bool                                http2Allowed;
+    bool                                withCredentials;
+    bool                                ssl;
+    bool                                preConnect;
+    int                                 redirectCount;
+    QNetworkRequest::RedirectPolicy     redirectPolicy;
 };
 
 

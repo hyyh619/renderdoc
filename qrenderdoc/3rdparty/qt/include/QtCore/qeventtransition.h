@@ -48,17 +48,17 @@ QT_REQUIRE_CONFIG(qeventtransition);
 QT_BEGIN_NAMESPACE
 
 class QEventTransitionPrivate;
-class Q_CORE_EXPORT QEventTransition : public QAbstractTransition
+class Q_CORE_EXPORT    QEventTransition : public QAbstractTransition
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* eventSource READ eventSource WRITE setEventSource)
+    Q_PROPERTY(QObject*eventSource READ eventSource WRITE setEventSource)
     Q_PROPERTY(QEvent::Type eventType READ eventType WRITE setEventType)
 public:
     QEventTransition(QState *sourceState = Q_NULLPTR);
     QEventTransition(QObject *object, QEvent::Type type, QState *sourceState = Q_NULLPTR);
     ~QEventTransition();
 
-    QObject *eventSource() const;
+    QObject* eventSource() const;
     void setEventSource(QObject *object);
 
     QEvent::Type eventType() const;

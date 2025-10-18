@@ -66,17 +66,21 @@ class QListModelLessThan
 {
 public:
     inline bool operator()(QListWidgetItem *i1, QListWidgetItem *i2) const
-        { return *i1 < *i2; }
+    {
+        return *i1 < *i2;
+    }
 };
 
 class QListModelGreaterThan
 {
 public:
     inline bool operator()(QListWidgetItem *i1, QListWidgetItem *i2) const
-        { return *i2 < *i1; }
+    {
+        return *i2 < *i1;
+    }
 };
 
-class Q_AUTOTEST_EXPORT QListModel : public QAbstractListModel
+class Q_AUTOTEST_EXPORT    QListModel : public QAbstractListModel
 {
     Q_OBJECT
     friend class QListWidget;
@@ -86,11 +90,11 @@ public:
     ~QListModel();
 
     void clear();
-    QListWidgetItem *at(int row) const;
+    QListWidgetItem* at(int row) const;
     void insert(int row, QListWidgetItem *item);
     void insert(int row, const QStringList &items);
     void remove(QListWidgetItem *item);
-    QListWidgetItem *take(int row);
+    QListWidgetItem* take(int row);
     void move(int srcRow, int dstRow);
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
@@ -110,10 +114,10 @@ public:
 
     void sort(int column, Qt::SortOrder order) override;
     void ensureSorted(int column, Qt::SortOrder order, int start, int end);
-    static bool itemLessThan(const QPair<QListWidgetItem*,int> &left,
-                             const QPair<QListWidgetItem*,int> &right);
-    static bool itemGreaterThan(const QPair<QListWidgetItem*,int> &left,
-                                const QPair<QListWidgetItem*,int> &right);
+    static bool itemLessThan(const QPair<QListWidgetItem*, int> &left,
+                             const QPair<QListWidgetItem*, int> &right);
+    static bool itemGreaterThan(const QPair<QListWidgetItem*, int> &left,
+                                const QPair<QListWidgetItem*, int> &right);
     static QList<QListWidgetItem*>::iterator sortedInsertionIterator(
         const QList<QListWidgetItem*>::iterator &begin,
         const QList<QListWidgetItem*>::iterator &end,
@@ -123,19 +127,19 @@ public:
 
     // dnd
     QStringList mimeTypes() const override;
-    QMimeData *mimeData(const QModelIndexList &indexes) const override;
+    QMimeData* mimeData(const QModelIndexList &indexes) const override;
 #ifndef QT_NO_DRAGANDDROP
     bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent) override;
     Qt::DropActions supportedDropActions() const override;
 #endif
 
-    QMimeData *internalMimeData()  const;
+    QMimeData* internalMimeData()  const;
 private:
-    QList<QListWidgetItem*> items;
+    QList<QListWidgetItem*>    items;
 
     // A cache must be mutable if get-functions should have const modifiers
-    mutable QModelIndexList cachedIndexes;
+    mutable QModelIndexList    cachedIndexes;
 };
 
 
@@ -145,7 +149,10 @@ class QListWidgetPrivate : public QListViewPrivate
     Q_DECLARE_PUBLIC(QListWidget)
 public:
     QListWidgetPrivate() : QListViewPrivate(), sortOrder(Qt::AscendingOrder), sortingEnabled(false) {}
-    inline QListModel *listModel() const { return qobject_cast<QListModel*>(model); }
+    inline QListModel* listModel() const
+    {
+        return qobject_cast<QListModel*>(model);
+    }
     void setup();
     void _q_emitItemPressed(const QModelIndex &index);
     void _q_emitItemClicked(const QModelIndex &index);
@@ -156,17 +163,17 @@ public:
     void _q_emitCurrentItemChanged(const QModelIndex &current, const QModelIndex &previous);
     void _q_sort();
     void _q_dataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
-    Qt::SortOrder sortOrder;
-    bool sortingEnabled;
+    Qt::SortOrder       sortOrder;
+    bool                sortingEnabled;
 };
 
 class QListWidgetItemPrivate
 {
 public:
     QListWidgetItemPrivate(QListWidgetItem *item) : q(item), theid(-1) {}
-    QListWidgetItem *q;
-    QVector<QWidgetItemData> values;
-    int theid;
+    QListWidgetItem             *q;
+    QVector<QWidgetItemData>    values;
+    int                         theid;
 };
 
 QT_END_NAMESPACE

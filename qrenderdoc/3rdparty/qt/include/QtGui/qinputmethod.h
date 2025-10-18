@@ -51,7 +51,7 @@ class QRectF;
 class QTransform;
 class QInputMethodQueryEvent;
 
-class Q_GUI_EXPORT QInputMethod : public QObject
+class Q_GUI_EXPORT    QInputMethod : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QInputMethod)
@@ -80,7 +80,8 @@ public:
 
     QRectF inputItemClipRectangle() const;
 
-    enum Action {
+    enum Action
+    {
         Click,
         ContextMenu
     };

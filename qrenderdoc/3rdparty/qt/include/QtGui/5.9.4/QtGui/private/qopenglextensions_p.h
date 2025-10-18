@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLExtensionsPrivate;
 
-class Q_GUI_EXPORT QOpenGLExtensions : public QOpenGLExtraFunctions
+class Q_GUI_EXPORT    QOpenGLExtensions : public QOpenGLExtraFunctions
 {
     Q_DECLARE_PRIVATE(QOpenGLExtensions)
 public:
@@ -66,7 +66,8 @@ public:
     QOpenGLExtensions(QOpenGLContext *context);
     ~QOpenGLExtensions() {}
 
-    enum OpenGLExtension {
+    enum OpenGLExtension
+    {
         TextureRectangle        = 0x00000001,
         GenerateMipmap          = 0x00000002,
         TextureCompression      = 0x00000004,
@@ -97,16 +98,19 @@ public:
     OpenGLExtensions openGLExtensions();
     bool hasOpenGLExtension(QOpenGLExtensions::OpenGLExtension extension) const;
 
-    GLvoid *glMapBuffer(GLenum target, GLenum access);
+    GLvoid* glMapBuffer(GLenum target, GLenum access);
     void glGetBufferSubData(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, GLvoid *data);
-    void glDiscardFramebufferEXT (GLenum target, GLsizei numAttachments, const GLenum *attachments);
+    void glDiscardFramebufferEXT(GLenum target, GLsizei numAttachments, const GLenum *attachments);
 
     void flushShared();
 
-    QOpenGLExtensionsPrivate *d() const;
+    QOpenGLExtensionsPrivate* d() const;
 
 private:
-    static bool isInitialized(const QOpenGLFunctionsPrivate *d) { return d != 0; }
+    static bool isInitialized(const QOpenGLFunctionsPrivate *d)
+    {
+        return d != 0;
+    }
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QOpenGLExtensions::OpenGLExtensions)
@@ -117,23 +121,23 @@ public:
     explicit QOpenGLExtensionsPrivate(QOpenGLContext *ctx);
 
     GLvoid* (QOPENGLF_APIENTRYP MapBuffer)(GLenum target, GLenum access);
-    void (QOPENGLF_APIENTRYP GetBufferSubData)(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, GLvoid *data);
-    void (QOPENGLF_APIENTRYP DiscardFramebuffer)(GLenum target, GLsizei numAttachments, const GLenum *attachments);
+    void (QOPENGLF_APIENTRYP GetBufferSubData)(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, GLvoid * data);
+    void (QOPENGLF_APIENTRYP DiscardFramebuffer)(GLenum target, GLsizei numAttachments, const GLenum * attachments);
 
-    bool flushVendorChecked;
-    bool flushIsSufficientToSyncContexts;
+    bool    flushVendorChecked;
+    bool    flushIsSufficientToSyncContexts;
 };
 
-inline QOpenGLExtensionsPrivate *QOpenGLExtensions::d() const
+inline QOpenGLExtensionsPrivate* QOpenGLExtensions::d() const
 {
-    return static_cast<QOpenGLExtensionsPrivate *>(d_ptr);
+    return static_cast<QOpenGLExtensionsPrivate*>(d_ptr);
 }
 
-inline GLvoid *QOpenGLExtensions::glMapBuffer(GLenum target, GLenum access)
+inline GLvoid* QOpenGLExtensions::glMapBuffer(GLenum target, GLenum access)
 {
     Q_D(QOpenGLExtensions);
     Q_ASSERT(QOpenGLExtensions::isInitialized(d));
-    GLvoid *result = d->MapBuffer(target, access);
+    GLvoid    *result = d->MapBuffer(target, access);
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
 }
@@ -147,11 +151,11 @@ inline void QOpenGLExtensions::glGetBufferSubData(GLenum target, qopengl_GLintpt
 }
 
 
-inline void QOpenGLExtensions::glDiscardFramebufferEXT (GLenum target, GLsizei numAttachments, const GLenum *attachments)
+inline void QOpenGLExtensions::glDiscardFramebufferEXT(GLenum target, GLsizei numAttachments, const GLenum *attachments)
 {
     Q_D(QOpenGLExtensions);
     Q_ASSERT(QOpenGLExtensions::isInitialized(d));
-    d->DiscardFramebuffer(target,numAttachments, attachments);
+    d->DiscardFramebuffer(target, numAttachments, attachments);
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 QT_END_NAMESPACE

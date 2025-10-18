@@ -78,7 +78,7 @@ protected:
     void paintEvent(QPaintEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    QPixmap m_pixmap;
+    QPixmap    m_pixmap;
 };
 
 class QTabBarPrivate  : public QWidgetPrivate
@@ -86,7 +86,7 @@ class QTabBarPrivate  : public QWidgetPrivate
     Q_DECLARE_PUBLIC(QTabBar)
 public:
     QTabBarPrivate()
-        :currentIndex(-1), pressedIndex(-1), shape(QTabBar::RoundedNorth), layoutDirty(false),
+        : currentIndex(-1), pressedIndex(-1), shape(QTabBar::RoundedNorth), layoutDirty(false),
         drawBase(true), scrollOffset(0), hoverIndex(-1), elideModeSetByUser(false), useScrollButtonsSetByUser(false), expanding(true), closeButtonOnTabs(false),
         selectionBehaviorOnRemove(QTabBar::SelectRightTab), paintWithOffsets(true), movable(false),
         dragInProgress(false), documentMode(false), autoHide(false), changeCurrentOnDrag(false),
@@ -94,26 +94,30 @@ public:
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
         , previousPressedIndex(-1)
 #endif
-        {}
+    {}
 
-    int currentIndex;
-    int pressedIndex;
-    QTabBar::Shape shape;
-    bool layoutDirty;
-    bool drawBase;
-    int scrollOffset;
+    int                 currentIndex;
+    int                 pressedIndex;
+    QTabBar::Shape      shape;
+    bool                layoutDirty;
+    bool                drawBase;
+    int                 scrollOffset;
 
-    struct Tab {
+    struct Tab
+    {
         inline Tab(const QIcon &ico, const QString &txt)
-            : enabled(true) , shortcutId(0), text(txt), icon(ico),
+            : enabled(true), shortcutId(0), text(txt), icon(ico),
             leftWidget(0), rightWidget(0), lastTab(-1), dragOffset(0)
 #ifndef QT_NO_ANIMATION
             , animation(0)
-#endif //QT_NO_ANIMATION
+#endif  // QT_NO_ANIMATION
         {}
-        bool operator==(const Tab &other) const { return &other == this; }
-        bool enabled;
-        int shortcutId;
+        bool operator==(const Tab &other) const
+        {
+            return &other == this;
+        }
+        bool    enabled;
+        int     shortcutId;
         QString text;
 #ifndef QT_NO_TOOLTIP
         QString toolTip;
@@ -121,43 +125,53 @@ public:
 #if QT_CONFIG(whatsthis)
         QString whatsThis;
 #endif
-        QIcon icon;
-        QRect rect;
-        QRect minRect;
-        QRect maxRect;
+        QIcon   icon;
+        QRect   rect;
+        QRect   minRect;
+        QRect   maxRect;
 
-        QColor textColor;
-        QVariant data;
-        QWidget *leftWidget;
-        QWidget *rightWidget;
-        int lastTab;
-        int dragOffset;
+        QColor      textColor;
+        QVariant    data;
+        QWidget     *leftWidget;
+        QWidget     *rightWidget;
+        int         lastTab;
+        int         dragOffset;
 #ifndef QT_NO_ACCESSIBILITY
         QString accessibleName;
 #endif
 
 #ifndef QT_NO_ANIMATION
-        ~Tab() { delete animation; }
-        struct TabBarAnimation : public QVariantAnimation {
+        ~Tab()
+        {
+            delete animation;
+        }
+        struct TabBarAnimation : public QVariantAnimation
+        {
             TabBarAnimation(Tab *t, QTabBarPrivate *_priv) : tab(t), priv(_priv)
-            { setEasingCurve(QEasingCurve::InOutQuad); }
+            {
+                setEasingCurve(QEasingCurve::InOutQuad);
+            }
 
             void updateCurrentValue(const QVariant &current) Q_DECL_OVERRIDE;
 
             void updateState(State, State newState) Q_DECL_OVERRIDE;
-        private:
-            //these are needed for the callbacks
-            Tab *tab;
-            QTabBarPrivate *priv;
+private:
+            // these are needed for the callbacks
+            Tab             *tab;
+            QTabBarPrivate  *priv;
         } *animation;
 
-        void startAnimation(QTabBarPrivate *priv, int duration) {
-            if (!priv->isAnimated()) {
+        void startAnimation(QTabBarPrivate *priv, int duration)
+        {
+            if (!priv->isAnimated())
+            {
                 priv->moveTabFinished(priv->tabList.indexOf(*this));
                 return;
             }
+
             if (!animation)
                 animation = new TabBarAnimation(this, priv);
+
             animation->setStartValue(dragOffset);
             animation->setEndValue(0);
             animation->setDuration(duration);
@@ -165,34 +179,42 @@ public:
         }
 #else
         void startAnimation(QTabBarPrivate *priv, int duration)
-        { Q_UNUSED(duration); priv->moveTabFinished(priv->tabList.indexOf(*this)); }
-#endif //QT_NO_ANIMATION
+        {
+            Q_UNUSED(duration); priv->moveTabFinished(priv->tabList.indexOf(*this));
+        }
+#endif  // QT_NO_ANIMATION
     };
-    QList<Tab> tabList;
-    mutable QHash<QString, QSize> textSizes;
+    QList<Tab>                          tabList;
+    mutable QHash<QString, QSize>       textSizes;
 
     int calculateNewPosition(int from, int to, int index) const;
     void slide(int from, int to);
     void init();
 
-    Tab *at(int index);
-    const Tab *at(int index) const;
+    Tab* at(int index);
+    const Tab* at(int index) const;
 
     int indexAtPos(const QPoint &p) const;
 
-    inline bool isAnimated() const { Q_Q(const QTabBar); return q->style()->styleHint(QStyle::SH_Widget_Animate, 0, q); }
-    inline bool validIndex(int index) const { return index >= 0 && index < tabList.count(); }
+    inline bool isAnimated() const
+    {
+        Q_Q(const QTabBar); return q->style()->styleHint(QStyle::SH_Widget_Animate, 0, q);
+    }
+    inline bool validIndex(int index) const
+    {
+        return index >= 0 && index < tabList.count();
+    }
     void setCurrentNextEnabledIndex(int offset);
 
-    QToolButton* rightB; // right or bottom
-    QToolButton* leftB; // left or top
+    QToolButton     *rightB; // right or bottom
+    QToolButton     *leftB; // left or top
 
     void _q_scrollTabs();
     void _q_closeTab();
     void moveTab(int index, int offset);
     void moveTabFinished(int index);
-    QRect hoverRect;
-    int hoverIndex;
+    QRect       hoverRect;
+    int         hoverIndex;
 
     void refresh();
     void layoutTabs();
@@ -208,67 +230,74 @@ public:
     void initBasicStyleOption(QStyleOptionTab *option, int tabIndex) const;
 
     void makeVisible(int index);
-    QSize iconSize;
-    Qt::TextElideMode elideMode;
-    bool elideModeSetByUser;
-    bool useScrollButtons;
-    bool useScrollButtonsSetByUser;
+    QSize                   iconSize;
+    Qt::TextElideMode       elideMode;
+    bool                    elideModeSetByUser;
+    bool                    useScrollButtons;
+    bool                    useScrollButtonsSetByUser;
 
-    bool expanding;
-    bool closeButtonOnTabs;
-    QTabBar::SelectionBehavior selectionBehaviorOnRemove;
+    bool                            expanding;
+    bool                            closeButtonOnTabs;
+    QTabBar::SelectionBehavior      selectionBehaviorOnRemove;
 
-    QPoint dragStartPosition;
-    bool paintWithOffsets;
-    bool movable;
-    bool dragInProgress;
-    bool documentMode;
-    bool autoHide;
-    bool changeCurrentOnDrag;
+    QPoint      dragStartPosition;
+    bool        paintWithOffsets;
+    bool        movable;
+    bool        dragInProgress;
+    bool        documentMode;
+    bool        autoHide;
+    bool        changeCurrentOnDrag;
 
-    int switchTabCurrentIndex;
-    int switchTabTimerId;
+    int     switchTabCurrentIndex;
+    int     switchTabTimerId;
 
-    QMovableTabWidget *movingTab;
+    QMovableTabWidget    *movingTab;
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
-    int previousPressedIndex;
+    int    previousPressedIndex;
 #endif
     // shared by tabwidget and qtabbar
     static void initStyleBaseOption(QStyleOptionTabBarBase *optTabBase, QTabBar *tabbar, QSize size)
     {
-        QStyleOptionTab tabOverlap;
+        QStyleOptionTab    tabOverlap;
+
         tabOverlap.shape = tabbar->shape();
-        int overlap = tabbar->style()->pixelMetric(QStyle::PM_TabBarBaseOverlap, &tabOverlap, tabbar);
-        QWidget *theParent = tabbar->parentWidget();
+        int         overlap     = tabbar->style()->pixelMetric(QStyle::PM_TabBarBaseOverlap, &tabOverlap, tabbar);
+        QWidget     *theParent  = tabbar->parentWidget();
         optTabBase->init(tabbar);
-        optTabBase->shape = tabbar->shape();
-        optTabBase->documentMode = tabbar->documentMode();
-        if (theParent && overlap > 0) {
-            QRect rect;
-            switch (tabOverlap.shape) {
-            case QTabBar::RoundedNorth:
-            case QTabBar::TriangularNorth:
-                rect.setRect(0, size.height()-overlap, size.width(), overlap);
-                break;
-            case QTabBar::RoundedSouth:
-            case QTabBar::TriangularSouth:
-                rect.setRect(0, 0, size.width(), overlap);
-                break;
-            case QTabBar::RoundedEast:
-            case QTabBar::TriangularEast:
-                rect.setRect(0, 0, overlap, size.height());
-                break;
-            case QTabBar::RoundedWest:
-            case QTabBar::TriangularWest:
-                rect.setRect(size.width() - overlap, 0, overlap, size.height());
-                break;
+        optTabBase->shape           = tabbar->shape();
+        optTabBase->documentMode    = tabbar->documentMode();
+        if (theParent && overlap > 0)
+        {
+            QRect    rect;
+
+            switch (tabOverlap.shape)
+            {
+                case QTabBar::RoundedNorth:
+                case QTabBar::TriangularNorth:
+                    rect.setRect(0, size.height() - overlap, size.width(), overlap);
+                    break;
+
+                case QTabBar::RoundedSouth:
+                case QTabBar::TriangularSouth:
+                    rect.setRect(0, 0, size.width(), overlap);
+                    break;
+
+                case QTabBar::RoundedEast:
+                case QTabBar::TriangularEast:
+                    rect.setRect(0, 0, overlap, size.height());
+                    break;
+
+                case QTabBar::RoundedWest:
+                case QTabBar::TriangularWest:
+                    rect.setRect(size.width() - overlap, 0, overlap, size.height());
+                    break;
             }
+
             optTabBase->rect = rect;
         }
     }
 
     void killSwitchTabTimer();
-
 };
 
 class CloseButton : public QAbstractButton
@@ -280,7 +309,9 @@ public:
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QSize minimumSizeHint() const Q_DECL_OVERRIDE
-        { return sizeHint(); }
+    {
+        return sizeHint();
+    }
     void enterEvent(QEvent *event) Q_DECL_OVERRIDE;
     void leaveEvent(QEvent *event) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;

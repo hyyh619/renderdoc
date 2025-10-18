@@ -72,35 +72,48 @@ struct QPropertyAssignment
     QPropertyAssignment(QObject *o, const QByteArray &n,
                         const QVariant &v, bool es = true)
         : object(o), propertyName(n), value(v), explicitlySet(es)
-        {}
+    {}
 
-    bool objectDeleted() const { return !object; }
-    void write() const { Q_ASSERT(object != 0); object->setProperty(propertyName, value); }
+    bool objectDeleted() const
+    {
+        return !object;
+    }
+    void write() const
+    {
+        Q_ASSERT(object != 0); object->setProperty(propertyName, value);
+    }
     bool hasTarget(QObject *o, const QByteArray &pn) const
-    { return object == o && propertyName == pn; }
+    {
+        return object == o && propertyName == pn;
+    }
 
-    QPointer<QObject> object;
-    QByteArray propertyName;
-    QVariant value;
-    bool explicitlySet; // false means the property is being restored to its old value
+    QPointer<QObject>   object;
+    QByteArray          propertyName;
+    QVariant            value;
+    bool                explicitlySet; // false means the property is being restored to its old value
 };
 Q_DECLARE_TYPEINFO(QPropertyAssignment, Q_MOVABLE_TYPE);
-
 #endif // QT_NO_PROPERTIES
 
 class QAbstractTransition;
 class QHistoryState;
 
 class QState;
-class Q_CORE_EXPORT QStatePrivate : public QAbstractStatePrivate
+class Q_CORE_EXPORT    QStatePrivate : public QAbstractStatePrivate
 {
     Q_DECLARE_PUBLIC(QState)
 public:
     QStatePrivate();
     ~QStatePrivate();
 
-    static QStatePrivate *get(QState *q) { return q ? q->d_func() : 0; }
-    static const QStatePrivate *get(const QState *q) { return q? q->d_func() : 0; }
+    static QStatePrivate* get(QState *q)
+    {
+        return q ? q->d_func() : 0;
+    }
+    static const QStatePrivate* get(const QState *q)
+    {
+        return q ? q->d_func() : 0;
+    }
 
     QList<QAbstractState*> childStates() const;
     QList<QHistoryState*> historyStates() const;
@@ -109,16 +122,16 @@ public:
     void emitFinished();
     void emitPropertiesAssigned();
 
-    QAbstractState *errorState;
-    QAbstractState *initialState;
-    QState::ChildMode childMode;
-    mutable bool childStatesListNeedsRefresh;
-    mutable bool transitionsListNeedsRefresh;
-    mutable QList<QAbstractState*> childStatesList;
-    mutable QList<QAbstractTransition*> transitionsList;
+    QAbstractState                          *errorState;
+    QAbstractState                          *initialState;
+    QState::ChildMode                       childMode;
+    mutable bool                            childStatesListNeedsRefresh;
+    mutable bool                            transitionsListNeedsRefresh;
+    mutable QList<QAbstractState*>          childStatesList;
+    mutable QList<QAbstractTransition*>     transitionsList;
 
 #ifndef QT_NO_PROPERTIES
-    QVector<QPropertyAssignment> propertyAssignments;
+    QVector<QPropertyAssignment>    propertyAssignments;
 #endif
 };
 

@@ -56,8 +56,7 @@
 
 QT_BEGIN_NAMESPACE
 
-QAccessibleInterface *qAccessibleFactory(const QString &classname, QObject *object);
+QAccessibleInterface* qAccessibleFactory(const QString &classname, QObject *object);
 
 QT_END_NAMESPACE
-
 #endif

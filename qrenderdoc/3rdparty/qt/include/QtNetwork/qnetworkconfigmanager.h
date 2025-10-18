@@ -49,19 +49,20 @@
 QT_BEGIN_NAMESPACE
 
 class QNetworkConfigurationManagerPrivate;
-class Q_NETWORK_EXPORT QNetworkConfigurationManager : public QObject
+class Q_NETWORK_EXPORT    QNetworkConfigurationManager : public QObject
 {
     Q_OBJECT
 
 public:
-    enum Capability {
-         CanStartAndStopInterfaces  = 0x00000001,
-         DirectConnectionRouting = 0x00000002,
-         SystemSessionSupport = 0x00000004,
-         ApplicationLevelRoaming = 0x00000008,
-         ForcedRoaming = 0x00000010,
-         DataStatistics = 0x00000020,
-         NetworkSessionRequired = 0x00000040
+    enum Capability
+    {
+        CanStartAndStopInterfaces   = 0x00000001,
+        DirectConnectionRouting     = 0x00000002,
+        SystemSessionSupport        = 0x00000004,
+        ApplicationLevelRoaming     = 0x00000008,
+        ForcedRoaming               = 0x00000010,
+        DataStatistics              = 0x00000020,
+        NetworkSessionRequired      = 0x00000040
     };
 
     Q_DECLARE_FLAGS(Capabilities, Capability)
@@ -94,7 +95,6 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(QNetworkConfigurationManager::Capabilities)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_BEARERMANAGEMENT
 
 #endif // QNETWORKCONFIGMANAGER_H

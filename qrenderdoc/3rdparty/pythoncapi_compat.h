@@ -34,7 +34,7 @@ extern "C" {
 // to prevent C++ compiler warnings. On C23 and newer and on C++11 and newer,
 // _Py_NULL is defined as nullptr.
 #if (defined (__STDC_VERSION__) && __STDC_VERSION__ > 201710L) \
-        || (defined(__cplusplus) && __cplusplus >= 201103)
+    || (defined(__cplusplus) && __cplusplus >= 201103)
 #  define _Py_NULL nullptr
 #else
 #  define _Py_NULL NULL
@@ -81,20 +81,20 @@ static inline void _Py_SET_REFCNT(PyObject *ob, Py_ssize_t refcnt)
 // Py_SETREF() and Py_XSETREF() were added to Python 3.5.2.
 // It is excluded from the limited C API.
 #if (PY_VERSION_HEX < 0x03050200 && !defined(Py_SETREF)) && !defined(Py_LIMITED_API)
-#define Py_SETREF(dst, src)                                     \
-    do {                                                        \
-        PyObject **_tmp_dst_ptr = _Py_CAST(PyObject**, &(dst)); \
-        PyObject *_tmp_dst = (*_tmp_dst_ptr);                   \
-        *_tmp_dst_ptr = _PyObject_CAST(src);                    \
-        Py_DECREF(_tmp_dst);                                    \
+#define Py_SETREF(dst, src)                                           \
+    do {                                                              \
+        PyObject    **_tmp_dst_ptr  = _Py_CAST(PyObject * *, &(dst)); \
+        PyObject    *_tmp_dst       = (*_tmp_dst_ptr);                \
+        *_tmp_dst_ptr = _PyObject_CAST(src);                          \
+        Py_DECREF(_tmp_dst);                                          \
     } while (0)
 
-#define Py_XSETREF(dst, src)                                    \
-    do {                                                        \
-        PyObject **_tmp_dst_ptr = _Py_CAST(PyObject**, &(dst)); \
-        PyObject *_tmp_dst = (*_tmp_dst_ptr);                   \
-        *_tmp_dst_ptr = _PyObject_CAST(src);                    \
-        Py_XDECREF(_tmp_dst);                                   \
+#define Py_XSETREF(dst, src)                                          \
+    do {                                                              \
+        PyObject    **_tmp_dst_ptr  = _Py_CAST(PyObject * *, &(dst)); \
+        PyObject    *_tmp_dst       = (*_tmp_dst_ptr);                \
+        *_tmp_dst_ptr = _PyObject_CAST(src);                          \
+        Py_XDECREF(_tmp_dst);                                         \
     } while (0)
 #endif
 
@@ -147,7 +147,8 @@ static inline PyCodeObject* PyFrame_GetCode(PyFrameObject *frame)
 
 static inline PyCodeObject* _PyFrame_GetCodeBorrow(PyFrameObject *frame)
 {
-    PyCodeObject *code = PyFrame_GetCode(frame);
+    PyCodeObject    *code = PyFrame_GetCode(frame);
+
     Py_DECREF(code);
     return code;
 }
@@ -165,7 +166,8 @@ static inline PyFrameObject* PyFrame_GetBack(PyFrameObject *frame)
 #if !defined(PYPY_VERSION)
 static inline PyFrameObject* _PyFrame_GetBackBorrow(PyFrameObject *frame)
 {
-    PyFrameObject *back = PyFrame_GetBack(frame);
+    PyFrameObject    *back = PyFrame_GetBack(frame);
+
     Py_XDECREF(back);
     return back;
 }
@@ -177,9 +179,11 @@ static inline PyFrameObject* _PyFrame_GetBackBorrow(PyFrameObject *frame)
 static inline PyObject* PyFrame_GetLocals(PyFrameObject *frame)
 {
 #if PY_VERSION_HEX >= 0x030400B1
-    if (PyFrame_FastToLocalsWithError(frame) < 0) {
+    if (PyFrame_FastToLocalsWithError(frame) < 0)
+    {
         return NULL;
     }
+
 #else
     PyFrame_FastToLocals(frame);
 #endif
@@ -214,9 +218,11 @@ static inline int PyFrame_GetLasti(PyFrameObject *frame)
     // bpo-27129: Since Python 3.10.0a7, f_lasti is an instruction offset,
     // not a bytes offset anymore. Python uses 16-bit "wordcode" (2 bytes)
     // instructions.
-    if (frame->f_lasti < 0) {
+    if (frame->f_lasti < 0)
+    {
         return -1;
     }
+
     return frame->f_lasti * 2;
 #else
     return frame->f_lasti;
@@ -229,12 +235,14 @@ static inline int PyFrame_GetLasti(PyFrameObject *frame)
 #if PY_VERSION_HEX < 0x030C00A2 && !defined(PYPY_VERSION)
 static inline PyObject* PyFrame_GetVar(PyFrameObject *frame, PyObject *name)
 {
-    PyObject *locals, *value;
+    PyObject    *locals, *value;
 
     locals = PyFrame_GetLocals(frame);
-    if (locals == NULL) {
+    if (locals == NULL)
+    {
         return NULL;
     }
+
 #if PY_VERSION_HEX >= 0x03000000
     value = PyDict_GetItemWithError(locals, name);
 #else
@@ -242,10 +250,13 @@ static inline PyObject* PyFrame_GetVar(PyFrameObject *frame, PyObject *name)
 #endif
     Py_DECREF(locals);
 
-    if (value == NULL) {
-        if (PyErr_Occurred()) {
+    if (value == NULL)
+    {
+        if (PyErr_Occurred())
+        {
             return NULL;
         }
+
 #if PY_VERSION_HEX >= 0x03000000
         PyErr_Format(PyExc_NameError, "variable %R does not exist", name);
 #else
@@ -253,6 +264,7 @@ static inline PyObject* PyFrame_GetVar(PyFrameObject *frame, PyObject *name)
 #endif
         return NULL;
     }
+
     return Py_NewRef(value);
 }
 #endif
@@ -263,15 +275,18 @@ static inline PyObject* PyFrame_GetVar(PyFrameObject *frame, PyObject *name)
 static inline PyObject*
 PyFrame_GetVarString(PyFrameObject *frame, const char *name)
 {
-    PyObject *name_obj, *value;
+    PyObject    *name_obj, *value;
+
 #if PY_VERSION_HEX >= 0x03000000
     name_obj = PyUnicode_FromString(name);
 #else
     name_obj = PyString_FromString(name);
 #endif
-    if (name_obj == NULL) {
+    if (name_obj == NULL)
+    {
         return NULL;
     }
+
     value = PyFrame_GetVar(frame, name_obj);
     Py_DECREF(name_obj);
     return value;
@@ -281,7 +296,7 @@ PyFrame_GetVarString(PyFrameObject *frame, const char *name)
 
 // bpo-39947 added PyThreadState_GetInterpreter() to Python 3.9.0a5
 #if PY_VERSION_HEX < 0x030900A5 || defined(PYPY_VERSION)
-static inline PyInterpreterState *
+static inline PyInterpreterState*
 PyThreadState_GetInterpreter(PyThreadState *tstate)
 {
     assert(tstate != _Py_NULL);
@@ -295,7 +310,7 @@ PyThreadState_GetInterpreter(PyThreadState *tstate)
 static inline PyFrameObject* PyThreadState_GetFrame(PyThreadState *tstate)
 {
     assert(tstate != _Py_NULL);
-    return _Py_CAST(PyFrameObject *, Py_XNewRef(tstate->frame));
+    return _Py_CAST(PyFrameObject*, Py_XNewRef(tstate->frame));
 }
 #endif
 
@@ -303,7 +318,8 @@ static inline PyFrameObject* PyThreadState_GetFrame(PyThreadState *tstate)
 static inline PyFrameObject*
 _PyThreadState_GetFrameBorrow(PyThreadState *tstate)
 {
-    PyFrameObject *frame = PyThreadState_GetFrame(tstate);
+    PyFrameObject    *frame = PyThreadState_GetFrame(tstate);
+
     Py_XDECREF(frame);
     return frame;
 }
@@ -314,17 +330,21 @@ _PyThreadState_GetFrameBorrow(PyThreadState *tstate)
 #if PY_VERSION_HEX < 0x030900A5 || defined(PYPY_VERSION)
 static inline PyInterpreterState* PyInterpreterState_Get(void)
 {
-    PyThreadState *tstate;
-    PyInterpreterState *interp;
+    PyThreadState           *tstate;
+    PyInterpreterState      *interp;
 
     tstate = PyThreadState_GET();
-    if (tstate == _Py_NULL) {
+    if (tstate == _Py_NULL)
+    {
         Py_FatalError("GIL released (tstate is NULL)");
     }
+
     interp = tstate->interp;
-    if (interp == _Py_NULL) {
+    if (interp == _Py_NULL)
+    {
         Py_FatalError("no current interpreter");
     }
+
     return interp;
 }
 #endif
@@ -356,8 +376,9 @@ static inline void PyThreadState_EnterTracing(PyThreadState *tstate)
 #if PY_VERSION_HEX < 0x030B00A2 && !defined(PYPY_VERSION)
 static inline void PyThreadState_LeaveTracing(PyThreadState *tstate)
 {
-    int use_tracing = (tstate->c_tracefunc != _Py_NULL
-                       || tstate->c_profilefunc != _Py_NULL);
+    int    use_tracing = (tstate->c_tracefunc != _Py_NULL
+                          || tstate->c_profilefunc != _Py_NULL);
+
     tstate->tracing--;
 #if PY_VERSION_HEX >= 0x030A00A1
     tstate->cframe->use_tracing = use_tracing;
@@ -394,9 +415,10 @@ static inline PyObject* PyObject_CallOneArg(PyObject *func, PyObject *arg)
 static inline int
 PyModule_AddObjectRef(PyObject *module, const char *name, PyObject *value)
 {
-    int res;
+    int    res;
 
-    if (!value && !PyErr_Occurred()) {
+    if (!value && !PyErr_Occurred())
+    {
         // PyModule_AddObject() raises TypeError in this case
         PyErr_SetString(PyExc_SystemError,
                         "PyModule_AddObjectRef() must be called "
@@ -406,9 +428,11 @@ PyModule_AddObjectRef(PyObject *module, const char *name, PyObject *value)
 
     Py_XINCREF(value);
     res = PyModule_AddObject(module, name, value);
-    if (res < 0) {
+    if (res < 0)
+    {
         Py_XDECREF(value);
     }
+
     return res;
 }
 #endif
@@ -418,9 +442,10 @@ PyModule_AddObjectRef(PyObject *module, const char *name, PyObject *value)
 #if PY_VERSION_HEX < 0x030900A5
 static inline int PyModule_AddType(PyObject *module, PyTypeObject *type)
 {
-    const char *name, *dot;
+    const char    *name, *dot;
 
-    if (PyType_Ready(type) < 0) {
+    if (PyType_Ready(type) < 0)
+    {
         return -1;
     }
 
@@ -428,7 +453,8 @@ static inline int PyModule_AddType(PyObject *module, PyTypeObject *type)
     name = type->tp_name;
     assert(name != _Py_NULL);
     dot = strrchr(name, '.');
-    if (dot != _Py_NULL) {
+    if (dot != _Py_NULL)
+    {
         name = dot + 1;
     }
 
@@ -440,7 +466,7 @@ static inline int PyModule_AddType(PyObject *module, PyTypeObject *type)
 // bpo-40241 added PyObject_GC_IsTracked() to Python 3.9.0a6.
 // bpo-4688 added _PyObject_GC_IS_TRACKED() to Python 2.7.0a2.
 #if PY_VERSION_HEX < 0x030900A6 && !defined(PYPY_VERSION)
-static inline int PyObject_GC_IsTracked(PyObject* obj)
+static inline int PyObject_GC_IsTracked(PyObject *obj)
 {
     return (PyObject_IS_GC(obj) && _PyObject_GC_IS_TRACKED(obj));
 }
@@ -451,7 +477,8 @@ static inline int PyObject_GC_IsTracked(PyObject* obj)
 #if PY_VERSION_HEX < 0x030900A6 && PY_VERSION_HEX >= 0x030400F0 && !defined(PYPY_VERSION)
 static inline int PyObject_GC_IsFinalized(PyObject *obj)
 {
-    PyGC_Head *gc = _Py_CAST(PyGC_Head*, obj) - 1;
+    PyGC_Head    *gc = _Py_CAST(PyGC_Head*, obj) - 1;
+
     return (PyObject_IS_GC(obj) && _PyGCHead_FINALIZED(gc));
 }
 #endif
@@ -459,7 +486,8 @@ static inline int PyObject_GC_IsFinalized(PyObject *obj)
 
 // bpo-39573 added Py_IS_TYPE() to Python 3.9.0a4
 #if PY_VERSION_HEX < 0x030900A4 && !defined(Py_IS_TYPE)
-static inline int _Py_IS_TYPE(PyObject *ob, PyTypeObject *type) {
+static inline int _Py_IS_TYPE(PyObject *ob, PyTypeObject *type)
+{
     return Py_TYPE(ob) == type;
 }
 #define Py_IS_TYPE(ob, type) _Py_IS_TYPE(_PyObject_CAST(ob), type)
@@ -472,10 +500,14 @@ static inline int _Py_IS_TYPE(PyObject *ob, PyTypeObject *type) {
 // C API: Python 3.11a2-3.11a6 versions are not supported.
 #if 0x030600B1 <= PY_VERSION_HEX && PY_VERSION_HEX <= 0x030B00A1 && !defined(PYPY_VERSION)
 static inline int PyFloat_Pack2(double x, char *p, int le)
-{ return _PyFloat_Pack2(x, (unsigned char*)p, le); }
+{
+    return _PyFloat_Pack2(x, (unsigned char*)p, le);
+}
 
 static inline double PyFloat_Unpack2(const char *p, int le)
-{ return _PyFloat_Unpack2((const unsigned char *)p, le); }
+{
+    return _PyFloat_Unpack2((const unsigned char*)p, le);
+}
 #endif
 
 
@@ -486,16 +518,24 @@ static inline double PyFloat_Unpack2(const char *p, int le)
 // are not supported.
 #if PY_VERSION_HEX <= 0x030B00A1 && !defined(PYPY_VERSION)
 static inline int PyFloat_Pack4(double x, char *p, int le)
-{ return _PyFloat_Pack4(x, (unsigned char*)p, le); }
+{
+    return _PyFloat_Pack4(x, (unsigned char*)p, le);
+}
 
 static inline int PyFloat_Pack8(double x, char *p, int le)
-{ return _PyFloat_Pack8(x, (unsigned char*)p, le); }
+{
+    return _PyFloat_Pack8(x, (unsigned char*)p, le);
+}
 
 static inline double PyFloat_Unpack4(const char *p, int le)
-{ return _PyFloat_Unpack4((const unsigned char *)p, le); }
+{
+    return _PyFloat_Unpack4((const unsigned char*)p, le);
+}
 
 static inline double PyFloat_Unpack8(const char *p, int le)
-{ return _PyFloat_Unpack8((const unsigned char *)p, le); }
+{
+    return _PyFloat_Unpack8((const unsigned char*)p, le);
+}
 #endif
 
 
@@ -536,9 +576,9 @@ static inline PyObject* PyCode_GetCellvars(PyCodeObject *code)
 // Py_UNUSED() was added to Python 3.4.0b2.
 #if PY_VERSION_HEX < 0x030400B2 && !defined(Py_UNUSED)
 #  if defined(__GNUC__) || defined(__clang__)
-#    define Py_UNUSED(name) _unused_ ## name __attribute__((unused))
+#    define Py_UNUSED(name) _unused_##name __attribute__((unused))
 #  else
-#    define Py_UNUSED(name) _unused_ ## name
+#    define Py_UNUSED(name) _unused_##name
 #  endif
 #endif
 
@@ -556,22 +596,29 @@ static inline PyObject* PyImport_AddModuleRef(const char *name)
 #if PY_VERSION_HEX < 0x030D0000
 static inline int PyWeakref_GetRef(PyObject *ref, PyObject **pobj)
 {
-    PyObject *obj;
-    if (ref != NULL && !PyWeakref_Check(ref)) {
+    PyObject    *obj;
+
+    if (ref != NULL && !PyWeakref_Check(ref))
+    {
         *pobj = NULL;
         PyErr_SetString(PyExc_TypeError, "expected a weakref");
         return -1;
     }
+
     obj = PyWeakref_GetObject(ref);
-    if (obj == NULL) {
+    if (obj == NULL)
+    {
         // SystemError if ref is NULL
         *pobj = NULL;
         return -1;
     }
-    if (obj == Py_None) {
+
+    if (obj == Py_None)
+    {
         *pobj = NULL;
         return 0;
     }
+
     *pobj = Py_NewRef(obj);
     return (*pobj != NULL);
 }
@@ -595,61 +642,75 @@ static inline Py_ssize_t PyVectorcall_NARGS(size_t n)
 // gh-105922 added PyObject_Vectorcall() to Python 3.9.0a4
 #if PY_VERSION_HEX < 0x030900A4
 static inline PyObject*
-PyObject_Vectorcall(PyObject *callable, PyObject *const *args,
-                     size_t nargsf, PyObject *kwnames)
+PyObject_Vectorcall(PyObject *callable, PyObject* const *args,
+                    size_t nargsf, PyObject *kwnames)
 {
 #if PY_VERSION_HEX >= 0x030800B1 && !defined(PYPY_VERSION)
     // bpo-36974 added _PyObject_Vectorcall() to Python 3.8.0b1
     return _PyObject_Vectorcall(callable, args, nargsf, kwnames);
 #else
-    PyObject *posargs = NULL, *kwargs = NULL;
-    PyObject *res;
-    Py_ssize_t nposargs, nkwargs, i;
+    PyObject        *posargs = NULL, *kwargs = NULL;
+    PyObject        *res;
+    Py_ssize_t      nposargs, nkwargs, i;
 
-    if (nargsf != 0 && args == NULL) {
+    if (nargsf != 0 && args == NULL)
+    {
         PyErr_BadInternalCall();
         goto error;
     }
-    if (kwnames != NULL && !PyTuple_Check(kwnames)) {
+
+    if (kwnames != NULL && !PyTuple_Check(kwnames))
+    {
         PyErr_BadInternalCall();
         goto error;
     }
 
     nposargs = (Py_ssize_t)PyVectorcall_NARGS(nargsf);
-    if (kwnames) {
+    if (kwnames)
+    {
         nkwargs = PyTuple_GET_SIZE(kwnames);
     }
-    else {
+    else
+    {
         nkwargs = 0;
     }
 
     posargs = PyTuple_New(nposargs);
-    if (posargs == NULL) {
+    if (posargs == NULL)
+    {
         goto error;
     }
-    if (nposargs) {
-        for (i=0; i < nposargs; i++) {
+
+    if (nposargs)
+    {
+        for (i= 0; i < nposargs; i++)
+        {
             PyTuple_SET_ITEM(posargs, i, Py_NewRef(*args));
             args++;
         }
     }
 
-    if (nkwargs) {
+    if (nkwargs)
+    {
         kwargs = PyDict_New();
-        if (kwargs == NULL) {
+        if (kwargs == NULL)
+        {
             goto error;
         }
 
-        for (i = 0; i < nkwargs; i++) {
-            PyObject *key = PyTuple_GET_ITEM(kwnames, i);
-            PyObject *value = *args;
+        for (i = 0; i < nkwargs; i++)
+        {
+            PyObject    *key    = PyTuple_GET_ITEM(kwnames, i);
+            PyObject    *value  = *args;
             args++;
-            if (PyDict_SetItem(kwargs, key, value) < 0) {
+            if (PyDict_SetItem(kwargs, key, value) < 0)
+            {
                 goto error;
             }
         }
     }
-    else {
+    else
+    {
         kwargs = NULL;
     }
 
@@ -678,13 +739,18 @@ PyObject_GetOptionalAttr(PyObject *obj, PyObject *attr_name, PyObject **result)
     return _PyObject_LookupAttr(obj, attr_name, result);
 #else
     *result = PyObject_GetAttr(obj, attr_name);
-    if (*result != NULL) {
+    if (*result != NULL)
+    {
         return 1;
     }
-    if (!PyErr_Occurred()) {
+
+    if (!PyErr_Occurred())
+    {
         return 0;
     }
-    if (PyErr_ExceptionMatches(PyExc_AttributeError)) {
+
+    if (PyErr_ExceptionMatches(PyExc_AttributeError))
+    {
         PyErr_Clear();
         return 0;
     }
@@ -695,17 +761,20 @@ PyObject_GetOptionalAttr(PyObject *obj, PyObject *attr_name, PyObject **result)
 static inline int
 PyObject_GetOptionalAttrString(PyObject *obj, const char *attr_name, PyObject **result)
 {
-    PyObject *name_obj;
-    int rc;
+    PyObject    *name_obj;
+    int         rc;
+
 #if PY_VERSION_HEX >= 0x03000000
     name_obj = PyUnicode_FromString(attr_name);
 #else
     name_obj = PyString_FromString(attr_name);
 #endif
-    if (name_obj == NULL) {
+    if (name_obj == NULL)
+    {
         *result = NULL;
         return -1;
     }
+
     rc = PyObject_GetOptionalAttr(obj, name_obj, result);
     Py_DECREF(name_obj);
     return rc;
@@ -720,12 +789,16 @@ static inline int
 PyMapping_GetOptionalItem(PyObject *obj, PyObject *key, PyObject **result)
 {
     *result = PyObject_GetItem(obj, key);
-    if (*result) {
+    if (*result)
+    {
         return 1;
     }
-    if (!PyErr_ExceptionMatches(PyExc_KeyError)) {
+
+    if (!PyErr_ExceptionMatches(PyExc_KeyError))
+    {
         return -1;
     }
+
     PyErr_Clear();
     return 0;
 }
@@ -733,17 +806,20 @@ PyMapping_GetOptionalItem(PyObject *obj, PyObject *key, PyObject **result)
 static inline int
 PyMapping_GetOptionalItemString(PyObject *obj, const char *key, PyObject **result)
 {
-    PyObject *key_obj;
-    int rc;
+    PyObject    *key_obj;
+    int         rc;
+
 #if PY_VERSION_HEX >= 0x03000000
     key_obj = PyUnicode_FromString(key);
 #else
     key_obj = PyString_FromString(key);
 #endif
-    if (key_obj == NULL) {
+    if (key_obj == NULL)
+    {
         *result = NULL;
         return -1;
     }
+
     rc = PyMapping_GetOptionalItem(obj, key_obj, result);
     Py_DECREF(key_obj);
     return rc;
@@ -756,8 +832,9 @@ PyMapping_GetOptionalItemString(PyObject *obj, const char *key, PyObject **resul
 static inline int
 PyMapping_HasKeyWithError(PyObject *obj, PyObject *key)
 {
-    PyObject *res;
-    int rc = PyMapping_GetOptionalItem(obj, key, &res);
+    PyObject    *res;
+    int         rc = PyMapping_GetOptionalItem(obj, key, &res);
+
     Py_XDECREF(res);
     return rc;
 }
@@ -765,8 +842,9 @@ PyMapping_HasKeyWithError(PyObject *obj, PyObject *key)
 static inline int
 PyMapping_HasKeyStringWithError(PyObject *obj, const char *key)
 {
-    PyObject *res;
-    int rc = PyMapping_GetOptionalItemString(obj, key, &res);
+    PyObject    *res;
+    int         rc = PyMapping_GetOptionalItemString(obj, key, &res);
+
     Py_XDECREF(res);
     return rc;
 }
@@ -779,8 +857,9 @@ PyMapping_HasKeyStringWithError(PyObject *obj, const char *key)
 static inline int
 PyObject_HasAttrWithError(PyObject *obj, PyObject *attr)
 {
-    PyObject *res;
-    int rc = PyObject_GetOptionalAttr(obj, attr, &res);
+    PyObject    *res;
+    int         rc = PyObject_GetOptionalAttr(obj, attr, &res);
+
     Py_XDECREF(res);
     return rc;
 }
@@ -788,8 +867,9 @@ PyObject_HasAttrWithError(PyObject *obj, PyObject *attr)
 static inline int
 PyObject_HasAttrStringWithError(PyObject *obj, const char *attr)
 {
-    PyObject *res;
-    int rc = PyObject_GetOptionalAttrString(obj, attr, &res);
+    PyObject    *res;
+    int         rc = PyObject_GetOptionalAttrString(obj, attr, &res);
+
     Py_XDECREF(res);
     return rc;
 }
@@ -803,18 +883,22 @@ static inline int
 PyDict_GetItemRef(PyObject *mp, PyObject *key, PyObject **result)
 {
 #if PY_VERSION_HEX >= 0x03000000
-    PyObject *item = PyDict_GetItemWithError(mp, key);
+    PyObject    *item = PyDict_GetItemWithError(mp, key);
 #else
-    PyObject *item = _PyDict_GetItemWithError(mp, key);
+    PyObject    *item = _PyDict_GetItemWithError(mp, key);
 #endif
-    if (item != NULL) {
+    if (item != NULL)
+    {
         *result = Py_NewRef(item);
         return 1;  // found
     }
-    if (!PyErr_Occurred()) {
+
+    if (!PyErr_Occurred())
+    {
         *result = NULL;
         return 0;  // not found
     }
+
     *result = NULL;
     return -1;
 }
@@ -822,16 +906,19 @@ PyDict_GetItemRef(PyObject *mp, PyObject *key, PyObject **result)
 static inline int
 PyDict_GetItemStringRef(PyObject *mp, const char *key, PyObject **result)
 {
-    int res;
+    int    res;
+
 #if PY_VERSION_HEX >= 0x03000000
-    PyObject *key_obj = PyUnicode_FromString(key);
+    PyObject    *key_obj = PyUnicode_FromString(key);
 #else
-    PyObject *key_obj = PyString_FromString(key);
+    PyObject    *key_obj = PyString_FromString(key);
 #endif
-    if (key_obj == NULL) {
+    if (key_obj == NULL)
+    {
         *result = NULL;
         return -1;
     }
+
     res = PyDict_GetItemRef(mp, key_obj, result);
     Py_DECREF(key_obj);
     return res;
@@ -844,7 +931,8 @@ PyDict_GetItemStringRef(PyObject *mp, const char *key, PyObject **result)
 static inline int
 PyModule_Add(PyObject *mod, const char *name, PyObject *value)
 {
-    int res = PyModule_AddObjectRef(mod, name, value);
+    int    res = PyModule_AddObjectRef(mod, name, value);
+
     Py_XDECREF(value);
     return res;
 }
@@ -855,7 +943,7 @@ PyModule_Add(PyObject *mod, const char *name, PyObject *value)
 // bpo-1856 added _Py_Finalizing to Python 3.2.1b1.
 // _Py_IsFinalizing() was added to PyPy 7.3.0.
 #if (0x030201B1 <= PY_VERSION_HEX && PY_VERSION_HEX < 0x030D00A1) \
-        && (!defined(PYPY_VERSION_NUM) || PYPY_VERSION_NUM >= 0x7030000)
+    && (!defined(PYPY_VERSION_NUM) || PYPY_VERSION_NUM >= 0x7030000)
 static inline int Py_IsFinalizing(void)
 {
 #if PY_VERSION_HEX >= 0x030700A1
@@ -872,11 +960,14 @@ static inline int Py_IsFinalizing(void)
 #if PY_VERSION_HEX < 0x030D00A1
 static inline int PyDict_ContainsString(PyObject *op, const char *key)
 {
-    PyObject *key_obj = PyUnicode_FromString(key);
-    if (key_obj == NULL) {
+    PyObject    *key_obj = PyUnicode_FromString(key);
+
+    if (key_obj == NULL)
+    {
         return -1;
     }
-    int res = PyDict_Contains(op, key_obj);
+
+    int    res = PyDict_Contains(op, key_obj);
     Py_DECREF(key_obj);
     return res;
 }
@@ -888,15 +979,19 @@ static inline int PyDict_ContainsString(PyObject *op, const char *key)
 static inline int PyLong_AsInt(PyObject *obj)
 {
 #ifdef PYPY_VERSION
-    long value = PyLong_AsLong(obj);
-    if (value == -1 && PyErr_Occurred()) {
+    long    value = PyLong_AsLong(obj);
+    if (value == -1 && PyErr_Occurred())
+    {
         return -1;
     }
-    if (value < (long)INT_MIN || (long)INT_MAX < value) {
+
+    if (value < (long)INT_MIN || (long)INT_MAX < value)
+    {
         PyErr_SetString(PyExc_OverflowError,
                         "Python int too large to convert to C int");
         return -1;
     }
+
     return (int)value;
 #else
     return _PyLong_AsInt(obj);
@@ -910,10 +1005,13 @@ static inline int PyLong_AsInt(PyObject *obj)
 static inline int
 PyObject_VisitManagedDict(PyObject *obj, visitproc visit, void *arg)
 {
-    PyObject **dict = _PyObject_GetDictPtr(obj);
-    if (*dict == NULL) {
+    PyObject    **dict = _PyObject_GetDictPtr(obj);
+
+    if (*dict == NULL)
+    {
         return -1;
     }
+
     Py_VISIT(*dict);
     return 0;
 }
@@ -921,10 +1019,13 @@ PyObject_VisitManagedDict(PyObject *obj, visitproc visit, void *arg)
 static inline void
 PyObject_ClearManagedDict(PyObject *obj)
 {
-    PyObject **dict = _PyObject_GetDictPtr(obj);
-    if (*dict == NULL) {
+    PyObject    **dict = _PyObject_GetDictPtr(obj);
+
+    if (*dict == NULL)
+    {
         return;
     }
+
     Py_CLEAR(*dict);
 }
 #endif
@@ -945,23 +1046,26 @@ PyThreadState_GetUnchecked(void)
 static inline int
 PyUnicode_EqualToUTF8AndSize(PyObject *unicode, const char *str, Py_ssize_t str_len)
 {
-    Py_ssize_t len;
-    const void *utf8;
-    PyObject *exc_type, *exc_value, *exc_tb;
-    int res;
+    Py_ssize_t      len;
+    const void      *utf8;
+    PyObject        *exc_type, *exc_value, *exc_tb;
+    int             res;
 
     // API cannot report errors so save/restore the exception
     PyErr_Fetch(&exc_type, &exc_value, &exc_tb);
 
     // Python 3.3.0a1 added PyUnicode_AsUTF8AndSize()
 #if PY_VERSION_HEX >= 0x030300A1
-    if (PyUnicode_IS_ASCII(unicode)) {
-        utf8 = PyUnicode_DATA(unicode);
-        len = PyUnicode_GET_LENGTH(unicode);
+    if (PyUnicode_IS_ASCII(unicode))
+    {
+        utf8    = PyUnicode_DATA(unicode);
+        len     = PyUnicode_GET_LENGTH(unicode);
     }
-    else {
+    else
+    {
         utf8 = PyUnicode_AsUTF8AndSize(unicode, &len);
-        if (utf8 == NULL) {
+        if (utf8 == NULL)
+        {
             // Memory allocation failure. The API cannot report error,
             // so ignore the exception and return 0.
             res = 0;
@@ -969,14 +1073,17 @@ PyUnicode_EqualToUTF8AndSize(PyObject *unicode, const char *str, Py_ssize_t str_
         }
     }
 
-    if (len != str_len) {
+    if (len != str_len)
+    {
         res = 0;
         goto done;
     }
+
     res = (memcmp(utf8, str, (size_t)len) == 0);
 #else
-    PyObject *bytes = PyUnicode_AsUTF8String(unicode);
-    if (bytes == NULL) {
+    PyObject    *bytes = PyUnicode_AsUTF8String(unicode);
+    if (bytes == NULL)
+    {
         // Memory allocation failure. The API cannot report error,
         // so ignore the exception and return 0.
         res = 0;
@@ -984,13 +1091,14 @@ PyUnicode_EqualToUTF8AndSize(PyObject *unicode, const char *str, Py_ssize_t str_
     }
 
 #if PY_VERSION_HEX >= 0x03000000
-    len = PyBytes_GET_SIZE(bytes);
-    utf8 = PyBytes_AS_STRING(bytes);
+    len     = PyBytes_GET_SIZE(bytes);
+    utf8    = PyBytes_AS_STRING(bytes);
 #else
-    len = PyString_GET_SIZE(bytes);
-    utf8 = PyString_AS_STRING(bytes);
+    len     = PyString_GET_SIZE(bytes);
+    utf8    = PyString_AS_STRING(bytes);
 #endif
-    if (len != str_len) {
+    if (len != str_len)
+    {
         Py_DECREF(bytes);
         res = 0;
         goto done;
@@ -1033,13 +1141,16 @@ PyList_Clear(PyObject *list)
 static inline int
 PyDict_Pop(PyObject *dict, PyObject *key, PyObject **result)
 {
-    PyObject *value;
+    PyObject    *value;
 
-    if (!PyDict_Check(dict)) {
+    if (!PyDict_Check(dict))
+    {
         PyErr_BadInternalCall();
-        if (result) {
+        if (result)
+        {
             *result = NULL;
         }
+
         return -1;
     }
 
@@ -1053,37 +1164,50 @@ PyDict_Pop(PyObject *dict, PyObject *key, PyObject **result)
 #else
     value = _PyDict_Pop(dict, key, NULL);
 #endif
-    if (value == NULL) {
-        if (result) {
+    if (value == NULL)
+    {
+        if (result)
+        {
             *result = NULL;
         }
-        if (PyErr_Occurred() && !PyErr_ExceptionMatches(PyExc_KeyError)) {
+
+        if (PyErr_Occurred() && !PyErr_ExceptionMatches(PyExc_KeyError))
+        {
             return -1;
         }
+
         PyErr_Clear();
         return 0;
     }
-    if (result) {
+
+    if (result)
+    {
         *result = value;
     }
-    else {
+    else
+    {
         Py_DECREF(value);
     }
+
     return 1;
 }
 
 static inline int
 PyDict_PopString(PyObject *dict, const char *key, PyObject **result)
 {
-    PyObject *key_obj = PyUnicode_FromString(key);
-    if (key_obj == NULL) {
-        if (result != NULL) {
+    PyObject    *key_obj = PyUnicode_FromString(key);
+
+    if (key_obj == NULL)
+    {
+        if (result != NULL)
+        {
             *result = NULL;
         }
+
         return -1;
     }
 
-    int res = PyDict_Pop(dict, key_obj, result);
+    int    res = PyDict_Pop(dict, key_obj, result);
     Py_DECREF(key_obj);
     return res;
 }
@@ -1113,17 +1237,23 @@ static inline Py_hash_t Py_HashPointer(const void *ptr)
 // Use the private API added to Python 3.5.
 #if PY_VERSION_HEX < 0x030D00A4 && PY_VERSION_HEX  >= 0x03050000
 typedef _PyTime_t PyTime_t;
-#define PyTime_MIN _PyTime_MIN
-#define PyTime_MAX _PyTime_MAX
+#define PyTime_MIN  _PyTime_MIN
+#define PyTime_MAX  _PyTime_MAX
 
 static inline double PyTime_AsSecondsDouble(PyTime_t t)
-{ return _PyTime_AsSecondsDouble(t); }
+{
+    return _PyTime_AsSecondsDouble(t);
+}
 
 static inline int PyTime_Monotonic(PyTime_t *result)
-{ return _PyTime_GetMonotonicClockWithInfo(result, NULL); }
+{
+    return _PyTime_GetMonotonicClockWithInfo(result, NULL);
+}
 
 static inline int PyTime_Time(PyTime_t *result)
-{ return _PyTime_GetSystemClockWithInfo(result, NULL); }
+{
+    return _PyTime_GetSystemClockWithInfo(result, NULL);
+}
 
 static inline int PyTime_PerfCounter(PyTime_t *result)
 {
@@ -1132,28 +1262,34 @@ static inline int PyTime_PerfCounter(PyTime_t *result)
 #elif PY_VERSION_HEX >= 0x03070000
     // Call time.perf_counter_ns() and convert Python int object to PyTime_t.
     // Cache time.perf_counter_ns() function for best performance.
-    static PyObject *func = NULL;
-    if (func == NULL) {
-        PyObject *mod = PyImport_ImportModule("time");
-        if (mod == NULL) {
+    static PyObject    *func = NULL;
+    if (func == NULL)
+    {
+        PyObject    *mod = PyImport_ImportModule("time");
+        if (mod == NULL)
+        {
             return -1;
         }
 
         func = PyObject_GetAttrString(mod, "perf_counter_ns");
         Py_DECREF(mod);
-        if (func == NULL) {
+        if (func == NULL)
+        {
             return -1;
         }
     }
 
-    PyObject *res = PyObject_CallNoArgs(func);
-    if (res == NULL) {
+    PyObject    *res = PyObject_CallNoArgs(func);
+    if (res == NULL)
+    {
         return -1;
     }
-    long long value = PyLong_AsLongLong(res);
+
+    long long    value = PyLong_AsLongLong(res);
     Py_DECREF(res);
 
-    if (value == -1 && PyErr_Occurred()) {
+    if (value == -1 && PyErr_Occurred())
+    {
         return -1;
     }
 
@@ -1163,28 +1299,34 @@ static inline int PyTime_PerfCounter(PyTime_t *result)
 #else
     // Call time.perf_counter() and convert C double to PyTime_t.
     // Cache time.perf_counter() function for best performance.
-    static PyObject *func = NULL;
-    if (func == NULL) {
-        PyObject *mod = PyImport_ImportModule("time");
-        if (mod == NULL) {
+    static PyObject    *func = NULL;
+    if (func == NULL)
+    {
+        PyObject    *mod = PyImport_ImportModule("time");
+        if (mod == NULL)
+        {
             return -1;
         }
 
         func = PyObject_GetAttrString(mod, "perf_counter");
         Py_DECREF(mod);
-        if (func == NULL) {
+        if (func == NULL)
+        {
             return -1;
         }
     }
 
-    PyObject *res = PyObject_CallNoArgs(func);
-    if (res == NULL) {
+    PyObject    *res = PyObject_CallNoArgs(func);
+    if (res == NULL)
+    {
         return -1;
     }
-    double d = PyFloat_AsDouble(res);
+
+    double    d = PyFloat_AsDouble(res);
     Py_DECREF(res);
 
-    if (d == -1.0 && PyErr_Occurred()) {
+    if (d == -1.0 && PyErr_Occurred())
+    {
         return -1;
     }
 
@@ -1193,19 +1335,18 @@ static inline int PyTime_PerfCounter(PyTime_t *result)
     return 0;
 #endif
 }
-
 #endif
 
 // gh-111389 added hash constants to Python 3.13.0a5. These constants were
 // added first as private macros to Python 3.4.0b1 and PyPy 7.3.9.
-#if (!defined(PyHASH_BITS) \
-     && ((!defined(PYPY_VERSION) && PY_VERSION_HEX >= 0x030400B1) \
-         || (defined(PYPY_VERSION) && PY_VERSION_HEX >= 0x03070000 \
-             && PYPY_VERSION_NUM >= 0x07090000)))
-#  define PyHASH_BITS _PyHASH_BITS
-#  define PyHASH_MODULUS _PyHASH_MODULUS
-#  define PyHASH_INF _PyHASH_INF
-#  define PyHASH_IMAG _PyHASH_IMAG
+#if (!defined(PyHASH_BITS)                                       \
+    && ((!defined(PYPY_VERSION) && PY_VERSION_HEX >= 0x030400B1) \
+    || (defined(PYPY_VERSION) && PY_VERSION_HEX >= 0x03070000    \
+    && PYPY_VERSION_NUM >= 0x07090000)))
+#  define PyHASH_BITS       _PyHASH_BITS
+#  define PyHASH_MODULUS    _PyHASH_MODULUS
+#  define PyHASH_INF        _PyHASH_INF
+#  define PyHASH_IMAG       _PyHASH_IMAG
 #endif
 
 
@@ -1213,52 +1354,59 @@ static inline int PyTime_PerfCounter(PyTime_t *result)
 // to Python 3.13.0a6
 #if PY_VERSION_HEX < 0x030D00A6
 
-#define Py_CONSTANT_NONE 0
-#define Py_CONSTANT_FALSE 1
-#define Py_CONSTANT_TRUE 2
-#define Py_CONSTANT_ELLIPSIS 3
+#define Py_CONSTANT_NONE            0
+#define Py_CONSTANT_FALSE           1
+#define Py_CONSTANT_TRUE            2
+#define Py_CONSTANT_ELLIPSIS        3
 #define Py_CONSTANT_NOT_IMPLEMENTED 4
-#define Py_CONSTANT_ZERO 5
-#define Py_CONSTANT_ONE 6
-#define Py_CONSTANT_EMPTY_STR 7
-#define Py_CONSTANT_EMPTY_BYTES 8
-#define Py_CONSTANT_EMPTY_TUPLE 9
+#define Py_CONSTANT_ZERO            5
+#define Py_CONSTANT_ONE             6
+#define Py_CONSTANT_EMPTY_STR       7
+#define Py_CONSTANT_EMPTY_BYTES     8
+#define Py_CONSTANT_EMPTY_TUPLE     9
 
 static inline PyObject* Py_GetConstant(unsigned int constant_id)
 {
-    static PyObject* constants[Py_CONSTANT_EMPTY_TUPLE + 1] = {NULL};
+    static PyObject    *constants[Py_CONSTANT_EMPTY_TUPLE + 1] = {NULL};
 
-    if (constants[Py_CONSTANT_NONE] == NULL) {
-        constants[Py_CONSTANT_NONE] = Py_None;
-        constants[Py_CONSTANT_FALSE] = Py_False;
-        constants[Py_CONSTANT_TRUE] = Py_True;
-        constants[Py_CONSTANT_ELLIPSIS] = Py_Ellipsis;
-        constants[Py_CONSTANT_NOT_IMPLEMENTED] = Py_NotImplemented;
+    if (constants[Py_CONSTANT_NONE] == NULL)
+    {
+        constants[Py_CONSTANT_NONE]             = Py_None;
+        constants[Py_CONSTANT_FALSE]            = Py_False;
+        constants[Py_CONSTANT_TRUE]             = Py_True;
+        constants[Py_CONSTANT_ELLIPSIS]         = Py_Ellipsis;
+        constants[Py_CONSTANT_NOT_IMPLEMENTED]  = Py_NotImplemented;
 
         constants[Py_CONSTANT_ZERO] = PyLong_FromLong(0);
-        if (constants[Py_CONSTANT_ZERO] == NULL) {
+        if (constants[Py_CONSTANT_ZERO] == NULL)
+        {
             goto fatal_error;
         }
 
         constants[Py_CONSTANT_ONE] = PyLong_FromLong(1);
-        if (constants[Py_CONSTANT_ONE] == NULL) {
+        if (constants[Py_CONSTANT_ONE] == NULL)
+        {
             goto fatal_error;
         }
 
         constants[Py_CONSTANT_EMPTY_STR] = PyUnicode_FromStringAndSize("", 0);
-        if (constants[Py_CONSTANT_EMPTY_STR] == NULL) {
+        if (constants[Py_CONSTANT_EMPTY_STR] == NULL)
+        {
             goto fatal_error;
         }
 
         constants[Py_CONSTANT_EMPTY_BYTES] = PyBytes_FromStringAndSize("", 0);
-        if (constants[Py_CONSTANT_EMPTY_BYTES] == NULL) {
+        if (constants[Py_CONSTANT_EMPTY_BYTES] == NULL)
+        {
             goto fatal_error;
         }
 
         constants[Py_CONSTANT_EMPTY_TUPLE] = PyTuple_New(0);
-        if (constants[Py_CONSTANT_EMPTY_TUPLE] == NULL) {
+        if (constants[Py_CONSTANT_EMPTY_TUPLE] == NULL)
+        {
             goto fatal_error;
         }
+
         // goto dance to avoid compiler warnings about Py_FatalError()
         goto init_done;
 
@@ -1268,10 +1416,12 @@ fatal_error:
     }
 
 init_done:
-    if (constant_id <= Py_CONSTANT_EMPTY_TUPLE) {
+    if (constant_id <= Py_CONSTANT_EMPTY_TUPLE)
+    {
         return Py_NewRef(constants[constant_id]);
     }
-    else {
+    else
+    {
         PyErr_BadInternalCall();
         return NULL;
     }
@@ -1279,7 +1429,8 @@ init_done:
 
 static inline PyObject* Py_GetConstantBorrowed(unsigned int constant_id)
 {
-    PyObject *obj = Py_GetConstant(constant_id);
+    PyObject    *obj = Py_GetConstant(constant_id);
+
     Py_XDECREF(obj);
     return obj;
 }
@@ -1288,10 +1439,11 @@ static inline PyObject* Py_GetConstantBorrowed(unsigned int constant_id)
 
 // gh-114329 added PyList_GetItemRef() to Python 3.13.0a4
 #if PY_VERSION_HEX < 0x030D00A4
-static inline PyObject *
+static inline PyObject*
 PyList_GetItemRef(PyObject *op, Py_ssize_t index)
 {
-    PyObject *item = PyList_GetItem(op, index);
+    PyObject    *item = PyList_GetItem(op, index);
+
     Py_XINCREF(item);
     return item;
 }

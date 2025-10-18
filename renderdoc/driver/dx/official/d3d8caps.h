@@ -12,10 +12,10 @@
 
 #ifndef DIRECT3D_VERSION
 #define DIRECT3D_VERSION         0x0800
-#endif  //DIRECT3D_VERSION
+#endif  // DIRECT3D_VERSION
 
 // include this file content only if compiling for DX8 interfaces
-#if(DIRECT3D_VERSION >= 0x0800)
+#if (DIRECT3D_VERSION >= 0x0800)
 
 #if defined(_X86_) || defined(_IA64_)
 #pragma pack(4)
@@ -25,7 +25,7 @@ typedef struct _D3DCAPS8
 {
     /* Device Info */
     D3DDEVTYPE  DeviceType;
-    UINT    AdapterOrdinal;
+    UINT        AdapterOrdinal;
 
     /* Caps from DX7 Draw */
     DWORD   Caps;
@@ -34,10 +34,10 @@ typedef struct _D3DCAPS8
     DWORD   PresentationIntervals;
 
     /* Cursor Caps */
-    DWORD   CursorCaps;
+    DWORD CursorCaps;
 
     /* 3D Device Caps */
-    DWORD   DevCaps;
+    DWORD DevCaps;
 
     DWORD   PrimitiveMiscCaps;
     DWORD   RasterCaps;
@@ -53,7 +53,7 @@ typedef struct _D3DCAPS8
     DWORD   TextureAddressCaps;         // D3DPTADDRESSCAPS for IDirect3DTexture8's
     DWORD   VolumeTextureAddressCaps;   // D3DPTADDRESSCAPS for IDirect3DVolumeTexture8's
 
-    DWORD   LineCaps;                   // D3DLINECAPS
+    DWORD LineCaps;                     // D3DLINECAPS
 
     DWORD   MaxTextureWidth, MaxTextureHeight;
     DWORD   MaxVolumeExtent;
@@ -82,7 +82,7 @@ typedef struct _D3DCAPS8
     DWORD   MaxVertexBlendMatrices;
     DWORD   MaxVertexBlendMatrixIndex;
 
-    float   MaxPointSize;
+    float MaxPointSize;
 
     DWORD   MaxPrimitiveCount;          // max number of primitives per DrawPrimitive call
     DWORD   MaxVertexIndex;
@@ -94,7 +94,6 @@ typedef struct _D3DCAPS8
 
     DWORD   PixelShaderVersion;
     float   MaxPixelShaderValue;        // max value of pixel shader arithmetic component
-
 } D3DCAPS8;
 
 //
@@ -148,41 +147,41 @@ typedef struct _D3DCAPS8
 //
 // DevCaps
 //
-#define D3DDEVCAPS_EXECUTESYSTEMMEMORY  0x00000010L /* Device can use execute buffers from system memory */
-#define D3DDEVCAPS_EXECUTEVIDEOMEMORY   0x00000020L /* Device can use execute buffers from video memory */
-#define D3DDEVCAPS_TLVERTEXSYSTEMMEMORY 0x00000040L /* Device can use TL buffers from system memory */
-#define D3DDEVCAPS_TLVERTEXVIDEOMEMORY  0x00000080L /* Device can use TL buffers from video memory */
-#define D3DDEVCAPS_TEXTURESYSTEMMEMORY  0x00000100L /* Device can texture from system memory */
-#define D3DDEVCAPS_TEXTUREVIDEOMEMORY   0x00000200L /* Device can texture from device memory */
-#define D3DDEVCAPS_DRAWPRIMTLVERTEX     0x00000400L /* Device can draw TLVERTEX primitives */
-#define D3DDEVCAPS_CANRENDERAFTERFLIP   0x00000800L /* Device can render without waiting for flip to complete */
-#define D3DDEVCAPS_TEXTURENONLOCALVIDMEM 0x00001000L /* Device can texture from nonlocal video memory */
-#define D3DDEVCAPS_DRAWPRIMITIVES2      0x00002000L /* Device can support DrawPrimitives2 */
-#define D3DDEVCAPS_SEPARATETEXTUREMEMORIES 0x00004000L /* Device is texturing from separate memory pools */
-#define D3DDEVCAPS_DRAWPRIMITIVES2EX    0x00008000L /* Device can support Extended DrawPrimitives2 i.e. DX7 compliant driver*/
-#define D3DDEVCAPS_HWTRANSFORMANDLIGHT  0x00010000L /* Device can support transformation and lighting in hardware and DRAWPRIMITIVES2EX must be also */
-#define D3DDEVCAPS_CANBLTSYSTONONLOCAL  0x00020000L /* Device supports a Tex Blt from system memory to non-local vidmem */
-#define D3DDEVCAPS_HWRASTERIZATION      0x00080000L /* Device has HW acceleration for rasterization */
-#define D3DDEVCAPS_PUREDEVICE           0x00100000L /* Device supports D3DCREATE_PUREDEVICE */
-#define D3DDEVCAPS_QUINTICRTPATCHES     0x00200000L /* Device supports quintic Beziers and BSplines */
-#define D3DDEVCAPS_RTPATCHES            0x00400000L /* Device supports Rect and Tri patches */
-#define D3DDEVCAPS_RTPATCHHANDLEZERO    0x00800000L /* Indicates that RT Patches may be drawn efficiently using handle 0 */
-#define D3DDEVCAPS_NPATCHES             0x01000000L /* Device supports N-Patches */
+#define D3DDEVCAPS_EXECUTESYSTEMMEMORY      0x00000010L /* Device can use execute buffers from system memory */
+#define D3DDEVCAPS_EXECUTEVIDEOMEMORY       0x00000020L /* Device can use execute buffers from video memory */
+#define D3DDEVCAPS_TLVERTEXSYSTEMMEMORY     0x00000040L /* Device can use TL buffers from system memory */
+#define D3DDEVCAPS_TLVERTEXVIDEOMEMORY      0x00000080L /* Device can use TL buffers from video memory */
+#define D3DDEVCAPS_TEXTURESYSTEMMEMORY      0x00000100L /* Device can texture from system memory */
+#define D3DDEVCAPS_TEXTUREVIDEOMEMORY       0x00000200L /* Device can texture from device memory */
+#define D3DDEVCAPS_DRAWPRIMTLVERTEX         0x00000400L /* Device can draw TLVERTEX primitives */
+#define D3DDEVCAPS_CANRENDERAFTERFLIP       0x00000800L /* Device can render without waiting for flip to complete */
+#define D3DDEVCAPS_TEXTURENONLOCALVIDMEM    0x00001000L /* Device can texture from nonlocal video memory */
+#define D3DDEVCAPS_DRAWPRIMITIVES2          0x00002000L /* Device can support DrawPrimitives2 */
+#define D3DDEVCAPS_SEPARATETEXTUREMEMORIES  0x00004000L /* Device is texturing from separate memory pools */
+#define D3DDEVCAPS_DRAWPRIMITIVES2EX        0x00008000L /* Device can support Extended DrawPrimitives2 i.e. DX7 compliant driver*/
+#define D3DDEVCAPS_HWTRANSFORMANDLIGHT      0x00010000L /* Device can support transformation and lighting in hardware and DRAWPRIMITIVES2EX must be also */
+#define D3DDEVCAPS_CANBLTSYSTONONLOCAL      0x00020000L /* Device supports a Tex Blt from system memory to non-local vidmem */
+#define D3DDEVCAPS_HWRASTERIZATION          0x00080000L /* Device has HW acceleration for rasterization */
+#define D3DDEVCAPS_PUREDEVICE               0x00100000L /* Device supports D3DCREATE_PUREDEVICE */
+#define D3DDEVCAPS_QUINTICRTPATCHES         0x00200000L /* Device supports quintic Beziers and BSplines */
+#define D3DDEVCAPS_RTPATCHES                0x00400000L /* Device supports Rect and Tri patches */
+#define D3DDEVCAPS_RTPATCHHANDLEZERO        0x00800000L /* Indicates that RT Patches may be drawn efficiently using handle 0 */
+#define D3DDEVCAPS_NPATCHES                 0x01000000L /* Device supports N-Patches */
 
 //
 // PrimitiveMiscCaps
 //
-#define D3DPMISCCAPS_MASKZ              0x00000002L
-#define D3DPMISCCAPS_LINEPATTERNREP     0x00000004L
-#define D3DPMISCCAPS_CULLNONE           0x00000010L
-#define D3DPMISCCAPS_CULLCW             0x00000020L
-#define D3DPMISCCAPS_CULLCCW            0x00000040L
-#define D3DPMISCCAPS_COLORWRITEENABLE   0x00000080L
-#define D3DPMISCCAPS_CLIPPLANESCALEDPOINTS 0x00000100L /* Device correctly clips scaled points to clip planes */
-#define D3DPMISCCAPS_CLIPTLVERTS        0x00000200L /* device will clip post-transformed vertex primitives */
-#define D3DPMISCCAPS_TSSARGTEMP         0x00000400L /* device supports D3DTA_TEMP for temporary register */
-#define D3DPMISCCAPS_BLENDOP            0x00000800L /* device supports D3DRS_BLENDOP */
-#define D3DPMISCCAPS_NULLREFERENCE      0x00001000L /* Reference Device that doesnt render */
+#define D3DPMISCCAPS_MASKZ                  0x00000002L
+#define D3DPMISCCAPS_LINEPATTERNREP         0x00000004L
+#define D3DPMISCCAPS_CULLNONE               0x00000010L
+#define D3DPMISCCAPS_CULLCW                 0x00000020L
+#define D3DPMISCCAPS_CULLCCW                0x00000040L
+#define D3DPMISCCAPS_COLORWRITEENABLE       0x00000080L
+#define D3DPMISCCAPS_CLIPPLANESCALEDPOINTS  0x00000100L /* Device correctly clips scaled points to clip planes */
+#define D3DPMISCCAPS_CLIPTLVERTS            0x00000200L /* device will clip post-transformed vertex primitives */
+#define D3DPMISCCAPS_TSSARGTEMP             0x00000400L /* device supports D3DTA_TEMP for temporary register */
+#define D3DPMISCCAPS_BLENDOP                0x00000800L /* device supports D3DRS_BLENDOP */
+#define D3DPMISCCAPS_NULLREFERENCE          0x00001000L /* Reference Device that doesnt render */
 
 //
 // LineCaps
@@ -196,22 +195,22 @@ typedef struct _D3DCAPS8
 //
 // RasterCaps
 //
-#define D3DPRASTERCAPS_DITHER           0x00000001L
-#define D3DPRASTERCAPS_PAT              0x00000008L
-#define D3DPRASTERCAPS_ZTEST            0x00000010L
-#define D3DPRASTERCAPS_FOGVERTEX        0x00000080L
-#define D3DPRASTERCAPS_FOGTABLE         0x00000100L
-#define D3DPRASTERCAPS_ANTIALIASEDGES   0x00001000L
-#define D3DPRASTERCAPS_MIPMAPLODBIAS    0x00002000L
-#define D3DPRASTERCAPS_ZBIAS            0x00004000L
-#define D3DPRASTERCAPS_ZBUFFERLESSHSR   0x00008000L
-#define D3DPRASTERCAPS_FOGRANGE         0x00010000L
-#define D3DPRASTERCAPS_ANISOTROPY       0x00020000L
-#define D3DPRASTERCAPS_WBUFFER          0x00040000L
-#define D3DPRASTERCAPS_WFOG             0x00100000L
-#define D3DPRASTERCAPS_ZFOG             0x00200000L
-#define D3DPRASTERCAPS_COLORPERSPECTIVE 0x00400000L /* Device iterates colors perspective correct */
-#define D3DPRASTERCAPS_STRETCHBLTMULTISAMPLE  0x00800000L
+#define D3DPRASTERCAPS_DITHER                   0x00000001L
+#define D3DPRASTERCAPS_PAT                      0x00000008L
+#define D3DPRASTERCAPS_ZTEST                    0x00000010L
+#define D3DPRASTERCAPS_FOGVERTEX                0x00000080L
+#define D3DPRASTERCAPS_FOGTABLE                 0x00000100L
+#define D3DPRASTERCAPS_ANTIALIASEDGES           0x00001000L
+#define D3DPRASTERCAPS_MIPMAPLODBIAS            0x00002000L
+#define D3DPRASTERCAPS_ZBIAS                    0x00004000L
+#define D3DPRASTERCAPS_ZBUFFERLESSHSR           0x00008000L
+#define D3DPRASTERCAPS_FOGRANGE                 0x00010000L
+#define D3DPRASTERCAPS_ANISOTROPY               0x00020000L
+#define D3DPRASTERCAPS_WBUFFER                  0x00040000L
+#define D3DPRASTERCAPS_WFOG                     0x00100000L
+#define D3DPRASTERCAPS_ZFOG                     0x00200000L
+#define D3DPRASTERCAPS_COLORPERSPECTIVE         0x00400000L /* Device iterates colors perspective correct */
+#define D3DPRASTERCAPS_STRETCHBLTMULTISAMPLE    0x00800000L
 
 //
 // ZCmpCaps, AlphaCmpCaps
@@ -253,12 +252,12 @@ typedef struct _D3DCAPS8
 //
 // TextureCaps
 //
-#define D3DPTEXTURECAPS_PERSPECTIVE         0x00000001L /* Perspective-correct texturing is supported */
-#define D3DPTEXTURECAPS_POW2                0x00000002L /* Power-of-2 texture dimensions are required - applies to non-Cube/Volume textures only. */
-#define D3DPTEXTURECAPS_ALPHA               0x00000004L /* Alpha in texture pixels is supported */
-#define D3DPTEXTURECAPS_SQUAREONLY          0x00000020L /* Only square textures are supported */
-#define D3DPTEXTURECAPS_TEXREPEATNOTSCALEDBYSIZE 0x00000040L /* Texture indices are not scaled by the texture size prior to interpolation */
-#define D3DPTEXTURECAPS_ALPHAPALETTE        0x00000080L /* Device can draw alpha from texture palettes */
+#define D3DPTEXTURECAPS_PERSPECTIVE                 0x00000001L /* Perspective-correct texturing is supported */
+#define D3DPTEXTURECAPS_POW2                        0x00000002L /* Power-of-2 texture dimensions are required - applies to non-Cube/Volume textures only. */
+#define D3DPTEXTURECAPS_ALPHA                       0x00000004L /* Alpha in texture pixels is supported */
+#define D3DPTEXTURECAPS_SQUAREONLY                  0x00000020L /* Only square textures are supported */
+#define D3DPTEXTURECAPS_TEXREPEATNOTSCALEDBYSIZE    0x00000040L /* Texture indices are not scaled by the texture size prior to interpolation */
+#define D3DPTEXTURECAPS_ALPHAPALETTE                0x00000080L /* Device can draw alpha from texture palettes */
 // Device can use non-POW2 textures if:
 //  1) D3DTEXTURE_ADDRESS is set to CLAMP for this texture's stage
 //  2) D3DRS_WRAP(N) is zero for this texture's coordinates
@@ -358,7 +357,5 @@ typedef struct _D3DCAPS8
 #define D3DVTXPCAPS_NO_VSDT_UBYTE4      0x00000080L /* device does not support D3DVSDT_UBYTE4 */
 
 #pragma pack()
-
 #endif /* (DIRECT3D_VERSION >= 0x0800) */
 #endif /* _D3D8CAPS_H_ */
-

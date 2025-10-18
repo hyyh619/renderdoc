@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "gl_test.h"
 
 RD_TEST(GL_Structured_Buffer_Nested, OpenGLGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Just draws a simple triangle, using normal pipeline. Basic test that can be used "
-      "for any dead-simple tests that don't require any particular API use";
+    static constexpr const char    *Description =
+        "Just draws a simple triangle, using normal pipeline. Basic test that can be used "
+        "for any dead-simple tests that don't require any particular API use";
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 #version 430 core
 
@@ -43,7 +43,7 @@ RD_TEST(GL_Structured_Buffer_Nested, OpenGLGraphicsTest)
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec4 Color;
@@ -61,7 +61,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 in v2f vertIn;
 
@@ -130,82 +130,82 @@ void main()
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    GLuint vao = MakeVAO();
-    glBindVertexArray(vao);
-
-    GLuint vb = MakeBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(0));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(sizeof(Vec3f)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
-                          (void *)(sizeof(Vec3f) + sizeof(Vec4f)));
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    GLuint program = MakeProgram(common + vertex, common + pixel);
-
-    float data[16 * 100];
-
-    for(int i = 0; i < 16 * 100; i++)
-      data[i] = float(i);
-
-    GLuint buf = MakeBuffer();
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, buf);
-    glBufferStorage(GL_SHADER_STORAGE_BUFFER, sizeof(data), data, 0);
-
-    GLuint outbuf = MakeBuffer();
-    glBindBuffer(GL_SHADER_STORAGE_BUFFER, outbuf);
-    glBufferStorage(GL_SHADER_STORAGE_BUFFER, 1024, NULL, 0);
-
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, buf);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, buf);
-    glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, outbuf);
-
-    GLuint tbuf_store = MakeBuffer();
-    glBindBuffer(GL_TEXTURE_BUFFER, tbuf_store);
-    glBufferStorage(GL_TEXTURE_BUFFER, sizeof(data), data, 0);
-
-    GLuint tbuf = MakeTexture();
-    glBindTexture(GL_TEXTURE_BUFFER, tbuf);
-    glTexBuffer(GL_TEXTURE_BUFFER, GL_RGB32F, tbuf_store);
-
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_BUFFER, tbuf);
-
-    while(Running())
+    int main()
     {
-      float zeros[4] = {};
-      glBindBuffer(GL_SHADER_STORAGE_BUFFER, outbuf);
-      glClearBufferSubData(GL_SHADER_STORAGE_BUFFER, GL_RGBA32F, 0, 1024, GL_RGBA, GL_FLOAT, zeros);
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-      float col[] = {0.2f, 0.2f, 0.2f, 1.0f};
-      glClearBufferfv(GL_COLOR, 0, col);
+        GLuint    vao = MakeVAO();
+        glBindVertexArray(vao);
 
-      glBindVertexArray(vao);
+        GLuint    vb = MakeBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vb);
+        glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
 
-      glUseProgram(program);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(0));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(sizeof(Vec3f)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
+                              (void*)(sizeof(Vec3f) + sizeof(Vec4f)));
 
-      glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
 
-      glBindBuffer(GL_SHADER_STORAGE_BUFFER, buf);
+        GLuint    program = MakeProgram(common + vertex, common + pixel);
 
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+        float    data[16 * 100];
 
-      Present();
+        for (int i = 0; i < 16 * 100; i++)
+            data[i] = float(i);
+
+        GLuint    buf = MakeBuffer();
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, buf);
+        glBufferStorage(GL_SHADER_STORAGE_BUFFER, sizeof(data), data, 0);
+
+        GLuint    outbuf = MakeBuffer();
+        glBindBuffer(GL_SHADER_STORAGE_BUFFER, outbuf);
+        glBufferStorage(GL_SHADER_STORAGE_BUFFER, 1024, NULL, 0);
+
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, buf);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 2, buf);
+        glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 3, outbuf);
+
+        GLuint    tbuf_store = MakeBuffer();
+        glBindBuffer(GL_TEXTURE_BUFFER, tbuf_store);
+        glBufferStorage(GL_TEXTURE_BUFFER, sizeof(data), data, 0);
+
+        GLuint    tbuf = MakeTexture();
+        glBindTexture(GL_TEXTURE_BUFFER, tbuf);
+        glTexBuffer(GL_TEXTURE_BUFFER, GL_RGB32F, tbuf_store);
+
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_BUFFER, tbuf);
+
+        while (Running())
+        {
+            float    zeros[4] = {};
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, outbuf);
+            glClearBufferSubData(GL_SHADER_STORAGE_BUFFER, GL_RGBA32F, 0, 1024, GL_RGBA, GL_FLOAT, zeros);
+
+            float    col[] = {0.2f, 0.2f, 0.2f, 1.0f};
+            glClearBufferfv(GL_COLOR, 0, col);
+
+            glBindVertexArray(vao);
+
+            glUseProgram(program);
+
+            glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+
+            glBindBuffer(GL_SHADER_STORAGE_BUFFER, buf);
+
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -53,22 +53,30 @@ QT_BEGIN_NAMESPACE
 template<typename T> class QList;
 
 class QNetworkAddressEntryPrivate;
-class Q_NETWORK_EXPORT QNetworkAddressEntry
+class Q_NETWORK_EXPORT    QNetworkAddressEntry
 {
 public:
     QNetworkAddressEntry();
     QNetworkAddressEntry(const QNetworkAddressEntry &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkAddressEntry &operator=(QNetworkAddressEntry &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkAddressEntry&operator=(QNetworkAddressEntry &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkAddressEntry &operator=(const QNetworkAddressEntry &other);
+    QNetworkAddressEntry&operator=(const QNetworkAddressEntry &other);
     ~QNetworkAddressEntry();
 
-    void swap(QNetworkAddressEntry &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkAddressEntry &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QNetworkAddressEntry &other) const;
     inline bool operator!=(const QNetworkAddressEntry &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     QHostAddress ip() const;
     void setIp(const QHostAddress &newIp);
@@ -82,34 +90,41 @@ public:
     void setBroadcast(const QHostAddress &newBroadcast);
 
 private:
-    QScopedPointer<QNetworkAddressEntryPrivate> d;
+    QScopedPointer<QNetworkAddressEntryPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QNetworkAddressEntry)
 
 class QNetworkInterfacePrivate;
-class Q_NETWORK_EXPORT QNetworkInterface
+class Q_NETWORK_EXPORT    QNetworkInterface
 {
 public:
-    enum InterfaceFlag {
-        IsUp = 0x1,
-        IsRunning = 0x2,
-        CanBroadcast = 0x4,
-        IsLoopBack = 0x8,
-        IsPointToPoint = 0x10,
-        CanMulticast = 0x20
+    enum InterfaceFlag
+    {
+        IsUp            = 0x1,
+        IsRunning       = 0x2,
+        CanBroadcast    = 0x4,
+        IsLoopBack      = 0x8,
+        IsPointToPoint  = 0x10,
+        CanMulticast    = 0x20
     };
     Q_DECLARE_FLAGS(InterfaceFlags, InterfaceFlag)
 
     QNetworkInterface();
     QNetworkInterface(const QNetworkInterface &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkInterface &operator=(QNetworkInterface &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkInterface&operator=(QNetworkInterface &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkInterface &operator=(const QNetworkInterface &other);
+    QNetworkInterface&operator=(const QNetworkInterface &other);
     ~QNetworkInterface();
 
-    void swap(QNetworkInterface &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkInterface &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool isValid() const;
 
@@ -129,7 +144,7 @@ public:
 
 private:
     friend class QNetworkInterfacePrivate;
-    QSharedDataPointer<QNetworkInterfacePrivate> d;
+    QSharedDataPointer<QNetworkInterfacePrivate>    d;
 };
 
 Q_DECLARE_SHARED(QNetworkInterface)

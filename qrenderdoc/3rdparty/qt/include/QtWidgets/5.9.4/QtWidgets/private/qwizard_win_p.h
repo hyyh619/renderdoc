@@ -73,7 +73,9 @@ public:
 
     QSize sizeHint() const;
     inline QSize minimumSizeHint() const
-    { return sizeHint(); }
+    {
+        return sizeHint();
+    }
 
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
@@ -95,17 +97,31 @@ public:
     bool handleWinEvent(MSG *message, long *result);
     void resizeEvent(QResizeEvent *event);
     void paintEvent(QPaintEvent *event);
-    QVistaBackButton *backButton() const { return backButton_; }
+    QVistaBackButton* backButton() const
+    {
+        return backButton_;
+    }
     void disconnectBackButton();
-    void hideBackButton() { if (backButton_) backButton_->hide(); }
+    void hideBackButton()
+    {
+        if (backButton_)
+            backButton_->hide();
+    }
     QColor basicWindowFrameColor();
     enum VistaState { VistaAero, VistaBasic, Classic, Dirty };
     static VistaState vistaState();
-    static int titleBarSize() { return QVistaHelper::titleBarSizeDp() / QVistaHelper::m_devicePixelRatio; }
-    static int titleBarSizeDp() { return QVistaHelper::frameSizeDp() + QVistaHelper::captionSizeDp(); }
-    static int topPadding() { // padding under text
+    static int titleBarSize()
+    {
+        return QVistaHelper::titleBarSizeDp() / QVistaHelper::m_devicePixelRatio;
+    }
+    static int titleBarSizeDp()
+    {
+        return QVistaHelper::frameSizeDp() + QVistaHelper::captionSizeDp();
+    }
+    static int topPadding()   // padding under text
+    {
         return int(QStyleHelper::dpiScaled(
-                QSysInfo::WindowsVersion >= QSysInfo::WV_WINDOWS7 ? 4 : 6));
+                       QSysInfo::WindowsVersion >= QSysInfo::WV_WINDOWS7 ? 4 : 6));
     }
     static int topOffset();
 
@@ -116,15 +132,27 @@ private:
     bool drawTitleText(QPainter *painter, const QString &text, const QRect &rect, HDC hdc);
     static bool drawBlackRect(const QRect &rect, HDC hdc);
 
-    static int frameSize() { return QVistaHelper::frameSizeDp() / QVistaHelper::m_devicePixelRatio; }
+    static int frameSize()
+    {
+        return QVistaHelper::frameSizeDp() / QVistaHelper::m_devicePixelRatio;
+    }
     static int frameSizeDp();
-    static int captionSize() { return QVistaHelper::captionSizeDp() / QVistaHelper::m_devicePixelRatio; }
+    static int captionSize()
+    {
+        return QVistaHelper::captionSizeDp() / QVistaHelper::m_devicePixelRatio;
+    }
     static int captionSizeDp();
 
-    static int backButtonSize() { return int(QStyleHelper::dpiScaled(30)); }
+    static int backButtonSize()
+    {
+        return int(QStyleHelper::dpiScaled(30));
+    }
     static int iconSize();
     static int glowSize();
-    int leftMargin() { return backButton_->isVisible() ? backButtonSize() + iconSpacing : 0; }
+    int leftMargin()
+    {
+        return backButton_->isVisible() ? backButtonSize() + iconSpacing : 0;
+    }
 
     int titleOffset();
     void drawTitleBar(QPainter *painter);
@@ -136,26 +164,25 @@ private:
     void mouseReleaseEvent(QMouseEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
 
-    static int instanceCount;
-    static VistaState cachedVistaState;
+    static int              instanceCount;
+    static VistaState       cachedVistaState;
     static bool isCompositionEnabled();
     static bool isThemeActive();
-    enum Changes { resizeTop, movePosition, noChange } change;
-    QPoint pressedPos;
-    bool pressed;
-    QRect rtTop;
-    QRect rtTitle;
-    QWizard *wizard;
-    QVistaBackButton *backButton_;
+    enum Changes { resizeTop, movePosition, noChange }      change;
+    QPoint                                                  pressedPos;
+    bool                                                    pressed;
+    QRect                                                   rtTop;
+    QRect                                                   rtTitle;
+    QWizard                                                 *wizard;
+    QVistaBackButton                                        *backButton_;
 
-    int titleBarOffset;  // Extra spacing above the text
-    int iconSpacing;    // Space between button and icon
-    int textSpacing;    // Space between icon and text
-    static int m_devicePixelRatio;
+    int             titleBarOffset; // Extra spacing above the text
+    int             iconSpacing; // Space between button and icon
+    int             textSpacing; // Space between icon and text
+    static int      m_devicePixelRatio;
 };
 
 
 QT_END_NAMESPACE
-
 #endif // style_windowsvista
 #endif // QWIZARD_WIN_P_H

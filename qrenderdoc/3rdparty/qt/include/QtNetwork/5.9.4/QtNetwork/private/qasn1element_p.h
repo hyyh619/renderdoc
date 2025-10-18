@@ -58,38 +58,39 @@
 
 QT_BEGIN_NAMESPACE
 
-#define RSA_ENCRYPTION_OID QByteArrayLiteral("1.2.840.113549.1.1.1")
-#define DSA_ENCRYPTION_OID QByteArrayLiteral("1.2.840.10040.4.1")
-#define EC_ENCRYPTION_OID QByteArrayLiteral("1.2.840.10045.2.1")
+#define RSA_ENCRYPTION_OID  QByteArrayLiteral("1.2.840.113549.1.1.1")
+#define DSA_ENCRYPTION_OID  QByteArrayLiteral("1.2.840.10040.4.1")
+#define EC_ENCRYPTION_OID   QByteArrayLiteral("1.2.840.10045.2.1")
 
-class Q_AUTOTEST_EXPORT QAsn1Element
+class Q_AUTOTEST_EXPORT    QAsn1Element
 {
 public:
-    enum ElementType {
+    enum ElementType
+    {
         // universal
-        BooleanType = 0x01,
-        IntegerType  = 0x02,
-        BitStringType  = 0x03,
-        OctetStringType = 0x04,
-        NullType = 0x05,
-        ObjectIdentifierType = 0x06,
-        Utf8StringType = 0x0c,
-        PrintableStringType = 0x13,
-        TeletexStringType = 0x14,
-        UtcTimeType = 0x17,
-        GeneralizedTimeType = 0x18,
-        SequenceType = 0x30,
-        SetType = 0x31,
+        BooleanType             = 0x01,
+        IntegerType             = 0x02,
+        BitStringType           = 0x03,
+        OctetStringType         = 0x04,
+        NullType                = 0x05,
+        ObjectIdentifierType    = 0x06,
+        Utf8StringType          = 0x0c,
+        PrintableStringType     = 0x13,
+        TeletexStringType       = 0x14,
+        UtcTimeType             = 0x17,
+        GeneralizedTimeType     = 0x18,
+        SequenceType            = 0x30,
+        SetType                 = 0x31,
 
         // GeneralNameTypes
-        Rfc822NameType = 0x81,
-        DnsNameType = 0x82,
-        UniformResourceIdentifierType = 0x86,
+        Rfc822NameType                  = 0x81,
+        DnsNameType                     = 0x82,
+        UniformResourceIdentifierType   = 0x86,
 
         // context specific
-        Context0Type = 0xA0,
-        Context1Type = 0xA1,
-        Context3Type = 0xA3
+        Context0Type    = 0xA0,
+        Context1Type    = 0xA1,
+        Context3Type    = 0xA3
     };
 
     explicit QAsn1Element(quint8 type = 0, const QByteArray &value = QByteArray());
@@ -111,23 +112,33 @@ public:
     QByteArray toObjectName() const;
     QString toString() const;
 
-    quint8 type() const { return mType; }
-    QByteArray value() const { return mValue; }
+    quint8 type() const
+    {
+        return mType;
+    }
+    QByteArray value() const
+    {
+        return mValue;
+    }
 
-    friend inline bool operator==(const QAsn1Element &, const QAsn1Element &);
-    friend inline bool operator!=(const QAsn1Element &, const QAsn1Element &);
+    friend inline bool operator==(const QAsn1Element&, const QAsn1Element&);
+    friend inline bool operator!=(const QAsn1Element&, const QAsn1Element&);
 
 private:
-    quint8 mType;
-    QByteArray mValue;
+    quint8          mType;
+    QByteArray      mValue;
 };
 Q_DECLARE_TYPEINFO(QAsn1Element, Q_MOVABLE_TYPE);
 
 inline bool operator==(const QAsn1Element &e1, const QAsn1Element &e2)
-{ return e1.mType == e2.mType && e1.mValue == e2.mValue; }
+{
+    return e1.mType == e2.mType && e1.mValue == e2.mValue;
+}
 
 inline bool operator!=(const QAsn1Element &e1, const QAsn1Element &e2)
-{ return e1.mType != e2.mType || e1.mValue != e2.mValue; }
+{
+    return e1.mType != e2.mType || e1.mValue != e2.mValue;
+}
 
 QT_END_NAMESPACE
 

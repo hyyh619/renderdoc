@@ -83,31 +83,33 @@ public:
 
     void freeResource(QOpenGLContext *context) Q_DECL_OVERRIDE
     {
-        QOpenGLContext *ctx = context;
+        QOpenGLContext    *ctx = context;
+
 #ifdef QT_GL_TEXTURE_GLYPH_CACHE_DEBUG
         qDebug("~QOpenGLGlyphTexture() %p for context %p.", this, ctx);
 #endif
         if (!ctx->d_func()->workaround_brokenFBOReadBack)
             ctx->functions()->glDeleteFramebuffers(1, &m_fbo);
+
         if (m_width || m_height)
             ctx->functions()->glDeleteTextures(1, &m_texture);
     }
 
     void invalidateResource() Q_DECL_OVERRIDE
     {
-        m_texture = 0;
-        m_fbo = 0;
-        m_width = 0;
-        m_height = 0;
+        m_texture   = 0;
+        m_fbo       = 0;
+        m_width     = 0;
+        m_height    = 0;
     }
 
-    GLuint m_texture;
-    GLuint m_fbo;
-    int m_width;
-    int m_height;
+    GLuint      m_texture;
+    GLuint      m_fbo;
+    int         m_width;
+    int         m_height;
 };
 
-class Q_GUI_EXPORT QOpenGLTextureGlyphCache : public QImageTextureGlyphCache
+class Q_GUI_EXPORT    QOpenGLTextureGlyphCache : public QImageTextureGlyphCache
 {
 public:
     QOpenGLTextureGlyphCache(QFontEngine::GlyphFormat glyphFormat, const QTransform &matrix);
@@ -120,57 +122,78 @@ public:
     virtual int maxTextureWidth() const Q_DECL_OVERRIDE;
     virtual int maxTextureHeight() const Q_DECL_OVERRIDE;
 
-    inline GLuint texture() const {
-        QOpenGLTextureGlyphCache *that = const_cast<QOpenGLTextureGlyphCache *>(this);
-        QOpenGLGlyphTexture *glyphTexture = that->m_textureResource;
+    inline GLuint texture() const
+    {
+        QOpenGLTextureGlyphCache    *that           = const_cast<QOpenGLTextureGlyphCache*>(this);
+        QOpenGLGlyphTexture         *glyphTexture   = that->m_textureResource;
+
         return glyphTexture ? glyphTexture->m_texture : 0;
     }
 
-    inline int width() const {
-        QOpenGLTextureGlyphCache *that = const_cast<QOpenGLTextureGlyphCache *>(this);
-        QOpenGLGlyphTexture *glyphTexture = that->m_textureResource;
+    inline int width() const
+    {
+        QOpenGLTextureGlyphCache    *that           = const_cast<QOpenGLTextureGlyphCache*>(this);
+        QOpenGLGlyphTexture         *glyphTexture   = that->m_textureResource;
+
         return glyphTexture ? glyphTexture->m_width : 0;
     }
-    inline int height() const {
-        QOpenGLTextureGlyphCache *that = const_cast<QOpenGLTextureGlyphCache *>(this);
-        QOpenGLGlyphTexture *glyphTexture = that->m_textureResource;
+    inline int height() const
+    {
+        QOpenGLTextureGlyphCache    *that           = const_cast<QOpenGLTextureGlyphCache*>(this);
+        QOpenGLGlyphTexture         *glyphTexture   = that->m_textureResource;
+
         return glyphTexture ? glyphTexture->m_height : 0;
     }
 
-    inline void setPaintEnginePrivate(QOpenGL2PaintEngineExPrivate *p) { pex = p; }
+    inline void setPaintEnginePrivate(QOpenGL2PaintEngineExPrivate *p)
+    {
+        pex = p;
+    }
 
-    inline const QOpenGLContextGroup *contextGroup() const { return m_textureResource ? m_textureResource->group() : 0; }
+    inline const QOpenGLContextGroup* contextGroup() const
+    {
+        return m_textureResource ? m_textureResource->group() : 0;
+    }
 
-    inline int serialNumber() const { return m_serialNumber; }
+    inline int serialNumber() const
+    {
+        return m_serialNumber;
+    }
 
-    enum FilterMode {
+    enum FilterMode
+    {
         Nearest,
         Linear
     };
-    FilterMode filterMode() const { return m_filterMode; }
-    void setFilterMode(FilterMode m) { m_filterMode = m; }
+    FilterMode filterMode() const
+    {
+        return m_filterMode;
+    }
+    void setFilterMode(FilterMode m)
+    {
+        m_filterMode = m;
+    }
 
     void clear();
 
 private:
     void setupVertexAttribs();
 
-    QOpenGLGlyphTexture *m_textureResource;
+    QOpenGLGlyphTexture    *m_textureResource;
 
-    QOpenGL2PaintEngineExPrivate *pex;
-    QOpenGLShaderProgram *m_blitProgram;
-    FilterMode m_filterMode;
+    QOpenGL2PaintEngineExPrivate    *pex;
+    QOpenGLShaderProgram            *m_blitProgram;
+    FilterMode                      m_filterMode;
 
-    GLfloat m_vertexCoordinateArray[8];
-    GLfloat m_textureCoordinateArray[8];
+    GLfloat     m_vertexCoordinateArray[8];
+    GLfloat     m_textureCoordinateArray[8];
 
-    int m_serialNumber;
+    int    m_serialNumber;
 
-    QOpenGLBuffer m_buffer;
-    QOpenGLVertexArrayObject m_vao;
+    QOpenGLBuffer               m_buffer;
+    QOpenGLVertexArrayObject    m_vao;
 };
 
 QT_END_NAMESPACE
 
 #endif // QOPENGLTEXTUREGLYPHCACHE_P_H
-

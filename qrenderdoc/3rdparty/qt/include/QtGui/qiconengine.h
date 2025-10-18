@@ -47,7 +47,7 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QIconEngine
+class Q_GUI_EXPORT    QIconEngine
 {
 public:
     QIconEngine();
@@ -61,7 +61,7 @@ public:
     virtual void addFile(const QString &fileName, const QSize &size, QIcon::Mode mode, QIcon::State state);
 
     virtual QString key() const;
-    virtual QIconEngine *clone() const = 0;
+    virtual QIconEngine* clone() const = 0;
     virtual bool read(QDataStream &in);
     virtual bool write(QDataStream &out) const;
 
@@ -69,13 +69,13 @@ public:
 
     struct AvailableSizesArgument
     {
-        QIcon::Mode mode;
-        QIcon::State state;
-        QList<QSize> sizes;
+        QIcon::Mode     mode;
+        QIcon::State    state;
+        QList<QSize>    sizes;
     };
 
     virtual QList<QSize> availableSizes(QIcon::Mode mode = QIcon::Normal,
-                                    QIcon::State state = QIcon::Off) const;
+                                        QIcon::State state = QIcon::Off) const;
 
     virtual QString iconName() const;
     bool isNull() const; // ### Qt6 make virtual
@@ -83,17 +83,17 @@ public:
 
     struct ScaledPixmapArgument
     {
-        QSize size;
-        QIcon::Mode mode;
-        QIcon::State state;
-        qreal scale;
-        QPixmap pixmap;
+        QSize           size;
+        QIcon::Mode     mode;
+        QIcon::State    state;
+        qreal           scale;
+        QPixmap         pixmap;
     };
 
     virtual void virtual_hook(int id, void *data);
 
 private:
-    QIconEngine &operator=(const QIconEngine &other) Q_DECL_EQ_DELETE;
+    QIconEngine&operator=(const QIconEngine &other) Q_DECL_EQ_DELETE;
 };
 
 #if QT_DEPRECATED_SINCE(5, 0)

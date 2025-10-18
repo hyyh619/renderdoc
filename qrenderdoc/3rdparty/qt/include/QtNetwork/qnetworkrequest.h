@@ -51,10 +51,11 @@ QT_BEGIN_NAMESPACE
 class QSslConfiguration;
 
 class QNetworkRequestPrivate;
-class Q_NETWORK_EXPORT QNetworkRequest
+class Q_NETWORK_EXPORT    QNetworkRequest
 {
 public:
-    enum KnownHeaders {
+    enum KnownHeaders
+    {
         ContentTypeHeader,
         ContentLengthHeader,
         LocationHeader,
@@ -65,7 +66,8 @@ public:
         UserAgentHeader,
         ServerHeader
     };
-    enum Attribute {
+    enum Attribute
+    {
         HttpStatusCodeAttribute,
         HttpReasonPhraseAttribute,
         RedirectionTargetAttribute,
@@ -93,27 +95,31 @@ public:
         OriginalContentLengthAttribute,
         RedirectPolicyAttribute,
 
-        User = 1000,
+        User    = 1000,
         UserMax = 32767
     };
-    enum CacheLoadControl {
+    enum CacheLoadControl
+    {
         AlwaysNetwork,
         PreferNetwork,
         PreferCache,
         AlwaysCache
     };
-    enum LoadControl {
+    enum LoadControl
+    {
         Automatic = 0,
         Manual
     };
 
-    enum Priority {
-        HighPriority = 1,
-        NormalPriority = 3,
-        LowPriority = 5
+    enum Priority
+    {
+        HighPriority    = 1,
+        NormalPriority  = 3,
+        LowPriority     = 5
     };
 
-    enum RedirectPolicy {
+    enum RedirectPolicy
+    {
         ManualRedirectPolicy,
         NoLessSafeRedirectPolicy,
         SameOriginRedirectPolicy,
@@ -125,15 +131,23 @@ public:
     QNetworkRequest(const QNetworkRequest &other);
     ~QNetworkRequest();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkRequest &operator=(QNetworkRequest &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkRequest&operator=(QNetworkRequest &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkRequest &operator=(const QNetworkRequest &other);
+    QNetworkRequest&operator=(const QNetworkRequest &other);
 
-    void swap(QNetworkRequest &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkRequest &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QNetworkRequest &other) const;
     inline bool operator!=(const QNetworkRequest &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
     QUrl url() const;
     void setUrl(const QUrl &url);
@@ -158,7 +172,7 @@ public:
 #endif
 
     void setOriginatingObject(QObject *object);
-    QObject *originatingObject() const;
+    QObject* originatingObject() const;
 
     Priority priority() const;
     void setPriority(Priority priority);
@@ -168,7 +182,7 @@ public:
     void setMaximumRedirectsAllowed(int maximumRedirectsAllowed);
 
 private:
-    QSharedDataPointer<QNetworkRequestPrivate> d;
+    QSharedDataPointer<QNetworkRequestPrivate>    d;
     friend class QNetworkRequestPrivate;
 };
 

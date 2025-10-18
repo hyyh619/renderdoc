@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
 
 class QSignalMapperPrivate;
 
-class Q_CORE_EXPORT QSignalMapper : public QObject
+class Q_CORE_EXPORT    QSignalMapper : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSignalMapper)
@@ -60,16 +60,16 @@ public:
     void setMapping(QObject *sender, QObject *object);
     void removeMappings(QObject *sender);
 
-    QObject *mapping(int id) const;
-    QObject *mapping(const QString &text) const;
-    QObject *mapping(QWidget *widget) const;
-    QObject *mapping(QObject *object) const;
+    QObject* mapping(int id) const;
+    QObject* mapping(const QString &text) const;
+    QObject* mapping(QWidget *widget) const;
+    QObject* mapping(QObject *object) const;
 
 Q_SIGNALS:
     void mapped(int);
-    void mapped(const QString &);
-    void mapped(QWidget *);
-    void mapped(QObject *);
+    void mapped(const QString&);
+    void mapped(QWidget*);
+    void mapped(QObject*);
 
 public Q_SLOTS:
     void map();

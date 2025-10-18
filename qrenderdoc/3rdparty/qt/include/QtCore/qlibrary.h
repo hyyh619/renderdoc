@@ -48,27 +48,28 @@ QT_BEGIN_NAMESPACE
 
 class QLibraryPrivate;
 
-class Q_CORE_EXPORT QLibrary : public QObject
+class Q_CORE_EXPORT    QLibrary : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString fileName READ fileName WRITE setFileName)
     Q_PROPERTY(LoadHints loadHints READ loadHints WRITE setLoadHints)
 public:
-    enum LoadHint {
-        ResolveAllSymbolsHint = 0x01,
-        ExportExternalSymbolsHint = 0x02,
-        LoadArchiveMemberHint = 0x04,
-        PreventUnloadHint = 0x08,
-        DeepBindHint = 0x10
+    enum LoadHint
+    {
+        ResolveAllSymbolsHint       = 0x01,
+        ExportExternalSymbolsHint   = 0x02,
+        LoadArchiveMemberHint       = 0x04,
+        PreventUnloadHint           = 0x08,
+        DeepBindHint                = 0x10
     };
     Q_DECLARE_FLAGS(LoadHints, LoadHint)
     Q_FLAG(LoadHint)
     Q_FLAG(LoadHints)
 
     explicit QLibrary(QObject *parent = Q_NULLPTR);
-    explicit QLibrary(const QString& fileName, QObject *parent = Q_NULLPTR);
-    explicit QLibrary(const QString& fileName, int verNum, QObject *parent = Q_NULLPTR);
-    explicit QLibrary(const QString& fileName, const QString &version, QObject *parent = Q_NULLPTR);
+    explicit QLibrary(const QString &fileName, QObject *parent = Q_NULLPTR);
+    explicit QLibrary(const QString &fileName, int verNum, QObject *parent = Q_NULLPTR);
+    explicit QLibrary(const QString &fileName, const QString &version, QObject *parent = Q_NULLPTR);
     ~QLibrary();
 
     QFunctionPointer resolve(const char *symbol);
@@ -92,8 +93,8 @@ public:
     void setLoadHints(LoadHints hints);
     LoadHints loadHints() const;
 private:
-    QLibraryPrivate *d;
-    bool did_load;
+    QLibraryPrivate     *d;
+    bool                did_load;
     Q_DISABLE_COPY(QLibrary)
 };
 
@@ -101,4 +102,4 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QLibrary::LoadHints)
 
 QT_END_NAMESPACE
 
-#endif //QLIBRARY_H
+#endif // QLIBRARY_H

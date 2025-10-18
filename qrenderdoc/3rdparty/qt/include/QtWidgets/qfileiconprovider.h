@@ -50,14 +50,15 @@ QT_BEGIN_NAMESPACE
 
 class QFileIconProviderPrivate;
 
-class Q_WIDGETS_EXPORT QFileIconProvider
+class Q_WIDGETS_EXPORT    QFileIconProvider
 {
 public:
     QFileIconProvider();
     virtual ~QFileIconProvider();
     enum IconType { Computer, Desktop, Trashcan, Network, Drive, Folder, File };
 
-    enum Option {
+    enum Option
+    {
         DontUseCustomDirectoryIcons = 0x00000001
     };
     Q_DECLARE_FLAGS(Options, Option)

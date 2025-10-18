@@ -54,12 +54,18 @@ QT_BEGIN_NAMESPACE
 
 class QHostAddressPrivate;
 
-class Q_NETWORK_EXPORT QIPv6Address
+class Q_NETWORK_EXPORT    QIPv6Address
 {
 public:
-    inline quint8 &operator [](int index) { return c[index]; }
-    inline quint8 operator [](int index) const { return c[index]; }
-    quint8 c[16];
+    inline quint8    &operator [](int index)
+    {
+        return c[index];
+    }
+    inline quint8 operator [](int index) const
+    {
+        return c[index];
+    }
+    quint8    c[16];
 };
 
 typedef QIPv6Address Q_IPV6ADDR;
@@ -68,10 +74,11 @@ class QHostAddress;
 // qHash is a friend, but we can't use default arguments for friends (§8.3.6.4)
 Q_NETWORK_EXPORT uint qHash(const QHostAddress &key, uint seed = 0) Q_DECL_NOTHROW;
 
-class Q_NETWORK_EXPORT QHostAddress
+class Q_NETWORK_EXPORT    QHostAddress
 {
 public:
-    enum SpecialAddress {
+    enum SpecialAddress
+    {
         Null,
         Broadcast,
         LocalHost,
@@ -80,12 +87,13 @@ public:
         AnyIPv6,
         AnyIPv4
     };
-    enum ConversionModeFlag {
-        ConvertV4MappedToIPv4 = 1,
-        ConvertV4CompatToIPv4 = 2,
-        ConvertUnspecifiedAddress = 4,
-        ConvertLocalHost = 8,
-        TolerantConversion = 0xff,
+    enum ConversionModeFlag
+    {
+        ConvertV4MappedToIPv4       = 1,
+        ConvertV4CompatToIPv4       = 2,
+        ConvertUnspecifiedAddress   = 4,
+        ConvertLocalHost            = 8,
+        TolerantConversion          = 0xff,
 
         StrictConversion = 0
     };
@@ -103,18 +111,23 @@ public:
     ~QHostAddress();
 
 #ifdef Q_COMPILER_RVALUE_REFS
-    QHostAddress &operator=(QHostAddress &&other) Q_DECL_NOTHROW
-    { swap(other); return *this; }
+    QHostAddress&operator=(QHostAddress &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
-    QHostAddress &operator=(const QHostAddress &other);
+    QHostAddress&operator=(const QHostAddress &other);
 #if QT_DEPRECATED_SINCE(5, 8)
     QT_DEPRECATED_X("use = QHostAddress(string) instead")
-    QHostAddress &operator=(const QString &address);
+    QHostAddress&operator=(const QString &address);
 #endif
-    QHostAddress &operator=(SpecialAddress address);
+    QHostAddress&operator=(SpecialAddress address);
 
-    void swap(QHostAddress &other) Q_DECL_NOTHROW { d.swap(other.d); }
+    void swap(QHostAddress &other) Q_DECL_NOTHROW
+    {
+        d.swap(other.d);
+    }
 
     void setAddress(quint32 ip4Addr);
     void setAddress(quint8 *ip6Addr);   // ### Qt 6: remove me
@@ -138,9 +151,13 @@ public:
     bool operator ==(const QHostAddress &address) const;
     bool operator ==(SpecialAddress address) const;
     inline bool operator !=(const QHostAddress &address) const
-    { return !operator==(address); }
+    {
+        return !operator==(address);
+    }
     inline bool operator !=(SpecialAddress address) const
-    { return !operator==(address); }
+    {
+        return !operator==(address);
+    }
     bool isNull() const;
     void clear();
 
@@ -154,23 +171,27 @@ public:
 
     friend Q_NETWORK_EXPORT uint qHash(const QHostAddress &key, uint seed) Q_DECL_NOTHROW;
 protected:
-    QExplicitlySharedDataPointer<QHostAddressPrivate> d;
+    QExplicitlySharedDataPointer<QHostAddressPrivate>    d;
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(QHostAddress::ConversionMode)
 Q_DECLARE_SHARED_NOT_MOVABLE_UNTIL_QT6(QHostAddress)
 
 inline bool operator ==(QHostAddress::SpecialAddress address1, const QHostAddress &address2)
-{ return address2 == address1; }
+{
+    return address2 == address1;
+}
 inline bool operator!=(QHostAddress::SpecialAddress lhs, const QHostAddress &rhs)
-{ return rhs != lhs; }
+{
+    return rhs != lhs;
+}
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_NETWORK_EXPORT QDebug operator<<(QDebug, const QHostAddress &);
+Q_NETWORK_EXPORT QDebug operator<<(QDebug, const QHostAddress&);
 #endif
 
 #ifndef QT_NO_DATASTREAM
-Q_NETWORK_EXPORT QDataStream &operator<<(QDataStream &, const QHostAddress &);
-Q_NETWORK_EXPORT QDataStream &operator>>(QDataStream &, QHostAddress &);
+Q_NETWORK_EXPORT QDataStream&operator<<(QDataStream&, const QHostAddress&);
+Q_NETWORK_EXPORT QDataStream&operator>>(QDataStream&, QHostAddress&);
 #endif
 
 QT_END_NAMESPACE

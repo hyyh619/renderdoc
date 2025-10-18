@@ -47,38 +47,44 @@
 QT_BEGIN_NAMESPACE
 
 
-namespace QSsl {
-    enum KeyType {
+namespace QSsl
+{
+    enum KeyType
+    {
         PrivateKey,
         PublicKey
     };
 
-    enum EncodingFormat {
+    enum EncodingFormat
+    {
         Pem,
         Der
     };
 
-    enum KeyAlgorithm {
+    enum KeyAlgorithm
+    {
         Opaque,
         Rsa,
         Dsa,
         Ec
     };
 
-    enum AlternativeNameEntryType {
+    enum AlternativeNameEntryType
+    {
         EmailEntry,
         DnsEntry
     };
 
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
     typedef AlternativeNameEntryType AlternateNameEntryType;
 #endif
 
-    enum SslProtocol {
+    enum SslProtocol
+    {
         SslV3,
         SslV2,
         TlsV1_0,
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
         TlsV1 = TlsV1_0,
 #endif
         TlsV1_1,
@@ -94,15 +100,16 @@ namespace QSsl {
         UnknownProtocol = -1
     };
 
-    enum SslOption {
-        SslOptionDisableEmptyFragments = 0x01,
-        SslOptionDisableSessionTickets = 0x02,
-        SslOptionDisableCompression = 0x04,
-        SslOptionDisableServerNameIndication = 0x08,
-        SslOptionDisableLegacyRenegotiation = 0x10,
-        SslOptionDisableSessionSharing = 0x20,
-        SslOptionDisableSessionPersistence = 0x40,
-        SslOptionDisableServerCipherPreference = 0x80
+    enum SslOption
+    {
+        SslOptionDisableEmptyFragments          = 0x01,
+        SslOptionDisableSessionTickets          = 0x02,
+        SslOptionDisableCompression             = 0x04,
+        SslOptionDisableServerNameIndication    = 0x08,
+        SslOptionDisableLegacyRenegotiation     = 0x10,
+        SslOptionDisableSessionSharing          = 0x20,
+        SslOptionDisableSessionPersistence      = 0x40,
+        SslOptionDisableServerCipherPreference  = 0x80
     };
     Q_DECLARE_FLAGS(SslOptions, SslOption)
 }

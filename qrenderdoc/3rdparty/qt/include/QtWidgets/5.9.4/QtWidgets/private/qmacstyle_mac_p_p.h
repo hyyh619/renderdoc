@@ -158,16 +158,17 @@ QT_BEGIN_NAMESPACE
 
     Builder:
         Apple Interface Builder v. 3.1.1
-*/
+ */
 
 // this works as long as we have at most 16 different control types
-#define CT1(c) CT2(c, c)
+#define CT1(c)      CT2(c, c)
 #define CT2(c1, c2) ((uint(c1) << 16) | uint(c2))
 
-enum QAquaWidgetSize { QAquaSizeLarge = 0, QAquaSizeSmall = 1, QAquaSizeMini = 2,
+enum QAquaWidgetSize { QAquaSizeLarge   = 0, QAquaSizeSmall = 1, QAquaSizeMini = 2,
                        QAquaSizeUnknown = -1 };
 
-enum QCocoaWidgetKind {
+enum QCocoaWidgetKind
+{
     QCocoaArrowButton,  // Disclosure triangle, like in QTreeView
     QCocoaCheckBox,
     QCocoaComboBox,     // Editable QComboBox
@@ -187,10 +188,10 @@ typedef void (^QCocoaDrawRectBlock)(NSRect, CGContextRef);
     (controlSize == QAquaSizeLarge ? (large) : controlSize == QAquaSizeSmall ? (small) : (mini))
 
 // same as return SIZE(...) but optimized
-#define return_SIZE(large, small, mini) \
-    do { \
-        static const int sizes[] = { (large), (small), (mini) }; \
-        return sizes[controlSize]; \
+#define return_SIZE(large, small, mini)                             \
+    do {                                                            \
+        static const int    sizes[] = { (large), (small), (mini) }; \
+        return sizes[controlSize];                                  \
     } while (false)
 
 #if QT_CONFIG(pushbutton)
@@ -205,27 +206,30 @@ public:
     ~QMacStylePrivate();
 
     // Ideally these wouldn't exist, but since they already exist we need some accessors.
-    static const int PushButtonLeftOffset;
-    static const int PushButtonTopOffset;
-    static const int PushButtonRightOffset;
-    static const int PushButtonBottomOffset;
-    static const int MiniButtonH;
-    static const int SmallButtonH;
-    static const int BevelButtonW;
-    static const int BevelButtonH;
-    static const int PushButtonContentPadding;
+    static const int    PushButtonLeftOffset;
+    static const int    PushButtonTopOffset;
+    static const int    PushButtonRightOffset;
+    static const int    PushButtonBottomOffset;
+    static const int    MiniButtonH;
+    static const int    SmallButtonH;
+    static const int    BevelButtonW;
+    static const int    BevelButtonH;
+    static const int    PushButtonContentPadding;
 
     enum Animates { AquaPushButton, AquaProgressBar, AquaListViewItemOpen, AquaScrollBar };
     static ThemeDrawState getDrawState(QStyle::State flags);
     QAquaWidgetSize aquaSizeConstrain(const QStyleOption *option, const QWidget *widg,
-                             QStyle::ContentsType ct = QStyle::CT_CustomBase,
-                             QSize szHint=QSize(-1, -1), QSize *insz = 0) const;
+                                      QStyle::ContentsType ct = QStyle::CT_CustomBase,
+                                      QSize szHint= QSize(-1, -1), QSize *insz = 0) const;
     QAquaWidgetSize effectiveAquaSizeConstrain(const QStyleOption *option, const QWidget *widg,
-                             QStyle::ContentsType ct = QStyle::CT_CustomBase,
-                             QSize szHint=QSize(-1, -1), QSize *insz = 0) const;
+                                               QStyle::ContentsType ct = QStyle::CT_CustomBase,
+                                               QSize szHint= QSize(-1, -1), QSize *insz = 0) const;
     void getSliderInfo(QStyle::ComplexControl cc, const QStyleOptionSlider *slider,
-                          HIThemeTrackDrawInfo *tdi, const QWidget *needToRemoveMe) const;
-    inline int animateSpeed(Animates) const { return 33; }
+                       HIThemeTrackDrawInfo *tdi, const QWidget *needToRemoveMe) const;
+    inline int animateSpeed(Animates) const
+    {
+        return 33;
+    }
 
     // Utility functions
     void drawColorlessButton(const HIRect &macRect, HIThemeButtonDrawInfo *bdi,
@@ -237,7 +241,7 @@ public:
                                    const HIThemeButtonDrawInfo *bdi) const;
 
     void initComboboxBdi(const QStyleOptionComboBox *combo, HIThemeButtonDrawInfo *bdi,
-                        const QWidget *widget, const ThemeDrawState &tds) const;
+                         const QWidget *widget, const ThemeDrawState &tds) const;
 
     static HIRect comboboxInnerBounds(const HIRect &outerBounds, int buttonKind);
 
@@ -245,7 +249,7 @@ public:
 
     static void drawCombobox(const HIRect &outerBounds, const HIThemeButtonDrawInfo &bdi, QPainter *p);
     static void drawTableHeader(const HIRect &outerBounds, bool drawTopBorder, bool drawLeftBorder,
-                                     const HIThemeButtonDrawInfo &bdi, QPainter *p);
+                                const HIThemeButtonDrawInfo &bdi, QPainter *p);
     bool contentFitsInPushButton(const QStyleOptionButton *btn, HIThemeButtonDrawInfo *bdi,
                                  ThemeButtonKind buttonKindToCheck) const;
     void initHIThemePushButton(const QStyleOptionButton *btn, const QWidget *widget,
@@ -255,7 +259,7 @@ public:
 
     void setAutoDefaultButton(QObject *button) const;
 
-    NSView *cocoaControl(QCocoaWidget widget) const;
+    NSView* cocoaControl(QCocoaWidget widget) const;
 
     void drawNSViewInRect(QCocoaWidget widget, NSView *view, const QRect &rect, QPainter *p, bool isQWidget = true, QCocoaDrawRectBlock drawRectBlock = nil) const;
     void resolveCurrentNSView(QWindow *window);
@@ -267,24 +271,25 @@ public:
 #endif
 
 public:
-    mutable QPointer<QObject> pressedButton;
-    mutable QPointer<QObject> defaultButton;
-    mutable QPointer<QObject> autoDefaultButton;
-    static  QVector<QPointer<QObject> > scrollBars;
+    mutable QPointer<QObject>               pressedButton;
+    mutable QPointer<QObject>               defaultButton;
+    mutable QPointer<QObject>               autoDefaultButton;
+    static QVector<QPointer<QObject> >      scrollBars;
 
-    struct ButtonState {
-        int frame;
-        enum { ButtonDark, ButtonLight } dir;
-    } buttonState;
-    mutable QPointer<QFocusFrame> focusWidget;
-    CFAbsoluteTime defaultButtonStart;
-    bool mouseDown;
-    void* receiver;
-    NSScroller *horizontalScroller;
-    NSScroller *verticalScroller;
-    void *indicatorBranchButtonCell;
-    NSView *backingStoreNSView;
-    QHash<QCocoaWidget, NSView *> cocoaControls;
+    struct ButtonState
+    {
+        int                                 frame;
+        enum { ButtonDark, ButtonLight }    dir;
+    }                                   buttonState;
+    mutable QPointer<QFocusFrame>       focusWidget;
+    CFAbsoluteTime                      defaultButtonStart;
+    bool                                mouseDown;
+    void                                *receiver;
+    NSScroller                          *horizontalScroller;
+    NSScroller                          *verticalScroller;
+    void                                *indicatorBranchButtonCell;
+    NSView                              *backingStoreNSView;
+    QHash<QCocoaWidget, NSView*>        cocoaControls;
 };
 
 QT_END_NAMESPACE

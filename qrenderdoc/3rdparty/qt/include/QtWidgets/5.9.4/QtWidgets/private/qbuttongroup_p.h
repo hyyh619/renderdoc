@@ -64,19 +64,19 @@ QT_REQUIRE_CONFIG(buttongroup);
 
 QT_BEGIN_NAMESPACE
 
-class QButtonGroupPrivate: public QObjectPrivate
+class QButtonGroupPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QButtonGroup)
 
 public:
     QButtonGroupPrivate() : exclusive(true) {}
 
-    QList<QAbstractButton *> buttonList;
-    QPointer<QAbstractButton> checkedButton;
+    QList<QAbstractButton*>         buttonList;
+    QPointer<QAbstractButton>       checkedButton;
     void detectCheckedButton();
 
-    bool exclusive;
-    QHash<QAbstractButton*, int> mapping;
+    bool                            exclusive;
+    QHash<QAbstractButton*, int>    mapping;
 };
 
 QT_END_NAMESPACE

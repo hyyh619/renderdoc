@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QFileDevicePrivate;
 
-class Q_CORE_EXPORT QFileDevice : public QIODevice
+class Q_CORE_EXPORT    QFileDevice : public QIODevice
 {
 #ifndef QT_NO_QOBJECT
     Q_OBJECT
@@ -55,33 +55,36 @@ class Q_CORE_EXPORT QFileDevice : public QIODevice
     Q_DECLARE_PRIVATE(QFileDevice)
 
 public:
-    enum FileError {
-        NoError = 0,
-        ReadError = 1,
-        WriteError = 2,
-        FatalError = 3,
-        ResourceError = 4,
-        OpenError = 5,
-        AbortError = 6,
-        TimeOutError = 7,
-        UnspecifiedError = 8,
-        RemoveError = 9,
-        RenameError = 10,
-        PositionError = 11,
-        ResizeError = 12,
-        PermissionsError = 13,
-        CopyError = 14
+    enum FileError
+    {
+        NoError             = 0,
+        ReadError           = 1,
+        WriteError          = 2,
+        FatalError          = 3,
+        ResourceError       = 4,
+        OpenError           = 5,
+        AbortError          = 6,
+        TimeOutError        = 7,
+        UnspecifiedError    = 8,
+        RemoveError         = 9,
+        RenameError         = 10,
+        PositionError       = 11,
+        ResizeError         = 12,
+        PermissionsError    = 13,
+        CopyError           = 14
     };
 
-    enum Permission {
-        ReadOwner = 0x4000, WriteOwner = 0x2000, ExeOwner = 0x1000,
-        ReadUser  = 0x0400, WriteUser  = 0x0200, ExeUser  = 0x0100,
-        ReadGroup = 0x0040, WriteGroup = 0x0020, ExeGroup = 0x0010,
-        ReadOther = 0x0004, WriteOther = 0x0002, ExeOther = 0x0001
+    enum Permission
+    {
+        ReadOwner   = 0x4000, WriteOwner = 0x2000, ExeOwner = 0x1000,
+        ReadUser    = 0x0400, WriteUser = 0x0200, ExeUser = 0x0100,
+        ReadGroup   = 0x0040, WriteGroup = 0x0020, ExeGroup = 0x0010,
+        ReadOther   = 0x0004, WriteOther = 0x0002, ExeOther = 0x0001
     };
     Q_DECLARE_FLAGS(Permissions, Permission)
 
-    enum FileHandleFlag {
+    enum FileHandleFlag
+    {
         AutoCloseHandle = 0x0001,
         DontCloseHandle = 0
     };
@@ -111,12 +114,13 @@ public:
     virtual bool setPermissions(Permissions permissionSpec);
 
     // ### Qt 6: rename to MemoryMapFlag & make it a QFlags
-    enum MemoryMapFlags {
-        NoOptions = 0,
-        MapPrivateOption = 0x0001
+    enum MemoryMapFlags
+    {
+        NoOptions           = 0,
+        MapPrivateOption    = 0x0001
     };
 
-    uchar *map(qint64 offset, qint64 size, MemoryMapFlags flags = NoOptions);
+    uchar* map(qint64 offset, qint64 size, MemoryMapFlags flags = NoOptions);
     bool unmap(uchar *address);
 
 protected:

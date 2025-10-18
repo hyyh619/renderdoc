@@ -48,18 +48,18 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_ANIMATION
 
 class QPropertyAnimationPrivate;
-class Q_CORE_EXPORT QPropertyAnimation : public QVariantAnimation
+class Q_CORE_EXPORT    QPropertyAnimation : public QVariantAnimation
 {
     Q_OBJECT
     Q_PROPERTY(QByteArray propertyName READ propertyName WRITE setPropertyName)
-    Q_PROPERTY(QObject* targetObject READ targetObject WRITE setTargetObject)
+    Q_PROPERTY(QObject * targetObject READ targetObject WRITE setTargetObject)
 
 public:
     QPropertyAnimation(QObject *parent = Q_NULLPTR);
     QPropertyAnimation(QObject *target, const QByteArray &propertyName, QObject *parent = Q_NULLPTR);
     ~QPropertyAnimation();
 
-    QObject *targetObject() const;
+    QObject* targetObject() const;
     void setTargetObject(QObject *target);
 
     QByteArray propertyName() const;
@@ -74,8 +74,7 @@ private:
     Q_DISABLE_COPY(QPropertyAnimation)
     Q_DECLARE_PRIVATE(QPropertyAnimation)
 };
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 

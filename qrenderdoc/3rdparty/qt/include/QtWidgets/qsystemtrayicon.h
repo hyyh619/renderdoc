@@ -58,7 +58,7 @@ class QWheelEvent;
 class QMouseEvent;
 class QPoint;
 
-class Q_WIDGETS_EXPORT QSystemTrayIcon : public QObject
+class Q_WIDGETS_EXPORT    QSystemTrayIcon : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString toolTip READ toolTip WRITE setToolTip)
@@ -70,7 +70,8 @@ public:
     QSystemTrayIcon(const QIcon &icon, QObject *parent = Q_NULLPTR);
     ~QSystemTrayIcon();
 
-    enum ActivationReason {
+    enum ActivationReason
+    {
         Unknown,
         Context,
         DoubleClick,
@@ -80,7 +81,7 @@ public:
 
 #if QT_CONFIG(menu)
     void setContextMenu(QMenu *menu);
-    QMenu *contextMenu() const;
+    QMenu* contextMenu() const;
 #endif
 
     QIcon icon() const;
@@ -99,8 +100,14 @@ public:
 
 public Q_SLOTS:
     void setVisible(bool visible);
-    inline void show() { setVisible(true); }
-    inline void hide() { setVisible(false); }
+    inline void show()
+    {
+        setVisible(true);
+    }
+    inline void hide()
+    {
+        setVisible(false);
+    }
     void showMessage(const QString &title, const QString &msg, const QIcon &icon, int msecs = 10000);
     void showMessage(const QString &title, const QString &msg,
                      QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information, int msecs = 10000);
@@ -123,6 +130,5 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SYSTEMTRAYICON
 #endif // QSYSTEMTRAYICON_H

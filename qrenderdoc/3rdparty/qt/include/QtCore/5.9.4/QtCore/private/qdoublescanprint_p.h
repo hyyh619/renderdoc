@@ -65,10 +65,10 @@ QT_BEGIN_NAMESPACE
 // The documentation for _create_locale() does not formally document "C" to be valid, but an example
 // code snippet in the same documentation shows it.
 
-struct QCLocaleT {
+struct QCLocaleT
+{
     QCLocaleT() : locale(_create_locale(LC_ALL, "C"))
-    {
-    }
+    {}
 
     ~QCLocaleT()
     {
@@ -79,7 +79,7 @@ struct QCLocaleT {
 };
 
 #  define QT_CLOCALE_HOLDER Q_GLOBAL_STATIC(QCLocaleT, cLocaleT)
-#  define QT_CLOCALE cLocaleT()->locale
+#  define QT_CLOCALE        cLocaleT()->locale
 
 inline int qDoubleSscanf(const char *buf, _locale_t locale, const char *format, double *d,
                          int *processed)

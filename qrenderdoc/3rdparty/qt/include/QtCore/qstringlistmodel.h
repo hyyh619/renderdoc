@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_STRINGLISTMODEL
 
-class Q_CORE_EXPORT QStringListModel : public QAbstractListModel
+class Q_CORE_EXPORT    QStringListModel : public QAbstractListModel
 {
     Q_OBJECT
 public:
@@ -77,7 +77,6 @@ private:
     Q_DISABLE_COPY(QStringListModel)
     QStringList lst;
 };
-
 #endif // QT_NO_STRINGLISTMODEL
 
 QT_END_NAMESPACE

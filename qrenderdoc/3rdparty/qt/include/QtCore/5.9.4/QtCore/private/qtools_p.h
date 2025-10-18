@@ -56,51 +56,54 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace QtMiscUtils {
-Q_DECL_CONSTEXPR inline char toHexUpper(uint value) Q_DECL_NOTHROW
+namespace QtMiscUtils
 {
-    return "0123456789ABCDEF"[value & 0xF];
-}
+    Q_DECL_CONSTEXPR inline char toHexUpper(uint value) Q_DECL_NOTHROW
+    {
+        return "0123456789ABCDEF"[value & 0xF];
+    }
 
-Q_DECL_CONSTEXPR inline char toHexLower(uint value) Q_DECL_NOTHROW
-{
-    return "0123456789abcdef"[value & 0xF];
-}
+    Q_DECL_CONSTEXPR inline char toHexLower(uint value) Q_DECL_NOTHROW
+    {
+        return "0123456789abcdef"[value & 0xF];
+    }
 
-Q_DECL_CONSTEXPR inline int fromHex(uint c) Q_DECL_NOTHROW
-{
-    return ((c >= '0') && (c <= '9')) ? int(c - '0') :
-           ((c >= 'A') && (c <= 'F')) ? int(c - 'A' + 10) :
-           ((c >= 'a') && (c <= 'f')) ? int(c - 'a' + 10) :
-           /* otherwise */              -1;
-}
+    Q_DECL_CONSTEXPR inline int fromHex(uint c) Q_DECL_NOTHROW
+    {
+        return ((c >= '0') && (c <= '9')) ? int(c - '0') :
+               ((c >= 'A') && (c <= 'F')) ? int(c - 'A' + 10) :
+               ((c >= 'a') && (c <= 'f')) ? int(c - 'a' + 10) :
+               /* otherwise */ -1;
+    }
 
-Q_DECL_CONSTEXPR inline char toOct(uint value) Q_DECL_NOTHROW
-{
-    return '0' + char(value & 0x7);
-}
+    Q_DECL_CONSTEXPR inline char toOct(uint value) Q_DECL_NOTHROW
+    {
+        return '0' + char(value & 0x7);
+    }
 
-Q_DECL_CONSTEXPR inline int fromOct(uint c) Q_DECL_NOTHROW
-{
-    return ((c >= '0') && (c <= '7')) ? int(c - '0') : -1;
-}
+    Q_DECL_CONSTEXPR inline int fromOct(uint c) Q_DECL_NOTHROW
+    {
+        return ((c >= '0') && (c <= '7')) ? int(c - '0') : -1;
+    }
 }
 
 // We typically need an extra bit for qNextPowerOfTwo when determining the next allocation size.
-enum {
+enum
+{
     MaxAllocSize = INT_MAX
 };
 
-struct CalculateGrowingBlockSizeResult {
-    size_t size;
-    size_t elementCount;
+struct CalculateGrowingBlockSizeResult
+{
+    size_t  size;
+    size_t  elementCount;
 };
 
 // implemented in qbytearray.cpp
 size_t Q_CORE_EXPORT Q_DECL_CONST_FUNCTION
 qCalculateBlockSize(size_t elementCount, size_t elementSize, size_t headerSize = 0) Q_DECL_NOTHROW;
 CalculateGrowingBlockSizeResult Q_CORE_EXPORT Q_DECL_CONST_FUNCTION
-qCalculateGrowingBlockSize(size_t elementCount, size_t elementSize, size_t headerSize = 0) Q_DECL_NOTHROW ;
+qCalculateGrowingBlockSize(size_t elementCount, size_t elementSize, size_t headerSize = 0) Q_DECL_NOTHROW;
 
 QT_END_NAMESPACE
 

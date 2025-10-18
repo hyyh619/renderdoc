@@ -78,7 +78,7 @@ class QScrollTimer;
 class QScrollerPrivate : public QObject
 {
     Q_OBJECT
-    Q_DECLARE_PUBLIC(QScroller)
+                                Q_DECLARE_PUBLIC(QScroller)
 
 public:
     QScrollerPrivate(QScroller *q, QObject *target);
@@ -88,21 +88,23 @@ public:
 
     void setState(QScroller::State s);
 
-    enum ScrollType {
+    enum ScrollType
+    {
         ScrollTypeFlick = 0,
         ScrollTypeScrollTo,
         ScrollTypeOvershoot
     };
 
-    struct ScrollSegment {
-        qint64 startTime;
-        qint64 deltaTime;
-        qreal startPos;
-        qreal deltaPos;
-        QEasingCurve curve;
-        qreal stopProgress; // whatever is..
-        qreal stopPos;      // ..reached first
-        ScrollType type;
+    struct ScrollSegment
+    {
+        qint64          startTime;
+        qint64          deltaTime;
+        qreal           startPos;
+        qreal           deltaPos;
+        QEasingCurve    curve;
+        qreal           stopProgress; // whatever is..
+        qreal           stopPos; // ..reached first
+        ScrollType      type;
     };
 
     bool pressWhileInactive(const QPointF &position, qint64 timestamp);
@@ -141,74 +143,77 @@ public:
     qreal nextSnapPos(qreal p, int dir, Qt::Orientation orientation) const;
     static qreal nextSegmentPosition(QQueue<ScrollSegment> &segments, qint64 now, qreal oldPos);
 
-    inline int frameRateSkip() const { return properties.d.data()->frameRate; }
+    inline int frameRateSkip() const
+    {
+        return properties.d.data()->frameRate;
+    }
 
-    static const char *stateName(QScroller::State state);
-    static const char *inputName(QScroller::Input input);
+    static const char* stateName(QScroller::State state);
+    static const char* inputName(QScroller::Input input);
 
 public slots:
     void targetDestroyed();
 
 public:
     // non static
-    QObject *target;
-    QScrollerProperties properties;
+    QObject                 *target;
+    QScrollerProperties     properties;
 #ifndef QT_NO_GESTURES
-    QFlickGestureRecognizer *recognizer;
-    Qt::GestureType recognizerType;
+    QFlickGestureRecognizer     *recognizer;
+    Qt::GestureType             recognizerType;
 #endif
 
     // scroller state:
 
     // QPointer<QObject> scrollTarget;
-    QSizeF viewportSize;
-    QRectF contentPosRange;
-    QPointF contentPosition;
-    QPointF overshootPosition; // the number of pixels we are overshooting (before overshootDragResistanceFactor)
+    QSizeF      viewportSize;
+    QRectF      contentPosRange;
+    QPointF     contentPosition;
+    QPointF     overshootPosition; // the number of pixels we are overshooting (before overshootDragResistanceFactor)
 
     // state
 
-    bool enabled;
-    QScroller::State state;
-    bool firstScroll; // true if we haven't already send a scroll event
+    bool                enabled;
+    QScroller::State    state;
+    bool                firstScroll; // true if we haven't already send a scroll event
 
-    QPointF oldVelocity; // the release velocity of the last drag
+    QPointF    oldVelocity; // the release velocity of the last drag
 
-    QPointF pressPosition;
-    QPointF lastPosition;
-    qint64  pressTimestamp;
-    qint64  lastTimestamp;
+    QPointF     pressPosition;
+    QPointF     lastPosition;
+    qint64      pressTimestamp;
+    qint64      lastTimestamp;
 
-    QPointF dragDistance; // the distance we should move during the next drag timer event
+    QPointF    dragDistance; // the distance we should move during the next drag timer event
 
-    QQueue<ScrollSegment> xSegments;
-    QQueue<ScrollSegment> ySegments;
+    QQueue<ScrollSegment>       xSegments;
+    QQueue<ScrollSegment>       ySegments;
 
     // snap positions
-    QList<qreal> snapPositionsX;
-    qreal snapFirstX;
-    qreal snapIntervalX;
-    QList<qreal> snapPositionsY;
-    qreal snapFirstY;
-    qreal snapIntervalY;
+    QList<qreal>    snapPositionsX;
+    qreal           snapFirstX;
+    qreal           snapIntervalX;
+    QList<qreal>    snapPositionsY;
+    qreal           snapFirstY;
+    qreal           snapIntervalY;
 
-    QPointF pixelPerMeter;
+    QPointF    pixelPerMeter;
 
-    QElapsedTimer monotonicTimer;
+    QElapsedTimer    monotonicTimer;
 
-    QPointF releaseVelocity; // the starting velocity of the scrolling state
+    QPointF    releaseVelocity; // the starting velocity of the scrolling state
 #ifndef QT_NO_ANIMATION
-    QScrollTimer *scrollTimer;
+    QScrollTimer    *scrollTimer;
 #endif
 
-    QScroller *q_ptr;
+    QScroller    *q_ptr;
 };
-template <>
+template<>
 class QTypeInfo<QScrollerPrivate::ScrollSegment>
-    : public QTypeInfoMerger<QScrollerPrivate::ScrollSegment, QEasingCurve> {};
+    : public QTypeInfoMerger<QScrollerPrivate::ScrollSegment, QEasingCurve>
+{};
 
 
 QT_END_NAMESPACE
 
 #endif // QSCROLLER_P_H
-

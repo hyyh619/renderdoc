@@ -53,7 +53,7 @@ class QNetworkDatagram;
 class QNetworkInterface;
 class QUdpSocketPrivate;
 
-class Q_NETWORK_EXPORT QUdpSocket : public QAbstractSocket
+class Q_NETWORK_EXPORT    QUdpSocket : public QAbstractSocket
 {
     Q_OBJECT
 public:
@@ -80,13 +80,14 @@ public:
     qint64 writeDatagram(const QNetworkDatagram &datagram);
     qint64 writeDatagram(const char *data, qint64 len, const QHostAddress &host, quint16 port);
     inline qint64 writeDatagram(const QByteArray &datagram, const QHostAddress &host, quint16 port)
-        { return writeDatagram(datagram.constData(), datagram.size(), host, port); }
+    {
+        return writeDatagram(datagram.constData(), datagram.size(), host, port);
+    }
 
 private:
     Q_DISABLE_COPY(QUdpSocket)
     Q_DECLARE_PRIVATE(QUdpSocket)
 };
-
 #endif // QT_NO_UDPSOCKET
 
 QT_END_NAMESPACE

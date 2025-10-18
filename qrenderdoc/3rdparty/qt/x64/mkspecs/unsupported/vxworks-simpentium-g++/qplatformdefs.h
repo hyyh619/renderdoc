@@ -65,7 +65,7 @@
 // but sockLib.h uses int in all function declaration...
 #define QT_SOCKLEN_T            int
 #define QT_SOCKET_CONNECT(sd, to, tolen) \
-                                ::connect(sd, (struct sockaddr *) to, tolen)
+    ::connect(sd, (struct sockaddr*) to, tolen)
 
 #define QT_SNPRINTF             ::snprintf
 #define QT_VSNPRINTF            ::vsnprintf

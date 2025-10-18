@@ -15,12 +15,13 @@ extern "C" {
    flag is set).  The array must be terminated with an entry whose name
    pointer is NULL. */
 
-typedef struct PyMemberDef {
-    char *name;
-    int type;
-    Py_ssize_t offset;
-    int flags;
-    char *doc;
+typedef struct PyMemberDef
+{
+    char        *name;
+    int         type;
+    Py_ssize_t  offset;
+    int         flags;
+    char        *doc;
 } PyMemberDef;
 
 /* Types */
@@ -46,9 +47,9 @@ typedef struct PyMemberDef {
 /* Added by Lillo: bools contained in the structure (assumed char) */
 #define T_BOOL      14
 
-#define T_OBJECT_EX 16  /* Like T_OBJECT, but raises AttributeError
-                           when the value is NULL, instead of
-                           converting to None. */
+#define T_OBJECT_EX     16 /* Like T_OBJECT, but raises AttributeError
+                              when the value is NULL, instead of
+                              converting to None. */
 #define T_LONGLONG      17
 #define T_ULONGLONG     18
 
@@ -64,8 +65,8 @@ typedef struct PyMemberDef {
 
 
 /* Current API, use this */
-PyAPI_FUNC(PyObject *) PyMember_GetOne(const char *, struct PyMemberDef *);
-PyAPI_FUNC(int) PyMember_SetOne(char *, struct PyMemberDef *, PyObject *);
+PyAPI_FUNC(PyObject*) PyMember_GetOne(const char*, struct PyMemberDef*);
+PyAPI_FUNC(int) PyMember_SetOne(char*, struct PyMemberDef*, PyObject*);
 
 
 #ifdef __cplusplus

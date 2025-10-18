@@ -54,7 +54,7 @@ QT_BEGIN_NAMESPACE
 class QTemporaryFile;
 class QFilePrivate;
 
-class Q_CORE_EXPORT QFile : public QFileDevice
+class Q_CORE_EXPORT    QFile : public QFileDevice
 {
 #ifndef QT_NO_QOBJECT
     Q_OBJECT
@@ -94,9 +94,11 @@ public:
     }
 #endif
     inline static QString decodeName(const char *localFileName)
-        { return decodeName(QByteArray(localFileName)); }
+    {
+        return decodeName(QByteArray(localFileName));
+    }
 
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
     typedef QByteArray (*EncoderFn)(const QString &fileName);
     typedef QString (*DecoderFn)(const QByteArray &localfileName);
     QT_DEPRECATED static void setEncodingFunction(EncoderFn) {}
@@ -108,8 +110,14 @@ public:
 
     QString readLink() const;
     static QString readLink(const QString &fileName);
-    inline QString symLinkTarget() const { return readLink(); }
-    inline static QString symLinkTarget(const QString &fileName) { return readLink(fileName); }
+    inline QString symLinkTarget() const
+    {
+        return readLink();
+    }
+    inline static QString symLinkTarget(const QString &fileName)
+    {
+        return readLink(fileName);
+    }
 
     bool remove();
     static bool remove(const QString &fileName);
@@ -124,8 +132,8 @@ public:
     static bool copy(const QString &fileName, const QString &newName);
 
     bool open(OpenMode flags) Q_DECL_OVERRIDE;
-    bool open(FILE *f, OpenMode ioFlags, FileHandleFlags handleFlags=DontCloseHandle);
-    bool open(int fd, OpenMode ioFlags, FileHandleFlags handleFlags=DontCloseHandle);
+    bool open(FILE *f, OpenMode ioFlags, FileHandleFlags handleFlags= DontCloseHandle);
+    bool open(int fd, OpenMode ioFlags, FileHandleFlags handleFlags= DontCloseHandle);
 
     qint64 size() const Q_DECL_OVERRIDE;
 

@@ -61,11 +61,11 @@ class QChar;
 class QXmlCharRange;
 
 /*!
-  \internal
-  \short This class contains helper functions related to XML, for validating character classes,
+   \internal
+   \short This class contains helper functions related to XML, for validating character classes,
          productions in the XML specification, and so on.
  */
-class Q_CORE_EXPORT QXmlUtils
+class Q_CORE_EXPORT    QXmlUtils
 {
 public:
     static bool isEncName(const QString &encName);
@@ -73,11 +73,14 @@ public:
     static bool isNameChar(const QChar c);
     static bool isLetter(const QChar c);
     static bool isNCName(const QStringRef &ncName);
-    static inline bool isNCName(const QString &ncName) { return isNCName(QStringRef(&ncName)); }
+    static inline bool isNCName(const QString &ncName)
+    {
+        return isNCName(QStringRef(&ncName));
+    }
     static bool isPublicID(const QString &candidate);
 
 private:
-    typedef const QXmlCharRange *RangeIter;
+    typedef const QXmlCharRange*RangeIter;
     static bool rangeContains(RangeIter begin, RangeIter end, const QChar c);
     static bool isBaseChar(const QChar c);
     static bool isDigit(const QChar c);

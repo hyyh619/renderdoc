@@ -84,8 +84,8 @@ class QAbstractTextDocumentLayout;
 class QTextDocument;
 class QTextFrame;
 
-#define QTextBeginningOfFrame QChar(0xfdd0)
-#define QTextEndOfFrame QChar(0xfdd1)
+#define QTextBeginningOfFrame   QChar(0xfdd0)
+#define QTextEndOfFrame         QChar(0xfdd1)
 
 class QTextFragmentData : public QFragment<>
 {
@@ -93,26 +93,30 @@ public:
     inline void initialize() {}
     inline void invalidate() const {}
     inline void free() {}
-    int stringPosition;
-    int format;
+    int     stringPosition;
+    int     format;
 };
 
 class QTextBlockData : public QFragment<3>
 {
 public:
     inline void initialize()
-        { layout = 0; userData = 0; userState = -1; revision = 0; hidden = 0; }
+    {
+        layout = 0; userData = 0; userState = -1; revision = 0; hidden = 0;
+    }
     void invalidate() const;
     inline void free()
-    { delete layout; layout = 0; delete userData; userData = 0; }
+    {
+        delete layout; layout = 0; delete userData; userData = 0;
+    }
 
-    mutable int format;
+    mutable int    format;
     // ##### probably store a QTextEngine * here!
-    mutable QTextLayout *layout;
-    mutable QTextBlockUserData *userData;
-    mutable int userState;
-    mutable int revision : 31;
-    mutable uint hidden : 1;
+    mutable QTextLayout             *layout;
+    mutable QTextBlockUserData      *userData;
+    mutable int                     userState;
+    mutable int                     revision : 31;
+    mutable uint                    hidden : 1;
 };
 
 
@@ -121,44 +125,47 @@ class QAbstractUndoItem;
 class QTextUndoCommand
 {
 public:
-    enum Command {
-        Inserted = 0,
-        Removed = 1,
-        CharFormatChanged = 2,
-        BlockFormatChanged = 3,
-        BlockInserted = 4,
-        BlockRemoved = 5,
-        BlockAdded = 6,
-        BlockDeleted = 7,
-        GroupFormatChange = 8,
-        CursorMoved = 9,
-        Custom = 256
+    enum Command
+    {
+        Inserted            = 0,
+        Removed             = 1,
+        CharFormatChanged   = 2,
+        BlockFormatChanged  = 3,
+        BlockInserted       = 4,
+        BlockRemoved        = 5,
+        BlockAdded          = 6,
+        BlockDeleted        = 7,
+        GroupFormatChange   = 8,
+        CursorMoved         = 9,
+        Custom              = 256
     };
-    enum Operation {
-        KeepCursor = 0,
-        MoveCursor = 1
+    enum Operation
+    {
+        KeepCursor  = 0,
+        MoveCursor  = 1
     };
-    quint16 command;
-    uint block_part : 1; // all commands that are part of an undo block (including the first and the last one) have this set to 1
-    uint block_end : 1; // the last command in an undo block has this set to 1.
-    uint block_padding : 6; // padding since block used to be a quint8
-    quint8 operation;
-    int format;
-    quint32 strPos;
-    quint32 pos;
-    union {
-        int blockFormat;
-        quint32 length;
-        QAbstractUndoItem *custom;
-        int objectIndex;
+    quint16     command;
+    uint        block_part : 1; // all commands that are part of an undo block (including the first and the last one) have this set to 1
+    uint        block_end : 1; // the last command in an undo block has this set to 1.
+    uint        block_padding : 6; // padding since block used to be a quint8
+    quint8      operation;
+    int         format;
+    quint32     strPos;
+    quint32     pos;
+    union
+    {
+        int                 blockFormat;
+        quint32             length;
+        QAbstractUndoItem   *custom;
+        int                 objectIndex;
     };
-    quint32 revision;
+    quint32    revision;
 
     bool tryMerge(const QTextUndoCommand &other);
 };
 Q_DECLARE_TYPEINFO(QTextUndoCommand, Q_PRIMITIVE_TYPE);
 
-class Q_GUI_EXPORT QTextDocumentPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QTextDocumentPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QTextDocument)
 public:
@@ -178,14 +185,14 @@ public:
     void insert(int pos, int strPos, int strLength, int format);
     int insertBlock(int pos, int blockFormat, int charFormat, QTextUndoCommand::Operation = QTextUndoCommand::MoveCursor);
     int insertBlock(QChar blockSeparator, int pos, int blockFormat, int charFormat,
-                     QTextUndoCommand::Operation op = QTextUndoCommand::MoveCursor);
+                    QTextUndoCommand::Operation op = QTextUndoCommand::MoveCursor);
 
     void move(int from, int to, int length, QTextUndoCommand::Operation = QTextUndoCommand::MoveCursor);
     void remove(int pos, int length, QTextUndoCommand::Operation = QTextUndoCommand::MoveCursor);
 
     void aboutToRemoveCell(int cursorFrom, int cursorEnd);
 
-    QTextFrame *insertFrame(int start, int end, const QTextFrameFormat &format);
+    QTextFrame* insertFrame(int start, int end, const QTextFrameFormat &format);
     void removeFrame(QTextFrame *frame);
 
     enum FormatChangeMode { MergeFormat, SetFormat, SetFormatAndPreserveObjectIndices };
@@ -198,48 +205,127 @@ public:
     void emitRedoAvailable(bool available);
 
     int undoRedo(bool undo);
-    inline void undo() { undoRedo(true); }
-    inline void redo() { undoRedo(false); }
-    void appendUndoItem(QAbstractUndoItem *);
-    inline void beginEditBlock() { if (0 == editBlock++) ++revision; }
+    inline void undo()
+    {
+        undoRedo(true);
+    }
+    inline void redo()
+    {
+        undoRedo(false);
+    }
+    void appendUndoItem(QAbstractUndoItem*);
+    inline void beginEditBlock()
+    {
+        if (0 == editBlock++)
+            ++revision;
+    }
     void joinPreviousEditBlock();
     void endEditBlock();
     void finishEdit();
-    inline bool isInEditBlock() const { return editBlock; }
+    inline bool isInEditBlock() const
+    {
+        return editBlock;
+    }
     void enableUndoRedo(bool enable);
-    inline bool isUndoRedoEnabled() const { return undoEnabled; }
+    inline bool isUndoRedoEnabled() const
+    {
+        return undoEnabled;
+    }
 
-    inline bool isUndoAvailable() const { return undoEnabled && undoState > 0; }
-    inline bool isRedoAvailable() const { return undoEnabled && undoState < undoStack.size(); }
+    inline bool isUndoAvailable() const
+    {
+        return undoEnabled && undoState > 0;
+    }
+    inline bool isRedoAvailable() const
+    {
+        return undoEnabled && undoState < undoStack.size();
+    }
 
-    inline int availableUndoSteps() const { return undoEnabled ? undoState : 0; }
-    inline int availableRedoSteps() const { return undoEnabled ? qMax(undoStack.size() - undoState - 1, 0) : 0; }
+    inline int availableUndoSteps() const
+    {
+        return undoEnabled ? undoState : 0;
+    }
+    inline int availableRedoSteps() const
+    {
+        return undoEnabled ? qMax(undoStack.size() - undoState - 1, 0) : 0;
+    }
 
-    inline QString buffer() const { return text; }
+    inline QString buffer() const
+    {
+        return text;
+    }
     QString plainText() const;
-    inline int length() const { return fragments.length(); }
+    inline int length() const
+    {
+        return fragments.length();
+    }
 
-    inline QTextFormatCollection *formatCollection() { return &formats; }
-    inline const QTextFormatCollection *formatCollection() const { return &formats; }
-    inline QAbstractTextDocumentLayout *layout() const { return lout; }
+    inline QTextFormatCollection* formatCollection()
+    {
+        return &formats;
+    }
+    inline const QTextFormatCollection* formatCollection() const
+    {
+        return &formats;
+    }
+    inline QAbstractTextDocumentLayout* layout() const
+    {
+        return lout;
+    }
 
-    inline FragmentIterator find(int pos) const { return fragments.find(pos); }
-    inline FragmentIterator begin() const { return fragments.begin(); }
-    inline FragmentIterator end() const { return fragments.end(); }
+    inline FragmentIterator find(int pos) const
+    {
+        return fragments.find(pos);
+    }
+    inline FragmentIterator begin() const
+    {
+        return fragments.begin();
+    }
+    inline FragmentIterator end() const
+    {
+        return fragments.end();
+    }
 
-    inline QTextBlock blocksBegin() const { return QTextBlock(const_cast<QTextDocumentPrivate *>(this), blocks.firstNode()); }
-    inline QTextBlock blocksEnd() const { return QTextBlock(const_cast<QTextDocumentPrivate *>(this), 0); }
-    inline QTextBlock blocksFind(int pos) const { return QTextBlock(const_cast<QTextDocumentPrivate *>(this), blocks.findNode(pos)); }
+    inline QTextBlock blocksBegin() const
+    {
+        return QTextBlock(const_cast<QTextDocumentPrivate*>(this), blocks.firstNode());
+    }
+    inline QTextBlock blocksEnd() const
+    {
+        return QTextBlock(const_cast<QTextDocumentPrivate*>(this), 0);
+    }
+    inline QTextBlock blocksFind(int pos) const
+    {
+        return QTextBlock(const_cast<QTextDocumentPrivate*>(this), blocks.findNode(pos));
+    }
     int blockCharFormatIndex(int node) const;
 
-    inline int numBlocks() const { return blocks.numNodes(); }
+    inline int numBlocks() const
+    {
+        return blocks.numNodes();
+    }
 
-    const BlockMap &blockMap() const { return blocks; }
-    const FragmentMap &fragmentMap() const { return fragments; }
-    BlockMap &blockMap() { return blocks; }
-    FragmentMap &fragmentMap() { return fragments; }
+    const BlockMap    &blockMap() const
+    {
+        return blocks;
+    }
+    const FragmentMap    &fragmentMap() const
+    {
+        return fragments;
+    }
+    BlockMap&blockMap()
+    {
+        return blocks;
+    }
+    FragmentMap&fragmentMap()
+    {
+        return fragments;
+    }
 
-    static const QTextBlockData *block(const QTextBlock &it) { return it.p->blocks.fragment(it.n); }
+    static const QTextBlockData* block(const QTextBlock &it)
+    {
+        return it.p->blocks.fragment(it.n);
+    }
 
     int nextCursorPosition(int position, QTextLayout::CursorMode mode) const;
     int previousCursorPosition(int position, QTextLayout::CursorMode mode) const;
@@ -249,10 +335,19 @@ public:
     void changeObjectFormat(QTextObject *group, int format);
 
     void setModified(bool m);
-    inline bool isModified() const { return modified; }
+    inline bool isModified() const
+    {
+        return modified;
+    }
 
-    inline QFont defaultFont() const { return formats.defaultFont(); }
-    inline void setDefaultFont(const QFont &f) { formats.setDefaultFont(f); }
+    inline QFont defaultFont() const
+    {
+        return formats.defaultFont();
+    }
+    inline void setDefaultFont(const QFont &f)
+    {
+        formats.setDefaultFont(f);
+    }
 
     void clearUndoRedoStacks(QTextDocument::Stacks stacksToClear, bool emitSignals = false);
 
@@ -271,33 +366,45 @@ private:
 
     void adjustDocumentChangesAndCursors(int from, int addedOrRemoved, QTextUndoCommand::Operation op);
 
-    bool wasUndoAvailable;
-    bool wasRedoAvailable;
+    bool    wasUndoAvailable;
+    bool    wasRedoAvailable;
 
 public:
     void documentChange(int from, int length);
 
-    inline void addCursor(QTextCursorPrivate *c) { cursors.append(c); }
-    inline void removeCursor(QTextCursorPrivate *c) { cursors.removeAll(c); }
+    inline void addCursor(QTextCursorPrivate *c)
+    {
+        cursors.append(c);
+    }
+    inline void removeCursor(QTextCursorPrivate *c)
+    {
+        cursors.removeAll(c);
+    }
 
-    QTextFrame *frameAt(int pos) const;
-    QTextFrame *rootFrame() const;
+    QTextFrame* frameAt(int pos) const;
+    QTextFrame* rootFrame() const;
 
-    QTextObject *objectForIndex(int objectIndex) const;
-    QTextObject *objectForFormat(int formatIndex) const;
-    QTextObject *objectForFormat(const QTextFormat &f) const;
+    QTextObject* objectForIndex(int objectIndex) const;
+    QTextObject* objectForFormat(int formatIndex) const;
+    QTextObject* objectForFormat(const QTextFormat &f) const;
 
-    QTextObject *createObject(const QTextFormat &newFormat, int objectIndex = -1);
+    QTextObject* createObject(const QTextFormat &newFormat, int objectIndex = -1);
     void deleteObject(QTextObject *object);
 
-    QTextDocument *document() { return q_func(); }
-    const QTextDocument *document() const { return q_func(); }
+    QTextDocument* document()
+    {
+        return q_func();
+    }
+    const QTextDocument* document() const
+    {
+        return q_func();
+    }
 
     bool ensureMaximumBlockCount();
 
 private:
-    QTextDocumentPrivate(const QTextDocumentPrivate& m);
-    QTextDocumentPrivate& operator= (const QTextDocumentPrivate& m);
+    QTextDocumentPrivate(const QTextDocumentPrivate &m);
+    QTextDocumentPrivate&operator=(const QTextDocumentPrivate &m);
 
     void appendUndoItem(const QTextUndoCommand &c);
 
@@ -305,55 +412,55 @@ private:
 
     void compressPieceTable();
 
-    QString text;
-    uint unreachableCharacterCount;
+    QString     text;
+    uint        unreachableCharacterCount;
 
-    QVector<QTextUndoCommand> undoStack;
-    bool undoEnabled;
-    int undoState;
-    int revision;
+    QVector<QTextUndoCommand>       undoStack;
+    bool                            undoEnabled;
+    int                             undoState;
+    int                             revision;
     // position in undo stack of the last setModified(false) call
-    int modifiedState;
-    bool modified;
+    int     modifiedState;
+    bool    modified;
 
-    int editBlock;
-    int editBlockCursorPosition;
-    int docChangeFrom;
-    int docChangeOldLength;
-    int docChangeLength;
-    bool framesDirty;
+    int     editBlock;
+    int     editBlockCursorPosition;
+    int     docChangeFrom;
+    int     docChangeOldLength;
+    int     docChangeLength;
+    bool    framesDirty;
 
-    QTextFormatCollection formats;
-    mutable QTextFrame *rtFrame;
-    QAbstractTextDocumentLayout *lout;
-    FragmentMap fragments;
-    BlockMap blocks;
-    int initialBlockCharFormatIndex;
+    QTextFormatCollection           formats;
+    mutable QTextFrame              *rtFrame;
+    QAbstractTextDocumentLayout     *lout;
+    FragmentMap                     fragments;
+    BlockMap                        blocks;
+    int                             initialBlockCharFormatIndex;
 
-    QList<QTextCursorPrivate *> cursors;
-    QMap<int, QTextObject *> objects;
-    QMap<QUrl, QVariant> resources;
-    QMap<QUrl, QVariant> cachedResources;
-    QString defaultStyleSheet;
+    QList<QTextCursorPrivate*>      cursors;
+    QMap<int, QTextObject*>         objects;
+    QMap<QUrl, QVariant>            resources;
+    QMap<QUrl, QVariant>            cachedResources;
+    QString                         defaultStyleSheet;
 
-    int lastBlockCount;
+    int    lastBlockCount;
 
 public:
-    QTextOption defaultTextOption;
-    Qt::CursorMoveStyle defaultCursorMoveStyle;
+    QTextOption             defaultTextOption;
+    Qt::CursorMoveStyle     defaultCursorMoveStyle;
 #ifndef QT_NO_CSSPARSER
-    QCss::StyleSheet parsedDefaultStyleSheet;
+    QCss::StyleSheet    parsedDefaultStyleSheet;
 #endif
-    int maximumBlockCount;
-    uint needsEnsureMaximumBlockCount : 1;
-    uint inContentsChange : 1;
-    uint blockCursorAdjustment : 1;
-    QSizeF pageSize;
-    QString title;
-    QString url;
-    qreal indentWidth;
-    qreal documentMargin;
-    QUrl baseUrl;
+    int         maximumBlockCount;
+    uint        needsEnsureMaximumBlockCount : 1;
+    uint        inContentsChange : 1;
+    uint        blockCursorAdjustment : 1;
+    QSizeF      pageSize;
+    QString     title;
+    QString     url;
+    qreal       indentWidth;
+    qreal       documentMargin;
+    QUrl        baseUrl;
 
     void mergeCachedResources(const QTextDocumentPrivate *priv);
 
@@ -367,7 +474,8 @@ class QTextHtmlExporter
 public:
     QTextHtmlExporter(const QTextDocument *_doc);
 
-    enum ExportMode {
+    enum ExportMode
+    {
         ExportEntireDocument,
         ExportFragment
     };
@@ -400,10 +508,10 @@ private:
     void emitBackgroundAttribute(const QTextFormat &format);
     QString findUrlForImage(const QTextDocument *doc, qint64 cacheKey, bool isPixmap);
 
-    QString html;
-    QTextCharFormat defaultCharFormat;
-    const QTextDocument *doc;
-    bool fragmentMarkers;
+    QString                 html;
+    QTextCharFormat         defaultCharFormat;
+    const QTextDocument     *doc;
+    bool                    fragmentMarkers;
 };
 
 QT_END_NAMESPACE

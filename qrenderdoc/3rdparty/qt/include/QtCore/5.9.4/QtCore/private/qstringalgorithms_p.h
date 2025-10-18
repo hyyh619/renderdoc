@@ -56,15 +56,21 @@
 
 QT_BEGIN_NAMESPACE
 
-template <typename StringType> struct QStringAlgorithms
+template<typename StringType> struct QStringAlgorithms
 {
     typedef typename StringType::value_type Char;
     typedef typename StringType::size_type size_type;
     typedef typename std::remove_cv<StringType>::type NakedStringType;
     static const bool isConst = std::is_const<StringType>::value;
 
-    static inline bool isSpace(char ch) { return ascii_isspace(ch); }
-    static inline bool isSpace(QChar ch) { return ch.isSpace(); }
+    static inline bool isSpace(char ch)
+    {
+        return ascii_isspace(ch);
+    }
+    static inline bool isSpace(QChar ch)
+    {
+        return ch.isSpace();
+    }
 
     // Surrogate pairs are not handled in either of the functions below. That is
     // not a problem because there are no space characters (Zs, Zl, Zp) outside the
@@ -73,27 +79,31 @@ template <typename StringType> struct QStringAlgorithms
     static inline StringType trimmed_helper_inplace(NakedStringType &str, const Char *begin, const Char *end)
     {
         // in-place trimming:
-        Char *data = const_cast<Char *>(str.cbegin());
+        Char    *data = const_cast<Char*>(str.cbegin());
+
         if (begin != data)
             memmove(data, begin, (end - begin) * sizeof(Char));
+
         str.resize(end - begin);
         return qMove(str);
     }
 
-    static inline StringType trimmed_helper_inplace(const NakedStringType &, const Char *, const Char *)
+    static inline StringType trimmed_helper_inplace(const NakedStringType&, const Char*, const Char*)
     {
         // can't happen
         Q_UNREACHABLE();
         return StringType();
     }
 
-    static inline void trimmed_helper_positions(const Char *&begin, const Char *&end)
+    static inline void trimmed_helper_positions(const Char* &begin, const Char* &end)
     {
         // skip white space from start
         while (begin < end && isSpace(*begin))
             begin++;
+
         // skip white space from end
-        if (begin < end) {
+        if (begin < end)
+        {
             while (begin < end && isSpace(end[-1]))
                 end--;
         }
@@ -101,14 +111,17 @@ template <typename StringType> struct QStringAlgorithms
 
     static inline StringType trimmed_helper(StringType &str)
     {
-        const Char *begin = str.cbegin();
-        const Char *end = str.cend();
+        const Char      *begin  = str.cbegin();
+        const Char      *end    = str.cend();
+
         trimmed_helper_positions(begin, end);
 
         if (begin == str.cbegin() && end == str.cend())
             return str;
+
         if (!isConst && str.isDetached())
             return trimmed_helper_inplace(str, begin, end);
+
         return StringType(begin, end - begin);
     }
 
@@ -116,34 +129,41 @@ template <typename StringType> struct QStringAlgorithms
     {
         if (str.isEmpty())
             return str;
-        const Char *src = str.cbegin();
-        const Char *end = str.cend();
-        NakedStringType result = isConst || !str.isDetached() ?
-                                     StringType(str.size(), Qt::Uninitialized) :
-                                     qMove(str);
 
-        Char *dst = const_cast<Char *>(result.cbegin());
-        Char *ptr = dst;
-        bool unmodified = true;
+        const Char          *src    = str.cbegin();
+        const Char          *end    = str.cend();
+        NakedStringType     result  = isConst || !str.isDetached() ?
+                                      StringType(str.size(), Qt::Uninitialized) :
+                                      qMove(str);
+
+        Char    *dst        = const_cast<Char*>(result.cbegin());
+        Char    *ptr        = dst;
+        bool    unmodified  = true;
         forever {
             while (src != end && isSpace(*src))
                 ++src;
+
             while (src != end && !isSpace(*src))
                 *ptr++ = *src++;
+
             if (src == end)
                 break;
+
             if (*src != QChar::Space)
                 unmodified = false;
+
             *ptr++ = QChar::Space;
         }
         if (ptr != dst && ptr[-1] == QChar::Space)
             --ptr;
 
-        int newlen = ptr - dst;
-        if (isConst && newlen == str.size() && unmodified) {
+        int    newlen = ptr - dst;
+        if (isConst && newlen == str.size() && unmodified)
+        {
             // nothing happened, return the original
             return str;
         }
+
         result.resize(newlen);
         return result;
     }

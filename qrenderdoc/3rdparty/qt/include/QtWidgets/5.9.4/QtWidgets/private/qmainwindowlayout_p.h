@@ -81,20 +81,20 @@ class QDockWidgetGroupWindow : public QWidget
 {
     Q_OBJECT
 public:
-    explicit QDockWidgetGroupWindow(QWidget* parent = 0, Qt::WindowFlags f = 0)
+    explicit QDockWidgetGroupWindow(QWidget *parent = 0, Qt::WindowFlags f = 0)
         : QWidget(parent, f) {}
-    QDockAreaLayoutInfo *layoutInfo() const;
-    QDockWidget *topDockWidget() const;
+    QDockAreaLayoutInfo* layoutInfo() const;
+    QDockWidget* topDockWidget() const;
     void destroyOrHideIfEmpty();
     void adjustFlags();
     bool hasNativeDecos() const;
 
 protected:
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
     void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 
 private:
-    QSize m_removedFrameSize;
+    QSize    m_removedFrameSize;
 };
 
 // This item will be used in the layout for the gap item. We cannot use QWidgetItem directly
@@ -103,12 +103,24 @@ class QDockWidgetGroupWindowItem : public QWidgetItem
 {
 public:
     explicit QDockWidgetGroupWindowItem(QDockWidgetGroupWindow *parent) : QWidgetItem(parent) {}
-    QSize minimumSize() const Q_DECL_OVERRIDE { return lay()->minimumSize(); }
-    QSize maximumSize() const Q_DECL_OVERRIDE { return lay()->maximumSize(); }
-    QSize sizeHint() const Q_DECL_OVERRIDE { return lay()->sizeHint(); }
+    QSize minimumSize() const Q_DECL_OVERRIDE
+    {
+        return lay()->minimumSize();
+    }
+    QSize maximumSize() const Q_DECL_OVERRIDE
+    {
+        return lay()->maximumSize();
+    }
+    QSize sizeHint() const Q_DECL_OVERRIDE
+    {
+        return lay()->sizeHint();
+    }
 
 private:
-    QLayout *lay() const { return const_cast<QDockWidgetGroupWindowItem *>(this)->widget()->layout(); }
+    QLayout* lay() const
+    {
+        return const_cast<QDockWidgetGroupWindowItem*>(this)->widget()->layout();
+    }
 };
 #endif
 
@@ -116,25 +128,25 @@ private:
    so it can be easilly copied into a temporary variable. All operations are performed without moving
    any widgets. Only when we are sure we have the desired state, we call apply(), which moves the
    widgets.
-*/
+ */
 
 class QMainWindowLayoutState
 {
 public:
-    QRect rect;
-    QMainWindow *mainWindow;
+    QRect           rect;
+    QMainWindow     *mainWindow;
 
     QMainWindowLayoutState(QMainWindow *win);
 
 #ifndef QT_NO_TOOLBAR
-    QToolBarAreaLayout toolBarAreaLayout;
+    QToolBarAreaLayout    toolBarAreaLayout;
 #endif
 
 #if QT_CONFIG(dockwidget)
-    QDockAreaLayout dockAreaLayout;
+    QDockAreaLayout    dockAreaLayout;
 #else
-    QLayoutItem *centralWidgetItem;
-    QRect centralWidgetRect;
+    QLayoutItem     *centralWidgetItem;
+    QRect           centralWidgetRect;
 #endif
 
     void apply(bool animated);
@@ -145,17 +157,17 @@ public:
     QSize minimumSize() const;
     void fitLayout();
 
-    QLayoutItem *itemAt(int index, int *x) const;
-    QLayoutItem *takeAt(int index, int *x);
+    QLayoutItem* itemAt(int index, int *x) const;
+    QLayoutItem* takeAt(int index, int *x);
     QList<int> indexOf(QWidget *widget) const;
-    QLayoutItem *item(const QList<int> &path);
+    QLayoutItem* item(const QList<int> &path);
     QRect itemRect(const QList<int> &path) const;
     QRect gapRect(const QList<int> &path) const; // ### get rid of this, use itemRect() instead
 
     bool contains(QWidget *widget) const;
 
     void setCentralWidget(QWidget *widget);
-    QWidget *centralWidget() const;
+    QWidget* centralWidget() const;
 
     QList<int> gapIndex(QWidget *widget, const QPoint &pos) const;
     bool insertGap(const QList<int> &path, QLayoutItem *item);
@@ -164,15 +176,15 @@ public:
     void clear();
     bool isValid() const;
 
-    QLayoutItem *plug(const QList<int> &path);
-    QLayoutItem *unplug(const QList<int> &path, QMainWindowLayoutState *savedState = 0);
+    QLayoutItem* plug(const QList<int> &path);
+    QLayoutItem* unplug(const QList<int> &path, QMainWindowLayoutState *savedState = 0);
 
     void saveState(QDataStream &stream) const;
     bool checkFormat(QDataStream &stream);
     bool restoreState(QDataStream &stream, const QMainWindowLayoutState &oldState);
 };
 
-class Q_AUTOTEST_EXPORT QMainWindowLayout : public QLayout
+class Q_AUTOTEST_EXPORT    QMainWindowLayout : public QLayout
 {
     Q_OBJECT
 
@@ -182,7 +194,7 @@ public:
     QMainWindowLayout(QMainWindow *mainwindow, QLayout *parentLayout);
     ~QMainWindowLayout();
 
-    QMainWindow::DockOptions dockOptions;
+    QMainWindow::DockOptions    dockOptions;
     void setDockOptions(QMainWindow::DockOptions opts);
     bool usesHIToolBar(QToolBar *toolbar) const;
 
@@ -190,16 +202,16 @@ public:
 
     // status bar
 
-    QLayoutItem *statusbar;
+    QLayoutItem    *statusbar;
 
 #if QT_CONFIG(statusbar)
-    QStatusBar *statusBar() const;
+    QStatusBar* statusBar() const;
     void setStatusBar(QStatusBar *sb);
 #endif
 
     // central widget
 
-    QWidget *centralWidget() const;
+    QWidget* centralWidget() const;
     void setCentralWidget(QWidget *cw);
 
     // toolbars
@@ -231,45 +243,45 @@ public:
                          QDockWidget *dockwidget,
                          Qt::Orientation orientation);
     void tabifyDockWidget(QDockWidget *first, QDockWidget *second);
-    Qt::DockWidgetArea dockWidgetArea(QWidget* widget) const;
+    Qt::DockWidgetArea dockWidgetArea(QWidget *widget) const;
     void raise(QDockWidget *widget);
     void setVerticalTabsEnabled(bool enabled);
     bool restoreDockWidget(QDockWidget *dockwidget);
 
 #if QT_CONFIG(tabbar)
-    QDockAreaLayoutInfo *dockInfo(QWidget *w);
-    bool _documentMode;
+    QDockAreaLayoutInfo* dockInfo(QWidget *w);
+    bool    _documentMode;
     bool documentMode() const;
     void setDocumentMode(bool enabled);
 
-    QTabBar *getTabBar();
-    QSet<QTabBar*> usedTabBars;
-    QList<QTabBar*> unusedTabBars;
-    bool verticalTabsEnabled;
+    QTabBar* getTabBar();
+    QSet<QTabBar*>      usedTabBars;
+    QList<QTabBar*>     unusedTabBars;
+    bool                verticalTabsEnabled;
 
-    QWidget *getSeparatorWidget();
-    QSet<QWidget*> usedSeparatorWidgets;
-    QList<QWidget*> unusedSeparatorWidgets;
-    int sep; // separator extent
+    QWidget* getSeparatorWidget();
+    QSet<QWidget*>      usedSeparatorWidgets;
+    QList<QWidget*>     unusedSeparatorWidgets;
+    int                 sep; // separator extent
 
 #if QT_CONFIG(tabwidget)
-    QTabWidget::TabPosition tabPositions[4];
-    QTabWidget::TabShape _tabShape;
+    QTabWidget::TabPosition     tabPositions[4];
+    QTabWidget::TabShape        _tabShape;
 
     QTabWidget::TabShape tabShape() const;
     void setTabShape(QTabWidget::TabShape tabShape);
     QTabWidget::TabPosition tabPosition(Qt::DockWidgetArea area) const;
     void setTabPosition(Qt::DockWidgetAreas areas, QTabWidget::TabPosition tabPosition);
 
-    QDockWidgetGroupWindow *createTabbedDockWindow();
+    QDockWidgetGroupWindow* createTabbedDockWindow();
 #endif // QT_CONFIG(tabwidget)
 #endif // QT_CONFIG(tabbar)
 
     // separators
 
-    QList<int> movingSeparator;
-    QPoint movingSeparatorOrigin, movingSeparatorPos;
-    QBasicTimer separatorMoveTimer;
+    QList<int>      movingSeparator;
+    QPoint          movingSeparatorOrigin, movingSeparatorPos;
+    QBasicTimer     separatorMoveTimer;
 
     bool startSeparatorMove(const QPoint &pos);
     bool separatorMove(const QPoint &pos);
@@ -279,9 +291,8 @@ public:
 
     // save/restore
 
-    enum VersionMarkers { // sentinel values used to validate state data
-        VersionMarker = 0xff
-    };
+    enum VersionMarkers   // sentinel values used to validate state data
+    {VersionMarker = 0xff};
     void saveState(QDataStream &stream) const;
     bool restoreState(QDataStream &stream);
 
@@ -289,33 +300,33 @@ public:
 
     void addItem(QLayoutItem *item) Q_DECL_OVERRIDE;
     void setGeometry(const QRect &r) Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QSize minimumSize() const Q_DECL_OVERRIDE;
-    mutable QSize szHint;
-    mutable QSize minSize;
+    mutable QSize       szHint;
+    mutable QSize       minSize;
     void invalidate() Q_DECL_OVERRIDE;
 
     // animations
 
-    QWidgetAnimator widgetAnimator;
-    QList<int> currentGapPos;
-    QRect currentGapRect;
-    QWidget *pluggingWidget;
+    QWidgetAnimator     widgetAnimator;
+    QList<int>          currentGapPos;
+    QRect               currentGapRect;
+    QWidget             *pluggingWidget;
 #if QT_CONFIG(rubberband)
-    QPointer<QRubberBand> gapIndicator;
+    QPointer<QRubberBand>    gapIndicator;
 #endif
 #if QT_CONFIG(dockwidget)
-    QPointer<QWidget> currentHoveredFloat; // set when dragging over a floating dock widget
+    QPointer<QWidget>    currentHoveredFloat; // set when dragging over a floating dock widget
     void setCurrentHoveredFloat(QWidget *w);
 #endif
 
     void hover(QLayoutItem *widgetItem, const QPoint &mousePos);
     bool plug(QLayoutItem *widgetItem);
-    QLayoutItem *unplug(QWidget *widget, bool group = false);
+    QLayoutItem* unplug(QWidget *widget, bool group = false);
     void revert(QLayoutItem *widgetItem);
     void paintDropIndicator(QPainter *p, QWidget *widget, const QRegion &clip);
     void applyState(QMainWindowLayoutState &newState, bool animate = true);
@@ -336,7 +347,7 @@ private:
     void updateTabBarShapes();
 #endif
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
-    static OSStatus qtmacToolbarDelegate(EventHandlerCallRef, EventRef , void *);
+    static OSStatus    qtmacToolbarDelegate(EventHandlerCallRef, EventRef, void*);
     static OSStatus qtoolbarInHIToolbarHandler(EventHandlerCallRef inCallRef, EventRef event,
                                                void *data);
     static void qtMacHIToolbarRegisterQToolBarInHIToolborItemClass();
@@ -344,30 +355,30 @@ private:
     static HIToolbarItemRef createQToolBarInHIToolbarItem(QToolBar *toolbar,
                                                           QMainWindowLayout *layout);
 public:
-    struct ToolBarSaveState {
+    struct ToolBarSaveState
+    {
         ToolBarSaveState() : movable(false) { }
         ToolBarSaveState(bool newMovable, const QSize &newMax)
-        : movable(newMovable), maximumSize(newMax) { }
-        bool movable;
-        QSize maximumSize;
+            : movable(newMovable), maximumSize(newMax) { }
+        bool    movable;
+        QSize   maximumSize;
     };
-    QList<QToolBar *> qtoolbarsInUnifiedToolbarList;
-    QList<void *> toolbarItemsCopy;
-    QHash<void *, QToolBar *> unifiedToolbarHash;
-    QHash<QToolBar *, ToolBarSaveState> toolbarSaveState;
-    QHash<QString, QToolBar *> cocoaItemIDToToolbarHash;
+    QList<QToolBar*>                        qtoolbarsInUnifiedToolbarList;
+    QList<void*>                            toolbarItemsCopy;
+    QHash<void*, QToolBar*>                 unifiedToolbarHash;
+    QHash<QToolBar*, ToolBarSaveState>      toolbarSaveState;
+    QHash<QString, QToolBar*>               cocoaItemIDToToolbarHash;
     void insertIntoMacToolbar(QToolBar *before, QToolBar *after);
     void removeFromMacToolbar(QToolBar *toolbar);
     void cleanUpMacToolbarItems();
     void fixSizeInUnifiedToolbar(QToolBar *tb) const;
-    bool useHIToolBar;
-    bool activateUnifiedToolbarAfterFullScreen;
+    bool    useHIToolBar;
+    bool    activateUnifiedToolbarAfterFullScreen;
     void syncUnifiedToolbarVisibility();
-    bool blockVisiblityCheck;
+    bool    blockVisiblityCheck;
 
-    QUnifiedToolbarSurface *unifiedSurface;
+    QUnifiedToolbarSurface    *unifiedSurface;
     void updateUnifiedToolbarOffset();
-
 #endif
 };
 

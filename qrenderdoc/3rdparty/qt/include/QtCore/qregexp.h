@@ -55,16 +55,18 @@ class QRegExp;
 
 Q_CORE_EXPORT uint qHash(const QRegExp &key, uint seed = 0) Q_DECL_NOTHROW;
 
-class Q_CORE_EXPORT QRegExp
+class Q_CORE_EXPORT    QRegExp
 {
 public:
-    enum PatternSyntax {
+    enum PatternSyntax
+    {
         RegExp,
         Wildcard,
         FixedString,
         RegExp2,
         WildcardUnix,
-        W3CXmlSchema11 };
+        W3CXmlSchema11
+    };
     enum CaretMode { CaretAtZero, CaretAtOffset, CaretWontMatch };
 
     QRegExp();
@@ -72,14 +74,23 @@ public:
                      PatternSyntax syntax = RegExp);
     QRegExp(const QRegExp &rx);
     ~QRegExp();
-    QRegExp &operator=(const QRegExp &rx);
+    QRegExp&operator=(const QRegExp &rx);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QRegExp &operator=(QRegExp &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QRegExp&operator=(QRegExp &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    void swap(QRegExp &other) Q_DECL_NOTHROW { qSwap(priv, other.priv); }
+    void swap(QRegExp &other) Q_DECL_NOTHROW
+    {
+        qSwap(priv, other.priv);
+    }
 
     bool operator==(const QRegExp &rx) const;
-    inline bool operator!=(const QRegExp &rx) const { return !operator==(rx); }
+    inline bool operator!=(const QRegExp &rx) const
+    {
+        return !operator==(rx);
+    }
 
     bool isEmpty() const;
     bool isValid() const;
@@ -115,22 +126,21 @@ public:
     friend Q_CORE_EXPORT uint qHash(const QRegExp &key, uint seed) Q_DECL_NOTHROW;
 
 private:
-    QRegExpPrivate *priv;
+    QRegExpPrivate    *priv;
 };
 
 Q_DECLARE_TYPEINFO(QRegExp, Q_MOVABLE_TYPE);
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &out, const QRegExp &regExp);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &in, QRegExp &regExp);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream &out, const QRegExp &regExp);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream &in, QRegExp &regExp);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QRegExp &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QRegExp&);
 #endif
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_REGEXP
 
 #endif // QREGEXP_H

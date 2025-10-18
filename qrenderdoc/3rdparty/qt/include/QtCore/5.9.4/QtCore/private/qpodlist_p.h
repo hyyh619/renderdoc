@@ -57,7 +57,7 @@
 QT_BEGIN_NAMESPACE
 
 
-template <typename T, int Prealloc>
+template<typename T, int Prealloc>
 class QPodList : public QVarLengthArray<T, Prealloc>
 {
     using QVarLengthArray<T, Prealloc>::s;
@@ -71,20 +71,25 @@ public:
 
     inline void insert(int idx, const T &t)
     {
-        const int sz = s++;
+        const int    sz = s++;
+
         if (s == a)
             realloc(s, s << 1);
+
         ::memmove(ptr + idx + 1, ptr + idx, (sz - idx) * sizeof(T));
         ptr[idx] = t;
     }
 
     inline void removeAll(const T &t)
     {
-        int i = 0;
-        for (int j = 0; j < s; ++j) {
+        int    i = 0;
+
+        for (int j = 0; j < s; ++j)
+        {
             if (ptr[j] != t)
                 ptr[i++] = ptr[j];
         }
+
         s = i;
     }
 
@@ -98,7 +103,7 @@ public:
     inline T takeFirst()
     {
         Q_ASSERT(s > 0);
-        T tmp = ptr[0];
+        T    tmp = ptr[0];
         removeAt(0);
         return tmp;
     }

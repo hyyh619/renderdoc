@@ -52,7 +52,7 @@ class QUndoGroupPrivate;
 class QUndoStack;
 class QAction;
 
-class Q_WIDGETS_EXPORT QUndoGroup : public QObject
+class Q_WIDGETS_EXPORT    QUndoGroup : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QUndoGroup)
@@ -64,13 +64,13 @@ public:
     void addStack(QUndoStack *stack);
     void removeStack(QUndoStack *stack);
     QList<QUndoStack*> stacks() const;
-    QUndoStack *activeStack() const;
+    QUndoStack* activeStack() const;
 
 #ifndef QT_NO_ACTION
-    QAction *createUndoAction(QObject *parent,
-                                const QString &prefix = QString()) const;
-    QAction *createRedoAction(QObject *parent,
-                                const QString &prefix = QString()) const;
+    QAction* createUndoAction(QObject *parent,
+                              const QString &prefix = QString()) const;
+    QAction* createRedoAction(QObject *parent,
+                              const QString &prefix = QString()) const;
 #endif // QT_NO_ACTION
     bool canUndo() const;
     bool canRedo() const;

@@ -51,12 +51,12 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLVertexArrayObjectPrivate;
 
-class Q_GUI_EXPORT QOpenGLVertexArrayObject : public QObject
+class Q_GUI_EXPORT    QOpenGLVertexArrayObject : public QObject
 {
     Q_OBJECT
 
 public:
-    explicit QOpenGLVertexArrayObject(QObject* parent = Q_NULLPTR);
+    explicit QOpenGLVertexArrayObject(QObject *parent = Q_NULLPTR);
     ~QOpenGLVertexArrayObject();
 
     bool create();
@@ -66,9 +66,9 @@ public:
     void bind();
     void release();
 
-    class Q_GUI_EXPORT Binder
+    class Q_GUI_EXPORT    Binder
     {
-    public:
+public:
         inline Binder(QOpenGLVertexArrayObject *v)
             : vao(v)
         {
@@ -92,9 +92,9 @@ public:
             vao->bind();
         }
 
-    private:
+private:
         Q_DISABLE_COPY(Binder)
-        QOpenGLVertexArrayObject *vao;
+        QOpenGLVertexArrayObject * vao;
     };
 
 private:
@@ -105,7 +105,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif
 
 #endif // QOPENGLVERTEXARRAYOBJECT_H

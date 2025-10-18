@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QMouseEventTransitionPrivate;
 class QPainterPath;
-class Q_WIDGETS_EXPORT QMouseEventTransition : public QEventTransition
+class Q_WIDGETS_EXPORT    QMouseEventTransition : public QEventTransition
 {
     Q_OBJECT
     Q_PROPERTY(Qt::MouseButton button READ button WRITE setButton)

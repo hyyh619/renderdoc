@@ -56,13 +56,14 @@ QT_BEGIN_NAMESPACE
 
 class QPlatformInputContextPrivate;
 
-class Q_GUI_EXPORT QPlatformInputContext : public QObject
+class Q_GUI_EXPORT    QPlatformInputContext : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPlatformInputContext)
 
 public:
-    enum Capability {
+    enum Capability
+    {
         HiddenTextCapability = 0x1
     };
 

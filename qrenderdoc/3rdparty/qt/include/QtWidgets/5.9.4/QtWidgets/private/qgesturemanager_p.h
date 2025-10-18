@@ -89,65 +89,67 @@ public:
     void recycle(QGesture *gesture);
 
 protected:
-    bool filterEventThroughContexts(const QMultiMap<QObject *, Qt::GestureType> &contexts,
+    bool filterEventThroughContexts(const QMultiMap<QObject*, Qt::GestureType> &contexts,
                                     QEvent *event);
 
 private:
-    QMultiMap<Qt::GestureType, QGestureRecognizer *> m_recognizers;
+    QMultiMap<Qt::GestureType, QGestureRecognizer*>    m_recognizers;
 
-    QSet<QGesture *> m_activeGestures;
-    QSet<QGesture *> m_maybeGestures;
+    QSet<QGesture*>     m_activeGestures;
+    QSet<QGesture*>     m_maybeGestures;
 
-    enum State {
+    enum State
+    {
         Gesture,
         NotGesture,
         MaybeGesture // this means timers are up and waiting for some
                      // more events, and input events are handled by
                      // gesture recognizer explicitly
-    } state;
+    }    state;
 
     struct ObjectGesture
     {
-        QObject* object;
+        QObject         *object;
         Qt::GestureType gesture;
 
         ObjectGesture(QObject *o, const Qt::GestureType &g) : object(o), gesture(g) { }
         inline bool operator<(const ObjectGesture &rhs) const
         {
-            if (std::less<QObject *>{}(object, rhs.object))
+            if (std::less<QObject*> {} (object, rhs.object))
                 return true;
+
             if (object == rhs.object)
                 return gesture < rhs.gesture;
+
             return false;
         }
     };
 
-    QMap<ObjectGesture, QList<QGesture *> > m_objectGestures;
-    QHash<QGesture *, QGestureRecognizer *> m_gestureToRecognizer;
-    QHash<QGesture *, QObject *> m_gestureOwners;
+    QMap<ObjectGesture, QList<QGesture*> >      m_objectGestures;
+    QHash<QGesture*, QGestureRecognizer*>       m_gestureToRecognizer;
+    QHash<QGesture*, QObject*>                  m_gestureOwners;
 
-    QHash<QGesture *, QPointer<QWidget> > m_gestureTargets;
+    QHash<QGesture*, QPointer<QWidget> >    m_gestureTargets;
 
-    int m_lastCustomGestureId;
+    int    m_lastCustomGestureId;
 
-    QHash<QGestureRecognizer *, QSet<QGesture *> > m_obsoleteGestures;
-    QHash<QGesture *, QGestureRecognizer *> m_deletedRecognizers;
-    QSet<QGesture *> m_gesturesToDelete;
+    QHash<QGestureRecognizer*, QSet<QGesture*> >    m_obsoleteGestures;
+    QHash<QGesture*, QGestureRecognizer*>           m_deletedRecognizers;
+    QSet<QGesture*>                                 m_gesturesToDelete;
     void cleanupGesturesForRemovedRecognizer(QGesture *gesture);
 
-    QGesture *getState(QObject *widget, QGestureRecognizer *recognizer,
+    QGesture* getState(QObject *widget, QGestureRecognizer *recognizer,
                        Qt::GestureType gesture);
-    void deliverEvents(const QSet<QGesture *> &gestures,
-                       QSet<QGesture *> *undeliveredGestures);
+    void deliverEvents(const QSet<QGesture*> &gestures,
+                       QSet<QGesture*> *undeliveredGestures);
     void getGestureTargets(const QSet<QGesture*> &gestures,
-                           QHash<QWidget *, QList<QGesture *> > *conflicts,
-                           QHash<QWidget *, QList<QGesture *> > *normal);
+                           QHash<QWidget*, QList<QGesture*> > *conflicts,
+                           QHash<QWidget*, QList<QGesture*> > *normal);
 
     void cancelGesturesForChildren(QGesture *originatingGesture);
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_GESTURES
 
 #endif // QGESTUREMANAGER_P_H

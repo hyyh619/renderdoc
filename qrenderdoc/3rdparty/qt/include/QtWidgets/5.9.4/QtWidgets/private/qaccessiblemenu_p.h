@@ -70,16 +70,16 @@ public:
     explicit QAccessibleMenu(QWidget *w);
 
     int childCount() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
 
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
     QAccessible::Role role() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
-    QAccessibleInterface *parent() const Q_DECL_OVERRIDE;
-    int indexOfChild( const QAccessibleInterface *child ) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
 
 protected:
-    QMenu *menu() const;
+    QMenu* menu() const;
 };
 
 #if QT_CONFIG(menubar)
@@ -88,13 +88,13 @@ class QAccessibleMenuBar : public QAccessibleWidget
 public:
     explicit QAccessibleMenuBar(QWidget *w);
 
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
     int childCount() const Q_DECL_OVERRIDE;
 
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
 
 protected:
-    QMenuBar *menuBar() const;
+    QMenuBar* menuBar() const;
 };
 #endif // QT_CONFIG(menubar)
 
@@ -105,21 +105,21 @@ public:
     explicit QAccessibleMenuItem(QWidget *owner, QAction *w);
 
     ~QAccessibleMenuItem();
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     int childCount() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
     bool isValid() const Q_DECL_OVERRIDE;
-    int indexOfChild(const QAccessibleInterface * child) const Q_DECL_OVERRIDE;
+    int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
 
-    QAccessibleInterface *parent() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
-    QObject * object() const Q_DECL_OVERRIDE;
-    QWindow *window() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
+    QObject* object() const Q_DECL_OVERRIDE;
+    QWindow* window() const Q_DECL_OVERRIDE;
 
     QRect rect() const Q_DECL_OVERRIDE;
     QAccessible::Role role() const Q_DECL_OVERRIDE;
-    void setText(QAccessible::Text t, const QString & text) Q_DECL_OVERRIDE;
+    void setText(QAccessible::Text t, const QString &text) Q_DECL_OVERRIDE;
     QAccessible::State state() const Q_DECL_OVERRIDE;
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
 
@@ -128,14 +128,13 @@ public:
     void doAction(const QString &actionName) Q_DECL_OVERRIDE;
     QStringList keyBindingsForAction(const QString &actionName) const Q_DECL_OVERRIDE;
 
-    QWidget *owner() const;
+    QWidget* owner() const;
 protected:
-    QAction *action() const;
+    QAction* action() const;
 private:
-    QAction *m_action;
-    QPointer<QWidget> m_owner; // can hold either QMenu or the QMenuBar that contains the action
+    QAction                 *m_action;
+    QPointer<QWidget>       m_owner; // can hold either QMenu or the QMenuBar that contains the action
 };
-
 #endif // QT_CONFIG(menu)
 
 QT_END_NAMESPACE

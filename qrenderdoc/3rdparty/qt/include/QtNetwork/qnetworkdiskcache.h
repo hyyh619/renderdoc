@@ -48,7 +48,7 @@ QT_REQUIRE_CONFIG(networkdiskcache);
 QT_BEGIN_NAMESPACE
 
 class QNetworkDiskCachePrivate;
-class Q_NETWORK_EXPORT QNetworkDiskCache : public QAbstractNetworkCache
+class Q_NETWORK_EXPORT    QNetworkDiskCache : public QAbstractNetworkCache
 {
     Q_OBJECT
 
@@ -65,9 +65,9 @@ public:
     qint64 cacheSize() const Q_DECL_OVERRIDE;
     QNetworkCacheMetaData metaData(const QUrl &url) Q_DECL_OVERRIDE;
     void updateMetaData(const QNetworkCacheMetaData &metaData) Q_DECL_OVERRIDE;
-    QIODevice *data(const QUrl &url) Q_DECL_OVERRIDE;
+    QIODevice* data(const QUrl &url) Q_DECL_OVERRIDE;
     bool remove(const QUrl &url) Q_DECL_OVERRIDE;
-    QIODevice *prepare(const QNetworkCacheMetaData &metaData) Q_DECL_OVERRIDE;
+    QIODevice* prepare(const QNetworkCacheMetaData &metaData) Q_DECL_OVERRIDE;
     void insert(QIODevice *device) Q_DECL_OVERRIDE;
 
     QNetworkCacheMetaData fileMetaData(const QString &fileName) const;

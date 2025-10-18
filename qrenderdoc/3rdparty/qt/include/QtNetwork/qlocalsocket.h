@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QLocalSocketPrivate;
 
-class Q_NETWORK_EXPORT QLocalSocket : public QIODevice
+class Q_NETWORK_EXPORT    QLocalSocket : public QIODevice
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QLocalSocket)
@@ -58,25 +58,25 @@ class Q_NETWORK_EXPORT QLocalSocket : public QIODevice
 public:
     enum LocalSocketError
     {
-        ConnectionRefusedError = QAbstractSocket::ConnectionRefusedError,
-        PeerClosedError = QAbstractSocket::RemoteHostClosedError,
-        ServerNotFoundError = QAbstractSocket::HostNotFoundError,
-        SocketAccessError = QAbstractSocket::SocketAccessError,
-        SocketResourceError = QAbstractSocket::SocketResourceError,
-        SocketTimeoutError = QAbstractSocket::SocketTimeoutError,
-        DatagramTooLargeError = QAbstractSocket::DatagramTooLargeError,
-        ConnectionError = QAbstractSocket::NetworkError,
+        ConnectionRefusedError          = QAbstractSocket::ConnectionRefusedError,
+        PeerClosedError                 = QAbstractSocket::RemoteHostClosedError,
+        ServerNotFoundError             = QAbstractSocket::HostNotFoundError,
+        SocketAccessError               = QAbstractSocket::SocketAccessError,
+        SocketResourceError             = QAbstractSocket::SocketResourceError,
+        SocketTimeoutError              = QAbstractSocket::SocketTimeoutError,
+        DatagramTooLargeError           = QAbstractSocket::DatagramTooLargeError,
+        ConnectionError                 = QAbstractSocket::NetworkError,
         UnsupportedSocketOperationError = QAbstractSocket::UnsupportedSocketOperationError,
-        UnknownSocketError = QAbstractSocket::UnknownSocketError,
-        OperationError = QAbstractSocket::OperationError
+        UnknownSocketError              = QAbstractSocket::UnknownSocketError,
+        OperationError                  = QAbstractSocket::OperationError
     };
 
     enum LocalSocketState
     {
-        UnconnectedState = QAbstractSocket::UnconnectedState,
-        ConnectingState = QAbstractSocket::ConnectingState,
-        ConnectedState = QAbstractSocket::ConnectedState,
-        ClosingState = QAbstractSocket::ClosingState
+        UnconnectedState    = QAbstractSocket::UnconnectedState,
+        ConnectingState     = QAbstractSocket::ConnectingState,
+        ConnectedState      = QAbstractSocket::ConnectedState,
+        ClosingState        = QAbstractSocket::ClosingState
     };
 
     QLocalSocket(QObject *parent = Q_NULLPTR);
@@ -121,8 +121,8 @@ Q_SIGNALS:
     void stateChanged(QLocalSocket::LocalSocketState socketState);
 
 protected:
-    virtual qint64 readData(char*, qint64) Q_DECL_OVERRIDE;
-    virtual qint64 writeData(const char*, qint64) Q_DECL_OVERRIDE;
+    virtual qint64      readData(char*, qint64) Q_DECL_OVERRIDE;
+    virtual qint64      writeData(const char*, qint64) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QLocalSocket)

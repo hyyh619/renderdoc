@@ -46,12 +46,14 @@ QT_BEGIN_NAMESPACE
 
 
 class QDirIteratorPrivate;
-class Q_CORE_EXPORT QDirIterator {
+class Q_CORE_EXPORT    QDirIterator
+{
 public:
-    enum IteratorFlag {
+    enum IteratorFlag
+    {
         NoIteratorFlags = 0x0,
-        FollowSymlinks = 0x1,
-        Subdirectories = 0x2
+        FollowSymlinks  = 0x1,
+        Subdirectories  = 0x2
     };
     Q_DECLARE_FLAGS(IteratorFlags, IteratorFlag)
 

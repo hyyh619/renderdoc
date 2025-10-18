@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QColor;
 class QColormapPrivate;
 
-class Q_WIDGETS_EXPORT QColormap
+class Q_WIDGETS_EXPORT    QColormap
 {
 public:
     enum Mode { Direct, Indexed, Gray };
@@ -65,7 +65,7 @@ public:
     QColormap(const QColormap &colormap);
     ~QColormap();
 
-    QColormap &operator=(const QColormap &colormap);
+    QColormap&operator=(const QColormap &colormap);
 
     Mode mode() const;
 
@@ -79,7 +79,7 @@ public:
 
 private:
     QColormap();
-    QColormapPrivate *d;
+    QColormapPrivate    *d;
 };
 
 QT_END_NAMESPACE

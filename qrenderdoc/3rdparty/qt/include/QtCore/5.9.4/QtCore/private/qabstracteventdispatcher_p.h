@@ -58,14 +58,14 @@ QT_BEGIN_NAMESPACE
 
 Q_CORE_EXPORT uint qGlobalPostedEventsCount();
 
-class Q_CORE_EXPORT QAbstractEventDispatcherPrivate : public QObjectPrivate
+class Q_CORE_EXPORT    QAbstractEventDispatcherPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstractEventDispatcher)
 public:
     inline QAbstractEventDispatcherPrivate()
     { }
 
-    QList<QAbstractNativeEventFilter *> eventFilters;
+    QList<QAbstractNativeEventFilter*>    eventFilters;
 
     static int allocateTimerId();
     static void releaseTimerId(int id);

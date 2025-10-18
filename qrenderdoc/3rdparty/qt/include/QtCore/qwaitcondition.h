@@ -53,7 +53,7 @@ class QWaitConditionPrivate;
 class QMutex;
 class QReadWriteLock;
 
-class Q_CORE_EXPORT QWaitCondition
+class Q_CORE_EXPORT    QWaitCondition
 {
 public:
     QWaitCondition();
@@ -65,8 +65,14 @@ public:
     void wakeOne();
     void wakeAll();
 
-    void notify_one() { wakeOne(); }
-    void notify_all() { wakeAll(); }
+    void notify_one()
+    {
+        wakeOne();
+    }
+    void notify_all()
+    {
+        wakeAll();
+    }
 
 private:
     Q_DISABLE_COPY(QWaitCondition)
@@ -77,7 +83,7 @@ private:
 #else
 
 class QMutex;
-class Q_CORE_EXPORT QWaitCondition
+class Q_CORE_EXPORT    QWaitCondition
 {
 public:
     QWaitCondition() {}
@@ -93,7 +99,6 @@ public:
     void wakeOne() {}
     void wakeAll() {}
 };
-
 #endif // QT_NO_THREAD
 
 QT_END_NAMESPACE

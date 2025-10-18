@@ -60,18 +60,18 @@ QT_REQUIRE_CONFIG(scrollarea);
 
 QT_BEGIN_NAMESPACE
 
-class QScrollAreaPrivate: public QAbstractScrollAreaPrivate
+class QScrollAreaPrivate : public QAbstractScrollAreaPrivate
 {
     Q_DECLARE_PUBLIC(QScrollArea)
 
 public:
-    QScrollAreaPrivate(): resizable(false), alignment(0){}
+    QScrollAreaPrivate() : resizable(false), alignment(0){}
     void updateScrollBars();
     void updateWidgetPosition();
-    QPointer<QWidget> widget;
-    mutable QSize widgetSize;
-    bool resizable;
-    Qt::Alignment alignment;
+    QPointer<QWidget>       widget;
+    mutable QSize           widgetSize;
+    bool                    resizable;
+    Qt::Alignment           alignment;
 };
 
 QT_END_NAMESPACE

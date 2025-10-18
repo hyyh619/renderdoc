@@ -65,9 +65,12 @@
 #include <algorithm>
 
 #ifdef Q_OS_WINRT
-namespace ABI {
-    namespace Windows {
-        namespace Foundation {
+namespace ABI
+{
+    namespace Windows
+    {
+        namespace Foundation
+        {
             struct IAsyncAction;
         }
     }
@@ -82,9 +85,9 @@ class QEventLoop;
 class QPostEvent
 {
 public:
-    QObject *receiver;
-    QEvent *event;
-    int priority;
+    QObject     *receiver;
+    QEvent      *event;
+    int         priority;
     inline QPostEvent()
         : receiver(0), event(0), priority(0)
     { }
@@ -105,44 +108,49 @@ class QPostEventList : public QVector<QPostEvent>
 {
 public:
     // recursion == recursion count for sendPostedEvents()
-    int recursion;
+    int    recursion;
 
     // sendOffset == the current event to start sending
-    int startOffset;
+    int    startOffset;
     // insertionOffset == set by sendPostedEvents to tell postEvent() where to start insertions
-    int insertionOffset;
+    int    insertionOffset;
 
-    QMutex mutex;
+    QMutex    mutex;
 
     inline QPostEventList()
         : QVector<QPostEvent>(), recursion(0), startOffset(0), insertionOffset(0)
     { }
 
-    void addEvent(const QPostEvent &ev) {
-        int priority = ev.priority;
+    void addEvent(const QPostEvent &ev)
+    {
+        int    priority = ev.priority;
+
         if (isEmpty() ||
             constLast().priority >= priority ||
-            insertionOffset >= size()) {
+            insertionOffset >= size())
+        {
             // optimization: we can simply append if the last event in
             // the queue has higher or equal priority
             append(ev);
-        } else {
+        }
+        else
+        {
             // insert event in descending priority order, using upper
             // bound for a given priority (to ensure proper ordering
             // of events with the same priority)
-            QPostEventList::iterator at = std::upper_bound(begin() + insertionOffset, end(), ev);
+            QPostEventList::iterator    at = std::upper_bound(begin() + insertionOffset, end(), ev);
             insert(at, ev);
         }
     }
 private:
-    //hides because they do not keep that list sorted. addEvent must be used
+    // hides because they do not keep that list sorted. addEvent must be used
     using QVector<QPostEvent>::append;
     using QVector<QPostEvent>::insert;
 };
 
 #ifndef QT_NO_THREAD
 
-class Q_CORE_EXPORT QDaemonThread : public QThread
+class Q_CORE_EXPORT    QDaemonThread : public QThread
 {
 public:
     QDaemonThread(QObject *parent = 0);
@@ -159,40 +167,39 @@ public:
 
     void setPriority(QThread::Priority prio);
 
-    mutable QMutex mutex;
-    QAtomicInt quitLockRef;
+    mutable QMutex      mutex;
+    QAtomicInt          quitLockRef;
 
-    bool running;
-    bool finished;
-    bool isInFinish; //when in QThreadPrivate::finish
-    bool interruptionRequested;
+    bool    running;
+    bool    finished;
+    bool    isInFinish; // when in QThreadPrivate::finish
+    bool    interruptionRequested;
 
-    bool exited;
-    int returnCode;
+    bool    exited;
+    int     returnCode;
 
-    uint stackSize;
-    QThread::Priority priority;
+    uint                    stackSize;
+    QThread::Priority       priority;
 
-    static QThread *threadForId(int id);
+    static QThread* threadForId(int id);
 
 #ifdef Q_OS_UNIX
-    QWaitCondition thread_done;
+    QWaitCondition    thread_done;
 
-    static void *start(void *arg);
-    static void finish(void *);
-
+    static void* start(void *arg);
+    static void finish(void*);
 #endif // Q_OS_UNIX
 
 #ifdef Q_OS_WIN
-    static unsigned int __stdcall start(void *);
-    static void finish(void *, bool lockAnyway=true);
+    static unsigned int __stdcall start(void*);
+    static void finish(void*, bool lockAnyway= true);
 
-    Qt::HANDLE handle;
-    unsigned int id;
-    int waiters;
-    bool terminationEnabled, terminatePending;
+    Qt::HANDLE      handle;
+    unsigned int    id;
+    int             waiters;
+    bool            terminationEnabled, terminatePending;
 #endif // Q_OS_WIN
-    QThreadData *data;
+    QThreadData    *data;
 
     static void createEventDispatcher(QThreadData *data);
 
@@ -203,7 +210,8 @@ public:
 
     void deref()
     {
-        if (!quitLockRef.deref() && running) {
+        if (!quitLockRef.deref() && running)
+        {
             QCoreApplication::instance()->postEvent(q_ptr, new QEvent(QEvent::Quit));
         }
     }
@@ -215,12 +223,18 @@ class QThreadPrivate : public QObjectPrivate
 {
 public:
     QThreadPrivate(QThreadData *d = 0) : data(d ? d : new QThreadData) {}
-    ~QThreadPrivate() { delete data; }
+    ~QThreadPrivate()
+    {
+        delete data;
+    }
 
-    QThreadData *data;
+    QThreadData    *data;
 
     static void setCurrentThread(QThread*) {}
-    static QThread *threadForId(int) { return QThread::currentThread(); }
+    static QThread* threadForId(int)
+    {
+        return QThread::currentThread();
+    }
     static void createEventDispatcher(QThreadData *data);
 
     void ref() {}
@@ -228,7 +242,6 @@ public:
 
     Q_DECLARE_PUBLIC(QThread)
 };
-
 #endif // QT_NO_THREAD
 
 class QThreadData
@@ -237,20 +250,25 @@ public:
     QThreadData(int initialRefCount = 1);
     ~QThreadData();
 
-    static Q_AUTOTEST_EXPORT QThreadData *current(bool createIfNecessary = true);
+    static Q_AUTOTEST_EXPORT QThreadData* current(bool createIfNecessary = true);
     static void clearCurrentThreadData();
-    static QThreadData *get2(QThread *thread)
-    { Q_ASSERT_X(thread != 0, "QThread", "internal error"); return thread->d_func()->data; }
+    static QThreadData* get2(QThread *thread)
+    {
+        Q_ASSERT_X(thread != 0, "QThread", "internal error"); return thread->d_func()->data;
+    }
 
 
     void ref();
     void deref();
     inline bool hasEventDispatcher() const
-    { return eventDispatcher.load() != 0; }
+    {
+        return eventDispatcher.load() != 0;
+    }
 
     bool canWaitLocked()
     {
-        QMutexLocker locker(&postEventList.mutex);
+        QMutexLocker    locker(&postEventList.mutex);
+
         return canWait;
     }
 
@@ -258,52 +276,62 @@ public:
     // member) storage for qFlagLocation()
     class FlaggedDebugSignatures
     {
-        static const uint Count = 2;
+        static const uint    Count = 2;
 
-        uint idx;
-        const char* locations[Count];
+        uint            idx;
+        const char      *locations[Count];
 
-    public:
+public:
         FlaggedDebugSignatures() : idx(0)
-        { std::fill_n(locations, Count, static_cast<char*>(0)); }
+        {
+            std::fill_n(locations, Count, static_cast<char*>(0));
+        }
 
-        void store(const char* method)
-        { locations[idx++ % Count] = method; }
+        void store(const char *method)
+        {
+            locations[idx++ % Count] = method;
+        }
 
         bool contains(const char *method) const
-        { return std::find(locations, locations + Count, method) != locations + Count; }
+        {
+            return std::find(locations, locations + Count, method) != locations + Count;
+        }
     };
 
 private:
-    QAtomicInt _ref;
+    QAtomicInt    _ref;
 
 public:
-    int loopLevel;
-    int scopeLevel;
+    int     loopLevel;
+    int     scopeLevel;
 
-    QStack<QEventLoop *> eventLoops;
-    QPostEventList postEventList;
-    QAtomicPointer<QThread> thread;
-    QAtomicPointer<void> threadId;
-    QAtomicPointer<QAbstractEventDispatcher> eventDispatcher;
-    QVector<void *> tls;
-    FlaggedDebugSignatures flaggedSignatures;
+    QStack<QEventLoop*>                         eventLoops;
+    QPostEventList                              postEventList;
+    QAtomicPointer<QThread>                     thread;
+    QAtomicPointer<void>                        threadId;
+    QAtomicPointer<QAbstractEventDispatcher>    eventDispatcher;
+    QVector<void*>                              tls;
+    FlaggedDebugSignatures                      flaggedSignatures;
 
-    bool quitNow;
-    bool canWait;
-    bool isAdopted;
-    bool requiresCoreApplication;
+    bool    quitNow;
+    bool    canWait;
+    bool    isAdopted;
+    bool    requiresCoreApplication;
 };
 
 class QScopedScopeLevelCounter
 {
-    QThreadData *threadData;
+    QThreadData    *threadData;
 public:
     inline QScopedScopeLevelCounter(QThreadData *threadData)
         : threadData(threadData)
-    { ++threadData->scopeLevel; }
+    {
+        ++threadData->scopeLevel;
+    }
     inline ~QScopedScopeLevelCounter()
-    { --threadData->scopeLevel; }
+    {
+        --threadData->scopeLevel;
+    }
 };
 
 // thread wrapper for the main() thread

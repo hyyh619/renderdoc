@@ -63,8 +63,8 @@ class QLatin1Codec : public QTextCodec
 public:
     ~QLatin1Codec();
 
-    QString convertToUnicode(const char *, int, ConverterState *) const Q_DECL_OVERRIDE;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const Q_DECL_OVERRIDE;
+    QString convertToUnicode(const char*, int, ConverterState*) const Q_DECL_OVERRIDE;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const Q_DECL_OVERRIDE;
 
     QByteArray name() const Q_DECL_OVERRIDE;
     QList<QByteArray> aliases() const Q_DECL_OVERRIDE;
@@ -73,19 +73,18 @@ public:
 
 
 
-class QLatin15Codec: public QTextCodec
+class QLatin15Codec : public QTextCodec
 {
 public:
     ~QLatin15Codec();
 
-    QString convertToUnicode(const char *, int, ConverterState *) const Q_DECL_OVERRIDE;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const Q_DECL_OVERRIDE;
+    QString convertToUnicode(const char*, int, ConverterState*) const Q_DECL_OVERRIDE;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const Q_DECL_OVERRIDE;
 
     QByteArray name() const Q_DECL_OVERRIDE;
     QList<QByteArray> aliases() const Q_DECL_OVERRIDE;
     int mibEnum() const Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_TEXTCODEC
 
 QT_END_NAMESPACE

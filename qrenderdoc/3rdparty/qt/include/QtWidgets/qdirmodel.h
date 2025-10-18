@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 class QDirModelPrivate;
 
-class Q_WIDGETS_EXPORT QDirModel : public QAbstractItemModel
+class Q_WIDGETS_EXPORT    QDirModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(bool resolveSymlinks READ resolveSymlinks WRITE setResolveSymlinks)
@@ -59,9 +59,10 @@ class Q_WIDGETS_EXPORT QDirModel : public QAbstractItemModel
     Q_PROPERTY(bool lazyChildCount READ lazyChildCount WRITE setLazyChildCount)
 
 public:
-    enum Roles {
-        FileIconRole = Qt::DecorationRole,
-        FilePathRole = Qt::UserRole + 1,
+    enum Roles
+    {
+        FileIconRole    = Qt::DecorationRole,
+        FilePathRole    = Qt::UserRole + 1,
         FileNameRole
     };
 
@@ -87,7 +88,7 @@ public:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) Q_DECL_OVERRIDE;
 
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
@@ -95,7 +96,7 @@ public:
     // QDirModel specific API
 
     void setIconProvider(QFileIconProvider *provider);
-    QFileIconProvider *iconProvider() const;
+    QFileIconProvider* iconProvider() const;
 
     void setNameFilters(const QStringList &filters);
     QStringList nameFilters() const;
@@ -133,7 +134,7 @@ public Q_SLOTS:
     void refresh(const QModelIndex &parent = QModelIndex());
 
 protected:
-    QDirModel(QDirModelPrivate &, QObject *parent = Q_NULLPTR);
+    QDirModel(QDirModelPrivate&, QObject *parent = Q_NULLPTR);
     friend class QFileDialogPrivate;
 
 private:

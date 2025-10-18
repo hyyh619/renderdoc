@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QLabelPrivate;
 
-class Q_WIDGETS_EXPORT QLabel : public QFrame
+class Q_WIDGETS_EXPORT    QLabel : public QFrame
 {
     Q_OBJECT
     Q_PROPERTY(QString text READ text WRITE setText)
@@ -67,17 +67,17 @@ class Q_WIDGETS_EXPORT QLabel : public QFrame
     Q_PROPERTY(QString selectedText READ selectedText)
 
 public:
-    explicit QLabel(QWidget *parent=Q_NULLPTR, Qt::WindowFlags f=Qt::WindowFlags());
-    explicit QLabel(const QString &text, QWidget *parent=Q_NULLPTR, Qt::WindowFlags f=Qt::WindowFlags());
+    explicit QLabel(QWidget *parent= Q_NULLPTR, Qt::WindowFlags f= Qt::WindowFlags());
+    explicit QLabel(const QString &text, QWidget *parent= Q_NULLPTR, Qt::WindowFlags f= Qt::WindowFlags());
     ~QLabel();
 
     QString text() const;
-    const QPixmap *pixmap() const;
+    const QPixmap* pixmap() const;
 #ifndef QT_NO_PICTURE
-    const QPicture *picture() const;
+    const QPicture* picture() const;
 #endif
 #if QT_CONFIG(movie)
-    QMovie *movie() const;
+    QMovie* movie() const;
 #endif
 
     Qt::TextFormat textFormat() const;
@@ -100,8 +100,8 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
 #ifndef QT_NO_SHORTCUT
-    void setBuddy(QWidget *);
-    QWidget *buddy() const;
+    void setBuddy(QWidget*);
+    QWidget* buddy() const;
 #endif
     int heightForWidth(int) const Q_DECL_OVERRIDE;
 
@@ -117,10 +117,10 @@ public:
     int selectionStart() const;
 
 public Q_SLOTS:
-    void setText(const QString &);
-    void setPixmap(const QPixmap &);
+    void setText(const QString&);
+    void setPixmap(const QPixmap&);
 #ifndef QT_NO_PICTURE
-    void setPicture(const QPicture &);
+    void setPicture(const QPicture&);
 #endif
 #if QT_CONFIG(movie)
     void setMovie(QMovie *movie);
@@ -130,14 +130,14 @@ public Q_SLOTS:
     void clear();
 
 Q_SIGNALS:
-    void linkActivated(const QString& link);
-    void linkHovered(const QString& link);
+    void linkActivated(const QString &link);
+    void linkHovered(const QString &link);
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
     void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *ev) Q_DECL_OVERRIDE;
@@ -153,8 +153,8 @@ private:
     Q_DISABLE_COPY(QLabel)
     Q_DECLARE_PRIVATE(QLabel)
 #if QT_CONFIG(movie)
-    Q_PRIVATE_SLOT(d_func(), void _q_movieUpdated(const QRect&))
-    Q_PRIVATE_SLOT(d_func(), void _q_movieResized(const QSize&))
+    Q_PRIVATE_SLOT(d_func(), void _q_movieUpdated(const QRect &))
+    Q_PRIVATE_SLOT(d_func(), void _q_movieResized(const QSize &))
 #endif
     Q_PRIVATE_SLOT(d_func(), void _q_linkHovered(const QString &))
 

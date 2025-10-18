@@ -1,7 +1,7 @@
 // Scintilla source code edit control
 /** @file CharClassify.h
- ** Character classifications used by Document and RESearch.
- **/
+** Character classifications used by Document and RESearch.
+**/
 // Copyright 2006-2009 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
@@ -9,23 +9,31 @@
 #define CHARCLASSIFY_H
 
 #ifdef SCI_NAMESPACE
-namespace Scintilla {
+namespace Scintilla
+{
 #endif
 
-class CharClassify {
+class CharClassify
+{
 public:
-	CharClassify();
+    CharClassify();
 
-	enum cc { ccSpace, ccNewLine, ccWord, ccPunctuation };
-	void SetDefaultCharClasses(bool includeWordClass);
-	void SetCharClasses(const unsigned char *chars, cc newCharClass);
-	int GetCharsOfClass(cc charClass, unsigned char *buffer) const;
-	cc GetClass(unsigned char ch) const { return static_cast<cc>(charClass[ch]);}
-	bool IsWord(unsigned char ch) const { return static_cast<cc>(charClass[ch]) == ccWord;}
+    enum cc { ccSpace, ccNewLine, ccWord, ccPunctuation };
+    void SetDefaultCharClasses(bool includeWordClass);
+    void SetCharClasses(const unsigned char *chars, cc newCharClass);
+    int GetCharsOfClass(cc charClass, unsigned char *buffer) const;
+    cc GetClass(unsigned char ch) const
+    {
+        return static_cast<cc>(charClass[ch]);
+    }
+    bool IsWord(unsigned char ch) const
+    {
+        return static_cast<cc>(charClass[ch]) == ccWord;
+    }
 
 private:
-	enum { maxChar=256 };
-	unsigned char charClass[maxChar];    // not type cc to save space
+    enum { maxChar = 256 };
+    unsigned char    charClass[maxChar]; // not type cc to save space
 };
 
 #ifdef SCI_NAMESPACE

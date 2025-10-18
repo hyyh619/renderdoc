@@ -58,61 +58,59 @@
 #ifndef QT_NO_BLITTABLE
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT  QBlittablePlatformPixmap : public QPlatformPixmap
+class Q_GUI_EXPORT    QBlittablePlatformPixmap : public QPlatformPixmap
 {
 //     Q_DECLARE_PRIVATE(QBlittablePlatformPixmap)
 public:
     QBlittablePlatformPixmap();
     ~QBlittablePlatformPixmap();
 
-    virtual QBlittable *createBlittable(const QSize &size, bool alpha) const = 0;
-    QBlittable *blittable() const;
+    virtual QBlittable* createBlittable(const QSize &size, bool alpha) const = 0;
+    QBlittable* blittable() const;
     void setBlittable(QBlittable *blittable);
 
     void resize(int width, int height) Q_DECL_OVERRIDE;
     int metric(QPaintDevice::PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
     void fill(const QColor &color) Q_DECL_OVERRIDE;
-    QImage *buffer() Q_DECL_OVERRIDE;
+    QImage* buffer() Q_DECL_OVERRIDE;
     QImage toImage() const Q_DECL_OVERRIDE;
     bool hasAlphaChannel() const Q_DECL_OVERRIDE;
     void fromImage(const QImage &image, Qt::ImageConversionFlags flags) Q_DECL_OVERRIDE;
     qreal devicePixelRatio() const Q_DECL_OVERRIDE;
     void setDevicePixelRatio(qreal scaleFactor) Q_DECL_OVERRIDE;
 
-    QPaintEngine *paintEngine() const Q_DECL_OVERRIDE;
+    QPaintEngine* paintEngine() const Q_DECL_OVERRIDE;
 
-    void markRasterOverlay(const QRectF &);
-    void markRasterOverlay(const QPointF &, const QTextItem &);
-    void markRasterOverlay(const QVectorPath &);
-    void markRasterOverlay(const QPainterPath &);
+    void markRasterOverlay(const QRectF&);
+    void markRasterOverlay(const QPointF&, const QTextItem&);
+    void markRasterOverlay(const QVectorPath&);
+    void markRasterOverlay(const QPainterPath&);
     void markRasterOverlay(const QRect *rects, int rectCount);
     void markRasterOverlay(const QRectF *rects, int rectCount);
     void markRasterOverlay(const QPointF *points, int pointCount);
     void markRasterOverlay(const QPoint *points, int pointCount);
-    void unmarkRasterOverlay(const QRectF &);
+    void unmarkRasterOverlay(const QRectF&);
 
 #ifdef QT_BLITTER_RASTEROVERLAY
     void mergeOverlay();
     void unmergeOverlay();
-    QImage *overlay();
-
-#endif //QT_BLITTER_RASTEROVERLAY
+    QImage* overlay();
+#endif // QT_BLITTER_RASTEROVERLAY
 protected:
-    QScopedPointer<QBlitterPaintEngine> m_engine;
-    QScopedPointer<QBlittable> m_blittable;
-    bool m_alpha;
-    qreal m_devicePixelRatio;
+    QScopedPointer<QBlitterPaintEngine>     m_engine;
+    QScopedPointer<QBlittable>              m_blittable;
+    bool                                    m_alpha;
+    qreal                                   m_devicePixelRatio;
 
 #ifdef QT_BLITTER_RASTEROVERLAY
-    QImage *m_rasterOverlay;
-    QImage *m_unmergedCopy;
-    QColor m_overlayColor;
+    QImage      *m_rasterOverlay;
+    QImage      *m_unmergedCopy;
+    QColor      m_overlayColor;
 
-    void markRasterOverlayImpl(const QRectF &);
-    void unmarkRasterOverlayImpl(const QRectF &);
-    QRectF clipAndTransformRect(const QRectF &) const;
-#endif //QT_BLITTER_RASTEROVERLAY
-
+    void markRasterOverlayImpl(const QRectF&);
+    void unmarkRasterOverlayImpl(const QRectF&);
+    QRectF clipAndTransformRect(const QRectF&) const;
+#endif // QT_BLITTER_RASTEROVERLAY
 };
 
 inline void QBlittablePlatformPixmap::markRasterOverlay(const QRectF &rect)
@@ -120,7 +118,7 @@ inline void QBlittablePlatformPixmap::markRasterOverlay(const QRectF &rect)
 #ifdef QT_BLITTER_RASTEROVERLAY
     markRasterOverlayImpl(rect);
 #else
-   Q_UNUSED(rect)
+    Q_UNUSED(rect)
 #endif
 }
 
@@ -136,8 +134,8 @@ inline void QBlittablePlatformPixmap::markRasterOverlay(const QVectorPath &path)
 inline void QBlittablePlatformPixmap::markRasterOverlay(const QPointF &pos, const QTextItem &ti)
 {
 #ifdef QT_BLITTER_RASTEROVERLAY
-    QFontMetricsF fm(ti.font());
-    QRectF rect = fm.tightBoundingRect(ti.text());
+    QFontMetricsF       fm(ti.font());
+    QRectF              rect = fm.tightBoundingRect(ti.text());
     rect.moveBottomLeft(pos);
     markRasterOverlay(rect);
 #else
@@ -149,9 +147,11 @@ inline void QBlittablePlatformPixmap::markRasterOverlay(const QPointF &pos, cons
 inline void QBlittablePlatformPixmap::markRasterOverlay(const QRect *rects, int rectCount)
 {
 #ifdef QT_BLITTER_RASTEROVERLAY
-    for (int i = 0; i < rectCount; i++) {
+    for (int i = 0; i < rectCount; i++)
+    {
         markRasterOverlay(rects[i]);
     }
+
 #else
     Q_UNUSED(rects)
     Q_UNUSED(rectCount)
@@ -160,9 +160,11 @@ inline void QBlittablePlatformPixmap::markRasterOverlay(const QRect *rects, int 
 inline void QBlittablePlatformPixmap::markRasterOverlay(const QRectF *rects, int rectCount)
 {
 #ifdef QT_BLITTER_RASTEROVERLAY
-    for (int i = 0; i < rectCount; i++) {
+    for (int i = 0; i < rectCount; i++)
+    {
         markRasterOverlay(rects[i]);
     }
+
 #else
     Q_UNUSED(rects)
     Q_UNUSED(rectCount)
@@ -189,7 +191,7 @@ inline void QBlittablePlatformPixmap::markRasterOverlay(const QPoint *points, in
 #endif
 }
 
-inline void QBlittablePlatformPixmap::markRasterOverlay(const QPainterPath& path)
+inline void QBlittablePlatformPixmap::markRasterOverlay(const QPainterPath &path)
 {
 #ifdef QT_BLITTER_RASTEROVERLAY
 #error "not ported yet"

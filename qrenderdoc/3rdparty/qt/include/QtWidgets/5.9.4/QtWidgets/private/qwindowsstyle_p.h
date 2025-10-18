@@ -74,7 +74,7 @@ public:
     void polish(QWidget*) Q_DECL_OVERRIDE;
     void unpolish(QWidget*) Q_DECL_OVERRIDE;
 
-    void polish(QPalette &) Q_DECL_OVERRIDE;
+    void polish(QPalette&) Q_DECL_OVERRIDE;
 
     void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p,
                        const QWidget *w = 0) const Q_DECL_OVERRIDE;
@@ -105,7 +105,6 @@ private:
     Q_DISABLE_COPY(QWindowsStyle)
     Q_DECLARE_PRIVATE(QWindowsStyle)
 };
-
 #endif // style_windows
 
 QT_END_NAMESPACE

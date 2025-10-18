@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -41,46 +41,49 @@ struct CaptureOptions
 // for convenience, don't export the constructor but allow it within the module
 // for constructing defaults
 #ifdef RENDERDOC_EXPORTS
-  CaptureOptions();
+    CaptureOptions();
 #endif
 
-  DOCUMENT(R"(Encode the current options to a string suitable for passing around between processes.
+    DOCUMENT(R"(Encode the current options to a string suitable for passing around between processes.
 
 :return: The encoded string, suitable for passing to :meth:`DecodeFromString`.
 :rtype: str
 )");
-  inline rdcstr EncodeAsString() const
-  {
-    rdcstr optstr;
-    optstr.reserve(sizeof(CaptureOptions) * 2 + 1);
-    const byte *b = (const byte *)this;
-    for(size_t i = 0; i < sizeof(CaptureOptions); i++)
+    inline rdcstr EncodeAsString() const
     {
-      optstr.push_back(char('a' + ((b[i] >> 4) & 0xf)));
-      optstr.push_back(char('a' + ((b[i]) & 0xf)));
+        rdcstr    optstr;
+
+        optstr.reserve(sizeof(CaptureOptions) * 2 + 1);
+        const byte    *b = (const byte*)this;
+
+        for (size_t i = 0; i < sizeof(CaptureOptions); i++)
+        {
+            optstr.push_back(char('a' + ((b[i] >> 4) & 0xf)));
+            optstr.push_back(char('a' + ((b[i]) & 0xf)));
+        }
+
+        return optstr;
     }
 
-    return optstr;
-  }
-
-  DOCUMENT(R"(Decode the options from a string, as returned by :meth:`EncodeAsString`. Updates this
+    DOCUMENT(R"(Decode the options from a string, as returned by :meth:`EncodeAsString`. Updates this
 object in place.
 
 :param str encoded: The encoded string, as returned by :meth:`EncodeAsString`.
 )");
-  inline void DecodeFromString(const rdcstr &encoded)
-  {
-    if(encoded.size() < sizeof(CaptureOptions))
-      return;
+    inline void DecodeFromString(const rdcstr &encoded)
+    {
+        if (encoded.size() < sizeof(CaptureOptions))
+            return;
 
-    // serialise from string with two chars per byte
-    byte *b = (byte *)this;
-    for(size_t i = 0; i < sizeof(CaptureOptions); i++)
-      *(b++) = byte(((byte(encoded[i * 2 + 0] - 'a') & 0xf) << 4) |
-                    (byte(encoded[i * 2 + 1] - 'a') & 0xf));
-  }
+        // serialise from string with two chars per byte
+        byte    *b = (byte*)this;
 
-  DOCUMENT(R"(Allow the application to enable vsync.
+        for (size_t i = 0; i < sizeof(CaptureOptions); i++)
+            *(b++) = byte(((byte(encoded[i * 2 + 0] - 'a') & 0xf) << 4) |
+                          (byte(encoded[i * 2 + 1] - 'a') & 0xf));
+    }
+
+    DOCUMENT(R"(Allow the application to enable vsync.
 
 Default - enabled
 
@@ -90,9 +93,9 @@ Default - enabled
 
 :type: bool
 )");
-  bool allowVSync;
+    bool allowVSync;
 
-  DOCUMENT(R"(Allow the application to enable fullscreen.
+    DOCUMENT(R"(Allow the application to enable fullscreen.
 
 Default - enabled
 
@@ -102,9 +105,9 @@ Default - enabled
 
 :type: bool
 )");
-  bool allowFullscreen;
+    bool allowFullscreen;
 
-  DOCUMENT(R"(Record API debugging events and messages
+    DOCUMENT(R"(Record API debugging events and messages
 
 Default - disabled
 
@@ -115,9 +118,9 @@ the capture logfile, which is matched up with events on replay.
 
 :type: bool
 )");
-  bool apiValidation;
+    bool apiValidation;
 
-  DOCUMENT(R"(Capture CPU callstacks for API events
+    DOCUMENT(R"(Capture CPU callstacks for API events
 
 Default - disabled
 
@@ -127,9 +130,9 @@ Default - disabled
 
 :type: bool
 )");
-  bool captureCallstacks;
+    bool captureCallstacks;
 
-  DOCUMENT(R"(When capturing CPU callstacks, only capture them from actions.
+    DOCUMENT(R"(When capturing CPU callstacks, only capture them from actions.
 This option does nothing if :data:`captureCallstacks` is not enabled.
 
 Default - disabled
@@ -140,9 +143,9 @@ Default - disabled
 
 :type: bool
 )");
-  bool captureCallstacksOnlyActions;
+    bool captureCallstacksOnlyActions;
 
-  DOCUMENT(R"(Specify a delay in seconds to wait for a debugger to attach, after
+    DOCUMENT(R"(Specify a delay in seconds to wait for a debugger to attach, after
 creating or injecting into a process, before continuing to allow it to run.
 
 ``0`` indicates no delay, and the process will run immediately after injection.
@@ -151,9 +154,9 @@ Default - 0 seconds
 
 :type: int
 )");
-  uint32_t delayForDebugger;
+    uint32_t delayForDebugger;
 
-  DOCUMENT(R"(Verify buffer access. This includes checking the memory returned by a Map() call to
+    DOCUMENT(R"(Verify buffer access. This includes checking the memory returned by a Map() call to
 detect any out-of-bounds modification, as well as initialising buffers with undefined contents to
 a marker value to catch use of uninitialised memory.
 
@@ -171,9 +174,9 @@ RenderDoc.
 
 :type: bool
 )");
-  bool verifyBufferAccess;
+    bool verifyBufferAccess;
 
-  DOCUMENT(R"(Hooks any system API calls that create child processes, and injects
+    DOCUMENT(R"(Hooks any system API calls that create child processes, and injects
 RenderDoc into them recursively with the same options.
 
 Default - disabled
@@ -184,9 +187,9 @@ Default - disabled
 
 :type: bool
 )");
-  bool hookIntoChildren;
+    bool hookIntoChildren;
 
-  DOCUMENT(R"(By default RenderDoc only includes resources in the final logfile necessary
+    DOCUMENT(R"(By default RenderDoc only includes resources in the final logfile necessary
 for that frame, this allows you to override that behaviour.
 
 Default - disabled
@@ -198,9 +201,9 @@ and available for inspection.
 
 :type: bool
 )");
-  bool refAllResources;
+    bool refAllResources;
 
-  DOCUMENT(R"(In APIs that allow for the recording of command lists to be replayed later,
+    DOCUMENT(R"(In APIs that allow for the recording of command lists to be replayed later,
 RenderDoc may choose to not capture command lists before a frame capture is
 triggered, to reduce overheads. This means any command lists recorded once
 and replayed many times will not be available and may cause a failure to
@@ -218,9 +221,9 @@ the period when a frame capture is in progress.
 
 :type: bool
 )");
-  bool captureAllCmdLists;
+    bool captureAllCmdLists;
 
-  DOCUMENT(R"(Mute API debugging output when the API validation mode option is enabled.
+    DOCUMENT(R"(Mute API debugging output when the API validation mode option is enabled.
 
 Default - enabled
 
@@ -230,9 +233,9 @@ Default - enabled
 
 :type: bool
 )");
-  bool debugOutputMute;
+    bool debugOutputMute;
 
-  DOCUMENT(R"(Define a soft memory limit which some APIs may aim to keep overhead under where
+    DOCUMENT(R"(Define a soft memory limit which some APIs may aim to keep overhead under where
 possible. Anything above this limit will where possible be saved directly to disk during capture.
 This will cause increased disk space use (which may cause a capture to fail if disk space is
 exhausted) as well as slower capture times.
@@ -245,7 +248,7 @@ Default - 0 Megabytes
 
 :type: int
 )");
-  uint32_t softMemoryLimit;
+    uint32_t softMemoryLimit;
 };
 
 DECLARE_REFLECTION_STRUCT(CaptureOptions);

@@ -177,7 +177,7 @@ public:
 
 
 // Handles pulse animations (default buttons)
-class QWindowsVistaPulse: public QWindowsVistaAnimation
+class QWindowsVistaPulse : public QWindowsVistaAnimation
 {
     Q_OBJECT
 public:
@@ -198,7 +198,6 @@ public:
 };
 
 QT_END_NAMESPACE
-
 #endif // style_windowsvista
 
 #endif // QWINDOWSVISTASTYLE_P_P_H

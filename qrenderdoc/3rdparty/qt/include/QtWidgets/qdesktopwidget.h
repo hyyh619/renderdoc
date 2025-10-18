@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QApplication;
 class QDesktopWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QDesktopWidget : public QWidget
+class Q_WIDGETS_EXPORT    QDesktopWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(bool virtualDesktop READ isVirtualDesktop)
@@ -66,19 +66,23 @@ public:
     int primaryScreen() const;
 
     int screenNumber(const QWidget *widget = Q_NULLPTR) const;
-    int screenNumber(const QPoint &) const;
+    int screenNumber(const QPoint&) const;
 
-    QWidget *screen(int screen = -1);
+    QWidget* screen(int screen = -1);
 
     const QRect screenGeometry(int screen = -1) const;
     const QRect screenGeometry(const QWidget *widget) const;
     const QRect screenGeometry(const QPoint &point) const
-    { return screenGeometry(screenNumber(point)); }
+    {
+        return screenGeometry(screenNumber(point));
+    }
 
     const QRect availableGeometry(int screen = -1) const;
     const QRect availableGeometry(const QWidget *widget) const;
     const QRect availableGeometry(const QPoint &point) const
-    { return availableGeometry(screenNumber(point)); }
+    {
+        return availableGeometry(screenNumber(point));
+    }
 
 Q_SIGNALS:
     void resized(int);
@@ -100,7 +104,9 @@ private:
 };
 
 inline int QDesktopWidget::screenCount() const
-{ return numScreens(); }
+{
+    return numScreens();
+}
 
 QT_END_NAMESPACE
 

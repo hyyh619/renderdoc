@@ -69,7 +69,7 @@ public:
     QFusionStyle();
     ~QFusionStyle();
 
-    QPalette standardPalette () const Q_DECL_OVERRIDE;
+    QPalette standardPalette() const Q_DECL_OVERRIDE;
     void drawPrimitive(PrimitiveElement elem,
                        const QStyleOption *option,
                        QPainter *painter, const QWidget *widget = 0) const Q_DECL_OVERRIDE;
@@ -107,11 +107,9 @@ public:
 
 protected:
     QFusionStyle(QFusionStylePrivate &dd);
-
 };
-
 #endif // style_fusion
 
 QT_END_NAMESPACE
 
-#endif //QFUSIONSTYLE_P_H
+#endif // QFUSIONSTYLE_P_H

@@ -101,7 +101,6 @@ private:
     Q_DECLARE_PRIVATE(QWindowsXPStyle)
     friend class QStyleFactory;
 };
-
 #endif // style_windowsxp
 
 QT_END_NAMESPACE

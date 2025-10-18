@@ -46,7 +46,7 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractNativeEventFilterPrivate;
 
-class Q_CORE_EXPORT QAbstractNativeEventFilter
+class Q_CORE_EXPORT    QAbstractNativeEventFilter
 {
 public:
     QAbstractNativeEventFilter();
@@ -56,7 +56,7 @@ public:
 
 private:
     Q_DISABLE_COPY(QAbstractNativeEventFilter)
-    QAbstractNativeEventFilterPrivate *d;
+    QAbstractNativeEventFilterPrivate * d;
 };
 
 QT_END_NAMESPACE

@@ -64,11 +64,10 @@ public:
     QSctpServerPrivate();
     virtual ~QSctpServerPrivate();
 
-    int maximumChannelCount;
+    int    maximumChannelCount;
 
     void configureCreatedSocket() Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_SCTP
 
 QT_END_NAMESPACE

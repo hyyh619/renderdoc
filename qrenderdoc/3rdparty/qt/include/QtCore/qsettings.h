@@ -46,7 +46,7 @@
 #include <QtCore/qscopedpointer.h>
 
 QT_BEGIN_NAMESPACE
-QT_END_NAMESPACE
+    QT_END_NAMESPACE
 
 #ifndef QT_NO_SETTINGS
 
@@ -62,7 +62,7 @@ class QIODevice;
 class QSettingsPrivate;
 
 #ifndef QT_NO_QOBJECT
-class Q_CORE_EXPORT QSettings : public QObject
+class Q_CORE_EXPORT    QSettings : public QObject
 #else
 class Q_CORE_EXPORT QSettings
 #endif
@@ -75,7 +75,8 @@ class Q_CORE_EXPORT QSettings
     Q_DECLARE_PRIVATE(QSettings)
 
 public:
-    enum Status {
+    enum Status
+    {
         NoError = 0,
         AccessError,
         FormatError
@@ -84,7 +85,8 @@ public:
     Q_ENUM(Status)
 #endif
 
-    enum Format {
+    enum Format
+    {
         NativeFormat,
         IniFormat,
 
@@ -115,7 +117,8 @@ public:
     Q_ENUM(Format)
 #endif
 
-    enum Scope {
+    enum Scope
+    {
         UserScope,
         SystemScope
     };
@@ -179,7 +182,7 @@ public:
 #ifndef QT_NO_TEXTCODEC
     void setIniCodec(QTextCodec *codec);
     void setIniCodec(const char *codecName);
-    QTextCodec *iniCodec() const;
+    QTextCodec* iniCodec() const;
 #endif
 
     static void setDefaultFormat(Format format);
@@ -205,7 +208,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SETTINGS
 
 #endif // QSETTINGS_H

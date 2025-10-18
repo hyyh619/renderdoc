@@ -75,29 +75,30 @@ class QSurfaceFormat;
 typedef QPair<qreal, qreal> QDpi;
 
 
-class Q_GUI_EXPORT QPlatformScreen
+class Q_GUI_EXPORT    QPlatformScreen
 {
     Q_DECLARE_PRIVATE(QPlatformScreen)
 
 public:
-    enum SubpixelAntialiasingType { // copied from qfontengine_p.h since we can't include private headers
-        Subpixel_None,
-        Subpixel_RGB,
-        Subpixel_BGR,
-        Subpixel_VRGB,
-        Subpixel_VBGR
-    };
+    enum SubpixelAntialiasingType   // copied from qfontengine_p.h since we can't include private headers
+    {Subpixel_None,
+     Subpixel_RGB,
+     Subpixel_BGR,
+     Subpixel_VRGB,
+     Subpixel_VBGR};
 
-    enum PowerState {
+    enum PowerState
+    {
         PowerStateOn,
         PowerStateStandby,
         PowerStateSuspend,
         PowerStateOff
     };
 
-    struct Mode {
-        QSize size;
-        qreal refreshRate;
+    struct Mode
+    {
+        QSize   size;
+        qreal   refreshRate;
     };
 
     QPlatformScreen();
@@ -106,10 +107,13 @@ public:
     virtual QPixmap grabWindow(WId window, int x, int y, int width, int height) const;
 
     virtual QRect geometry() const = 0;
-    virtual QRect availableGeometry() const {return geometry();}
+    virtual QRect availableGeometry() const
+    {
+        return geometry();
+    }
 
-    virtual int depth() const = 0;
-    virtual QImage::Format format() const = 0;
+    virtual int depth() const               = 0;
+    virtual QImage::Format format() const   = 0;
 
     virtual QSizeF physicalSize() const;
     virtual QDpi logicalDpi() const;
@@ -122,23 +126,26 @@ public:
     virtual Qt::ScreenOrientation orientation() const;
     virtual void setOrientationUpdateMask(Qt::ScreenOrientations mask);
 
-    virtual QWindow *topLevelAt(const QPoint &point) const;
-    virtual QList<QPlatformScreen *> virtualSiblings() const;
-    const QPlatformScreen *screenForPosition(const QPoint &point) const;
+    virtual QWindow* topLevelAt(const QPoint &point) const;
+    virtual QList<QPlatformScreen*> virtualSiblings() const;
+    const QPlatformScreen* screenForPosition(const QPoint &point) const;
 
-    QScreen *screen() const;
+    QScreen* screen() const;
 
-    //jl: should this function be in QPlatformIntegration
-    //jl: maybe screenForWindow is a better name?
-    static QPlatformScreen *platformScreenForWindow(const QWindow *window);
+    // jl: should this function be in QPlatformIntegration
+    // jl: maybe screenForWindow is a better name?
+    static QPlatformScreen* platformScreenForWindow(const QWindow *window);
 
-    virtual QString name() const { return QString(); }
+    virtual QString name() const
+    {
+        return QString();
+    }
 
     virtual QString manufacturer() const;
     virtual QString model() const;
     virtual QString serialNumber() const;
 
-    virtual QPlatformCursor *cursor() const;
+    virtual QPlatformCursor* cursor() const;
     virtual SubpixelAntialiasingType subpixelAntialiasingTypeHint() const;
 
     virtual PowerState powerState() const;
@@ -159,7 +166,7 @@ public:
 protected:
     void resizeMaximizedWindows();
 
-    QScopedPointer<QPlatformScreenPrivate> d_ptr;
+    QScopedPointer<QPlatformScreenPrivate>    d_ptr;
 
 private:
     Q_DISABLE_COPY(QPlatformScreen)

@@ -55,7 +55,7 @@ class QTextBlock;
 class QTextObjectInterface;
 class QTextFrame;
 
-class Q_GUI_EXPORT QAbstractTextDocumentLayout : public QObject
+class Q_GUI_EXPORT    QAbstractTextDocumentLayout : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAbstractTextDocumentLayout)
@@ -66,7 +66,7 @@ public:
 
     struct Selection
     {
-        QTextCursor cursor;
+        QTextCursor     cursor;
         QTextCharFormat format;
     };
 
@@ -74,43 +74,43 @@ public:
     {
         PaintContext()
             : cursorPosition(-1)
-            {}
-        int cursorPosition;
-        QPalette palette;
-        QRectF clip;
-        QVector<Selection> selections;
+        {}
+        int                 cursorPosition;
+        QPalette            palette;
+        QRectF              clip;
+        QVector<Selection>  selections;
     };
 
-    virtual void draw(QPainter *painter, const PaintContext &context) = 0;
-    virtual int hitTest(const QPointF &point, Qt::HitTestAccuracy accuracy) const = 0;
+    virtual void draw(QPainter *painter, const PaintContext &context)               = 0;
+    virtual int hitTest(const QPointF &point, Qt::HitTestAccuracy accuracy) const   = 0;
 
-    QString anchorAt(const QPointF& pos) const;
+    QString anchorAt(const QPointF &pos) const;
     QString imageAt(const QPointF &pos) const;
     QTextFormat formatAt(const QPointF &pos) const;
 
-    virtual int pageCount() const = 0;
+    virtual int pageCount() const       = 0;
     virtual QSizeF documentSize() const = 0;
 
-    virtual QRectF frameBoundingRect(QTextFrame *frame) const = 0;
+    virtual QRectF frameBoundingRect(QTextFrame *frame) const       = 0;
     virtual QRectF blockBoundingRect(const QTextBlock &block) const = 0;
 
     void setPaintDevice(QPaintDevice *device);
-    QPaintDevice *paintDevice() const;
+    QPaintDevice* paintDevice() const;
 
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     void registerHandler(int objectType, QObject *component);
     void unregisterHandler(int objectType, QObject *component = Q_NULLPTR);
-    QTextObjectInterface *handlerForObject(int objectType) const;
+    QTextObjectInterface* handlerForObject(int objectType) const;
 
 Q_SIGNALS:
-    void update(const QRectF & = QRectF(0., 0., 1000000000., 1000000000.));
+    void update(const QRectF& = QRectF(0., 0., 1000000000., 1000000000.));
     void updateBlock(const QTextBlock &block);
     void documentSizeChanged(const QSizeF &newSize);
     void pageCountChanged(int newPages);
 
 protected:
-    QAbstractTextDocumentLayout(QAbstractTextDocumentLayoutPrivate &, QTextDocument *);
+    QAbstractTextDocumentLayout(QAbstractTextDocumentLayoutPrivate&, QTextDocument*);
 
     virtual void documentChanged(int from, int charsRemoved, int charsAdded) = 0;
 
@@ -128,19 +128,19 @@ private:
     friend class QTextEngine;
     friend class QTextLayout;
     friend class QTextLine;
-    Q_PRIVATE_SLOT(d_func(), void _q_handlerDestroyed(QObject *obj))
+    Q_PRIVATE_SLOT(d_func(), void _q_handlerDestroyed(QObject * obj))
     Q_PRIVATE_SLOT(d_func(), int _q_dynamicPageCountSlot())
     Q_PRIVATE_SLOT(d_func(), QSizeF _q_dynamicDocumentSizeSlot())
 };
 Q_DECLARE_TYPEINFO(QAbstractTextDocumentLayout::Selection,    Q_RELOCATABLE_TYPE);
 Q_DECLARE_TYPEINFO(QAbstractTextDocumentLayout::PaintContext, Q_RELOCATABLE_TYPE);
 
-class Q_GUI_EXPORT QTextObjectInterface
+class Q_GUI_EXPORT    QTextObjectInterface
 {
 public:
     virtual ~QTextObjectInterface();
-    virtual QSizeF intrinsicSize(QTextDocument *doc, int posInDocument, const QTextFormat &format) = 0;
-    virtual void drawObject(QPainter *painter, const QRectF &rect, QTextDocument *doc, int posInDocument, const QTextFormat &format) = 0;
+    virtual QSizeF intrinsicSize(QTextDocument *doc, int posInDocument, const QTextFormat &format)                                      = 0;
+    virtual void drawObject(QPainter *painter, const QRectF &rect, QTextDocument *doc, int posInDocument, const QTextFormat &format)    = 0;
 };
 
 Q_DECLARE_INTERFACE(QTextObjectInterface, "org.qt-project.Qt.QTextObjectInterface")

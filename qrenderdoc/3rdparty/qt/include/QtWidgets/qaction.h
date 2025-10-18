@@ -57,7 +57,7 @@ class QActionGroup;
 class QActionPrivate;
 class QGraphicsWidget;
 
-class Q_WIDGETS_EXPORT QAction : public QObject
+class Q_WIDGETS_EXPORT    QAction : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAction)
@@ -87,9 +87,9 @@ public:
     enum MenuRole { NoRole = 0, TextHeuristicRole, ApplicationSpecificRole, AboutQtRole,
                     AboutRole, PreferencesRole, QuitRole };
     Q_ENUM(MenuRole)
-    enum Priority { LowPriority = 0,
-                    NormalPriority = 128,
-                    HighPriority = 256};
+    enum Priority { LowPriority     = 0,
+                    NormalPriority  = 128,
+                    HighPriority    = 256};
     Q_ENUM(Priority)
     explicit QAction(QObject *parent = nullptr);
     explicit QAction(const QString &text, QObject *parent = nullptr);
@@ -98,7 +98,7 @@ public:
     ~QAction();
 
     void setActionGroup(QActionGroup *group);
-    QActionGroup *actionGroup() const;
+    QActionGroup* actionGroup() const;
     void setIcon(const QIcon &icon);
     QIcon icon() const;
 
@@ -121,7 +121,7 @@ public:
     Priority priority() const;
 
 #if QT_CONFIG(menu)
-    QMenu *menu() const;
+    QMenu* menu() const;
     void setMenu(QMenu *menu);
 #endif
 
@@ -169,24 +169,33 @@ public:
     bool isIconVisibleInMenu() const;
 
 
-    QWidget *parentWidget() const;
+    QWidget* parentWidget() const;
 
-    QList<QWidget *> associatedWidgets() const;
+    QList<QWidget*> associatedWidgets() const;
 #if QT_CONFIG(graphicsview)
-    QList<QGraphicsWidget *> associatedGraphicsWidgets() const; // ### suboptimal
+    QList<QGraphicsWidget*> associatedGraphicsWidgets() const;  // ### suboptimal
 #endif
 
 protected:
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
     QAction(QActionPrivate &dd, QObject *parent);
 
 public Q_SLOTS:
-    void trigger() { activate(Trigger); }
-    void hover() { activate(Hover); }
+    void trigger()
+    {
+        activate(Trigger);
+    }
+    void hover()
+    {
+        activate(Hover);
+    }
     void setChecked(bool);
     void toggle();
     void setEnabled(bool);
-    inline void setDisabled(bool b) { setEnabled(!b); }
+    inline void setDisabled(bool b)
+    {
+        setEnabled(!b);
+    }
     void setVisible(bool);
 
 Q_SIGNALS:
@@ -211,13 +220,12 @@ private:
 };
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QAction *);
+Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QAction*);
 #endif
 
 QT_BEGIN_INCLUDE_NAMESPACE
 #include <QtWidgets/qactiongroup.h>
 QT_END_INCLUDE_NAMESPACE
-
 #endif // QT_NO_ACTION
 
 QT_END_NAMESPACE

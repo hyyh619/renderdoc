@@ -59,11 +59,12 @@ class QSslError;
 class QSslPreSharedKeyAuthenticator;
 
 class QNetworkReplyPrivate;
-class Q_NETWORK_EXPORT QNetworkReply: public QIODevice
+class Q_NETWORK_EXPORT    QNetworkReply : public QIODevice
 {
     Q_OBJECT
 public:
-    enum NetworkError {
+    enum NetworkError
+    {
         NoError = 0,
 
         // network layer errors [relating to the destination server] (1-99):
@@ -121,7 +122,7 @@ public:
     qint64 readBufferSize() const;
     virtual void setReadBufferSize(qint64 size);
 
-    QNetworkAccessManager *manager() const;
+    QNetworkAccessManager* manager() const;
     QNetworkAccessManager::Operation operation() const;
     QNetworkRequest request() const;
     NetworkError error() const;
@@ -138,7 +139,7 @@ public:
     QByteArray rawHeader(const QByteArray &headerName) const;
 
     typedef QPair<QByteArray, QByteArray> RawHeaderPair;
-    const QList<RawHeaderPair>& rawHeaderPairs() const;
+    const QList<RawHeaderPair>&rawHeaderPairs() const;
 
     // attributes
     QVariant attribute(QNetworkRequest::Attribute code) const;
@@ -182,9 +183,9 @@ protected:
     void setRawHeader(const QByteArray &headerName, const QByteArray &value);
     void setAttribute(QNetworkRequest::Attribute code, const QVariant &value);
 
-    virtual void sslConfigurationImplementation(QSslConfiguration &) const;
-    virtual void setSslConfigurationImplementation(const QSslConfiguration &);
-    virtual void ignoreSslErrorsImplementation(const QList<QSslError> &);
+    virtual void sslConfigurationImplementation(QSslConfiguration&) const;
+    virtual void setSslConfigurationImplementation(const QSslConfiguration&);
+    virtual void ignoreSslErrorsImplementation(const QList<QSslError>&);
 
 private:
     Q_DECLARE_PRIVATE(QNetworkReply)

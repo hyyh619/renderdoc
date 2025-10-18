@@ -67,15 +67,17 @@ class QHistoryStatePrivate : public QAbstractStatePrivate
 public:
     QHistoryStatePrivate();
 
-    static QHistoryStatePrivate *get(QHistoryState *q)
-    { return q->d_func(); }
+    static QHistoryStatePrivate* get(QHistoryState *q)
+    {
+        return q->d_func();
+    }
 
-    QAbstractTransition *defaultTransition;
-    QHistoryState::HistoryType historyType;
-    QList<QAbstractState*> configuration;
+    QAbstractTransition             *defaultTransition;
+    QHistoryState::HistoryType      historyType;
+    QList<QAbstractState*>          configuration;
 };
 
-class DefaultStateTransition: public QAbstractTransition
+class DefaultStateTransition : public QAbstractTransition
 {
     Q_OBJECT
 
@@ -88,8 +90,14 @@ protected:
     // state, it will handle this transition as a special case. The history state itself is never
     // entered either: either the stored configuration will be used, or the target(s) of this
     // transition are used.
-    bool eventTest(QEvent *event)  override { Q_UNUSED(event); return false; }
-    void onTransition(QEvent *event) override { Q_UNUSED(event); }
+    bool eventTest(QEvent *event)  override
+    {
+        Q_UNUSED(event); return false;
+    }
+    void onTransition(QEvent *event) override
+    {
+        Q_UNUSED(event);
+    }
 };
 
 QT_END_NAMESPACE

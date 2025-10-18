@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QIODevice;
 class QPdfWriterPrivate;
 
-class Q_GUI_EXPORT QPdfWriter : public QObject, public QPagedPaintDevice
+class Q_GUI_EXPORT    QPdfWriter : public QObject, public QPagedPaintDevice
 {
     Q_OBJECT
 public:
@@ -89,7 +89,7 @@ public:
     void setMargins(const Margins &m) override;
 
 protected:
-    QPaintEngine *paintEngine() const override;
+    QPaintEngine* paintEngine() const override;
     int metric(PaintDeviceMetric id) const override;
 
 private:
@@ -98,7 +98,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_PDF
 
 #endif

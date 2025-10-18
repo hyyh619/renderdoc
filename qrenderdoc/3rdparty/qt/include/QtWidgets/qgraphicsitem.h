@@ -80,35 +80,37 @@ class QRectF;
 class QStyleOptionGraphicsItem;
 
 class QGraphicsItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsItem
+class Q_WIDGETS_EXPORT    QGraphicsItem
 {
 public:
-    enum GraphicsItemFlag {
-        ItemIsMovable = 0x1,
-        ItemIsSelectable = 0x2,
-        ItemIsFocusable = 0x4,
-        ItemClipsToShape = 0x8,
-        ItemClipsChildrenToShape = 0x10,
-        ItemIgnoresTransformations = 0x20,
-        ItemIgnoresParentOpacity = 0x40,
-        ItemDoesntPropagateOpacityToChildren = 0x80,
-        ItemStacksBehindParent = 0x100,
-        ItemUsesExtendedStyleOption = 0x200,
-        ItemHasNoContents = 0x400,
-        ItemSendsGeometryChanges = 0x800,
-        ItemAcceptsInputMethod = 0x1000,
-        ItemNegativeZStacksBehindParent = 0x2000,
-        ItemIsPanel = 0x4000,
-        ItemIsFocusScope = 0x8000, // internal
-        ItemSendsScenePositionChanges = 0x10000,
-        ItemStopsClickFocusPropagation = 0x20000,
-        ItemStopsFocusHandling = 0x40000,
-        ItemContainsChildrenInShape = 0x80000
-        // NB! Don't forget to increase the d_ptr->flags bit field by 1 when adding a new flag.
+    enum GraphicsItemFlag
+    {
+        ItemIsMovable                           = 0x1,
+        ItemIsSelectable                        = 0x2,
+        ItemIsFocusable                         = 0x4,
+        ItemClipsToShape                        = 0x8,
+        ItemClipsChildrenToShape                = 0x10,
+        ItemIgnoresTransformations              = 0x20,
+        ItemIgnoresParentOpacity                = 0x40,
+        ItemDoesntPropagateOpacityToChildren    = 0x80,
+        ItemStacksBehindParent                  = 0x100,
+        ItemUsesExtendedStyleOption             = 0x200,
+        ItemHasNoContents                       = 0x400,
+        ItemSendsGeometryChanges                = 0x800,
+        ItemAcceptsInputMethod                  = 0x1000,
+        ItemNegativeZStacksBehindParent         = 0x2000,
+        ItemIsPanel                             = 0x4000,
+        ItemIsFocusScope                        = 0x8000, // internal
+        ItemSendsScenePositionChanges           = 0x10000,
+        ItemStopsClickFocusPropagation          = 0x20000,
+        ItemStopsFocusHandling                  = 0x40000,
+        ItemContainsChildrenInShape             = 0x80000
+                                                  // NB! Don't forget to increase the d_ptr->flags bit field by 1 when adding a new flag.
     };
     Q_DECLARE_FLAGS(GraphicsItemFlags, GraphicsItemFlag)
 
-    enum GraphicsItemChange {
+    enum GraphicsItemChange
+    {
         ItemPositionChange,
         ItemMatrixChange,
         ItemVisibleChange,
@@ -145,7 +147,8 @@ public:
         ItemTransformOriginPointHasChanged
     };
 
-    enum CacheMode {
+    enum CacheMode
+    {
         NoCache,
         ItemCoordinateCache,
         DeviceCoordinateCache
@@ -161,28 +164,31 @@ public:
     explicit QGraphicsItem(QGraphicsItem *parent = Q_NULLPTR);
     virtual ~QGraphicsItem();
 
-    QGraphicsScene *scene() const;
+    QGraphicsScene* scene() const;
 
-    QGraphicsItem *parentItem() const;
-    QGraphicsItem *topLevelItem() const;
-    QGraphicsObject *parentObject() const;
-    QGraphicsWidget *parentWidget() const;
-    QGraphicsWidget *topLevelWidget() const;
-    QGraphicsWidget *window() const;
-    QGraphicsItem *panel() const;
+    QGraphicsItem* parentItem() const;
+    QGraphicsItem* topLevelItem() const;
+    QGraphicsObject* parentObject() const;
+    QGraphicsWidget* parentWidget() const;
+    QGraphicsWidget* topLevelWidget() const;
+    QGraphicsWidget* window() const;
+    QGraphicsItem* panel() const;
     void setParentItem(QGraphicsItem *parent);
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline QList<QGraphicsItem *> children() const { return childItems(); }
+    QT_DEPRECATED inline QList<QGraphicsItem*> children() const
+    {
+        return childItems();
+    }
 #endif
-    QList<QGraphicsItem *> childItems() const;
+    QList<QGraphicsItem*> childItems() const;
     bool isWidget() const;
     bool isWindow() const;
     bool isPanel() const;
 
-    QGraphicsObject *toGraphicsObject();
-    const QGraphicsObject *toGraphicsObject() const;
+    QGraphicsObject* toGraphicsObject();
+    const QGraphicsObject* toGraphicsObject() const;
 
-    QGraphicsItemGroup *group() const;
+    QGraphicsItemGroup* group() const;
     void setGroup(QGraphicsItemGroup *group);
 
     GraphicsItemFlags flags() const;
@@ -211,8 +217,14 @@ public:
     bool isVisible() const;
     bool isVisibleTo(const QGraphicsItem *parent) const;
     void setVisible(bool visible);
-    inline void hide() { setVisible(false); }
-    inline void show() { setVisible(true); }
+    inline void hide()
+    {
+        setVisible(false);
+    }
+    inline void show()
+    {
+        setVisible(true);
+    }
 
     bool isEnabled() const;
     void setEnabled(bool enabled);
@@ -229,15 +241,21 @@ public:
 
 #if QT_CONFIG(graphicseffect)
     // Effect
-    QGraphicsEffect *graphicsEffect() const;
+    QGraphicsEffect* graphicsEffect() const;
     void setGraphicsEffect(QGraphicsEffect *effect);
 #endif // QT_CONFIG(graphicseffect)
 
     Qt::MouseButtons acceptedMouseButtons() const;
     void setAcceptedMouseButtons(Qt::MouseButtons buttons);
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline bool acceptsHoverEvents() const { return acceptHoverEvents(); }
-    QT_DEPRECATED inline void setAcceptsHoverEvents(bool enabled) { setAcceptHoverEvents(enabled); }
+    QT_DEPRECATED inline bool acceptsHoverEvents() const
+    {
+        return acceptHoverEvents();
+    }
+    QT_DEPRECATED inline void setAcceptsHoverEvents(bool enabled)
+    {
+        setAcceptHoverEvents(enabled);
+    }
 #endif
     bool acceptHoverEvents() const;
     void setAcceptHoverEvents(bool enabled);
@@ -257,11 +275,11 @@ public:
     void setFocus(Qt::FocusReason focusReason = Qt::OtherFocusReason);
     void clearFocus();
 
-    QGraphicsItem *focusProxy() const;
+    QGraphicsItem* focusProxy() const;
     void setFocusProxy(QGraphicsItem *item);
 
-    QGraphicsItem *focusItem() const;
-    QGraphicsItem *focusScopeItem() const;
+    QGraphicsItem* focusItem() const;
+    QGraphicsItem* focusScopeItem() const;
 
     void grabMouse();
     void ungrabMouse();
@@ -270,14 +288,23 @@ public:
 
     // Positioning in scene coordinates
     QPointF pos() const;
-    inline qreal x() const { return pos().x(); }
+    inline qreal x() const
+    {
+        return pos().x();
+    }
     void setX(qreal x);
-    inline qreal y() const { return pos().y(); }
+    inline qreal y() const
+    {
+        return pos().y();
+    }
     void setY(qreal y);
     QPointF scenePos() const;
     void setPos(const QPointF &pos);
     inline void setPos(qreal x, qreal y);
-    inline void moveBy(qreal dx, qreal dy) { setPos(pos().x() + dx, pos().y() + dy); }
+    inline void moveBy(qreal dx, qreal dy)
+    {
+        setPos(pos().x() + dx, pos().y() + dy);
+    }
 
     void ensureVisible(const QRectF &rect = QRectF(), int xmargin = 50, int ymargin = 50);
     inline void ensureVisible(qreal x, qreal y, qreal w, qreal h, int xmargin = 50, int ymargin = 50);
@@ -294,10 +321,22 @@ public:
     void setTransform(const QTransform &matrix, bool combine = false);
     void resetTransform();
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline void rotate(qreal angle) { setTransform(QTransform().rotate(angle), true); }
-    QT_DEPRECATED inline void scale(qreal sx, qreal sy) { setTransform(QTransform::fromScale(sx, sy), true); }
-    QT_DEPRECATED inline void shear(qreal sh, qreal sv) { setTransform(QTransform().shear(sh, sv), true); }
-    QT_DEPRECATED inline void translate(qreal dx, qreal dy) { setTransform(QTransform::fromTranslate(dx, dy), true); }
+    QT_DEPRECATED inline void rotate(qreal angle)
+    {
+        setTransform(QTransform().rotate(angle), true);
+    }
+    QT_DEPRECATED inline void scale(qreal sx, qreal sy)
+    {
+        setTransform(QTransform::fromScale(sx, sy), true);
+    }
+    QT_DEPRECATED inline void shear(qreal sh, qreal sv)
+    {
+        setTransform(QTransform().shear(sh, sv), true);
+    }
+    QT_DEPRECATED inline void translate(qreal dx, qreal dy)
+    {
+        setTransform(QTransform::fromTranslate(dx, dy), true);
+    }
 #endif
     void setRotation(qreal angle);
     qreal rotation() const;
@@ -305,13 +344,15 @@ public:
     void setScale(qreal scale);
     qreal scale() const;
 
-    QList<QGraphicsTransform *> transformations() const;
-    void setTransformations(const QList<QGraphicsTransform *> &transformations);
+    QList<QGraphicsTransform*> transformations() const;
+    void setTransformations(const QList<QGraphicsTransform*> &transformations);
 
     QPointF transformOriginPoint() const;
     void setTransformOriginPoint(const QPointF &origin);
     inline void setTransformOriginPoint(qreal ax, qreal ay)
-    { setTransformOriginPoint(QPointF(ax,ay)); }
+    {
+        setTransformOriginPoint(QPointF(ax, ay));
+    }
 
     virtual void advance(int phase);
 
@@ -330,7 +371,7 @@ public:
     virtual bool contains(const QPointF &point) const;
     virtual bool collidesWithItem(const QGraphicsItem *other, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
     virtual bool collidesWithPath(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
-    QList<QGraphicsItem *> collidingItems(Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    QList<QGraphicsItem*> collidingItems(Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
     bool isObscured(const QRectF &rect = QRectF()) const;
     inline bool isObscured(qreal x, qreal y, qreal w, qreal h) const;
     virtual bool isObscuredBy(const QGraphicsItem *item) const;
@@ -398,7 +439,7 @@ public:
     inline QRectF mapRectFromScene(qreal x, qreal y, qreal w, qreal h) const;
 
     bool isAncestorOf(const QGraphicsItem *child) const;
-    QGraphicsItem *commonAncestorItem(const QGraphicsItem *other) const;
+    QGraphicsItem* commonAncestorItem(const QGraphicsItem *other) const;
     bool isUnderMouse() const;
 
     // Custom data
@@ -408,9 +449,10 @@ public:
     Qt::InputMethodHints inputMethodHints() const;
     void setInputMethodHints(Qt::InputMethodHints hints);
 
-    enum {
-        Type = 1,
-        UserType = 65536
+    enum
+    {
+        Type        = 1,
+        UserType    = 65536
     };
     virtual int type() const;
 
@@ -443,7 +485,8 @@ protected:
 
     virtual QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-    enum Extension {
+    enum Extension
+    {
         UserExtension = 0x80000000
     };
     virtual bool supportsExtension(Extension extension) const;
@@ -452,7 +495,7 @@ protected:
 
 protected:
     QGraphicsItem(QGraphicsItemPrivate &dd, QGraphicsItem *parent);
-    QScopedPointer<QGraphicsItemPrivate> d_ptr;
+    QScopedPointer<QGraphicsItemPrivate>    d_ptr;
 
     void addToIndex();
     void removeFromIndex();
@@ -482,63 +525,107 @@ private:
     friend class QGestureManager;
 #endif
     friend class ::tst_QGraphicsItem;
-    friend bool qt_closestLeaf(const QGraphicsItem *, const QGraphicsItem *);
-    friend bool qt_closestItemFirst(const QGraphicsItem *, const QGraphicsItem *);
+    friend bool qt_closestLeaf(const QGraphicsItem*, const QGraphicsItem*);
+    friend bool qt_closestItemFirst(const QGraphicsItem*, const QGraphicsItem*);
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphicsItem::GraphicsItemFlags)
 Q_DECLARE_INTERFACE(QGraphicsItem, "org.qt-project.Qt.QGraphicsItem")
 
 inline void QGraphicsItem::setPos(qreal ax, qreal ay)
-{ setPos(QPointF(ax, ay)); }
+{
+    setPos(QPointF(ax, ay));
+}
 inline void QGraphicsItem::ensureVisible(qreal ax, qreal ay, qreal w, qreal h, int xmargin, int ymargin)
-{ ensureVisible(QRectF(ax, ay, w, h), xmargin, ymargin); }
+{
+    ensureVisible(QRectF(ax, ay, w, h), xmargin, ymargin);
+}
 inline void QGraphicsItem::update(qreal ax, qreal ay, qreal width, qreal height)
-{ update(QRectF(ax, ay, width, height)); }
+{
+    update(QRectF(ax, ay, width, height));
+}
 inline bool QGraphicsItem::isObscured(qreal ax, qreal ay, qreal w, qreal h) const
-{ return isObscured(QRectF(ax, ay, w, h)); }
+{
+    return isObscured(QRectF(ax, ay, w, h));
+}
 inline QPointF QGraphicsItem::mapToItem(const QGraphicsItem *item, qreal ax, qreal ay) const
-{ return mapToItem(item, QPointF(ax, ay)); }
+{
+    return mapToItem(item, QPointF(ax, ay));
+}
 inline QPointF QGraphicsItem::mapToParent(qreal ax, qreal ay) const
-{ return mapToParent(QPointF(ax, ay)); }
+{
+    return mapToParent(QPointF(ax, ay));
+}
 inline QPointF QGraphicsItem::mapToScene(qreal ax, qreal ay) const
-{ return mapToScene(QPointF(ax, ay));  }
+{
+    return mapToScene(QPointF(ax, ay));
+}
 inline QPointF QGraphicsItem::mapFromItem(const QGraphicsItem *item, qreal ax, qreal ay) const
-{ return mapFromItem(item, QPointF(ax, ay)); }
+{
+    return mapFromItem(item, QPointF(ax, ay));
+}
 inline QPointF QGraphicsItem::mapFromParent(qreal ax, qreal ay) const
-{ return mapFromParent(QPointF(ax, ay));  }
+{
+    return mapFromParent(QPointF(ax, ay));
+}
 inline QPointF QGraphicsItem::mapFromScene(qreal ax, qreal ay) const
-{ return mapFromScene(QPointF(ax, ay));  }
+{
+    return mapFromScene(QPointF(ax, ay));
+}
 inline QPolygonF QGraphicsItem::mapToItem(const QGraphicsItem *item, qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapToItem(item, QRectF(ax, ay, w, h)); }
+{
+    return mapToItem(item, QRectF(ax, ay, w, h));
+}
 inline QPolygonF QGraphicsItem::mapToParent(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapToParent(QRectF(ax, ay, w, h)); }
+{
+    return mapToParent(QRectF(ax, ay, w, h));
+}
 inline QPolygonF QGraphicsItem::mapToScene(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapToScene(QRectF(ax, ay, w, h)); }
+{
+    return mapToScene(QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectToItem(const QGraphicsItem *item, qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectToItem(item, QRectF(ax, ay, w, h)); }
+{
+    return mapRectToItem(item, QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectToParent(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectToParent(QRectF(ax, ay, w, h)); }
+{
+    return mapRectToParent(QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectToScene(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectToScene(QRectF(ax, ay, w, h)); }
+{
+    return mapRectToScene(QRectF(ax, ay, w, h));
+}
 inline QPolygonF QGraphicsItem::mapFromItem(const QGraphicsItem *item, qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapFromItem(item, QRectF(ax, ay, w, h)); }
+{
+    return mapFromItem(item, QRectF(ax, ay, w, h));
+}
 inline QPolygonF QGraphicsItem::mapFromParent(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapFromParent(QRectF(ax, ay, w, h)); }
+{
+    return mapFromParent(QRectF(ax, ay, w, h));
+}
 inline QPolygonF QGraphicsItem::mapFromScene(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapFromScene(QRectF(ax, ay, w, h)); }
+{
+    return mapFromScene(QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectFromItem(const QGraphicsItem *item, qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectFromItem(item, QRectF(ax, ay, w, h)); }
+{
+    return mapRectFromItem(item, QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectFromParent(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectFromParent(QRectF(ax, ay, w, h)); }
+{
+    return mapRectFromParent(QRectF(ax, ay, w, h));
+}
 inline QRectF QGraphicsItem::mapRectFromScene(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapRectFromScene(QRectF(ax, ay, w, h)); }
+{
+    return mapRectFromScene(QRectF(ax, ay, w, h));
+}
 
 
-class Q_WIDGETS_EXPORT QGraphicsObject : public QObject, public QGraphicsItem
+class Q_WIDGETS_EXPORT    QGraphicsObject : public QObject, public QGraphicsItem
 {
     Q_OBJECT
-    Q_PROPERTY(QGraphicsObject * parent READ parentObject WRITE setParentItem NOTIFY parentChanged DESIGNABLE false)
+    Q_PROPERTY(QGraphicsObject*parent READ parentObject WRITE setParentItem NOTIFY parentChanged DESIGNABLE false)
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged FINAL)
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible NOTIFY visibleChanged FINAL)
@@ -550,7 +637,7 @@ class Q_WIDGETS_EXPORT QGraphicsObject : public QObject, public QGraphicsItem
     Q_PROPERTY(qreal scale READ scale WRITE setScale NOTIFY scaleChanged)
     Q_PROPERTY(QPointF transformOriginPoint READ transformOriginPoint WRITE setTransformOriginPoint)
 #if QT_CONFIG(graphicseffect)
-    Q_PROPERTY(QGraphicsEffect *effect READ graphicsEffect WRITE setGraphicsEffect)
+    Q_PROPERTY(QGraphicsEffect * effect READ graphicsEffect WRITE setGraphicsEffect)
 #endif
     Q_PRIVATE_PROPERTY(QGraphicsItem::d_func(), QDeclarativeListProperty<QGraphicsObject> children READ childrenList DESIGNABLE false NOTIFY childrenChanged)
     Q_PRIVATE_PROPERTY(QGraphicsItem::d_func(), qreal width READ width WRITE setWidth NOTIFY widthChanged RESET resetWidth FINAL)
@@ -597,7 +684,7 @@ private:
 
 
 class QAbstractGraphicsShapeItemPrivate;
-class Q_WIDGETS_EXPORT QAbstractGraphicsShapeItem : public QGraphicsItem
+class Q_WIDGETS_EXPORT    QAbstractGraphicsShapeItem : public QGraphicsItem
 {
 public:
     explicit QAbstractGraphicsShapeItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -622,7 +709,7 @@ private:
 };
 
 class QGraphicsPathItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsPathItem : public QAbstractGraphicsShapeItem
+class Q_WIDGETS_EXPORT    QGraphicsPathItem : public QAbstractGraphicsShapeItem
 {
 public:
     explicit QGraphicsPathItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -655,7 +742,7 @@ private:
 };
 
 class QGraphicsRectItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsRectItem : public QAbstractGraphicsShapeItem
+class Q_WIDGETS_EXPORT    QGraphicsRectItem : public QAbstractGraphicsShapeItem
 {
 public:
     explicit QGraphicsRectItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -690,10 +777,12 @@ private:
 };
 
 inline void QGraphicsRectItem::setRect(qreal ax, qreal ay, qreal w, qreal h)
-{ setRect(QRectF(ax, ay, w, h)); }
+{
+    setRect(QRectF(ax, ay, w, h));
+}
 
 class QGraphicsEllipseItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsEllipseItem : public QAbstractGraphicsShapeItem
+class Q_WIDGETS_EXPORT    QGraphicsEllipseItem : public QAbstractGraphicsShapeItem
 {
 public:
     explicit QGraphicsEllipseItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -734,10 +823,12 @@ private:
 };
 
 inline void QGraphicsEllipseItem::setRect(qreal ax, qreal ay, qreal w, qreal h)
-{ setRect(QRectF(ax, ay, w, h)); }
+{
+    setRect(QRectF(ax, ay, w, h));
+}
 
 class QGraphicsPolygonItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsPolygonItem : public QAbstractGraphicsShapeItem
+class Q_WIDGETS_EXPORT    QGraphicsPolygonItem : public QAbstractGraphicsShapeItem
 {
 public:
     explicit QGraphicsPolygonItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -774,7 +865,7 @@ private:
 };
 
 class QGraphicsLineItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsLineItem : public QGraphicsItem
+class Q_WIDGETS_EXPORT    QGraphicsLineItem : public QGraphicsItem
 {
 public:
     explicit QGraphicsLineItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -788,7 +879,9 @@ public:
     QLineF line() const;
     void setLine(const QLineF &line);
     inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2)
-    { setLine(QLineF(x1, y1, x2, y2)); }
+    {
+        setLine(QLineF(x1, y1, x2, y2));
+    }
 
     QRectF boundingRect() const Q_DECL_OVERRIDE;
     QPainterPath shape() const Q_DECL_OVERRIDE;
@@ -813,10 +906,11 @@ private:
 };
 
 class QGraphicsPixmapItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsPixmapItem : public QGraphicsItem
+class Q_WIDGETS_EXPORT    QGraphicsPixmapItem : public QGraphicsItem
 {
 public:
-    enum ShapeMode {
+    enum ShapeMode
+    {
         MaskShape,
         BoundingRectShape,
         HeuristicMaskShape
@@ -862,12 +956,14 @@ private:
 };
 
 inline void QGraphicsPixmapItem::setOffset(qreal ax, qreal ay)
-{ setOffset(QPointF(ax, ay)); }
+{
+    setOffset(QPointF(ax, ay));
+}
 
 class QGraphicsTextItemPrivate;
 class QTextDocument;
 class QTextCursor;
-class Q_WIDGETS_EXPORT QGraphicsTextItem : public QGraphicsObject
+class Q_WIDGETS_EXPORT    QGraphicsTextItem : public QGraphicsObject
 {
     Q_OBJECT
     QDOC_PROPERTY(bool openExternalLinks READ openExternalLinks WRITE setOpenExternalLinks)
@@ -908,7 +1004,7 @@ public:
     void adjustSize();
 
     void setDocument(QTextDocument *document);
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     void setTextInteractionFlags(Qt::TextInteractionFlags flags);
     Qt::TextInteractionFlags textInteractionFlags() const;
@@ -923,8 +1019,8 @@ public:
     QTextCursor textCursor() const;
 
 Q_SIGNALS:
-    void linkActivated(const QString &);
-    void linkHovered(const QString &);
+    void linkActivated(const QString&);
+    void linkHovered(const QString&);
 
 protected:
     bool sceneEvent(QEvent *event) Q_DECL_OVERRIDE;
@@ -957,12 +1053,12 @@ private:
     Q_PRIVATE_SLOT(dd, void _q_updateBoundingRect(const QSizeF &))
     Q_PRIVATE_SLOT(dd, void _q_update(QRectF))
     Q_PRIVATE_SLOT(dd, void _q_ensureVisible(QRectF))
-    QGraphicsTextItemPrivate *dd;
+    QGraphicsTextItemPrivate * dd;
     friend class QGraphicsTextItemPrivate;
 };
 
 class QGraphicsSimpleTextItemPrivate;
-class Q_WIDGETS_EXPORT QGraphicsSimpleTextItem : public QAbstractGraphicsShapeItem
+class Q_WIDGETS_EXPORT    QGraphicsSimpleTextItem : public QAbstractGraphicsShapeItem
 {
 public:
     explicit QGraphicsSimpleTextItem(QGraphicsItem *parent = Q_NULLPTR);
@@ -998,7 +1094,7 @@ private:
 };
 
 class QGraphicsItemGroupPrivate;
-class Q_WIDGETS_EXPORT QGraphicsItemGroup : public QGraphicsItem
+class Q_WIDGETS_EXPORT    QGraphicsItemGroup : public QGraphicsItem
 {
 public:
     explicit QGraphicsItemGroup(QGraphicsItem *parent = Q_NULLPTR);
@@ -1021,18 +1117,18 @@ private:
     Q_DECLARE_PRIVATE(QGraphicsItemGroup)
 };
 
-template <class T> inline T qgraphicsitem_cast(QGraphicsItem *item)
+template<class T> inline T qgraphicsitem_cast(QGraphicsItem *item)
 {
     typedef typename std::remove_cv<typename std::remove_pointer<T>::type>::type Item;
     return int(Item::Type) == int(QGraphicsItem::Type)
-        || (item && int(Item::Type) == item->type()) ? static_cast<T>(item) : 0;
+           || (item && int(Item::Type) == item->type()) ? static_cast<T>(item) : 0;
 }
 
-template <class T> inline T qgraphicsitem_cast(const QGraphicsItem *item)
+template<class T> inline T qgraphicsitem_cast(const QGraphicsItem *item)
 {
     typedef typename std::remove_cv<typename std::remove_pointer<T>::type>::type Item;
     return int(Item::Type) == int(QGraphicsItem::Type)
-        || (item && int(Item::Type) == item->type()) ? static_cast<T>(item) : 0;
+           || (item && int(Item::Type) == item->type()) ? static_cast<T>(item) : 0;
 }
 
 #ifndef QT_NO_DEBUG_STREAM
@@ -1045,7 +1141,7 @@ Q_WIDGETS_EXPORT QDebug operator<<(QDebug debug, QGraphicsItem::GraphicsItemFlag
 
 QT_END_NAMESPACE
 
-Q_DECLARE_METATYPE(QGraphicsItem *)
+Q_DECLARE_METATYPE(QGraphicsItem*)
 
 QT_BEGIN_NAMESPACE
 

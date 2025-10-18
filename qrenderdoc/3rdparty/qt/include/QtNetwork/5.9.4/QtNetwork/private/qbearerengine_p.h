@@ -70,7 +70,7 @@ QT_BEGIN_NAMESPACE
 
 class QNetworkConfiguration;
 
-class Q_NETWORK_EXPORT QBearerEngine : public QObject
+class Q_NETWORK_EXPORT    QBearerEngine : public QObject
 {
     Q_OBJECT
 
@@ -84,7 +84,7 @@ public:
 
     virtual QNetworkConfigurationManager::Capabilities capabilities() const = 0;
 
-    virtual QNetworkSessionPrivate *createSessionBackend() = 0;
+    virtual QNetworkSessionPrivate* createSessionBackend() = 0;
 
     virtual QNetworkConfigurationPrivatePointer defaultConfiguration() = 0;
 
@@ -98,18 +98,17 @@ Q_SIGNALS:
     void updateCompleted();
 
 protected:
-    //this table contains an up to date list of all configs at any time.
-    //it must be updated if configurations change, are added/removed or
-    //the members of ServiceNetworks change
-    QHash<QString, QNetworkConfigurationPrivatePointer> accessPointConfigurations;
-    QHash<QString, QNetworkConfigurationPrivatePointer> snapConfigurations;
-    QHash<QString, QNetworkConfigurationPrivatePointer> userChoiceConfigurations;
+    // this table contains an up to date list of all configs at any time.
+    // it must be updated if configurations change, are added/removed or
+    // the members of ServiceNetworks change
+    QHash<QString, QNetworkConfigurationPrivatePointer>     accessPointConfigurations;
+    QHash<QString, QNetworkConfigurationPrivatePointer>     snapConfigurations;
+    QHash<QString, QNetworkConfigurationPrivatePointer>     userChoiceConfigurations;
 
-    mutable QMutex mutex;
+    mutable QMutex    mutex;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_BEARERMANAGEMENT
 
 #endif // QBEARERENGINE_P_H

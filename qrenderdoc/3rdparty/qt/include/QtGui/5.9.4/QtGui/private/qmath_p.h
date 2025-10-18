@@ -55,8 +55,8 @@
 
 QT_BEGIN_NAMESPACE
 
-static const qreal Q_PI   = qreal(M_PI);     // pi
-static const qreal Q_MM_PER_INCH = 25.4;
+static const qreal      Q_PI            = qreal(M_PI); // pi
+static const qreal      Q_MM_PER_INCH   = 25.4;
 
 QT_END_NAMESPACE
 

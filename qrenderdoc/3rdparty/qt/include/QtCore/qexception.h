@@ -56,7 +56,7 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_EXCEPTIONS
 
-class Q_CORE_EXPORT QException : public std::exception
+class Q_CORE_EXPORT    QException : public std::exception
 {
 public:
     ~QException()
@@ -67,10 +67,10 @@ public:
 #endif
     ;
     virtual void raise() const;
-    virtual QException *clone() const;
+    virtual QException* clone() const;
 };
 
-class Q_CORE_EXPORT QUnhandledException : public QException
+class Q_CORE_EXPORT    QUnhandledException : public QException
 {
 public:
     ~QUnhandledException()
@@ -81,53 +81,49 @@ public:
 #endif
     ;
     void raise() const Q_DECL_OVERRIDE;
-    QUnhandledException *clone() const Q_DECL_OVERRIDE;
+    QUnhandledException* clone() const Q_DECL_OVERRIDE;
 };
 
-namespace QtPrivate {
-
-class Base;
-class Q_CORE_EXPORT ExceptionHolder
+namespace QtPrivate
 {
+    class Base;
+    class Q_CORE_EXPORT    ExceptionHolder
+    {
 public:
-    ExceptionHolder(QException *exception = Q_NULLPTR);
-    ExceptionHolder(const ExceptionHolder &other);
-    void operator=(const ExceptionHolder &other); // ### Qt6: copy-assign operator shouldn't return void. Remove this method and the copy-ctor, they are unneeded.
-    ~ExceptionHolder();
-    QException *exception() const;
-    QExplicitlySharedDataPointer<Base> base;
-};
+        ExceptionHolder(QException *exception = Q_NULLPTR);
+        ExceptionHolder(const ExceptionHolder &other);
+        void operator=(const ExceptionHolder &other); // ### Qt6: copy-assign operator shouldn't return void. Remove this method and the copy-ctor, they are unneeded.
+        ~ExceptionHolder();
+        QException* exception() const;
+        QExplicitlySharedDataPointer<Base>    base;
+    };
 
-class Q_CORE_EXPORT ExceptionStore
-{
+    class Q_CORE_EXPORT    ExceptionStore
+    {
 public:
-    void setException(const QException &e);
-    bool hasException() const;
-    ExceptionHolder exception();
-    void throwPossibleException();
-    bool hasThrown() const;
-    ExceptionHolder exceptionHolder;
-};
-
+        void setException(const QException &e);
+        bool hasException() const;
+        ExceptionHolder exception();
+        void throwPossibleException();
+        bool hasThrown() const;
+        ExceptionHolder    exceptionHolder;
+    };
 } // namespace QtPrivate
 
 #else // QT_NO_EXCEPTIONS
 
-namespace QtPrivate {
-
-class Q_CORE_EXPORT ExceptionStore
+namespace QtPrivate
 {
+    class Q_CORE_EXPORT    ExceptionStore
+    {
 public:
-    ExceptionStore() { }
-    inline void throwPossibleException() {}
-};
-
+        ExceptionStore() { }
+        inline void throwPossibleException() {}
+    };
 } // namespace QtPrivate
-
 #endif // QT_NO_EXCEPTIONS
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_QFUTURE
 
 #endif

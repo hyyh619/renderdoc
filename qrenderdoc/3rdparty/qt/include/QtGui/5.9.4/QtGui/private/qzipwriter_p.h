@@ -62,10 +62,10 @@ QT_BEGIN_NAMESPACE
 class QZipWriterPrivate;
 
 
-class Q_GUI_EXPORT QZipWriter
+class Q_GUI_EXPORT    QZipWriter
 {
 public:
-    explicit QZipWriter(const QString &fileName, QIODevice::OpenMode mode = (QIODevice::WriteOnly | QIODevice::Truncate) );
+    explicit QZipWriter(const QString &fileName, QIODevice::OpenMode mode = (QIODevice::WriteOnly | QIODevice::Truncate));
 
     explicit QZipWriter(QIODevice *device);
     ~QZipWriter();
@@ -75,7 +75,8 @@ public:
     bool isWritable() const;
     bool exists() const;
 
-    enum Status {
+    enum Status
+    {
         NoError,
         FileWriteError,
         FileOpenError,
@@ -85,7 +86,8 @@ public:
 
     Status status() const;
 
-    enum CompressionPolicy {
+    enum CompressionPolicy
+    {
         AlwaysCompress,
         NeverCompress,
         AutoCompress
@@ -107,11 +109,10 @@ public:
 
     void close();
 private:
-    QZipWriterPrivate *d;
+    QZipWriterPrivate    *d;
     Q_DISABLE_COPY(QZipWriter)
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEXTODFWRITER
 #endif // QZIPWRITER_H

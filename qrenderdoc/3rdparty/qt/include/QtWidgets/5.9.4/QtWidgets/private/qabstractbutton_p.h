@@ -65,38 +65,38 @@ class QAbstractButtonPrivate : public QWidgetPrivate
 public:
     QAbstractButtonPrivate(QSizePolicy::ControlType type = QSizePolicy::DefaultType);
 
-    QString text;
-    QIcon icon;
-    QSize iconSize;
+    QString     text;
+    QIcon       icon;
+    QSize       iconSize;
 #ifndef QT_NO_SHORTCUT
-    QKeySequence shortcut;
-    int shortcutId;
+    QKeySequence    shortcut;
+    int             shortcutId;
 #endif
-    uint checkable :1;
-    uint checked :1;
-    uint autoRepeat :1;
-    uint autoExclusive :1;
-    uint down :1;
-    uint blockRefresh :1;
-    uint pressed : 1;
+    uint    checkable : 1;
+    uint    checked : 1;
+    uint    autoRepeat : 1;
+    uint    autoExclusive : 1;
+    uint    down : 1;
+    uint    blockRefresh : 1;
+    uint    pressed : 1;
 
 #if QT_CONFIG(buttongroup)
-    QButtonGroup* group;
+    QButtonGroup    *group;
 #endif
-    QBasicTimer repeatTimer;
-    QBasicTimer animateTimer;
+    QBasicTimer     repeatTimer;
+    QBasicTimer     animateTimer;
 
-    int autoRepeatDelay, autoRepeatInterval;
+    int    autoRepeatDelay, autoRepeatInterval;
 
-    QSizePolicy::ControlType controlType;
-    mutable QSize sizeHint;
+    QSizePolicy::ControlType    controlType;
+    mutable QSize               sizeHint;
 
     void init();
     void click();
     void refresh();
 
-    QList<QAbstractButton *>queryButtonList() const;
-    QAbstractButton *queryCheckedButton() const;
+    QList<QAbstractButton*> queryButtonList() const;
+    QAbstractButton* queryCheckedButton() const;
     void notifyChecked();
     void moveFocus(int key);
     void fixFocusPolicy();

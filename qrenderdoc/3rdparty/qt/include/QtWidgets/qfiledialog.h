@@ -58,7 +58,7 @@ class QFileDialogPrivate;
 class QAbstractItemDelegate;
 class QAbstractProxyModel;
 
-class Q_WIDGETS_EXPORT QFileDialog : public QDialog
+class Q_WIDGETS_EXPORT    QFileDialog : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(ViewMode viewMode READ viewMode WRITE setViewMode)
@@ -167,10 +167,10 @@ public:
     QStringList history() const;
 
     void setItemDelegate(QAbstractItemDelegate *delegate);
-    QAbstractItemDelegate *itemDelegate() const;
+    QAbstractItemDelegate* itemDelegate() const;
 
     void setIconProvider(QFileIconProvider *provider);
-    QFileIconProvider *iconProvider() const;
+    QFileIconProvider* iconProvider() const;
 
     void setLabelText(DialogLabel label, const QString &text);
     QString labelText(DialogLabel label) const;
@@ -180,7 +180,7 @@ public:
 
 #ifndef QT_NO_PROXYMODEL
     void setProxyModel(QAbstractProxyModel *model);
-    QAbstractProxyModel *proxyModel() const;
+    QAbstractProxyModel* proxyModel() const;
 #endif
 
     void setOption(Option option, bool on = true);
@@ -292,15 +292,15 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_emitUrlSelected(const QUrl &))
     Q_PRIVATE_SLOT(d_func(), void _q_emitUrlsSelected(const QList<QUrl> &))
     Q_PRIVATE_SLOT(d_func(), void _q_nativeCurrentChanged(const QUrl &))
-    Q_PRIVATE_SLOT(d_func(), void _q_nativeEnterDirectory(const QUrl&))
+    Q_PRIVATE_SLOT(d_func(), void _q_nativeEnterDirectory(const QUrl &))
     Q_PRIVATE_SLOT(d_func(), void _q_goToDirectory(const QString &path))
     Q_PRIVATE_SLOT(d_func(), void _q_useNameFilter(int index))
     Q_PRIVATE_SLOT(d_func(), void _q_selectionChanged())
     Q_PRIVATE_SLOT(d_func(), void _q_goToUrl(const QUrl &url))
     Q_PRIVATE_SLOT(d_func(), void _q_goHome())
-    Q_PRIVATE_SLOT(d_func(), void _q_showHeader(QAction *))
+    Q_PRIVATE_SLOT(d_func(), void _q_showHeader(QAction*))
     Q_PRIVATE_SLOT(d_func(), void _q_autoCompleteFileName(const QString &text))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex & parent))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex &parent))
     Q_PRIVATE_SLOT(d_func(), void _q_fileRenamed(const QString &path,
                                                  const QString &oldName,
                                                  const QString &newName))
@@ -308,7 +308,9 @@ private:
 };
 
 inline void QFileDialog::setDirectory(const QDir &adirectory)
-{ setDirectory(adirectory.absolutePath()); }
+{
+    setDirectory(adirectory.absolutePath());
+}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QFileDialog::Options)
 

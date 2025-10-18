@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -29,7 +29,7 @@
 
 namespace Ui
 {
-class PerformanceCounterViewer;
+    class PerformanceCounterViewer;
 }
 
 class QTableWidgetItem;
@@ -39,38 +39,41 @@ class PerformanceCounterFilterModel;
 
 class PerformanceCounterViewer : public QFrame, public IPerformanceCounterViewer, public ICaptureViewer
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit PerformanceCounterViewer(ICaptureContext &ctx, QWidget *parent = 0);
-  ~PerformanceCounterViewer();
+    explicit PerformanceCounterViewer(ICaptureContext &ctx, QWidget *parent = 0);
+    ~PerformanceCounterViewer();
 
-  // IPerformanceCounterViewer
-  QWidget *Widget() override { return this; }
-  void UpdateDurationColumn() override;
-  // ICaptureViewer
-  void OnCaptureLoaded() override;
-  void OnCaptureClosed() override;
-  void OnSelectedEventChanged(uint32_t eventId) override {}
-  void OnEventChanged(uint32_t eventId) override;
+    // IPerformanceCounterViewer
+    QWidget* Widget() override
+    {
+        return this;
+    }
+    void UpdateDurationColumn() override;
+    // ICaptureViewer
+    void OnCaptureLoaded() override;
+    void OnCaptureClosed() override;
+    void OnSelectedEventChanged(uint32_t eventId) override {}
+    void OnEventChanged(uint32_t eventId) override;
 private slots:
-  // automatic slots
-  void on_counterResults_doubleClicked(const QModelIndex &index);
-  void on_syncViews_toggled(bool checked);
-  void on_saveCSV_clicked();
+    // automatic slots
+    void on_counterResults_doubleClicked(const QModelIndex &index);
+    void on_syncViews_toggled(bool checked);
+    void on_saveCSV_clicked();
 
 private:
-  /*
-  QTableWidgetItem *MakeCounterResultItem(const CounterResult &result,
-                                          const CounterDescription &description);
-  */
+    /*
+       QTableWidgetItem *MakeCounterResultItem(const CounterResult &result,
+                                            const CounterDescription &description);
+     */
 
-  QList<GPUCounter> m_SelectedCounters;
+    QList<GPUCounter>    m_SelectedCounters;
 
-  PerformanceCounterItemModel *m_ItemModel;
-  PerformanceCounterFilterModel *m_FilterModel;
+    PerformanceCounterItemModel         *m_ItemModel;
+    PerformanceCounterFilterModel       *m_FilterModel;
 
-  Ui::PerformanceCounterViewer *ui;
-  ICaptureContext &m_Ctx;
-  void CaptureCounters();
+    Ui::PerformanceCounterViewer    *ui;
+    ICaptureContext                 &m_Ctx;
+    void CaptureCounters();
 };

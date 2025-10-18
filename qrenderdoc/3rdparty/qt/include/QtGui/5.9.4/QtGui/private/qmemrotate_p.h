@@ -56,8 +56,8 @@
 
 QT_BEGIN_NAMESPACE
 
-#define QT_DECL_MEMROTATE(type)                            \
-    void Q_GUI_EXPORT qt_memrotate90(const type*, int, int, int, type*, int); \
+#define QT_DECL_MEMROTATE(type)                                                \
+    void Q_GUI_EXPORT qt_memrotate90(const type*, int, int, int, type*, int);  \
     void Q_GUI_EXPORT qt_memrotate180(const type*, int, int, int, type*, int); \
     void Q_GUI_EXPORT qt_memrotate270(const type*, int, int, int, type*, int)
 

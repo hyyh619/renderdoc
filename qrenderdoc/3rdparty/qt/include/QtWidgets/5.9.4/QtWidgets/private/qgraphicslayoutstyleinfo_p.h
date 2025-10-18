@@ -86,14 +86,14 @@ public:
         QAbstractLayoutStyleInfo::invalidate();
     }
 
-    QWidget *widget() const;
-    QStyle *style() const;
+    QWidget* widget() const;
+    QStyle* style() const;
 
 private:
-    const QGraphicsLayoutPrivate *m_layout;
-    mutable QStyle *m_style;
-    QStyleOption m_styleOption;
-    QWidget *m_widget;
+    const QGraphicsLayoutPrivate    *m_layout;
+    mutable QStyle                  *m_style;
+    QStyleOption                    m_styleOption;
+    QWidget                         *m_widget;
 };
 
 QT_END_NAMESPACE

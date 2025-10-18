@@ -71,24 +71,25 @@ class QPollingFileSystemWatcherEngine : public QFileSystemWatcherEngine
 
     class FileInfo
     {
-        uint ownerId;
-        uint groupId;
-        QFile::Permissions permissions;
-        QDateTime lastModified;
-        QStringList entries;
+        uint                    ownerId;
+        uint                    groupId;
+        QFile::Permissions      permissions;
+        QDateTime               lastModified;
+        QStringList             entries;
 
-    public:
+public:
         FileInfo(const QFileInfo &fileInfo)
             : ownerId(fileInfo.ownerId()),
-              groupId(fileInfo.groupId()),
-              permissions(fileInfo.permissions()),
-              lastModified(fileInfo.lastModified())
+            groupId(fileInfo.groupId()),
+            permissions(fileInfo.permissions()),
+            lastModified(fileInfo.lastModified())
         {
-            if (fileInfo.isDir()) {
+            if (fileInfo.isDir())
+            {
                 entries = fileInfo.absoluteDir().entryList(QDir::AllEntries);
             }
         }
-        FileInfo &operator=(const QFileInfo &fileInfo)
+        FileInfo&operator=(const QFileInfo &fileInfo)
         {
             *this = FileInfo(fileInfo);
             return *this;
@@ -98,6 +99,7 @@ class QPollingFileSystemWatcherEngine : public QFileSystemWatcherEngine
         {
             if (fileInfo.isDir() && entries != fileInfo.absoluteDir().entryList(QDir::AllEntries))
                 return true;
+
             return (ownerId != fileInfo.ownerId()
                     || groupId != fileInfo.groupId()
                     || permissions != fileInfo.permissions()
@@ -105,7 +107,7 @@ class QPollingFileSystemWatcherEngine : public QFileSystemWatcherEngine
         }
     };
 
-    QHash<QString, FileInfo> files, directories;
+    QHash<QString, FileInfo>    files, directories;
 
 public:
     QPollingFileSystemWatcherEngine(QObject *parent);
@@ -117,10 +119,9 @@ private Q_SLOTS:
     void timeout();
 
 private:
-    QTimer timer;
+    QTimer    timer;
 };
 
 QT_END_NAMESPACE
 #endif // !QT_NO_FILESYSTEMWATCHER
 #endif // QFILESYSTEMWATCHER_POLLING_P_H
-

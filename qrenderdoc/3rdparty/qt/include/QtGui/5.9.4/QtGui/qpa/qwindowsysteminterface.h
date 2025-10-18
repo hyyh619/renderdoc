@@ -69,7 +69,7 @@ class QPlatformDragQtResponse;
 class QPlatformDropQtResponse;
 
 
-class Q_GUI_EXPORT QWindowSystemInterface
+class Q_GUI_EXPORT    QWindowSystemInterface
 {
 public:
     struct SynchronousDelivery {};
@@ -92,22 +92,22 @@ public:
                                            Qt::MouseEventSource source = Qt::MouseEventNotSynthesized);
 
     static bool handleShortcutEvent(QWindow *window, ulong timestamp, int k, Qt::KeyboardModifiers mods, quint32 nativeScanCode,
-                                      quint32 nativeVirtualKey, quint32 nativeModifiers, const QString & text = QString(), bool autorep = false, ushort count = 1);
+                                    quint32 nativeVirtualKey, quint32 nativeModifiers, const QString &text = QString(), bool autorep = false, ushort count = 1);
 
     template<typename Delivery = QWindowSystemInterface::DefaultDelivery>
-    static bool handleKeyEvent(QWindow *window, QEvent::Type t, int k, Qt::KeyboardModifiers mods, const QString & text = QString(), bool autorep = false, ushort count = 1);
+    static bool handleKeyEvent(QWindow *window, QEvent::Type t, int k, Qt::KeyboardModifiers mods, const QString &text = QString(), bool autorep = false, ushort count = 1);
     template<typename Delivery = QWindowSystemInterface::DefaultDelivery>
-    static bool handleKeyEvent(QWindow *window, ulong timestamp, QEvent::Type t, int k, Qt::KeyboardModifiers mods, const QString & text = QString(), bool autorep = false, ushort count = 1);
+    static bool handleKeyEvent(QWindow *window, ulong timestamp, QEvent::Type t, int k, Qt::KeyboardModifiers mods, const QString &text = QString(), bool autorep = false, ushort count = 1);
 
     static bool handleExtendedKeyEvent(QWindow *window, QEvent::Type type, int key, Qt::KeyboardModifiers modifiers,
                                        quint32 nativeScanCode, quint32 nativeVirtualKey,
                                        quint32 nativeModifiers,
-                                       const QString& text = QString(), bool autorep = false,
+                                       const QString &text = QString(), bool autorep = false,
                                        ushort count = 1, bool tryShortcutOverride = true);
     static bool handleExtendedKeyEvent(QWindow *window, ulong timestamp, QEvent::Type type, int key, Qt::KeyboardModifiers modifiers,
                                        quint32 nativeScanCode, quint32 nativeVirtualKey,
                                        quint32 nativeModifiers,
-                                       const QString& text = QString(), bool autorep = false,
+                                       const QString &text = QString(), bool autorep = false,
                                        ushort count = 1, bool tryShortcutOverride = true);
     static void handleWheelEvent(QWindow *window, const QPointF &local, const QPointF &global,
                                  QPoint pixelDelta, QPoint angleDelta,
@@ -125,21 +125,22 @@ public:
     static void handleWheelEvent(QWindow *window, const QPointF &local, const QPointF &global, int d, Qt::Orientation o, Qt::KeyboardModifiers mods = Qt::NoModifier);
     static void handleWheelEvent(QWindow *window, ulong timestamp, const QPointF &local, const QPointF &global, int d, Qt::Orientation o, Qt::KeyboardModifiers mods = Qt::NoModifier);
 
-    struct TouchPoint {
+    struct TouchPoint
+    {
         TouchPoint() : id(0), uniqueId(-1), pressure(0), rotation(0), state(Qt::TouchPointStationary) { }
-        int id;                 // for application use
-        qint64 uniqueId;        // for TUIO: object/token ID; otherwise empty
+        int     id;             // for application use
+        qint64  uniqueId;       // for TUIO: object/token ID; otherwise empty
                                 // TODO for TUIO 2.0: add registerPointerUniqueID(QPointingDeviceUniqueId)
         QPointF normalPosition; // touch device coordinates, (0 to 1, 0 to 1)
-        QRectF area;            // dimensions of the elliptical contact patch, unrotated, and centered at position in screen coordinates
+        QRectF  area;           // dimensions of the elliptical contact patch, unrotated, and centered at position in screen coordinates
                                 // width is the horizontal diameter, height is the vertical diameter
-        qreal pressure;         // 0 to 1
-        qreal rotation;         // rotation applied to the elliptical contact patch
+        qreal   pressure;       // 0 to 1
+        qreal   rotation;       // rotation applied to the elliptical contact patch
                                 // 0 means pointing straight up; 0 if unknown (like QTabletEvent::rotation)
-        Qt::TouchPointState state; //Qt::TouchPoint{Pressed|Moved|Stationary|Released}
-        QVector2D velocity;     // in screen coordinate system, pixels / seconds
-        QTouchEvent::TouchPoint::InfoFlags flags;
-        QVector<QPointF> rawPositions; // in screen coordinates
+        Qt::TouchPointState                 state; // Qt::TouchPoint{Pressed|Moved|Stationary|Released}
+        QVector2D                           velocity; // in screen coordinate system, pixels / seconds
+        QTouchEvent::TouchPoint::InfoFlags  flags;
+        QVector<QPointF>                    rawPositions; // in screen coordinates
     };
 
     static void registerTouchDevice(const QTouchDevice *device);
@@ -168,10 +169,10 @@ public:
     static void handleCloseEvent(QWindow *window, bool *accepted = Q_NULLPTR);
 
     template<typename Delivery = QWindowSystemInterface::DefaultDelivery>
-    static void handleEnterEvent(QWindow *window, const QPointF &local = QPointF(), const QPointF& global = QPointF());
+    static void handleEnterEvent(QWindow *window, const QPointF &local = QPointF(), const QPointF &global = QPointF());
     template<typename Delivery = QWindowSystemInterface::DefaultDelivery>
     static void handleLeaveEvent(QWindow *window);
-    static void handleEnterLeaveEvent(QWindow *enter, QWindow *leave, const QPointF &local = QPointF(), const QPointF& global = QPointF());
+    static void handleEnterLeaveEvent(QWindow *enter, QWindow *leave, const QPointF &local = QPointF(), const QPointF &global = QPointF());
     template<typename Delivery = QWindowSystemInterface::DefaultDelivery>
     static void handleWindowActivated(QWindow *window, Qt::FocusReason r = Qt::OtherFocusReason);
 
@@ -201,7 +202,7 @@ public:
 
     static void handleThemeChange(QWindow *window);
 
-    static void handleFileOpenEvent(const QString& fileName);
+    static void handleFileOpenEvent(const QString &fileName);
     static void handleFileOpenEvent(const QUrl &url);
 
     static void handleTabletEvent(QWindow *window, ulong timestamp, const QPointF &local, const QPointF &global,
@@ -230,7 +231,7 @@ public:
                                    QPointF &local, QPointF &global);
     static void handleGestureEventWithRealValue(QWindow *window,  ulong timestamp, Qt::NativeGestureType type,
                                                 qreal value, QPointF &local, QPointF &global);
-    static void handleGestureEventWithSequenceIdAndValue(QWindow *window, ulong timestamp,Qt::NativeGestureType type,
+    static void handleGestureEventWithSequenceIdAndValue(QWindow *window, ulong timestamp, Qt::NativeGestureType type,
                                                          ulong sequenceId, quint64 value, QPointF &local, QPointF &global);
 #endif // QT_NO_GESTURES
 

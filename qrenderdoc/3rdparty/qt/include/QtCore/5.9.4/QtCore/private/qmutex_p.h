@@ -65,7 +65,7 @@
 // use Linux mutexes everywhere except for LSB builds
 #  define QT_LINUX_FUTEX
 #elif defined(Q_OS_UNIX)
-# if _POSIX_VERSION-0 >= 200112L || _XOPEN_VERSION-0 >= 600
+# if _POSIX_VERSION - 0 >= 200112L || _XOPEN_VERSION - 0 >= 600
 #  include <semaphore.h>
 #  define QT_UNIX_SEMAPHORE
 # endif
@@ -78,7 +78,7 @@ QT_BEGIN_NAMESPACE
 class QMutexData
 {
 public:
-    bool recursive;
+    bool    recursive;
     QMutexData(QMutex::RecursionMode mode = QMutex::NonRecursive)
         : recursive(mode == QMutex::Recursive) {}
 };
@@ -94,52 +94,59 @@ public:
     void wakeUp() Q_DECL_NOTHROW;
 
     // Control the lifetime of the privates
-    QAtomicInt refCount;
-    int id;
+    QAtomicInt      refCount;
+    int             id;
 
-    bool ref() {
+    bool ref()
+    {
         Q_ASSERT(refCount.load() >= 0);
-        int c;
-        do {
+        int    c;
+
+        do
+        {
             c = refCount.load();
             if (c == 0)
                 return false;
-        } while (!refCount.testAndSetRelaxed(c, c + 1));
+        }
+        while (!refCount.testAndSetRelaxed(c, c + 1));
+
         Q_ASSERT(refCount.load() >= 0);
         return true;
     }
-    void deref() {
+    void deref()
+    {
         Q_ASSERT(refCount.load() >= 0);
         if (!refCount.deref())
             release();
+
         Q_ASSERT(refCount.load() >= 0);
     }
     void release();
-    static QMutexPrivate *allocate();
+    static QMutexPrivate* allocate();
 
-    QAtomicInt waiters; // Number of threads waiting on this mutex. (may be offset by -BigNumber)
-    QAtomicInt possiblyUnlocked; /* Boolean indicating that a timed wait timed out.
-                                    When it is true, a reference is held.
-                                    It is there to avoid a race that happens if unlock happens right
-                                    when the mutex is unlocked.
-                                  */
-    enum { BigNumber = 0x100000 }; //Must be bigger than the possible number of waiters (number of threads)
+    QAtomicInt      waiters; // Number of threads waiting on this mutex. (may be offset by -BigNumber)
+    QAtomicInt      possiblyUnlocked; /* Boolean indicating that a timed wait timed out.
+                                         When it is true, a reference is held.
+                                         It is there to avoid a race that happens if unlock happens right
+                                         when the mutex is unlocked.
+                                       */
+    enum { BigNumber = 0x100000 }; // Must be bigger than the possible number of waiters (number of threads)
     void derefWaiters(int value) Q_DECL_NOTHROW;
 
-    //platform specific stuff
+    // platform specific stuff
 #if defined(Q_OS_MAC)
-    semaphore_t mach_semaphore;
+    semaphore_t    mach_semaphore;
 #elif defined(QT_UNIX_SEMAPHORE)
-    sem_t semaphore;
+    sem_t    semaphore;
 #elif defined(Q_OS_UNIX)
-    bool wakeup;
-    pthread_mutex_t mutex;
-    pthread_cond_t cond;
+    bool                wakeup;
+    pthread_mutex_t     mutex;
+    pthread_cond_t      cond;
 #elif defined(Q_OS_WIN)
-    Qt::HANDLE event;
+    Qt::HANDLE    event;
 #endif
 };
-#endif //QT_LINUX_FUTEX
+#endif // QT_LINUX_FUTEX
 
 
 #ifdef Q_OS_UNIX

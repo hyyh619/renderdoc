@@ -79,26 +79,26 @@ public:
 
     // Margins
     enum {Left, Top, Right, Bottom};
-    mutable qreal *margins;
+    mutable qreal    *margins;
     void ensureMargins() const;
 
     void fixFocusChainBeforeReparenting(QGraphicsWidget *newParent, QGraphicsScene *oldScene, QGraphicsScene *newScene = 0);
     void setLayout_helper(QGraphicsLayout *l);
 
     // Layouts
-    QGraphicsLayout *layout;
+    QGraphicsLayout    *layout;
     void setLayoutDirection_helper(Qt::LayoutDirection direction);
     void resolveLayoutDirection();
 
     // Style
-    QPalette palette;
-    uint inheritedPaletteResolveMask;
+    QPalette    palette;
+    uint        inheritedPaletteResolveMask;
     void setPalette_helper(const QPalette &palette);
     void resolvePalette(uint inheritedMask) Q_DECL_OVERRIDE;
     void updatePalette(const QPalette &palette);
     QPalette naturalWidgetPalette() const;
-    QFont font;
-    uint inheritedFontResolveMask;
+    QFont       font;
+    uint        inheritedFontResolveMask;
     void setFont_helper(const QFont &font);
     void resolveFont(uint inheritedMask) Q_DECL_OVERRIDE;
     void updateFont(const QFont &font);
@@ -116,40 +116,56 @@ public:
 
     // Private Properties
     qreal width() const Q_DECL_OVERRIDE;
-    void setWidth(qreal) Q_DECL_OVERRIDE;
+    void    setWidth(qreal) Q_DECL_OVERRIDE;
     void resetWidth() Q_DECL_OVERRIDE;
 
     qreal height() const Q_DECL_OVERRIDE;
-    void setHeight(qreal) Q_DECL_OVERRIDE;
+    void    setHeight(qreal) Q_DECL_OVERRIDE;
     void resetHeight() Q_DECL_OVERRIDE;
     void setGeometryFromSetPos();
 
     // State
     inline int attributeToBitIndex(Qt::WidgetAttribute att) const
     {
-        int bit = -1;
-        switch (att) {
-        case Qt::WA_SetLayoutDirection: bit = 0; break;
-        case Qt::WA_RightToLeft: bit = 1; break;
-        case Qt::WA_SetStyle: bit = 2; break;
-        case Qt::WA_Resized: bit = 3; break;
-        case Qt::WA_DeleteOnClose: bit = 4; break;
-        case Qt::WA_NoSystemBackground: bit = 5; break;
-        case Qt::WA_OpaquePaintEvent: bit = 6; break;
-        case Qt::WA_SetPalette: bit = 7; break;
-        case Qt::WA_SetFont: bit = 8; break;
-        case Qt::WA_WindowPropagation: bit = 9; break;
-        default: break;
+        int    bit = -1;
+
+        switch (att)
+        {
+            case Qt::WA_SetLayoutDirection: bit = 0; break;
+
+            case Qt::WA_RightToLeft: bit = 1; break;
+
+            case Qt::WA_SetStyle: bit = 2; break;
+
+            case Qt::WA_Resized: bit = 3; break;
+
+            case Qt::WA_DeleteOnClose: bit = 4; break;
+
+            case Qt::WA_NoSystemBackground: bit = 5; break;
+
+            case Qt::WA_OpaquePaintEvent: bit = 6; break;
+
+            case Qt::WA_SetPalette: bit = 7; break;
+
+            case Qt::WA_SetFont: bit = 8; break;
+
+            case Qt::WA_WindowPropagation: bit = 9; break;
+
+            default: break;
         }
+
         return bit;
     }
     inline void setAttribute(Qt::WidgetAttribute att, bool value)
     {
-        int bit = attributeToBitIndex(att);
-        if (bit == -1) {
+        int    bit = attributeToBitIndex(att);
+
+        if (bit == -1)
+        {
             qWarning("QGraphicsWidget::setAttribute: unsupported attribute %d", int(att));
             return;
         }
+
         if (value)
             attributes |= (1 << bit);
         else
@@ -157,51 +173,53 @@ public:
     }
     inline bool testAttribute(Qt::WidgetAttribute att) const
     {
-        int bit = attributeToBitIndex(att);
+        int    bit = attributeToBitIndex(att);
+
         if (bit == -1)
             return false;
+
         return (attributes & (1 << bit)) != 0;
     }
-    quint32 attributes : 10;
-    quint32 inSetGeometry : 1;
-    quint32 polished: 1;
-    quint32 inSetPos : 1;
-    quint32 autoFillBackground : 1;
+    quint32     attributes : 10;
+    quint32     inSetGeometry : 1;
+    quint32     polished : 1;
+    quint32     inSetPos : 1;
+    quint32     autoFillBackground : 1;
 
     // Focus
-    Qt::FocusPolicy focusPolicy;
-    QGraphicsWidget *focusNext;
-    QGraphicsWidget *focusPrev;
+    Qt::FocusPolicy     focusPolicy;
+    QGraphicsWidget     *focusNext;
+    QGraphicsWidget     *focusPrev;
 
     // Windows
-    Qt::WindowFlags windowFlags;
-    struct WindowData {
-        QString windowTitle;
-        QStyle::SubControl hoveredSubControl;
-        Qt::WindowFrameSection grabbedSection;
-        uint buttonMouseOver : 1;
-        uint buttonSunken : 1;
-        QRectF startGeometry;
-        QRect buttonRect;
+    Qt::WindowFlags    windowFlags;
+    struct WindowData
+    {
+        QString                 windowTitle;
+        QStyle::SubControl      hoveredSubControl;
+        Qt::WindowFrameSection  grabbedSection;
+        uint                    buttonMouseOver : 1;
+        uint                    buttonSunken : 1;
+        QRectF                  startGeometry;
+        QRect                   buttonRect;
         WindowData()
             : hoveredSubControl(QStyle::SC_None)
             , grabbedSection(Qt::NoSection)
             , buttonMouseOver(false)
             , buttonSunken(false)
         {}
-    } *windowData;
+    }    *windowData;
     void ensureWindowData();
 
-    bool setWindowFrameMargins;
-    mutable qreal *windowFrameMargins;
+    bool                setWindowFrameMargins;
+    mutable qreal       *windowFrameMargins;
     void ensureWindowFrameMargins() const;
 
 #ifndef QT_NO_ACTION
-    QList<QAction *> actions;
+    QList<QAction*>    actions;
 #endif
 };
 
 QT_END_NAMESPACE
 
-#endif //QGRAPHICSWIDGET_P_H
-
+#endif // QGRAPHICSWIDGET_P_H

@@ -203,27 +203,29 @@ inline qreal qPow(qreal x, qreal y)
 
 inline qreal qFastSin(qreal x)
 {
-    int si = int(x * (0.5 * QT_SINE_TABLE_SIZE / M_PI)); // Would be more accurate with qRound, but slower.
-    qreal d = x - si * (2.0 * M_PI / QT_SINE_TABLE_SIZE);
-    int ci = si + QT_SINE_TABLE_SIZE / 4;
-    si &= QT_SINE_TABLE_SIZE - 1;
-    ci &= QT_SINE_TABLE_SIZE - 1;
+    int         si  = int(x * (0.5 * QT_SINE_TABLE_SIZE / M_PI)); // Would be more accurate with qRound, but slower.
+    qreal       d   = x - si * (2.0 * M_PI / QT_SINE_TABLE_SIZE);
+    int         ci  = si + QT_SINE_TABLE_SIZE / 4;
+
+    si  &= QT_SINE_TABLE_SIZE - 1;
+    ci  &= QT_SINE_TABLE_SIZE - 1;
     return qt_sine_table[si] + (qt_sine_table[ci] - 0.5 * qt_sine_table[si] * d) * d;
 }
 
 inline qreal qFastCos(qreal x)
 {
-    int ci = int(x * (0.5 * QT_SINE_TABLE_SIZE / M_PI)); // Would be more accurate with qRound, but slower.
-    qreal d = x - ci * (2.0 * M_PI / QT_SINE_TABLE_SIZE);
-    int si = ci + QT_SINE_TABLE_SIZE / 4;
-    si &= QT_SINE_TABLE_SIZE - 1;
-    ci &= QT_SINE_TABLE_SIZE - 1;
+    int         ci  = int(x * (0.5 * QT_SINE_TABLE_SIZE / M_PI)); // Would be more accurate with qRound, but slower.
+    qreal       d   = x - ci * (2.0 * M_PI / QT_SINE_TABLE_SIZE);
+    int         si  = ci + QT_SINE_TABLE_SIZE / 4;
+
+    si  &= QT_SINE_TABLE_SIZE - 1;
+    ci  &= QT_SINE_TABLE_SIZE - 1;
     return qt_sine_table[si] - (qt_sine_table[ci] + 0.5 * qt_sine_table[si] * d) * d;
 }
 
 Q_DECL_CONSTEXPR inline float qDegreesToRadians(float degrees)
 {
-    return degrees * float(M_PI/180);
+    return degrees * float(M_PI / 180);
 }
 
 Q_DECL_CONSTEXPR inline double qDegreesToRadians(double degrees)
@@ -233,7 +235,7 @@ Q_DECL_CONSTEXPR inline double qDegreesToRadians(double degrees)
 
 Q_DECL_CONSTEXPR inline float qRadiansToDegrees(float radians)
 {
-    return radians * float(180/M_PI);
+    return radians * float(180 / M_PI);
 }
 
 Q_DECL_CONSTEXPR inline double qRadiansToDegrees(double radians)
@@ -247,16 +249,17 @@ inline quint32 qNextPowerOfTwo(quint32 v)
 {
     if (v == 0)
         return 1;
+
     return 2U << (31 ^ QAlgorithmsPrivate::qt_builtin_clz(v));
 }
 #else
 inline quint32 qNextPowerOfTwo(quint32 v)
 {
-    v |= v >> 1;
-    v |= v >> 2;
-    v |= v >> 4;
-    v |= v >> 8;
-    v |= v >> 16;
+    v   |= v >> 1;
+    v   |= v >> 2;
+    v   |= v >> 4;
+    v   |= v >> 8;
+    v   |= v >> 16;
     ++v;
     return v;
 }
@@ -267,17 +270,18 @@ inline quint64 qNextPowerOfTwo(quint64 v)
 {
     if (v == 0)
         return 1;
+
     return Q_UINT64_C(2) << (63 ^ QAlgorithmsPrivate::qt_builtin_clzll(v));
 }
 #else
 inline quint64 qNextPowerOfTwo(quint64 v)
 {
-    v |= v >> 1;
-    v |= v >> 2;
-    v |= v >> 4;
-    v |= v >> 8;
-    v |= v >> 16;
-    v |= v >> 32;
+    v   |= v >> 1;
+    v   |= v >> 2;
+    v   |= v >> 4;
+    v   |= v >> 8;
+    v   |= v >> 16;
+    v   |= v >> 32;
     ++v;
     return v;
 }

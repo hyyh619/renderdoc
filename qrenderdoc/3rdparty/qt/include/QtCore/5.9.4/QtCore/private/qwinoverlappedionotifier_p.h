@@ -60,7 +60,7 @@ QT_BEGIN_NAMESPACE
 
 class QWinOverlappedIoNotifierPrivate;
 
-class Q_CORE_EXPORT QWinOverlappedIoNotifier : public QObject
+class Q_CORE_EXPORT    QWinOverlappedIoNotifier : public QObject
 {
     Q_OBJECT
     Q_DISABLE_COPY(QWinOverlappedIoNotifier)
@@ -75,7 +75,7 @@ public:
     Qt::HANDLE handle() const;
 
     void setEnabled(bool enabled);
-    OVERLAPPED *waitForAnyNotified(int msecs);
+    OVERLAPPED* waitForAnyNotified(int msecs);
     bool waitForNotified(int msecs, OVERLAPPED *overlapped);
 
 Q_SIGNALS:

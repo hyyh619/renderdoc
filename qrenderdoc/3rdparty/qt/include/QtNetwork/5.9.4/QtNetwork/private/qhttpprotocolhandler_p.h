@@ -59,7 +59,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QHttpProtocolHandler : public QAbstractProtocolHandler {
+class QHttpProtocolHandler : public QAbstractProtocolHandler
+{
 public:
     QHttpProtocolHandler(QHttpNetworkConnectionChannel *channel);
 
@@ -70,7 +71,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 #endif

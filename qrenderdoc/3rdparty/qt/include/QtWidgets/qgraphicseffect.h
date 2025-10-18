@@ -59,21 +59,23 @@ class QPixmap;
 class QGraphicsEffectSource;
 
 class QGraphicsEffectPrivate;
-class Q_WIDGETS_EXPORT QGraphicsEffect : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsEffect : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(bool enabled READ isEnabled WRITE setEnabled NOTIFY enabledChanged)
 public:
-    enum ChangeFlag {
-        SourceAttached = 0x1,
-        SourceDetached = 0x2,
-        SourceBoundingRectChanged = 0x4,
-        SourceInvalidated = 0x8
+    enum ChangeFlag
+    {
+        SourceAttached              = 0x1,
+        SourceDetached              = 0x2,
+        SourceBoundingRectChanged   = 0x4,
+        SourceInvalidated           = 0x8
     };
     Q_DECLARE_FLAGS(ChangeFlags, ChangeFlag)
     Q_FLAG(ChangeFlags)
 
-    enum PixmapPadMode {
+    enum PixmapPadMode
+    {
         NoPad,
         PadToTransparentBorder,
         PadToEffectiveBoundingRect
@@ -117,13 +119,12 @@ private:
     friend class QWidgetPrivate;
 
 public:
-    QGraphicsEffectSource *source() const; // internal
-
+    QGraphicsEffectSource* source() const; // internal
 };
 Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphicsEffect::ChangeFlags)
 
 class QGraphicsColorizeEffectPrivate;
-class Q_WIDGETS_EXPORT QGraphicsColorizeEffect: public QGraphicsEffect
+class Q_WIDGETS_EXPORT    QGraphicsColorizeEffect : public QGraphicsEffect
 {
     Q_OBJECT
     Q_PROPERTY(QColor color READ color WRITE setColor NOTIFY colorChanged)
@@ -152,16 +153,17 @@ private:
 };
 
 class QGraphicsBlurEffectPrivate;
-class Q_WIDGETS_EXPORT QGraphicsBlurEffect: public QGraphicsEffect
+class Q_WIDGETS_EXPORT    QGraphicsBlurEffect : public QGraphicsEffect
 {
     Q_OBJECT
     Q_PROPERTY(qreal blurRadius READ blurRadius WRITE setBlurRadius NOTIFY blurRadiusChanged)
     Q_PROPERTY(BlurHints blurHints READ blurHints WRITE setBlurHints NOTIFY blurHintsChanged)
 public:
-    enum BlurHint {
+    enum BlurHint
+    {
         PerformanceHint = 0x00,
-        QualityHint = 0x01,
-        AnimationHint = 0x02
+        QualityHint     = 0x01,
+        AnimationHint   = 0x02
     };
     Q_FLAG(BlurHint)
     Q_DECLARE_FLAGS(BlurHints, BlurHint)
@@ -193,7 +195,7 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphicsBlurEffect::BlurHints)
 
 class QGraphicsDropShadowEffectPrivate;
-class Q_WIDGETS_EXPORT QGraphicsDropShadowEffect: public QGraphicsEffect
+class Q_WIDGETS_EXPORT    QGraphicsDropShadowEffect : public QGraphicsEffect
 {
     Q_OBJECT
     Q_PROPERTY(QPointF offset READ offset WRITE setOffset NOTIFY offsetChanged)
@@ -209,10 +211,14 @@ public:
     QPointF offset() const;
 
     inline qreal xOffset() const
-    { return offset().x(); }
+    {
+        return offset().x();
+    }
 
     inline qreal yOffset() const
-    { return offset().y(); }
+    {
+        return offset().y();
+    }
 
     qreal blurRadius() const;
     QColor color() const;
@@ -221,16 +227,24 @@ public Q_SLOTS:
     void setOffset(const QPointF &ofs);
 
     inline void setOffset(qreal dx, qreal dy)
-    { setOffset(QPointF(dx, dy)); }
+    {
+        setOffset(QPointF(dx, dy));
+    }
 
     inline void setOffset(qreal d)
-    { setOffset(QPointF(d, d)); }
+    {
+        setOffset(QPointF(d, d));
+    }
 
     inline void setXOffset(qreal dx)
-    { setOffset(QPointF(dx, yOffset())); }
+    {
+        setOffset(QPointF(dx, yOffset()));
+    }
 
     inline void setYOffset(qreal dy)
-    { setOffset(QPointF(xOffset(), dy)); }
+    {
+        setOffset(QPointF(xOffset(), dy));
+    }
 
     void setBlurRadius(qreal blurRadius);
     void setColor(const QColor &color);
@@ -249,7 +263,7 @@ private:
 };
 
 class QGraphicsOpacityEffectPrivate;
-class Q_WIDGETS_EXPORT QGraphicsOpacityEffect: public QGraphicsEffect
+class Q_WIDGETS_EXPORT    QGraphicsOpacityEffect : public QGraphicsEffect
 {
     Q_OBJECT
     Q_PROPERTY(qreal opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
@@ -280,4 +294,3 @@ private:
 QT_END_NAMESPACE
 
 #endif // QGRAPHICSEFFECT_H
-

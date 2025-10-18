@@ -88,26 +88,38 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_BIG_CODECS
 
-class QEucJpCodec : public QTextCodec {
+class QEucJpCodec : public QTextCodec
+{
 public:
     static QByteArray _name();
-    static QList<QByteArray> _aliases() { return QList<QByteArray>(); }
+    static QList<QByteArray> _aliases()
+    {
+        return QList<QByteArray>();
+    }
     static int _mibEnum();
 
-    QByteArray name() const { return _name(); }
-    QList<QByteArray> aliases() const { return _aliases(); }
-    int mibEnum() const { return _mibEnum(); }
+    QByteArray name() const
+    {
+        return _name();
+    }
+    QList<QByteArray> aliases() const
+    {
+        return _aliases();
+    }
+    int mibEnum() const
+    {
+        return _mibEnum();
+    }
 
-    QString convertToUnicode(const char *, int, ConverterState *) const;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const;
+    QString convertToUnicode(const char*, int, ConverterState*) const;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const;
 
     QEucJpCodec();
     ~QEucJpCodec();
 
 protected:
-    const QJpUnicodeConv *conv;
+    const QJpUnicodeConv    *conv;
 };
-
 #endif // QT_NO_BIG_CODECS
 
 QT_END_NAMESPACE

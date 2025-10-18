@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QCommonStylePrivate;
 
-class Q_WIDGETS_EXPORT QCommonStyle: public QStyle
+class Q_WIDGETS_EXPORT    QCommonStyle : public QStyle
 {
     Q_OBJECT
 
@@ -85,7 +85,7 @@ public:
                       Qt::Orientation orientation, const QStyleOption *option = Q_NULLPTR,
                       const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
 
-    void polish(QPalette &) Q_DECL_OVERRIDE;
+    void polish(QPalette&) Q_DECL_OVERRIDE;
     void polish(QApplication *app) Q_DECL_OVERRIDE;
     void polish(QWidget *widget) Q_DECL_OVERRIDE;
     void unpolish(QWidget *widget) Q_DECL_OVERRIDE;

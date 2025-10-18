@@ -65,13 +65,13 @@ QT_BEGIN_NAMESPACE
 
 class QWritingSystemsPrivate;
 
-class Q_GUI_EXPORT QSupportedWritingSystems
+class Q_GUI_EXPORT    QSupportedWritingSystems
 {
 public:
 
     QSupportedWritingSystems();
     QSupportedWritingSystems(const QSupportedWritingSystems &other);
-    QSupportedWritingSystems &operator=(const QSupportedWritingSystems &other);
+    QSupportedWritingSystems&operator=(const QSupportedWritingSystems &other);
     ~QSupportedWritingSystems();
 
     void setSupported(QFontDatabase::WritingSystem, bool supported = true);
@@ -80,41 +80,44 @@ public:
 private:
     void detach();
 
-    QWritingSystemsPrivate *d;
+    QWritingSystemsPrivate    *d;
 
-    friend Q_GUI_EXPORT bool operator==(const QSupportedWritingSystems &, const QSupportedWritingSystems &);
-    friend Q_GUI_EXPORT bool operator!=(const QSupportedWritingSystems &, const QSupportedWritingSystems &);
+    friend Q_GUI_EXPORT bool operator==(const QSupportedWritingSystems&, const QSupportedWritingSystems&);
+    friend Q_GUI_EXPORT bool operator!=(const QSupportedWritingSystems&, const QSupportedWritingSystems&);
 #ifndef QT_NO_DEBUG_STREAM
-    friend Q_GUI_EXPORT QDebug operator<<(QDebug, const QSupportedWritingSystems &);
+    friend Q_GUI_EXPORT QDebug operator<<(QDebug, const QSupportedWritingSystems&);
 #endif
 };
 
-Q_GUI_EXPORT bool operator==(const QSupportedWritingSystems &, const QSupportedWritingSystems &);
-Q_GUI_EXPORT bool operator!=(const QSupportedWritingSystems &, const QSupportedWritingSystems &);
+Q_GUI_EXPORT bool operator==(const QSupportedWritingSystems&, const QSupportedWritingSystems&);
+Q_GUI_EXPORT bool operator!=(const QSupportedWritingSystems&, const QSupportedWritingSystems&);
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QSupportedWritingSystems &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QSupportedWritingSystems&);
 #endif
 
 class QFontRequestPrivate;
 class QFontEngineMulti;
 
-class Q_GUI_EXPORT QPlatformFontDatabase
+class Q_GUI_EXPORT    QPlatformFontDatabase
 {
 public:
     virtual ~QPlatformFontDatabase();
     virtual void populateFontDatabase();
-    virtual bool populateFamilyAliases() { return false; }
+    virtual bool populateFamilyAliases()
+    {
+        return false;
+    }
     virtual void populateFamily(const QString &familyName);
     virtual void invalidate();
 
-    virtual QFontEngineMulti *fontEngineMulti(QFontEngine *fontEngine, QChar::Script script);
-    virtual QFontEngine *fontEngine(const QFontDef &fontDef, void *handle);
+    virtual QFontEngineMulti* fontEngineMulti(QFontEngine *fontEngine, QChar::Script script);
+    virtual QFontEngine* fontEngine(const QFontDef &fontDef, void *handle);
     virtual QStringList fallbacksForFamily(const QString &family, QFont::Style style, QFont::StyleHint styleHint, QChar::Script script) const;
     virtual QStringList addApplicationFont(const QByteArray &fontData, const QString &fileName);
     virtual void releaseHandle(void *handle);
 
-    virtual QFontEngine *fontEngine(const QByteArray &fontData, qreal pixelSize, QFont::HintingPreference hintingPreference);
+    virtual QFontEngine* fontEngine(const QByteArray &fontData, qreal pixelSize, QFont::HintingPreference hintingPreference);
 
     virtual QString fontDir() const;
 
@@ -126,10 +129,10 @@ public:
     virtual QList<int> standardSizes() const;
 
     // helper
-    static QSupportedWritingSystems writingSystemsFromTrueTypeBits(quint32 unicodeRange[4], quint32 codePageRange[2]);
+    static QSupportedWritingSystems    writingSystemsFromTrueTypeBits(quint32 unicodeRange[4], quint32 codePageRange[2]);
     static QFont::Weight weightFromInteger(int weight);
 
-    //callback
+    // callback
     static void registerQPF2Font(const QByteArray &dataArray, void *handle);
     static void registerFont(const QString &familyname, const QString &stylename,
                              const QString &foundryname, QFont::Weight weight,

@@ -50,13 +50,13 @@ QT_BEGIN_NAMESPACE
 class QRubberBandPrivate;
 class QStyleOptionRubberBand;
 
-class Q_WIDGETS_EXPORT QRubberBand : public QWidget
+class Q_WIDGETS_EXPORT    QRubberBand : public QWidget
 {
     Q_OBJECT
 
 public:
     enum Shape { Line, Rectangle };
-    explicit QRubberBand(Shape, QWidget * = Q_NULLPTR);
+    explicit QRubberBand(Shape, QWidget* = Q_NULLPTR);
     ~QRubberBand();
 
     Shape shape() const;
@@ -66,19 +66,25 @@ public:
     inline void setGeometry(int x, int y, int w, int h);
     inline void move(int x, int y);
     inline void move(const QPoint &p)
-    { move(p.x(), p.y()); }
+    {
+        move(p.x(), p.y());
+    }
     inline void resize(int w, int h)
-    { setGeometry(geometry().x(), geometry().y(), w, h); }
+    {
+        setGeometry(geometry().x(), geometry().y(), w, h);
+    }
     inline void resize(const QSize &s)
-    { resize(s.width(), s.height()); }
+    {
+        resize(s.width(), s.height());
+    }
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void moveEvent(QMoveEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
+    void moveEvent(QMoveEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionRubberBand *option) const;
 
 private:
@@ -86,9 +92,13 @@ private:
 };
 
 inline void QRubberBand::setGeometry(int ax, int ay, int aw, int ah)
-{ setGeometry(QRect(ax, ay, aw, ah)); }
+{
+    setGeometry(QRect(ax, ay, aw, ah));
+}
 inline void QRubberBand::move(int ax, int ay)
-{ setGeometry(ax, ay, width(), height()); }
+{
+    setGeometry(ax, ay, width(), height());
+}
 
 QT_END_NAMESPACE
 

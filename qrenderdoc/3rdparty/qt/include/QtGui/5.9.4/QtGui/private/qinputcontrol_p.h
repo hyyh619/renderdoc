@@ -57,11 +57,12 @@
 QT_BEGIN_NAMESPACE
 
 class QKeyEvent;
-class Q_GUI_EXPORT QInputControl : public QObject
+class Q_GUI_EXPORT    QInputControl : public QObject
 {
     Q_OBJECT
 public:
-    enum Type {
+    enum Type
+    {
         LineEdit,
         TextEdit
     };
@@ -75,7 +76,7 @@ protected:
     explicit QInputControl(Type type, QObjectPrivate &dd, QObject *parent = nullptr);
 
 private:
-    const Type m_type;
+    const Type    m_type;
 };
 
 QT_END_NAMESPACE

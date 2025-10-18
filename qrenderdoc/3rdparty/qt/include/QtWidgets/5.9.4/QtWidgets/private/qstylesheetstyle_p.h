@@ -72,7 +72,7 @@ class QAbstractScrollArea;
 class QStyleSheetStylePrivate;
 class QStyleOptionTitleBar;
 
-class Q_AUTOTEST_EXPORT QStyleSheetStyle : public QWindowsStyle
+class Q_AUTOTEST_EXPORT    QStyleSheetStyle : public QWindowsStyle
 {
     typedef QWindowsStyle ParentStyle;
 
@@ -86,8 +86,8 @@ public:
     void drawControl(ControlElement element, const QStyleOption *opt, QPainter *p,
                      const QWidget *w = 0) const Q_DECL_OVERRIDE;
     void drawItemPixmap(QPainter *painter, const QRect &rect, int alignment, const QPixmap &pixmap) const Q_DECL_OVERRIDE;
-    void drawItemText(QPainter *painter, const QRect& rect, int alignment, const QPalette &pal,
-              bool enabled, const QString& text, QPalette::ColorRole textRole  = QPalette::NoRole) const Q_DECL_OVERRIDE;
+    void drawItemText(QPainter *painter, const QRect &rect, int alignment, const QPalette &pal,
+                      bool enabled, const QString &text, QPalette::ColorRole textRole  = QPalette::NoRole) const Q_DECL_OVERRIDE;
     void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p,
                        const QWidget *w = 0) const Q_DECL_OVERRIDE;
     QPixmap generatedIconPixmap(QIcon::Mode iconMode, const QPixmap &pixmap,
@@ -107,10 +107,10 @@ public:
     QIcon standardIcon(StandardPixmap standardIcon, const QStyleOption *opt = 0,
                        const QWidget *widget = 0) const Q_DECL_OVERRIDE;
     QPixmap standardPixmap(StandardPixmap standardPixmap, const QStyleOption *option = 0,
-                           const QWidget *w = 0 ) const Q_DECL_OVERRIDE;
+                           const QWidget *w = 0) const Q_DECL_OVERRIDE;
     int layoutSpacing(QSizePolicy::ControlType control1, QSizePolicy::ControlType control2,
-                          Qt::Orientation orientation, const QStyleOption *option = 0,
-                          const QWidget *widget = 0) const Q_DECL_OVERRIDE;
+                      Qt::Orientation orientation, const QStyleOption *option = 0,
+                      const QWidget *widget = 0) const Q_DECL_OVERRIDE;
     int styleHint(StyleHint sh, const QStyleOption *opt = 0, const QWidget *w = 0,
                   QStyleHintReturn *shret = 0) const Q_DECL_OVERRIDE;
     QRect subElementRect(SubElement r, const QStyleOption *opt, const QWidget *widget = 0) const Q_DECL_OVERRIDE;
@@ -118,46 +118,53 @@ public:
                          const QWidget *w = 0) const Q_DECL_OVERRIDE;
 
     // These functions are called from QApplication/QWidget. Be careful.
-    QStyle *baseStyle() const;
+    QStyle* baseStyle() const;
     void repolish(QWidget *widget);
     void repolish(QApplication *app);
 
     void unpolish(QWidget *widget) Q_DECL_OVERRIDE;
     void unpolish(QApplication *app) Q_DECL_OVERRIDE;
 
-    QStyle *base;
-    void ref() { ++refcount; }
-    void deref() { Q_ASSERT(refcount > 0); if (!--refcount) delete this; }
+    QStyle    *base;
+    void ref()
+    {
+        ++refcount;
+    }
+    void deref()
+    {
+        Q_ASSERT(refcount > 0); if (!--refcount)
+            delete this;
+    }
 
-    void updateStyleSheetFont(QWidget* w) const;
-    void saveWidgetFont(QWidget* w, const QFont& font) const;
-    void clearWidgetFont(QWidget* w) const;
+    void updateStyleSheetFont(QWidget *w) const;
+    void saveWidgetFont(QWidget *w, const QFont &font) const;
+    void clearWidgetFont(QWidget *w) const;
 
-    bool styleSheetPalette(const QWidget* w, const QStyleOption* opt, QPalette* pal);
+    bool styleSheetPalette(const QWidget *w, const QStyleOption *opt, QPalette *pal);
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
 private:
-    int refcount;
+    int    refcount;
 
     friend class QRenderRule;
-    int nativeFrameWidth(const QWidget *);
-    QRenderRule renderRule(const QObject *, int, quint64 = 0) const;
-    QRenderRule renderRule(const QObject *, const QStyleOption *, int = 0) const;
-    QSize defaultSize(const QWidget *, QSize, const QRect&, int) const;
-    QRect positionRect(const QWidget *, const QRenderRule&, const QRenderRule&, int,
+    int nativeFrameWidth(const QWidget*);
+    QRenderRule    renderRule(const QObject*, int, quint64 = 0) const;
+    QRenderRule renderRule(const QObject*, const QStyleOption*, int = 0) const;
+    QSize    defaultSize(const QWidget*, QSize, const QRect &, int) const;
+    QRect positionRect(const QWidget*, const QRenderRule&, const QRenderRule&, int,
                        const QRect&, Qt::LayoutDirection) const;
     QRect positionRect(const QWidget *w, const QRenderRule &rule2, int pe,
                        const QRect &originRect, Qt::LayoutDirection dir) const;
 
-    mutable QCss::Parser parser;
+    mutable QCss::Parser    parser;
 
-    void setPalette(QWidget *);
-    void unsetPalette(QWidget *);
-    void setProperties(QWidget *);
-    void setGeometry(QWidget *);
-    void unsetStyleSheetFont(QWidget *) const;
+    void setPalette(QWidget*);
+    void unsetPalette(QWidget*);
+    void setProperties(QWidget*);
+    void setGeometry(QWidget*);
+    void unsetStyleSheetFont(QWidget*) const;
     QVector<QCss::StyleRule> styleRules(const QObject *obj) const;
     bool hasStyleRule(const QObject *obj, int part) const;
 
@@ -169,7 +176,7 @@ private:
     static bool isNaturalChild(const QObject *obj);
     bool initObject(const QObject *obj) const;
 public:
-    static int numinstances;
+    static int    numinstances;
 
 private:
     Q_DISABLE_COPY(QStyleSheetStyle)
@@ -180,20 +187,21 @@ class QStyleSheetStyleCaches : public QObject
 {
     Q_OBJECT
 public Q_SLOTS:
-    void objectDestroyed(QObject *);
-    void styleDestroyed(QObject *);
+    void objectDestroyed(QObject*);
+    void styleDestroyed(QObject*);
 public:
-    QHash<const QObject *, QVector<QCss::StyleRule> > styleRulesCache;
-    QHash<const QObject *, QHash<int, bool> > hasStyleRuleCache;
+    QHash<const QObject*, QVector<QCss::StyleRule> >    styleRulesCache;
+    QHash<const QObject*, QHash<int, bool> >            hasStyleRuleCache;
     typedef QHash<int, QHash<quint64, QRenderRule> > QRenderRules;
-    QHash<const QObject *, QRenderRules> renderRulesCache;
-    QHash<const void *, QCss::StyleSheet> styleSheetCache; // parsed style sheets
-    QSet<const QWidget *> autoFillDisabledWidgets;
+    QHash<const QObject*, QRenderRules>     renderRulesCache;
+    QHash<const void*, QCss::StyleSheet>    styleSheetCache; // parsed style sheets
+    QSet<const QWidget*>                    autoFillDisabledWidgets;
     // widgets with whose palettes and fonts we have tampered:
-    template <typename T>
-    struct Tampered {
-        T oldWidgetValue;
-        uint resolveMask;
+    template<typename T>
+    struct Tampered
+    {
+        T       oldWidgetValue;
+        uint    resolveMask;
 
         // only call this function on an rvalue *this (it mangles oldWidgetValue)
         T reverted(T current)
@@ -208,12 +216,13 @@ public:
             return current;
         }
     };
-    QHash<const QWidget *, Tampered<QPalette>> customPaletteWidgets;
-    QHash<const QWidget *, Tampered<QFont>> customFontWidgets;
+    QHash<const QWidget*, Tampered<QPalette> >      customPaletteWidgets;
+    QHash<const QWidget*, Tampered<QFont> >         customFontWidgets;
 };
-template <typename T>
-class QTypeInfo<QStyleSheetStyleCaches::Tampered<T>>
-    : QTypeInfoMerger<QStyleSheetStyleCaches::Tampered<T>, T> {};
+template<typename T>
+class QTypeInfo<QStyleSheetStyleCaches::Tampered<T> >
+    : QTypeInfoMerger<QStyleSheetStyleCaches::Tampered<T>, T>
+{};
 
 QT_END_NAMESPACE
 #endif // QT_NO_STYLE_STYLESHEET

@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QDialPrivate;
 class QStyleOptionSlider;
 
-class Q_WIDGETS_EXPORT QDial: public QAbstractSlider
+class Q_WIDGETS_EXPORT    QDial : public QAbstractSlider
 {
     Q_OBJECT
 

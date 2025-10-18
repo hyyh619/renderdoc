@@ -57,10 +57,10 @@
 
 QT_BEGIN_NAMESPACE
 
-class QNetworkCookieJarPrivate: public QObjectPrivate
+class QNetworkCookieJarPrivate : public QObjectPrivate
 {
 public:
-    QList<QNetworkCookie> allCookies;
+    QList<QNetworkCookie>    allCookies;
 
     Q_DECLARE_PUBLIC(QNetworkCookieJar)
 };

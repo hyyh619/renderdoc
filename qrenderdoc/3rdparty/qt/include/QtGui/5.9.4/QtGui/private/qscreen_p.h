@@ -67,28 +67,27 @@ public:
     QScreenPrivate()
         : platformScreen(0)
         , orientationUpdateMask(0)
-    {
-    }
+    {}
 
     void setPlatformScreen(QPlatformScreen *screen);
     void updateHighDpi()
     {
-        geometry = platformScreen->deviceIndependentGeometry();
-        availableGeometry = QHighDpi::fromNative(platformScreen->availableGeometry(), QHighDpiScaling::factor(platformScreen), geometry.topLeft());
+        geometry            = platformScreen->deviceIndependentGeometry();
+        availableGeometry   = QHighDpi::fromNative(platformScreen->availableGeometry(), QHighDpiScaling::factor(platformScreen), geometry.topLeft());
     }
 
     void updatePrimaryOrientation();
 
-    QPlatformScreen *platformScreen;
+    QPlatformScreen    *platformScreen;
 
-    Qt::ScreenOrientations orientationUpdateMask;
-    Qt::ScreenOrientation orientation;
-    Qt::ScreenOrientation filteredOrientation;
-    Qt::ScreenOrientation primaryOrientation;
-    QRect geometry;
-    QRect availableGeometry;
-    QDpi logicalDpi;
-    qreal refreshRate;
+    Qt::ScreenOrientations      orientationUpdateMask;
+    Qt::ScreenOrientation       orientation;
+    Qt::ScreenOrientation       filteredOrientation;
+    Qt::ScreenOrientation       primaryOrientation;
+    QRect                       geometry;
+    QRect                       availableGeometry;
+    QDpi                        logicalDpi;
+    qreal                       refreshRate;
 };
 
 QT_END_NAMESPACE

@@ -46,10 +46,10 @@ QT_BEGIN_NAMESPACE
 
 
 /*******************************************************************************
- * class QLine
- *******************************************************************************/
+* class QLine
+*******************************************************************************/
 
-class Q_CORE_EXPORT QLine
+class Q_CORE_EXPORT    QLine
 {
 public:
     Q_DECL_CONSTEXPR inline QLine();
@@ -84,16 +84,19 @@ public:
     inline void setLine(int x1, int y1, int x2, int y2);
 
     Q_DECL_CONSTEXPR inline bool operator==(const QLine &d) const;
-    Q_DECL_CONSTEXPR inline bool operator!=(const QLine &d) const { return !(*this == d); }
+    Q_DECL_CONSTEXPR inline bool operator!=(const QLine &d) const
+    {
+        return !(*this == d);
+    }
 
 private:
-    QPoint pt1, pt2;
+    QPoint    pt1, pt2;
 };
 Q_DECLARE_TYPEINFO(QLine, Q_MOVABLE_TYPE);
 
 /*******************************************************************************
- * class QLine inline members
- *******************************************************************************/
+* class QLine inline members
+*******************************************************************************/
 
 Q_DECL_CONSTEXPR inline QLine::QLine() { }
 
@@ -204,14 +207,15 @@ Q_CORE_EXPORT QDebug operator<<(QDebug d, const QLine &p);
 #endif
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QLine &);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QLine &);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QLine&);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QLine&);
 #endif
 
 /*******************************************************************************
- * class QLineF
- *******************************************************************************/
-class Q_CORE_EXPORT QLineF {
+* class QLineF
+*******************************************************************************/
+class Q_CORE_EXPORT    QLineF
+{
 public:
 
     enum IntersectType { NoIntersection, BoundedIntersection, UnboundedIntersection };
@@ -268,32 +272,32 @@ public:
     inline void setLine(qreal x1, qreal y1, qreal x2, qreal y2);
 
     Q_DECL_CONSTEXPR inline bool operator==(const QLineF &d) const;
-    Q_DECL_CONSTEXPR inline bool operator!=(const QLineF &d) const { return !(*this == d); }
+    Q_DECL_CONSTEXPR inline bool operator!=(const QLineF &d) const
+    {
+        return !(*this == d);
+    }
 
     Q_DECL_CONSTEXPR QLine toLine() const;
 
 private:
-    QPointF pt1, pt2;
+    QPointF    pt1, pt2;
 };
 Q_DECLARE_TYPEINFO(QLineF, Q_MOVABLE_TYPE);
 
 /*******************************************************************************
- * class QLineF inline members
- *******************************************************************************/
+* class QLineF inline members
+*******************************************************************************/
 
 Q_DECL_CONSTEXPR inline QLineF::QLineF()
-{
-}
+{}
 
 Q_DECL_CONSTEXPR inline QLineF::QLineF(const QPointF &apt1, const QPointF &apt2)
     : pt1(apt1), pt2(apt2)
-{
-}
+{}
 
 Q_DECL_CONSTEXPR inline QLineF::QLineF(qreal x1pos, qreal y1pos, qreal x2pos, qreal y2pos)
     : pt1(x1pos, y1pos), pt2(x2pos, y2pos)
-{
-}
+{}
 
 Q_DECL_CONSTEXPR inline qreal QLineF::x1() const
 {
@@ -375,7 +379,8 @@ inline void QLineF::setLength(qreal len)
 {
     if (isNull())
         return;
-    QLineF v = unitVector();
+
+    QLineF    v = unitVector();
     pt2 = QPointF(pt1.x() + v.dx() * len, pt1.y() + v.dy() * len);
 }
 
@@ -425,8 +430,8 @@ Q_CORE_EXPORT QDebug operator<<(QDebug d, const QLineF &p);
 #endif
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QLineF &);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QLineF &);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QLineF&);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QLineF&);
 #endif
 
 QT_END_NAMESPACE

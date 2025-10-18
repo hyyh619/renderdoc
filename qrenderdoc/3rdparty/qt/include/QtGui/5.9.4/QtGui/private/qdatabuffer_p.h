@@ -58,19 +58,23 @@
 
 QT_BEGIN_NAMESPACE
 
-template <typename Type> class QDataBuffer
+template<typename Type> class QDataBuffer
 {
     Q_DISABLE_COPY(QDataBuffer)
 public:
     QDataBuffer(int res)
     {
         capacity = res;
-        if (res) {
+        if (res)
+        {
             buffer = (Type*) malloc(capacity * sizeof(Type));
             Q_CHECK_PTR(buffer);
-        } else {
+        }
+        else
+        {
             buffer = 0;
         }
+
         siz = 0;
     }
 
@@ -80,70 +84,115 @@ public:
             free(buffer);
     }
 
-    inline void reset() { siz = 0; }
+    inline void reset()
+    {
+        siz = 0;
+    }
 
-    inline bool isEmpty() const { return siz==0; }
+    inline bool isEmpty() const
+    {
+        return siz==0;
+    }
 
-    inline int size() const { return siz; }
-    inline Type *data() const { return buffer; }
+    inline int size() const
+    {
+        return siz;
+    }
+    inline Type* data() const
+    {
+        return buffer;
+    }
 
-    inline Type &at(int i) { Q_ASSERT(i >= 0 && i < siz); return buffer[i]; }
-    inline const Type &at(int i) const { Q_ASSERT(i >= 0 && i < siz); return buffer[i]; }
-    inline Type &last() { Q_ASSERT(!isEmpty()); return buffer[siz-1]; }
-    inline const Type &last() const { Q_ASSERT(!isEmpty()); return buffer[siz-1]; }
-    inline Type &first() { Q_ASSERT(!isEmpty()); return buffer[0]; }
-    inline const Type &first() const { Q_ASSERT(!isEmpty()); return buffer[0]; }
+    inline Type    &at(int i)
+    {
+        Q_ASSERT(i >= 0 && i < siz); return buffer[i];
+    }
+    inline const Type    &at(int i) const
+    {
+        Q_ASSERT(i >= 0 && i < siz); return buffer[i];
+    }
+    inline Type    &last()
+    {
+        Q_ASSERT(!isEmpty()); return buffer[siz - 1];
+    }
+    inline const Type    &last() const
+    {
+        Q_ASSERT(!isEmpty()); return buffer[siz - 1];
+    }
+    inline Type    &first()
+    {
+        Q_ASSERT(!isEmpty()); return buffer[0];
+    }
+    inline const Type    &first() const
+    {
+        Q_ASSERT(!isEmpty()); return buffer[0];
+    }
 
-    inline void add(const Type &t) {
+    inline void add(const Type &t)
+    {
         reserve(siz + 1);
         buffer[siz] = t;
         ++siz;
     }
 
-    inline void pop_back() {
+    inline void pop_back()
+    {
         Q_ASSERT(siz > 0);
         --siz;
     }
 
-    inline void resize(int size) {
+    inline void resize(int size)
+    {
         reserve(size);
         siz = size;
     }
 
-    inline void reserve(int size) {
-        if (size > capacity) {
+    inline void reserve(int size)
+    {
+        if (size > capacity)
+        {
             if (capacity == 0)
                 capacity = 1;
+
             while (capacity < size)
                 capacity *= 2;
+
             buffer = (Type*) realloc(buffer, capacity * sizeof(Type));
             Q_CHECK_PTR(buffer);
         }
     }
 
-    inline void shrink(int size) {
+    inline void shrink(int size)
+    {
         capacity = size;
-        if (size) {
+        if (size)
+        {
             buffer = (Type*) realloc(buffer, capacity * sizeof(Type));
             Q_CHECK_PTR(buffer);
-        } else {
+        }
+        else
+        {
             free(buffer);
             buffer = 0;
         }
     }
 
-    inline void swap(QDataBuffer<Type> &other) {
+    inline void swap(QDataBuffer<Type> &other)
+    {
         qSwap(capacity, other.capacity);
         qSwap(siz, other.siz);
         qSwap(buffer, other.buffer);
     }
 
-    inline QDataBuffer &operator<<(const Type &t) { add(t); return *this; }
+    inline QDataBuffer&operator<<(const Type &t)
+    {
+        add(t); return *this;
+    }
 
 private:
-    int capacity;
-    int siz;
-    Type *buffer;
+    int     capacity;
+    int     siz;
+    Type    *buffer;
 };
 
 QT_END_NAMESPACE

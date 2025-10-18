@@ -26,9 +26,9 @@ PyAPI_FUNC(Py_hash_t) _Py_HashBytes(const void*, Py_ssize_t);
 #endif
 
 #define _PyHASH_MODULUS (((size_t)1 << _PyHASH_BITS) - 1)
-#define _PyHASH_INF 314159
-#define _PyHASH_NAN 0
-#define _PyHASH_IMAG _PyHASH_MULTIPLIER
+#define _PyHASH_INF     314159
+#define _PyHASH_NAN     0
+#define _PyHASH_IMAG    _PyHASH_MULTIPLIER
 
 
 /* hash secret
@@ -51,27 +51,32 @@ PyAPI_FUNC(Py_hash_t) _Py_HashBytes(const void*, Py_ssize_t);
  *     an unsigned int64 data type.
  */
 #ifndef Py_LIMITED_API
-typedef union {
+typedef union
+{
     /* ensure 24 bytes */
     unsigned char uc[24];
     /* two Py_hash_t for FNV */
-    struct {
-        Py_hash_t prefix;
-        Py_hash_t suffix;
+    struct
+    {
+        Py_hash_t   prefix;
+        Py_hash_t   suffix;
     } fnv;
     /* two uint64 for SipHash24 */
-    struct {
-        uint64_t k0;
-        uint64_t k1;
+    struct
+    {
+        uint64_t    k0;
+        uint64_t    k1;
     } siphash;
     /* a different (!) Py_hash_t for small string optimization */
-    struct {
-        unsigned char padding[16];
-        Py_hash_t suffix;
+    struct
+    {
+        unsigned char   padding[16];
+        Py_hash_t       suffix;
     } djbx33a;
-    struct {
-        unsigned char padding[16];
-        Py_hash_t hashsalt;
+    struct
+    {
+        unsigned char   padding[16];
+        Py_hash_t       hashsalt;
     } expat;
 } _Py_HashSecret_t;
 PyAPI_DATA(_Py_HashSecret_t) _Py_HashSecret;
@@ -84,11 +89,12 @@ PyAPI_DATA(int) _Py_HashSecret_Initialized;
 
 /* hash function definition */
 #ifndef Py_LIMITED_API
-typedef struct {
-    Py_hash_t (*const hash)(const void *, Py_ssize_t);
-    const char *name;
-    const int hash_bits;
-    const int seed_bits;
+typedef struct
+{
+    Py_hash_t (*const hash)(const void*, Py_ssize_t);
+    const char  *name;
+    const int   hash_bits;
+    const int   seed_bits;
 } PyHash_FuncDef;
 
 PyAPI_FUNC(PyHash_FuncDef*) PyHash_GetFuncDef(void);
@@ -126,9 +132,9 @@ PyAPI_FUNC(PyHash_FuncDef*) PyHash_GetFuncDef(void);
  *
  * XXX: Figure out __declspec() for extern PyHash_FuncDef.
  */
-#define Py_HASH_EXTERNAL 0
-#define Py_HASH_SIPHASH24 1
-#define Py_HASH_FNV 2
+#define Py_HASH_EXTERNAL    0
+#define Py_HASH_SIPHASH24   1
+#define Py_HASH_FNV         2
 
 #ifndef Py_HASH_ALGORITHM
 #  ifndef HAVE_ALIGNED_REQUIRED

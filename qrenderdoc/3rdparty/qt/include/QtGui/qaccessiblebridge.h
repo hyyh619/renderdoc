@@ -56,22 +56,21 @@ class QAccessibleBridge
 {
 public:
     virtual ~QAccessibleBridge() {}
-    virtual void setRootObject(QAccessibleInterface *) = 0;
+    virtual void setRootObject(QAccessibleInterface*)               = 0;
     virtual void notifyAccessibilityUpdate(QAccessibleEvent *event) = 0;
 };
 
 #define QAccessibleBridgeFactoryInterface_iid "org.qt-project.Qt.QAccessibleBridgeFactoryInterface"
 
-class Q_GUI_EXPORT QAccessibleBridgePlugin : public QObject
+class Q_GUI_EXPORT    QAccessibleBridgePlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QAccessibleBridgePlugin(QObject *parent = Q_NULLPTR);
     ~QAccessibleBridgePlugin();
 
-    virtual QAccessibleBridge *create(const QString &key) = 0;
+    virtual QAccessibleBridge* create(const QString &key) = 0;
 };
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

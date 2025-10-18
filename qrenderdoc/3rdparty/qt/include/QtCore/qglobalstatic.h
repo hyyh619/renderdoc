@@ -46,13 +46,15 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace QtGlobalStatic {
-enum GuardValues {
-    Destroyed = -2,
-    Initialized = -1,
-    Uninitialized = 0,
-    Initializing = 1
-};
+namespace QtGlobalStatic
+{
+    enum GuardValues
+    {
+        Destroyed       = -2,
+        Initialized     = -1,
+        Uninitialized   = 0,
+        Initializing    = 1
+    };
 }
 
 #if defined(QT_NO_THREAD) || defined(Q_COMPILER_THREADSAFE_STATICS)
@@ -75,22 +77,22 @@ enum GuardValues {
 #  define Q_GLOBAL_STATIC_INTERNAL_DECORATION Q_DECL_HIDDEN inline
 #endif
 
-#define Q_GLOBAL_STATIC_INTERNAL(ARGS)                          \
-    Q_GLOBAL_STATIC_INTERNAL_DECORATION Type *innerFunction()   \
-    {                                                           \
-        struct HolderBase {                                     \
-            ~HolderBase() Q_DECL_NOTHROW                        \
-            { if (guard.load() == QtGlobalStatic::Initialized)  \
-                  guard.store(QtGlobalStatic::Destroyed); }     \
-        };                                                      \
-        static struct Holder : public HolderBase {              \
-            Type value;                                         \
-            Holder()                                            \
-                Q_DECL_NOEXCEPT_EXPR(noexcept(Type ARGS))       \
-                : value ARGS                                    \
-            { guard.store(QtGlobalStatic::Initialized); }       \
-        } holder;                                               \
-        return &holder.value;                                   \
+#define Q_GLOBAL_STATIC_INTERNAL(ARGS)                         \
+    Q_GLOBAL_STATIC_INTERNAL_DECORATION Type * innerFunction() \
+    {                                                          \
+        struct HolderBase {                                    \
+            ~HolderBase() Q_DECL_NOTHROW                       \
+            { if (guard.load() == QtGlobalStatic::Initialized) \
+                  guard.store(QtGlobalStatic::Destroyed); }    \
+        };                                                     \
+        static struct Holder : public HolderBase {             \
+            Type value;                                        \
+            Holder()                                           \
+            Q_DECL_NOEXCEPT_EXPR(noexcept(Type ARGS))          \
+                : value ARGS                                   \
+            { guard.store(QtGlobalStatic::Initialized); }      \
+        } holder;                                              \
+        return &holder.value;                                  \
     }
 #else
 // We don't know if this compiler supports thread-safe global statics
@@ -100,62 +102,81 @@ QT_END_NAMESPACE
 #include <QtCore/qmutex.h>
 QT_BEGIN_NAMESPACE
 
-#define Q_GLOBAL_STATIC_INTERNAL(ARGS)                                  \
-    Q_DECL_HIDDEN inline Type *innerFunction()                          \
-    {                                                                   \
-        static Type *d;                                                 \
-        static QBasicMutex mutex;                                       \
-        int x = guard.loadAcquire();                                    \
-        if (Q_UNLIKELY(x >= QtGlobalStatic::Uninitialized)) {           \
-            QMutexLocker locker(&mutex);                                \
-            if (guard.load() == QtGlobalStatic::Uninitialized) {        \
-                d = new Type ARGS;                                      \
-                static struct Cleanup {                                 \
-                    ~Cleanup() {                                        \
-                        delete d;                                       \
-                        guard.store(QtGlobalStatic::Destroyed);         \
-                    }                                                   \
-                } cleanup;                                              \
-                guard.storeRelease(QtGlobalStatic::Initialized);        \
-            }                                                           \
-        }                                                               \
-        return d;                                                       \
+#define Q_GLOBAL_STATIC_INTERNAL(ARGS)                           \
+    Q_DECL_HIDDEN inline Type * innerFunction()                  \
+    {                                                            \
+        static Type             *d;                              \
+        static QBasicMutex      mutex;                           \
+        int                     x = guard.loadAcquire();         \
+        if (Q_UNLIKELY(x >= QtGlobalStatic::Uninitialized)) {    \
+            QMutexLocker locker(&mutex);                         \
+            if (guard.load() == QtGlobalStatic::Uninitialized) { \
+                d = new Type ARGS;                               \
+                static struct Cleanup {                          \
+                    ~Cleanup() {                                 \
+                        delete d;                                \
+                        guard.store(QtGlobalStatic::Destroyed);  \
+                    }                                            \
+                }    cleanup;                                    \
+                guard.storeRelease(QtGlobalStatic::Initialized); \
+            }                                                    \
+        }                                                        \
+        return d;                                                \
     }
 #endif
 
 // this class must be POD, unless the compiler supports thread-safe statics
-template <typename T, T *(&innerFunction)(), QBasicAtomicInt &guard>
+template<typename T, T*(&innerFunction)(), QBasicAtomicInt&guard>
 struct QGlobalStatic
 {
     typedef T Type;
 
-    bool isDestroyed() const { return guard.load() <= QtGlobalStatic::Destroyed; }
-    bool exists() const { return guard.load() == QtGlobalStatic::Initialized; }
-    operator Type *() { if (isDestroyed()) return 0; return innerFunction(); }
-    Type *operator()() { if (isDestroyed()) return 0; return innerFunction(); }
-    Type *operator->()
+    bool isDestroyed() const
     {
-      Q_ASSERT_X(!isDestroyed(), "Q_GLOBAL_STATIC", "The global static was used after being destroyed");
-      return innerFunction();
+        return guard.load() <= QtGlobalStatic::Destroyed;
     }
-    Type &operator*()
+    bool exists() const
     {
-      Q_ASSERT_X(!isDestroyed(), "Q_GLOBAL_STATIC", "The global static was used after being destroyed");
-      return *innerFunction();
+        return guard.load() == QtGlobalStatic::Initialized;
+    }
+    operator Type* ()
+    {
+        if (isDestroyed())
+            return 0;
+
+        return innerFunction();
+    }
+    Type* operator()()
+    {
+        if (isDestroyed())
+            return 0;
+
+        return innerFunction();
+    }
+    Type* operator->()
+    {
+        Q_ASSERT_X(!isDestroyed(), "Q_GLOBAL_STATIC", "The global static was used after being destroyed");
+        return innerFunction();
+    }
+    Type&operator*()
+    {
+        Q_ASSERT_X(!isDestroyed(), "Q_GLOBAL_STATIC", "The global static was used after being destroyed");
+        return *innerFunction();
     }
 };
 
-#define Q_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ARGS)                         \
-    namespace { namespace Q_QGS_ ## NAME {                                  \
-        typedef TYPE Type;                                                  \
-        QBasicAtomicInt guard = Q_BASIC_ATOMIC_INITIALIZER(QtGlobalStatic::Uninitialized); \
-        Q_GLOBAL_STATIC_INTERNAL(ARGS)                                      \
-    } }                                                                     \
-    static QGlobalStatic<TYPE,                                              \
-                         Q_QGS_ ## NAME::innerFunction,                     \
-                         Q_QGS_ ## NAME::guard> NAME;
+#define Q_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ARGS)                                                       \
+    namespace { namespace Q_QGS_##NAME {                                                                  \
+                    typedef TYPE Type;                                                                    \
+                    QBasicAtomicInt    guard = Q_BASIC_ATOMIC_INITIALIZER(QtGlobalStatic::Uninitialized); \
+                    Q_GLOBAL_STATIC_INTERNAL(ARGS)                                                        \
+                }                                                                                         \
+    }                                                                                                     \
+    static QGlobalStatic<TYPE,                                                                            \
+                         Q_QGS_##NAME::innerFunction,                                                     \
+                         Q_QGS_##NAME::guard>    NAME;
 
-#define Q_GLOBAL_STATIC(TYPE, NAME)                                         \
+#define Q_GLOBAL_STATIC(TYPE, NAME) \
     Q_GLOBAL_STATIC_WITH_ARGS(TYPE, NAME, ())
 
 QT_END_NAMESPACE

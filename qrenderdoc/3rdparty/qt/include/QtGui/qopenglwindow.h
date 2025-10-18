@@ -52,13 +52,14 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLWindowPrivate;
 
-class Q_GUI_EXPORT QOpenGLWindow : public QPaintDeviceWindow
+class Q_GUI_EXPORT    QOpenGLWindow : public QPaintDeviceWindow
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QOpenGLWindow)
 
 public:
-    enum UpdateBehavior {
+    enum UpdateBehavior
+    {
         NoPartialUpdate,
         PartialUpdateBlit,
         PartialUpdateBlend
@@ -74,8 +75,8 @@ public:
     void makeCurrent();
     void doneCurrent();
 
-    QOpenGLContext *context() const;
-    QOpenGLContext *shareContext() const;
+    QOpenGLContext* context() const;
+    QOpenGLContext* shareContext() const;
 
     GLuint defaultFramebufferObject() const;
 
@@ -94,14 +95,13 @@ protected:
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
     int metric(PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
-    QPaintDevice *redirected(QPoint *) const Q_DECL_OVERRIDE;
+    QPaintDevice* redirected(QPoint*) const Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QOpenGLWindow)
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif

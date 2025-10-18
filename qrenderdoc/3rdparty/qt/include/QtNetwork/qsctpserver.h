@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QSctpServerPrivate;
 class QSctpSocket;
 
-class Q_NETWORK_EXPORT QSctpServer : public QTcpServer
+class Q_NETWORK_EXPORT    QSctpServer : public QTcpServer
 {
     Q_OBJECT
 public:
@@ -60,7 +60,7 @@ public:
     void setMaximumChannelCount(int count);
     int maximumChannelCount() const;
 
-    QSctpSocket *nextPendingDatagramConnection();
+    QSctpSocket* nextPendingDatagramConnection();
 
 protected:
     void incomingConnection(qintptr handle) Q_DECL_OVERRIDE;
@@ -69,7 +69,6 @@ private:
     Q_DISABLE_COPY(QSctpServer)
     Q_DECLARE_PRIVATE(QSctpServer)
 };
-
 #endif // QT_NO_SCTP
 
 QT_END_NAMESPACE

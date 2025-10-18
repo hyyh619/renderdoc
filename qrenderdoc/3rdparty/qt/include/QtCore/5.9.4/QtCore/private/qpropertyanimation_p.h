@@ -61,28 +61,26 @@ QT_BEGIN_NAMESPACE
 
 class QPropertyAnimationPrivate : public QVariantAnimationPrivate
 {
-   Q_DECLARE_PUBLIC(QPropertyAnimation)
+    Q_DECLARE_PUBLIC(QPropertyAnimation)
 public:
     QPropertyAnimationPrivate()
         : targetValue(0), propertyType(0), propertyIndex(-1)
-    {
-    }
+    {}
 
-    QPointer<QObject> target;
-    //we use targetValue to be able to unregister the target from the global hash
-    QObject *targetValue;
+    QPointer<QObject>    target;
+    // we use targetValue to be able to unregister the target from the global hash
+    QObject    *targetValue;
 
-    //for the QProperty
-    int propertyType;
-    int propertyIndex;
+    // for the QProperty
+    int     propertyType;
+    int     propertyIndex;
 
-    QByteArray propertyName;
-    void updateProperty(const QVariant &);
+    QByteArray    propertyName;
+    void updateProperty(const QVariant&);
     void updateMetaProperty();
 };
 
 QT_END_NAMESPACE
+#endif // QT_NO_ANIMATION
 
-#endif //QT_NO_ANIMATION
-
-#endif //QPROPERTYANIMATION_P_H
+#endif // QPROPERTYANIMATION_P_H

@@ -95,35 +95,35 @@ struct QDockAreaLayoutItem
     QDockAreaLayoutItem(const QDockAreaLayoutItem &other);
     ~QDockAreaLayoutItem();
 
-    QDockAreaLayoutItem &operator = (const QDockAreaLayoutItem &other);
+    QDockAreaLayoutItem&operator =(const QDockAreaLayoutItem &other);
 
-    bool skip() const;
-    QSize minimumSize() const;
-    QSize maximumSize() const;
-    QSize sizeHint() const;
-    bool expansive(Qt::Orientation o) const;
-    bool hasFixedSize(Qt::Orientation o) const;
+    bool    skip() const;
+    QSize   minimumSize() const;
+    QSize   maximumSize() const;
+    QSize   sizeHint() const;
+    bool    expansive(Qt::Orientation o) const;
+    bool    hasFixedSize(Qt::Orientation o) const;
 
-    QLayoutItem *widgetItem;
+    QLayoutItem         *widgetItem;
     QDockAreaLayoutInfo *subinfo;
-    QPlaceHolderItem *placeHolderItem;
-    int pos;
-    int size;
-    uint flags;
+    QPlaceHolderItem    *placeHolderItem;
+    int                 pos;
+    int                 size;
+    uint                flags;
 };
 
-class Q_AUTOTEST_EXPORT QPlaceHolderItem
+class Q_AUTOTEST_EXPORT    QPlaceHolderItem
 {
 public:
     QPlaceHolderItem() : hidden(false), window(false) {}
     explicit QPlaceHolderItem(QWidget *w);
 
-    QString objectName;
-    bool hidden, window;
-    QRect topLevelRect;
+    QString     objectName;
+    bool        hidden, window;
+    QRect       topLevelRect;
 };
 
-class Q_AUTOTEST_EXPORT QDockAreaLayoutInfo
+class Q_AUTOTEST_EXPORT    QDockAreaLayoutInfo
 {
 public:
     QDockAreaLayoutInfo();
@@ -136,24 +136,23 @@ public:
     QSize size() const;
 
     bool insertGap(const QList<int> &path, QLayoutItem *dockWidgetItem);
-    QLayoutItem *plug(const QList<int> &path);
-    QLayoutItem *unplug(const QList<int> &path);
+    QLayoutItem* plug(const QList<int> &path);
+    QLayoutItem* unplug(const QList<int> &path);
     enum TabMode { NoTabs, AllowTabs, ForceTabs };
     QList<int> gapIndex(const QPoint &pos, bool nestingEnabled,
-                            TabMode tabMode) const;
+                        TabMode tabMode) const;
     void remove(const QList<int> &path);
     void unnest(int index);
     void split(int index, Qt::Orientation orientation, QLayoutItem *dockWidgetItem);
     void tab(int index, QLayoutItem *dockWidgetItem);
-    QDockAreaLayoutItem &item(const QList<int> &path);
-    QDockAreaLayoutInfo *info(const QList<int> &path);
-    QDockAreaLayoutInfo *info(QWidget *widget);
+    QDockAreaLayoutItem    &item(const QList<int> &path);
+    QDockAreaLayoutInfo* info(const QList<int> &path);
+    QDockAreaLayoutInfo* info(QWidget *widget);
 
-    enum { // sentinel values used to validate state data
-        SequenceMarker = 0xfc,
-        TabMarker = 0xfa,
-        WidgetMarker = 0xfb
-    };
+    enum   // sentinel values used to validate state data
+    {SequenceMarker                                                             = 0xfc,
+     TabMarker                                                                  = 0xfa,
+     WidgetMarker                                                               = 0xfb};
     void saveState(QDataStream &stream) const;
     bool restoreState(QDataStream &stream, QList<QDockWidget*> &widgets, bool testing);
 
@@ -176,26 +175,26 @@ public:
     QList<int> indexOf(QWidget *widget) const;
     QList<int> indexOfPlaceHolder(const QString &objectName) const;
 
-    QDockWidget *apply(bool animate);
+    QDockWidget* apply(bool animate);
 
     void paintSeparators(QPainter *p, QWidget *widget, const QRegion &clip,
-                            const QPoint &mouse) const;
+                         const QPoint &mouse) const;
     QRegion separatorRegion() const;
     int separatorMove(int index, int delta);
 
-    QLayoutItem *itemAt(int *x, int index) const;
-    QLayoutItem *takeAt(int *x, int index);
+    QLayoutItem* itemAt(int *x, int index) const;
+    QLayoutItem* takeAt(int *x, int index);
     void deleteAllLayoutItems();
 
-    QMainWindowLayout *mainWindowLayout() const;
+    QMainWindowLayout* mainWindowLayout() const;
 
-    const int *sep;
-    mutable QVector<QWidget*> separatorWidgets;
-    QInternal::DockPosition dockPos;
-    Qt::Orientation o;
-    QRect rect;
-    QMainWindow *mainWindow;
-    QList<QDockAreaLayoutItem> item_list;
+    const int                       *sep;
+    mutable QVector<QWidget*>       separatorWidgets;
+    QInternal::DockPosition         dockPos;
+    Qt::Orientation                 o;
+    QRect                           rect;
+    QMainWindow                     *mainWindow;
+    QList<QDockAreaLayoutItem>      item_list;
 #if QT_CONFIG(tabbar)
     void updateSeparatorWidgets() const;
     QSet<QWidget*> usedSeparatorWidgets() const;
@@ -204,9 +203,9 @@ public:
     void setCurrentTab(QWidget *widget);
     void setCurrentTabId(quintptr id);
     QRect tabContentRect() const;
-    bool tabbed;
-    QTabBar *tabBar;
-    int tabBarShape;
+    bool        tabbed;
+    QTabBar     *tabBar;
+    int         tabBarShape;
 
     void reparentWidgets(QWidget *p);
     bool updateTabBar() const;
@@ -221,21 +220,21 @@ public:
 #endif // QT_CONFIG(tabbar)
 };
 
-class Q_AUTOTEST_EXPORT QDockAreaLayout
+class Q_AUTOTEST_EXPORT    QDockAreaLayout
 {
 public:
     enum { EmptyDropAreaSize = 80 }; // when a dock area is empty, how "wide" is it?
 
-    Qt::DockWidgetArea corners[4]; // use a Qt::Corner for indexing
-    QRect rect;
-    QLayoutItem *centralWidgetItem;
-    QMainWindow *mainWindow;
-    QRect centralWidgetRect;
+    Qt::DockWidgetArea      corners[4]; // use a Qt::Corner for indexing
+    QRect                   rect;
+    QLayoutItem             *centralWidgetItem;
+    QMainWindow             *mainWindow;
+    QRect                   centralWidgetRect;
     QDockAreaLayout(QMainWindow *win);
-    QDockAreaLayoutInfo docks[4];
-    int sep; // separator extent
-    bool fallbackToSizeHints; //determines if we should use the sizehint for the dock areas (true until the layout is restored or the separator is moved by user)
-    mutable QVector<QWidget*> separatorWidgets;
+    QDockAreaLayoutInfo             docks[4];
+    int                             sep; // separator extent
+    bool                            fallbackToSizeHints; // determines if we should use the sizehint for the dock areas (true until the layout is restored or the separator is moved by user)
+    mutable QVector<QWidget*>       separatorWidgets;
 
     bool isValid() const;
 
@@ -249,17 +248,17 @@ public:
     QList<int> gapIndex(const QPoint &pos) const;
     QList<int> findSeparator(const QPoint &pos) const;
 
-    QDockAreaLayoutItem &item(const QList<int> &path);
-    QDockAreaLayoutInfo *info(const QList<int> &path);
-    const QDockAreaLayoutInfo *info(const QList<int> &path) const;
-    QDockAreaLayoutInfo *info(QWidget *widget);
+    QDockAreaLayoutItem    &item(const QList<int> &path);
+    QDockAreaLayoutInfo* info(const QList<int> &path);
+    const QDockAreaLayoutInfo* info(const QList<int> &path) const;
+    QDockAreaLayoutInfo* info(QWidget *widget);
     QRect itemRect(const QList<int> &path) const;
     QRect separatorRect(int index) const;
     QRect separatorRect(const QList<int> &path) const;
 
     bool insertGap(const QList<int> &path, QLayoutItem *dockWidgetItem);
-    QLayoutItem *plug(const QList<int> &path);
-    QLayoutItem *unplug(const QList<int> &path);
+    QLayoutItem* plug(const QList<int> &path);
+    QLayoutItem* unplug(const QList<int> &path);
     void remove(const QList<int> &path);
     void removePlaceHolder(const QString &name);
 
@@ -275,26 +274,26 @@ public:
     void splitDockWidget(QDockWidget *after, QDockWidget *dockWidget,
                          Qt::Orientation orientation);
     void tabifyDockWidget(QDockWidget *first, QDockWidget *second);
-    void resizeDocks(const QList<QDockWidget *> &docks, const QList<int> &sizes, Qt::Orientation o);
+    void resizeDocks(const QList<QDockWidget*> &docks, const QList<int> &sizes, Qt::Orientation o);
 
     void apply(bool animate);
 
     void paintSeparators(QPainter *p, QWidget *widget, const QRegion &clip,
-                            const QPoint &mouse) const;
+                         const QPoint &mouse) const;
     QRegion separatorRegion() const;
     int separatorMove(const QList<int> &separator, const QPoint &origin, const QPoint &dest);
 #if QT_CONFIG(tabbar)
     void updateSeparatorWidgets() const;
 #endif // QT_CONFIG(tabbar)
 
-    QLayoutItem *itemAt(int *x, int index) const;
-    QLayoutItem *takeAt(int *x, int index);
+    QLayoutItem* itemAt(int *x, int index) const;
+    QLayoutItem* takeAt(int *x, int index);
     void deleteAllLayoutItems();
 
     void getGrid(QVector<QLayoutStruct> *ver_struct_list,
-                    QVector<QLayoutStruct> *hor_struct_list);
+                 QVector<QLayoutStruct> *hor_struct_list);
     void setGrid(QVector<QLayoutStruct> *ver_struct_list,
-                    QVector<QLayoutStruct> *hor_struct_list);
+                 QVector<QLayoutStruct> *hor_struct_list);
 
     QRect gapRect(const QList<int> &path) const;
 

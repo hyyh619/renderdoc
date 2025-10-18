@@ -54,12 +54,13 @@ class QUrl;
 class QNetworkConfiguration;
 
 class QNetworkProxyQueryPrivate;
-class Q_NETWORK_EXPORT QNetworkProxyQuery
+class Q_NETWORK_EXPORT    QNetworkProxyQuery
 {
     Q_GADGET
 
 public:
-    enum QueryType {
+    enum QueryType
+    {
         TcpSocket,
         UdpSocket,
         SctpSocket,
@@ -74,7 +75,7 @@ public:
     QNetworkProxyQuery(const QString &hostname, int port, const QString &protocolTag = QString(),
                        QueryType queryType = TcpSocket);
     explicit QNetworkProxyQuery(quint16 bindPort, const QString &protocolTag = QString(),
-                       QueryType queryType = TcpServer);
+                                QueryType queryType = TcpServer);
 #ifndef QT_NO_BEARERMANAGEMENT
     QNetworkProxyQuery(const QNetworkConfiguration &networkConfiguration,
                        const QUrl &requestUrl, QueryType queryType = UrlRequest);
@@ -87,16 +88,24 @@ public:
 #endif
     QNetworkProxyQuery(const QNetworkProxyQuery &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkProxyQuery &operator=(QNetworkProxyQuery &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkProxyQuery&operator=(QNetworkProxyQuery &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkProxyQuery &operator=(const QNetworkProxyQuery &other);
+    QNetworkProxyQuery&operator=(const QNetworkProxyQuery &other);
     ~QNetworkProxyQuery();
 
-    void swap(QNetworkProxyQuery &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkProxyQuery &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QNetworkProxyQuery &other) const;
     inline bool operator!=(const QNetworkProxyQuery &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     QueryType queryType() const;
     void setQueryType(QueryType type);
@@ -122,17 +131,18 @@ public:
 #endif
 
 private:
-    QSharedDataPointer<QNetworkProxyQueryPrivate> d;
+    QSharedDataPointer<QNetworkProxyQueryPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QNetworkProxyQuery)
 
 class QNetworkProxyPrivate;
 
-class Q_NETWORK_EXPORT QNetworkProxy
+class Q_NETWORK_EXPORT    QNetworkProxy
 {
 public:
-    enum ProxyType {
+    enum ProxyType
+    {
         DefaultProxy,
         Socks5Proxy,
         NoProxy,
@@ -141,14 +151,15 @@ public:
         FtpCachingProxy
     };
 
-    enum Capability {
-        TunnelingCapability = 0x0001,
-        ListeningCapability = 0x0002,
-        UdpTunnelingCapability = 0x0004,
-        CachingCapability = 0x0008,
-        HostNameLookupCapability = 0x0010,
-        SctpTunnelingCapability = 0x00020,
-        SctpListeningCapability = 0x00040
+    enum Capability
+    {
+        TunnelingCapability         = 0x0001,
+        ListeningCapability         = 0x0002,
+        UdpTunnelingCapability      = 0x0004,
+        CachingCapability           = 0x0008,
+        HostNameLookupCapability    = 0x0010,
+        SctpTunnelingCapability     = 0x00020,
+        SctpListeningCapability     = 0x00040
     };
     Q_DECLARE_FLAGS(Capabilities, Capability)
 
@@ -157,16 +168,24 @@ public:
                   const QString &user = QString(), const QString &password = QString());
     QNetworkProxy(const QNetworkProxy &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkProxy &operator=(QNetworkProxy &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkProxy&operator=(QNetworkProxy &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkProxy &operator=(const QNetworkProxy &other);
+    QNetworkProxy&operator=(const QNetworkProxy &other);
     ~QNetworkProxy();
 
-    void swap(QNetworkProxy &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkProxy &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QNetworkProxy &other) const;
     inline bool operator!=(const QNetworkProxy &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     void setType(QNetworkProxy::ProxyType type);
     QNetworkProxy::ProxyType type() const;
@@ -202,13 +221,13 @@ public:
     void setRawHeader(const QByteArray &headerName, const QByteArray &value);
 
 private:
-    QSharedDataPointer<QNetworkProxyPrivate> d;
+    QSharedDataPointer<QNetworkProxyPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QNetworkProxy)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QNetworkProxy::Capabilities)
 
-class Q_NETWORK_EXPORT QNetworkProxyFactory
+class Q_NETWORK_EXPORT    QNetworkProxyFactory
 {
 public:
     QNetworkProxyFactory();

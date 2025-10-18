@@ -81,8 +81,8 @@ class QByteArray;
 class QApplication;
 
 template<typename T> class QList;
-typedef QList<QWidget *> QWidgetList;
-typedef QList<QWindow *> QWindowList;
+typedef QList<QWidget*> QWidgetList;
+typedef QList<QWindow*> QWindowList;
 
 QT_END_NAMESPACE
 
@@ -96,17 +96,17 @@ QT_END_NAMESPACE
 
 
 
-typedef QT_PREPEND_NAMESPACE(quintptr) WId;
+typedef QT_PREPEND_NAMESPACE (quintptr) WId;
 
 
 
 QT_BEGIN_NAMESPACE
 
 template<class K, class V> class QHash;
-typedef QHash<WId, QWidget *> QWidgetMapper;
+typedef QHash<WId, QWidget*> QWidgetMapper;
 
 template<class V> class QSet;
-typedef QSet<QWidget *> QWidgetSet;
+typedef QSet<QWidget*> QWidgetSet;
 
 QT_END_NAMESPACE
 

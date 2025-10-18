@@ -57,7 +57,7 @@ class QSvgRendererPrivate;
 class QPainter;
 class QByteArray;
 
-class Q_SVG_EXPORT QSvgRenderer : public QObject
+class Q_SVG_EXPORT    QSvgRenderer : public QObject
 {
     Q_OBJECT
 
@@ -85,7 +85,7 @@ public:
     void setFramesPerSecond(int num);
     int currentFrame() const;
     void setCurrentFrame(int);
-    int animationDuration() const;//in seconds
+    int animationDuration() const;// in seconds
 
     QRectF boundsOnElement(const QString &id) const;
     bool elementExists(const QString &id) const;
@@ -99,7 +99,7 @@ public Q_SLOTS:
     void render(QPainter *p, const QRectF &bounds);
 
     void render(QPainter *p, const QString &elementId,
-                const QRectF &bounds=QRectF());
+                const QRectF &bounds= QRectF());
 
 Q_SIGNALS:
     void repaintNeeded();
@@ -109,6 +109,5 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SVGRENDERER
 #endif // QSVGRENDERER_H

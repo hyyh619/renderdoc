@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 class QString;
 class QLibraryPrivate;
 
-class Q_AUTOTEST_EXPORT QMachOParser
+class Q_AUTOTEST_EXPORT    QMachOParser
 {
 public:
     enum { QtMetaDataSection, NoQtSection, NotSuitable };
@@ -71,7 +71,6 @@ public:
 };
 
 QT_END_NAMESPACE
-
 #endif // defined(Q_OF_ELF) && defined(Q_CC_GNU)
 
 #endif // QMACHPARSER_P_H

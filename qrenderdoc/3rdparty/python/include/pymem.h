@@ -1,6 +1,6 @@
 /* The PyMem_ family:  low-level memory allocation interfaces.
    See objimpl.h for the PyObject_ memory family.
-*/
+ */
 
 #ifndef Py_PYMEM_H
 #define Py_PYMEM_H
@@ -12,9 +12,9 @@ extern "C" {
 #endif
 
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(void *) PyMem_RawMalloc(size_t size);
-PyAPI_FUNC(void *) PyMem_RawCalloc(size_t nelem, size_t elsize);
-PyAPI_FUNC(void *) PyMem_RawRealloc(void *ptr, size_t new_size);
+PyAPI_FUNC(void*) PyMem_RawMalloc(size_t size);
+PyAPI_FUNC(void*) PyMem_RawCalloc(size_t nelem, size_t elsize);
+PyAPI_FUNC(void*) PyMem_RawRealloc(void *ptr, size_t new_size);
 PyAPI_FUNC(void) PyMem_RawFree(void *ptr);
 
 /* Configure the Python memory allocators. Pass NULL to use default
@@ -83,7 +83,7 @@ PyAPI_FUNC(PyObject*) _PyTraceMalloc_GetTraceback(
    with raw blocks obtained directly by the system routines then.
 
    The GIL must be held when using these APIs.
-*/
+ */
 
 /*
  * Raw memory interface
@@ -98,18 +98,18 @@ PyAPI_FUNC(PyObject*) _PyTraceMalloc_GetTraceback(
    may be returned), even if the platform malloc and realloc don't.
    Returned pointers must be checked for NULL explicitly.  No action is
    performed on failure (no exception is set, no warning is printed, etc).
-*/
+ */
 
-PyAPI_FUNC(void *) PyMem_Malloc(size_t size);
-#if !defined(Py_LIMITED_API) || Py_LIMITED_API+0 >= 0x03050000
-PyAPI_FUNC(void *) PyMem_Calloc(size_t nelem, size_t elsize);
+PyAPI_FUNC(void*) PyMem_Malloc(size_t size);
+#if !defined(Py_LIMITED_API) || Py_LIMITED_API + 0 >= 0x03050000
+PyAPI_FUNC(void*) PyMem_Calloc(size_t nelem, size_t elsize);
 #endif
-PyAPI_FUNC(void *) PyMem_Realloc(void *ptr, size_t new_size);
+PyAPI_FUNC(void*) PyMem_Realloc(void *ptr, size_t new_size);
 PyAPI_FUNC(void) PyMem_Free(void *ptr);
 
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(char *) _PyMem_RawStrdup(const char *str);
-PyAPI_FUNC(char *) _PyMem_Strdup(const char *str);
+PyAPI_FUNC(char*) _PyMem_RawStrdup(const char *str);
+PyAPI_FUNC(char*) _PyMem_Strdup(const char *str);
 #endif
 
 /* Macros. */
@@ -134,12 +134,12 @@ PyAPI_FUNC(char *) _PyMem_Strdup(const char *str);
  * overflow checking is always done.
  */
 
-#define PyMem_New(type, n) \
-  ( ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL :	\
-	( (type *) PyMem_Malloc((n) * sizeof(type)) ) )
-#define PyMem_NEW(type, n) \
-  ( ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL :	\
-	( (type *) PyMem_MALLOC((n) * sizeof(type)) ) )
+#define PyMem_New(type, n)                                  \
+    (((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL : \
+     ((type*) PyMem_Malloc((n) * sizeof(type))))
+#define PyMem_NEW(type, n)                                  \
+    (((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL : \
+     ((type*) PyMem_MALLOC((n) * sizeof(type))))
 
 /*
  * The value of (p) is always clobbered by this macro regardless of success.
@@ -147,21 +147,22 @@ PyAPI_FUNC(char *) _PyMem_Strdup(const char *str);
  * error if so.  This means the original value of (p) MUST be saved for the
  * caller's memory error handler to not lose track of it.
  */
-#define PyMem_Resize(p, type, n) \
-  ( (p) = ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL :	\
-	(type *) PyMem_Realloc((p), (n) * sizeof(type)) )
-#define PyMem_RESIZE(p, type, n) \
-  ( (p) = ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL :	\
-	(type *) PyMem_REALLOC((p), (n) * sizeof(type)) )
+#define PyMem_Resize(p, type, n)                                  \
+    ((p) = ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL : \
+           (type*) PyMem_Realloc((p), (n) * sizeof(type)))
+#define PyMem_RESIZE(p, type, n)                                  \
+    ((p) = ((size_t)(n) > PY_SSIZE_T_MAX / sizeof(type)) ? NULL : \
+           (type*) PyMem_REALLOC((p), (n) * sizeof(type)))
 
 /* PyMem{Del,DEL} are left over from ancient days, and shouldn't be used
  * anymore.  They're just confusing aliases for PyMem_{Free,FREE} now.
  */
-#define PyMem_Del		PyMem_Free
-#define PyMem_DEL		PyMem_FREE
+#define PyMem_Del       PyMem_Free
+#define PyMem_DEL       PyMem_FREE
 
 #ifndef Py_LIMITED_API
-typedef enum {
+typedef enum
+{
     /* PyMem_RawMalloc(), PyMem_RawRealloc() and PyMem_RawFree() */
     PYMEM_DOMAIN_RAW,
 
@@ -172,26 +173,27 @@ typedef enum {
     PYMEM_DOMAIN_OBJ
 } PyMemAllocatorDomain;
 
-typedef struct {
+typedef struct
+{
     /* user context passed as the first argument to the 4 functions */
     void *ctx;
 
     /* allocate a memory block */
-    void* (*malloc) (void *ctx, size_t size);
+    void* (*malloc)(void *ctx, size_t size);
 
     /* allocate a memory block initialized by zeros */
-    void* (*calloc) (void *ctx, size_t nelem, size_t elsize);
+    void* (*calloc)(void *ctx, size_t nelem, size_t elsize);
 
     /* allocate or resize a memory block */
-    void* (*realloc) (void *ctx, void *ptr, size_t new_size);
+    void* (*realloc)(void *ctx, void *ptr, size_t new_size);
 
     /* release a memory block */
-    void (*free) (void *ctx, void *ptr);
+    void (*free)(void *ctx, void *ptr);
 } PyMemAllocatorEx;
 
 /* Get the memory block allocator of the specified domain. */
 PyAPI_FUNC(void) PyMem_GetAllocator(PyMemAllocatorDomain domain,
-                                    PyMemAllocatorEx *allocator);
+                                    PyMemAllocatorEx * allocator);
 
 /* Set the memory block allocator of the specified domain.
 
@@ -205,7 +207,7 @@ PyAPI_FUNC(void) PyMem_GetAllocator(PyMemAllocatorDomain domain,
    PyMem_SetupDebugHooks() function must be called to reinstall the debug hooks
    on top on the new allocator. */
 PyAPI_FUNC(void) PyMem_SetAllocator(PyMemAllocatorDomain domain,
-                                    PyMemAllocatorEx *allocator);
+                                    PyMemAllocatorEx * allocator);
 
 /* Setup hooks to detect bugs in the following Python memory allocator
    functions:

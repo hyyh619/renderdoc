@@ -59,25 +59,25 @@ public:
     bool hasHeightForWidth() const Q_DECL_OVERRIDE;
     int heightForWidth(int) const Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
     QSize minimumSize() const Q_DECL_OVERRIDE;
     void setGeometry(const QRect &rect) Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
 
     bool fixedGrid() const;
     void setFixedGrid(bool fixedgrid);
 
 private:
     int doLayout(const QRect &rect, bool testOnly) const;
-    void setLineGeometry(const QList<QPair<QLayoutItem *, QRect>> &line, int lineHeight) const;
+    void setLineGeometry(const QList<QPair<QLayoutItem*, QRect> > &line, int lineHeight) const;
     int smartSpacing(QStyle::PixelMetric pm) const;
 
-    QList<QLayoutItem *> itemList;
-    QRect m_prevRect;
-    bool m_fixedGrid;
-    int m_hSpace;
-    int m_vSpace;
+    QList<QLayoutItem*>     itemList;
+    QRect                   m_prevRect;
+    bool                    m_fixedGrid;
+    int                     m_hSpace;
+    int                     m_vSpace;
 };
 
 #endif // FLOWLAYOUT_H

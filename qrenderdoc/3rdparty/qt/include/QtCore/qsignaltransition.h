@@ -48,10 +48,10 @@ QT_REQUIRE_CONFIG(statemachine);
 QT_BEGIN_NAMESPACE
 
 class QSignalTransitionPrivate;
-class Q_CORE_EXPORT QSignalTransition : public QAbstractTransition
+class Q_CORE_EXPORT    QSignalTransition : public QAbstractTransition
 {
     Q_OBJECT
-    Q_PROPERTY(QObject* senderObject READ senderObject WRITE setSenderObject NOTIFY senderObjectChanged)
+    Q_PROPERTY(QObject*senderObject READ senderObject WRITE setSenderObject NOTIFY senderObjectChanged)
     Q_PROPERTY(QByteArray signal READ signal WRITE setSignal NOTIFY signalChanged)
 
 public:
@@ -63,17 +63,16 @@ public:
     QSignalTransition(const QObject *object, PointerToMemberFunction signal,
                       QState *sourceState = Q_NULLPTR);
 #elif defined(Q_COMPILER_DELEGATING_CONSTRUCTORS)
-    template <typename Func>
+    template<typename Func>
     QSignalTransition(const typename QtPrivate::FunctionPointer<Func>::Object *obj,
                       Func sig, QState *srcState = Q_NULLPTR)
-    : QSignalTransition(obj, QMetaMethod::fromSignal(sig).methodSignature().constData(), srcState)
-    {
-    }
+        : QSignalTransition(obj, QMetaMethod::fromSignal(sig).methodSignature().constData(), srcState)
+    {}
 #endif
 
     ~QSignalTransition();
 
-    QObject *senderObject() const;
+    QObject* senderObject() const;
     void setSenderObject(const QObject *sender);
 
     QByteArray signal() const;
@@ -86,8 +85,8 @@ protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
-    void senderObjectChanged(QPrivateSignal);
-    void signalChanged(QPrivateSignal);
+    void    senderObjectChanged(QPrivateSignal);
+    void    signalChanged(QPrivateSignal);
 
 private:
     Q_DISABLE_COPY(QSignalTransition)

@@ -73,7 +73,8 @@ inline bool operator!=(const QSslDiffieHellmanParameters &lhs, const QSslDiffieH
 class QSslDiffieHellmanParameters
 {
 public:
-    enum Error {
+    enum Error
+    {
         NoError,
         InvalidInputDataError,
         UnsafeParametersError
@@ -83,13 +84,22 @@ public:
 
     Q_NETWORK_EXPORT QSslDiffieHellmanParameters();
     Q_NETWORK_EXPORT QSslDiffieHellmanParameters(const QSslDiffieHellmanParameters &other);
-    QSslDiffieHellmanParameters(QSslDiffieHellmanParameters &&other) Q_DECL_NOTHROW : d(other.d) { other.d = nullptr; }
+    QSslDiffieHellmanParameters(QSslDiffieHellmanParameters &&other) Q_DECL_NOTHROW : d(other.d)
+    {
+        other.d = nullptr;
+    }
     Q_NETWORK_EXPORT ~QSslDiffieHellmanParameters();
 
-    Q_NETWORK_EXPORT QSslDiffieHellmanParameters &operator=(const QSslDiffieHellmanParameters &other);
-    QSslDiffieHellmanParameters &operator=(QSslDiffieHellmanParameters &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    Q_NETWORK_EXPORT QSslDiffieHellmanParameters&operator=(const QSslDiffieHellmanParameters &other);
+    QSslDiffieHellmanParameters&operator=(QSslDiffieHellmanParameters &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 
-    void swap(QSslDiffieHellmanParameters &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QSslDiffieHellmanParameters &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     Q_NETWORK_EXPORT static QSslDiffieHellmanParameters fromEncoded(const QByteArray &encoded, QSsl::EncodingFormat format = QSsl::Pem);
     Q_NETWORK_EXPORT static QSslDiffieHellmanParameters fromEncoded(QIODevice *device, QSsl::EncodingFormat format = QSsl::Pem);
@@ -100,7 +110,7 @@ public:
     Q_NETWORK_EXPORT QString errorString() const Q_DECL_NOTHROW;
 
 private:
-    QSslDiffieHellmanParametersPrivate *d;
+    QSslDiffieHellmanParametersPrivate    *d;
     friend class QSslContext;
     friend Q_NETWORK_EXPORT bool operator==(const QSslDiffieHellmanParameters &lhs, const QSslDiffieHellmanParameters &rhs) Q_DECL_NOTHROW;
 #ifndef QT_NO_DEBUG_STREAM
@@ -110,7 +120,6 @@ private:
 };
 
 Q_DECLARE_SHARED(QSslDiffieHellmanParameters)
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE

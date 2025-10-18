@@ -67,17 +67,17 @@ class QWindow;
 class QIcon;
 class QRegion;
 
-class Q_GUI_EXPORT QPlatformWindow : public QPlatformSurface
+class Q_GUI_EXPORT    QPlatformWindow : public QPlatformSurface
 {
     Q_DECLARE_PRIVATE(QPlatformWindow)
 public:
     explicit QPlatformWindow(QWindow *window);
     virtual ~QPlatformWindow();
 
-    QWindow *window() const;
-    QPlatformWindow *parent() const;
+    QWindow* window() const;
+    QPlatformWindow* parent() const;
 
-    QPlatformScreen *screen() const;
+    QPlatformScreen* screen() const;
 
     virtual QSurfaceFormat format() const Q_DECL_OVERRIDE;
 
@@ -105,7 +105,10 @@ public:
     virtual bool isActive() const;
     virtual bool isAncestorOf(const QPlatformWindow *child) const;
     virtual bool isEmbedded() const;
-    virtual bool isForeignWindow() const { return window()->type() == Qt::ForeignWindow; };
+    virtual bool isForeignWindow() const
+    {
+        return window()->type() == Qt::ForeignWindow;
+    };
     virtual QPoint mapToGlobal(const QPoint &pos) const;
     virtual QPoint mapFromGlobal(const QPoint &pos) const;
 
@@ -137,7 +140,7 @@ public:
     virtual void invalidateSurface();
 
     static QRect initialGeometry(const QWindow *w,
-        const QRect &initialGeometry, int defaultWidth, int defaultHeight);
+                                 const QRect &initialGeometry, int defaultWidth, int defaultHeight);
 
     virtual void requestUpdate();
 
@@ -154,14 +157,14 @@ public:
 
 protected:
     static QString formatWindowTitle(const QString &title, const QString &separator);
-    QPlatformScreen *screenForGeometry(const QRect &newGeometry) const;
+    QPlatformScreen* screenForGeometry(const QRect &newGeometry) const;
     static QSize constrainWindowSize(const QSize &size);
 
-    QScopedPointer<QPlatformWindowPrivate> d_ptr;
+    QScopedPointer<QPlatformWindowPrivate>    d_ptr;
 private:
     Q_DISABLE_COPY(QPlatformWindow)
 };
 
 QT_END_NAMESPACE
 
-#endif //QPLATFORMWINDOW_H
+#endif // QPLATFORMWINDOW_H

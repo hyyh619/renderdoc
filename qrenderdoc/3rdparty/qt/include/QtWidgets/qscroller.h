@@ -58,7 +58,7 @@ class QFlickGestureRecognizer;
 class QMouseFlickGestureRecognizer;
 #endif
 
-class Q_WIDGETS_EXPORT QScroller : public QObject
+class Q_WIDGETS_EXPORT    QScroller : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(State state READ state NOTIFY stateChanged)
@@ -91,8 +91,8 @@ public:
 
     static bool hasScroller(QObject *target);
 
-    static QScroller *scroller(QObject *target);
-    static const QScroller *scroller(const QObject *target);
+    static QScroller* scroller(QObject *target);
+    static const QScroller* scroller(const QObject *target);
 
 #ifndef QT_NO_GESTURES
     static Qt::GestureType grabGesture(QObject *target, ScrollerGestureType gestureType = TouchGesture);
@@ -100,9 +100,9 @@ public:
     static void ungrabGesture(QObject *target);
 #endif
 
-    static QList<QScroller *> activeScrollers();
+    static QList<QScroller*> activeScrollers();
 
-    QObject *target() const;
+    QObject* target() const;
 
     State state() const;
 
@@ -115,10 +115,10 @@ public:
 
     QScrollerProperties scrollerProperties() const;
 
-    void setSnapPositionsX( const QList<qreal> &positions );
-    void setSnapPositionsX( qreal first, qreal interval );
-    void setSnapPositionsY( const QList<qreal> &positions );
-    void setSnapPositionsY( qreal first, qreal interval );
+    void setSnapPositionsX(const QList<qreal> &positions);
+    void setSnapPositionsX(qreal first, qreal interval);
+    void setSnapPositionsY(const QList<qreal> &positions);
+    void setSnapPositionsY(qreal first, qreal interval);
 
 public Q_SLOTS:
     void setScrollerProperties(const QScrollerProperties &prop);
@@ -130,10 +130,10 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void stateChanged(QScroller::State newstate);
-    void scrollerPropertiesChanged(const QScrollerProperties &);
+    void scrollerPropertiesChanged(const QScrollerProperties&);
 
 private:
-    QScrollerPrivate *d_ptr;
+    QScrollerPrivate    *d_ptr;
 
     QScroller(QObject *target);
     virtual ~QScroller();

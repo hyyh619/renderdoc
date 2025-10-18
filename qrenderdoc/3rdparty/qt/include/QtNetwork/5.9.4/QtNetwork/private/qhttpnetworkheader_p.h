@@ -60,29 +60,29 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QHttpNetworkHeader
+class Q_AUTOTEST_EXPORT    QHttpNetworkHeader
 {
 public:
     virtual ~QHttpNetworkHeader() {};
-    virtual QUrl url() const = 0;
-    virtual void setUrl(const QUrl &url) = 0;
+    virtual QUrl url() const                = 0;
+    virtual void setUrl(const QUrl &url)    = 0;
 
-    virtual int majorVersion() const = 0;
-    virtual int minorVersion() const = 0;
+    virtual int majorVersion() const    = 0;
+    virtual int minorVersion() const    = 0;
 
-    virtual qint64 contentLength() const = 0;
-    virtual void setContentLength(qint64 length) = 0;
+    virtual qint64 contentLength() const            = 0;
+    virtual void setContentLength(qint64 length)    = 0;
 
     virtual QList<QPair<QByteArray, QByteArray> > header() const = 0;
     virtual QByteArray headerField(const QByteArray &name, const QByteArray &defaultValue = QByteArray()) const = 0;
-    virtual void setHeaderField(const QByteArray &name, const QByteArray &data) = 0;
+    virtual void setHeaderField(const QByteArray &name, const QByteArray &data)                                 = 0;
 };
 
 class QHttpNetworkHeaderPrivate : public QSharedData
 {
 public:
-    QUrl url;
-    QList<QPair<QByteArray, QByteArray> > fields;
+    QUrl                                        url;
+    QList<QPair<QByteArray, QByteArray> >       fields;
 
     QHttpNetworkHeaderPrivate(const QUrl &newUrl = QUrl());
     QHttpNetworkHeaderPrivate(const QHttpNetworkHeaderPrivate &other);
@@ -93,20 +93,11 @@ public:
     QList<QByteArray> headerFieldValues(const QByteArray &name) const;
     void setHeaderField(const QByteArray &name, const QByteArray &data);
     bool operator==(const QHttpNetworkHeaderPrivate &other) const;
-
 };
 
 
 QT_END_NAMESPACE
-
-
 #endif // QT_NO_HTTP
 
 
 #endif // QHTTPNETWORKHEADER_H
-
-
-
-
-
-

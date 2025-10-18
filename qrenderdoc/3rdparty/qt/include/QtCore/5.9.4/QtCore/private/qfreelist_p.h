@@ -64,26 +64,32 @@ QT_BEGIN_NAMESPACE
     the real data storage (_t) and the id of the next free element (next).
 
     Note: the t() functions should be used to access the data, not _t.
-*/
-template <typename T>
+ */
+template<typename T>
 struct QFreeListElement
 {
-    typedef const T &ConstReferenceType;
-    typedef T &ReferenceType;
+    typedef const T&ConstReferenceType;
+    typedef T&ReferenceType;
 
-    T _t;
-    QAtomicInt next;
+    T           _t;
+    QAtomicInt  next;
 
-    inline ConstReferenceType t() const { return _t; }
-    inline ReferenceType t() { return _t; }
+    inline ConstReferenceType t() const
+    {
+        return _t;
+    }
+    inline ReferenceType t()
+    {
+        return _t;
+    }
 };
 
 /*! \internal
 
     Element in a QFreeList without a payload. ConstReferenceType and
     ReferenceType are void, the t() functions return void and are empty.
-*/
-template <>
+ */
+template<>
 struct QFreeListElement<void>
 {
     typedef void ConstReferenceType;
@@ -111,17 +117,18 @@ struct QFreeListElement<void>
 
     It is possible to define your own constants struct/class and give this to
     QFreeList to customize/tune the behavior.
-*/
-struct Q_AUTOTEST_EXPORT QFreeListDefaultConstants
+ */
+struct Q_AUTOTEST_EXPORT    QFreeListDefaultConstants
 {
     // used by QFreeList, make sure to define all of when customizing
-    enum {
-        InitialNextValue = 0,
-        IndexMask = 0x00ffffff,
-        SerialMask = ~IndexMask & ~0x80000000,
-        SerialCounter = IndexMask + 1,
-        MaxIndex = IndexMask,
-        BlockCount = 4
+    enum
+    {
+        InitialNextValue    = 0,
+        IndexMask           = 0x00ffffff,
+        SerialMask          = ~IndexMask & ~0x80000000,
+        SerialCounter       = IndexMask + 1,
+        MaxIndex            = IndexMask,
+        BlockCount          = 4
     };
 
     static const int Sizes[BlockCount];
@@ -143,8 +150,8 @@ struct Q_AUTOTEST_EXPORT QFreeListDefaultConstants
     The ConstantsType type defaults to QFreeListDefaultConstants above. You can
     define your custom ConstantsType, see above for details on what needs to be
     available.
-*/
-template <typename T, typename ConstantsType = QFreeListDefaultConstants>
+ */
+template<typename T, typename ConstantsType = QFreeListDefaultConstants>
 class QFreeList
 {
     typedef T ValueType;
@@ -155,23 +162,28 @@ class QFreeList
     // return which block the index \a x falls in, and modify \a x to be the index into that block
     static inline int blockfor(int &x)
     {
-        for (int i = 0; i < ConstantsType::BlockCount; ++i) {
-            int size = ConstantsType::Sizes[i];
+        for (int i = 0; i < ConstantsType::BlockCount; ++i)
+        {
+            int    size = ConstantsType::Sizes[i];
             if (x < size)
                 return i;
+
             x -= size;
         }
+
         Q_ASSERT(false);
         return -1;
     }
 
     // allocate a block of the given \a size, initialized starting with the given \a offset
-    static inline ElementType *allocate(int offset, int size)
+    static inline ElementType* allocate(int offset, int size)
     {
         // qDebug("QFreeList: allocating %d elements (%ld bytes) with offset %d", size, size * sizeof(ElementType), offset);
-        ElementType *v = new ElementType[size];
+        ElementType    *v = new ElementType[size];
+
         for (int i = 0; i < size; ++i)
             v[i].next.store(offset + i + 1);
+
         return v;
     }
 
@@ -182,9 +194,9 @@ class QFreeList
     }
 
     // the blocks
-    QAtomicPointer<ElementType> _v[ConstantsType::BlockCount];
+    QAtomicPointer<ElementType>    _v[ConstantsType::BlockCount];
     // the next free id
-    QAtomicInt _next;
+    QAtomicInt    _next;
 
     // QFreeList is not copyable
     Q_DISABLE_COPY(QFreeList)
@@ -200,65 +212,73 @@ public:
     /*
         Return the next free id. Use this id to access the payload (see above).
         Call release(id) when done using the id.
-    */
+     */
     inline int next();
     inline void release(int id);
 };
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 Q_DECL_CONSTEXPR inline QFreeList<T, ConstantsType>::QFreeList()
     :
 #if defined(Q_COMPILER_CONSTEXPR)
-      _v{}, // uniform initialization required
+    _v{},   // uniform initialization required
 #endif
-      _next(ConstantsType::InitialNextValue)
+    _next(ConstantsType::InitialNextValue)
 { }
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 inline QFreeList<T, ConstantsType>::~QFreeList()
 {
     for (int i = 0; i < ConstantsType::BlockCount; ++i)
-        delete [] _v[i].load();
+        delete[] _v[i].load();
 }
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 inline typename QFreeList<T, ConstantsType>::ConstReferenceType QFreeList<T, ConstantsType>::at(int x) const
 {
-    const int block = blockfor(x);
+    const int    block = blockfor(x);
+
     return (_v[block].load())[x].t();
 }
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 inline typename QFreeList<T, ConstantsType>::ReferenceType QFreeList<T, ConstantsType>::operator[](int x)
 {
-    const int block = blockfor(x);
+    const int    block = blockfor(x);
+
     return (_v[block].load())[x].t();
 }
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 inline int QFreeList<T, ConstantsType>::next()
 {
-    int id, newid, at;
-    ElementType *v;
-    do {
+    int             id, newid, at;
+    ElementType     *v;
+
+    do
+    {
         id = _next.loadAcquire();
 
         at = id & ConstantsType::IndexMask;
-        const int block = blockfor(at);
+        const int    block = blockfor(at);
         v = _v[block].loadAcquire();
 
-        if (!v) {
-            v = allocate((id & ConstantsType::IndexMask) - at, ConstantsType::Sizes[block]);
-            if (!_v[block].testAndSetRelease(0, v)) {
+        if (!v)
+        {
+            v = allocate((id&ConstantsType::IndexMask) -at, ConstantsType::Sizes[block]);
+            if (!_v[block].testAndSetRelease(0, v))
+            {
                 // race with another thread lost
-                delete [] v;
+                delete[] v;
                 v = _v[block].loadAcquire();
                 Q_ASSERT(v != 0);
             }
         }
 
         newid = v[at].next.load() | (id & ~ConstantsType::IndexMask);
-    } while (!_next.testAndSetRelease(id, newid));
+    }
+    while (!_next.testAndSetRelease(id, newid));
+
     // qDebug("QFreeList::next(): returning %d (_next now %d, serial %d)",
     //        id & ConstantsType::IndexMask,
     //        newid & ConstantsType::IndexMask,
@@ -266,20 +286,24 @@ inline int QFreeList<T, ConstantsType>::next()
     return id & ConstantsType::IndexMask;
 }
 
-template <typename T, typename ConstantsType>
+template<typename T, typename ConstantsType>
 inline void QFreeList<T, ConstantsType>::release(int id)
 {
-    int at = id & ConstantsType::IndexMask;
-    const int block = blockfor(at);
-    ElementType *v = _v[block].load();
+    int             at      = id & ConstantsType::IndexMask;
+    const int       block   = blockfor(at);
+    ElementType     *v      = _v[block].load();
 
-    int x, newid;
-    do {
+    int    x, newid;
+
+    do
+    {
         x = _next.loadAcquire();
         v[at].next.store(x & ConstantsType::IndexMask);
 
         newid = incrementserial(x, id);
-    } while (!_next.testAndSetRelease(x, newid));
+    }
+    while (!_next.testAndSetRelease(x, newid));
+
     // qDebug("QFreeList::release(%d): _next now %d (was %d), serial %d",
     //        id & ConstantsType::IndexMask,
     //        newid & ConstantsType::IndexMask,

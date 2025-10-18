@@ -55,19 +55,18 @@
 
 QT_BEGIN_NAMESPACE
 
-class QWindowsLocalCodec: public QTextCodec
+class QWindowsLocalCodec : public QTextCodec
 {
 public:
     QWindowsLocalCodec();
     ~QWindowsLocalCodec();
 
-    QString convertToUnicode(const char *, int, ConverterState *) const;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const;
+    QString convertToUnicode(const char*, int, ConverterState*) const;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const;
     QString convertToUnicodeCharByChar(const char *chars, int length, ConverterState *state) const;
 
     QByteArray name() const;
     int mibEnum() const;
-
 };
 
 QT_END_NAMESPACE

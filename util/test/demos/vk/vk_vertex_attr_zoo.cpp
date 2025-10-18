@@ -1,50 +1,50 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "vk_test.h"
 
 RD_TEST(VK_Vertex_Attr_Zoo, VulkanGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
-      "matrices, and formats that require manual decode as they are vertex-buffer exclusive on "
-      "some hardware such as USCALED.";
+    static constexpr const char    *Description =
+        "Draws a triangle but using different kinds of vertex attributes, including doubles, arrays, "
+        "matrices, and formats that require manual decode as they are vertex-buffer exclusive on "
+        "some hardware such as USCALED.";
 
-  struct vertin
-  {
-    int16_t i16[4];
-    uint16_t u16[4];
-    double df[3];
-    float arr0[2];
-    float arr1[2];
-    float mat0[2];
-    float mat1[2];
-    uint64_t lf[3];
-    int64_t slf[3];
-  };
+    struct vertin
+    {
+        int16_t     i16[4];
+        uint16_t    u16[4];
+        double      df[3];
+        float       arr0[2];
+        float       arr1[2];
+        float       mat0[2];
+        float       mat1[2];
+        uint64_t    lf[3];
+        int64_t     slf[3];
+    };
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 layout(location = 0) in vec4 InSNorm;
 layout(location = 1) in vec4 InUNorm;
 layout(location = 2) in vec4 InUScaled;
@@ -103,7 +103,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 layout(location = 0) in vec4 InSNorm;
 layout(location = 1) in vec4 InUNorm;
 layout(location = 2) in vec4 InUScaled;
@@ -160,7 +160,7 @@ void main()
 
 )EOSHADER";
 
-  std::string geom = R"EOSHADER(
+    std::string    geom = R"EOSHADER(
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
@@ -225,7 +225,7 @@ void main()
 
 )EOSHADER";
 
-  std::string vertex2 = R"EOSHADER(
+    std::string    vertex2 = R"EOSHADER(
 layout(location = 0) out vec4 OutDummy;
 
 struct ArrayWrapper
@@ -275,7 +275,7 @@ void main()
 
 )EOSHADER";
 
-  std::string geom2 = R"EOSHADER(
+    std::string    geom2 = R"EOSHADER(
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
@@ -327,208 +327,212 @@ void main()
 
 )EOSHADER";
 
-  void Prepare(int argc, char **argv)
-  {
-    features.geometryShader = VK_TRUE;
-
-    // radv doesn't support doubles :(
-    optFeatures.shaderFloat64 = VK_TRUE;
-
-    optFeatures.shaderInt64 = VK_TRUE;
-
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    if(!Avail.empty())
-      return;
-
-    if(physProperties.limits.maxVertexOutputComponents < 128)
-      Avail = "Not enough vertex output components to run test";
-
-    VkFormatProperties props = {};
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R16G16B16A16_USCALED, &props);
-
-    if((props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) == 0)
+    void Prepare(int argc, char **argv)
     {
-      Avail = "VK_FORMAT_R16G16B16A16_USCALED not supported in vertex buffers";
-      return;
-    }
-  }
+        features.geometryShader = VK_TRUE;
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
+        // radv doesn't support doubles :(
+        optFeatures.shaderFloat64 = VK_TRUE;
 
-    VkFormatProperties props = {};
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_SFLOAT, &props);
+        optFeatures.shaderInt64 = VK_TRUE;
 
-    const bool doubles =
-        features.shaderFloat64 && (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+        VulkanGraphicsTest::Prepare(argc, argv);
 
-    props = {};
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_SINT, &props);
-    const bool slongs = (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+        if (!Avail.empty())
+            return;
 
-    props = {};
-    vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_UINT, &props);
-    const bool ulongs = (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+        if (physProperties.limits.maxVertexOutputComponents < 128)
+            Avail = "Not enough vertex output components to run test";
 
-    const bool longs = features.shaderInt64 && slongs && ulongs;
+        VkFormatProperties    props = {};
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R16G16B16A16_USCALED, &props);
 
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo());
-
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
-
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.renderPass = mainWindow->rp;
-
-    pipeCreateInfo.vertexInputState.vertexBindingDescriptions = {vkh::vertexBind(0, vertin)};
-
-    pipeCreateInfo.vertexInputState.vertexAttributeDescriptions = {
-        vkh::vertexAttrFormatted(0, 0, vertin, i16, VK_FORMAT_R16G16B16A16_SNORM),
-        vkh::vertexAttrFormatted(1, 0, vertin, u16, VK_FORMAT_R16G16B16A16_UNORM),
-        vkh::vertexAttrFormatted(2, 0, vertin, u16, VK_FORMAT_R16G16B16A16_USCALED),
-        vkh::vertexAttrFormatted(3, 0, vertin, u16, VK_FORMAT_R16G16B16A16_UINT),
-        vkh::vertexAttrFormatted(6, 0, vertin, arr0, VK_FORMAT_R32G32_SFLOAT),
-        vkh::vertexAttrFormatted(7, 0, vertin, arr1, VK_FORMAT_R32G32_SFLOAT),
-        vkh::vertexAttrFormatted(8, 0, vertin, mat0, VK_FORMAT_R32G32_SFLOAT),
-        vkh::vertexAttrFormatted(9, 0, vertin, mat1, VK_FORMAT_R32G32_SFLOAT),
-    };
-
-    std::string common = "#version 450 core\n\n";
-
-    if(longs)
-    {
-      pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
-          vkh::vertexAttrFormatted(10, 0, vertin, lf, VK_FORMAT_R64G64B64_UINT));
-      pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
-          vkh::vertexAttrFormatted(12, 0, vertin, slf, VK_FORMAT_R64G64B64_SINT));
-
-      common += "#extension GL_ARB_gpu_shader_int64 : require\n\n#define LONGS 1\n\n";
-    }
-    else
-    {
-      common += "#define LONGS 0\n\n";
-    }
-
-    if(doubles)
-    {
-      pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
-          vkh::vertexAttrFormatted(4, 0, vertin, df, VK_FORMAT_R64G64B64_SFLOAT));
-
-      common += "#define DOUBLES 1\n\n";
-    }
-    else
-    {
-      common += "#define DOUBLES 0\n\n";
-    }
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(common + vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(common + pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
-        CompileShaderModule(common + geom, ShaderLang::glsl, ShaderStage::geom, "main"),
-    };
-
-    VkPipeline pipe = createGraphicsPipeline(pipeCreateInfo);
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(common + vertex2, ShaderLang::glsl, ShaderStage::vert, "main"),
-        CompileShaderModule(common + geom2, ShaderLang::glsl, ShaderStage::geom, "main"),
-    };
-
-    pipeCreateInfo.rasterizationState.rasterizerDiscardEnable = VK_TRUE;
-
-    VkPipeline pipe2 = createGraphicsPipeline(pipeCreateInfo);
-
-    vertin triangle[] = {
+        if ((props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) == 0)
         {
-            {32767, -32768, 32767, -32767},
-            {12345, 6789, 1234, 567},
-            {9.8765432109, -5.6789012345, 1.2345},
-            {1.0f, 2.0f},
-            {3.0f, 4.0f},
-            {7.0f, 8.0f},
-            {9.0f, 10.0f},
-            {10000012345, 10000006789, 10000001234},
-            {-10000012345, -10000006789, -10000001234},
-        },
-        {
-            {32766, -32766, 16000, -16000},
-            {56, 7890, 123, 4567},
-            {-7.89012345678, 6.54321098765, 1.2345},
-            {11.0f, 12.0f},
-            {13.0f, 14.0f},
-            {17.0f, 18.0f},
-            {19.0f, 20.0f},
-            {10000000056, 10000007890, 10000000123},
-            {-10000000056, -10000007890, -10000000123},
-        },
-        {
-            {5, -5, 0, 0},
-            {8765, 43210, 987, 65432},
-            {0.1234567890123, 4.5678901234, 1.2345},
-            {21.0f, 22.0f},
-            {23.0f, 24.0f},
-            {27.0f, 28.0f},
-            {29.0f, 30.0f},
-            {10000008765, 10000043210, 10000000987},
-            {-10000008765, -10000043210, -10000000987},
-        },
-    };
-
-    AllocatedBuffer vb(this,
-                       vkh::BufferCreateInfo(sizeof(triangle), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT |
-                                                                   VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-                       VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    vb.upload(triangle);
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
-                           vkh::ImageSubresourceRange());
-
-      if(doubles)
-        setMarker(cmd, "DoublesEnabled");
-
-      if(longs)
-        setMarker(cmd, "LongsEnabled");
-
-      vkCmdBeginRenderPass(
-          cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
-          VK_SUBPASS_CONTENTS_INLINE);
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
-      vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
-      vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
-      vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
-      vkCmdDraw(cmd, 3, 1, 0, 0);
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe2);
-      vkCmdDraw(cmd, 3, 1, 0, 0);
-
-      vkCmdEndRenderPass(cmd);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(0, 1, {cmd});
-
-      Present();
+            Avail = "VK_FORMAT_R16G16B16A16_USCALED not supported in vertex buffers";
+            return;
+        }
     }
 
-    return 0;
-  }
+    int main()
+    {
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        VkFormatProperties    props = {};
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_SFLOAT, &props);
+
+        const bool    doubles =
+            features.shaderFloat64 && (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+
+        props = {};
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_SINT, &props);
+        const bool    slongs = (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+
+        props = {};
+        vkGetPhysicalDeviceFormatProperties(phys, VK_FORMAT_R64G64B64_UINT, &props);
+        const bool    ulongs = (props.bufferFeatures & VK_FORMAT_FEATURE_VERTEX_BUFFER_BIT) != 0;
+
+        const bool    longs = features.shaderInt64 && slongs && ulongs;
+
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo());
+
+        vkh::GraphicsPipelineCreateInfo    pipeCreateInfo;
+
+        pipeCreateInfo.layout       = layout;
+        pipeCreateInfo.renderPass   = mainWindow->rp;
+
+        pipeCreateInfo.vertexInputState.vertexBindingDescriptions = {vkh::vertexBind(0, vertin)};
+
+        pipeCreateInfo.vertexInputState.vertexAttributeDescriptions =
+        {
+            vkh::vertexAttrFormatted(0, 0, vertin, i16, VK_FORMAT_R16G16B16A16_SNORM),
+            vkh::vertexAttrFormatted(1, 0, vertin, u16, VK_FORMAT_R16G16B16A16_UNORM),
+            vkh::vertexAttrFormatted(2, 0, vertin, u16, VK_FORMAT_R16G16B16A16_USCALED),
+            vkh::vertexAttrFormatted(3, 0, vertin, u16, VK_FORMAT_R16G16B16A16_UINT),
+            vkh::vertexAttrFormatted(6, 0, vertin, arr0, VK_FORMAT_R32G32_SFLOAT),
+            vkh::vertexAttrFormatted(7, 0, vertin, arr1, VK_FORMAT_R32G32_SFLOAT),
+            vkh::vertexAttrFormatted(8, 0, vertin, mat0, VK_FORMAT_R32G32_SFLOAT),
+            vkh::vertexAttrFormatted(9, 0, vertin, mat1, VK_FORMAT_R32G32_SFLOAT),
+        };
+
+        std::string    common = "#version 450 core\n\n";
+
+        if (longs)
+        {
+            pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
+                vkh::vertexAttrFormatted(10, 0, vertin, lf, VK_FORMAT_R64G64B64_UINT));
+            pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
+                vkh::vertexAttrFormatted(12, 0, vertin, slf, VK_FORMAT_R64G64B64_SINT));
+
+            common += "#extension GL_ARB_gpu_shader_int64 : require\n\n#define LONGS 1\n\n";
+        }
+        else
+        {
+            common += "#define LONGS 0\n\n";
+        }
+
+        if (doubles)
+        {
+            pipeCreateInfo.vertexInputState.vertexAttributeDescriptions.push_back(
+                vkh::vertexAttrFormatted(4, 0, vertin, df, VK_FORMAT_R64G64B64_SFLOAT));
+
+            common += "#define DOUBLES 1\n\n";
+        }
+        else
+        {
+            common += "#define DOUBLES 0\n\n";
+        }
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(common + vertex, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(common + pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
+            CompileShaderModule(common + geom, ShaderLang::glsl, ShaderStage::geom, "main"),
+        };
+
+        VkPipeline    pipe = createGraphicsPipeline(pipeCreateInfo);
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(common + vertex2, ShaderLang::glsl, ShaderStage::vert, "main"),
+            CompileShaderModule(common + geom2, ShaderLang::glsl, ShaderStage::geom, "main"),
+        };
+
+        pipeCreateInfo.rasterizationState.rasterizerDiscardEnable = VK_TRUE;
+
+        VkPipeline    pipe2 = createGraphicsPipeline(pipeCreateInfo);
+
+        vertin    triangle[] =
+        {
+            {
+                {32767, -32768, 32767, -32767},
+                {12345, 6789, 1234, 567},
+                {9.8765432109, -5.6789012345, 1.2345},
+                {1.0f, 2.0f},
+                {3.0f, 4.0f},
+                {7.0f, 8.0f},
+                {9.0f, 10.0f},
+                {10000012345, 10000006789, 10000001234},
+                {-10000012345, -10000006789, -10000001234},
+            },
+            {
+                {32766, -32766, 16000, -16000},
+                {56, 7890, 123, 4567},
+                {-7.89012345678, 6.54321098765, 1.2345},
+                {11.0f, 12.0f},
+                {13.0f, 14.0f},
+                {17.0f, 18.0f},
+                {19.0f, 20.0f},
+                {10000000056, 10000007890, 10000000123},
+                {-10000000056, -10000007890, -10000000123},
+            },
+            {
+                {5, -5, 0, 0},
+                {8765, 43210, 987, 65432},
+                {0.1234567890123, 4.5678901234, 1.2345},
+                {21.0f, 22.0f},
+                {23.0f, 24.0f},
+                {27.0f, 28.0f},
+                {29.0f, 30.0f},
+                {10000008765, 10000043210, 10000000987},
+                {-10000008765, -10000043210, -10000000987},
+            },
+        };
+
+        AllocatedBuffer    vb(this,
+                              vkh::BufferCreateInfo(sizeof(triangle), VK_BUFFER_USAGE_VERTEX_BUFFER_BIT |
+                                                    VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+                              VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        vb.upload(triangle);
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
+                                 vkh::ImageSubresourceRange());
+
+            if (doubles)
+                setMarker(cmd, "DoublesEnabled");
+
+            if (longs)
+                setMarker(cmd, "LongsEnabled");
+
+            vkCmdBeginRenderPass(
+                cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
+                VK_SUBPASS_CONTENTS_INLINE);
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
+            vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
+            vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
+            vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
+            vkCmdDraw(cmd, 3, 1, 0, 0);
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe2);
+            vkCmdDraw(cmd, 3, 1, 0, 0);
+
+            vkCmdEndRenderPass(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            Submit(0, 1, {cmd});
+
+            Present();
+        }
+
+        return 0;
+    }
 };
 
 REGISTER_TEST();

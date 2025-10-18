@@ -59,7 +59,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QNetworkAccessFileBackend: public QNetworkAccessBackend
+class QNetworkAccessFileBackend : public QNetworkAccessBackend
 {
     Q_OBJECT
 public:
@@ -74,21 +74,21 @@ public:
 public slots:
     void uploadReadyReadSlot();
 protected:
-    QNonContiguousByteDevice *uploadByteDevice;
+    QNonContiguousByteDevice    *uploadByteDevice;
 private:
-    QFile file;
-    qint64 totalBytes;
-    bool hasUploadFinished;
+    QFile       file;
+    qint64      totalBytes;
+    bool        hasUploadFinished;
 
     bool loadFileInfo();
     bool readMoreFromFile();
 };
 
-class QNetworkAccessFileBackendFactory: public QNetworkAccessBackendFactory
+class QNetworkAccessFileBackendFactory : public QNetworkAccessBackendFactory
 {
 public:
     virtual QStringList supportedSchemes() const Q_DECL_OVERRIDE;
-    virtual QNetworkAccessBackend *create(QNetworkAccessManager::Operation op,
+    virtual QNetworkAccessBackend* create(QNetworkAccessManager::Operation op,
                                           const QNetworkRequest &request) const Q_DECL_OVERRIDE;
 };
 

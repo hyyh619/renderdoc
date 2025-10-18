@@ -51,14 +51,14 @@ class QIconEngine;
 
 #define QIconEngineFactoryInterface_iid "org.qt-project.Qt.QIconEngineFactoryInterface"
 
-class Q_GUI_EXPORT QIconEnginePlugin : public QObject
+class Q_GUI_EXPORT    QIconEnginePlugin : public QObject
 {
     Q_OBJECT
 public:
     QIconEnginePlugin(QObject *parent = Q_NULLPTR);
     ~QIconEnginePlugin();
 
-    virtual QIconEngine *create(const QString &filename = QString()) = 0;
+    virtual QIconEngine* create(const QString &filename = QString()) = 0;
 };
 
 QT_END_NAMESPACE

@@ -73,63 +73,66 @@ public:
 
     // Never change or delete this enum, it is required for backwards compatible
     // serialization of QDateTime before 5.2, so is essentially public API
-    enum Spec {
-        LocalUnknown = -1,
-        LocalStandard = 0,
-        LocalDST = 1,
-        UTC = 2,
-        OffsetFromUTC = 3,
-        TimeZone = 4
+    enum Spec
+    {
+        LocalUnknown    = -1,
+        LocalStandard   = 0,
+        LocalDST        = 1,
+        UTC             = 2,
+        OffsetFromUTC   = 3,
+        TimeZone        = 4
     };
 
     // Daylight Time Status
-    enum DaylightStatus {
+    enum DaylightStatus
+    {
         UnknownDaylightTime = -1,
-        StandardTime = 0,
-        DaylightTime = 1
+        StandardTime        = 0,
+        DaylightTime        = 1
     };
 
     // Status of date/time
-    enum StatusFlag {
-        ShortData           = 0x01,
+    enum StatusFlag
+    {
+        ShortData = 0x01,
 
-        ValidDate           = 0x02,
-        ValidTime           = 0x04,
-        ValidDateTime       = 0x08,
+        ValidDate       = 0x02,
+        ValidTime       = 0x04,
+        ValidDateTime   = 0x08,
 
-        TimeSpecMask        = 0x30,
+        TimeSpecMask = 0x30,
 
         SetToStandardTime   = 0x40,
         SetToDaylightTime   = 0x80
     };
     Q_DECLARE_FLAGS(StatusFlags, StatusFlag)
 
-    enum {
-        TimeSpecShift = 4,
-        ValidityMask        = ValidDate | ValidTime | ValidDateTime,
-        DaylightMask        = SetToStandardTime | SetToDaylightTime
+    enum
+    {
+        TimeSpecShift   = 4,
+        ValidityMask    = ValidDate | ValidTime | ValidDateTime,
+        DaylightMask    = SetToStandardTime | SetToDaylightTime
     };
 
     QDateTimePrivate() : m_msecs(0),
-                         m_status(StatusFlag(Qt::LocalTime << TimeSpecShift)),
-                         m_offsetFromUtc(0),
-                         ref(0)
-    {
-    }
+        m_status(StatusFlag(Qt::LocalTime << TimeSpecShift)),
+        m_offsetFromUtc(0),
+        ref(0)
+    {}
 
     static QDateTime::Data create(const QDate &toDate, const QTime &toTime, Qt::TimeSpec toSpec,
                                   int offsetSeconds);
 
 #if QT_CONFIG(timezone)
-    static QDateTime::Data create(const QDate &toDate, const QTime &toTime, const QTimeZone & timeZone);
+    static QDateTime::Data create(const QDate &toDate, const QTime &toTime, const QTimeZone &timeZone);
 #endif // timezone
 
-    qint64 m_msecs;
-    StatusFlags m_status;
-    int m_offsetFromUtc;
-    mutable QAtomicInt ref;
+    qint64                  m_msecs;
+    StatusFlags             m_status;
+    int                     m_offsetFromUtc;
+    mutable QAtomicInt      ref;
 #if QT_CONFIG(timezone)
-    QTimeZone m_timeZone;
+    QTimeZone    m_timeZone;
 #endif // timezone
 
 #if QT_CONFIG(timezone)

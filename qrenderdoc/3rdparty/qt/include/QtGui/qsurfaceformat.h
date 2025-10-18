@@ -49,20 +49,22 @@ QT_BEGIN_NAMESPACE
 class QOpenGLContext;
 class QSurfaceFormatPrivate;
 
-class Q_GUI_EXPORT QSurfaceFormat
+class Q_GUI_EXPORT    QSurfaceFormat
 {
     Q_GADGET
 public:
-    enum FormatOption {
-        StereoBuffers            = 0x0001,
-        DebugContext             = 0x0002,
-        DeprecatedFunctions      = 0x0004,
-        ResetNotification        = 0x0008
+    enum FormatOption
+    {
+        StereoBuffers       = 0x0001,
+        DebugContext        = 0x0002,
+        DeprecatedFunctions = 0x0004,
+        ResetNotification   = 0x0008
     };
     Q_ENUM(FormatOption)
     Q_DECLARE_FLAGS(FormatOptions, FormatOption)
 
-    enum SwapBehavior {
+    enum SwapBehavior
+    {
         DefaultSwapBehavior,
         SingleBuffer,
         DoubleBuffer,
@@ -70,15 +72,17 @@ public:
     };
     Q_ENUM(SwapBehavior)
 
-    enum RenderableType {
-        DefaultRenderableType = 0x0,
-        OpenGL                = 0x1,
-        OpenGLES              = 0x2,
-        OpenVG                = 0x4
+    enum RenderableType
+    {
+        DefaultRenderableType   = 0x0,
+        OpenGL                  = 0x1,
+        OpenGLES                = 0x2,
+        OpenVG                  = 0x4
     };
     Q_ENUM(RenderableType)
 
-    enum OpenGLContextProfile {
+    enum OpenGLContextProfile
+    {
         NoProfile,
         CoreProfile,
         CompatibilityProfile
@@ -88,7 +92,7 @@ public:
     QSurfaceFormat();
     /*implicit*/ QSurfaceFormat(FormatOptions options);
     QSurfaceFormat(const QSurfaceFormat &other);
-    QSurfaceFormat &operator=(const QSurfaceFormat &other);
+    QSurfaceFormat&operator=(const QSurfaceFormat &other);
     ~QSurfaceFormat();
 
     void setDepthBufferSize(int size);
@@ -149,14 +153,14 @@ public:
     static QSurfaceFormat defaultFormat();
 
 private:
-    QSurfaceFormatPrivate *d;
+    QSurfaceFormatPrivate    *d;
 
     void detach();
 
     friend Q_GUI_EXPORT bool operator==(const QSurfaceFormat&, const QSurfaceFormat&);
     friend Q_GUI_EXPORT bool operator!=(const QSurfaceFormat&, const QSurfaceFormat&);
 #ifndef QT_NO_DEBUG_STREAM
-    friend Q_GUI_EXPORT QDebug operator<<(QDebug, const QSurfaceFormat &);
+    friend Q_GUI_EXPORT QDebug operator<<(QDebug, const QSurfaceFormat&);
 #endif
 };
 
@@ -164,7 +168,7 @@ Q_GUI_EXPORT bool operator==(const QSurfaceFormat&, const QSurfaceFormat&);
 Q_GUI_EXPORT bool operator!=(const QSurfaceFormat&, const QSurfaceFormat&);
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QSurfaceFormat &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QSurfaceFormat&);
 #endif
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QSurfaceFormat::FormatOptions)
@@ -176,4 +180,4 @@ inline bool QSurfaceFormat::stereo() const
 
 QT_END_NAMESPACE
 
-#endif //QSURFACEFORMAT_H
+#endif // QSURFACEFORMAT_H

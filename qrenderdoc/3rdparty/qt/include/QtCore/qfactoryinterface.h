@@ -46,7 +46,7 @@
 QT_BEGIN_NAMESPACE
 
 
-struct Q_CORE_EXPORT QFactoryInterface
+struct Q_CORE_EXPORT    QFactoryInterface
 {
     virtual ~QFactoryInterface();
     virtual QStringList keys() const = 0;

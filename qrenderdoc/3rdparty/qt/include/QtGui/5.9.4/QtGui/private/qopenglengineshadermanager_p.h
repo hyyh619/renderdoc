@@ -215,7 +215,7 @@
 
     Transformations, clipping, opacity, and composition modes set using QPainter
     will be respected when using the custom shader hook.
-*/
+ */
 
 #ifndef QOPENGLENGINE_SHADER_MANAGER_H
 #define QOPENGLENGINE_SHADER_MANAGER_H
@@ -232,8 +232,8 @@ QT_BEGIN_NAMESPACE
 
 
 /*
-struct QOpenGLEngineCachedShaderProg
-{
+   struct QOpenGLEngineCachedShaderProg
+   {
     QOpenGLEngineCachedShaderProg(QOpenGLEngineShaderManager::ShaderName vertexMain,
                               QOpenGLEngineShaderManager::ShaderName vertexPosition,
                               QOpenGLEngineShaderManager::ShaderName fragMain,
@@ -243,24 +243,25 @@ struct QOpenGLEngineCachedShaderProg
 
     int cacheKey;
     QOpenGLShaderProgram* program;
-}
-*/
+   }
+ */
 
-static const GLuint QT_VERTEX_COORDS_ATTR  = 0;
-static const GLuint QT_TEXTURE_COORDS_ATTR = 1;
-static const GLuint QT_OPACITY_ATTR = 2;
-static const GLuint QT_PMV_MATRIX_1_ATTR = 3;
-static const GLuint QT_PMV_MATRIX_2_ATTR = 4;
-static const GLuint QT_PMV_MATRIX_3_ATTR = 5;
+static const GLuint     QT_VERTEX_COORDS_ATTR   = 0;
+static const GLuint     QT_TEXTURE_COORDS_ATTR  = 1;
+static const GLuint     QT_OPACITY_ATTR         = 2;
+static const GLuint     QT_PMV_MATRIX_1_ATTR    = 3;
+static const GLuint     QT_PMV_MATRIX_2_ATTR    = 4;
+static const GLuint     QT_PMV_MATRIX_3_ATTR    = 5;
 
 class QOpenGLEngineShaderProg;
 
-class Q_GUI_EXPORT QOpenGLEngineSharedShaders
+class Q_GUI_EXPORT    QOpenGLEngineSharedShaders
 {
     Q_GADGET
 public:
 
-    enum SnippetName {
+    enum SnippetName
+    {
         MainVertexShader,
         MainWithTexCoordsVertexShader,
         MainWithTexCoordsAndOpacityVertexShader,
@@ -343,31 +344,37 @@ public:
     const int srcPixelOffset = (1<<10) - ImageSrcFragmentShader;
     const int maskOffset = (1<<14) - NoMaskShader;
     const int compositionOffset = (1 << 16) - MultiplyCompositionModeFragmentShader;
-*/
+ */
 
     QOpenGLEngineSharedShaders(QOpenGLContext *context);
     ~QOpenGLEngineSharedShaders();
 
-    QOpenGLShaderProgram *simpleProgram() { return simpleShaderProg; }
-    QOpenGLShaderProgram *blitProgram() { return blitShaderProg; }
+    QOpenGLShaderProgram* simpleProgram()
+    {
+        return simpleShaderProg;
+    }
+    QOpenGLShaderProgram* blitProgram()
+    {
+        return blitShaderProg;
+    }
     // Compile the program if it's not already in the cache, return the item in the cache.
-    QOpenGLEngineShaderProg *findProgramInCache(const QOpenGLEngineShaderProg &prog);
+    QOpenGLEngineShaderProg* findProgramInCache(const QOpenGLEngineShaderProg &prog);
     // Compile the custom shader if it's not already in the cache, return the item in the cache.
 
-    static QOpenGLEngineSharedShaders *shadersForContext(QOpenGLContext *context);
+    static QOpenGLEngineSharedShaders* shadersForContext(QOpenGLContext *context);
 
     // Ideally, this would be static and cleanup all programs in all contexts which
     // contain the custom code. Currently it is just a hint and we rely on deleted
     // custom shaders being cleaned up by being kicked out of the cache when it's
     // full.
-    void cleanupCustomStage(QOpenGLCustomShaderStage* stage);
+    void cleanupCustomStage(QOpenGLCustomShaderStage *stage);
 
 private:
-    QOpenGLShaderProgram *blitShaderProg;
-    QOpenGLShaderProgram *simpleShaderProg;
-    QList<QOpenGLEngineShaderProg*> cachedPrograms;
+    QOpenGLShaderProgram                *blitShaderProg;
+    QOpenGLShaderProgram                *simpleShaderProg;
+    QList<QOpenGLEngineShaderProg*>     cachedPrograms;
 
-    static const char* qShaderSnippets[TotalSnippetCount];
+    static const char    *qShaderSnippets[TotalSnippetCount];
 };
 
 
@@ -376,58 +383,62 @@ class QOpenGLEngineShaderProg
 public:
     QOpenGLEngineShaderProg() : program(0) {}
 
-    ~QOpenGLEngineShaderProg() {
+    ~QOpenGLEngineShaderProg()
+    {
         if (program)
             delete program;
     }
 
-    QOpenGLEngineSharedShaders::SnippetName mainVertexShader;
-    QOpenGLEngineSharedShaders::SnippetName positionVertexShader;
-    QOpenGLEngineSharedShaders::SnippetName mainFragShader;
-    QOpenGLEngineSharedShaders::SnippetName srcPixelFragShader;
-    QOpenGLEngineSharedShaders::SnippetName maskFragShader;
-    QOpenGLEngineSharedShaders::SnippetName compositionFragShader;
+    QOpenGLEngineSharedShaders::SnippetName     mainVertexShader;
+    QOpenGLEngineSharedShaders::SnippetName     positionVertexShader;
+    QOpenGLEngineSharedShaders::SnippetName     mainFragShader;
+    QOpenGLEngineSharedShaders::SnippetName     srcPixelFragShader;
+    QOpenGLEngineSharedShaders::SnippetName     maskFragShader;
+    QOpenGLEngineSharedShaders::SnippetName     compositionFragShader;
 
-    QByteArray          customStageSource; //TODO: Decent cache key for custom stages
-    QOpenGLShaderProgram*   program;
+    QByteArray              customStageSource; // TODO: Decent cache key for custom stages
+    QOpenGLShaderProgram    *program;
 
-    QVector<uint> uniformLocations;
+    QVector<uint>    uniformLocations;
 
-    bool                useTextureCoords;
-    bool                useOpacityAttribute;
-    bool                usePmvMatrixAttribute;
+    bool    useTextureCoords;
+    bool    useOpacityAttribute;
+    bool    usePmvMatrixAttribute;
 
-    bool operator==(const QOpenGLEngineShaderProg& other) const {
+    bool operator==(const QOpenGLEngineShaderProg &other) const
+    {
         // We don't care about the program
-        return ( mainVertexShader      == other.mainVertexShader &&
-                 positionVertexShader  == other.positionVertexShader &&
-                 mainFragShader        == other.mainFragShader &&
-                 srcPixelFragShader    == other.srcPixelFragShader &&
-                 maskFragShader        == other.maskFragShader &&
-                 compositionFragShader == other.compositionFragShader &&
-                 customStageSource     == other.customStageSource
-               );
+        return (mainVertexShader      == other.mainVertexShader &&
+                positionVertexShader  == other.positionVertexShader &&
+                mainFragShader        == other.mainFragShader &&
+                srcPixelFragShader    == other.srcPixelFragShader &&
+                maskFragShader        == other.maskFragShader &&
+                compositionFragShader == other.compositionFragShader &&
+                customStageSource     == other.customStageSource
+                );
     }
 };
 
-class Q_GUI_EXPORT QOpenGLEngineShaderManager : public QObject
+class Q_GUI_EXPORT    QOpenGLEngineShaderManager : public QObject
 {
     Q_OBJECT
 public:
-    QOpenGLEngineShaderManager(QOpenGLContext* context);
+    QOpenGLEngineShaderManager(QOpenGLContext *context);
     ~QOpenGLEngineShaderManager();
 
     enum MaskType {NoMask, PixelMask, SubPixelMaskPass1, SubPixelMaskPass2, SubPixelWithGammaMask};
-    enum PixelSrcType {
-        ImageSrc = Qt::TexturePattern+1,
-        NonPremultipliedImageSrc = Qt::TexturePattern+2,
-        PatternSrc = Qt::TexturePattern+3,
-        TextureSrcWithPattern = Qt::TexturePattern+4,
-        GrayscaleImageSrc = Qt::TexturePattern+5,
-        AlphaImageSrc = Qt::TexturePattern+6,
+    enum PixelSrcType
+    {
+        ImageSrc                    = Qt::TexturePattern + 1,
+        NonPremultipliedImageSrc    = Qt::TexturePattern + 2,
+        PatternSrc                  = Qt::TexturePattern + 3,
+        TextureSrcWithPattern       = Qt::TexturePattern + 4,
+        GrayscaleImageSrc           = Qt::TexturePattern + 5,
+        AlphaImageSrc               = Qt::TexturePattern + 6,
     };
 
-    enum Uniform {
+    enum Uniform
+    {
         ImageTexture,
         PatternColor,
         GlobalOpacity,
@@ -449,7 +460,8 @@ public:
         NumUniforms
     };
 
-    enum OpacityMode {
+    enum OpacityMode
+    {
         NoOpacity,
         UniformOpacity,
         AttributeOpacity
@@ -460,11 +472,11 @@ public:
     //    2) Can use lower precision for matrix
     void optimiseForBrushTransform(QTransform::TransformationType transformType);
     void setSrcPixelType(Qt::BrushStyle);
-    void setSrcPixelType(PixelSrcType); // For non-brush sources, like pixmaps & images
-    void setOpacityMode(OpacityMode);
-    void setMaskType(MaskType);
+    void    setSrcPixelType(PixelSrcType); // For non-brush sources, like pixmaps & images
+    void    setOpacityMode(OpacityMode);
+    void    setMaskType(MaskType);
     void setCompositionMode(QPainter::CompositionMode);
-    void setCustomStage(QOpenGLCustomShaderStage* stage);
+    void setCustomStage(QOpenGLCustomShaderStage *stage);
     void removeCustomStage();
 
     GLuint getUniformLocation(Uniform id);
@@ -476,7 +488,7 @@ public:
     void useBlitProgram();
     void setHasComplexGeometry(bool hasComplexGeometry)
     {
-        complexGeometry = hasComplexGeometry;
+        complexGeometry         = hasComplexGeometry;
         shaderProgNeedsChanging = true;
     }
     bool hasComplexGeometry() const
@@ -488,24 +500,24 @@ public:
     QOpenGLShaderProgram* simpleProgram(); // Used to draw into e.g. stencil buffers
     QOpenGLShaderProgram* blitProgram(); // Used to blit a texture into the framebuffer
 
-    QOpenGLEngineSharedShaders* sharedShaders;
+    QOpenGLEngineSharedShaders    *sharedShaders;
 
 private:
-    QOpenGLContext*     ctx;
-    bool            shaderProgNeedsChanging;
-    bool            complexGeometry;
+    QOpenGLContext      *ctx;
+    bool                shaderProgNeedsChanging;
+    bool                complexGeometry;
 
     // Current state variables which influence the choice of shader:
-    QTransform                  brushTransform;
-    int                         srcPixelType;
-    OpacityMode                 opacityMode;
-    MaskType                    maskType;
-    QPainter::CompositionMode   compositionMode;
-    QOpenGLCustomShaderStage*       customSrcStage;
+    QTransform                      brushTransform;
+    int                             srcPixelType;
+    OpacityMode                     opacityMode;
+    MaskType                        maskType;
+    QPainter::CompositionMode       compositionMode;
+    QOpenGLCustomShaderStage        *customSrcStage;
 
-    QOpenGLEngineShaderProg*    currentShaderProg;
+    QOpenGLEngineShaderProg    *currentShaderProg;
 };
 
 QT_END_NAMESPACE
 
-#endif //QOPENGLENGINE_SHADER_MANAGER_H
+#endif // QOPENGLENGINE_SHADER_MANAGER_H

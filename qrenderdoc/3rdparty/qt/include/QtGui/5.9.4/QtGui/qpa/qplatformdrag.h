@@ -63,7 +63,7 @@ class QObject;
 class QEvent;
 class QPlatformDragPrivate;
 
-class Q_GUI_EXPORT QPlatformDropQtResponse
+class Q_GUI_EXPORT    QPlatformDropQtResponse
 {
 public:
     QPlatformDropQtResponse(bool accepted, Qt::DropAction acceptedAction);
@@ -71,12 +71,11 @@ public:
     Qt::DropAction acceptedAction() const;
 
 private:
-    bool m_accepted;
-    Qt::DropAction m_accepted_action;
-
+    bool                m_accepted;
+    Qt::DropAction      m_accepted_action;
 };
 
-class Q_GUI_EXPORT QPlatformDragQtResponse : public QPlatformDropQtResponse
+class Q_GUI_EXPORT    QPlatformDragQtResponse : public QPlatformDropQtResponse
 {
 public:
     QPlatformDragQtResponse(bool accepted, Qt::DropAction acceptedAction, QRect answerRect);
@@ -84,18 +83,18 @@ public:
     QRect answerRect() const;
 
 private:
-    QRect m_answer_rect;
+    QRect    m_answer_rect;
 };
 
-class Q_GUI_EXPORT QPlatformDrag
+class Q_GUI_EXPORT    QPlatformDrag
 {
     Q_DECLARE_PRIVATE(QPlatformDrag)
 public:
     QPlatformDrag();
     virtual ~QPlatformDrag();
 
-    QDrag *currentDrag() const;
-    virtual QMimeData *platformDropData() = 0;
+    QDrag* currentDrag() const;
+    virtual QMimeData* platformDropData() = 0;
 
     virtual Qt::DropAction drag(QDrag *m_drag) = 0;
     virtual void cancelDrag();
@@ -108,11 +107,10 @@ public:
     virtual bool ownsDragObject() const;
 
 private:
-    QPlatformDragPrivate *d_ptr;
+    QPlatformDragPrivate    *d_ptr;
 
     Q_DISABLE_COPY(QPlatformDrag)
 };
-
 #endif // QT_NO_DRAGANDDROP
 
 QT_END_NAMESPACE

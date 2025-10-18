@@ -78,61 +78,61 @@
 
 QT_BEGIN_NAMESPACE
 
-class QSslConfigurationPrivate: public QSharedData
+class QSslConfigurationPrivate : public QSharedData
 {
 public:
     QSslConfigurationPrivate()
         : sessionProtocol(QSsl::UnknownProtocol),
-          protocol(QSsl::SecureProtocols),
-          peerVerifyMode(QSslSocket::AutoVerifyPeer),
-          peerVerifyDepth(0),
-          allowRootCertOnDemandLoading(true),
-          peerSessionShared(false),
-          sslOptions(QSslConfigurationPrivate::defaultSslOptions),
-          dhParams(QSslDiffieHellmanParameters::defaultParameters()),
-          sslSessionTicketLifeTimeHint(-1),
-          ephemeralServerKey(),
-          preSharedKeyIdentityHint(),
-          nextProtocolNegotiationStatus(QSslConfiguration::NextProtocolNegotiationNone)
+        protocol(QSsl::SecureProtocols),
+        peerVerifyMode(QSslSocket::AutoVerifyPeer),
+        peerVerifyDepth(0),
+        allowRootCertOnDemandLoading(true),
+        peerSessionShared(false),
+        sslOptions(QSslConfigurationPrivate::defaultSslOptions),
+        dhParams(QSslDiffieHellmanParameters::defaultParameters()),
+        sslSessionTicketLifeTimeHint(-1),
+        ephemeralServerKey(),
+        preSharedKeyIdentityHint(),
+        nextProtocolNegotiationStatus(QSslConfiguration::NextProtocolNegotiationNone)
     { }
 
-    QSslCertificate peerCertificate;
-    QList<QSslCertificate> peerCertificateChain;
+    QSslCertificate             peerCertificate;
+    QList<QSslCertificate>      peerCertificateChain;
 
-    QList<QSslCertificate> localCertificateChain;
+    QList<QSslCertificate>    localCertificateChain;
 
-    QSslKey privateKey;
-    QSslCipher sessionCipher;
-    QSsl::SslProtocol sessionProtocol;
-    QList<QSslCipher> ciphers;
-    QList<QSslCertificate> caCertificates;
+    QSslKey                     privateKey;
+    QSslCipher                  sessionCipher;
+    QSsl::SslProtocol           sessionProtocol;
+    QList<QSslCipher>           ciphers;
+    QList<QSslCertificate>      caCertificates;
 
-    QSsl::SslProtocol protocol;
-    QSslSocket::PeerVerifyMode peerVerifyMode;
-    int peerVerifyDepth;
-    bool allowRootCertOnDemandLoading;
-    bool peerSessionShared;
+    QSsl::SslProtocol               protocol;
+    QSslSocket::PeerVerifyMode      peerVerifyMode;
+    int                             peerVerifyDepth;
+    bool                            allowRootCertOnDemandLoading;
+    bool                            peerSessionShared;
 
     Q_AUTOTEST_EXPORT static bool peerSessionWasShared(const QSslConfiguration &configuration);
 
-    QSsl::SslOptions sslOptions;
+    QSsl::SslOptions    sslOptions;
 
-    Q_AUTOTEST_EXPORT static const QSsl::SslOptions defaultSslOptions;
+    Q_AUTOTEST_EXPORT static const QSsl::SslOptions    defaultSslOptions;
 
-    QVector<QSslEllipticCurve> ellipticCurves;
+    QVector<QSslEllipticCurve>    ellipticCurves;
 
-    QSslDiffieHellmanParameters dhParams;
+    QSslDiffieHellmanParameters    dhParams;
 
-    QByteArray sslSession;
-    int sslSessionTicketLifeTimeHint;
+    QByteArray      sslSession;
+    int             sslSessionTicketLifeTimeHint;
 
-    QSslKey ephemeralServerKey;
+    QSslKey    ephemeralServerKey;
 
-    QByteArray preSharedKeyIdentityHint;
+    QByteArray    preSharedKeyIdentityHint;
 
-    QList<QByteArray> nextAllowedProtocols;
-    QByteArray nextNegotiatedProtocol;
-    QSslConfiguration::NextProtocolNegotiationStatus nextProtocolNegotiationStatus;
+    QList<QByteArray>                                   nextAllowedProtocols;
+    QByteArray                                          nextNegotiatedProtocol;
+    QSslConfiguration::NextProtocolNegotiationStatus    nextProtocolNegotiationStatus;
 
     // in qsslsocket.cpp:
     static QSslConfiguration defaultConfiguration();
@@ -143,8 +143,7 @@ public:
 // implemented here for inlining purposes
 inline QSslConfiguration::QSslConfiguration(QSslConfigurationPrivate *dd)
     : d(dd)
-{
-}
+{}
 
 QT_END_NAMESPACE
 

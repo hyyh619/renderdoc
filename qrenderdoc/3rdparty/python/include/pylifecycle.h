@@ -7,11 +7,11 @@
 extern "C" {
 #endif
 
-PyAPI_FUNC(void) Py_SetProgramName(wchar_t *);
-PyAPI_FUNC(wchar_t *) Py_GetProgramName(void);
+PyAPI_FUNC(void) Py_SetProgramName(wchar_t*);
+PyAPI_FUNC(wchar_t*) Py_GetProgramName(void);
 
-PyAPI_FUNC(void) Py_SetPythonHome(wchar_t *);
-PyAPI_FUNC(wchar_t *) Py_GetPythonHome(void);
+PyAPI_FUNC(void) Py_SetPythonHome(wchar_t*);
+PyAPI_FUNC(wchar_t*) Py_GetPythonHome(void);
 
 #ifndef Py_LIMITED_API
 /* Only used by applications that embed the interpreter and need to
@@ -29,8 +29,8 @@ PyAPI_FUNC(void) _Py_InitializeEx_Private(int, int);
 PyAPI_FUNC(void) Py_Finalize(void);
 PyAPI_FUNC(int) Py_FinalizeEx(void);
 PyAPI_FUNC(int) Py_IsInitialized(void);
-PyAPI_FUNC(PyThreadState *) Py_NewInterpreter(void);
-PyAPI_FUNC(void) Py_EndInterpreter(PyThreadState *);
+PyAPI_FUNC(PyThreadState*) Py_NewInterpreter(void);
+PyAPI_FUNC(void) Py_EndInterpreter(PyThreadState*);
 
 
 /* Py_PyAtExit is for the atexit module, Py_AtExit is for low-level
@@ -47,37 +47,37 @@ PyAPI_FUNC(void) Py_Exit(int);
 #ifndef Py_LIMITED_API
 PyAPI_FUNC(void) _Py_RestoreSignals(void);
 
-PyAPI_FUNC(int) Py_FdIsInteractive(FILE *, const char *);
+PyAPI_FUNC(int) Py_FdIsInteractive(FILE*, const char*);
 #endif
 
 /* Bootstrap __main__ (defined in Modules/main.c) */
 PyAPI_FUNC(int) Py_Main(int argc, wchar_t **argv);
 
 /* In getpath.c */
-PyAPI_FUNC(wchar_t *) Py_GetProgramFullPath(void);
-PyAPI_FUNC(wchar_t *) Py_GetPrefix(void);
-PyAPI_FUNC(wchar_t *) Py_GetExecPrefix(void);
-PyAPI_FUNC(wchar_t *) Py_GetPath(void);
-PyAPI_FUNC(void)      Py_SetPath(const wchar_t *);
+PyAPI_FUNC(wchar_t*) Py_GetProgramFullPath(void);
+PyAPI_FUNC(wchar_t*) Py_GetPrefix(void);
+PyAPI_FUNC(wchar_t*) Py_GetExecPrefix(void);
+PyAPI_FUNC(wchar_t*) Py_GetPath(void);
+PyAPI_FUNC(void)      Py_SetPath(const wchar_t*);
 #ifdef MS_WINDOWS
 int _Py_CheckPython3();
 #endif
 
 /* In their own files */
-PyAPI_FUNC(const char *) Py_GetVersion(void);
-PyAPI_FUNC(const char *) Py_GetPlatform(void);
-PyAPI_FUNC(const char *) Py_GetCopyright(void);
-PyAPI_FUNC(const char *) Py_GetCompiler(void);
-PyAPI_FUNC(const char *) Py_GetBuildInfo(void);
+PyAPI_FUNC(const char*) Py_GetVersion(void);
+PyAPI_FUNC(const char*) Py_GetPlatform(void);
+PyAPI_FUNC(const char*) Py_GetCopyright(void);
+PyAPI_FUNC(const char*) Py_GetCompiler(void);
+PyAPI_FUNC(const char*) Py_GetBuildInfo(void);
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(const char *) _Py_gitidentifier(void);
-PyAPI_FUNC(const char *) _Py_gitversion(void);
+PyAPI_FUNC(const char*) _Py_gitidentifier(void);
+PyAPI_FUNC(const char*) _Py_gitversion(void);
 #endif
 
 /* Internal -- various one-time initializations */
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(PyObject *) _PyBuiltin_Init(void);
-PyAPI_FUNC(PyObject *) _PySys_Init(void);
+PyAPI_FUNC(PyObject*) _PyBuiltin_Init(void);
+PyAPI_FUNC(PyObject*) _PySys_Init(void);
 PyAPI_FUNC(void) _PyImport_Init(void);
 PyAPI_FUNC(void) _PyExc_Init(PyObject * bltinmod);
 PyAPI_FUNC(void) _PyImportHooks_Init(void);
@@ -109,7 +109,7 @@ PyAPI_FUNC(void) _PyType_Fini(void);
 PyAPI_FUNC(void) _PyRandom_Fini(void);
 PyAPI_FUNC(void) PyAsyncGen_Fini(void);
 
-PyAPI_DATA(PyThreadState *) _Py_Finalizing;
+PyAPI_DATA(PyThreadState*) _Py_Finalizing;
 #endif
 
 /* Signals */

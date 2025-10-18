@@ -48,13 +48,14 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_STANDARDPATHS
 
-class Q_CORE_EXPORT QStandardPaths
+class Q_CORE_EXPORT    QStandardPaths
 {
     Q_GADGET
 
 public:
     // Do not re-order, must match QDesktopServices
-    enum StandardLocation {
+    enum StandardLocation
+    {
         DesktopLocation,
         DocumentsLocation,
         FontsLocation,
@@ -81,8 +82,9 @@ public:
     static QString writableLocation(StandardLocation type);
     static QStringList standardLocations(StandardLocation type);
 
-    enum LocateOption {
-        LocateFile = 0x0,
+    enum LocateOption
+    {
+        LocateFile      = 0x0,
         LocateDirectory = 0x1
     };
     Q_DECLARE_FLAGS(LocateOptions, LocateOption)
@@ -109,7 +111,6 @@ private:
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QStandardPaths::LocateOptions)
-
 #endif // QT_NO_STANDARDPATHS
 
 QT_END_NAMESPACE

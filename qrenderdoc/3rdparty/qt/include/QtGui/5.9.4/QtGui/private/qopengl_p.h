@@ -62,7 +62,7 @@ QT_BEGIN_NAMESPACE
 
 class QJsonDocument;
 
-class Q_GUI_EXPORT QOpenGLExtensionMatcher
+class Q_GUI_EXPORT    QOpenGLExtensionMatcher
 {
 public:
     QOpenGLExtensionMatcher();
@@ -72,40 +72,52 @@ public:
         return m_extensions.contains(extension);
     }
 
-    QSet<QByteArray> extensions() const { return m_extensions; }
+    QSet<QByteArray> extensions() const
+    {
+        return m_extensions;
+    }
 
 private:
-    QSet<QByteArray> m_extensions;
+    QSet<QByteArray>    m_extensions;
 };
 
-class Q_GUI_EXPORT QOpenGLConfig
+class Q_GUI_EXPORT    QOpenGLConfig
 {
 public:
-    struct Q_GUI_EXPORT Gpu {
+    struct Q_GUI_EXPORT    Gpu
+    {
         Gpu() : vendorId(0), deviceId(0) {}
-        bool isValid() const { return deviceId || !glVendor.isEmpty(); }
-        bool equals(const Gpu &other) const {
+        bool isValid() const
+        {
+            return deviceId || !glVendor.isEmpty();
+        }
+        bool equals(const Gpu &other) const
+        {
             return vendorId == other.vendorId && deviceId == other.deviceId && driverVersion == other.driverVersion
-                && driverDescription == other.driverDescription && glVendor == other.glVendor;
+                   && driverDescription == other.driverDescription && glVendor == other.glVendor;
         }
 
-        uint vendorId;
-        uint deviceId;
-        QVersionNumber driverVersion;
-        QByteArray driverDescription;
-        QByteArray glVendor;
+        uint            vendorId;
+        uint            deviceId;
+        QVersionNumber  driverVersion;
+        QByteArray      driverDescription;
+        QByteArray      glVendor;
 
-        static Gpu fromDevice(uint vendorId, uint deviceId, QVersionNumber driverVersion, const QByteArray &driverDescription) {
-            Gpu gpu;
-            gpu.vendorId = vendorId;
-            gpu.deviceId = deviceId;
-            gpu.driverVersion = driverVersion;
-            gpu.driverDescription = driverDescription;
+        static Gpu fromDevice(uint vendorId, uint deviceId, QVersionNumber driverVersion, const QByteArray &driverDescription)
+        {
+            Gpu    gpu;
+
+            gpu.vendorId            = vendorId;
+            gpu.deviceId            = deviceId;
+            gpu.driverVersion       = driverVersion;
+            gpu.driverDescription   = driverDescription;
             return gpu;
         }
 
-        static Gpu fromGLVendor(const QByteArray &glVendor) {
-            Gpu gpu;
+        static Gpu fromGLVendor(const QByteArray &glVendor)
+        {
+            Gpu    gpu;
+
             gpu.glVendor = glVendor;
             return gpu;
         }

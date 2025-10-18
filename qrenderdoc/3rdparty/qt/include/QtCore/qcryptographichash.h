@@ -50,11 +50,12 @@ QT_BEGIN_NAMESPACE
 class QCryptographicHashPrivate;
 class QIODevice;
 
-class Q_CORE_EXPORT QCryptographicHash
+class Q_CORE_EXPORT    QCryptographicHash
 {
     Q_GADGET
 public:
-    enum Algorithm {
+    enum Algorithm
+    {
 #ifndef QT_CRYPTOGRAPHICHASH_ONLY_SHA1
         Md4,
         Md5,
@@ -75,15 +76,15 @@ public:
         RealSha3_384,
         RealSha3_512,
 #  ifndef QT_SHA3_KECCAK_COMPAT
-        Sha3_224 = RealSha3_224,
-        Sha3_256 = RealSha3_256,
-        Sha3_384 = RealSha3_384,
-        Sha3_512 = RealSha3_512
+        Sha3_224    = RealSha3_224,
+        Sha3_256    = RealSha3_256,
+        Sha3_384    = RealSha3_384,
+        Sha3_512    = RealSha3_512
 #  else
-        Sha3_224 = Keccak_224,
-        Sha3_256 = Keccak_256,
-        Sha3_384 = Keccak_384,
-        Sha3_512 = Keccak_512
+        Sha3_224    = Keccak_224,
+        Sha3_256    = Keccak_256,
+        Sha3_384    = Keccak_384,
+        Sha3_512    = Keccak_512
 #  endif
 #endif
     };
@@ -96,14 +97,14 @@ public:
 
     void addData(const char *data, int length);
     void addData(const QByteArray &data);
-    bool addData(QIODevice* device);
+    bool addData(QIODevice *device);
 
     QByteArray result() const;
 
     static QByteArray hash(const QByteArray &data, Algorithm method);
 private:
     Q_DISABLE_COPY(QCryptographicHash)
-    QCryptographicHashPrivate *d;
+    QCryptographicHashPrivate * d;
 };
 
 QT_END_NAMESPACE

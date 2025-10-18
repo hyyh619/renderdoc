@@ -73,15 +73,15 @@ class QTextDocument;
 class QTextLength;
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QTextLength &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QTextLength &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QTextLength&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QTextLength&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QTextLength &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QTextLength&);
 #endif
 
-class Q_GUI_EXPORT QTextLength
+class Q_GUI_EXPORT    QTextLength
 {
 public:
     enum Type { VariableLength = 0, FixedLength, PercentageLength };
@@ -90,56 +90,71 @@ public:
 
     inline explicit QTextLength(Type type, qreal value);
 
-    inline Type type() const { return lengthType; }
+    inline Type type() const
+    {
+        return lengthType;
+    }
     inline qreal value(qreal maximumLength) const
     {
-        switch (lengthType) {
+        switch (lengthType)
+        {
             case FixedLength: return fixedValueOrPercentage;
+
             case VariableLength: return maximumLength;
+
             case PercentageLength: return fixedValueOrPercentage * maximumLength / qreal(100);
         }
+
         return -1;
     }
 
-    inline qreal rawValue() const { return fixedValueOrPercentage; }
+    inline qreal rawValue() const
+    {
+        return fixedValueOrPercentage;
+    }
 
     inline bool operator==(const QTextLength &other) const
-    { return lengthType == other.lengthType
-             && qFuzzyCompare(fixedValueOrPercentage, other.fixedValueOrPercentage); }
+    {
+        return lengthType == other.lengthType
+               && qFuzzyCompare(fixedValueOrPercentage, other.fixedValueOrPercentage);
+    }
     inline bool operator!=(const QTextLength &other) const
-    { return lengthType != other.lengthType
-             || !qFuzzyCompare(fixedValueOrPercentage, other.fixedValueOrPercentage); }
+    {
+        return lengthType != other.lengthType
+               || !qFuzzyCompare(fixedValueOrPercentage, other.fixedValueOrPercentage);
+    }
     operator QVariant() const;
 
 private:
-    Type lengthType;
-    qreal fixedValueOrPercentage;
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QTextLength &);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QTextLength &);
+    Type        lengthType;
+    qreal       fixedValueOrPercentage;
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QTextLength&);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QTextLength&);
 };
-Q_DECLARE_TYPEINFO(QTextLength, QT_VERSION >= QT_VERSION_CHECK(6,0,0) ? Q_PRIMITIVE_TYPE : Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(QTextLength, QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) ? Q_PRIMITIVE_TYPE : Q_RELOCATABLE_TYPE);
 
 inline QTextLength::QTextLength(Type atype, qreal avalue)
     : lengthType(atype), fixedValueOrPercentage(avalue) {}
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QTextFormat &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QTextFormat &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QTextFormat&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QTextFormat&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QTextFormat &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QTextFormat&);
 #endif
 
-class Q_GUI_EXPORT QTextFormat
+class Q_GUI_EXPORT    QTextFormat
 {
     Q_GADGET
 public:
-    enum FormatType {
-        InvalidFormat = -1,
-        BlockFormat = 1,
-        CharFormat = 2,
-        ListFormat = 3,
+    enum FormatType
+    {
+        InvalidFormat   = -1,
+        BlockFormat     = 1,
+        CharFormat      = 2,
+        ListFormat      = 3,
 #if QT_DEPRECATED_SINCE(5, 3)
         TableFormat = 4,
 #endif
@@ -149,112 +164,113 @@ public:
     };
     Q_ENUM(FormatType)
 
-    enum Property {
+    enum Property
+    {
         ObjectIndex = 0x0,
 
         // paragraph and char
-        CssFloat = 0x0800,
+        CssFloat        = 0x0800,
         LayoutDirection = 0x0801,
 
-        OutlinePen = 0x810,
+        OutlinePen      = 0x810,
         BackgroundBrush = 0x820,
         ForegroundBrush = 0x821,
         // Internal to qtextlayout.cpp: ObjectSelectionBrush = 0x822
         BackgroundImageUrl = 0x823,
 
         // paragraph
-        BlockAlignment = 0x1010,
-        BlockTopMargin = 0x1030,
-        BlockBottomMargin = 0x1031,
-        BlockLeftMargin = 0x1032,
-        BlockRightMargin = 0x1033,
-        TextIndent = 0x1034,
-        TabPositions = 0x1035,
-        BlockIndent = 0x1040,
-        LineHeight = 0x1048,
-        LineHeightType = 0x1049,
-        BlockNonBreakableLines = 0x1050,
-        BlockTrailingHorizontalRulerWidth = 0x1060,
+        BlockAlignment                      = 0x1010,
+        BlockTopMargin                      = 0x1030,
+        BlockBottomMargin                   = 0x1031,
+        BlockLeftMargin                     = 0x1032,
+        BlockRightMargin                    = 0x1033,
+        TextIndent                          = 0x1034,
+        TabPositions                        = 0x1035,
+        BlockIndent                         = 0x1040,
+        LineHeight                          = 0x1048,
+        LineHeightType                      = 0x1049,
+        BlockNonBreakableLines              = 0x1050,
+        BlockTrailingHorizontalRulerWidth   = 0x1060,
 
         // character properties
-        FirstFontProperty = 0x1FE0,
-        FontCapitalization = FirstFontProperty,
-        FontLetterSpacingType = 0x2033,
-        FontLetterSpacing = 0x1FE1,
-        FontWordSpacing = 0x1FE2,
-        FontStretch = 0x2034,
-        FontStyleHint = 0x1FE3,
-        FontStyleStrategy = 0x1FE4,
-        FontKerning = 0x1FE5,
-        FontHintingPreference = 0x1FE6,
-        FontFamily = 0x2000,
-        FontPointSize = 0x2001,
-        FontSizeAdjustment = 0x2002,
-        FontSizeIncrement = FontSizeAdjustment, // old name, compat
-        FontWeight = 0x2003,
-        FontItalic = 0x2004,
-        FontUnderline = 0x2005, // deprecated, use TextUnderlineStyle instead
-        FontOverline = 0x2006,
-        FontStrikeOut = 0x2007,
-        FontFixedPitch = 0x2008,
-        FontPixelSize = 0x2009,
-        LastFontProperty = FontPixelSize,
+        FirstFontProperty       = 0x1FE0,
+        FontCapitalization      = FirstFontProperty,
+        FontLetterSpacingType   = 0x2033,
+        FontLetterSpacing       = 0x1FE1,
+        FontWordSpacing         = 0x1FE2,
+        FontStretch             = 0x2034,
+        FontStyleHint           = 0x1FE3,
+        FontStyleStrategy       = 0x1FE4,
+        FontKerning             = 0x1FE5,
+        FontHintingPreference   = 0x1FE6,
+        FontFamily              = 0x2000,
+        FontPointSize           = 0x2001,
+        FontSizeAdjustment      = 0x2002,
+        FontSizeIncrement       = FontSizeAdjustment, // old name, compat
+        FontWeight              = 0x2003,
+        FontItalic              = 0x2004,
+        FontUnderline           = 0x2005, // deprecated, use TextUnderlineStyle instead
+        FontOverline            = 0x2006,
+        FontStrikeOut           = 0x2007,
+        FontFixedPitch          = 0x2008,
+        FontPixelSize           = 0x2009,
+        LastFontProperty        = FontPixelSize,
 
-        TextUnderlineColor = 0x2010,
-        TextVerticalAlignment = 0x2021,
-        TextOutline = 0x2022,
-        TextUnderlineStyle = 0x2023,
-        TextToolTip = 0x2024,
+        TextUnderlineColor      = 0x2010,
+        TextVerticalAlignment   = 0x2021,
+        TextOutline             = 0x2022,
+        TextUnderlineStyle      = 0x2023,
+        TextToolTip             = 0x2024,
 
-        IsAnchor = 0x2030,
-        AnchorHref = 0x2031,
-        AnchorName = 0x2032,
-        ObjectType = 0x2f00,
+        IsAnchor    = 0x2030,
+        AnchorHref  = 0x2031,
+        AnchorName  = 0x2032,
+        ObjectType  = 0x2f00,
 
         // list properties
-        ListStyle = 0x3000,
-        ListIndent = 0x3001,
-        ListNumberPrefix = 0x3002,
-        ListNumberSuffix = 0x3003,
+        ListStyle           = 0x3000,
+        ListIndent          = 0x3001,
+        ListNumberPrefix    = 0x3002,
+        ListNumberSuffix    = 0x3003,
 
         // table and frame properties
-        FrameBorder = 0x4000,
-        FrameMargin = 0x4001,
-        FramePadding = 0x4002,
-        FrameWidth = 0x4003,
-        FrameHeight = 0x4004,
-        FrameTopMargin    = 0x4005,
-        FrameBottomMargin = 0x4006,
-        FrameLeftMargin   = 0x4007,
-        FrameRightMargin  = 0x4008,
-        FrameBorderBrush = 0x4009,
-        FrameBorderStyle = 0x4010,
+        FrameBorder         = 0x4000,
+        FrameMargin         = 0x4001,
+        FramePadding        = 0x4002,
+        FrameWidth          = 0x4003,
+        FrameHeight         = 0x4004,
+        FrameTopMargin      = 0x4005,
+        FrameBottomMargin   = 0x4006,
+        FrameLeftMargin     = 0x4007,
+        FrameRightMargin    = 0x4008,
+        FrameBorderBrush    = 0x4009,
+        FrameBorderStyle    = 0x4010,
 
-        TableColumns = 0x4100,
+        TableColumns                = 0x4100,
         TableColumnWidthConstraints = 0x4101,
-        TableCellSpacing = 0x4102,
-        TableCellPadding = 0x4103,
-        TableHeaderRowCount = 0x4104,
+        TableCellSpacing            = 0x4102,
+        TableCellPadding            = 0x4103,
+        TableHeaderRowCount         = 0x4104,
 
         // table cell properties
-        TableCellRowSpan = 0x4810,
+        TableCellRowSpan    = 0x4810,
         TableCellColumnSpan = 0x4811,
 
-        TableCellTopPadding = 0x4812,
-        TableCellBottomPadding = 0x4813,
-        TableCellLeftPadding = 0x4814,
-        TableCellRightPadding = 0x4815,
+        TableCellTopPadding     = 0x4812,
+        TableCellBottomPadding  = 0x4813,
+        TableCellLeftPadding    = 0x4814,
+        TableCellRightPadding   = 0x4815,
 
         // image properties
-        ImageName = 0x5000,
-        ImageWidth = 0x5010,
+        ImageName   = 0x5000,
+        ImageWidth  = 0x5010,
         ImageHeight = 0x5011,
 
         // internal
         /*
            SuppressText = 0x5012,
            SuppressBackground = 0x513
-        */
+         */
 
         // selection properties
         FullWidthSelection = 0x06000,
@@ -267,7 +283,8 @@ public:
     };
     Q_ENUM(Property)
 
-    enum ObjectTypes {
+    enum ObjectTypes
+    {
         NoObject,
         ImageObject,
         TableObject,
@@ -277,11 +294,12 @@ public:
     };
     Q_ENUM(ObjectTypes)
 
-    enum PageBreakFlag {
-        PageBreak_Auto = 0,
-        PageBreak_AlwaysBefore = 0x001,
-        PageBreak_AlwaysAfter  = 0x010
-        // PageBreak_AlwaysInside = 0x100
+    enum PageBreakFlag
+    {
+        PageBreak_Auto          = 0,
+        PageBreak_AlwaysBefore  = 0x001,
+        PageBreak_AlwaysAfter   = 0x010
+                                  // PageBreak_AlwaysInside = 0x100
     };
     Q_DECLARE_FLAGS(PageBreakFlags, PageBreakFlag)
 
@@ -290,16 +308,24 @@ public:
     explicit QTextFormat(int type);
 
     QTextFormat(const QTextFormat &rhs);
-    QTextFormat &operator=(const QTextFormat &rhs);
+    QTextFormat&operator=(const QTextFormat &rhs);
     ~QTextFormat();
 
     void swap(QTextFormat &other)
-    { qSwap(d, other.d); qSwap(format_type, other.format_type); }
+    {
+        qSwap(d, other.d); qSwap(format_type, other.format_type);
+    }
 
     void merge(const QTextFormat &other);
 
-    inline bool isValid() const { return type() != InvalidFormat; }
-    inline bool isEmpty() const { return propertyCount() == 0; }
+    inline bool isValid() const
+    {
+        return type() != InvalidFormat;
+    }
+    inline bool isEmpty() const
+    {
+        return propertyCount() == 0;
+    }
 
     int type() const;
 
@@ -328,15 +354,38 @@ public:
 
     inline void setObjectType(int type);
     inline int objectType() const
-    { return intProperty(ObjectType); }
+    {
+        return intProperty(ObjectType);
+    }
 
-    inline bool isCharFormat() const { return type() == CharFormat; }
-    inline bool isBlockFormat() const { return type() == BlockFormat; }
-    inline bool isListFormat() const { return type() == ListFormat; }
-    inline bool isFrameFormat() const { return type() == FrameFormat; }
-    inline bool isImageFormat() const { return type() == CharFormat && objectType() == ImageObject; }
-    inline bool isTableFormat() const { return type() == FrameFormat && objectType() == TableObject; }
-    inline bool isTableCellFormat() const { return type() == CharFormat && objectType() == TableCellObject; }
+    inline bool isCharFormat() const
+    {
+        return type() == CharFormat;
+    }
+    inline bool isBlockFormat() const
+    {
+        return type() == BlockFormat;
+    }
+    inline bool isListFormat() const
+    {
+        return type() == ListFormat;
+    }
+    inline bool isFrameFormat() const
+    {
+        return type() == FrameFormat;
+    }
+    inline bool isImageFormat() const
+    {
+        return type() == CharFormat && objectType() == ImageObject;
+    }
+    inline bool isTableFormat() const
+    {
+        return type() == FrameFormat && objectType() == TableObject;
+    }
+    inline bool isTableCellFormat() const
+    {
+        return type() == CharFormat && objectType() == TableCellObject;
+    }
 
     QTextBlockFormat toBlockFormat() const;
     QTextCharFormat toCharFormat() const;
@@ -347,49 +396,71 @@ public:
     QTextTableCellFormat toTableCellFormat() const;
 
     bool operator==(const QTextFormat &rhs) const;
-    inline bool operator!=(const QTextFormat &rhs) const { return !operator==(rhs); }
+    inline bool operator!=(const QTextFormat &rhs) const
+    {
+        return !operator==(rhs);
+    }
     operator QVariant() const;
 
     inline void setLayoutDirection(Qt::LayoutDirection direction)
-        { setProperty(QTextFormat::LayoutDirection, direction); }
+    {
+        setProperty(QTextFormat::LayoutDirection, direction);
+    }
     inline Qt::LayoutDirection layoutDirection() const
-        { return Qt::LayoutDirection(intProperty(QTextFormat::LayoutDirection)); }
+    {
+        return Qt::LayoutDirection(intProperty(QTextFormat::LayoutDirection));
+    }
 
     inline void setBackground(const QBrush &brush)
-    { setProperty(BackgroundBrush, brush); }
+    {
+        setProperty(BackgroundBrush, brush);
+    }
     inline QBrush background() const
-    { return brushProperty(BackgroundBrush); }
+    {
+        return brushProperty(BackgroundBrush);
+    }
     inline void clearBackground()
-    { clearProperty(BackgroundBrush); }
+    {
+        clearProperty(BackgroundBrush);
+    }
 
     inline void setForeground(const QBrush &brush)
-    { setProperty(ForegroundBrush, brush); }
+    {
+        setProperty(ForegroundBrush, brush);
+    }
     inline QBrush foreground() const
-    { return brushProperty(ForegroundBrush); }
+    {
+        return brushProperty(ForegroundBrush);
+    }
     inline void clearForeground()
-    { clearProperty(ForegroundBrush); }
+    {
+        clearProperty(ForegroundBrush);
+    }
 
 private:
-    QSharedDataPointer<QTextFormatPrivate> d;
-    qint32 format_type;
+    QSharedDataPointer<QTextFormatPrivate>      d;
+    qint32                                      format_type;
 
     friend class QTextFormatCollection;
     friend class QTextCharFormat;
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QTextFormat &);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QTextFormat &);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QTextFormat&);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QTextFormat&);
 };
 
 Q_DECLARE_SHARED(QTextFormat)
 
 inline void QTextFormat::setObjectType(int atype)
-{ setProperty(ObjectType, atype); }
+{
+    setProperty(ObjectType, atype);
+}
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QTextFormat::PageBreakFlags)
 
-class Q_GUI_EXPORT QTextCharFormat : public QTextFormat
+class Q_GUI_EXPORT    QTextCharFormat : public QTextFormat
 {
 public:
-    enum VerticalAlignment {
+    enum VerticalAlignment
+    {
         AlignNormal = 0,
         AlignSuperScript,
         AlignSubScript,
@@ -398,22 +469,25 @@ public:
         AlignBottom,
         AlignBaseline
     };
-    enum UnderlineStyle { // keep in sync with Qt::PenStyle!
-        NoUnderline,
-        SingleUnderline,
-        DashUnderline,
-        DotLine,
-        DashDotLine,
-        DashDotDotLine,
-        WaveUnderline,
-        SpellCheckUnderline
-    };
+    enum UnderlineStyle   // keep in sync with Qt::PenStyle!
+    {NoUnderline,
+     SingleUnderline,
+     DashUnderline,
+     DotLine,
+     DashDotLine,
+     DashDotDotLine,
+     WaveUnderline,
+     SpellCheckUnderline};
 
     QTextCharFormat();
 
-    bool isValid() const { return isCharFormat(); }
+    bool isValid() const
+    {
+        return isCharFormat();
+    }
 
-    enum FontPropertiesInheritanceBehavior {
+    enum FontPropertiesInheritanceBehavior
+    {
         FontPropertiesSpecifiedOnly,
         FontPropertiesAll
     };
@@ -422,77 +496,139 @@ public:
     QFont font() const;
 
     inline void setFontFamily(const QString &family)
-    { setProperty(FontFamily, family); }
+    {
+        setProperty(FontFamily, family);
+    }
     inline QString fontFamily() const
-    { return stringProperty(FontFamily); }
+    {
+        return stringProperty(FontFamily);
+    }
 
     inline void setFontPointSize(qreal size)
-    { setProperty(FontPointSize, size); }
+    {
+        setProperty(FontPointSize, size);
+    }
     inline qreal fontPointSize() const
-    { return doubleProperty(FontPointSize); }
+    {
+        return doubleProperty(FontPointSize);
+    }
 
     inline void setFontWeight(int weight)
-    { setProperty(FontWeight, weight); }
+    {
+        setProperty(FontWeight, weight);
+    }
     inline int fontWeight() const
-    { return hasProperty(FontWeight) ? intProperty(FontWeight) : QFont::Normal; }
+    {
+        return hasProperty(FontWeight) ? intProperty(FontWeight) : QFont::Normal;
+    }
     inline void setFontItalic(bool italic)
-    { setProperty(FontItalic, italic); }
+    {
+        setProperty(FontItalic, italic);
+    }
     inline bool fontItalic() const
-    { return boolProperty(FontItalic); }
+    {
+        return boolProperty(FontItalic);
+    }
     inline void setFontCapitalization(QFont::Capitalization capitalization)
-    { setProperty(FontCapitalization, capitalization); }
+    {
+        setProperty(FontCapitalization, capitalization);
+    }
     inline QFont::Capitalization fontCapitalization() const
-    { return static_cast<QFont::Capitalization>(intProperty(FontCapitalization)); }
+    {
+        return static_cast<QFont::Capitalization>(intProperty(FontCapitalization));
+    }
     inline void setFontLetterSpacingType(QFont::SpacingType letterSpacingType)
-    { setProperty(FontLetterSpacingType, letterSpacingType); }
+    {
+        setProperty(FontLetterSpacingType, letterSpacingType);
+    }
     inline QFont::SpacingType fontLetterSpacingType() const
-    { return static_cast<QFont::SpacingType>(intProperty(FontLetterSpacingType)); }
+    {
+        return static_cast<QFont::SpacingType>(intProperty(FontLetterSpacingType));
+    }
     inline void setFontLetterSpacing(qreal spacing)
-    { setProperty(FontLetterSpacing, spacing); }
+    {
+        setProperty(FontLetterSpacing, spacing);
+    }
     inline qreal fontLetterSpacing() const
-    { return doubleProperty(FontLetterSpacing); }
+    {
+        return doubleProperty(FontLetterSpacing);
+    }
     inline void setFontWordSpacing(qreal spacing)
-    { setProperty(FontWordSpacing, spacing); }
+    {
+        setProperty(FontWordSpacing, spacing);
+    }
     inline qreal fontWordSpacing() const
-    { return doubleProperty(FontWordSpacing); }
+    {
+        return doubleProperty(FontWordSpacing);
+    }
 
     inline void setFontUnderline(bool underline)
-    { setProperty(TextUnderlineStyle, underline ? SingleUnderline : NoUnderline); }
+    {
+        setProperty(TextUnderlineStyle, underline ? SingleUnderline : NoUnderline);
+    }
     bool fontUnderline() const;
 
     inline void setFontOverline(bool overline)
-    { setProperty(FontOverline, overline); }
+    {
+        setProperty(FontOverline, overline);
+    }
     inline bool fontOverline() const
-    { return boolProperty(FontOverline); }
+    {
+        return boolProperty(FontOverline);
+    }
 
     inline void setFontStrikeOut(bool strikeOut)
-    { setProperty(FontStrikeOut, strikeOut); }
+    {
+        setProperty(FontStrikeOut, strikeOut);
+    }
     inline bool fontStrikeOut() const
-    { return boolProperty(FontStrikeOut); }
+    {
+        return boolProperty(FontStrikeOut);
+    }
 
     inline void setUnderlineColor(const QColor &color)
-    { setProperty(TextUnderlineColor, color); }
+    {
+        setProperty(TextUnderlineColor, color);
+    }
     inline QColor underlineColor() const
-    { return colorProperty(TextUnderlineColor); }
+    {
+        return colorProperty(TextUnderlineColor);
+    }
 
     inline void setFontFixedPitch(bool fixedPitch)
-    { setProperty(FontFixedPitch, fixedPitch); }
+    {
+        setProperty(FontFixedPitch, fixedPitch);
+    }
     inline bool fontFixedPitch() const
-    { return boolProperty(FontFixedPitch); }
+    {
+        return boolProperty(FontFixedPitch);
+    }
 
     inline void setFontStretch(int factor)
-    { setProperty(FontStretch, factor); }
+    {
+        setProperty(FontStretch, factor);
+    }
     inline int fontStretch() const
-    { return intProperty(FontStretch); }
+    {
+        return intProperty(FontStretch);
+    }
 
     inline void setFontStyleHint(QFont::StyleHint hint, QFont::StyleStrategy strategy = QFont::PreferDefault)
-    { setProperty(FontStyleHint, hint); setProperty(FontStyleStrategy, strategy); }
+    {
+        setProperty(FontStyleHint, hint); setProperty(FontStyleStrategy, strategy);
+    }
     inline void setFontStyleStrategy(QFont::StyleStrategy strategy)
-    { setProperty(FontStyleStrategy, strategy); }
+    {
+        setProperty(FontStyleStrategy, strategy);
+    }
     QFont::StyleHint fontStyleHint() const
-    { return static_cast<QFont::StyleHint>(intProperty(FontStyleHint)); }
+    {
+        return static_cast<QFont::StyleHint>(intProperty(FontStyleHint));
+    }
     QFont::StyleStrategy fontStyleStrategy() const
-    { return static_cast<QFont::StyleStrategy>(intProperty(FontStyleStrategy)); }
+    {
+        return static_cast<QFont::StyleStrategy>(intProperty(FontStyleStrategy));
+    }
 
     inline void setFontHintingPreference(QFont::HintingPreference hintingPreference)
     {
@@ -505,53 +641,93 @@ public:
     }
 
     inline void setFontKerning(bool enable)
-    { setProperty(FontKerning, enable); }
+    {
+        setProperty(FontKerning, enable);
+    }
     inline bool fontKerning() const
-    { return boolProperty(FontKerning); }
+    {
+        return boolProperty(FontKerning);
+    }
 
     void setUnderlineStyle(UnderlineStyle style);
     inline UnderlineStyle underlineStyle() const
-    { return static_cast<UnderlineStyle>(intProperty(TextUnderlineStyle)); }
+    {
+        return static_cast<UnderlineStyle>(intProperty(TextUnderlineStyle));
+    }
 
     inline void setVerticalAlignment(VerticalAlignment alignment)
-    { setProperty(TextVerticalAlignment, alignment); }
+    {
+        setProperty(TextVerticalAlignment, alignment);
+    }
     inline VerticalAlignment verticalAlignment() const
-    { return static_cast<VerticalAlignment>(intProperty(TextVerticalAlignment)); }
+    {
+        return static_cast<VerticalAlignment>(intProperty(TextVerticalAlignment));
+    }
 
     inline void setTextOutline(const QPen &pen)
-    { setProperty(TextOutline, pen); }
+    {
+        setProperty(TextOutline, pen);
+    }
     inline QPen textOutline() const
-    { return penProperty(TextOutline); }
+    {
+        return penProperty(TextOutline);
+    }
 
     inline void setToolTip(const QString &tip)
-    { setProperty(TextToolTip, tip); }
+    {
+        setProperty(TextToolTip, tip);
+    }
     inline QString toolTip() const
-    { return stringProperty(TextToolTip); }
+    {
+        return stringProperty(TextToolTip);
+    }
 
     inline void setAnchor(bool anchor)
-    { setProperty(IsAnchor, anchor); }
+    {
+        setProperty(IsAnchor, anchor);
+    }
     inline bool isAnchor() const
-    { return boolProperty(IsAnchor); }
+    {
+        return boolProperty(IsAnchor);
+    }
 
     inline void setAnchorHref(const QString &value)
-    { setProperty(AnchorHref, value); }
+    {
+        setProperty(AnchorHref, value);
+    }
     inline QString anchorHref() const
-    { return stringProperty(AnchorHref); }
+    {
+        return stringProperty(AnchorHref);
+    }
 
     inline void setAnchorName(const QString &name)
-    { setAnchorNames(QStringList(name)); }
+    {
+        setAnchorNames(QStringList(name));
+    }
     QString anchorName() const;
 
     inline void setAnchorNames(const QStringList &names)
-    { setProperty(AnchorName, names); }
+    {
+        setProperty(AnchorName, names);
+    }
     QStringList anchorNames() const;
 
     inline void setTableCellRowSpan(int tableCellRowSpan);
     inline int tableCellRowSpan() const
-    { int s = intProperty(TableCellRowSpan); if (s == 0) s = 1; return s; }
+    {
+        int    s = intProperty(TableCellRowSpan); if (s == 0)
+            s = 1;
+
+        return s;
+    }
     inline void setTableCellColumnSpan(int tableCellColumnSpan);
     inline int tableCellColumnSpan() const
-    { int s = intProperty(TableCellColumnSpan); if (s == 0) s = 1; return s; }
+    {
+        int    s = intProperty(TableCellColumnSpan); if (s == 0)
+            s = 1;
+
+        return s;
+    }
 
 protected:
     explicit QTextCharFormat(const QTextFormat &fmt);
@@ -576,71 +752,116 @@ inline void QTextCharFormat::setTableCellColumnSpan(int _tableCellColumnSpan)
         setProperty(TableCellColumnSpan, _tableCellColumnSpan);
 }
 
-class Q_GUI_EXPORT QTextBlockFormat : public QTextFormat
+class Q_GUI_EXPORT    QTextBlockFormat : public QTextFormat
 {
 public:
-    enum LineHeightTypes {
-        SingleHeight = 0,
-        ProportionalHeight = 1,
-        FixedHeight = 2,
-        MinimumHeight = 3,
-        LineDistanceHeight = 4
+    enum LineHeightTypes
+    {
+        SingleHeight        = 0,
+        ProportionalHeight  = 1,
+        FixedHeight         = 2,
+        MinimumHeight       = 3,
+        LineDistanceHeight  = 4
     };
 
     QTextBlockFormat();
 
-    bool isValid() const { return isBlockFormat(); }
+    bool isValid() const
+    {
+        return isBlockFormat();
+    }
 
     inline void setAlignment(Qt::Alignment alignment);
     inline Qt::Alignment alignment() const
-    { int a = intProperty(BlockAlignment); if (a == 0) a = Qt::AlignLeft; return QFlag(a); }
+    {
+        int    a = intProperty(BlockAlignment); if (a == 0)
+            a = Qt::AlignLeft;
+
+        return QFlag(a);
+    }
 
     inline void setTopMargin(qreal margin)
-    { setProperty(BlockTopMargin, margin); }
+    {
+        setProperty(BlockTopMargin, margin);
+    }
     inline qreal topMargin() const
-    { return doubleProperty(BlockTopMargin); }
+    {
+        return doubleProperty(BlockTopMargin);
+    }
 
     inline void setBottomMargin(qreal margin)
-    { setProperty(BlockBottomMargin, margin); }
+    {
+        setProperty(BlockBottomMargin, margin);
+    }
     inline qreal bottomMargin() const
-    { return doubleProperty(BlockBottomMargin); }
+    {
+        return doubleProperty(BlockBottomMargin);
+    }
 
     inline void setLeftMargin(qreal margin)
-    { setProperty(BlockLeftMargin, margin); }
+    {
+        setProperty(BlockLeftMargin, margin);
+    }
     inline qreal leftMargin() const
-    { return doubleProperty(BlockLeftMargin); }
+    {
+        return doubleProperty(BlockLeftMargin);
+    }
 
     inline void setRightMargin(qreal margin)
-    { setProperty(BlockRightMargin, margin); }
+    {
+        setProperty(BlockRightMargin, margin);
+    }
     inline qreal rightMargin() const
-    { return doubleProperty(BlockRightMargin); }
+    {
+        return doubleProperty(BlockRightMargin);
+    }
 
     inline void setTextIndent(qreal aindent)
-    { setProperty(TextIndent, aindent); }
+    {
+        setProperty(TextIndent, aindent);
+    }
     inline qreal textIndent() const
-    { return doubleProperty(TextIndent); }
+    {
+        return doubleProperty(TextIndent);
+    }
 
     inline void setIndent(int indent);
     inline int indent() const
-    { return intProperty(BlockIndent); }
+    {
+        return intProperty(BlockIndent);
+    }
 
     inline void setLineHeight(qreal height, int heightType)
-    { setProperty(LineHeight, height); setProperty(LineHeightType, heightType); }
+    {
+        setProperty(LineHeight, height); setProperty(LineHeightType, heightType);
+    }
     inline qreal lineHeight(qreal scriptLineHeight, qreal scaling) const;
     inline qreal lineHeight() const
-    { return doubleProperty(LineHeight); }
+    {
+        return doubleProperty(LineHeight);
+    }
     inline int lineHeightType() const
-    { return intProperty(LineHeightType); }
+    {
+        return intProperty(LineHeightType);
+    }
 
     inline void setNonBreakableLines(bool b)
-    { setProperty(BlockNonBreakableLines, b); }
+    {
+        setProperty(BlockNonBreakableLines, b);
+    }
     inline bool nonBreakableLines() const
-    { return boolProperty(BlockNonBreakableLines); }
+    {
+        return boolProperty(BlockNonBreakableLines);
+    }
 
     inline void setPageBreakPolicy(PageBreakFlags flags)
-    { setProperty(PageBreakPolicy, int(flags)); }
+    {
+        setProperty(PageBreakPolicy, int(flags));
+    }
     inline PageBreakFlags pageBreakPolicy() const
-    { return PageBreakFlags(intProperty(PageBreakPolicy)); }
+    {
+        return PageBreakFlags(intProperty(PageBreakPolicy));
+    }
 
     void setTabPositions(const QList<QTextOption::Tab> &tabs);
     QList<QTextOption::Tab> tabPositions() const;
@@ -653,62 +874,84 @@ protected:
 Q_DECLARE_SHARED(QTextBlockFormat)
 
 inline void QTextBlockFormat::setAlignment(Qt::Alignment aalignment)
-{ setProperty(BlockAlignment, int(aalignment)); }
+{
+    setProperty(BlockAlignment, int(aalignment));
+}
 
 inline void QTextBlockFormat::setIndent(int aindent)
-{ setProperty(BlockIndent, aindent); }
+{
+    setProperty(BlockIndent, aindent);
+}
 
 inline qreal QTextBlockFormat::lineHeight(qreal scriptLineHeight, qreal scaling = 1.0) const
 {
-  switch(intProperty(LineHeightType)) {
-    case SingleHeight:
-      return(scriptLineHeight);
-    case ProportionalHeight:
-      return(scriptLineHeight * doubleProperty(LineHeight) / 100.0);
-    case FixedHeight:
-      return(doubleProperty(LineHeight) * scaling);
-    case MinimumHeight:
-      return(qMax(scriptLineHeight, doubleProperty(LineHeight) * scaling));
-    case LineDistanceHeight:
-      return(scriptLineHeight + doubleProperty(LineHeight) * scaling);
-  }
-  return(0);
+    switch (intProperty(LineHeightType))
+    {
+        case SingleHeight:
+            return(scriptLineHeight);
+
+        case ProportionalHeight:
+            return(scriptLineHeight * doubleProperty(LineHeight) / 100.0);
+
+        case FixedHeight:
+            return(doubleProperty(LineHeight) * scaling);
+
+        case MinimumHeight:
+            return(qMax(scriptLineHeight, doubleProperty(LineHeight) * scaling));
+
+        case LineDistanceHeight:
+            return(scriptLineHeight + doubleProperty(LineHeight) * scaling);
+    }
+
+    return(0);
 }
 
-class Q_GUI_EXPORT QTextListFormat : public QTextFormat
+class Q_GUI_EXPORT    QTextListFormat : public QTextFormat
 {
 public:
     QTextListFormat();
 
-    bool isValid() const { return isListFormat(); }
+    bool isValid() const
+    {
+        return isListFormat();
+    }
 
-    enum Style {
-        ListDisc = -1,
-        ListCircle = -2,
-        ListSquare = -3,
-        ListDecimal = -4,
-        ListLowerAlpha = -5,
-        ListUpperAlpha = -6,
-        ListLowerRoman = -7,
-        ListUpperRoman = -8,
-        ListStyleUndefined = 0
+    enum Style
+    {
+        ListDisc            = -1,
+        ListCircle          = -2,
+        ListSquare          = -3,
+        ListDecimal         = -4,
+        ListLowerAlpha      = -5,
+        ListUpperAlpha      = -6,
+        ListLowerRoman      = -7,
+        ListUpperRoman      = -8,
+        ListStyleUndefined  = 0
     };
 
     inline void setStyle(Style style);
     inline Style style() const
-    { return static_cast<Style>(intProperty(ListStyle)); }
+    {
+        return static_cast<Style>(intProperty(ListStyle));
+    }
 
     inline void setIndent(int indent);
     inline int indent() const
-    { return intProperty(ListIndent); }
+    {
+        return intProperty(ListIndent);
+    }
 
     inline void setNumberPrefix(const QString &numberPrefix);
     inline QString numberPrefix() const
-    { return stringProperty(ListNumberPrefix); }
+    {
+        return stringProperty(ListNumberPrefix);
+    }
 
     inline void setNumberSuffix(const QString &numberSuffix);
     inline QString numberSuffix() const
-    { return stringProperty(ListNumberSuffix); }
+    {
+        return stringProperty(ListNumberSuffix);
+    }
 
 protected:
     explicit QTextListFormat(const QTextFormat &fmt);
@@ -718,35 +961,52 @@ protected:
 Q_DECLARE_SHARED(QTextListFormat)
 
 inline void QTextListFormat::setStyle(Style astyle)
-{ setProperty(ListStyle, astyle); }
+{
+    setProperty(ListStyle, astyle);
+}
 
 inline void QTextListFormat::setIndent(int aindent)
-{ setProperty(ListIndent, aindent); }
+{
+    setProperty(ListIndent, aindent);
+}
 
 inline void QTextListFormat::setNumberPrefix(const QString &np)
-{ setProperty(ListNumberPrefix, np); }
+{
+    setProperty(ListNumberPrefix, np);
+}
 
 inline void QTextListFormat::setNumberSuffix(const QString &ns)
-{ setProperty(ListNumberSuffix, ns); }
+{
+    setProperty(ListNumberSuffix, ns);
+}
 
-class Q_GUI_EXPORT QTextImageFormat : public QTextCharFormat
+class Q_GUI_EXPORT    QTextImageFormat : public QTextCharFormat
 {
 public:
     QTextImageFormat();
 
-    bool isValid() const { return isImageFormat(); }
+    bool isValid() const
+    {
+        return isImageFormat();
+    }
 
     inline void setName(const QString &name);
     inline QString name() const
-    { return stringProperty(ImageName); }
+    {
+        return stringProperty(ImageName);
+    }
 
     inline void setWidth(qreal width);
     inline qreal width() const
-    { return doubleProperty(ImageWidth); }
+    {
+        return doubleProperty(ImageWidth);
+    }
 
     inline void setHeight(qreal height);
     inline qreal height() const
-    { return doubleProperty(ImageHeight); }
+    {
+        return doubleProperty(ImageHeight);
+    }
 
 protected:
     explicit QTextImageFormat(const QTextFormat &format);
@@ -756,22 +1016,32 @@ protected:
 Q_DECLARE_SHARED(QTextImageFormat)
 
 inline void QTextImageFormat::setName(const QString &aname)
-{ setProperty(ImageName, aname); }
+{
+    setProperty(ImageName, aname);
+}
 
 inline void QTextImageFormat::setWidth(qreal awidth)
-{ setProperty(ImageWidth, awidth); }
+{
+    setProperty(ImageWidth, awidth);
+}
 
 inline void QTextImageFormat::setHeight(qreal aheight)
-{ setProperty(ImageHeight, aheight); }
+{
+    setProperty(ImageHeight, aheight);
+}
 
-class Q_GUI_EXPORT QTextFrameFormat : public QTextFormat
+class Q_GUI_EXPORT    QTextFrameFormat : public QTextFormat
 {
 public:
     QTextFrameFormat();
 
-    bool isValid() const { return isFrameFormat(); }
+    bool isValid() const
+    {
+        return isFrameFormat();
+    }
 
-    enum Position {
+    enum Position
+    {
         InFlow,
         FloatLeft,
         FloatRight
@@ -779,7 +1049,8 @@ public:
 //        Absolute
     };
 
-    enum BorderStyle {
+    enum BorderStyle
+    {
         BorderStyle_None,
         BorderStyle_Dotted,
         BorderStyle_Dashed,
@@ -794,27 +1065,43 @@ public:
     };
 
     inline void setPosition(Position f)
-    { setProperty(CssFloat, f); }
+    {
+        setProperty(CssFloat, f);
+    }
     inline Position position() const
-    { return static_cast<Position>(intProperty(CssFloat)); }
+    {
+        return static_cast<Position>(intProperty(CssFloat));
+    }
 
     inline void setBorder(qreal border);
     inline qreal border() const
-    { return doubleProperty(FrameBorder); }
+    {
+        return doubleProperty(FrameBorder);
+    }
 
     inline void setBorderBrush(const QBrush &brush)
-    { setProperty(FrameBorderBrush, brush); }
+    {
+        setProperty(FrameBorderBrush, brush);
+    }
     inline QBrush borderBrush() const
-    { return brushProperty(FrameBorderBrush); }
+    {
+        return brushProperty(FrameBorderBrush);
+    }
 
     inline void setBorderStyle(BorderStyle style)
-    { setProperty(FrameBorderStyle, style); }
+    {
+        setProperty(FrameBorderStyle, style);
+    }
     inline BorderStyle borderStyle() const
-    { return static_cast<BorderStyle>(intProperty(FrameBorderStyle)); }
+    {
+        return static_cast<BorderStyle>(intProperty(FrameBorderStyle));
+    }
 
     void setMargin(qreal margin);
     inline qreal margin() const
-    { return doubleProperty(FrameMargin); }
+    {
+        return doubleProperty(FrameMargin);
+    }
 
     inline void setTopMargin(qreal margin);
     qreal topMargin() const;
@@ -830,23 +1117,35 @@ public:
 
     inline void setPadding(qreal padding);
     inline qreal padding() const
-    { return doubleProperty(FramePadding); }
+    {
+        return doubleProperty(FramePadding);
+    }
 
     inline void setWidth(qreal width);
     inline void setWidth(const QTextLength &length)
-    { setProperty(FrameWidth, length); }
+    {
+        setProperty(FrameWidth, length);
+    }
     inline QTextLength width() const
-    { return lengthProperty(FrameWidth); }
+    {
+        return lengthProperty(FrameWidth);
+    }
 
     inline void setHeight(qreal height);
     inline void setHeight(const QTextLength &height);
     inline QTextLength height() const
-    { return lengthProperty(FrameHeight); }
+    {
+        return lengthProperty(FrameHeight);
+    }
 
     inline void setPageBreakPolicy(PageBreakFlags flags)
-    { setProperty(PageBreakPolicy, int(flags)); }
+    {
+        setProperty(PageBreakPolicy, int(flags));
+    }
     inline PageBreakFlags pageBreakPolicy() const
-    { return PageBreakFlags(intProperty(PageBreakPolicy)); }
+    {
+        return PageBreakFlags(intProperty(PageBreakPolicy));
+    }
 
 protected:
     explicit QTextFrameFormat(const QTextFormat &fmt);
@@ -856,68 +1155,112 @@ protected:
 Q_DECLARE_SHARED(QTextFrameFormat)
 
 inline void QTextFrameFormat::setBorder(qreal aborder)
-{ setProperty(FrameBorder, aborder); }
+{
+    setProperty(FrameBorder, aborder);
+}
 
 inline void QTextFrameFormat::setPadding(qreal apadding)
-{ setProperty(FramePadding, apadding); }
+{
+    setProperty(FramePadding, apadding);
+}
 
 inline void QTextFrameFormat::setWidth(qreal awidth)
-{ setProperty(FrameWidth, QTextLength(QTextLength::FixedLength, awidth)); }
+{
+    setProperty(FrameWidth, QTextLength(QTextLength::FixedLength, awidth));
+}
 
 inline void QTextFrameFormat::setHeight(qreal aheight)
-{ setProperty(FrameHeight, QTextLength(QTextLength::FixedLength, aheight)); }
+{
+    setProperty(FrameHeight, QTextLength(QTextLength::FixedLength, aheight));
+}
 inline void QTextFrameFormat::setHeight(const QTextLength &aheight)
-{ setProperty(FrameHeight, aheight); }
+{
+    setProperty(FrameHeight, aheight);
+}
 
 inline void QTextFrameFormat::setTopMargin(qreal amargin)
-{ setProperty(FrameTopMargin, amargin); }
+{
+    setProperty(FrameTopMargin, amargin);
+}
 
 inline void QTextFrameFormat::setBottomMargin(qreal amargin)
-{ setProperty(FrameBottomMargin, amargin); }
+{
+    setProperty(FrameBottomMargin, amargin);
+}
 
 inline void QTextFrameFormat::setLeftMargin(qreal amargin)
-{ setProperty(FrameLeftMargin, amargin); }
+{
+    setProperty(FrameLeftMargin, amargin);
+}
 
 inline void QTextFrameFormat::setRightMargin(qreal amargin)
-{ setProperty(FrameRightMargin, amargin); }
+{
+    setProperty(FrameRightMargin, amargin);
+}
 
-class Q_GUI_EXPORT QTextTableFormat : public QTextFrameFormat
+class Q_GUI_EXPORT    QTextTableFormat : public QTextFrameFormat
 {
 public:
     QTextTableFormat();
 
-    inline bool isValid() const { return isTableFormat(); }
+    inline bool isValid() const
+    {
+        return isTableFormat();
+    }
 
     inline int columns() const
-    { int cols = intProperty(TableColumns); if (cols == 0) cols = 1; return cols; }
+    {
+        int    cols = intProperty(TableColumns); if (cols == 0)
+            cols = 1;
+
+        return cols;
+    }
     inline void setColumns(int columns);
 
     inline void setColumnWidthConstraints(const QVector<QTextLength> &constraints)
-    { setProperty(TableColumnWidthConstraints, constraints); }
+    {
+        setProperty(TableColumnWidthConstraints, constraints);
+    }
 
     inline QVector<QTextLength> columnWidthConstraints() const
-    { return lengthVectorProperty(TableColumnWidthConstraints); }
+    {
+        return lengthVectorProperty(TableColumnWidthConstraints);
+    }
 
     inline void clearColumnWidthConstraints()
-    { clearProperty(TableColumnWidthConstraints); }
+    {
+        clearProperty(TableColumnWidthConstraints);
+    }
 
     inline qreal cellSpacing() const
-    { return doubleProperty(TableCellSpacing); }
+    {
+        return doubleProperty(TableCellSpacing);
+    }
     inline void setCellSpacing(qreal spacing)
-    { setProperty(TableCellSpacing, spacing); }
+    {
+        setProperty(TableCellSpacing, spacing);
+    }
 
     inline qreal cellPadding() const
-    { return doubleProperty(TableCellPadding); }
+    {
+        return doubleProperty(TableCellPadding);
+    }
     inline void setCellPadding(qreal padding);
 
     inline void setAlignment(Qt::Alignment alignment);
     inline Qt::Alignment alignment() const
-    { return QFlag(intProperty(BlockAlignment)); }
+    {
+        return QFlag(intProperty(BlockAlignment));
+    }
 
     inline void setHeaderRowCount(int count)
-    { setProperty(TableHeaderRowCount, count); }
+    {
+        setProperty(TableHeaderRowCount, count);
+    }
     inline int headerRowCount() const
-    { return intProperty(TableHeaderRowCount); }
+    {
+        return intProperty(TableHeaderRowCount);
+    }
 
 protected:
     explicit QTextTableFormat(const QTextFormat &fmt);
@@ -930,21 +1273,29 @@ inline void QTextTableFormat::setColumns(int acolumns)
 {
     if (acolumns == 1)
         acolumns = 0;
+
     setProperty(TableColumns, acolumns);
 }
 
 inline void QTextTableFormat::setCellPadding(qreal apadding)
-{ setProperty(TableCellPadding, apadding); }
+{
+    setProperty(TableCellPadding, apadding);
+}
 
 inline void QTextTableFormat::setAlignment(Qt::Alignment aalignment)
-{ setProperty(BlockAlignment, int(aalignment)); }
+{
+    setProperty(BlockAlignment, int(aalignment));
+}
 
-class Q_GUI_EXPORT QTextTableCellFormat : public QTextCharFormat
+class Q_GUI_EXPORT    QTextTableCellFormat : public QTextCharFormat
 {
 public:
     QTextTableCellFormat();
 
-    inline bool isValid() const { return isTableCellFormat(); }
+    inline bool isValid() const
+    {
+        return isTableCellFormat();
+    }
 
     inline void setTopPadding(qreal padding);
     inline qreal topPadding() const;

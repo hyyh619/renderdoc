@@ -53,18 +53,24 @@ QT_BEGIN_NAMESPACE
 
 class QSslCertificateExtensionPrivate;
 
-class Q_NETWORK_EXPORT QSslCertificateExtension
+class Q_NETWORK_EXPORT    QSslCertificateExtension
 {
 public:
     QSslCertificateExtension();
     QSslCertificateExtension(const QSslCertificateExtension &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslCertificateExtension &operator=(QSslCertificateExtension &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslCertificateExtension&operator=(QSslCertificateExtension &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslCertificateExtension &operator=(const QSslCertificateExtension &other);
+    QSslCertificateExtension&operator=(const QSslCertificateExtension &other);
     ~QSslCertificateExtension();
 
-    void swap(QSslCertificateExtension &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QSslCertificateExtension &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     QString oid() const;
     QString name() const;
@@ -75,16 +81,13 @@ public:
 
 private:
     friend class QSslCertificatePrivate;
-    QSharedDataPointer<QSslCertificateExtensionPrivate> d;
+    QSharedDataPointer<QSslCertificateExtensionPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QSslCertificateExtension)
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE
 
 
 #endif // QSSLCERTIFICATEEXTENSION_H
-
-

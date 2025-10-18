@@ -58,22 +58,24 @@ QT_REQUIRE_CONFIG(qeventtransition);
 QT_BEGIN_NAMESPACE
 
 class QEventTransition;
-class Q_CORE_EXPORT QEventTransitionPrivate : public QAbstractTransitionPrivate
+class Q_CORE_EXPORT    QEventTransitionPrivate : public QAbstractTransitionPrivate
 {
     Q_DECLARE_PUBLIC(QEventTransition)
 public:
     QEventTransitionPrivate();
     ~QEventTransitionPrivate();
 
-    static QEventTransitionPrivate *get(QEventTransition *q)
-    { return q->d_func(); }
+    static QEventTransitionPrivate* get(QEventTransition *q)
+    {
+        return q->d_func();
+    }
 
     void unregister();
     void maybeRegister();
 
-    QObject *object;
-    bool registered;
-    QEvent::Type eventType;
+    QObject         *object;
+    bool            registered;
+    QEvent::Type    eventType;
 };
 
 QT_END_NAMESPACE

@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QLockFilePrivate;
 
-class Q_CORE_EXPORT QLockFile
+class Q_CORE_EXPORT    QLockFile
 {
 public:
     QLockFile(const QString &fileName);
@@ -64,16 +64,17 @@ public:
     bool getLockInfo(qint64 *pid, QString *hostname, QString *appname) const;
     bool removeStaleLockFile();
 
-    enum LockError {
-        NoError = 0,
+    enum LockError
+    {
+        NoError         = 0,
         LockFailedError = 1,
         PermissionError = 2,
-        UnknownError = 3
+        UnknownError    = 3
     };
     LockError error() const;
 
 protected:
-    QScopedPointer<QLockFilePrivate> d_ptr;
+    QScopedPointer<QLockFilePrivate>    d_ptr;
 
 private:
     Q_DECLARE_PRIVATE(QLockFile)

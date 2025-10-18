@@ -68,12 +68,12 @@ class QPainter;
 class QByteArray;
 class QSvgFont;
 
-class Q_SVG_PRIVATE_EXPORT QSvgTinyDocument : public QSvgStructureNode
+class Q_SVG_PRIVATE_EXPORT    QSvgTinyDocument : public QSvgStructureNode
 {
 public:
-    static QSvgTinyDocument * load(const QString &file);
-    static QSvgTinyDocument * load(const QByteArray &contents);
-    static QSvgTinyDocument * load(QXmlStreamReader *contents);
+    static QSvgTinyDocument* load(const QString &file);
+    static QSvgTinyDocument* load(const QByteArray &contents);
+    static QSvgTinyDocument* load(QXmlStreamReader *contents);
 public:
     QSvgTinyDocument();
     ~QSvgTinyDocument();
@@ -92,23 +92,23 @@ public:
     QRectF viewBox() const;
     void setViewBox(const QRectF &rect);
 
-    void draw(QPainter *p, QSvgExtraStates &) override; //from the QSvgNode
+    void draw(QPainter *p, QSvgExtraStates&) override;  // from the QSvgNode
 
     void draw(QPainter *p);
     void draw(QPainter *p, const QRectF &bounds);
     void draw(QPainter *p, const QString &id,
-              const QRectF &bounds=QRectF());
+              const QRectF &bounds= QRectF());
 
     QMatrix matrixForElement(const QString &id) const;
     QRectF boundsOnElement(const QString &id) const;
     bool   elementExists(const QString &id) const;
 
-    void addSvgFont(QSvgFont *);
-    QSvgFont *svgFont(const QString &family) const;
+    void addSvgFont(QSvgFont*);
+    QSvgFont* svgFont(const QString &family) const;
     void addNamedNode(const QString &id, QSvgNode *node);
-    QSvgNode *namedNode(const QString &id) const;
+    QSvgNode* namedNode(const QString &id) const;
     void addNamedStyle(const QString &id, QSvgFillStyleProperty *style);
-    QSvgFillStyleProperty *namedStyle(const QString &id) const;
+    QSvgFillStyleProperty* namedStyle(const QString &id) const;
 
     void restartAnimation();
     int currentElapsed() const;
@@ -121,29 +121,32 @@ public:
 private:
     void mapSourceToTarget(QPainter *p, const QRectF &targetRect, const QRectF &sourceRect = QRectF());
 private:
-    QSize  m_size;
-    bool   m_widthPercent;
-    bool   m_heightPercent;
+    QSize       m_size;
+    bool        m_widthPercent;
+    bool        m_heightPercent;
 
-    mutable QRectF m_viewBox;
+    mutable QRectF    m_viewBox;
 
-    QHash<QString, QSvgRefCounter<QSvgFont> > m_fonts;
-    QHash<QString, QSvgNode *> m_namedNodes;
-    QHash<QString, QSvgRefCounter<QSvgFillStyleProperty> > m_namedStyles;
+    QHash<QString, QSvgRefCounter<QSvgFont> >                   m_fonts;
+    QHash<QString, QSvgNode*>                                   m_namedNodes;
+    QHash<QString, QSvgRefCounter<QSvgFillStyleProperty> >      m_namedStyles;
 
-    QTime m_time;
-    bool  m_animated;
-    int   m_animationDuration;
-    int   m_fps;
+    QTime       m_time;
+    bool        m_animated;
+    int         m_animationDuration;
+    int         m_fps;
 
-    QSvgExtraStates m_states;
+    QSvgExtraStates    m_states;
 };
 
 inline QSize QSvgTinyDocument::size() const
 {
-    if (m_size.isEmpty()) {
+    if (m_size.isEmpty())
+    {
         return viewBox().size().toSize();
-    } else {
+    }
+    else
+    {
         return m_size;
     }
 }

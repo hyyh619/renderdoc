@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "3rdparty/fmt/core.h"
 #include "d3d11_test.h"
 
 RD_TEST(D3D11_Workgroup_Zoo, D3D11GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test of behaviour around workgroup operations in shaders.";
+    static constexpr const char    *Description =
+        "Test of behaviour around workgroup operations in shaders.";
 
-  const std::string common = R"EOSHADER(
+    const std::string    common = R"EOSHADER(
 
 cbuffer rootconsts : register(b0)
 {
@@ -44,7 +44,7 @@ uint GetTest() { return root_test; }
 
 )EOSHADER";
 
-  const std::string compCommon = common + R"EOSHADER(
+    const std::string    compCommon = common + R"EOSHADER(
 
 RWStructuredBuffer<float4> outbuf : register(u0);
 
@@ -68,7 +68,7 @@ void Init(float4 val)
 
 )EOSHADER";
 
-  const std::string testShader = compCommon + R"EOSHADER(
+    const std::string    testShader = compCommon + R"EOSHADER(
 
 [numthreads(GROUP_SIZE_X, GROUP_SIZE_Y, 1)]
 void main(uint3 inGTid : SV_GroupThreadID)
@@ -89,7 +89,7 @@ void main(uint3 inGTid : SV_GroupThreadID)
 
 )EOSHADER";
 
-  const std::string perfShader = compCommon + R"EOSHADER(
+    const std::string    perfShader = compCommon + R"EOSHADER(
 
 [numthreads(GROUP_SIZE_X, GROUP_SIZE_Y, GROUP_SIZE_Z)]
 void main(uint3 inGTid : SV_GroupThreadID)
@@ -151,122 +151,133 @@ void main(uint3 inGTid : SV_GroupThreadID)
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3D11BufferPtr outBuf = MakeBuffer().Size(sizeof(Vec4f) * 1024).UAV().Structured(sizeof(Vec4f));
-    ID3D11UnorderedAccessViewPtr outUAV = MakeUAV(outBuf);
-
-    int cbufferdata[4];
-    memset(cbufferdata, 0, sizeof(cbufferdata));
-    ID3D11BufferPtr cb = MakeBuffer().Size(16).Constant().Data(&cbufferdata);
-
-    int32_t countCompTests = 0;
-    size_t pos = 0;
-    while(pos != std::string::npos)
+    int main()
     {
-      pos = testShader.find("IsTest(", pos);
-      if(pos == std::string::npos)
-        break;
-      pos += sizeof("IsTest(") - 1;
-      countCompTests = std::max(countCompTests, atoi(testShader.c_str() + pos) + 1);
-    }
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-    const int32_t countPerfTests = 8;
+        ID3D11BufferPtr                 outBuf  = MakeBuffer().Size(sizeof(Vec4f) * 1024).UAV().Structured(sizeof(Vec4f));
+        ID3D11UnorderedAccessViewPtr    outUAV  = MakeUAV(outBuf);
 
-    struct CompSize
-    {
-      int x, y, z;
-    };
-    CompSize compsizes[] = {
-        {70, 1, 1},
-    };
-    std::string comppipe_name[ARRAY_COUNT(compsizes)];
-    ID3D11ComputeShaderPtr testShaders[ARRAY_COUNT(compsizes)];
-    ID3D11ComputeShaderPtr perfShaders[ARRAY_COUNT(compsizes)];
+        int    cbufferdata[4];
+        memset(cbufferdata, 0, sizeof(cbufferdata));
+        ID3D11BufferPtr    cb = MakeBuffer().Size(16).Constant().Data(&cbufferdata);
 
-    std::string defines;
+        int32_t     countCompTests  = 0;
+        size_t      pos             = 0;
 
-    for(int i = 0; i < ARRAY_COUNT(compsizes); i++)
-    {
-      std::string sizedefine;
-      sizedefine =
-          fmt::format("#define GROUP_SIZE_X {}\n#define GROUP_SIZE_Y {}\n#define GROUP_SIZE_Z {}",
-                      compsizes[i].x, compsizes[i].y, compsizes[i].z);
-      comppipe_name[i] = fmt::format("{}x{}x{}", compsizes[i].x, compsizes[i].y, compsizes[i].z);
-
-      testShaders[i] = CreateCS(Compile(defines + sizedefine + testShader, "main", "cs_5_0", true));
-      perfShaders[i] = CreateCS(Compile(defines + sizedefine + perfShader, "main", "cs_5_0", true));
-    }
-
-    while(Running())
-    {
-      ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
-
-      pushMarker("Compute Tests");
-      for(size_t p = 0; p < ARRAY_COUNT(compsizes); p++)
-      {
-        pushMarker(comppipe_name[p]);
-        ctx->CSSetShader(testShaders[p], NULL, 0);
-        ctx->CSSetUnorderedAccessViews(0, 1, &outUAV.GetInterfacePtr(), NULL);
-
-        for(int i = 0; i < countCompTests; ++i)
+        while (pos != std::string::npos)
         {
-          ClearUnorderedAccessView(outUAV, Vec4u());
-          ctx->UpdateSubresource(cb, 0, NULL, &i, 8, 0);
-          ctx->CSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
-          ctx->Dispatch(2, 1, 1);
-          popMarker();
+            pos = testShader.find("IsTest(", pos);
+            if (pos == std::string::npos)
+                break;
+
+            pos             += sizeof("IsTest(") - 1;
+            countCompTests  = std::max(countCompTests, atoi(testShader.c_str() + pos) + 1);
         }
-        popMarker();
-      }
 
-      pushMarker("Perf Tests");
-      for(size_t p = 0; p < ARRAY_COUNT(compsizes); p++)
-      {
-        pushMarker(comppipe_name[p]);
-        ctx->CSSetShader(perfShaders[p], NULL, 0);
-        ctx->CSSetUnorderedAccessViews(0, 1, &outUAV.GetInterfacePtr(), NULL);
+        const int32_t    countPerfTests = 8;
 
-        for(int i = 0; i < countPerfTests; ++i)
+        struct CompSize
         {
-          cbufferdata[0] = i;
-          cbufferdata[1] = 2;
+            int x, y, z;
+        };
+        CompSize    compsizes[] =
+        {
+            {70, 1, 1},
+        };
+        std::string                 comppipe_name[ARRAY_COUNT(compsizes)];
+        ID3D11ComputeShaderPtr      testShaders[ARRAY_COUNT(compsizes)];
+        ID3D11ComputeShaderPtr      perfShaders[ARRAY_COUNT(compsizes)];
 
-          bool useCpu = (i & 0x1);
-          int count = 0;
-          {
-            int temp = i >> 1;
-            if(temp == 0)
-              count = 100U;
-            if(temp == 1)
-              count = 200U;
-            if(temp == 2)
-              count = 400U;
-            if(temp == 3)
-              count = 5000U;
-          }
-          std::string perfTestName =
-              fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
-          pushMarker(perfTestName);
-          ClearUnorderedAccessView(outUAV, Vec4u());
-          ctx->UpdateSubresource(cb, 0, NULL, cbufferdata, 8, 0);
-          ctx->CSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
-          ctx->Dispatch(2, 1, 1);
-          popMarker();
+        std::string    defines;
+
+        for (int i = 0; i < ARRAY_COUNT(compsizes); i++)
+        {
+            std::string    sizedefine;
+            sizedefine =
+                fmt::format("#define GROUP_SIZE_X {}\n#define GROUP_SIZE_Y {}\n#define GROUP_SIZE_Z {}",
+                            compsizes[i].x, compsizes[i].y, compsizes[i].z);
+            comppipe_name[i] = fmt::format("{}x{}x{}", compsizes[i].x, compsizes[i].y, compsizes[i].z);
+
+            testShaders[i]  = CreateCS(Compile(defines + sizedefine + testShader, "main", "cs_5_0", true));
+            perfShaders[i]  = CreateCS(Compile(defines + sizedefine + perfShader, "main", "cs_5_0", true));
         }
-        popMarker();
-      }
-      popMarker();
 
-      Present();
+        while (Running())
+        {
+            ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            pushMarker("Compute Tests");
+
+            for (size_t p = 0; p < ARRAY_COUNT(compsizes); p++)
+            {
+                pushMarker(comppipe_name[p]);
+                ctx->CSSetShader(testShaders[p], NULL, 0);
+                ctx->CSSetUnorderedAccessViews(0, 1, &outUAV.GetInterfacePtr(), NULL);
+
+                for (int i = 0; i < countCompTests; ++i)
+                {
+                    ClearUnorderedAccessView(outUAV, Vec4u());
+                    ctx->UpdateSubresource(cb, 0, NULL, &i, 8, 0);
+                    ctx->CSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
+                    ctx->Dispatch(2, 1, 1);
+                    popMarker();
+                }
+
+                popMarker();
+            }
+
+            pushMarker("Perf Tests");
+
+            for (size_t p = 0; p < ARRAY_COUNT(compsizes); p++)
+            {
+                pushMarker(comppipe_name[p]);
+                ctx->CSSetShader(perfShaders[p], NULL, 0);
+                ctx->CSSetUnorderedAccessViews(0, 1, &outUAV.GetInterfacePtr(), NULL);
+
+                for (int i = 0; i < countPerfTests; ++i)
+                {
+                    cbufferdata[0]  = i;
+                    cbufferdata[1]  = 2;
+
+                    bool    useCpu  = (i & 0x1);
+                    int     count   = 0;
+                    {
+                        int    temp = i >> 1;
+                        if (temp == 0)
+                            count = 100U;
+
+                        if (temp == 1)
+                            count = 200U;
+
+                        if (temp == 2)
+                            count = 400U;
+
+                        if (temp == 3)
+                            count = 5000U;
+                    }
+                    std::string    perfTestName =
+                        fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
+                    pushMarker(perfTestName);
+                    ClearUnorderedAccessView(outUAV, Vec4u());
+                    ctx->UpdateSubresource(cb, 0, NULL, cbufferdata, 8, 0);
+                    ctx->CSSetConstantBuffers(0, 1, &cb.GetInterfacePtr());
+                    ctx->Dispatch(2, 1, 1);
+                    popMarker();
+                }
+
+                popMarker();
+            }
+
+            popMarker();
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -53,11 +53,11 @@ class QBrush;
 class QPen;
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QPen &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QPen &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QPen&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QPen&);
 #endif
 
-class Q_GUI_EXPORT QPen
+class Q_GUI_EXPORT    QPen
 {
 public:
     QPen();
@@ -69,14 +69,22 @@ public:
 
     ~QPen();
 
-    QPen &operator=(const QPen &pen) Q_DECL_NOTHROW;
+    QPen&operator=(const QPen &pen) Q_DECL_NOTHROW;
 #ifdef Q_COMPILER_RVALUE_REFS
     QPen(QPen &&other) Q_DECL_NOTHROW
-        : d(other.d) { other.d = Q_NULLPTR; }
-    QPen &operator=(QPen &&other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); return *this; }
+        : d(other.d)
+    {
+        other.d = Q_NULLPTR;
+    }
+    QPen&operator=(QPen &&other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d); return *this;
+    }
 #endif
-    void swap(QPen &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QPen &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     Qt::PenStyle style() const;
     void setStyle(Qt::PenStyle);
@@ -114,26 +122,32 @@ public:
     void setCosmetic(bool cosmetic);
 
     bool operator==(const QPen &p) const;
-    inline bool operator!=(const QPen &p) const { return !(operator==(p)); }
+    inline bool operator!=(const QPen &p) const
+    {
+        return !(operator==(p));
+    }
     operator QVariant() const;
 
     bool isDetached();
 private:
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QPen &);
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QPen &);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QPen&);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QPen&);
 
     void detach();
-    class QPenPrivate *d;
+    class QPenPrivate    *d;
 
 public:
-    typedef QPenPrivate * DataPtr;
-    inline DataPtr &data_ptr() { return d; }
+    typedef QPenPrivate*DataPtr;
+    inline DataPtr    &data_ptr()
+    {
+        return d;
+    }
 };
 
 Q_DECLARE_SHARED(QPen)
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QPen &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QPen&);
 #endif
 
 QT_END_NAMESPACE

@@ -58,9 +58,9 @@ QT_BEGIN_NAMESPACE
 #ifdef __ARM_NEON__
 
 void qt_blend_argb32_on_argb32_neon(uchar *destPixels, int dbpl,
-                                            const uchar *srcPixels, int sbpl,
-                                            int w, int h,
-                                            int const_alpha);
+                                    const uchar *srcPixels, int sbpl,
+                                    int w, int h,
+                                    int const_alpha);
 
 void qt_blend_rgb32_on_rgb32_neon(uchar *destPixels, int dbpl,
                                   const uchar *srcPixels, int sbpl,
@@ -127,9 +127,9 @@ void qt_memfill32_neon(quint32 *dest, quint32 value, int count);
 void qt_memrotate90_16_neon(const uchar *srcPixels, int w, int h, int sbpl, uchar *destPixels, int dbpl);
 void qt_memrotate270_16_neon(const uchar *srcPixels, int w, int h, int sbpl, uchar *destPixels, int dbpl);
 
-uint * QT_FASTCALL qt_destFetchRGB16_neon(uint *buffer,
-                                          QRasterBuffer *rasterBuffer,
-                                          int x, int y, int length);
+uint* QT_FASTCALL qt_destFetchRGB16_neon(uint *buffer,
+                                         QRasterBuffer *rasterBuffer,
+                                         int x, int y, int length);
 
 void QT_FASTCALL qt_destStoreRGB16_neon(QRasterBuffer *rasterBuffer,
                                         int x, int y, const uint *buffer, int length);
@@ -137,9 +137,8 @@ void QT_FASTCALL qt_destStoreRGB16_neon(QRasterBuffer *rasterBuffer,
 void QT_FASTCALL comp_func_solid_SourceOver_neon(uint *destPixels, int length, uint color, uint const_alpha);
 void QT_FASTCALL comp_func_Plus_neon(uint *dst, const uint *src, int length, uint const_alpha);
 
-const uint * QT_FASTCALL qt_fetchUntransformed_888_neon(uint *buffer, const Operator *, const QSpanData *data,
+const uint* QT_FASTCALL qt_fetchUntransformed_888_neon(uint *buffer, const Operator*, const QSpanData *data,
                                                        int y, int x, int length);
-
 #endif // __ARM_NEON__
 
 QT_END_NAMESPACE

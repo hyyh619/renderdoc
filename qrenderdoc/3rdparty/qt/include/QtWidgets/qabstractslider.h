@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractSliderPrivate;
 
-class Q_WIDGETS_EXPORT QAbstractSlider : public QWidget
+class Q_WIDGETS_EXPORT    QAbstractSlider : public QWidget
 {
     Q_OBJECT
 
@@ -99,7 +99,8 @@ public:
     void setInvertedControls(bool);
     bool invertedControls() const;
 
-    enum SliderAction {
+    enum SliderAction
+    {
         SliderNoAction,
         SliderSingleStepAdd,
         SliderSingleStepSub,
@@ -136,7 +137,8 @@ protected:
     void setRepeatAction(SliderAction action, int thresholdTime = 500, int repeatTime = 50);
     SliderAction repeatAction() const;
 
-    enum SliderChange {
+    enum SliderChange
+    {
         SliderRangeChange,
         SliderOrientationChange,
         SliderStepsChange,
@@ -145,7 +147,7 @@ protected:
     virtual void sliderChange(SliderChange change);
 
     void keyPressEvent(QKeyEvent *ev) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent*) Q_DECL_OVERRIDE;
 #if QT_CONFIG(wheelevent)
     void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 #endif

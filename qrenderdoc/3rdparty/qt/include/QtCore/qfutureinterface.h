@@ -51,23 +51,24 @@
 QT_BEGIN_NAMESPACE
 
 
-template <typename T> class QFuture;
+template<typename T> class QFuture;
 class QThreadPool;
 class QFutureInterfaceBasePrivate;
 class QFutureWatcherBase;
 class QFutureWatcherBasePrivate;
 
-class Q_CORE_EXPORT QFutureInterfaceBase
+class Q_CORE_EXPORT    QFutureInterfaceBase
 {
 public:
-    enum State {
-        NoState   = 0x00,
-        Running   = 0x01,
-        Started   = 0x02,
-        Finished  = 0x04,
-        Canceled  = 0x08,
-        Paused    = 0x10,
-        Throttled = 0x20
+    enum State
+    {
+        NoState     = 0x00,
+        Running     = 0x01,
+        Started     = 0x02,
+        Finished    = 0x04,
+        Canceled    = 0x08,
+        Paused      = 0x10,
+        Throttled   = 0x20
     };
 
     QFutureInterfaceBase(State initialState = NoState);
@@ -118,14 +119,20 @@ public:
     void waitForResult(int resultIndex);
     void waitForResume();
 
-    QMutex *mutex() const;
-    QtPrivate::ExceptionStore &exceptionStore();
-    QtPrivate::ResultStoreBase &resultStoreBase();
-    const QtPrivate::ResultStoreBase &resultStoreBase() const;
+    QMutex* mutex() const;
+    QtPrivate::ExceptionStore&exceptionStore();
+    QtPrivate::ResultStoreBase&resultStoreBase();
+    const QtPrivate::ResultStoreBase&resultStoreBase() const;
 
-    inline bool operator==(const QFutureInterfaceBase &other) const { return d == other.d; }
-    inline bool operator!=(const QFutureInterfaceBase &other) const { return d != other.d; }
-    QFutureInterfaceBase &operator=(const QFutureInterfaceBase &other);
+    inline bool operator==(const QFutureInterfaceBase &other) const
+    {
+        return d == other.d;
+    }
+    inline bool operator!=(const QFutureInterfaceBase &other) const
+    {
+        return d != other.d;
+    }
+    QFutureInterfaceBase&operator=(const QFutureInterfaceBase &other);
 
 protected:
     bool refT() const;
@@ -135,14 +142,14 @@ public:
 #ifndef QFUTURE_TEST
 private:
 #endif
-    QFutureInterfaceBasePrivate *d;
+    QFutureInterfaceBasePrivate * d;
 
 private:
     friend class QFutureWatcherBase;
     friend class QFutureWatcherBasePrivate;
 };
 
-template <typename T>
+template<typename T>
 class QFutureInterface : public QFutureInterfaceBase
 {
 public:
@@ -163,13 +170,16 @@ public:
     }
 
     static QFutureInterface canceledResult()
-    { return QFutureInterface(State(Started | Finished | Canceled)); }
+    {
+        return QFutureInterface(State(Started | Finished | Canceled));
+    }
 
-    QFutureInterface &operator=(const QFutureInterface &other)
+    QFutureInterface&operator=(const QFutureInterface &other)
     {
         other.refT();
         if (!derefT())
             resultStoreBase().template clear<T>();
+
         QFutureInterfaceBase::operator=(other);
         return *this;
     }
@@ -181,93 +191,110 @@ public:
     inline void reportResults(const QVector<T> &results, int beginIndex = -1, int count = -1);
     inline void reportFinished(const T *result = 0);
 
-    inline const T &resultReference(int index) const;
-    inline const T *resultPointer(int index) const;
+    inline const T    &resultReference(int index) const;
+    inline const T* resultPointer(int index) const;
     inline QList<T> results();
 };
 
-template <typename T>
+template<typename T>
 inline void QFutureInterface<T>::reportResult(const T *result, int index)
 {
-    QMutexLocker locker(mutex());
-    if (this->queryState(Canceled) || this->queryState(Finished)) {
+    QMutexLocker    locker(mutex());
+
+    if (this->queryState(Canceled) || this->queryState(Finished))
+    {
         return;
     }
 
-    QtPrivate::ResultStoreBase &store = resultStoreBase();
+    QtPrivate::ResultStoreBase    &store = resultStoreBase();
 
-    if (store.filterMode()) {
-        const int resultCountBefore = store.count();
+    if (store.filterMode())
+    {
+        const int    resultCountBefore = store.count();
         store.addResult<T>(index, result);
         this->reportResultsReady(resultCountBefore, resultCountBefore + store.count());
-    } else {
-        const int insertIndex = store.addResult<T>(index, result);
+    }
+    else
+    {
+        const int    insertIndex = store.addResult<T>(index, result);
         this->reportResultsReady(insertIndex, insertIndex + 1);
     }
 }
 
-template <typename T>
+template<typename T>
 inline void QFutureInterface<T>::reportResult(const T &result, int index)
 {
     reportResult(&result, index);
 }
 
-template <typename T>
+template<typename T>
 inline void QFutureInterface<T>::reportResults(const QVector<T> &_results, int beginIndex, int count)
 {
-    QMutexLocker locker(mutex());
-    if (this->queryState(Canceled) || this->queryState(Finished)) {
+    QMutexLocker    locker(mutex());
+
+    if (this->queryState(Canceled) || this->queryState(Finished))
+    {
         return;
     }
 
-    auto &store = resultStoreBase();
+    auto    &store = resultStoreBase();
 
-    if (store.filterMode()) {
-        const int resultCountBefore = store.count();
+    if (store.filterMode())
+    {
+        const int    resultCountBefore = store.count();
         store.addResults(beginIndex, &_results, count);
         this->reportResultsReady(resultCountBefore, store.count());
-    } else {
-        const int insertIndex = store.addResults(beginIndex, &_results, count);
+    }
+    else
+    {
+        const int    insertIndex = store.addResults(beginIndex, &_results, count);
         this->reportResultsReady(insertIndex, insertIndex + _results.count());
     }
 }
 
-template <typename T>
+template<typename T>
 inline void QFutureInterface<T>::reportFinished(const T *result)
 {
     if (result)
         reportResult(result);
+
     QFutureInterfaceBase::reportFinished();
 }
 
-template <typename T>
-inline const T &QFutureInterface<T>::resultReference(int index) const
+template<typename T>
+inline const T    &QFutureInterface<T>::resultReference(int index) const
 {
-    QMutexLocker lock(mutex());
+    QMutexLocker    lock(mutex());
+
     return resultStoreBase().resultAt(index).template value<T>();
 }
 
-template <typename T>
-inline const T *QFutureInterface<T>::resultPointer(int index) const
+template<typename T>
+inline const T*QFutureInterface<T>::resultPointer(int index) const
 {
-    QMutexLocker lock(mutex());
+    QMutexLocker    lock(mutex());
+
     return resultStoreBase().resultAt(index).template pointer<T>();
 }
 
-template <typename T>
+template<typename T>
 inline QList<T> QFutureInterface<T>::results()
 {
-    if (this->isCanceled()) {
+    if (this->isCanceled())
+    {
         exceptionStore().throwPossibleException();
         return QList<T>();
     }
+
     QFutureInterfaceBase::waitForResult(-1);
 
-    QList<T> res;
-    QMutexLocker lock(mutex());
+    QList<T>        res;
+    QMutexLocker    lock(mutex());
 
-    QtPrivate::ResultIteratorBase it = resultStoreBase().begin();
-    while (it != resultStoreBase().end()) {
+    QtPrivate::ResultIteratorBase    it = resultStoreBase().begin();
+
+    while (it != resultStoreBase().end())
+    {
         res.append(it.value<T>());
         ++it;
     }
@@ -275,23 +302,28 @@ inline QList<T> QFutureInterface<T>::results()
     return res;
 }
 
-template <>
+template<>
 class QFutureInterface<void> : public QFutureInterfaceBase
 {
 public:
     explicit QFutureInterface<void>(State initialState = NoState)
-        : QFutureInterfaceBase(initialState)
+    : QFutureInterfaceBase(initialState)
     { }
 
     static QFutureInterface<void> canceledResult()
-    { return QFutureInterface(State(Started | Finished | Canceled)); }
+    {
+        return QFutureInterface(State(Started | Finished | Canceled));
+    }
 
 
     inline QFuture<void> future(); // implemented in qfuture.h
 
-    void reportResult(const void *, int) { }
-    void reportResults(const QVector<void> &, int) { }
-    void reportFinished(const void * = Q_NULLPTR) { QFutureInterfaceBase::reportFinished(); }
+    void reportResult(const void*, int) { }
+    void reportResults(const QVector<void>&, int) { }
+    void reportFinished(const void* = Q_NULLPTR)
+    {
+        QFutureInterfaceBase::reportFinished();
+    }
 };
 
 QT_END_NAMESPACE

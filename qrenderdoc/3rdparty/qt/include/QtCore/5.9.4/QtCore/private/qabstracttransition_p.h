@@ -66,27 +66,29 @@ class QState;
 class QStateMachine;
 
 class QAbstractTransition;
-class Q_CORE_EXPORT QAbstractTransitionPrivate
+class Q_CORE_EXPORT    QAbstractTransitionPrivate
     : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstractTransition)
 public:
     QAbstractTransitionPrivate();
 
-    static QAbstractTransitionPrivate *get(QAbstractTransition *q)
-    { return q->d_func(); }
+    static QAbstractTransitionPrivate* get(QAbstractTransition *q)
+    {
+        return q->d_func();
+    }
 
     bool callEventTest(QEvent *e);
     virtual void callOnTransition(QEvent *e);
-    QState *sourceState() const;
-    QStateMachine *machine() const;
+    QState* sourceState() const;
+    QStateMachine* machine() const;
     void emitTriggered();
 
-    QVector<QPointer<QAbstractState> > targetStates;
-    QAbstractTransition::TransitionType transitionType;
+    QVector<QPointer<QAbstractState> >      targetStates;
+    QAbstractTransition::TransitionType     transitionType;
 
 #ifndef QT_NO_ANIMATION
-    QList<QAbstractAnimation*> animations;
+    QList<QAbstractAnimation*>    animations;
 #endif
 };
 

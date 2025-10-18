@@ -50,30 +50,41 @@ QT_BEGIN_NAMESPACE
 class QNetworkDatagramPrivate;
 class QUdpSocketPrivate;
 
-class Q_NETWORK_EXPORT QNetworkDatagram
+class Q_NETWORK_EXPORT    QNetworkDatagram
 {
 public:
     QNetworkDatagram();
     QNetworkDatagram(const QByteArray &data, const QHostAddress &destinationAddress = QHostAddress(),
                      quint16 port = 0); // implicit
     QNetworkDatagram(const QNetworkDatagram &other);
-    QNetworkDatagram &operator=(const QNetworkDatagram &other);
+    QNetworkDatagram&operator=(const QNetworkDatagram &other);
     ~QNetworkDatagram()
-    { if (d) destroy(d); }
+    {
+        if (d)
+            destroy(d);
+    }
 
     QNetworkDatagram(QNetworkDatagram &&other) Q_DECL_NOTHROW
         : d(other.d)
-    { other.d = Q_NULLPTR; }
-    QNetworkDatagram &operator=(QNetworkDatagram &&other) Q_DECL_NOTHROW
-    { swap(other); return *this; }
+    {
+        other.d = Q_NULLPTR;
+    }
+    QNetworkDatagram&operator=(QNetworkDatagram &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 
     void swap(QNetworkDatagram &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     void clear();
     bool isValid() const;
     bool isNull() const
-    { return !isValid(); }
+    {
+        return !isValid();
+    }
 
     uint interfaceIndex() const;
     void setInterfaceIndex(uint index);
@@ -93,16 +104,22 @@ public:
 
 #ifdef Q_COMPILER_REF_QUALIFIERS
     QNetworkDatagram makeReply(const QByteArray &payload) const &
-    { return makeReply_helper(payload); }
+    {
+        return makeReply_helper(payload);
+    }
     QNetworkDatagram makeReply(const QByteArray &payload) &&
-    { makeReply_helper_inplace(payload); return *this; }
+    {
+        makeReply_helper_inplace(payload); return *this;
+    }
 #else
     QNetworkDatagram makeReply(const QByteArray &paylaod) const
-    { return makeReply_helper(paylaod); }
+    {
+        return makeReply_helper(paylaod);
+    }
 #endif
 
 private:
-    QNetworkDatagramPrivate *d;
+    QNetworkDatagramPrivate    *d;
     friend class QUdpSocket;
     friend class QSctpSocket;
 

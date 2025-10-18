@@ -46,13 +46,15 @@ QT_BEGIN_NAMESPACE
 
 class QDebug;
 
-namespace QJsonPrivate {
+namespace QJsonPrivate
+{
     class Parser;
 }
 
-struct Q_CORE_EXPORT QJsonParseError
+struct Q_CORE_EXPORT    QJsonParseError
 {
-    enum ParseError {
+    enum ParseError
+    {
         NoError = 0,
         UnterminatedObject,
         MissingNameSeparator,
@@ -72,11 +74,11 @@ struct Q_CORE_EXPORT QJsonParseError
 
     QString    errorString() const;
 
-    int        offset;
-    ParseError error;
+    int         offset;
+    ParseError  error;
 };
 
-class Q_CORE_EXPORT QJsonDocument
+class Q_CORE_EXPORT    QJsonDocument
 {
 public:
 #ifdef Q_LITTLE_ENDIAN
@@ -91,15 +93,16 @@ public:
     ~QJsonDocument();
 
     QJsonDocument(const QJsonDocument &other);
-    QJsonDocument &operator =(const QJsonDocument &other);
+    QJsonDocument&operator =(const QJsonDocument &other);
 
-    enum DataValidation {
+    enum DataValidation
+    {
         Validate,
         BypassValidation
     };
 
     static QJsonDocument fromRawData(const char *data, int size, DataValidation validation = Validate);
-    const char *rawData(int *size) const;
+    const char* rawData(int *size) const;
 
     static QJsonDocument fromBinaryData(const QByteArray &data, DataValidation validation  = Validate);
     QByteArray toBinaryData() const;
@@ -107,7 +110,8 @@ public:
     static QJsonDocument fromVariant(const QVariant &variant);
     QVariant toVariant() const;
 
-    enum JsonFormat {
+    enum JsonFormat
+    {
         Indented,
         Compact
     };
@@ -117,7 +121,7 @@ public:
 #ifdef Q_QDOC
     QByteArray toJson(JsonFormat format = Indented) const;
 #elif !defined(QT_JSON_READONLY)
-    QByteArray toJson() const; //### Merge in Qt6
+    QByteArray toJson() const; // ### Merge in Qt6
     QByteArray toJson(JsonFormat format) const;
 #endif
 
@@ -132,7 +136,10 @@ public:
     void setArray(const QJsonArray &array);
 
     bool operator==(const QJsonDocument &other) const;
-    bool operator!=(const QJsonDocument &other) const { return !(*this == other); }
+    bool operator!=(const QJsonDocument &other) const
+    {
+        return !(*this == other);
+    }
 
     bool isNull() const;
 
@@ -140,15 +147,15 @@ private:
     friend class QJsonValue;
     friend class QJsonPrivate::Data;
     friend class QJsonPrivate::Parser;
-    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QJsonDocument &);
+    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QJsonDocument&);
 
     QJsonDocument(QJsonPrivate::Data *data);
 
-    QJsonPrivate::Data *d;
+    QJsonPrivate::Data    *d;
 };
 
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_JSON_READONLY)
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QJsonDocument &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QJsonDocument&);
 #endif
 
 QT_END_NAMESPACE

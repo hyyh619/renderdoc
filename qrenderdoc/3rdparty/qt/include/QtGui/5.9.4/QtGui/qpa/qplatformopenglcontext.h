@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 
 class QPlatformOpenGLContextPrivate;
 
-class Q_GUI_EXPORT QPlatformOpenGLContext
+class Q_GUI_EXPORT    QPlatformOpenGLContext
 {
     Q_DECLARE_PRIVATE(QPlatformOpenGLContext)
 public:
@@ -79,21 +79,27 @@ public:
     virtual GLuint defaultFramebufferObject(QPlatformSurface *surface) const;
 
     virtual bool makeCurrent(QPlatformSurface *surface) = 0;
-    virtual void doneCurrent() = 0;
+    virtual void doneCurrent()                          = 0;
 
-    virtual bool isSharing() const { return false; }
-    virtual bool isValid() const { return true; }
+    virtual bool isSharing() const
+    {
+        return false;
+    }
+    virtual bool isValid() const
+    {
+        return true;
+    }
 
     virtual QFunctionPointer getProcAddress(const char *procName) = 0;
 
-    QOpenGLContext *context() const;
+    QOpenGLContext* context() const;
 
     static bool parseOpenGLVersion(const QByteArray &versionString, int &major, int &minor);
 
 private:
     friend class QOpenGLContext;
 
-    QScopedPointer<QPlatformOpenGLContextPrivate> d_ptr;
+    QScopedPointer<QPlatformOpenGLContextPrivate>    d_ptr;
 
     void setContext(QOpenGLContext *context);
 
@@ -101,7 +107,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QPLATFORMOPENGLCONTEXT_H

@@ -68,346 +68,346 @@ extern "C" {
  */
 
 
-    struct NVPW_OpenGL_GraphicsContext;
+struct NVPW_OpenGL_GraphicsContext;
 
 
 /**
  *  @}
  ******************************************************************************/
- 
-    typedef struct NVPW_OpenGL_LoadDriver_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_LoadDriver_Params;
+
+typedef struct NVPW_OpenGL_LoadDriver_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_LoadDriver_Params;
 #define NVPW_OpenGL_LoadDriver_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_LoadDriver_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_LoadDriver(NVPW_OpenGL_LoadDriver_Params* pParams);
+NVPA_Status NVPW_OpenGL_LoadDriver(NVPW_OpenGL_LoadDriver_Params *pParams);
 
-    typedef struct NVPW_OpenGL_GetCurrentGraphicsContext_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [out]
-        struct NVPW_OpenGL_GraphicsContext* pGraphicsContext;
-    } NVPW_OpenGL_GetCurrentGraphicsContext_Params;
+typedef struct NVPW_OpenGL_GetCurrentGraphicsContext_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [out]
+    struct NVPW_OpenGL_GraphicsContext *pGraphicsContext;
+} NVPW_OpenGL_GetCurrentGraphicsContext_Params;
 #define NVPW_OpenGL_GetCurrentGraphicsContext_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_GetCurrentGraphicsContext_Params, pGraphicsContext)
 
-    NVPA_Status NVPW_OpenGL_GetCurrentGraphicsContext(NVPW_OpenGL_GetCurrentGraphicsContext_Params* pParams);
+NVPA_Status NVPW_OpenGL_GetCurrentGraphicsContext(NVPW_OpenGL_GetCurrentGraphicsContext_Params *pParams);
 
-    typedef struct NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t sliIndex;
-        /// [out]
-        size_t deviceIndex;
-    } NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params;
+typedef struct NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t sliIndex;
+    /// [out]
+    size_t deviceIndex;
+} NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params;
 #define NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params, deviceIndex)
 
-    NVPA_Status NVPW_OpenGL_GraphicsContext_GetDeviceIndex(NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params* pParams);
+NVPA_Status NVPW_OpenGL_GraphicsContext_GetDeviceIndex(NVPW_OpenGL_GraphicsContext_GetDeviceIndex_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_IsGpuSupported_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t deviceIndex;
-        /// [out]
-        NVPA_Bool isSupported;
-        /// [out]
-        NVPW_GpuArchitectureSupportLevel gpuArchitectureSupportLevel;
-        /// [out]
-        NVPW_SliSupportLevel sliSupportLevel;
-        /// [out]
-        NVPW_CmpSupportLevel cmpSupportLevel;
-        /// [out]
-        NVPW_WslSupportLevel wslSupportLevel;
-    } NVPW_OpenGL_Profiler_IsGpuSupported_Params;
+typedef struct NVPW_OpenGL_Profiler_IsGpuSupported_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t deviceIndex;
+    /// [out]
+    NVPA_Bool isSupported;
+    /// [out]
+    NVPW_GpuArchitectureSupportLevel gpuArchitectureSupportLevel;
+    /// [out]
+    NVPW_SliSupportLevel sliSupportLevel;
+    /// [out]
+    NVPW_CmpSupportLevel cmpSupportLevel;
+    /// [out]
+    NVPW_WslSupportLevel wslSupportLevel;
+} NVPW_OpenGL_Profiler_IsGpuSupported_Params;
 #define NVPW_OpenGL_Profiler_IsGpuSupported_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_IsGpuSupported_Params, wslSupportLevel)
 
-    /// NVPW_OpenGL_LoadDriver must be called prior to this API
-    NVPA_Status NVPW_OpenGL_Profiler_IsGpuSupported(NVPW_OpenGL_Profiler_IsGpuSupported_Params* pParams);
+/// NVPW_OpenGL_LoadDriver must be called prior to this API
+NVPA_Status NVPW_OpenGL_Profiler_IsGpuSupported(NVPW_OpenGL_Profiler_IsGpuSupported_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_CounterDataImageOptions
-    {
-        /// [in]
-        size_t structSize;
-        /// The CounterDataPrefix generated from e.g. NVPW_CounterDataBuilder_GetCounterDataPrefix().  Must be align(8).
-        const uint8_t* pCounterDataPrefix;
-        size_t counterDataPrefixSize;
-        /// max number of ranges that can be specified
-        uint32_t maxNumRanges;
-        /// max number of RangeTree nodes; must be >= maxNumRanges
-        uint32_t maxNumRangeTreeNodes;
-        /// max string length of each RangeName, including the trailing NUL character
-        uint32_t maxRangeNameLength;
-    } NVPW_OpenGL_Profiler_CounterDataImageOptions;
+typedef struct NVPW_OpenGL_Profiler_CounterDataImageOptions
+{
+    /// [in]
+    size_t structSize;
+    /// The CounterDataPrefix generated from e.g. NVPW_CounterDataBuilder_GetCounterDataPrefix().  Must be align(8).
+    const uint8_t   *pCounterDataPrefix;
+    size_t          counterDataPrefixSize;
+    /// max number of ranges that can be specified
+    uint32_t maxNumRanges;
+    /// max number of RangeTree nodes; must be >= maxNumRanges
+    uint32_t maxNumRangeTreeNodes;
+    /// max string length of each RangeName, including the trailing NUL character
+    uint32_t maxRangeNameLength;
+} NVPW_OpenGL_Profiler_CounterDataImageOptions;
 #define NVPW_OpenGL_Profiler_CounterDataImageOptions_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CounterDataImageOptions, maxRangeNameLength)
 
-    typedef struct NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t counterDataImageOptionsSize;
-        /// [in]
-        const NVPW_OpenGL_Profiler_CounterDataImageOptions* pOptions;
-        /// [out]
-        size_t counterDataImageSize;
-    } NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params;
+typedef struct NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t counterDataImageOptionsSize;
+    /// [in]
+    const NVPW_OpenGL_Profiler_CounterDataImageOptions *pOptions;
+    /// [out]
+    size_t counterDataImageSize;
+} NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params;
 #define NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params, counterDataImageSize)
 
-    NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize(NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize(NVPW_OpenGL_Profiler_CounterDataImage_CalculateSize_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t counterDataImageOptionsSize;
-        /// [in]
-        const NVPW_OpenGL_Profiler_CounterDataImageOptions* pOptions;
-        /// [in]
-        size_t counterDataImageSize;
-        /// [in] The buffer to be written.
-        uint8_t* pCounterDataImage;
-    } NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params;
+typedef struct NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t counterDataImageOptionsSize;
+    /// [in]
+    const NVPW_OpenGL_Profiler_CounterDataImageOptions *pOptions;
+    /// [in]
+    size_t counterDataImageSize;
+    /// [in] The buffer to be written.
+    uint8_t *pCounterDataImage;
+} NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params;
 #define NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params, pCounterDataImage)
 
-    NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_Initialize(NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_Initialize(NVPW_OpenGL_Profiler_CounterDataImage_Initialize_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t counterDataImageSize;
-        /// [in]
-        uint8_t* pCounterDataImage;
-        /// [out]
-        size_t counterDataScratchBufferSize;
-    } NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params;
+typedef struct NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t counterDataImageSize;
+    /// [in]
+    uint8_t *pCounterDataImage;
+    /// [out]
+    size_t counterDataScratchBufferSize;
+} NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params;
 #define NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params, counterDataScratchBufferSize)
 
-    NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize(NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize(NVPW_OpenGL_Profiler_CounterDataImage_CalculateScratchBufferSize_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        size_t counterDataImageSize;
-        /// [in]
-        uint8_t* pCounterDataImage;
-        /// [in]
-        size_t counterDataScratchBufferSize;
-        /// [in] The scratch buffer to be written.
-        uint8_t* pCounterDataScratchBuffer;
-    } NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params;
+typedef struct NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    size_t counterDataImageSize;
+    /// [in]
+    uint8_t *pCounterDataImage;
+    /// [in]
+    size_t counterDataScratchBufferSize;
+    /// [in] The scratch buffer to be written.
+    uint8_t *pCounterDataScratchBuffer;
+} NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params;
 #define NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params, pCounterDataScratchBuffer)
 
-    NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer(NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer(NVPW_OpenGL_Profiler_CounterDataImage_InitializeScratchBuffer_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] Maximum number of Push/Pop pairs that can be recorded in a single pass.
-        size_t maxRangesPerPass;
-        /// [in] for sizing internal buffers
-        size_t avgRangeNameLength;
-        /// [out] TraceBuffer size for a single pass.  Pass this to
-        /// NVPW_OpenGL_Profiler_BeginSession_Params::traceBufferSize.
-        size_t traceBufferSize;
-    } NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params;
+typedef struct NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] Maximum number of Push/Pop pairs that can be recorded in a single pass.
+    size_t maxRangesPerPass;
+    /// [in] for sizing internal buffers
+    size_t avgRangeNameLength;
+    /// [out] TraceBuffer size for a single pass.  Pass this to
+    /// NVPW_OpenGL_Profiler_BeginSession_Params::traceBufferSize.
+    size_t traceBufferSize;
+} NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params;
 #define NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params, traceBufferSize)
 
-    NVPA_Status NVPW_OpenGL_Profiler_CalcTraceBufferSize(NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_CalcTraceBufferSize(NVPW_OpenGL_Profiler_CalcTraceBufferSize_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] Set to 1 if every pass is synchronized with CPU; for asynchronous collection, increase to
-        /// (softwarePipelineDepth + 2).
-        size_t numTraceBuffers;
-        /// [in] Size of the per-pass TraceBuffer in bytes.  The profiler allocates a numTraceBuffers * traceBufferSize
-        /// internally.
-        size_t traceBufferSize;
-        /// [in] Maximum number of ranges that can be recorded in a single pass. This argument must be greater than 0.
-        size_t maxRangesPerPass;
-        /// [in] UNUSED
-        size_t maxLaunchesPerPass;
-    } NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] Set to 1 if every pass is synchronized with CPU; for asynchronous collection, increase to
+    /// (softwarePipelineDepth + 2).
+    size_t numTraceBuffers;
+    /// [in] Size of the per-pass TraceBuffer in bytes.  The profiler allocates a numTraceBuffers * traceBufferSize
+    /// internally.
+    size_t traceBufferSize;
+    /// [in] Maximum number of ranges that can be recorded in a single pass. This argument must be greater than 0.
+    size_t maxRangesPerPass;
+    /// [in] UNUSED
+    size_t maxLaunchesPerPass;
+} NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params, maxLaunchesPerPass)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_BeginSession(NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_BeginSession(NVPW_OpenGL_Profiler_GraphicsContext_BeginSession_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_EndSession(NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_EndSession(NVPW_OpenGL_Profiler_GraphicsContext_EndSession_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] Config created by e.g. NVPW_RawMetricsConfig_GetConfigImage().  Must be align(8).
-        const uint8_t* pConfig;
-        size_t configSize;
-        /// [in] the lowest nesting level to be profiled; must be >= 1
-        uint16_t minNestingLevel;
-        /// [in] the number of nesting levels to profile; must be >= 1
-        uint16_t numNestingLevels;
-        /// [in] Set this to zero for in-app replay.  Set this to the output of EndPass() for application replay.
-        size_t passIndex;
-        /// [in] Set this to minNestingLevel for in-app replay.  Set this to the output of EndPass() for application
-        /// replay.
-        uint16_t targetNestingLevel;
-    } NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] Config created by e.g. NVPW_RawMetricsConfig_GetConfigImage().  Must be align(8).
+    const uint8_t   *pConfig;
+    size_t          configSize;
+    /// [in] the lowest nesting level to be profiled; must be >= 1
+    uint16_t minNestingLevel;
+    /// [in] the number of nesting levels to profile; must be >= 1
+    uint16_t numNestingLevels;
+    /// [in] Set this to zero for in-app replay.  Set this to the output of EndPass() for application replay.
+    size_t passIndex;
+    /// [in] Set this to minNestingLevel for in-app replay.  Set this to the output of EndPass() for application
+    /// replay.
+    uint16_t targetNestingLevel;
+} NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params, targetNestingLevel)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_SetConfig(NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_SetConfig(NVPW_OpenGL_Profiler_GraphicsContext_SetConfig_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig(NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig(NVPW_OpenGL_Profiler_GraphicsContext_ClearConfig_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_BeginPass(NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_BeginPass(NVPW_OpenGL_Profiler_GraphicsContext_BeginPass_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_EndPass(NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_EndPass(NVPW_OpenGL_Profiler_GraphicsContext_EndPass_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] specifies the range that subsequent launches' counters will be assigned to; must not be NULL
-        const char* pRangeName;
-        /// [in] assign to strlen(pRangeName) if known; if set to zero, the library will call strlen()
-        size_t rangeNameLength;
-    } NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] specifies the range that subsequent launches' counters will be assigned to; must not be NULL
+    const char *pRangeName;
+    /// [in] assign to strlen(pRangeName) if known; if set to zero, the library will call strlen()
+    size_t rangeNameLength;
+} NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params, rangeNameLength)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_PushRange(NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_PushRange(NVPW_OpenGL_Profiler_GraphicsContext_PushRange_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-    } NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+} NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params, pPriv)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_PopRange(NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_PopRange(NVPW_OpenGL_Profiler_GraphicsContext_PopRange_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in]
-        struct NVPW_OpenGL_GraphicsContext* pGraphicsContext;
-        /// [in]
-        size_t counterDataImageSize;
-        /// [in]
-        uint8_t* pCounterDataImage;
-        /// [in]
-        size_t counterDataScratchBufferSize;
-        /// [in]
-        uint8_t* pCounterDataScratchBuffer;
-        /// [out] number of ranges whose data was dropped in the processed pass
-        size_t numRangesDropped;
-        /// [out] number of bytes not written to TraceBuffer due to buffer full
-        size_t numTraceBytesDropped;
-        /// [out] true if a pass was successfully decoded
-        NVPA_Bool onePassCollected;
-        /// [out] becomes true when the last pass has been decoded
-        NVPA_Bool allPassesCollected;
-        /// [out] the Config decoded by this call
-        const uint8_t* pConfigDecoded;
-        /// [out] the passIndex decoded
-        size_t passIndexDecoded;
-    } NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in]
+    struct NVPW_OpenGL_GraphicsContext *pGraphicsContext;
+    /// [in]
+    size_t counterDataImageSize;
+    /// [in]
+    uint8_t *pCounterDataImage;
+    /// [in]
+    size_t counterDataScratchBufferSize;
+    /// [in]
+    uint8_t *pCounterDataScratchBuffer;
+    /// [out] number of ranges whose data was dropped in the processed pass
+    size_t numRangesDropped;
+    /// [out] number of bytes not written to TraceBuffer due to buffer full
+    size_t numTraceBytesDropped;
+    /// [out] true if a pass was successfully decoded
+    NVPA_Bool onePassCollected;
+    /// [out] becomes true when the last pass has been decoded
+    NVPA_Bool allPassesCollected;
+    /// [out] the Config decoded by this call
+    const uint8_t *pConfigDecoded;
+    /// [out] the passIndex decoded
+    size_t passIndexDecoded;
+} NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params, passIndexDecoded)
 
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters(NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params* pParams);
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters(NVPW_OpenGL_Profiler_GraphicsContext_DecodeCounters_Params *pParams);
 
-    typedef struct NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in/out] If `pCounterAvailabilityImage` is NULL, then the required size is returned in
-        /// `counterAvailabilityImageSize`, otherwise `counterAvailabilityImageSize` should be set to the size of
-        /// `pCounterAvailabilityImage`, and on return it would be overwritten with number of actual bytes copied
-        size_t counterAvailabilityImageSize;
-        /// [in] buffer receiving counter availability image, may be NULL
-        uint8_t* pCounterAvailabilityImage;
-    } NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params;
+typedef struct NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in/out] If `pCounterAvailabilityImage` is NULL, then the required size is returned in
+    /// `counterAvailabilityImageSize`, otherwise `counterAvailabilityImageSize` should be set to the size of
+    /// `pCounterAvailabilityImage`, and on return it would be overwritten with number of actual bytes copied
+    size_t counterAvailabilityImageSize;
+    /// [in] buffer receiving counter availability image, may be NULL
+    uint8_t *pCounterAvailabilityImage;
+} NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params;
 #define NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params, pCounterAvailabilityImage)
 
-    /// This API may fail, if any profiling or sampling session is active on the device
-    NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability(NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params* pParams);
+/// This API may fail, if any profiling or sampling session is active on the device
+NVPA_Status NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability(NVPW_OpenGL_Profiler_GraphicsContext_GetCounterAvailability_Params *pParams);
 
 
 

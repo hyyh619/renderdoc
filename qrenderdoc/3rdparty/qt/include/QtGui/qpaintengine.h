@@ -61,13 +61,15 @@ struct QGlyphLayout;
 class QTextItemInt;
 class QPaintEngineState;
 
-class Q_GUI_EXPORT QTextItem {
+class Q_GUI_EXPORT    QTextItem
+{
 public:
-    enum RenderFlag {
+    enum RenderFlag
+    {
         RightToLeft = 0x1,
-        Overline = 0x10,
-        Underline = 0x20,
-        StrikeOut = 0x40,
+        Overline    = 0x10,
+        Underline   = 0x20,
+        StrikeOut   = 0x40,
 
         Dummy = 0xffffffff
     };
@@ -83,11 +85,12 @@ public:
 Q_DECLARE_TYPEINFO(QTextItem, Q_PRIMITIVE_TYPE);
 
 
-class Q_GUI_EXPORT QPaintEngine
+class Q_GUI_EXPORT    QPaintEngine
 {
     Q_DECLARE_PRIVATE(QPaintEngine)
 public:
-    enum PaintEngineFeature {
+    enum PaintEngineFeature
+    {
         PrimitiveTransform          = 0x00000001, // Can transform primitives brushes
         PatternTransform            = 0x00000002, // Can transform pattern brushes
         PixmapTransform             = 0x00000004, // Can transform pixmaps
@@ -112,13 +115,14 @@ public:
                                     defined in qpainter.cpp
 
                                     0x40000000, // Used internally for emulating opaque backgrounds
-        */
+         */
 
-        AllFeatures               = 0xffffffff  // For convenience
+        AllFeatures = 0xffffffff                // For convenience
     };
     Q_DECLARE_FLAGS(PaintEngineFeatures, PaintEngineFeature)
 
-    enum DirtyFlag {
+    enum DirtyFlag
+    {
         DirtyPen                = 0x0001,
         DirtyBrush              = 0x0002,
         DirtyBrushOrigin        = 0x0004,
@@ -133,25 +137,32 @@ public:
         DirtyClipEnabled        = 0x0800,
         DirtyOpacity            = 0x1000,
 
-        AllDirty                = 0xffff
+        AllDirty = 0xffff
     };
     Q_DECLARE_FLAGS(DirtyFlags, DirtyFlag)
 
-    enum PolygonDrawMode {
+    enum PolygonDrawMode
+    {
         OddEvenMode,
         WindingMode,
         ConvexMode,
         PolylineMode
     };
 
-    explicit QPaintEngine(PaintEngineFeatures features=PaintEngineFeatures());
+    explicit QPaintEngine(PaintEngineFeatures features= PaintEngineFeatures());
     virtual ~QPaintEngine();
 
-    bool isActive() const { return active; }
-    void setActive(bool newState) { active = newState; }
+    bool isActive() const
+    {
+        return active;
+    }
+    void setActive(bool newState)
+    {
+        active = newState;
+    }
 
-    virtual bool begin(QPaintDevice *pdev) = 0;
-    virtual bool end() = 0;
+    virtual bool begin(QPaintDevice *pdev)  = 0;
+    virtual bool end()                      = 0;
 
     virtual void updateState(const QPaintEngineState &state) = 0;
 
@@ -179,7 +190,7 @@ public:
                            Qt::ImageConversionFlags flags = Qt::AutoColor);
 
     void setPaintDevice(QPaintDevice *device);
-    QPaintDevice *paintDevice() const;
+    QPaintDevice* paintDevice() const;
 
     void setSystemClip(const QRegion &baseClip);
     QRegion systemClip() const;
@@ -190,7 +201,8 @@ public:
 
     virtual QPoint coordinateOffset() const;
 
-    enum Type {
+    enum Type
+    {
         X11,
         Windows,
         QuickDraw, CoreGraphics, MacPrinter,
@@ -208,7 +220,7 @@ public:
         Blitter,
         Direct2D,
 
-        User = 50,    // first user type id
+        User    = 50, // first user type id
         MaxUser = 100 // last user type id
     };
     virtual Type type() const = 0;
@@ -219,28 +231,40 @@ public:
     inline void setDirty(DirtyFlags df);
     inline void clearDirty(DirtyFlags df);
 
-    bool hasFeature(PaintEngineFeatures feature) const { return gccaps & feature; }
+    bool hasFeature(PaintEngineFeatures feature) const
+    {
+        return gccaps & feature;
+    }
 
-    QPainter *painter() const;
+    QPainter* painter() const;
 
     void syncState();
-    inline bool isExtended() const { return extended; }
+    inline bool isExtended() const
+    {
+        return extended;
+    }
 
 protected:
-    QPaintEngine(QPaintEnginePrivate &data, PaintEngineFeatures devcaps=PaintEngineFeatures());
+    QPaintEngine(QPaintEnginePrivate &data, PaintEngineFeatures devcaps= PaintEngineFeatures());
 
-    QPaintEngineState *state;
-    PaintEngineFeatures gccaps;
+    QPaintEngineState       *state;
+    PaintEngineFeatures     gccaps;
 
-    uint active : 1;
-    uint selfDestruct : 1;
-    uint extended : 1;
+    uint    active : 1;
+    uint    selfDestruct : 1;
+    uint    extended : 1;
 
-    QScopedPointer<QPaintEnginePrivate> d_ptr;
+    QScopedPointer<QPaintEnginePrivate>    d_ptr;
 
 private:
-    void setAutoDestruct(bool autoDestr) { selfDestruct = autoDestr; }
-    bool autoDestruct() const { return selfDestruct; }
+    void setAutoDestruct(bool autoDestr)
+    {
+        selfDestruct = autoDestr;
+    }
+    bool autoDestruct() const
+    {
+        return selfDestruct;
+    }
     Q_DISABLE_COPY(QPaintEngine)
 
     friend class QPainterReplayer;
@@ -262,10 +286,13 @@ private:
 };
 
 
-class Q_GUI_EXPORT QPaintEngineState
+class Q_GUI_EXPORT    QPaintEngineState
 {
 public:
-    QPaintEngine::DirtyFlags state() const { return dirtyFlags; }
+    QPaintEngine::DirtyFlags state() const
+    {
+        return dirtyFlags;
+    }
 
     QPen pen() const;
     QBrush brush() const;
@@ -285,7 +312,7 @@ public:
     QPainter::CompositionMode compositionMode() const;
     qreal opacity() const;
 
-    QPainter *painter() const;
+    QPainter* painter() const;
 
     bool brushNeedsResolving() const;
     bool penNeedsResolving() const;
@@ -298,7 +325,7 @@ protected:
     friend class QPainterPrivate;
     friend class QMacPrintEnginePrivate;
 
-    QPaintEngine::DirtyFlags dirtyFlags;
+    QPaintEngine::DirtyFlags    dirtyFlags;
 };
 
 //
@@ -307,22 +334,27 @@ protected:
 
 inline void QPaintEngine::fix_neg_rect(int *x, int *y, int *w, int *h)
 {
-    if (*w < 0) {
-        *w = -*w;
-        *x -= *w - 1;
+    if (*w < 0)
+    {
+        *w  = -*w;
+        *x  -= *w - 1;
     }
-    if (*h < 0) {
-        *h = -*h;
-        *y -= *h - 1;
+
+    if (*h < 0)
+    {
+        *h  = -*h;
+        *y  -= *h - 1;
     }
 }
 
-inline bool QPaintEngine::testDirty(DirtyFlags df) {
+inline bool QPaintEngine::testDirty(DirtyFlags df)
+{
     Q_ASSERT(state);
     return state->dirtyFlags & df;
 }
 
-inline void QPaintEngine::setDirty(DirtyFlags df) {
+inline void QPaintEngine::setDirty(DirtyFlags df)
+{
     Q_ASSERT(state);
     state->dirtyFlags |= df;
 }

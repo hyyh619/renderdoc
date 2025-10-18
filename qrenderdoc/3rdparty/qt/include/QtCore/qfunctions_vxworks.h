@@ -125,38 +125,41 @@ extern "C" {
 
 // isascii is missing (sometimes!!)
 #ifndef isascii
-inline int isascii(int c)  { return (c & 0x7f); }
+inline int isascii(int c)
+{
+    return (c & 0x7f);
+}
 #endif
 
 // no lfind() - used by the TIF image format
-void *lfind(const void* key, const void* base, size_t* elements, size_t size,
+void* lfind(const void *key, const void *base, size_t *elements, size_t size,
             int (*compare)(const void*, const void*));
 
 // no rand_r(), but rand()
 // NOTE: this implementation is wrong for multi threaded applications,
 // but there is no way to get it right on VxWorks (in kernel mode)
 #if defined(_WRS_KERNEL)
-int rand_r(unsigned int * /*seedp*/);
+int rand_r(unsigned int* /*seedp*/);
 #endif
 
 // no usleep() support
 int usleep(unsigned int);
 
 #if defined(VXWORKS_DKM) || defined(VXWORKS_RTP)
-int gettimeofday(struct timeval *, void *);
+int gettimeofday(struct timeval*, void*);
 #else
 // gettimeofday() is declared, but is missing from the library.
 // It IS however defined in the Curtis-Wright X11 libraries, so
 // we have to make the symbol 'weak'
-int gettimeofday(struct timeval *tv, void /*struct timezone*/ *) __attribute__((weak));
+int gettimeofday(struct timeval *tv, void /*struct timezone*/*) __attribute__((weak));
 #endif
 
 // getpagesize() not available
 int getpagesize();
 
 // symlinks are not supported (lstat is now just a call to stat - see qplatformdefs.h)
-int symlink(const char *, const char *);
-ssize_t readlink(const char *, char *, size_t);
+int symlink(const char*, const char*);
+ssize_t    readlink(const char*, char*, size_t);
 
 // there's no truncate(), but ftruncate() support...
 int truncate(const char *path, off_t length);
@@ -170,29 +173,30 @@ uid_t getuid();
 gid_t getgid();
 uid_t geteuid();
 
-struct passwd {
-    char   *pw_name;       /* user name */
-    char   *pw_passwd;     /* user password */
+struct passwd
+{
+    char    *pw_name;      /* user name */
+    char    *pw_passwd;    /* user password */
     uid_t   pw_uid;        /* user ID */
     gid_t   pw_gid;        /* group ID */
-    char   *pw_gecos;      /* real name */
-    char   *pw_dir;        /* home directory */
-    char   *pw_shell;      /* shell program */
+    char    *pw_gecos;     /* real name */
+    char    *pw_dir;       /* home directory */
+    char    *pw_shell;     /* shell program */
 };
 
-struct group {
-    char   *gr_name;       /* group name */
-    char   *gr_passwd;     /* group password */
+struct group
+{
+    char    *gr_name;      /* group name */
+    char    *gr_passwd;    /* group password */
     gid_t   gr_gid;        /* group ID */
-    char  **gr_mem;        /* group members */
+    char    **gr_mem;      /* group members */
 };
 
-struct passwd *getpwuid(uid_t uid);
-struct group *getgrgid(gid_t gid);
+struct passwd       * getpwuid(uid_t uid);
+struct group        * getgrgid(gid_t gid);
 
 #ifdef __cplusplus
 } // extern "C"
 #endif
-
 #endif // Q_OS_VXWORKS
 #endif // QFUNCTIONS_VXWORKS_H

@@ -56,9 +56,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QAbstractNetworkCachePrivate: public QObjectPrivate
-{
-};
+class QAbstractNetworkCachePrivate : public QObjectPrivate
+{};
 
 QT_END_NAMESPACE
 

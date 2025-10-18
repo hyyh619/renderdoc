@@ -60,9 +60,9 @@ QT_BEGIN_NAMESPACE
 
 class QColumnViewGripPrivate;
 
-class Q_AUTOTEST_EXPORT QColumnViewGrip : public QWidget {
-
-Q_OBJECT
+class Q_AUTOTEST_EXPORT    QColumnViewGrip : public QWidget
+{
+    Q_OBJECT
 
 Q_SIGNALS:
     void gripMoved(int offset);
@@ -73,7 +73,7 @@ public:
     int moveGrip(int offset);
 
 protected:
-    QColumnViewGrip(QColumnViewGripPrivate &, QWidget *parent = 0, Qt::WindowFlags f = 0);
+    QColumnViewGrip(QColumnViewGripPrivate&, QWidget *parent = 0, Qt::WindowFlags f = 0);
     void paintEvent(QPaintEvent *event) Q_DECL_OVERRIDE;
     void mouseDoubleClickEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
     void mouseMoveEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
@@ -93,9 +93,9 @@ public:
     QColumnViewGripPrivate();
     ~QColumnViewGripPrivate() {}
 
-    int originalXLocation;
+    int    originalXLocation;
 };
 
 QT_END_NAMESPACE
 
-#endif //QCOLUMNVIEWGRIP_P_H
+#endif // QCOLUMNVIEWGRIP_P_H

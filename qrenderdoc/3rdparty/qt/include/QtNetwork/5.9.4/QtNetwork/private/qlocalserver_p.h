@@ -78,12 +78,11 @@ class QLocalServerPrivate : public QObjectPrivate
 public:
     QLocalServerPrivate() :
 #if !defined(QT_LOCALSOCKET_TCP) && !defined(Q_OS_WIN)
-            listenSocket(-1), socketNotifier(0),
+        listenSocket(-1), socketNotifier(0),
 #endif
-            maxPendingConnections(30), error(QAbstractSocket::UnknownSocketError),
-            socketOptions(QLocalServer::NoOptions)
-    {
-    }
+        maxPendingConnections(30), error(QAbstractSocket::UnknownSocketError),
+        socketOptions(QLocalServer::NoOptions)
+    {}
 
     void init();
     bool listen(const QString &name);
@@ -94,39 +93,38 @@ public:
     void _q_onNewConnection();
 
 #if defined(QT_LOCALSOCKET_TCP)
-
-    QTcpServer tcpServer;
-    QMap<quintptr, QTcpSocket*> socketMap;
+    QTcpServer                      tcpServer;
+    QMap<quintptr, QTcpSocket*>     socketMap;
 #elif defined(Q_OS_WIN)
-    struct Listener {
-        HANDLE handle;
-        OVERLAPPED overlapped;
-        bool connected;
+    struct Listener
+    {
+        HANDLE      handle;
+        OVERLAPPED  overlapped;
+        bool        connected;
     };
 
     void setError(const QString &function);
     bool addListener();
 
-    QList<Listener> listeners;
-    HANDLE eventHandle;
-    QWinEventNotifier *connectionEventNotifier;
+    QList<Listener>         listeners;
+    HANDLE                  eventHandle;
+    QWinEventNotifier       *connectionEventNotifier;
 #else
     void setError(const QString &function);
 
-    int listenSocket;
-    QSocketNotifier *socketNotifier;
+    int                 listenSocket;
+    QSocketNotifier     *socketNotifier;
 #endif
 
-    QString serverName;
-    QString fullServerName;
-    int maxPendingConnections;
-    QQueue<QLocalSocket*> pendingConnections;
-    QString errorString;
-    QAbstractSocket::SocketError error;
-    QLocalServer::SocketOptions socketOptions;
+    QString                         serverName;
+    QString                         fullServerName;
+    int                             maxPendingConnections;
+    QQueue<QLocalSocket*>           pendingConnections;
+    QString                         errorString;
+    QAbstractSocket::SocketError    error;
+    QLocalServer::SocketOptions     socketOptions;
 };
 
 QT_END_NAMESPACE
 
 #endif // QLOCALSERVER_P_H
-

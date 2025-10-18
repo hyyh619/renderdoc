@@ -69,28 +69,30 @@ class QStandardItemData
 public:
     inline QStandardItemData() : role(-1) {}
     inline QStandardItemData(int r, const QVariant &v) : role(r), value(v) {}
-    int role;
-    QVariant value;
-    inline bool operator==(const QStandardItemData &other) const { return role == other.role && value == other.value; }
+    int         role;
+    QVariant    value;
+    inline bool operator==(const QStandardItemData &other) const
+    {
+        return role == other.role && value == other.value;
+    }
 };
 Q_DECLARE_TYPEINFO(QStandardItemData, Q_MOVABLE_TYPE);
 
 #ifndef QT_NO_DATASTREAM
 
-inline QDataStream &operator>>(QDataStream &in, QStandardItemData &data)
+inline QDataStream    &operator>>(QDataStream &in, QStandardItemData &data)
 {
     in >> data.role;
     in >> data.value;
     return in;
 }
 
-inline QDataStream &operator<<(QDataStream &out, const QStandardItemData &data)
+inline QDataStream    &operator<<(QDataStream &out, const QStandardItemData &data)
 {
     out << data.role;
     out << data.value;
     return out;
 }
-
 #endif // QT_NO_DATASTREAM
 
 class QStandardItemPrivate
@@ -99,34 +101,42 @@ class QStandardItemPrivate
 public:
     inline QStandardItemPrivate()
         : model(0),
-          parent(0),
-          rows(0),
-          columns(0),
-          q_ptr(0),
-          lastIndexOf(2)
-        { }
+        parent(0),
+        rows(0),
+        columns(0),
+        q_ptr(0),
+        lastIndexOf(2)
+    { }
 
-    inline int childIndex(int row, int column) const {
+    inline int childIndex(int row, int column) const
+    {
         if ((row < 0) || (column < 0)
-            || (row >= rowCount()) || (column >= columnCount())) {
+            || (row >= rowCount()) || (column >= columnCount()))
+        {
             return -1;
         }
+
         return (row * columnCount()) + column;
     }
-    inline int childIndex(const QStandardItem *child) {
-        int start = qMax(0, lastIndexOf -2);
+    inline int childIndex(const QStandardItem *child)
+    {
+        int    start = qMax(0, lastIndexOf - 2);
+
         lastIndexOf = children.indexOf(const_cast<QStandardItem*>(child), start);
         if (lastIndexOf == -1 && start != 0)
             lastIndexOf = children.lastIndexOf(const_cast<QStandardItem*>(child), start);
+
         return lastIndexOf;
     }
     QPair<int, int> position() const;
     void setChild(int row, int column, QStandardItem *item,
                   bool emitChanged = false);
-    inline int rowCount() const {
+    inline int rowCount() const
+    {
         return rows;
     }
-    inline int columnCount() const {
+    inline int columnCount() const
+    {
         return columns;
     }
     void childDeleted(QStandardItem *child);
@@ -135,7 +145,8 @@ public:
 
     inline void setParentAndModel(
         QStandardItem *par,
-        QStandardItemModel *mod) {
+        QStandardItemModel *mod)
+    {
         setModel(mod);
         parent = par;
     }
@@ -150,16 +161,16 @@ public:
 
     void sortChildren(int column, Qt::SortOrder order);
 
-    QStandardItemModel *model;
-    QStandardItem *parent;
-    QVector<QStandardItemData> values;
-    QVector<QStandardItem*> children;
-    int rows;
-    int columns;
+    QStandardItemModel              *model;
+    QStandardItem                   *parent;
+    QVector<QStandardItemData>      values;
+    QVector<QStandardItem*>         children;
+    int                             rows;
+    int                             columns;
 
-    QStandardItem *q_ptr;
+    QStandardItem    *q_ptr;
 
-    int lastIndexOf;
+    int    lastIndexOf;
 };
 
 class QStandardItemModelPrivate : public QAbstractItemModelPrivate
@@ -172,19 +183,24 @@ public:
 
     void init();
 
-    inline QStandardItem *createItem() const {
+    inline QStandardItem* createItem() const
+    {
         return itemPrototype ? itemPrototype->clone() : new QStandardItem;
     }
 
-    inline QStandardItem *itemFromIndex(const QModelIndex &index) const {
+    inline QStandardItem* itemFromIndex(const QModelIndex &index) const
+    {
         Q_Q(const QStandardItemModel);
         if (!index.isValid())
             return root.data();
+
         if (index.model() != q)
             return 0;
-        QStandardItem *parent = static_cast<QStandardItem*>(index.internalPointer());
+
+        QStandardItem    *parent = static_cast<QStandardItem*>(index.internalPointer());
         if (parent == 0)
             return 0;
+
         return parent->child(index.row(), index.column());
     }
 
@@ -204,15 +220,14 @@ public:
 
     void decodeDataRecursive(QDataStream &stream, QStandardItem *item);
 
-    QVector<QStandardItem*> columnHeaderItems;
-    QVector<QStandardItem*> rowHeaderItems;
-    QScopedPointer<QStandardItem> root;
-    const QStandardItem *itemPrototype;
-    int sortRole;
+    QVector<QStandardItem*>             columnHeaderItems;
+    QVector<QStandardItem*>             rowHeaderItems;
+    QScopedPointer<QStandardItem>       root;
+    const QStandardItem                 *itemPrototype;
+    int                                 sortRole;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_STANDARDITEMMODEL
 
 #endif // QSTANDARDITEMMODEL_P_H

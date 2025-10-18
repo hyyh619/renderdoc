@@ -45,19 +45,19 @@
 QT_BEGIN_NAMESPACE
 
 
-template <class Key, class T> class QCache;
-template <class Key, class T> class QHash;
-template <class T> class QLinkedList;
-template <class T> class QList;
-template <class Key, class T> class QMap;
-template <class Key, class T> class QMultiHash;
-template <class Key, class T> class QMultiMap;
-template <class T1, class T2> struct QPair;
-template <class T> class QQueue;
-template <class T> class QSet;
-template <class T> class QStack;
+template<class Key, class T> class QCache;
+template<class Key, class T> class QHash;
+template<class T> class QLinkedList;
+template<class T> class QList;
+template<class Key, class T> class QMap;
+template<class Key, class T> class QMultiHash;
+template<class Key, class T> class QMultiMap;
+template<class T1, class T2> struct QPair;
+template<class T> class QQueue;
+template<class T> class QSet;
+template<class T> class QStack;
 template<class T, int Prealloc = 256> class QVarLengthArray;
-template <class T> class QVector;
+template<class T> class QVector;
 
 QT_END_NAMESPACE
 

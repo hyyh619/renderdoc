@@ -62,25 +62,25 @@
 
 QT_BEGIN_NAMESPACE
 
-typedef QHash<QByteArray, QTextCodec *> QTextCodecCache;
+typedef QHash<QByteArray, QTextCodec*> QTextCodecCache;
 
-struct QCoreGlobalData {
+struct QCoreGlobalData
+{
     QCoreGlobalData();
     ~QCoreGlobalData();
 
-    QMap<QString, QStringList> dirSearchPaths;
-    QReadWriteLock dirSearchPathsLock;
+    QMap<QString, QStringList>  dirSearchPaths;
+    QReadWriteLock              dirSearchPathsLock;
 
 #if QT_CONFIG(textcodec)
-    QList<QTextCodec*> allCodecs;
-    QAtomicPointer<QTextCodec> codecForLocale;
-    QTextCodecCache codecCache;
+    QList<QTextCodec*>          allCodecs;
+    QAtomicPointer<QTextCodec>  codecForLocale;
+    QTextCodecCache             codecCache;
 #endif
 
-    static QCoreGlobalData *instance();
+    static QCoreGlobalData* instance();
 };
 
 
 QT_END_NAMESPACE
 #endif // QCOREGLOBALDATA_P_H
-

@@ -58,34 +58,40 @@ QT_BEGIN_NAMESPACE
 
 static inline bool qt_is_inf(qfloat16 d) Q_DECL_NOTHROW
 {
-    bool is_inf;
-    uchar *ch = (uchar *)&d;
+    bool        is_inf;
+    uchar       *ch = (uchar*)&d;
+
     if (QSysInfo::ByteOrder == QSysInfo::BigEndian)
         is_inf = (ch[0] & 0x7c) == 0x7c && (ch[0] & 0x02) == 0;
     else
         is_inf = (ch[1] & 0x7c) == 0x7c && (ch[1] & 0x02) == 0;
+
     return is_inf;
 }
 
 static inline bool qt_is_nan(qfloat16 d) Q_DECL_NOTHROW
 {
-    bool is_nan;
-    uchar *ch = (uchar *)&d;
+    bool        is_nan;
+    uchar       *ch = (uchar*)&d;
+
     if (QSysInfo::ByteOrder == QSysInfo::BigEndian)
         is_nan = (ch[0] & 0x7c) == 0x7c && (ch[0] & 0x02) != 0;
     else
         is_nan = (ch[1] & 0x7c) == 0x7c && (ch[1] & 0x02) != 0;
+
     return is_nan;
 }
 
 static inline bool qt_is_finite(qfloat16 d) Q_DECL_NOTHROW
 {
-    bool is_finite;
-    uchar *ch = (uchar *)&d;
+    bool        is_finite;
+    uchar       *ch = (uchar*)&d;
+
     if (QSysInfo::ByteOrder == QSysInfo::BigEndian)
         is_finite = (ch[0] & 0x7c) != 0x7c;
     else
         is_finite = (ch[1] & 0x7c) != 0x7c;
+
     return is_finite;
 }
 

@@ -46,15 +46,15 @@
 
 // RenderDoc modification
 // Want to allow building this on linux
-//#include <windows.h>
+// #include <windows.h>
 typedef unsigned long DWORD;
 typedef wchar_t WCHAR;
-typedef WCHAR *LPWSTR;
-typedef const WCHAR *LPCWSTR;
-typedef void *HANDLE;
-struct HINSTANCE__; typedef struct HINSTANCE__ *HINSTANCE;
-struct HMONITOR__; typedef struct HMONITOR__ *HMONITOR;
-struct HWND__; typedef struct HWND__ *HWND;
+typedef WCHAR*LPWSTR;
+typedef const WCHAR*LPCWSTR;
+typedef void*HANDLE;
+struct HINSTANCE__; typedef struct HINSTANCE__*HINSTANCE;
+struct HMONITOR__; typedef struct HMONITOR__*HMONITOR;
+struct HWND__; typedef struct HWND__*HWND;
 struct _SECURITY_ATTRIBUTES; typedef struct _SECURITY_ATTRIBUTES SECURITY_ATTRIBUTES;
 
 #include "vulkan_win32.h"
@@ -84,7 +84,7 @@ struct _SECURITY_ATTRIBUTES; typedef struct _SECURITY_ATTRIBUTES SECURITY_ATTRIB
 
 // RenderDoc modification
 // Don't want to depend on Xrandr for this
-//#include <X11/extensions/Xrandr.h>
+// #include <X11/extensions/Xrandr.h>
 
 typedef unsigned int RROutput;
 

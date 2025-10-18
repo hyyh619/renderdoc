@@ -65,22 +65,25 @@ QT_BEGIN_NAMESPACE
 
 class QGraphicsLayoutPrivate;
 
-class QGraphicsGridLayoutEngineItem : public QGridLayoutItem {
+class QGraphicsGridLayoutEngineItem : public QGridLayoutItem
+{
 public:
     QGraphicsGridLayoutEngineItem(QGraphicsLayoutItem *item, int row, int columns, int rowSpan = 1, int columnSpan = 1,
-                            Qt::Alignment alignment = 0)
+                                  Qt::Alignment alignment = 0)
         : QGridLayoutItem(row, columns, rowSpan, columnSpan, alignment), q_layoutItem(item) {}
 
     virtual QLayoutPolicy::Policy sizePolicy(Qt::Orientation orientation) const Q_DECL_OVERRIDE
     {
-        QSizePolicy sizePolicy(q_layoutItem->sizePolicy());
+        QSizePolicy    sizePolicy(q_layoutItem->sizePolicy());
+
         return (QLayoutPolicy::Policy)((orientation == Qt::Horizontal) ? sizePolicy.horizontalPolicy()
-                                               : sizePolicy.verticalPolicy());
+                                       : sizePolicy.verticalPolicy());
     }
 
     virtual QLayoutPolicy::ControlTypes controlTypes(LayoutSide) const Q_DECL_OVERRIDE
     {
-        const QSizePolicy::ControlType ct = q_layoutItem->sizePolicy().controlType();
+        const QSizePolicy::ControlType    ct = q_layoutItem->sizePolicy().controlType();
+
         return (QLayoutPolicy::ControlTypes)ct;
     }
 
@@ -95,36 +98,43 @@ public:
 
     virtual void setGeometry(const QRectF &rect) Q_DECL_OVERRIDE
     {
-         q_layoutItem->setGeometry(rect);
+        q_layoutItem->setGeometry(rect);
     }
 
     virtual bool hasDynamicConstraint() const Q_DECL_OVERRIDE;
     virtual Qt::Orientation dynamicConstraintOrientation() const Q_DECL_OVERRIDE;
 
-    QGraphicsLayoutItem *layoutItem() const { return q_layoutItem; }
+    QGraphicsLayoutItem* layoutItem() const
+    {
+        return q_layoutItem;
+    }
 
 protected:
-    QGraphicsLayoutItem *q_layoutItem;
+    QGraphicsLayoutItem    *q_layoutItem;
 };
 
 
 class QGraphicsGridLayoutEngine : public QGridLayoutEngine
 {
 public:
-    QGraphicsGridLayoutEngineItem *findLayoutItem(QGraphicsLayoutItem *layoutItem) const
+    QGraphicsGridLayoutEngineItem* findLayoutItem(QGraphicsLayoutItem *layoutItem) const
     {
-        const int index = indexOf(layoutItem);
+        const int    index = indexOf(layoutItem);
+
         if (index < 0)
             return 0;
+
         return static_cast<QGraphicsGridLayoutEngineItem*>(q_items.at(index));
     }
 
     int indexOf(QGraphicsLayoutItem *item) const
     {
-        for (int i = 0; i < q_items.count(); ++i) {
+        for (int i = 0; i < q_items.count(); ++i)
+        {
             if (item == static_cast<QGraphicsGridLayoutEngineItem*>(q_items.at(i))->layoutItem())
                 return i;
         }
+
         return -1;
     }
 
@@ -133,7 +143,6 @@ public:
 
     void setStretchFactor(QGraphicsLayoutItem *layoutItem, int stretch, Qt::Orientation orientation);
     int stretchFactor(QGraphicsLayoutItem *layoutItem, Qt::Orientation orientation) const;
-
 };
 
 QT_END_NAMESPACE

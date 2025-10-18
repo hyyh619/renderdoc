@@ -58,7 +58,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QWindowsPipeReader : public QObject
+class Q_CORE_EXPORT    QWindowsPipeReader : public QObject
 {
     Q_OBJECT
 public:
@@ -69,23 +69,35 @@ public:
     void startAsyncRead();
     void stop();
 
-    void setMaxReadBufferSize(qint64 size) { readBufferMaxSize = size; }
-    qint64 maxReadBufferSize() const { return readBufferMaxSize; }
+    void setMaxReadBufferSize(qint64 size)
+    {
+        readBufferMaxSize = size;
+    }
+    qint64 maxReadBufferSize() const
+    {
+        return readBufferMaxSize;
+    }
 
-    bool isPipeClosed() const { return pipeBroken; }
+    bool isPipeClosed() const
+    {
+        return pipeBroken;
+    }
     qint64 bytesAvailable() const;
     qint64 read(char *data, qint64 maxlen);
     bool canReadLine() const;
     bool waitForReadyRead(int msecs);
     bool waitForPipeClosed(int msecs);
 
-    bool isReadOperationActive() const { return readSequenceStarted; }
+    bool isReadOperationActive() const
+    {
+        return readSequenceStarted;
+    }
 
 Q_SIGNALS:
-    void winError(ulong, const QString &);
+    void    winError(ulong, const QString &);
     void readyRead();
     void pipeClosed();
-    void _q_queueReadyRead(QPrivateSignal);
+    void    _q_queueReadyRead(QPrivateSignal);
 
 private:
     static void CALLBACK readFileCompleted(DWORD errorCode, DWORD numberOfBytesTransfered,
@@ -98,23 +110,23 @@ private:
     class Overlapped : public OVERLAPPED
     {
         Q_DISABLE_COPY(Overlapped)
-    public:
+public:
         explicit Overlapped(QWindowsPipeReader *reader);
         void clear();
-        QWindowsPipeReader *pipeReader;
+        QWindowsPipeReader    *pipeReader;
     };
 
-    HANDLE handle;
-    Overlapped *overlapped;
-    qint64 readBufferMaxSize;
-    QRingBuffer readBuffer;
-    qint64 actualReadBufferSize;
-    bool stopped;
-    bool readSequenceStarted;
-    bool notifiedCalled;
-    bool pipeBroken;
-    bool readyReadPending;
-    bool inReadyRead;
+    HANDLE          handle;
+    Overlapped      *overlapped;
+    qint64          readBufferMaxSize;
+    QRingBuffer     readBuffer;
+    qint64          actualReadBufferSize;
+    bool            stopped;
+    bool            readSequenceStarted;
+    bool            notifiedCalled;
+    bool            pipeBroken;
+    bool            readyReadPending;
+    bool            inReadyRead;
 };
 
 QT_END_NAMESPACE

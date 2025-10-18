@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QSemaphorePrivate;
 
-class Q_CORE_EXPORT QSemaphore
+class Q_CORE_EXPORT    QSemaphore
 {
 public:
     explicit QSemaphore(int n = 0);
@@ -66,9 +66,8 @@ public:
 private:
     Q_DISABLE_COPY(QSemaphore)
 
-    QSemaphorePrivate *d;
+    QSemaphorePrivate * d;
 };
-
 #endif // QT_NO_THREAD
 
 QT_END_NAMESPACE

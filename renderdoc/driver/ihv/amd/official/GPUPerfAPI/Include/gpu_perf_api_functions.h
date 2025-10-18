@@ -1,9 +1,9 @@
-//==============================================================================
+// ==============================================================================
 // Copyright (c) 2014-2025 Advanced Micro Devices, Inc. All rights reserved.
 /// @author AMD Developer Tools Team
 /// @file
 /// @brief  GPA required public function declarations wrapped in a macro.
-//==============================================================================
+// ==============================================================================
 
 #ifndef GPA_FUNCTION_PREFIX
 #define GPA_FUNCTION_PREFIX(f)                ///< Placeholder macro in case it's not defined before including this file.

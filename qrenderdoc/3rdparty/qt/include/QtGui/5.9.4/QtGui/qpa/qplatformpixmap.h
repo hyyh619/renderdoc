@@ -58,10 +58,11 @@ QT_BEGIN_NAMESPACE
 
 class QImageReader;
 
-class Q_GUI_EXPORT QPlatformPixmap
+class Q_GUI_EXPORT    QPlatformPixmap
 {
 public:
-    enum PixelType {
+    enum PixelType
+    {
         // WARNING: Do not change the first two
         // Must match QPixmap::Type
         PixmapType, BitmapType
@@ -74,7 +75,7 @@ public:
     QPlatformPixmap(PixelType pixelType, int classId);
     virtual ~QPlatformPixmap();
 
-    virtual QPlatformPixmap *createCompatiblePlatformPixmap() const;
+    virtual QPlatformPixmap* createCompatiblePlatformPixmap() const;
 
     virtual void resize(int width, int height) = 0;
     virtual void fromImage(const QImage &image,
@@ -96,8 +97,8 @@ public:
     virtual void copy(const QPlatformPixmap *data, const QRect &rect);
     virtual bool scroll(int dx, int dy, const QRect &rect);
 
-    virtual int metric(QPaintDevice::PaintDeviceMetric metric) const = 0;
-    virtual void fill(const QColor &color) = 0;
+    virtual int metric(QPaintDevice::PaintDeviceMetric metric) const    = 0;
+    virtual void fill(const QColor &color)                              = 0;
 
     virtual bool hasAlphaChannel() const = 0;
     virtual QPixmap transformed(const QTransform &matrix,
@@ -107,58 +108,85 @@ public:
     virtual QImage toImage(const QRect &rect) const;
     virtual QPaintEngine* paintEngine() const = 0;
 
-    inline int serialNumber() const { return ser_no; }
+    inline int serialNumber() const
+    {
+        return ser_no;
+    }
 
-    inline PixelType pixelType() const { return type; }
-    inline ClassId classId() const { return static_cast<ClassId>(id); }
+    inline PixelType pixelType() const
+    {
+        return type;
+    }
+    inline ClassId classId() const
+    {
+        return static_cast<ClassId>(id);
+    }
 
-    virtual qreal devicePixelRatio() const = 0;
+    virtual qreal devicePixelRatio() const              = 0;
     virtual void setDevicePixelRatio(qreal scaleFactor) = 0;
 
     virtual QImage* buffer();
 
-    inline int width() const { return w; }
-    inline int height() const { return h; }
-    inline int colorCount() const { return metric(QPaintDevice::PdmNumColors); }
-    inline int depth() const { return d; }
-    inline bool isNull() const { return is_null; }
-    inline qint64 cacheKey() const {
-        int classKey = id;
+    inline int width() const
+    {
+        return w;
+    }
+    inline int height() const
+    {
+        return h;
+    }
+    inline int colorCount() const
+    {
+        return metric(QPaintDevice::PdmNumColors);
+    }
+    inline int depth() const
+    {
+        return d;
+    }
+    inline bool isNull() const
+    {
+        return is_null;
+    }
+    inline qint64 cacheKey() const
+    {
+        int    classKey = id;
+
         if (classKey >= 1024)
             classKey = -(classKey >> 10);
+
         return ((((qint64) classKey) << 56)
                 | (((qint64) ser_no) << 32)
                 | ((qint64) detach_no));
     }
 
-    static QPlatformPixmap *create(int w, int h, PixelType type);
+    static QPlatformPixmap* create(int w, int h, PixelType type);
 
 protected:
 
     void setSerialNumber(int serNo);
     void setDetachNumber(int detNo);
-    int w;
-    int h;
-    int d;
-    bool is_null;
+    int     w;
+    int     h;
+    int     d;
+    bool    is_null;
 
 private:
     friend class QPixmap;
     friend class QImagePixmapCleanupHooks; // Needs to set is_cached
-    friend class QOpenGLTextureCache; //Needs to check the reference count
+    friend class QOpenGLTextureCache; // Needs to check the reference count
     friend class QExplicitlySharedDataPointer<QPlatformPixmap>;
 
-    QAtomicInt ref;
-    int detach_no;
+    QAtomicInt      ref;
+    int             detach_no;
 
-    PixelType type;
-    int id;
-    int ser_no;
-    uint is_cached;
+    PixelType       type;
+    int             id;
+    int             ser_no;
+    uint            is_cached;
 };
 
-#  define QT_XFORM_TYPE_MSBFIRST 0
-#  define QT_XFORM_TYPE_LSBFIRST 1
+#  define QT_XFORM_TYPE_MSBFIRST    0
+#  define QT_XFORM_TYPE_LSBFIRST    1
 extern bool qt_xForm_helper(const QTransform&, int, int, int, uchar*, int, int, int, const uchar*, int, int, int);
 
 QT_END_NAMESPACE

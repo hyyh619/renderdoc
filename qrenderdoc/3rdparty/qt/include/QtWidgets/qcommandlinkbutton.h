@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QCommandLinkButtonPrivate;
 
-class Q_WIDGETS_EXPORT QCommandLinkButton: public QPushButton
+class Q_WIDGETS_EXPORT    QCommandLinkButton : public QPushButton
 {
     Q_OBJECT
 
@@ -71,7 +71,7 @@ protected:
     int heightForWidth(int) const Q_DECL_OVERRIDE;
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QCommandLinkButton)

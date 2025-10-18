@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QActionGroupPrivate;
 
-class Q_WIDGETS_EXPORT QActionGroup : public QObject
+class Q_WIDGETS_EXPORT    QActionGroup : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QActionGroup)
@@ -60,16 +60,16 @@ class Q_WIDGETS_EXPORT QActionGroup : public QObject
     Q_PROPERTY(bool visible READ isVisible WRITE setVisible)
 
 public:
-    explicit QActionGroup(QObject* parent);
+    explicit QActionGroup(QObject *parent);
     ~QActionGroup();
 
-    QAction *addAction(QAction* a);
-    QAction *addAction(const QString &text);
-    QAction *addAction(const QIcon &icon, const QString &text);
+    QAction* addAction(QAction *a);
+    QAction* addAction(const QString &text);
+    QAction* addAction(const QIcon &icon, const QString &text);
     void removeAction(QAction *a);
     QList<QAction*> actions() const;
 
-    QAction *checkedAction() const;
+    QAction* checkedAction() const;
     bool isExclusive() const;
     bool isEnabled() const;
     bool isVisible() const;
@@ -77,13 +77,16 @@ public:
 
 public Q_SLOTS:
     void setEnabled(bool);
-    inline void setDisabled(bool b) { setEnabled(!b); }
+    inline void setDisabled(bool b)
+    {
+        setEnabled(!b);
+    }
     void setVisible(bool);
     void setExclusive(bool);
 
 Q_SIGNALS:
-    void triggered(QAction *);
-    void hovered(QAction *);
+    void triggered(QAction*);
+    void hovered(QAction*);
 
 private:
     Q_DISABLE_COPY(QActionGroup)
@@ -91,7 +94,6 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_actionChanged())
     Q_PRIVATE_SLOT(d_func(), void _q_actionHovered())
 };
-
 #endif // QT_NO_ACTION
 
 QT_END_NAMESPACE

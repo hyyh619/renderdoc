@@ -1,16 +1,16 @@
 /*
 
-Copyright (c) Microsoft Corporation. All rights reserved.
+   Copyright (c) Microsoft Corporation. All rights reserved.
 
-Module Name:
+   Module Name:
 
     winapifamily.h
 
-Abstract:
+   Abstract:
 
     Master include file for API family partitioning.
 
-*/
+ */
 
 #ifndef _INC_WINAPIFAMILY
 #define _INC_WINAPIFAMILY
@@ -65,7 +65,7 @@ Abstract:
 #endif
 
 #ifndef _Out_writes_to_opt_
-#define _Out_writes_to_opt_(size,count)
+#define _Out_writes_to_opt_(size, count)
 #endif
 
 #ifndef _Out_writes_bytes_
@@ -77,7 +77,7 @@ Abstract:
 #endif
 
 #ifndef _Out_writes_bytes_to_
-#define _Out_writes_bytes_to_(size,count)
+#define _Out_writes_bytes_to_(size, count)
 #endif
 
 #ifndef _Outptr_
@@ -152,11 +152,11 @@ Abstract:
  * specific platform.
  */
 
-/* In Windows 10, WINAPI_PARTITIONs will be used to add additional  
- * device specific APIs to a particular WINAPI_FAMILY.  
- * For example, when writing Windows Universal apps, specifying 
- * WINAPI_FAMILY_APP will hide phone APIs from compilation.  
- * However, specifying WINAPI_PARTITION_PHONE_APP=1 additionally, will         
+/* In Windows 10, WINAPI_PARTITIONs will be used to add additional
+ * device specific APIs to a particular WINAPI_FAMILY.
+ * For example, when writing Windows Universal apps, specifying
+ * WINAPI_FAMILY_APP will hide phone APIs from compilation.
+ * However, specifying WINAPI_PARTITION_PHONE_APP=1 additionally, will
  * unhide any API hidden behind the partition, to the compiler.
 
  * The following partitions are currently defined:
@@ -167,25 +167,25 @@ Abstract:
  * WINAPI_PARTITION_SYSTEM             // specific to System applications
  * WINAPI_PARTITION_GAMES              // specific to games and apps
 
- * The following partitions are indirect partitions and defined in 
- * winpackagefamily.h. These partitions are related to package based 
+ * The following partitions are indirect partitions and defined in
+ * winpackagefamily.h. These partitions are related to package based
  * partitions. For example, specifying WINAPI_PARTITION_SERVER=1 will light up
- * any API hidden behind the package based partitions that are bound to 
+ * any API hidden behind the package based partitions that are bound to
  * WINAPI_PARTITION_SERVER, to the compiler.
  * WINAPI_PARTITION_SERVER             // specific to Server applications
-*/
+ */
 
 /*
  * The WINAPI_FAMILY values of 0 and 1 are reserved to ensure that
  * an error will occur if WINAPI_FAMILY is set to any
  * WINAPI_PARTITION value (which must be 0 or 1, see below).
  */
-#define WINAPI_FAMILY_PC_APP               2   /* Windows Store Applications */
-#define WINAPI_FAMILY_PHONE_APP            3   /* Windows Phone Applications */
-#define WINAPI_FAMILY_SYSTEM               4   /* Windows Drivers and Tools */
-#define WINAPI_FAMILY_SERVER               5   /* Windows Server Applications */
-#define WINAPI_FAMILY_GAMES                6   /* Windows Games and Applications */
-#define WINAPI_FAMILY_DESKTOP_APP          100   /* Windows Desktop Applications */
+#define WINAPI_FAMILY_PC_APP                2  /* Windows Store Applications */
+#define WINAPI_FAMILY_PHONE_APP             3  /* Windows Phone Applications */
+#define WINAPI_FAMILY_SYSTEM                4  /* Windows Drivers and Tools */
+#define WINAPI_FAMILY_SERVER                5  /* Windows Server Applications */
+#define WINAPI_FAMILY_GAMES                 6  /* Windows Games and Applications */
+#define WINAPI_FAMILY_DESKTOP_APP           100  /* Windows Desktop Applications */
 /* The value of WINAPI_FAMILY_DESKTOP_APP may change in future SDKs. */
 /* Additional WINAPI_FAMILY values may be defined in future SDKs. */
 
@@ -209,7 +209,7 @@ Abstract:
  * individual APIs and the FAMILYs to which they apply.
  * Each PARTITION is a category or subset of named APIs.  PARTITIONs
  * are permitted to have overlapping membership -- some single API
- * might be part of more than one PARTITION.  PARTITIONS are each #define-ed 
+ * might be part of more than one PARTITION.  PARTITIONS are each #define-ed
  * to be either 1 or 0 or depending on the platform at which the app is targeted.
  */
 
@@ -252,40 +252,40 @@ Abstract:
  * Whenever a new family is added, all of these expressions
  * need to be reconsidered.
  */
-#if WINAPI_FAMILY != WINAPI_FAMILY_DESKTOP_APP &&                              \
-    WINAPI_FAMILY != WINAPI_FAMILY_PC_APP &&                                   \
-    WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP &&                                \
-    WINAPI_FAMILY != WINAPI_FAMILY_SYSTEM &&                                   \
-    WINAPI_FAMILY != WINAPI_FAMILY_GAMES &&                                    \
+#if WINAPI_FAMILY != WINAPI_FAMILY_DESKTOP_APP && \
+    WINAPI_FAMILY != WINAPI_FAMILY_PC_APP &&      \
+    WINAPI_FAMILY != WINAPI_FAMILY_PHONE_APP &&   \
+    WINAPI_FAMILY != WINAPI_FAMILY_SYSTEM &&      \
+    WINAPI_FAMILY != WINAPI_FAMILY_GAMES &&       \
     WINAPI_FAMILY != WINAPI_FAMILY_SERVER
 #error Unknown WINAPI_FAMILY value. Was it defined in terms of a WINAPI_PARTITION_* value?
 #endif
 
 #ifndef WINAPI_PARTITION_DESKTOP
 #define WINAPI_PARTITION_DESKTOP (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
-#endif 
+#endif
 
 #ifndef WINAPI_PARTITION_APP
-#define WINAPI_PARTITION_APP                                                   \
-  (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP ||                               \
-   WINAPI_FAMILY == WINAPI_FAMILY_PC_APP ||                                    \
-   WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-#endif 
+#define WINAPI_PARTITION_APP                       \
+    (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP || \
+     WINAPI_FAMILY == WINAPI_FAMILY_PC_APP ||      \
+     WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
+#endif
 
 #ifndef WINAPI_PARTITION_PC_APP
-#define WINAPI_PARTITION_PC_APP                                                \
-  (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP ||                               \
-   WINAPI_FAMILY == WINAPI_FAMILY_PC_APP)
-#endif 
+#define WINAPI_PARTITION_PC_APP                    \
+    (WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP || \
+     WINAPI_FAMILY == WINAPI_FAMILY_PC_APP)
+#endif
 
 #ifndef WINAPI_PARTITION_PHONE_APP
 #define WINAPI_PARTITION_PHONE_APP (WINAPI_FAMILY == WINAPI_FAMILY_PHONE_APP)
-#endif 
+#endif
 
 #ifndef WINAPI_PARTITION_GAMES
-#define WINAPI_PARTITION_GAMES                                                 \
-  (WINAPI_FAMILY == WINAPI_FAMILY_GAMES ||                                     \
-   WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
+#define WINAPI_PARTITION_GAMES               \
+    (WINAPI_FAMILY == WINAPI_FAMILY_GAMES || \
+     WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP)
 #endif
 
 /*
@@ -295,11 +295,11 @@ Abstract:
  * See winpackagefamily.h for packages level partitions
  */
 #ifndef WINAPI_PARTITION_SYSTEM
-#define WINAPI_PARTITION_SYSTEM                                                \
-  (WINAPI_FAMILY == WINAPI_FAMILY_SYSTEM ||                                    \
-   WINAPI_FAMILY == WINAPI_FAMILY_GAMES ||                                     \
-   WINAPI_FAMILY == WINAPI_FAMILY_SERVER)
-#endif 
+#define WINAPI_PARTITION_SYSTEM               \
+    (WINAPI_FAMILY == WINAPI_FAMILY_SYSTEM || \
+     WINAPI_FAMILY == WINAPI_FAMILY_GAMES ||  \
+     WINAPI_FAMILY == WINAPI_FAMILY_SERVER)
+#endif
 
 /*
  * For compatibility with Windows Phone 8 header files, the following
@@ -329,7 +329,7 @@ Abstract:
  *
  * Usages of WINAPI_FAMILY_PARTITION may be combined, when the partitition definitions are
  * related.  In particular one might use declarations like
- * 
+ *
  *     #if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP) && !WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)
  *
  * or
@@ -338,7 +338,7 @@ Abstract:
  *
  * Direct references to WINAPI_PARTITION_ values (eg #if !WINAPI_FAMILY_PARTITION_...)
  * should not be used.
- */ 
+ */
 #define WINAPI_FAMILY_PARTITION(Partitions)     (Partitions)
 
 /*

@@ -61,7 +61,7 @@ class QStyleOption;
 class QStyleOptionComplex;
 class QStylePrivate;
 
-class Q_WIDGETS_EXPORT QStyle : public QObject
+class Q_WIDGETS_EXPORT    QStyle : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QStyle)
@@ -82,8 +82,8 @@ public:
     virtual void polish(QPalette &palette);
 
     virtual QRect itemTextRect(const QFontMetrics &fm, const QRect &r,
-                           int flags, bool enabled,
-                           const QString &text) const;
+                               int flags, bool enabled,
+                               const QString &text) const;
 
     virtual QRect itemPixmapRect(const QRect &r, int flags, const QPixmap &pixmap) const;
 
@@ -96,44 +96,46 @@ public:
 
     virtual QPalette standardPalette() const;
 
-    enum StateFlag {
-        State_None =                0x00000000,
-        State_Enabled =             0x00000001,
-        State_Raised =              0x00000002,
-        State_Sunken =              0x00000004,
-        State_Off =                 0x00000008,
-        State_NoChange =            0x00000010,
-        State_On =                  0x00000020,
-        State_DownArrow =           0x00000040,
-        State_Horizontal =          0x00000080,
-        State_HasFocus =            0x00000100,
-        State_Top =                 0x00000200,
-        State_Bottom =              0x00000400,
-        State_FocusAtBorder =       0x00000800,
-        State_AutoRaise =           0x00001000,
-        State_MouseOver =           0x00002000,
-        State_UpArrow =             0x00004000,
-        State_Selected =            0x00008000,
-        State_Active =              0x00010000,
-        State_Window =              0x00020000,
-        State_Open =                0x00040000,
-        State_Children =            0x00080000,
-        State_Item =                0x00100000,
-        State_Sibling =             0x00200000,
-        State_Editing =             0x00400000,
-        State_KeyboardFocusChange = 0x00800000,
+    enum StateFlag
+    {
+        State_None                  = 0x00000000,
+        State_Enabled               = 0x00000001,
+        State_Raised                = 0x00000002,
+        State_Sunken                = 0x00000004,
+        State_Off                   = 0x00000008,
+        State_NoChange              = 0x00000010,
+        State_On                    = 0x00000020,
+        State_DownArrow             = 0x00000040,
+        State_Horizontal            = 0x00000080,
+        State_HasFocus              = 0x00000100,
+        State_Top                   = 0x00000200,
+        State_Bottom                = 0x00000400,
+        State_FocusAtBorder         = 0x00000800,
+        State_AutoRaise             = 0x00001000,
+        State_MouseOver             = 0x00002000,
+        State_UpArrow               = 0x00004000,
+        State_Selected              = 0x00008000,
+        State_Active                = 0x00010000,
+        State_Window                = 0x00020000,
+        State_Open                  = 0x00040000,
+        State_Children              = 0x00080000,
+        State_Item                  = 0x00100000,
+        State_Sibling               = 0x00200000,
+        State_Editing               = 0x00400000,
+        State_KeyboardFocusChange   = 0x00800000,
 #ifdef QT_KEYPAD_NAVIGATION
-        State_HasEditFocus =        0x01000000,
+        State_HasEditFocus = 0x01000000,
 #endif
-        State_ReadOnly =            0x02000000,
-        State_Small =               0x04000000,
-        State_Mini =                0x08000000
+        State_ReadOnly  = 0x02000000,
+        State_Small     = 0x04000000,
+        State_Mini      = 0x08000000
     };
     Q_ENUM(StateFlag)
     Q_DECLARE_FLAGS(State, StateFlag)
 
 
-    enum PrimitiveElement {
+    enum PrimitiveElement
+    {
         PE_Frame,
         PE_FrameDefaultButton,
         PE_FrameDockWidget,
@@ -203,7 +205,8 @@ public:
 
     virtual void drawPrimitive(PrimitiveElement pe, const QStyleOption *opt, QPainter *p,
                                const QWidget *w = Q_NULLPTR) const = 0;
-    enum ControlElement {
+    enum ControlElement
+    {
         CE_PushButton,
         CE_PushButtonBevel,
         CE_PushButtonLabel,
@@ -275,7 +278,8 @@ public:
     virtual void drawControl(ControlElement element, const QStyleOption *opt, QPainter *p,
                              const QWidget *w = Q_NULLPTR) const = 0;
 
-    enum SubElement {
+    enum SubElement
+    {
         SE_PushButtonContents,
         SE_PushButtonFocusRect,
 
@@ -365,7 +369,8 @@ public:
                                  const QWidget *widget = Q_NULLPTR) const = 0;
 
 
-    enum ComplexControl {
+    enum ComplexControl
+    {
         CC_SpinBox,
         CC_ComboBox,
         CC_ScrollBar,
@@ -381,60 +386,61 @@ public:
     };
     Q_ENUM(ComplexControl)
 
-    enum SubControl {
-        SC_None =                  0x00000000,
+    enum SubControl
+    {
+        SC_None = 0x00000000,
 
-        SC_ScrollBarAddLine =      0x00000001,
-        SC_ScrollBarSubLine =      0x00000002,
-        SC_ScrollBarAddPage =      0x00000004,
-        SC_ScrollBarSubPage =      0x00000008,
-        SC_ScrollBarFirst =        0x00000010,
-        SC_ScrollBarLast =         0x00000020,
-        SC_ScrollBarSlider =       0x00000040,
-        SC_ScrollBarGroove =       0x00000080,
+        SC_ScrollBarAddLine = 0x00000001,
+        SC_ScrollBarSubLine = 0x00000002,
+        SC_ScrollBarAddPage = 0x00000004,
+        SC_ScrollBarSubPage = 0x00000008,
+        SC_ScrollBarFirst   = 0x00000010,
+        SC_ScrollBarLast    = 0x00000020,
+        SC_ScrollBarSlider  = 0x00000040,
+        SC_ScrollBarGroove  = 0x00000080,
 
-        SC_SpinBoxUp =             0x00000001,
-        SC_SpinBoxDown =           0x00000002,
-        SC_SpinBoxFrame =          0x00000004,
-        SC_SpinBoxEditField =      0x00000008,
+        SC_SpinBoxUp        = 0x00000001,
+        SC_SpinBoxDown      = 0x00000002,
+        SC_SpinBoxFrame     = 0x00000004,
+        SC_SpinBoxEditField = 0x00000008,
 
-        SC_ComboBoxFrame =         0x00000001,
-        SC_ComboBoxEditField =     0x00000002,
-        SC_ComboBoxArrow =         0x00000004,
-        SC_ComboBoxListBoxPopup =  0x00000008,
+        SC_ComboBoxFrame        = 0x00000001,
+        SC_ComboBoxEditField    = 0x00000002,
+        SC_ComboBoxArrow        = 0x00000004,
+        SC_ComboBoxListBoxPopup = 0x00000008,
 
-        SC_SliderGroove =          0x00000001,
-        SC_SliderHandle =          0x00000002,
-        SC_SliderTickmarks =       0x00000004,
+        SC_SliderGroove     = 0x00000001,
+        SC_SliderHandle     = 0x00000002,
+        SC_SliderTickmarks  = 0x00000004,
 
-        SC_ToolButton =            0x00000001,
-        SC_ToolButtonMenu =        0x00000002,
+        SC_ToolButton       = 0x00000001,
+        SC_ToolButtonMenu   = 0x00000002,
 
-        SC_TitleBarSysMenu =       0x00000001,
-        SC_TitleBarMinButton =     0x00000002,
-        SC_TitleBarMaxButton =     0x00000004,
-        SC_TitleBarCloseButton =   0x00000008,
-        SC_TitleBarNormalButton =  0x00000010,
-        SC_TitleBarShadeButton =   0x00000020,
-        SC_TitleBarUnshadeButton = 0x00000040,
-        SC_TitleBarContextHelpButton = 0x00000080,
-        SC_TitleBarLabel =         0x00000100,
+        SC_TitleBarSysMenu              = 0x00000001,
+        SC_TitleBarMinButton            = 0x00000002,
+        SC_TitleBarMaxButton            = 0x00000004,
+        SC_TitleBarCloseButton          = 0x00000008,
+        SC_TitleBarNormalButton         = 0x00000010,
+        SC_TitleBarShadeButton          = 0x00000020,
+        SC_TitleBarUnshadeButton        = 0x00000040,
+        SC_TitleBarContextHelpButton    = 0x00000080,
+        SC_TitleBarLabel                = 0x00000100,
 
-        SC_DialGroove =            0x00000001,
-        SC_DialHandle =            0x00000002,
-        SC_DialTickmarks =         0x00000004,
+        SC_DialGroove       = 0x00000001,
+        SC_DialHandle       = 0x00000002,
+        SC_DialTickmarks    = 0x00000004,
 
-        SC_GroupBoxCheckBox =      0x00000001,
-        SC_GroupBoxLabel =         0x00000002,
-        SC_GroupBoxContents =      0x00000004,
-        SC_GroupBoxFrame =         0x00000008,
+        SC_GroupBoxCheckBox = 0x00000001,
+        SC_GroupBoxLabel    = 0x00000002,
+        SC_GroupBoxContents = 0x00000004,
+        SC_GroupBoxFrame    = 0x00000008,
 
-        SC_MdiMinButton     =      0x00000001,
-        SC_MdiNormalButton  =      0x00000002,
-        SC_MdiCloseButton   =      0x00000004,
+        SC_MdiMinButton     = 0x00000001,
+        SC_MdiNormalButton  = 0x00000002,
+        SC_MdiCloseButton   = 0x00000004,
 
-        SC_CustomBase =            0xf0000000,
-        SC_All =                   0xffffffff
+        SC_CustomBase   = 0xf0000000,
+        SC_All          = 0xffffffff
     };
     Q_ENUM(SubControl)
     Q_DECLARE_FLAGS(SubControls, SubControl)
@@ -447,7 +453,8 @@ public:
     virtual QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt,
                                  SubControl sc, const QWidget *widget = Q_NULLPTR) const = 0;
 
-    enum PixelMetric {
+    enum PixelMetric
+    {
         PM_ButtonMargin,
         PM_ButtonDefaultIndicator,
         PM_MenuButtonIndicator,
@@ -582,7 +589,8 @@ public:
     virtual int pixelMetric(PixelMetric metric, const QStyleOption *option = Q_NULLPTR,
                             const QWidget *widget = Q_NULLPTR) const = 0;
 
-    enum ContentsType {
+    enum ContentsType
+    {
         CT_PushButton,
         CT_CheckBox,
         CT_RadioButton,
@@ -614,13 +622,15 @@ public:
     virtual QSize sizeFromContents(ContentsType ct, const QStyleOption *opt,
                                    const QSize &contentsSize, const QWidget *w = Q_NULLPTR) const = 0;
 
-    enum RequestSoftwareInputPanel {
+    enum RequestSoftwareInputPanel
+    {
         RSIP_OnMouseClickAndAlreadyFocused,
         RSIP_OnMouseClick
     };
     Q_ENUM(RequestSoftwareInputPanel)
 
-    enum StyleHint {
+    enum StyleHint
+    {
         SH_EtchDisabledText,
         SH_DitherDisabledText,
         SH_ScrollBar_MiddleClickAbsolutePosition,
@@ -744,9 +754,10 @@ public:
     Q_ENUM(StyleHint)
 
     virtual int styleHint(StyleHint stylehint, const QStyleOption *opt = Q_NULLPTR,
-                          const QWidget *widget = Q_NULLPTR, QStyleHintReturn* returnData = Q_NULLPTR) const = 0;
+                          const QWidget *widget = Q_NULLPTR, QStyleHintReturn *returnData = Q_NULLPTR) const = 0;
 
-    enum StandardPixmap {
+    enum StandardPixmap
+    {
         SP_TitleBarMenuButton,
         SP_TitleBarMinButton,
         SP_TitleBarMaxButton,
@@ -851,7 +862,7 @@ public:
                               QSizePolicy::ControlTypes controls2, Qt::Orientation orientation,
                               QStyleOption *option = Q_NULLPTR, QWidget *widget = Q_NULLPTR) const;
 
-    const QStyle * proxy() const;
+    const QStyle* proxy() const;
 
 private:
     Q_DISABLE_COPY(QStyle)
@@ -868,7 +879,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QStyle::SubControls)
 
 #if !defined(QT_NO_DEBUG_STREAM)
 // ### Qt 6: Remove in favor of template<class T> QDebug operator<<(QDebug, const QFlags<T> &).
-#  if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#  if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 Q_WIDGETS_EXPORT QDebug operator<<(QDebug debug, QStyle::State state);
 #  endif
 #endif

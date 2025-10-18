@@ -58,13 +58,13 @@ QT_REQUIRE_CONFIG(toolbutton);
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QToolBarExtension : public QToolButton
+class Q_AUTOTEST_EXPORT    QToolBarExtension : public QToolButton
 {
     Q_OBJECT
 
 public:
     explicit QToolBarExtension(QWidget *parent);
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
 public Q_SLOTS:

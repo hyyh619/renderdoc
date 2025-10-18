@@ -84,7 +84,7 @@ class QHttpNetworkConnectionChannel;
 class QHttpNetworkRequest;
 class QHttpNetworkConnectionPrivate;
 class QHttpNetworkReplyPrivate;
-class Q_AUTOTEST_EXPORT QHttpNetworkReply : public QObject, public QHttpNetworkHeader
+class Q_AUTOTEST_EXPORT    QHttpNetworkReply : public QObject, public QHttpNetworkHeader
 {
     Q_OBJECT
 public:
@@ -187,7 +187,7 @@ private:
 };
 
 
-class Q_AUTOTEST_EXPORT QHttpNetworkReplyPrivate : public QObjectPrivate, public QHttpNetworkHeaderPrivate
+class Q_AUTOTEST_EXPORT    QHttpNetworkReplyPrivate : public QObjectPrivate, public QHttpNetworkHeaderPrivate
 {
 public:
     QHttpNetworkReplyPrivate(const QUrl &newUrl = QUrl());
@@ -220,7 +220,8 @@ public:
     bool isCompressed();
     void removeAutoDecompressHeader();
 
-    enum ReplyState {
+    enum ReplyState
+    {
         NothingDoneState,
         ReadingStatusState,
         ReadingHeaderState,
@@ -231,50 +232,50 @@ public:
         SPDYHalfClosed,
         SPDYClosed,
         Aborted
-    } state;
+    }    state;
 
-    QHttpNetworkRequest request;
-    bool ssl;
-    int statusCode;
-    int majorVersion;
-    int minorVersion;
-    QString errorString;
-    QString reasonPhrase;
-    qint64 bodyLength;
-    qint64 contentRead;
-    qint64 totalProgress;
-    QByteArray fragment; // used for header, status, chunk header etc, not for reply data
-    bool chunkedTransferEncoding;
-    bool connectionCloseEnabled;
-    bool forceConnectionCloseEnabled;
-    bool lastChunkRead;
-    qint64 currentChunkSize;
-    qint64 currentChunkRead;
-    qint64 readBufferMaxSize;
-    qint32 windowSizeDownload; // only for SPDY
-    qint32 windowSizeUpload; // only for SPDY
-    qint32 currentlyReceivedDataInWindow; // only for SPDY
-    qint32 currentlyUploadedDataInWindow; // only for SPDY
-    qint64 totallyUploadedData; // only for SPDY
-    qint64 removedContentLength;
-    QPointer<QHttpNetworkConnection> connection;
-    QPointer<QHttpNetworkConnectionChannel> connectionChannel;
+    QHttpNetworkRequest                         request;
+    bool                                        ssl;
+    int                                         statusCode;
+    int                                         majorVersion;
+    int                                         minorVersion;
+    QString                                     errorString;
+    QString                                     reasonPhrase;
+    qint64                                      bodyLength;
+    qint64                                      contentRead;
+    qint64                                      totalProgress;
+    QByteArray                                  fragment; // used for header, status, chunk header etc, not for reply data
+    bool                                        chunkedTransferEncoding;
+    bool                                        connectionCloseEnabled;
+    bool                                        forceConnectionCloseEnabled;
+    bool                                        lastChunkRead;
+    qint64                                      currentChunkSize;
+    qint64                                      currentChunkRead;
+    qint64                                      readBufferMaxSize;
+    qint32                                      windowSizeDownload; // only for SPDY
+    qint32                                      windowSizeUpload; // only for SPDY
+    qint32                                      currentlyReceivedDataInWindow; // only for SPDY
+    qint32                                      currentlyUploadedDataInWindow; // only for SPDY
+    qint64                                      totallyUploadedData; // only for SPDY
+    qint64                                      removedContentLength;
+    QPointer<QHttpNetworkConnection>            connection;
+    QPointer<QHttpNetworkConnectionChannel>     connectionChannel;
 
-    bool autoDecompress;
+    bool    autoDecompress;
 
-    QByteDataBuffer responseData; // uncompressed body
-    QByteArray compressedData; // compressed body (temporary)
-    bool requestIsPrepared;
+    QByteDataBuffer     responseData; // uncompressed body
+    QByteArray          compressedData; // compressed body (temporary)
+    bool                requestIsPrepared;
 
-    bool pipeliningUsed;
-    bool spdyUsed;
-    bool downstreamLimited;
+    bool    pipeliningUsed;
+    bool    spdyUsed;
+    bool    downstreamLimited;
 
-    char* userProvidedDownloadBuffer;
-    QUrl redirectUrl;
+    char    *userProvidedDownloadBuffer;
+    QUrl    redirectUrl;
 
 #ifndef QT_NO_COMPRESS
-    z_stream_s *inflateStrm;
+    z_stream_s    *inflateStrm;
     int initializeInflateStream();
     qint64 uncompressBodyData(QByteDataBuffer *in, QByteDataBuffer *out);
 #endif
@@ -284,7 +285,6 @@ public:
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 

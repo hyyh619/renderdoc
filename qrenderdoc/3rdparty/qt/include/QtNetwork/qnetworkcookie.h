@@ -55,10 +55,11 @@ class QString;
 class QUrl;
 
 class QNetworkCookiePrivate;
-class Q_NETWORK_EXPORT QNetworkCookie
+class Q_NETWORK_EXPORT    QNetworkCookie
 {
 public:
-    enum RawForm {
+    enum RawForm
+    {
         NameAndValueOnly,
         Full
     };
@@ -67,15 +68,23 @@ public:
     QNetworkCookie(const QNetworkCookie &other);
     ~QNetworkCookie();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QNetworkCookie &operator=(QNetworkCookie &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QNetworkCookie&operator=(QNetworkCookie &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QNetworkCookie &operator=(const QNetworkCookie &other);
+    QNetworkCookie&operator=(const QNetworkCookie &other);
 
-    void swap(QNetworkCookie &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QNetworkCookie &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QNetworkCookie &other) const;
     inline bool operator!=(const QNetworkCookie &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     bool isSecure() const;
     void setSecure(bool enable);
@@ -106,7 +115,7 @@ public:
     static QList<QNetworkCookie> parseCookies(const QByteArray &cookieString);
 
 private:
-    QSharedDataPointer<QNetworkCookiePrivate> d;
+    QSharedDataPointer<QNetworkCookiePrivate>    d;
     friend class QNetworkCookiePrivate;
 };
 
@@ -114,7 +123,7 @@ Q_DECLARE_SHARED(QNetworkCookie)
 
 #ifndef QT_NO_DEBUG_STREAM
 class QDebug;
-Q_NETWORK_EXPORT QDebug operator<<(QDebug, const QNetworkCookie &);
+Q_NETWORK_EXPORT QDebug operator<<(QDebug, const QNetworkCookie&);
 #endif
 
 QT_END_NAMESPACE

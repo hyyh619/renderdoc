@@ -51,7 +51,7 @@ class QAbstractButton;
 class QWizardPage;
 class QWizardPrivate;
 
-class Q_WIDGETS_EXPORT QWizard : public QDialog
+class Q_WIDGETS_EXPORT    QWizard : public QDialog
 {
     Q_OBJECT
     Q_PROPERTY(WizardStyle wizardStyle READ wizardStyle WRITE setWizardStyle)
@@ -62,7 +62,8 @@ class Q_WIDGETS_EXPORT QWizard : public QDialog
     Q_PROPERTY(int currentId READ currentId NOTIFY currentIdChanged)
 
 public:
-    enum WizardButton {
+    enum WizardButton
+    {
         BackButton,
         NextButton,
         CommitButton,
@@ -74,12 +75,13 @@ public:
         CustomButton3,
         Stretch,
 
-        NoButton = -1,
-        NStandardButtons = 6,
-        NButtons = 9
+        NoButton            = -1,
+        NStandardButtons    = 6,
+        NButtons            = 9
     };
 
-    enum WizardPixmap {
+    enum WizardPixmap
+    {
         WatermarkPixmap,
         LogoPixmap,
         BannerPixmap,
@@ -87,7 +89,8 @@ public:
         NPixmaps
     };
 
-    enum WizardStyle {
+    enum WizardStyle
+    {
         ClassicStyle,
         ModernStyle,
         MacStyle,
@@ -96,7 +99,8 @@ public:
     };
     Q_ENUM(WizardStyle)
 
-    enum WizardOption {
+    enum WizardOption
+    {
         IndependentPages                = 0x00000001,
         IgnoreSubTitles                 = 0x00000002,
         ExtendedWatermarkPixmap         = 0x00000004,
@@ -126,13 +130,13 @@ public:
     int addPage(QWizardPage *page);
     void setPage(int id, QWizardPage *page);
     void removePage(int id);
-    QWizardPage *page(int id) const;
+    QWizardPage* page(int id) const;
     bool hasVisitedPage(int id) const;
     QList<int> visitedPages() const;    // ### Qt 6: visitedIds()?
     QList<int> pageIds() const;
     void setStartId(int id);
     int startId() const;
-    QWizardPage *currentPage() const;
+    QWizardPage* currentPage() const;
     int currentId() const;
 
     virtual bool validateCurrentPage();
@@ -153,7 +157,7 @@ public:
     QString buttonText(WizardButton which) const;
     void setButtonLayout(const QList<WizardButton> &layout);
     void setButton(WizardButton which, QAbstractButton *button);
-    QAbstractButton *button(WizardButton which) const;
+    QAbstractButton* button(WizardButton which) const;
 
     void setTitleFormat(Qt::TextFormat format);
     Qt::TextFormat titleFormat() const;
@@ -163,7 +167,7 @@ public:
     QPixmap pixmap(WizardPixmap which) const;
 
     void setSideWidget(QWidget *widget);
-    QWidget *sideWidget() const;
+    QWidget* sideWidget() const;
 
     void setDefaultProperty(const char *className, const char *property,
                             const char *changedSignal);
@@ -199,7 +203,7 @@ private:
     Q_DECLARE_PRIVATE(QWizard)
     Q_PRIVATE_SLOT(d_func(), void _q_emitCustomButtonClicked())
     Q_PRIVATE_SLOT(d_func(), void _q_updateButtonStates())
-    Q_PRIVATE_SLOT(d_func(), void _q_handleFieldObjectDestroyed(QObject *))
+    Q_PRIVATE_SLOT(d_func(), void _q_handleFieldObjectDestroyed(QObject*))
 
     friend class QWizardPage;
 };
@@ -208,7 +212,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QWizard::WizardOptions)
 
 class QWizardPagePrivate;
 
-class Q_WIDGETS_EXPORT QWizardPage : public QWidget
+class Q_WIDGETS_EXPORT    QWizardPage : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QString title READ title WRITE setTitle)
@@ -245,7 +249,7 @@ protected:
     QVariant field(const QString &name) const;
     void registerField(const QString &name, QWidget *widget, const char *property = Q_NULLPTR,
                        const char *changedSignal = Q_NULLPTR);
-    QWizard *wizard() const;
+    QWizard* wizard() const;
 
 private:
     Q_DISABLE_COPY(QWizardPage)

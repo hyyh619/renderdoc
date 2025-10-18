@@ -50,12 +50,12 @@
 QT_BEGIN_NAMESPACE
 
 
-template <typename T>
+template<typename T>
 class QFutureWatcher;
-template <>
+template<>
 class QFutureWatcher<void>;
 
-template <typename T>
+template<typename T>
 class QFuture
 {
 public:
@@ -66,105 +66,214 @@ public:
         : d(*p)
     { }
 
-    bool operator==(const QFuture &other) const { return (d == other.d); }
-    bool operator!=(const QFuture &other) const { return (d != other.d); }
+    bool operator==(const QFuture &other) const
+    {
+        return (d == other.d);
+    }
+    bool operator!=(const QFuture &other) const
+    {
+        return (d != other.d);
+    }
 
-    void cancel() { d.cancel(); }
-    bool isCanceled() const { return d.isCanceled(); }
+    void cancel()
+    {
+        d.cancel();
+    }
+    bool isCanceled() const
+    {
+        return d.isCanceled();
+    }
 
-    void setPaused(bool paused) { d.setPaused(paused); }
-    bool isPaused() const { return d.isPaused(); }
-    void pause() { setPaused(true); }
-    void resume() { setPaused(false); }
-    void togglePaused() { d.togglePaused(); }
+    void setPaused(bool paused)
+    {
+        d.setPaused(paused);
+    }
+    bool isPaused() const
+    {
+        return d.isPaused();
+    }
+    void pause()
+    {
+        setPaused(true);
+    }
+    void resume()
+    {
+        setPaused(false);
+    }
+    void togglePaused()
+    {
+        d.togglePaused();
+    }
 
-    bool isStarted() const { return d.isStarted(); }
-    bool isFinished() const { return d.isFinished(); }
-    bool isRunning() const { return d.isRunning(); }
+    bool isStarted() const
+    {
+        return d.isStarted();
+    }
+    bool isFinished() const
+    {
+        return d.isFinished();
+    }
+    bool isRunning() const
+    {
+        return d.isRunning();
+    }
 
-    int resultCount() const { return d.resultCount(); }
-    int progressValue() const { return d.progressValue(); }
-    int progressMinimum() const { return d.progressMinimum(); }
-    int progressMaximum() const { return d.progressMaximum(); }
-    QString progressText() const { return d.progressText(); }
-    void waitForFinished() { d.waitForFinished(); }
+    int resultCount() const
+    {
+        return d.resultCount();
+    }
+    int progressValue() const
+    {
+        return d.progressValue();
+    }
+    int progressMinimum() const
+    {
+        return d.progressMinimum();
+    }
+    int progressMaximum() const
+    {
+        return d.progressMaximum();
+    }
+    QString progressText() const
+    {
+        return d.progressText();
+    }
+    void waitForFinished()
+    {
+        d.waitForFinished();
+    }
 
     inline T result() const;
     inline T resultAt(int index) const;
-    bool isResultReadyAt(int resultIndex) const { return d.isResultReadyAt(resultIndex); }
+    bool isResultReadyAt(int resultIndex) const
+    {
+        return d.isResultReadyAt(resultIndex);
+    }
 
     operator T() const { return result(); }
-    QList<T> results() const { return d.results(); }
+    QList<T> results() const
+    {
+        return d.results();
+    }
 
     class const_iterator
     {
-    public:
+public:
         typedef std::bidirectional_iterator_tag iterator_category;
         typedef qptrdiff difference_type;
         typedef T value_type;
-        typedef const T *pointer;
-        typedef const T &reference;
+        typedef const T*pointer;
+        typedef const T&reference;
 
         inline const_iterator() {}
-        inline const_iterator(QFuture const * const _future, int _index) : future(_future), index(_index) {}
+        inline const_iterator(QFuture const* const _future, int _index) : future(_future), index(_index) {}
         inline const_iterator(const const_iterator &o) : future(o.future), index(o.index)  {}
-        inline const_iterator &operator=(const const_iterator &o)
-        { future = o.future; index = o.index; return *this; }
-        inline const T &operator*() const { return future->d.resultReference(index); }
-        inline const T *operator->() const { return future->d.resultPointer(index); }
+        inline const_iterator&operator=(const const_iterator &o)
+        {
+            future = o.future; index = o.index; return *this;
+        }
+        inline const T    &operator*() const
+        {
+            return future->d.resultReference(index);
+        }
+        inline const T* operator->() const
+        {
+            return future->d.resultPointer(index);
+        }
 
         inline bool operator!=(const const_iterator &other) const
         {
             if (index == -1 && other.index == -1) // comparing end != end?
                 return false;
+
             if (other.index == -1)
                 return (future->isRunning() || (index < future->resultCount()));
+
             return (index != other.index);
         }
 
-        inline bool operator==(const const_iterator &o) const { return !operator!=(o); }
-        inline const_iterator &operator++() { ++index; return *this; }
-        inline const_iterator operator++(int) { const_iterator r = *this; ++index; return r; }
-        inline const_iterator &operator--() { --index; return *this; }
-        inline const_iterator operator--(int) { const_iterator r = *this; --index; return r; }
-        inline const_iterator operator+(int j) const { return const_iterator(future, index + j); }
-        inline const_iterator operator-(int j) const { return const_iterator(future, index - j); }
-        inline const_iterator &operator+=(int j) { index += j; return *this; }
-        inline const_iterator &operator-=(int j) { index -= j; return *this; }
-    private:
-        QFuture const * future;
-        int index;
+        inline bool operator==(const const_iterator &o) const
+        {
+            return !operator!=(o);
+        }
+        inline const_iterator&operator++()
+        {
+            ++index; return *this;
+        }
+        inline const_iterator operator++(int)
+        {
+            const_iterator    r = *this; ++index; return r;
+        }
+        inline const_iterator&operator--()
+        {
+            --index; return *this;
+        }
+        inline const_iterator operator--(int)
+        {
+            const_iterator    r = *this; --index; return r;
+        }
+        inline const_iterator operator+(int j) const
+        {
+            return const_iterator(future, index + j);
+        }
+        inline const_iterator operator-(int j) const
+        {
+            return const_iterator(future, index - j);
+        }
+        inline const_iterator&operator+=(int j)
+        {
+            index += j; return *this;
+        }
+        inline const_iterator&operator-=(int j)
+        {
+            index -= j; return *this;
+        }
+private:
+        QFuture const       *future;
+        int                 index;
     };
     friend class const_iterator;
     typedef const_iterator ConstIterator;
 
-    const_iterator begin() const { return  const_iterator(this, 0); }
-    const_iterator constBegin() const { return  const_iterator(this, 0); }
-    const_iterator end() const { return const_iterator(this, -1); }
-    const_iterator constEnd() const { return const_iterator(this, -1); }
+    const_iterator begin() const
+    {
+        return const_iterator(this, 0);
+    }
+    const_iterator constBegin() const
+    {
+        return const_iterator(this, 0);
+    }
+    const_iterator end() const
+    {
+        return const_iterator(this, -1);
+    }
+    const_iterator constEnd() const
+    {
+        return const_iterator(this, -1);
+    }
 
 private:
     friend class QFutureWatcher<T>;
 
 public: // Warning: the d pointer is not documented and is considered private.
-    mutable QFutureInterface<T> d;
+    mutable QFutureInterface<T>    d;
 };
 
-template <typename T>
+template<typename T>
 inline T QFuture<T>::result() const
 {
     d.waitForResult(0);
     return d.resultReference(0);
 }
 
-template <typename T>
+template<typename T>
 inline T QFuture<T>::resultAt(int index) const
 {
     d.waitForResult(index);
     return d.resultReference(index);
 }
 
-template <typename T>
+template<typename T>
 inline QFuture<T> QFutureInterface<T>::future()
 {
     return QFuture<T>(this);
@@ -172,7 +281,7 @@ inline QFuture<T> QFutureInterface<T>::future()
 
 Q_DECLARE_SEQUENTIAL_ITERATOR(Future)
 
-template <>
+template<>
 class QFuture<void>
 {
 public:
@@ -183,42 +292,96 @@ public:
         : d(*p)
     { }
 
-    bool operator==(const QFuture &other) const { return (d == other.d); }
-    bool operator!=(const QFuture &other) const { return (d != other.d); }
+    bool operator==(const QFuture &other) const
+    {
+        return (d == other.d);
+    }
+    bool operator!=(const QFuture &other) const
+    {
+        return (d != other.d);
+    }
 
 #if !defined(Q_CC_XLC)
-    template <typename T>
+    template<typename T>
     QFuture(const QFuture<T> &other)
         : d(other.d)
     { }
 
-    template <typename T>
-    QFuture<void> &operator=(const QFuture<T> &other)
+    template<typename T>
+    QFuture<void>&operator=(const QFuture<T> &other)
     {
         d = other.d;
         return *this;
     }
 #endif
 
-    void cancel() { d.cancel(); }
-    bool isCanceled() const { return d.isCanceled(); }
+    void cancel()
+    {
+        d.cancel();
+    }
+    bool isCanceled() const
+    {
+        return d.isCanceled();
+    }
 
-    void setPaused(bool paused) { d.setPaused(paused); }
-    bool isPaused() const { return d.isPaused(); }
-    void pause() { setPaused(true); }
-    void resume() { setPaused(false); }
-    void togglePaused() { d.togglePaused(); }
+    void setPaused(bool paused)
+    {
+        d.setPaused(paused);
+    }
+    bool isPaused() const
+    {
+        return d.isPaused();
+    }
+    void pause()
+    {
+        setPaused(true);
+    }
+    void resume()
+    {
+        setPaused(false);
+    }
+    void togglePaused()
+    {
+        d.togglePaused();
+    }
 
-    bool isStarted() const { return d.isStarted(); }
-    bool isFinished() const { return d.isFinished(); }
-    bool isRunning() const { return d.isRunning(); }
+    bool isStarted() const
+    {
+        return d.isStarted();
+    }
+    bool isFinished() const
+    {
+        return d.isFinished();
+    }
+    bool isRunning() const
+    {
+        return d.isRunning();
+    }
 
-    int resultCount() const { return d.resultCount(); }
-    int progressValue() const { return d.progressValue(); }
-    int progressMinimum() const { return d.progressMinimum(); }
-    int progressMaximum() const { return d.progressMaximum(); }
-    QString progressText() const { return d.progressText(); }
-    void waitForFinished() { d.waitForFinished(); }
+    int resultCount() const
+    {
+        return d.resultCount();
+    }
+    int progressValue() const
+    {
+        return d.progressValue();
+    }
+    int progressMinimum() const
+    {
+        return d.progressMinimum();
+    }
+    int progressMaximum() const
+    {
+        return d.progressMaximum();
+    }
+    QString progressText() const
+    {
+        return d.progressText();
+    }
+    void waitForFinished()
+    {
+        d.waitForFinished();
+    }
 
 private:
     friend class QFutureWatcher<void>;
@@ -226,7 +389,7 @@ private:
 #ifdef QFUTURE_TEST
 public:
 #endif
-    mutable QFutureInterfaceBase d;
+    mutable QFutureInterfaceBase    d;
 };
 
 inline QFuture<void> QFutureInterface<void>::future()
@@ -234,14 +397,13 @@ inline QFuture<void> QFutureInterface<void>::future()
     return QFuture<void>(this);
 }
 
-template <typename T>
+template<typename T>
 QFuture<void> qToVoidFuture(const QFuture<T> &future)
 {
     return QFuture<void>(future.d);
 }
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_QFUTURE
 
 #endif // QFUTURE_H

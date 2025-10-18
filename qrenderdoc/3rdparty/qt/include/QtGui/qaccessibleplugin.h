@@ -56,16 +56,15 @@ class QAccessibleInterface;
 
 class QAccessiblePluginPrivate;
 
-class Q_GUI_EXPORT QAccessiblePlugin : public QObject
+class Q_GUI_EXPORT    QAccessiblePlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QAccessiblePlugin(QObject *parent = Q_NULLPTR);
     ~QAccessiblePlugin();
 
-    virtual QAccessibleInterface *create(const QString &key, QObject *object) = 0;
+    virtual QAccessibleInterface* create(const QString &key, QObject *object) = 0;
 };
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

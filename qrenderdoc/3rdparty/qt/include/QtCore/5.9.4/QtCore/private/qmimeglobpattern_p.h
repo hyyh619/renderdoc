@@ -63,30 +63,29 @@ QT_BEGIN_NAMESPACE
 struct QMimeGlobMatchResult
 {
     QMimeGlobMatchResult()
-    : m_weight(0), m_matchingPatternLength(0)
+        : m_weight(0), m_matchingPatternLength(0)
     {}
 
     void addMatch(const QString &mimeType, int weight, const QString &pattern);
 
     QStringList m_matchingMimeTypes; // only those with highest weight
     QStringList m_allMatchingMimeTypes;
-    int m_weight;
-    int m_matchingPatternLength;
-    QString m_foundSuffix;
+    int         m_weight;
+    int         m_matchingPatternLength;
+    QString     m_foundSuffix;
 };
 
 class QMimeGlobPattern
 {
 public:
-    static const unsigned MaxWeight = 100;
-    static const unsigned DefaultWeight = 50;
-    static const unsigned MinWeight = 1;
+    static const unsigned       MaxWeight       = 100;
+    static const unsigned       DefaultWeight   = 50;
+    static const unsigned       MinWeight       = 1;
 
     explicit QMimeGlobPattern(const QString &thePattern, const QString &theMimeType, unsigned theWeight = DefaultWeight, Qt::CaseSensitivity s = Qt::CaseInsensitive) :
         m_pattern(s == Qt::CaseInsensitive ? thePattern.toLower() : thePattern),
         m_mimeType(theMimeType), m_weight(theWeight), m_caseSensitivity(s)
-    {
-    }
+    {}
 
     void swap(QMimeGlobPattern &other) Q_DECL_NOTHROW
     {
@@ -98,16 +97,28 @@ public:
 
     bool matchFileName(const QString &filename) const;
 
-    inline const QString &pattern() const { return m_pattern; }
-    inline unsigned weight() const { return m_weight; }
-    inline const QString &mimeType() const { return m_mimeType; }
-    inline bool isCaseSensitive() const { return m_caseSensitivity == Qt::CaseSensitive; }
+    inline const QString    &pattern() const
+    {
+        return m_pattern;
+    }
+    inline unsigned weight() const
+    {
+        return m_weight;
+    }
+    inline const QString    &mimeType() const
+    {
+        return m_mimeType;
+    }
+    inline bool isCaseSensitive() const
+    {
+        return m_caseSensitivity == Qt::CaseSensitive;
+    }
 
 private:
-    QString m_pattern;
-    QString m_mimeType;
-    int m_weight;
-    Qt::CaseSensitivity m_caseSensitivity;
+    QString                 m_pattern;
+    QString                 m_mimeType;
+    int                     m_weight;
+    Qt::CaseSensitivity     m_caseSensitivity;
 };
 Q_DECLARE_SHARED(QMimeGlobPattern)
 
@@ -116,11 +127,13 @@ class QMimeGlobPatternList : public QList<QMimeGlobPattern>
 public:
     bool hasPattern(const QString &mimeType, const QString &pattern) const
     {
-        const_iterator it = begin();
-        const const_iterator myend = end();
+        const_iterator          it      = begin();
+        const const_iterator    myend   = end();
+
         for (; it != myend; ++it)
             if ((*it).pattern() == pattern && (*it).mimeType() == mimeType)
                 return true;
+
         return false;
     }
 
@@ -129,9 +142,10 @@ public:
      */
     void removeMimeType(const QString &mimeType)
     {
-        auto isMimeTypeEqual = [&mimeType](const QMimeGlobPattern &pattern) {
-            return pattern.mimeType() == mimeType;
-        };
+        auto    isMimeTypeEqual = [&mimeType] (const QMimeGlobPattern &pattern) {
+                                      return pattern.mimeType() == mimeType;
+                                  };
+
         erase(std::remove_if(begin(), end(), isMimeTypeEqual), end());
     }
 
@@ -155,12 +169,11 @@ public:
     QMimeGlobMatchResult matchingGlobs(const QString &fileName) const;
     void clear();
 
-    PatternsMap m_fastPatterns; // example: "doc" -> "application/msword", "text/plain"
-    QMimeGlobPatternList m_highWeightGlobs;
-    QMimeGlobPatternList m_lowWeightGlobs; // <= 50, including the non-fast 50 patterns
+    PatternsMap             m_fastPatterns; // example: "doc" -> "application/msword", "text/plain"
+    QMimeGlobPatternList    m_highWeightGlobs;
+    QMimeGlobPatternList    m_lowWeightGlobs; // <= 50, including the non-fast 50 patterns
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEGLOBPATTERN_P_H

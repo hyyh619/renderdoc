@@ -86,20 +86,20 @@ class QTouchDevice;
 class QGestureManager;
 #endif
 
-extern Q_GUI_EXPORT bool qt_is_gui_used;
+extern Q_GUI_EXPORT bool    qt_is_gui_used;
 #ifndef QT_NO_CLIPBOARD
-extern QClipboard *qt_clipboard;
+extern QClipboard    *qt_clipboard;
 #endif
 
 typedef QHash<QByteArray, QFont> FontHash;
-FontHash *qt_app_fonts_hash();
+FontHash* qt_app_fonts_hash();
 
 typedef QHash<QByteArray, QPalette> PaletteHash;
-PaletteHash *qt_app_palettes_hash();
+PaletteHash* qt_app_palettes_hash();
 
 #define QApplicationPrivateBase QGuiApplicationPrivate
 
-class Q_WIDGETS_EXPORT QApplicationPrivate : public QApplicationPrivateBase
+class Q_WIDGETS_EXPORT    QApplicationPrivate : public QApplicationPrivateBase
 {
     Q_DECLARE_PUBLIC(QApplication)
 public:
@@ -107,7 +107,7 @@ public:
     ~QApplicationPrivate();
 
     virtual void notifyLayoutDirectionChange() Q_DECL_OVERRIDE;
-    virtual void notifyActiveWindowChange(QWindow *) Q_DECL_OVERRIDE;
+    virtual void notifyActiveWindowChange(QWindow*) Q_DECL_OVERRIDE;
 
     virtual bool shouldQuit() Q_DECL_OVERRIDE;
     bool tryCloseAllWindows() Q_DECL_OVERRIDE;
@@ -118,7 +118,7 @@ public:
 #endif
     static void reset_instance_pointer();
 #endif
-    static bool autoSipEnabled;
+    static bool    autoSipEnabled;
     static QString desktopStyleKey();
 
 
@@ -127,29 +127,29 @@ public:
 
     void notifyWindowIconChanged() Q_DECL_OVERRIDE;
 
-    //modality
+    // modality
     bool isWindowBlocked(QWindow *window, QWindow **blockingWindow = 0) const Q_DECL_OVERRIDE;
     static bool isBlockedByModal(QWidget *widget);
     static bool modalState();
     static bool tryModalHelper(QWidget *widget, QWidget **rettop = 0);
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
-    static QWidget *tryModalHelper_sys(QWidget *top);
+    static QWidget* tryModalHelper_sys(QWidget *top);
     bool canQuit();
 #endif
 
-    //style
+    // style
     static bool usesNativeStyle()
     {
         return !overrides_native_style;
     }
 
-    bool notify_helper(QObject *receiver, QEvent * e);
+    bool notify_helper(QObject *receiver, QEvent *e);
 
-    void init(
+    void    init(
 #if 0 // Used to be included in Qt4 for Q_WS_X11
-                   Display *dpy = 0, Qt::HANDLE visual = 0, Qt::HANDLE cmap = 0
+        Display * dpy = 0, Qt::HANDLE visual = 0, Qt::HANDLE cmap = 0
 #endif
-                   );
+        );
     void initialize();
     void process_cmdline();
 
@@ -158,53 +158,56 @@ public:
 #endif
 
     static bool inPopupMode();
-    bool popupActive() Q_DECL_OVERRIDE { return inPopupMode(); }
+    bool popupActive() Q_DECL_OVERRIDE
+    {
+        return inPopupMode();
+    }
     void closePopup(QWidget *popup);
     void openPopup(QWidget *popup);
     static void setFocusWidget(QWidget *focus, Qt::FocusReason reason);
-    static QWidget *focusNextPrevChild_helper(QWidget *toplevel, bool next,
+    static QWidget* focusNextPrevChild_helper(QWidget *toplevel, bool next,
                                               bool *wrappingOccurred = 0);
 
 #if QT_CONFIG(graphicsview)
     // Maintain a list of all scenes to ensure font and palette propagation to
     // all scenes.
-    QList<QGraphicsScene *> scene_list;
+    QList<QGraphicsScene*>    scene_list;
 #endif
 
-    QBasicTimer toolTipWakeUp, toolTipFallAsleep;
-    QPoint toolTipPos, toolTipGlobalPos, hoverGlobalPos;
-    QPointer<QWidget> toolTipWidget;
+    QBasicTimer             toolTipWakeUp, toolTipFallAsleep;
+    QPoint                  toolTipPos, toolTipGlobalPos, hoverGlobalPos;
+    QPointer<QWidget>       toolTipWidget;
 
-    static QSize app_strut;
-    static QWidgetList *popupWidgets;
-    static QStyle *app_style;
-    static bool overrides_native_style;
-    static QPalette *sys_pal;
-    static QPalette *set_pal;
+    static QSize            app_strut;
+    static QWidgetList      *popupWidgets;
+    static QStyle           *app_style;
+    static bool             overrides_native_style;
+    static QPalette         *sys_pal;
+    static QPalette         *set_pal;
 
 protected:
     void notifyThemeChanged() Q_DECL_OVERRIDE;
 #ifndef QT_NO_DRAGANDDROP
-    void notifyDragStarted(const QDrag *) Q_DECL_OVERRIDE;
+    void notifyDragStarted(const QDrag*) Q_DECL_OVERRIDE;
 #endif // QT_NO_DRAGANDDROP
 
 public:
-    static QFont *sys_font;
-    static QFont *set_font;
-    static QWidget *main_widget;
-    static QWidget *focus_widget;
-    static QWidget *hidden_focus_widget;
-    static QWidget *active_window;
+    static QFont        *sys_font;
+    static QFont        *set_font;
+    static QWidget      *main_widget;
+    static QWidget      *focus_widget;
+    static QWidget      *hidden_focus_widget;
+    static QWidget      *active_window;
 #if QT_CONFIG(wheelevent)
-    static int  wheel_scroll_lines;
-    static QPointer<QWidget> wheel_widget;
+    static int                  wheel_scroll_lines;
+    static QPointer<QWidget>    wheel_widget;
 #endif
 
-    static int enabledAnimations; // Combination of QPlatformTheme::UiEffect
-    static bool widgetCount; // Coupled with -widgetcount switch
+    static int      enabledAnimations; // Combination of QPlatformTheme::UiEffect
+    static bool     widgetCount; // Coupled with -widgetcount switch
 
     static void setSystemPalette(const QPalette &pal);
-    static void setPalette_helper(const QPalette &palette, const char* className, bool clearWidgetPaletteHash);
+    static void setPalette_helper(const QPalette &palette, const char *className, bool clearWidgetPaletteHash);
     static void initializeWidgetPaletteHash();
     static void initializeWidgetFontHash();
     static void setSystemFont(const QFont &font);
@@ -213,22 +216,25 @@ public:
     static void applyX11SpecificCommandLineArguments(QWidget *main_widget);
 #endif
 
-    static QApplicationPrivate *instance() { return self; }
+    static QApplicationPrivate* instance()
+    {
+        return self;
+    }
 
 #ifdef QT_KEYPAD_NAVIGATION
-    static QWidget *oldEditFocus;
-    static Qt::NavigationMode navigationMode;
+    static QWidget                  *oldEditFocus;
+    static Qt::NavigationMode       navigationMode;
 #endif
 
 #if 0 /* Used to be included in Qt4 for Q_WS_MAC */ || 0 /* Used to be included in Qt4 for Q_WS_X11 */
     void _q_alertTimeOut();
-    QHash<QWidget *, QTimer *> alertTimerHash;
+    QHash<QWidget*, QTimer*>    alertTimerHash;
 #endif
 #ifndef QT_NO_STYLE_STYLESHEET
-    static QString styleSheet;
+    static QString    styleSheet;
 #endif
-    static QPointer<QWidget> leaveAfterRelease;
-    static QWidget *pickMouseReceiver(QWidget *candidate, const QPoint &windowPos, QPoint *pos,
+    static QPointer<QWidget>    leaveAfterRelease;
+    static QWidget* pickMouseReceiver(QWidget *candidate, const QPoint &windowPos, QPoint *pos,
                                       QEvent::Type type, Qt::MouseButtons buttons,
                                       QWidget *buttonDown, QWidget *alienWidget);
     static bool sendMouseEvent(QWidget *receiver, QMouseEvent *event, QWidget *alienWidget,
@@ -236,12 +242,14 @@ public:
                                bool spontaneous = true);
     void sendSyntheticEnterLeave(QWidget *widget);
 
-    static QWindow *windowForWidget(const QWidget *widget)
+    static QWindow* windowForWidget(const QWidget *widget)
     {
         if (QWindow *window = widget->windowHandle())
             return window;
+
         if (const QWidget *nativeParent = widget->nativeParentWidget())
             return nativeParent->windowHandle();
+
         return 0;
     }
 
@@ -250,23 +258,24 @@ public:
     {
         if (QWindow *window = windowForWidget(widget))
             if (window->handle())
-                return static_cast<HWND> (QGuiApplication::platformNativeInterface()->
-                                          nativeResourceForWindow(QByteArrayLiteral("handle"), window));
+                return static_cast<HWND>(QGuiApplication::platformNativeInterface()->
+                                         nativeResourceForWindow(QByteArrayLiteral("handle"), window));
+
         return 0;
     }
 #endif
 
 #ifndef QT_NO_GESTURES
-    QGestureManager *gestureManager;
-    QWidget *gestureWidget;
+    QGestureManager     *gestureManager;
+    QWidget             *gestureWidget;
 #endif
 #if 0 /* Used to be included in Qt4 for Q_WS_X11 */ || 0 /* Used to be included in Qt4 for Q_WS_WIN */
-    QPixmap *move_cursor;
-    QPixmap *copy_cursor;
-    QPixmap *link_cursor;
+    QPixmap     *move_cursor;
+    QPixmap     *copy_cursor;
+    QPixmap     *link_cursor;
 #endif
 #if 0 // Used to be included in Qt4 for Q_WS_WIN
-    QPixmap *ignore_cursor;
+    QPixmap    *ignore_cursor;
 #endif
 
     static bool updateTouchPointsForWidget(QWidget *widget, QTouchEvent *touchEvent);
@@ -274,7 +283,7 @@ public:
     void initializeMultitouch_sys();
     void cleanupMultitouch();
     void cleanupMultitouch_sys();
-    QWidget *findClosestTouchPointTarget(QTouchDevice *device, const QTouchEvent::TouchPoint &touchPoint);
+    QWidget* findClosestTouchPointTarget(QTouchDevice *device, const QTouchEvent::TouchPoint &touchPoint);
     void appendTouchPoint(const QTouchEvent::TouchPoint &touchPoint);
     void removeTouchPoint(int touchPointId);
     void activateImplicitTouchGrab(QWidget *widget, QTouchEvent *touchBeginEvent);
@@ -284,25 +293,25 @@ public:
                                        ulong timestamp);
     static void translateTouchCancel(QTouchDevice *device, ulong timestamp);
 
-    QPixmap applyQIconStyleHelper(QIcon::Mode mode, const QPixmap& base) const Q_DECL_OVERRIDE;
+    QPixmap applyQIconStyleHelper(QIcon::Mode mode, const QPixmap &base) const Q_DECL_OVERRIDE;
 private:
-    static QApplicationPrivate *self;
+    static QApplicationPrivate    *self;
     static bool tryCloseAllWidgetWindows(QWindowList *processedWindows);
 
     static void giveFocusAccordingToFocusPolicy(QWidget *w, QEvent *event, QPoint localPos);
     static bool shouldSetFocus(QWidget *w, Qt::FocusPolicy policy);
 
 
-    static bool isAlien(QWidget *);
+    static bool isAlien(QWidget*);
 };
 
 #if 0 // Used to be included in Qt4 for Q_WS_WIN
-  extern void qt_win_set_cursor(QWidget *, bool);
+extern void qt_win_set_cursor(QWidget*, bool);
 #elif 0 // Used to be included in Qt4 for Q_WS_X11
-  extern void qt_x11_enforce_cursor(QWidget *, bool);
-  extern void qt_x11_enforce_cursor(QWidget *);
+extern void qt_x11_enforce_cursor(QWidget*, bool);
+extern void qt_x11_enforce_cursor(QWidget*);
 #else
-  extern void qt_qpa_set_cursor(QWidget * w, bool force);
+extern void qt_qpa_set_cursor(QWidget *w, bool force);
 #endif
 
 QT_END_NAMESPACE

@@ -53,7 +53,7 @@ class QSortFilterProxyModelPrivate;
 class QSortFilterProxyModelLessThan;
 class QSortFilterProxyModelGreaterThan;
 
-class Q_CORE_EXPORT QSortFilterProxyModel : public QAbstractProxyModel
+class Q_CORE_EXPORT    QSortFilterProxyModel : public QAbstractProxyModel
 {
     friend class QSortFilterProxyModelLessThan;
     friend class QSortFilterProxyModelGreaterThan;
@@ -138,9 +138,9 @@ public:
 
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const Q_DECL_OVERRIDE;
     bool setHeaderData(int section, Qt::Orientation orientation,
-            const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
+                       const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
 
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
 
@@ -157,7 +157,7 @@ public:
     QModelIndexList match(const QModelIndex &start, int role,
                           const QVariant &value, int hits = 1,
                           Qt::MatchFlags flags =
-                          Qt::MatchFlags(Qt::MatchStartsWith|Qt::MatchWrap)) const Q_DECL_OVERRIDE;
+                              Qt::MatchFlags(Qt::MatchStartsWith | Qt::MatchWrap)) const Q_DECL_OVERRIDE;
     QSize span(const QModelIndex &index) const Q_DECL_OVERRIDE;
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) Q_DECL_OVERRIDE;
 
@@ -177,19 +177,18 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsInserted(const QModelIndex &source_parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsRemoved(const QModelIndex &source_parent, int start, int end))
-    Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int))
-    Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsMoved(QModelIndex,int,int,QModelIndex,int))
+    Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_sourceRowsMoved(QModelIndex, int, int, QModelIndex, int))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsAboutToBeInserted(const QModelIndex &source_parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsInserted(const QModelIndex &source_parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsAboutToBeRemoved(const QModelIndex &source_parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsRemoved(const QModelIndex &source_parent, int start, int end))
-    Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsAboutToBeMoved(QModelIndex,int,int,QModelIndex,int))
-    Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsMoved(QModelIndex,int,int,QModelIndex,int))
+    Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int))
+    Q_PRIVATE_SLOT(d_func(), void _q_sourceColumnsMoved(QModelIndex, int, int, QModelIndex, int))
     Q_PRIVATE_SLOT(d_func(), void _q_clearMapping())
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SORTFILTERPROXYMODEL
 
 #endif // QSORTFILTERPROXYMODEL_H

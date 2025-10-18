@@ -88,14 +88,15 @@ public:
 
 #if OPENSSL_VERSION_NUMBER >= 0x1000100fL && !defined(OPENSSL_NO_NEXTPROTONEG)
     // must be public because we want to use it from an OpenSSL callback
-    struct NPNContext {
+    struct NPNContext
+    {
         NPNContext() : data(0),
             len(0),
             status(QSslConfiguration::NextProtocolNegotiationNone)
         { }
-        unsigned char *data;
-        unsigned short len;
-        QSslConfiguration::NextProtocolNegotiationStatus status;
+        unsigned char                                       *data;
+        unsigned short                                      len;
+        QSslConfiguration::NextProtocolNegotiationStatus    status;
     };
     NPNContext npnContext() const;
 #endif // OPENSSL_VERSION_NUMBER >= 0x1000100fL ...
@@ -105,24 +106,23 @@ protected:
     friend class QSharedPointer<QSslContext>;
 
 private:
-    static void initSslContext(QSslContext* sslContext, QSslSocket::SslMode mode, const QSslConfiguration &configuration,
+    static void initSslContext(QSslContext *sslContext, QSslSocket::SslMode mode, const QSslConfiguration &configuration,
                                bool allowRootCertOnDemandLoading);
 
 private:
-    SSL_CTX* ctx;
-    EVP_PKEY *pkey;
-    SSL_SESSION *session;
-    QByteArray m_sessionASN1;
-    int m_sessionTicketLifeTimeHint;
-    QSslError::SslError errorCode;
-    QString errorStr;
-    QSslConfiguration sslConfiguration;
+    SSL_CTX                 *ctx;
+    EVP_PKEY                *pkey;
+    SSL_SESSION             *session;
+    QByteArray              m_sessionASN1;
+    int                     m_sessionTicketLifeTimeHint;
+    QSslError::SslError     errorCode;
+    QString                 errorStr;
+    QSslConfiguration       sslConfiguration;
 #if OPENSSL_VERSION_NUMBER >= 0x1000100fL && !defined(OPENSSL_NO_NEXTPROTONEG)
-    QByteArray m_supportedNPNVersions;
-    NPNContext m_npnContext;
+    QByteArray      m_supportedNPNVersions;
+    NPNContext      m_npnContext;
 #endif // OPENSSL_VERSION_NUMBER >= 0x1000100fL ...
 };
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE

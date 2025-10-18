@@ -69,7 +69,7 @@ public:
 
     QVariantAnimationPrivate();
 
-    static QVariantAnimationPrivate *get(QVariantAnimation *q)
+    static QVariantAnimationPrivate* get(QVariantAnimation *q)
     {
         return q->d_func();
     }
@@ -77,46 +77,45 @@ public:
     void setDefaultStartEndValue(const QVariant &value);
 
 
-    QVariant currentValue;
-    QVariant defaultStartEndValue;
+    QVariant    currentValue;
+    QVariant    defaultStartEndValue;
 
-    //this is used to keep track of the KeyValue interval in which we currently are
+    // this is used to keep track of the KeyValue interval in which we currently are
     struct
     {
         QVariantAnimation::KeyValue start, end;
-    } currentInterval;
+    }    currentInterval;
 
-    QEasingCurve easing;
-    int duration;
-    QVariantAnimation::KeyValues keyValues;
-    QVariantAnimation::Interpolator interpolator;
+    QEasingCurve                        easing;
+    int                                 duration;
+    QVariantAnimation::KeyValues        keyValues;
+    QVariantAnimation::Interpolator     interpolator;
 
     void setCurrentValueForProgress(const qreal progress);
-    void recalculateCurrentInterval(bool force=false);
-    void setValueAt(qreal, const QVariant &);
+    void recalculateCurrentInterval(bool force= false);
+    void    setValueAt(qreal, const QVariant &);
     QVariant valueAt(qreal step) const;
     void convertValues(int t);
 
     void updateInterpolator();
 
-    //XXX this is needed by dui
+    // XXX this is needed by dui
     static Q_CORE_EXPORT QVariantAnimation::Interpolator getInterpolator(int interpolationType);
 };
 
-//this should make the interpolation faster
+// this should make the interpolation faster
 template<typename T> inline T _q_interpolate(const T &f, const T &t, qreal progress)
 {
     return T(f + (t - f) * progress);
 }
 
-template<typename T > inline QVariant _q_interpolateVariant(const T &from, const T &to, qreal progress)
+template<typename T> inline QVariant _q_interpolateVariant(const T &from, const T &to, qreal progress)
 {
     return _q_interpolate(from, to, progress);
 }
 
 
 QT_END_NAMESPACE
+#endif // QT_NO_ANIMATION
 
-#endif //QT_NO_ANIMATION
-
-#endif //QVARIANTANIMATION_P_H
+#endif // QVARIANTANIMATION_P_H

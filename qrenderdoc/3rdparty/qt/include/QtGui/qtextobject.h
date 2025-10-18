@@ -57,7 +57,7 @@ class QTextBlock;
 class QTextFragment;
 class QTextList;
 
-class Q_GUI_EXPORT QTextObject : public QObject
+class Q_GUI_EXPORT    QTextObject : public QObject
 {
     Q_OBJECT
 
@@ -71,11 +71,11 @@ public:
     QTextFormat format() const;
     int formatIndex() const;
 
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     int objectIndex() const;
 
-    QTextDocumentPrivate *docHandle() const;
+    QTextDocumentPrivate* docHandle() const;
 
 protected:
     QTextObject(QTextObjectPrivate &p, QTextDocument *doc);
@@ -87,7 +87,7 @@ private:
 };
 
 class QTextBlockGroupPrivate;
-class Q_GUI_EXPORT QTextBlockGroup : public QTextObject
+class Q_GUI_EXPORT    QTextBlockGroup : public QTextObject
 {
     Q_OBJECT
 
@@ -109,13 +109,14 @@ private:
     friend class QTextDocumentPrivate;
 };
 
-class Q_GUI_EXPORT QTextFrameLayoutData {
+class Q_GUI_EXPORT    QTextFrameLayoutData
+{
 public:
     virtual ~QTextFrameLayoutData();
 };
 
 class QTextFramePrivate;
-class Q_GUI_EXPORT QTextFrame : public QTextObject
+class Q_GUI_EXPORT    QTextFrame : public QTextObject
 {
     Q_OBJECT
 
@@ -124,54 +125,80 @@ public:
     ~QTextFrame();
 
     inline void setFrameFormat(const QTextFrameFormat &format);
-    QTextFrameFormat frameFormat() const { return QTextObject::format().toFrameFormat(); }
+    QTextFrameFormat frameFormat() const
+    {
+        return QTextObject::format().toFrameFormat();
+    }
 
     QTextCursor firstCursorPosition() const;
     QTextCursor lastCursorPosition() const;
     int firstPosition() const;
     int lastPosition() const;
 
-    QTextFrameLayoutData *layoutData() const;
+    QTextFrameLayoutData* layoutData() const;
     void setLayoutData(QTextFrameLayoutData *data);
 
-    QList<QTextFrame *> childFrames() const;
-    QTextFrame *parentFrame() const;
+    QList<QTextFrame*> childFrames() const;
+    QTextFrame* parentFrame() const;
 
-    class Q_GUI_EXPORT iterator {
-        QTextFrame *f;
-        int b;
-        int e;
-        QTextFrame *cf;
-        int cb;
+    class Q_GUI_EXPORT    iterator
+    {
+        QTextFrame      *f;
+        int             b;
+        int             e;
+        QTextFrame      *cf;
+        int             cb;
 
         friend class QTextFrame;
         friend class QTextTableCell;
         friend class QTextDocumentLayoutPrivate;
         iterator(QTextFrame *frame, int block, int begin, int end);
-    public:
+public:
         iterator(); // ### Qt 6: inline
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         iterator(const iterator &o) Q_DECL_NOTHROW; // = default
-        iterator &operator=(const iterator &o) Q_DECL_NOTHROW; // = default
+        iterator&operator=(const iterator &o) Q_DECL_NOTHROW;  // = default
         iterator(iterator &&other) Q_DECL_NOTHROW // = default
-        { memcpy(this, &other, sizeof(iterator)); }
-        iterator &operator=(iterator &&other) Q_DECL_NOTHROW // = default
-        { memcpy(this, &other, sizeof(iterator)); return *this; }
+        {
+            memcpy(this, &other, sizeof(iterator));
+        }
+        iterator&operator=(iterator &&other) Q_DECL_NOTHROW  // = default
+        {
+            memcpy(this, &other, sizeof(iterator)); return *this;
+        }
 #endif
 
-        QTextFrame *parentFrame() const { return f; }
+        QTextFrame* parentFrame() const
+        {
+            return f;
+        }
 
-        QTextFrame *currentFrame() const;
+        QTextFrame* currentFrame() const;
         QTextBlock currentBlock() const;
 
-        bool atEnd() const { return !cf && cb == e; }
+        bool atEnd() const
+        {
+            return !cf && cb == e;
+        }
 
-        inline bool operator==(const iterator &o) const { return f == o.f && cf == o.cf && cb == o.cb; }
-        inline bool operator!=(const iterator &o) const { return f != o.f || cf != o.cf || cb != o.cb; }
-        iterator &operator++();
-        inline iterator operator++(int) { iterator tmp = *this; operator++(); return tmp; }
-        iterator &operator--();
-        inline iterator operator--(int) { iterator tmp = *this; operator--(); return tmp; }
+        inline bool operator==(const iterator &o) const
+        {
+            return f == o.f && cf == o.cf && cb == o.cb;
+        }
+        inline bool operator!=(const iterator &o) const
+        {
+            return f != o.f || cf != o.cf || cb != o.cb;
+        }
+        iterator&operator++();
+        inline iterator operator++(int)
+        {
+            iterator    tmp = *this; operator++(); return tmp;
+        }
+        iterator&operator--();
+        inline iterator operator--(int)
+        {
+            iterator    tmp = *this; operator--(); return tmp;
+        }
     };
 
     friend class iterator;
@@ -191,33 +218,48 @@ private:
 Q_DECLARE_TYPEINFO(QTextFrame::iterator, Q_MOVABLE_TYPE);
 
 inline void QTextFrame::setFrameFormat(const QTextFrameFormat &aformat)
-{ QTextObject::setFormat(aformat); }
+{
+    QTextObject::setFormat(aformat);
+}
 
-class Q_GUI_EXPORT QTextBlockUserData {
+class Q_GUI_EXPORT    QTextBlockUserData
+{
 public:
     virtual ~QTextBlockUserData();
 };
 
-class Q_GUI_EXPORT QTextBlock
+class Q_GUI_EXPORT    QTextBlock
 {
     friend class QSyntaxHighlighter;
 public:
     inline QTextBlock(QTextDocumentPrivate *priv, int b) : p(priv), n(b) {}
     inline QTextBlock() : p(Q_NULLPTR), n(0) {}
     inline QTextBlock(const QTextBlock &o) : p(o.p), n(o.n) {}
-    inline QTextBlock &operator=(const QTextBlock &o) { p = o.p; n = o.n; return *this; }
+    inline QTextBlock&operator=(const QTextBlock &o)
+    {
+        p = o.p; n = o.n; return *this;
+    }
 
     bool isValid() const;
 
-    inline bool operator==(const QTextBlock &o) const { return p == o.p && n == o.n; }
-    inline bool operator!=(const QTextBlock &o) const { return p != o.p || n != o.n; }
-    inline bool operator<(const QTextBlock &o) const { return position() < o.position(); }
+    inline bool operator==(const QTextBlock &o) const
+    {
+        return p == o.p && n == o.n;
+    }
+    inline bool operator!=(const QTextBlock &o) const
+    {
+        return p != o.p || n != o.n;
+    }
+    inline bool operator<(const QTextBlock &o) const
+    {
+        return position() < o.position();
+    }
 
     int position() const;
     int length() const;
     bool contains(int position) const;
 
-    QTextLayout *layout() const;
+    QTextLayout* layout() const;
     void clearLayout();
     QTextBlockFormat blockFormat() const;
     int blockFormatIndex() const;
@@ -230,11 +272,11 @@ public:
 
     QVector<QTextLayout::FormatRange> textFormats() const;
 
-    const QTextDocument *document() const;
+    const QTextDocument* document() const;
 
-    QTextList *textList() const;
+    QTextList* textList() const;
 
-    QTextBlockUserData *userData() const;
+    QTextBlockUserData* userData() const;
     void setUserData(QTextBlockUserData *data);
 
     int userState() const;
@@ -252,29 +294,45 @@ public:
     void setLineCount(int count);
     int lineCount() const;
 
-    class Q_GUI_EXPORT iterator {
-        const QTextDocumentPrivate *p;
-        int b;
-        int e;
-        int n;
+    class Q_GUI_EXPORT    iterator
+    {
+        const QTextDocumentPrivate      *p;
+        int                             b;
+        int                             e;
+        int                             n;
         friend class QTextBlock;
         iterator(const QTextDocumentPrivate *priv, int begin, int end, int f) : p(priv), b(begin), e(end), n(f) {}
-    public:
+public:
         iterator() : p(Q_NULLPTR), b(0), e(0), n(0) {}
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
         iterator(const iterator &o) : p(o.p), b(o.b), e(o.e), n(o.n) {}
 #endif
 
         QTextFragment fragment() const;
 
-        bool atEnd() const { return n == e; }
+        bool atEnd() const
+        {
+            return n == e;
+        }
 
-        inline bool operator==(const iterator &o) const { return p == o.p && n == o.n; }
-        inline bool operator!=(const iterator &o) const { return p != o.p || n != o.n; }
-        iterator &operator++();
-        inline iterator operator++(int) { iterator tmp = *this; operator++(); return tmp; }
-        iterator &operator--();
-        inline iterator operator--(int) { iterator tmp = *this; operator--(); return tmp; }
+        inline bool operator==(const iterator &o) const
+        {
+            return p == o.p && n == o.n;
+        }
+        inline bool operator!=(const iterator &o) const
+        {
+            return p != o.p || n != o.n;
+        }
+        iterator&operator++();
+        inline iterator operator++(int)
+        {
+            iterator    tmp = *this; operator++(); return tmp;
+        }
+        iterator&operator--();
+        inline iterator operator--(int)
+        {
+            iterator    tmp = *this; operator--(); return tmp;
+        }
     };
 
     // more Qt
@@ -286,12 +344,18 @@ public:
     QTextBlock next() const;
     QTextBlock previous() const;
 
-    inline QTextDocumentPrivate *docHandle() const { return p; }
-    inline int fragmentIndex() const { return n; }
+    inline QTextDocumentPrivate* docHandle() const
+    {
+        return p;
+    }
+    inline int fragmentIndex() const
+    {
+        return n;
+    }
 
 private:
-    QTextDocumentPrivate *p;
-    int n;
+    QTextDocumentPrivate    *p;
+    int                     n;
     friend class QTextDocumentPrivate;
     friend class QTextLayout;
 };
@@ -300,19 +364,34 @@ Q_DECLARE_TYPEINFO(QTextBlock, Q_MOVABLE_TYPE);
 Q_DECLARE_TYPEINFO(QTextBlock::iterator, Q_MOVABLE_TYPE);
 
 
-class Q_GUI_EXPORT QTextFragment
+class Q_GUI_EXPORT    QTextFragment
 {
 public:
     inline QTextFragment(const QTextDocumentPrivate *priv, int f, int fe) : p(priv), n(f), ne(fe) {}
     inline QTextFragment() : p(Q_NULLPTR), n(0), ne(0) {}
     inline QTextFragment(const QTextFragment &o) : p(o.p), n(o.n), ne(o.ne) {}
-    inline QTextFragment &operator=(const QTextFragment &o) { p = o.p; n = o.n; ne = o.ne; return *this; }
+    inline QTextFragment&operator=(const QTextFragment &o)
+    {
+        p = o.p; n = o.n; ne = o.ne; return *this;
+    }
 
-    inline bool isValid() const { return p && n; }
+    inline bool isValid() const
+    {
+        return p && n;
+    }
 
-    inline bool operator==(const QTextFragment &o) const { return p == o.p && n == o.n; }
-    inline bool operator!=(const QTextFragment &o) const { return p != o.p || n != o.n; }
-    inline bool operator<(const QTextFragment &o) const { return position() < o.position(); }
+    inline bool operator==(const QTextFragment &o) const
+    {
+        return p == o.p && n == o.n;
+    }
+    inline bool operator!=(const QTextFragment &o) const
+    {
+        return p != o.p || n != o.n;
+    }
+    inline bool operator<(const QTextFragment &o) const
+    {
+        return position() < o.position();
+    }
 
     int position() const;
     int length() const;
@@ -327,9 +406,9 @@ public:
 #endif
 
 private:
-    const QTextDocumentPrivate *p;
-    int n;
-    int ne;
+    const QTextDocumentPrivate      *p;
+    int                             n;
+    int                             ne;
 };
 
 Q_DECLARE_TYPEINFO(QTextFragment, Q_MOVABLE_TYPE);

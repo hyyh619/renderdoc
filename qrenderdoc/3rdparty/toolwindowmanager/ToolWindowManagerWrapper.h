@@ -41,73 +41,79 @@ class QLabel;
  */
 class ToolWindowManagerWrapper : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  //! Creates new wrapper.
-  explicit ToolWindowManagerWrapper(ToolWindowManager *manager, bool floating);
-  //! Removes the wrapper.
-  virtual ~ToolWindowManagerWrapper();
+    // ! Creates new wrapper.
+    explicit ToolWindowManagerWrapper(ToolWindowManager *manager, bool floating);
+    // ! Removes the wrapper.
+    virtual ~ToolWindowManagerWrapper();
 
-  ToolWindowManager *manager() { return m_manager; }
-  bool floating() { return m_floating; }
-  void updateTitle();
+    ToolWindowManager* manager()
+    {
+        return m_manager;
+    }
+    bool floating()
+    {
+        return m_floating;
+    }
+    void updateTitle();
 
 protected:
-  //! Reimplemented to register hiding of contained tool windows when user closes the floating
-  //! window.
-  virtual void closeEvent(QCloseEvent *) Q_DECL_OVERRIDE;
+    // ! Reimplemented to register hiding of contained tool windows when user closes the floating
+    // ! window.
+    virtual void closeEvent(QCloseEvent*) Q_DECL_OVERRIDE;
 
-  //! Event filter for grabbing and processing mouse drags as toolwindow drags.
-  virtual bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
+    // ! Event filter for grabbing and processing mouse drags as toolwindow drags.
+    virtual bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
 
-  //! Painting and resizing for custom-rendered widget frames
-  virtual void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-  virtual void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
+    // ! Painting and resizing for custom-rendered widget frames
+    virtual void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    virtual void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
 
 private:
-  ToolWindowManager *m_manager;
+    ToolWindowManager    *m_manager;
 
-  enum class ResizeDirection
-  {
-    NW,
-    NE,
-    SW,
-    SE,
-    N,
-    E,
-    S,
-    W,
-    Count,
-  };
+    enum class ResizeDirection
+    {
+        NW,
+        NE,
+        SW,
+        SE,
+        N,
+        E,
+        S,
+        W,
+        Count,
+    };
 
-  QRect titleRect();
-  ResizeDirection checkResize();
+    QRect titleRect();
+    ResizeDirection checkResize();
 
-  QRect m_closeRect;
-  QIcon m_closeIcon;
-  int m_closeButtonSize;
-  int m_titleHeight;
-  int m_frameWidth;
-  bool m_floating;
+    QRect       m_closeRect;
+    QIcon       m_closeIcon;
+    int         m_closeButtonSize;
+    int         m_titleHeight;
+    int         m_frameWidth;
+    bool        m_floating;
 
-  QTimer *m_moveTimeout;
+    QTimer    *m_moveTimeout;
 
-  bool m_dragReady;             // we've clicked and started moving but haven't moved enough yet
-  QPoint m_dragStartCursor;     // cursor at the click to start a drag
-  QRect m_dragStartGeometry;    // window geometry at the click to start a drag
-  bool m_dragActive;            // whether a drag currently on-going
-  ResizeDirection m_dragDirection;    // the current direction being dragged
+    bool                m_dragReady; // we've clicked and started moving but haven't moved enough yet
+    QPoint              m_dragStartCursor; // cursor at the click to start a drag
+    QRect               m_dragStartGeometry; // window geometry at the click to start a drag
+    bool                m_dragActive; // whether a drag currently on-going
+    ResizeDirection     m_dragDirection; // the current direction being dragged
 
-  // dump content's layout to variable
-  QVariantMap saveState();
+    // dump content's layout to variable
+    QVariantMap saveState();
 
-  // construct layout based on given dump
-  void restoreState(const QVariantMap &data);
+    // construct layout based on given dump
+    void restoreState(const QVariantMap &data);
 
-  friend class ToolWindowManager;
+    friend class ToolWindowManager;
 
 private slots:
-  void moveTimeout();
+    void moveTimeout();
 };
 
 #endif    // TOOLWINDOWMANAGERWRAPPER_H

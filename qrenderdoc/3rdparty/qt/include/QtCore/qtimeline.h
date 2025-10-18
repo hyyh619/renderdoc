@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 
 class QTimeLinePrivate;
-class Q_CORE_EXPORT QTimeLine : public QObject
+class Q_CORE_EXPORT    QTimeLine : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(int duration READ duration WRITE setDuration)
@@ -58,16 +58,19 @@ class Q_CORE_EXPORT QTimeLine : public QObject
     Q_PROPERTY(CurveShape curveShape READ curveShape WRITE setCurveShape)
     Q_PROPERTY(QEasingCurve easingCurve READ easingCurve WRITE setEasingCurve)
 public:
-    enum State {
+    enum State
+    {
         NotRunning,
         Paused,
         Running
     };
-    enum Direction {
+    enum Direction
+    {
         Forward,
         Backward
     };
-    enum CurveShape {
+    enum CurveShape
+    {
         EaseInCurve,
         EaseOutCurve,
         EaseInOutCurve,
@@ -121,10 +124,10 @@ public Q_SLOTS:
     void toggleDirection();
 
 Q_SIGNALS:
-    void valueChanged(qreal x, QPrivateSignal);
-    void frameChanged(int, QPrivateSignal);
-    void stateChanged(QTimeLine::State newState, QPrivateSignal);
-    void finished(QPrivateSignal);
+    void    valueChanged(qreal x, QPrivateSignal);
+    void    frameChanged(int, QPrivateSignal);
+    void    stateChanged(QTimeLine::State newState, QPrivateSignal);
+    void    finished(QPrivateSignal);
 
 protected:
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
@@ -137,4 +140,3 @@ private:
 QT_END_NAMESPACE
 
 #endif
-

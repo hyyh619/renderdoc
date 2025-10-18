@@ -45,8 +45,8 @@
 QT_BEGIN_NAMESPACE
 
 // Exported to the directfb plugin
-QDirectFBEGLHooks platform_hook;
-static void *dbpl_handle;
+QDirectFBEGLHooks       platform_hook;
+static void             *dbpl_handle;
 
 void QDirectFBEGLHooks::platformInit()
 {
@@ -61,11 +61,13 @@ void QDirectFBEGLHooks::platformDestroy()
 
 bool QDirectFBEGLHooks::hasCapability(QPlatformIntegration::Capability cap) const
 {
-    switch (cap) {
-    case QPlatformIntegration::ThreadedOpenGL:
-        return true;
-    default:
-        return false;
+    switch (cap)
+    {
+        case QPlatformIntegration::ThreadedOpenGL:
+            return true;
+
+        default:
+            return false;
     }
 }
 

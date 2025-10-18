@@ -55,22 +55,26 @@ class QTextCodec;
 class QRect;
 
 
-class Q_GUI_EXPORT QFontMetrics
+class Q_GUI_EXPORT    QFontMetrics
 {
 public:
-    explicit QFontMetrics(const QFont &);
-    QFontMetrics(const QFont &, QPaintDevice *pd);
-    QFontMetrics(const QFontMetrics &);
+    explicit QFontMetrics(const QFont&);
+    QFontMetrics(const QFont&, QPaintDevice *pd);
+    QFontMetrics(const QFontMetrics&);
     ~QFontMetrics();
 
-    QFontMetrics &operator=(const QFontMetrics &);
+    QFontMetrics&operator=(const QFontMetrics&);
 #ifdef Q_COMPILER_RVALUE_REFS
-    inline QFontMetrics &operator=(QFontMetrics &&other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); return *this; }
+    inline QFontMetrics&operator=(QFontMetrics &&other) Q_DECL_NOEXCEPT
+    {
+        qSwap(d, other.d); return *this;
+    }
 #endif
 
     void swap(QFontMetrics &other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     int ascent() const;
     int capHeight() const;
@@ -85,27 +89,29 @@ public:
     int xHeight() const;
     int averageCharWidth() const;
 
-    bool inFont(QChar) const;
+    bool    inFont(QChar) const;
     bool inFontUcs4(uint ucs4) const;
 
-    int leftBearing(QChar) const;
-    int rightBearing(QChar) const;
-    int width(const QString &, int len = -1) const;
-    int width(const QString &, int len, int flags) const;
+    int     leftBearing(QChar) const;
+    int     rightBearing(QChar) const;
+    int width(const QString&, int len = -1) const;
+    int width(const QString&, int len, int flags) const;
 
-    int width(QChar) const;
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+    int    width(QChar) const;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QT_DEPRECATED int charWidth(const QString &str, int pos) const;
 #endif
 
-    QRect boundingRect(QChar) const;
+    QRect    boundingRect(QChar) const;
 
     QRect boundingRect(const QString &text) const;
     QRect boundingRect(const QRect &r, int flags, const QString &text, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
     inline QRect boundingRect(int x, int y, int w, int h, int flags, const QString &text,
                               int tabstops = 0, int *tabarray = Q_NULLPTR) const
-        { return boundingRect(QRect(x, y, w, h), flags, text, tabstops, tabarray); }
-    QSize size(int flags, const QString& str, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
+    {
+        return boundingRect(QRect(x, y, w, h), flags, text, tabstops, tabarray);
+    }
+    QSize size(int flags, const QString &str, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
 
     QRect tightBoundingRect(const QString &text) const;
 
@@ -117,34 +123,42 @@ public:
     int lineWidth() const;
 
     bool operator==(const QFontMetrics &other) const;
-    inline bool operator !=(const QFontMetrics &other) const { return !operator==(other); }
+    inline bool operator !=(const QFontMetrics &other) const
+    {
+        return !operator==(other);
+    }
 
 private:
     friend class QFontMetricsF;
     friend class QStackTextEngine;
 
-    QExplicitlySharedDataPointer<QFontPrivate> d;
+    QExplicitlySharedDataPointer<QFontPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QFontMetrics)
 
-class Q_GUI_EXPORT QFontMetricsF
+class Q_GUI_EXPORT    QFontMetricsF
 {
 public:
-    explicit QFontMetricsF(const QFont &);
-    QFontMetricsF(const QFont &, QPaintDevice *pd);
-    QFontMetricsF(const QFontMetrics &);
-    QFontMetricsF(const QFontMetricsF &);
+    explicit QFontMetricsF(const QFont&);
+    QFontMetricsF(const QFont&, QPaintDevice *pd);
+    QFontMetricsF(const QFontMetrics&);
+    QFontMetricsF(const QFontMetricsF&);
     ~QFontMetricsF();
 
-    QFontMetricsF &operator=(const QFontMetricsF &);
-    QFontMetricsF &operator=(const QFontMetrics &);
+    QFontMetricsF&operator=(const QFontMetricsF&);
+    QFontMetricsF&operator=(const QFontMetrics&);
 #ifdef Q_COMPILER_RVALUE_REFS
-    inline QFontMetricsF &operator=(QFontMetricsF &&other)
-    { qSwap(d, other.d); return *this; }
+    inline QFontMetricsF&operator=(QFontMetricsF &&other)
+    {
+        qSwap(d, other.d); return *this;
+    }
 #endif
 
-    void swap(QFontMetricsF &other) { qSwap(d, other.d); }
+    void swap(QFontMetricsF &other)
+    {
+        qSwap(d, other.d);
+    }
 
     qreal ascent() const;
     qreal capHeight() const;
@@ -159,19 +173,19 @@ public:
     qreal xHeight() const;
     qreal averageCharWidth() const;
 
-    bool inFont(QChar) const;
+    bool    inFont(QChar) const;
     bool inFontUcs4(uint ucs4) const;
 
-    qreal leftBearing(QChar) const;
-    qreal rightBearing(QChar) const;
+    qreal       leftBearing(QChar) const;
+    qreal       rightBearing(QChar) const;
     qreal width(const QString &string) const;
 
-    qreal width(QChar) const;
+    qreal    width(QChar) const;
 
     QRectF boundingRect(const QString &string) const;
-    QRectF boundingRect(QChar) const;
-    QRectF boundingRect(const QRectF &r, int flags, const QString& string, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
-    QSizeF size(int flags, const QString& str, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
+    QRectF    boundingRect(QChar) const;
+    QRectF boundingRect(const QRectF &r, int flags, const QString &string, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
+    QSizeF size(int flags, const QString &str, int tabstops = 0, int *tabarray = Q_NULLPTR) const;
 
     QRectF tightBoundingRect(const QString &text) const;
 
@@ -183,10 +197,13 @@ public:
     qreal lineWidth() const;
 
     bool operator==(const QFontMetricsF &other) const;
-    inline bool operator !=(const QFontMetricsF &other) const { return !operator==(other); }
+    inline bool operator !=(const QFontMetricsF &other) const
+    {
+        return !operator==(other);
+    }
 
 private:
-    QExplicitlySharedDataPointer<QFontPrivate> d;
+    QExplicitlySharedDataPointer<QFontPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QFontMetricsF)

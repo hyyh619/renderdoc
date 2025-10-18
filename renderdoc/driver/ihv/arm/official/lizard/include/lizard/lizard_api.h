@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2020 Samsung Electronics (UK) Limited
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2020 Samsung Electronics (UK) Limited
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #ifndef LIB_LIZARD_API_H
 #define LIB_LIZARD_API_H
@@ -32,17 +32,18 @@ extern "C" {
 #endif    // End of __cplusplus
 
 struct LizardApi;
-typedef void *LizardInstance;
+typedef void*LizardInstance;
 typedef uint32_t LizardCounterId;
 
 enum LizardVersion
 {
-  LIZARD_VERSION_0_1 = 1,
+    LIZARD_VERSION_0_1 = 1,
 };
 
-typedef enum {
-  LZD_OK = 0,
-  LZD_FAILURE,
+typedef enum
+{
+    LZD_OK = 0,
+    LZD_FAILURE,
 } LZD_Result;
 
 /**
@@ -76,16 +77,16 @@ typedef uint32_t (*LZD_GetAvailableCountersCount_PFN)(LizardInstance ctx);
 
 struct LizardCounterDescription
 {
-  LizardCounterId id;
-  const char *short_name;
-  const char *name;
-  const char *title;
-  const char *description;
-  const char *category;
-  double multiplier;
-  uint32_t units;
-  uint32_t class_type;
-  uint32_t result_type;
+    LizardCounterId id;
+    const char      *short_name;
+    const char      *name;
+    const char      *title;
+    const char      *description;
+    const char      *category;
+    double          multiplier;
+    uint32_t        units;
+    uint32_t        class_type;
+    uint32_t        result_type;
 };
 
 /**
@@ -142,9 +143,10 @@ typedef LZD_Result (*LZD_StartCapture_PFN)(LizardInstance ctx);
  */
 typedef LZD_Result (*LZD_StopCapture_PFN)(LizardInstance ctx);
 
-typedef enum {
-  LZD_ABSOLUTE = 1,
-  LZD_DELTA = 2,
+typedef enum
+{
+    LZD_ABSOLUTE    = 1,
+    LZD_DELTA       = 2,
 } LZD_CounterClassType;
 
 /**
@@ -165,37 +167,38 @@ typedef int64_t (*LZD_ReadCounterInt_PFN)(LizardInstance ctx, LizardCounterId id
  */
 typedef double (*LZD_ReadCounterDouble_PFN)(LizardInstance ctx, LizardCounterId id);
 
-typedef enum {
-  LZD_UNITS_UNKNOWN,
-  LZD_UNITS_BYTE,
-  LZD_UNITS_CELSIUS,
-  LZD_UNITS_HZ,
-  LZD_UNITS_PAGES,
-  LZD_UNITS_RPM,
-  LZD_UNITS_S,
-  LZD_UNITS_V,
+typedef enum
+{
+    LZD_UNITS_UNKNOWN,
+    LZD_UNITS_BYTE,
+    LZD_UNITS_CELSIUS,
+    LZD_UNITS_HZ,
+    LZD_UNITS_PAGES,
+    LZD_UNITS_RPM,
+    LZD_UNITS_S,
+    LZD_UNITS_V,
 
-  LZD_TYPE_INT,
-  LZD_TYPE_DOUBLE,
+    LZD_TYPE_INT,
+    LZD_TYPE_DOUBLE,
 } LZD_CounterAttribute;
 
 struct LizardApi
 {
-  int struct_size;
-  int version;
-  LZD_Init_PFN Init;
-  LZD_Destroy_PFN Destroy;
-  LZD_GetAvailableCountersCount_PFN GetAvailableCountersCount;
-  LZD_GetCounterDescription_PFN GetCounterDescription;
-  LZD_EnableCounter_PFN EnableCounter;
-  LZD_DisableCounter_PFN DisableCounter;
-  LZD_DisableAllCounters_PFN DisableAllCounters;
+    int                                 struct_size;
+    int                                 version;
+    LZD_Init_PFN                        Init;
+    LZD_Destroy_PFN                     Destroy;
+    LZD_GetAvailableCountersCount_PFN   GetAvailableCountersCount;
+    LZD_GetCounterDescription_PFN       GetCounterDescription;
+    LZD_EnableCounter_PFN               EnableCounter;
+    LZD_DisableCounter_PFN              DisableCounter;
+    LZD_DisableAllCounters_PFN          DisableAllCounters;
 
-  LZD_StartCapture_PFN StartCapture;
-  LZD_StopCapture_PFN StopCapture;
+    LZD_StartCapture_PFN    StartCapture;
+    LZD_StopCapture_PFN     StopCapture;
 
-  LZD_ReadCounterInt_PFN ReadCounterInt;
-  LZD_ReadCounterDouble_PFN ReadCounterDouble;
+    LZD_ReadCounterInt_PFN      ReadCounterInt;
+    LZD_ReadCounterDouble_PFN   ReadCounterDouble;
 };
 
 /**

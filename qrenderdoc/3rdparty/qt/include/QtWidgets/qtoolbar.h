@@ -56,18 +56,18 @@ class QIcon;
 class QMainWindow;
 class QStyleOptionToolBar;
 
-class Q_WIDGETS_EXPORT QToolBar : public QWidget
+class Q_WIDGETS_EXPORT    QToolBar : public QWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(bool movable READ isMovable WRITE setMovable
-               DESIGNABLE (qobject_cast<QMainWindow *>(parentWidget()) != 0)
-               NOTIFY movableChanged)
+                          Q_PROPERTY(bool movable READ isMovable WRITE setMovable
+                                     DESIGNABLE (qobject_cast<QMainWindow*>(parentWidget()) != 0)
+                                     NOTIFY movableChanged)
     Q_PROPERTY(Qt::ToolBarAreas allowedAreas READ allowedAreas WRITE setAllowedAreas
-               DESIGNABLE (qobject_cast<QMainWindow *>(parentWidget()) != 0)
+               DESIGNABLE (qobject_cast<QMainWindow*>(parentWidget()) != 0)
                NOTIFY allowedAreasChanged)
     Q_PROPERTY(Qt::Orientation orientation READ orientation WRITE setOrientation
-               DESIGNABLE (qobject_cast<QMainWindow *>(parentWidget()) == 0)
+               DESIGNABLE (qobject_cast<QMainWindow*>(parentWidget()) == 0)
                NOTIFY orientationChanged)
     Q_PROPERTY(QSize iconSize READ iconSize WRITE setIconSize NOTIFY iconSizeChanged)
     Q_PROPERTY(Qt::ToolButtonStyle toolButtonStyle READ toolButtonStyle WRITE setToolButtonStyle
@@ -87,7 +87,9 @@ public:
     Qt::ToolBarAreas allowedAreas() const;
 
     inline bool isAreaAllowed(Qt::ToolBarArea area) const
-    { return (allowedAreas() & area) == area; }
+    {
+        return (allowedAreas() & area) == area;
+    }
 
     void setOrientation(Qt::Orientation orientation);
     Qt::Orientation orientation() const;
@@ -95,79 +97,83 @@ public:
     void clear();
 
     using QWidget::addAction;
-    QAction *addAction(const QString &text);
-    QAction *addAction(const QIcon &icon, const QString &text);
-    QAction *addAction(const QString &text, const QObject *receiver, const char* member);
-    QAction *addAction(const QIcon &icon, const QString &text,
-                       const QObject *receiver, const char* member);
+    QAction* addAction(const QString &text);
+    QAction* addAction(const QIcon &icon, const QString &text);
+    QAction* addAction(const QString &text, const QObject *receiver, const char *member);
+    QAction* addAction(const QIcon &icon, const QString &text,
+                       const QObject *receiver, const char *member);
 #ifdef Q_QDOC
     template<typename PointerToMemberFunction>
-    QAction *addAction(const QString &text, const QObject *receiver, PointerToMemberFunction method);
+    QAction* addAction(const QString &text, const QObject *receiver, PointerToMemberFunction method);
     template<typename Functor>
-    QAction *addAction(const QString &text, Functor functor);
+    QAction* addAction(const QString &text, Functor functor);
     template<typename Functor>
-    QAction *addAction(const QString &text, const QObject *context, Functor functor);
+    QAction* addAction(const QString &text, const QObject *context, Functor functor);
     template<typename PointerToMemberFunction>
-    QAction *addAction(const QIcon &icon, const QString &text, const QObject *receiver, PointerToMemberFunction method);
+    QAction* addAction(const QIcon &icon, const QString &text, const QObject *receiver, PointerToMemberFunction method);
     template<typename Functor>
-    QAction *addAction(const QIcon &icon, const QString &text, Functor functor);
+    QAction* addAction(const QIcon &icon, const QString &text, Functor functor);
     template<typename Functor>
-    QAction *addAction(const QIcon &icon, const QString &text, const QObject *context, Functor functor);
+    QAction* addAction(const QIcon &icon, const QString &text, const QObject *context, Functor functor);
 #else
     // addAction(QString): Connect to a QObject slot / functor or function pointer (with context)
     template<class Obj, typename Func1>
     inline typename std::enable_if<!std::is_same<const char*, Func1>::value
-        && QtPrivate::IsPointerToTypeDerivedFromQObject<Obj*>::Value, QAction *>::type
-        addAction(const QString &text, const Obj *object, Func1 slot)
+                                   &&QtPrivate::IsPointerToTypeDerivedFromQObject<Obj*>::Value, QAction*>::type
+    addAction(const QString &text, const Obj *object, Func1 slot)
     {
-        QAction *result = addAction(text);
+        QAction    *result = addAction(text);
+
         connect(result, &QAction::triggered, object, slot);
         return result;
     }
     // addAction(QString): Connect to a functor or function pointer (without context)
-    template <typename Func1>
-    inline QAction *addAction(const QString &text, Func1 slot)
+    template<typename Func1>
+    inline QAction* addAction(const QString &text, Func1 slot)
     {
-        QAction *result = addAction(text);
+        QAction    *result = addAction(text);
+
         connect(result, &QAction::triggered, slot);
         return result;
     }
     // addAction(QString): Connect to a QObject slot / functor or function pointer (with context)
     template<class Obj, typename Func1>
     inline typename std::enable_if<!std::is_same<const char*, Func1>::value
-        && QtPrivate::IsPointerToTypeDerivedFromQObject<Obj*>::Value, QAction *>::type
-        addAction(const QIcon &actionIcon, const QString &text, const Obj *object, Func1 slot)
+                                   &&QtPrivate::IsPointerToTypeDerivedFromQObject<Obj*>::Value, QAction*>::type
+    addAction(const QIcon &actionIcon, const QString &text, const Obj *object, Func1 slot)
     {
-        QAction *result = addAction(actionIcon, text);
+        QAction    *result = addAction(actionIcon, text);
+
         connect(result, &QAction::triggered, object, slot);
         return result;
     }
     // addAction(QIcon, QString): Connect to a functor or function pointer (without context)
-    template <typename Func1>
-    inline QAction *addAction(const QIcon &actionIcon, const QString &text, Func1 slot)
+    template<typename Func1>
+    inline QAction* addAction(const QIcon &actionIcon, const QString &text, Func1 slot)
     {
-        QAction *result = addAction(actionIcon, text);
+        QAction    *result = addAction(actionIcon, text);
+
         connect(result, &QAction::triggered, slot);
         return result;
     }
 #endif // !Q_QDOC
 
-    QAction *addSeparator();
-    QAction *insertSeparator(QAction *before);
+    QAction* addSeparator();
+    QAction* insertSeparator(QAction *before);
 
-    QAction *addWidget(QWidget *widget);
-    QAction *insertWidget(QAction *before, QWidget *widget);
+    QAction* addWidget(QWidget *widget);
+    QAction* insertWidget(QAction *before, QWidget *widget);
 
     QRect actionGeometry(QAction *action) const;
-    QAction *actionAt(const QPoint &p) const;
-    inline QAction *actionAt(int x, int y) const;
+    QAction* actionAt(const QPoint &p) const;
+    inline QAction* actionAt(int x, int y) const;
 
-    QAction *toggleViewAction() const;
+    QAction* toggleViewAction() const;
 
     QSize iconSize() const;
     Qt::ToolButtonStyle toolButtonStyle() const;
 
-    QWidget *widgetForAction(QAction *action) const;
+    QWidget* widgetForAction(QAction *action) const;
 
     bool isFloatable() const;
     void setFloatable(bool floatable);
@@ -208,9 +214,10 @@ private:
     friend class QToolBarAreaLayout;
 };
 
-inline QAction *QToolBar::actionAt(int ax, int ay) const
-{ return actionAt(QPoint(ax, ay)); }
-
+inline QAction* QToolBar::actionAt(int ax, int ay) const
+{
+    return actionAt(QPoint(ax, ay));
+}
 #endif // QT_NO_TOOLBAR
 
 QT_END_NAMESPACE

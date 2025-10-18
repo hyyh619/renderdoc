@@ -69,16 +69,16 @@ class QStaticTextItem;
 struct StrokeHandler;
 
 #ifndef QT_NO_DEBUG_STREAM
-QDebug Q_GUI_EXPORT &operator<<(QDebug &, const QVectorPath &path);
+QDebug Q_GUI_EXPORT&operator<<(QDebug&, const QVectorPath &path);
 #endif
 
-class Q_GUI_EXPORT QPaintEngineEx : public QPaintEngine
+class Q_GUI_EXPORT    QPaintEngineEx : public QPaintEngine
 {
     Q_DECLARE_PRIVATE(QPaintEngineEx)
 public:
     QPaintEngineEx();
 
-    virtual QPainterState *createState(QPainterState *orig) const;
+    virtual QPainterState* createState(QPainterState *orig) const;
 
     virtual void draw(const QVectorPath &path);
     virtual void fill(const QVectorPath &path, const QBrush &brush) = 0;
@@ -89,14 +89,14 @@ public:
     virtual void clip(const QRegion &region, Qt::ClipOperation op);
     virtual void clip(const QPainterPath &path, Qt::ClipOperation op);
 
-    virtual void clipEnabledChanged() = 0;
-    virtual void penChanged() = 0;
-    virtual void brushChanged() = 0;
-    virtual void brushOriginChanged() = 0;
-    virtual void opacityChanged() = 0;
-    virtual void compositionModeChanged() = 0;
-    virtual void renderHintsChanged() = 0;
-    virtual void transformChanged() = 0;
+    virtual void clipEnabledChanged()       = 0;
+    virtual void penChanged()               = 0;
+    virtual void brushChanged()             = 0;
+    virtual void brushOriginChanged()       = 0;
+    virtual void opacityChanged()           = 0;
+    virtual void compositionModeChanged()   = 0;
+    virtual void renderHintsChanged()       = 0;
+    virtual void transformChanged()         = 0;
 
     virtual void fillRect(const QRectF &rect, const QBrush &brush);
     virtual void fillRect(const QRectF &rect, const QColor &color);
@@ -134,11 +134,17 @@ public:
 
     virtual void updateState(const QPaintEngineState &state) Q_DECL_OVERRIDE;
 
-    virtual void drawStaticTextItem(QStaticTextItem *);
+    virtual void drawStaticTextItem(QStaticTextItem*);
 
     virtual void setState(QPainterState *s);
-    inline QPainterState *state() { return static_cast<QPainterState *>(QPaintEngine::state); }
-    inline const QPainterState *state() const { return static_cast<const QPainterState *>(QPaintEngine::state); }
+    inline QPainterState* state()
+    {
+        return static_cast<QPainterState*>(QPaintEngine::state);
+    }
+    inline const QPainterState* state() const
+    {
+        return static_cast<const QPainterState*>(QPaintEngine::state);
+    }
 
     virtual void sync() {}
 
@@ -148,10 +154,13 @@ public:
     // These flags are needed in the implementation of paint buffers.
     enum Flags
     {
-        DoNotEmulate = 0x01,        // If set, QPainter will not wrap this engine in an emulation engine.
-        IsEmulationEngine = 0x02    // If set, this object is a QEmulationEngine.
+        DoNotEmulate        = 0x01, // If set, QPainter will not wrap this engine in an emulation engine.
+        IsEmulationEngine   = 0x02  // If set, this object is a QEmulationEngine.
     };
-    virtual uint flags() const {return 0;}
+    virtual uint flags() const
+    {
+        return 0;
+    }
     virtual bool requiresPretransformedGlyphPositions(QFontEngine *fontEngine, const QTransform &m) const;
     virtual bool shouldDrawCachedGlyphs(QFontEngine *fontEngine, const QTransform &m) const;
 
@@ -159,7 +168,7 @@ protected:
     QPaintEngineEx(QPaintEngineExPrivate &data);
 };
 
-class Q_GUI_EXPORT QPaintEngineExPrivate : public QPaintEnginePrivate
+class Q_GUI_EXPORT    QPaintEngineExPrivate : public QPaintEnginePrivate
 {
     Q_DECLARE_PUBLIC(QPaintEngineEx)
 public:
@@ -169,13 +178,13 @@ public:
     void replayClipOperations();
     bool hasClipOperations() const;
 
-    QStroker stroker;
-    QDashStroker dasher;
-    StrokeHandler *strokeHandler;
-    QStrokerOps *activeStroker;
-    QPen strokerPen;
+    QStroker            stroker;
+    QDashStroker        dasher;
+    StrokeHandler       *strokeHandler;
+    QStrokerOps         *activeStroker;
+    QPen                strokerPen;
 
-    QRect exDeviceRect;
+    QRect    exDeviceRect;
 };
 
 QT_END_NAMESPACE

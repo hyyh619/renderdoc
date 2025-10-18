@@ -72,7 +72,7 @@ class QFseventsFileSystemWatcherEngine : public QFileSystemWatcherEngine
 public:
     ~QFseventsFileSystemWatcherEngine();
 
-    static QFseventsFileSystemWatcherEngine *create(QObject *parent);
+    static QFseventsFileSystemWatcherEngine* create(QObject *parent);
 
     QStringList addPaths(const QStringList &paths, QStringList *files, QStringList *directories);
     QStringList removePaths(const QStringList &paths, QStringList *files, QStringList *directories);
@@ -90,16 +90,17 @@ private slots:
     bool restartStream();
 
 private:
-    struct Info {
-        QString origPath;
-        timespec ctime;
-        mode_t mode;
-        QString watchedPath;
+    struct Info
+    {
+        QString     origPath;
+        timespec    ctime;
+        mode_t      mode;
+        QString     watchedPath;
 
-        Info(): mode(0)
+        Info() : mode(0)
         {
-            ctime.tv_sec = 0;
-            ctime.tv_nsec = 0;
+            ctime.tv_sec    = 0;
+            ctime.tv_nsec   = 0;
         }
 
         Info(const QString &origPath, const timespec &ctime, mode_t mode, const QString &watchedPath)
@@ -111,14 +112,16 @@ private:
     };
     typedef QHash<QString, Info> InfoByName;
     typedef QHash<QString, InfoByName> FilesByPath;
-    struct DirInfo {
-        Info dirInfo;
-        InfoByName entries;
+    struct DirInfo
+    {
+        Info        dirInfo;
+        InfoByName  entries;
     };
     typedef QHash<QString, DirInfo> DirsByName;
     typedef QHash<QString, qint64> PathRefCounts;
 
-    struct WatchingState {
+    struct WatchingState
+    {
         // These fields go hand-in-hand. FSEvents watches paths, and there is no use in watching
         // the same path multiple times. So, the "refcount" on a path is the number of watched
         // files that have the same path, plus the number of directories that have the same path.
@@ -126,9 +129,9 @@ private:
         // If the stream fails to start after adding files/directories, the watcher will try to
         // keep watching files/directories that it was already watching. It does that by restoring
         // the previous WatchingState and restarting the stream.
-        FilesByPath watchedFiles;
-        DirsByName watchedDirectories;
-        PathRefCounts watchedPaths;
+        FilesByPath     watchedFiles;
+        DirsByName      watchedDirectories;
+        PathRefCounts   watchedPaths;
     };
 
     QFseventsFileSystemWatcherEngine(QObject *parent);
@@ -141,14 +144,13 @@ private:
     bool rescanFiles(InfoByName &filesInPath);
     bool rescanFiles(const QString &path);
 
-    QMutex lock;
-    dispatch_queue_t queue;
-    FSEventStreamRef stream;
-    FSEventStreamEventId lastReceivedEvent;
-    WatchingState watchingState;
+    QMutex                  lock;
+    dispatch_queue_t        queue;
+    FSEventStreamRef        stream;
+    FSEventStreamEventId    lastReceivedEvent;
+    WatchingState           watchingState;
 };
 
 QT_END_NAMESPACE
-
-#endif //QT_NO_FILESYSTEMWATCHER
+#endif // QT_NO_FILESYSTEMWATCHER
 #endif // QFILESYSTEMWATCHER_FSEVENTS_P_H

@@ -88,47 +88,49 @@ class QByteArray;
 typedef QPair<QHttpNetworkRequest, QHttpNetworkReply*> HttpMessagePair;
 #endif
 
-class QHttpNetworkConnectionChannel : public QObject {
+class QHttpNetworkConnectionChannel : public QObject
+{
     Q_OBJECT
 public:
     // TODO: Refactor this to add an EncryptingState (and remove pendingEncrypt).
     // Also add an Unconnected state so IdleState does not have double meaning.
-    enum ChannelState {
-        IdleState = 0,          // ready to send request
+    enum ChannelState
+    {
+        IdleState       = 0,    // ready to send request
         ConnectingState = 1,    // connecting to host
-        WritingState = 2,       // writing the data
-        WaitingState = 4,       // waiting for reply
-        ReadingState = 8,       // reading the reply
-        ClosingState = 16,
-        BusyState = (ConnectingState|WritingState|WaitingState|ReadingState|ClosingState)
+        WritingState    = 2,    // writing the data
+        WaitingState    = 4,    // waiting for reply
+        ReadingState    = 8,    // reading the reply
+        ClosingState    = 16,
+        BusyState       = (ConnectingState | WritingState | WaitingState | ReadingState | ClosingState)
     };
-    QAbstractSocket *socket;
-    bool ssl;
-    bool isInitialized;
-    ChannelState state;
-    QHttpNetworkRequest request; // current request, only used for HTTP
-    QHttpNetworkReply *reply; // current reply for this request, only used for HTTP
-    qint64 written;
-    qint64 bytesTotal;
-    bool resendCurrent;
-    int lastStatus; // last status received on this channel
-    bool pendingEncrypt; // for https (send after encrypted)
-    int reconnectAttempts; // maximum 2 reconnection attempts
-    QAuthenticatorPrivate::Method authMethod;
-    QAuthenticatorPrivate::Method proxyAuthMethod;
-    QAuthenticator authenticator;
-    QAuthenticator proxyAuthenticator;
-    bool authenticationCredentialsSent;
-    bool proxyCredentialsSent;
-    QScopedPointer<QAbstractProtocolHandler> protocolHandler;
+    QAbstractSocket                             *socket;
+    bool                                        ssl;
+    bool                                        isInitialized;
+    ChannelState                                state;
+    QHttpNetworkRequest                         request; // current request, only used for HTTP
+    QHttpNetworkReply                           *reply; // current reply for this request, only used for HTTP
+    qint64                                      written;
+    qint64                                      bytesTotal;
+    bool                                        resendCurrent;
+    int                                         lastStatus; // last status received on this channel
+    bool                                        pendingEncrypt; // for https (send after encrypted)
+    int                                         reconnectAttempts; // maximum 2 reconnection attempts
+    QAuthenticatorPrivate::Method               authMethod;
+    QAuthenticatorPrivate::Method               proxyAuthMethod;
+    QAuthenticator                              authenticator;
+    QAuthenticator                              proxyAuthenticator;
+    bool                                        authenticationCredentialsSent;
+    bool                                        proxyCredentialsSent;
+    QScopedPointer<QAbstractProtocolHandler>    protocolHandler;
     // SPDY or HTTP/2 requests; SPDY is TLS-only, but
     // HTTP/2 can be cleartext also, that's why it's
     // outside of QT_NO_SSL section. Sorted by priority:
-    QMultiMap<int, HttpMessagePair> spdyRequestsToSend;
+    QMultiMap<int, HttpMessagePair>    spdyRequestsToSend;
 #ifndef QT_NO_SSL
-    bool ignoreAllSslErrors;
-    QList<QSslError> ignoreSslErrorsList;
-    QSslConfiguration sslConfiguration;
+    bool                    ignoreAllSslErrors;
+    QList<QSslError>        ignoreSslErrorsList;
+    QSslConfiguration       sslConfiguration;
     void ignoreSslErrors();
     void ignoreSslErrors(const QList<QSslError> &errors);
     void setSslConfiguration(const QSslConfiguration &config);
@@ -137,18 +139,19 @@ public:
     // to emit the signal for all in-flight replies:
     void emitFinishedWithError(QNetworkReply::NetworkError error, const char *message);
 #ifndef QT_NO_BEARERMANAGEMENT
-    QSharedPointer<QNetworkSession> networkSession;
+    QSharedPointer<QNetworkSession>    networkSession;
 #endif
 
     // HTTP pipelining -> http://en.wikipedia.org/wiki/Http_pipelining
-    enum PipeliningSupport {
+    enum PipeliningSupport
+    {
         PipeliningSupportUnknown, // default for a new connection
         PipeliningProbablySupported, // after having received a server response that indicates support
         PipeliningNotSupported // currently not used
     };
-    PipeliningSupport pipeliningSupported;
-    QList<HttpMessagePair> alreadyPipelinedRequests;
-    QByteArray pipeline; // temporary buffer that gets sent to socket in pipelineFlush
+    PipeliningSupport           pipeliningSupported;
+    QList<HttpMessagePair>      alreadyPipelinedRequests;
+    QByteArray                  pipeline; // temporary buffer that gets sent to socket in pipelineFlush
     void pipelineInto(HttpMessagePair &pair);
     void pipelineFlush();
     void requeueCurrentlyPipelinedRequests();
@@ -156,13 +159,13 @@ public:
 
     QHttpNetworkConnectionChannel();
 
-    QAbstractSocket::NetworkLayerProtocol networkLayerPreference;
+    QAbstractSocket::NetworkLayerProtocol    networkLayerPreference;
 
     void setConnection(QHttpNetworkConnection *c);
-    QPointer<QHttpNetworkConnection> connection;
+    QPointer<QHttpNetworkConnection>    connection;
 
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy proxy;
+    QNetworkProxy    proxy;
     void setProxy(const QNetworkProxy &networkProxy);
 #endif
 
@@ -188,7 +191,7 @@ public:
     bool isSocketWaiting() const;
     bool isSocketReading() const;
 
-    protected slots:
+protected slots:
     void _q_receiveReply();
     void _q_bytesWritten(qint64 bytes); // proceed sending
     void _q_readyRead(); // pending data to read
@@ -212,7 +215,6 @@ public:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 #endif

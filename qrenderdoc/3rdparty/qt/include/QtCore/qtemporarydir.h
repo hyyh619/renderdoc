@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QTemporaryDirPrivate;
 
-class Q_CORE_EXPORT QTemporaryDir
+class Q_CORE_EXPORT    QTemporaryDir
 {
 public:
     QTemporaryDir();
@@ -68,11 +68,10 @@ public:
     QString filePath(const QString &fileName) const;
 
 private:
-    QScopedPointer<QTemporaryDirPrivate> d_ptr;
+    QScopedPointer<QTemporaryDirPrivate>    d_ptr;
 
     Q_DISABLE_COPY(QTemporaryDir)
 };
-
 #endif // QT_NO_TEMPORARYFILE
 
 QT_END_NAMESPACE

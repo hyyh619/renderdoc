@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QCheckBoxPrivate;
 class QStyleOptionButton;
 
-class Q_WIDGETS_EXPORT QCheckBox : public QAbstractButton
+class Q_WIDGETS_EXPORT    QCheckBox : public QAbstractButton
 {
     Q_OBJECT
 
@@ -79,8 +79,8 @@ protected:
     bool hitButton(const QPoint &pos) const Q_DECL_OVERRIDE;
     void checkStateSet() Q_DECL_OVERRIDE;
     void nextCheckState() Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionButton *option) const;
 
 

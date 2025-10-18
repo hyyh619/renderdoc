@@ -8,10 +8,10 @@ extern "C" {
 /* Operating system dependencies */
 
 #ifdef MS_WINDOWS
-#define SEP L'\\'
-#define ALTSEP L'/'
-#define MAXPATHLEN 256
-#define DELIM L';'
+#define SEP         L'\\'
+#define ALTSEP      L'/'
+#define MAXPATHLEN  256
+#define DELIM       L';'
 #endif
 
 /* Filename separator */

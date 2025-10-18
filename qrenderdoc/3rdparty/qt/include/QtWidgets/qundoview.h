@@ -54,7 +54,7 @@ class QUndoGroup;
 class QIcon;
 
 
-class Q_WIDGETS_EXPORT QUndoView : public QListView
+class Q_WIDGETS_EXPORT    QUndoView : public QListView
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QUndoView)
@@ -69,9 +69,9 @@ public:
 #endif
     ~QUndoView();
 
-    QUndoStack *stack() const;
+    QUndoStack* stack() const;
 #if QT_CONFIG(undogroup)
-    QUndoGroup *group() const;
+    QUndoGroup* group() const;
 #endif
 
     void setEmptyLabel(const QString &label);

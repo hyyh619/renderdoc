@@ -60,7 +60,6 @@ QT_BEGIN_NAMESPACE
 
 class QNetworkAccessCacheBackend : public QNetworkAccessBackend
 {
-
 public:
     QNetworkAccessCacheBackend();
     ~QNetworkAccessCacheBackend();
@@ -74,7 +73,6 @@ public:
 
 private:
     bool sendCacheContents();
-
 };
 
 QT_END_NAMESPACE

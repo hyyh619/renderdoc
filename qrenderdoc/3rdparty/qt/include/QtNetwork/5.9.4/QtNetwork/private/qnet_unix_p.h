@@ -83,11 +83,12 @@ static inline int qt_safe_socket(int domain, int type, int protocol, int flags =
 {
     Q_ASSERT((flags & ~O_NONBLOCK) == 0);
 
-    int fd;
+    int    fd;
 #ifdef QT_THREADSAFE_CLOEXEC
-    int newtype = type | SOCK_CLOEXEC;
+    int    newtype = type | SOCK_CLOEXEC;
     if (flags & O_NONBLOCK)
         newtype |= SOCK_NONBLOCK;
+
     fd = ::socket(domain, newtype, protocol);
     return fd;
 #else
@@ -110,20 +111,21 @@ static inline int qt_safe_accept(int s, struct sockaddr *addr, QT_SOCKLEN_T *add
 {
     Q_ASSERT((flags & ~O_NONBLOCK) == 0);
 
-    int fd;
+    int    fd;
 #ifdef QT_THREADSAFE_CLOEXEC
     // use accept4
-    int sockflags = SOCK_CLOEXEC;
+    int    sockflags = SOCK_CLOEXEC;
     if (flags & O_NONBLOCK)
         sockflags |= SOCK_NONBLOCK;
+
 # if defined(Q_OS_NETBSD)
-    fd = ::paccept(s, addr, static_cast<QT_SOCKLEN_T *>(addrlen), NULL, sockflags);
+    fd = ::paccept(s, addr, static_cast<QT_SOCKLEN_T*>(addrlen), NULL, sockflags);
 # else
-    fd = ::accept4(s, addr, static_cast<QT_SOCKLEN_T *>(addrlen), sockflags);
+    fd = ::accept4(s, addr, static_cast<QT_SOCKLEN_T*>(addrlen), sockflags);
 # endif
     return fd;
 #else
-    fd = ::accept(s, addr, static_cast<QT_SOCKLEN_T *>(addrlen));
+    fd = ::accept(s, addr, static_cast<QT_SOCKLEN_T*>(addrlen));
     if (fd == -1)
         return -1;
 
@@ -145,9 +147,10 @@ static inline int qt_safe_listen(int s, int backlog)
 
 static inline int qt_safe_connect(int sockfd, const struct sockaddr *addr, QT_SOCKLEN_T addrlen)
 {
-    int ret;
+    int    ret;
+
     // Solaris e.g. expects a non-const 2nd parameter
-    EINTR_LOOP(ret, QT_SOCKET_CONNECT(sockfd, const_cast<struct sockaddr *>(addr), addrlen));
+    EINTR_LOOP(ret, QT_SOCKET_CONNECT(sockfd, const_cast<struct sockaddr*>(addr), addrlen));
     return ret;
 }
 #undef QT_SOCKET_CONNECT
@@ -164,7 +167,7 @@ static inline int qt_safe_connect(int sockfd, const struct sockaddr *addr, QT_SO
 #endif
 
 // VxWorks' headers specify 'int' instead of '...' for the 3rd ioctl() parameter.
-template <typename T>
+template<typename T>
 static inline int qt_safe_ioctl(int sockfd, unsigned long request, T arg)
 {
 #ifdef Q_OS_VXWORKS
@@ -178,7 +181,7 @@ static inline int qt_safe_ioctl(int sockfd, unsigned long request, T arg)
 static inline in_addr_t qt_safe_inet_addr(const char *cp)
 {
 #ifdef Q_OS_VXWORKS
-    return ::inet_addr((char *) cp);
+    return ::inet_addr((char*) cp);
 #else
     return ::inet_addr(cp);
 #endif
@@ -192,14 +195,14 @@ static inline int qt_safe_sendmsg(int sockfd, const struct msghdr *msg, int flag
     qt_ignore_sigpipe();
 #endif
 
-    int ret;
+    int    ret;
     EINTR_LOOP(ret, ::sendmsg(sockfd, msg, flags));
     return ret;
 }
 
 static inline int qt_safe_recvmsg(int sockfd, struct msghdr *msg, int flags)
 {
-    int ret;
+    int    ret;
 
     EINTR_LOOP(ret, ::recvmsg(sockfd, msg, flags));
     return ret;

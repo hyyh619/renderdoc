@@ -63,7 +63,7 @@ class QPixmap;
 class QDebug;
 #endif
 
-class Q_GUI_EXPORT QScreen : public QObject
+class Q_GUI_EXPORT    QScreen : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QScreen)
@@ -96,7 +96,7 @@ class Q_GUI_EXPORT QScreen : public QObject
 
 public:
     ~QScreen();
-    QPlatformScreen *handle() const;
+    QPlatformScreen* handle() const;
 
     QString name() const;
 
@@ -124,7 +124,7 @@ public:
     QSize availableSize() const;
     QRect availableGeometry() const;
 
-    QList<QScreen *> virtualSiblings() const;
+    QList<QScreen*> virtualSiblings() const;
 
     QSize virtualSize() const;
     QRect virtualGeometry() const;
@@ -172,10 +172,9 @@ private:
 };
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QScreen *);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QScreen*);
 #endif
 
 QT_END_NAMESPACE
 
 #endif // QSCREEN_H
-

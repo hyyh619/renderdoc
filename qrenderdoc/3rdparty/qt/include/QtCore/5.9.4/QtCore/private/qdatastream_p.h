@@ -63,8 +63,8 @@ public:
     QDataStreamPrivate() : floatingPointPrecision(QDataStream::DoublePrecision),
         transactionDepth(0) { }
 
-    QDataStream::FloatingPointPrecision floatingPointPrecision;
-    int transactionDepth;
+    QDataStream::FloatingPointPrecision     floatingPointPrecision;
+    int                                     transactionDepth;
 };
 #endif
 

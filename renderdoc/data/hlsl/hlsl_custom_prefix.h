@@ -1,5 +1,5 @@
 
-const char HLSL_CUSTOM_PREFIX[] =
+const char    HLSL_CUSTOM_PREFIX[] =
     R"EOPREFIX(
 #define RD_FLOAT_1D_ARRAY_BINDING t1
 #define RD_FLOAT_1D_BINDING t1 // all textures treated as arrays, add macro aliases

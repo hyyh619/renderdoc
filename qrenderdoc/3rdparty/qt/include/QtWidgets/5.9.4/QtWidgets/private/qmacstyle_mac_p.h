@@ -87,7 +87,7 @@ public:
     void drawComplexControl(ComplexControl cc, const QStyleOptionComplex *opt, QPainter *p,
                             const QWidget *w = 0) const;
     SubControl hitTestComplexControl(ComplexControl cc, const QStyleOptionComplex *opt,
-                               const QPoint &pt, const QWidget *w = 0) const;
+                                     const QPoint &pt, const QWidget *w = 0) const;
     QRect subControlRect(ComplexControl cc, const QStyleOptionComplex *opt, SubControl sc,
                          const QWidget *w = 0) const;
     QSize sizeFromContents(ContentsType ct, const QStyleOption *opt,
@@ -100,8 +100,7 @@ public:
     virtual int styleHint(StyleHint sh, const QStyleOption *opt = 0, const QWidget *w = 0,
                           QStyleHintReturn *shret = 0) const;
 
-    enum WidgetSizePolicy { SizeSmall, SizeLarge, SizeMini, SizeDefault
-    };
+    enum WidgetSizePolicy { SizeSmall, SizeLarge, SizeMini, SizeDefault};
 
     static void setWidgetSizePolicy(const QWidget *w, WidgetSizePolicy policy);
     static WidgetSizePolicy widgetSizePolicy(const QWidget *w, const QStyleOption *opt = 0);
@@ -131,7 +130,6 @@ private:
     friend bool qt_mac_buttonIsRenderedFlat(const QPushButton *pushButton, const QStyleOptionButton *option);
 #endif
 };
-
 #endif
 
 QT_END_NAMESPACE

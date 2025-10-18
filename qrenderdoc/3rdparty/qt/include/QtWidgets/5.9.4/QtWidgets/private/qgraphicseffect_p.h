@@ -64,14 +64,14 @@ QT_REQUIRE_CONFIG(graphicseffect);
 QT_BEGIN_NAMESPACE
 
 class QGraphicsEffectSourcePrivate;
-class Q_WIDGETS_EXPORT QGraphicsEffectSource : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsEffectSource : public QObject
 {
     Q_OBJECT
 public:
     ~QGraphicsEffectSource();
-    const QGraphicsItem *graphicsItem() const;
-    const QWidget *widget() const;
-    const QStyleOption *styleOption() const;
+    const QGraphicsItem* graphicsItem() const;
+    const QWidget* widget() const;
+    const QStyleOption* styleOption() const;
 
     bool isPixmap() const;
     void draw(QPainter *painter);
@@ -116,36 +116,42 @@ public:
     };
 
     virtual ~QGraphicsEffectSourcePrivate();
-    virtual void detach() = 0;
-    virtual QRectF boundingRect(Qt::CoordinateSystem system) const = 0;
-    virtual QRect deviceRect() const = 0;
-    virtual const QGraphicsItem *graphicsItem() const = 0;
-    virtual const QWidget *widget() const = 0;
-    virtual const QStyleOption *styleOption() const = 0;
-    virtual void draw(QPainter *p) = 0;
-    virtual void update() = 0;
-    virtual bool isPixmap() const = 0;
+    virtual void detach()                                           = 0;
+    virtual QRectF boundingRect(Qt::CoordinateSystem system) const  = 0;
+    virtual QRect deviceRect() const                                = 0;
+    virtual const QGraphicsItem* graphicsItem() const               = 0;
+    virtual const QWidget* widget() const                           = 0;
+    virtual const QStyleOption* styleOption() const                 = 0;
+    virtual void draw(QPainter *p)                                  = 0;
+    virtual void update()                                           = 0;
+    virtual bool isPixmap() const                                   = 0;
     virtual QPixmap pixmap(Qt::CoordinateSystem system, QPoint *offset = 0,
                            QGraphicsEffect::PixmapPadMode mode = QGraphicsEffect::PadToTransparentBorder) const = 0;
-    virtual void effectBoundingRectChanged() = 0;
+    virtual void effectBoundingRectChanged()                                                                    = 0;
 
     void setCachedOffset(const QPoint &offset);
     void invalidateCache(InvalidateReason reason = SourceChanged) const;
-    Qt::CoordinateSystem currentCachedSystem() const { return m_cachedSystem; }
-    QGraphicsEffect::PixmapPadMode currentCachedMode() const { return m_cachedMode; }
+    Qt::CoordinateSystem currentCachedSystem() const
+    {
+        return m_cachedSystem;
+    }
+    QGraphicsEffect::PixmapPadMode currentCachedMode() const
+    {
+        return m_cachedMode;
+    }
 
     friend class QGraphicsScenePrivate;
     friend class QGraphicsItem;
     friend class QGraphicsItemPrivate;
 
 private:
-    mutable Qt::CoordinateSystem m_cachedSystem;
-    mutable QGraphicsEffect::PixmapPadMode m_cachedMode;
-    mutable QPoint m_cachedOffset;
-    mutable QPixmapCache::Key m_cacheKey;
+    mutable Qt::CoordinateSystem                m_cachedSystem;
+    mutable QGraphicsEffect::PixmapPadMode      m_cachedMode;
+    mutable QPoint                              m_cachedOffset;
+    mutable QPixmapCache::Key                   m_cacheKey;
 };
 
-class Q_WIDGETS_EXPORT QGraphicsEffectPrivate : public QObjectPrivate
+class Q_WIDGETS_EXPORT    QGraphicsEffectPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QGraphicsEffect)
 public:
@@ -154,23 +160,27 @@ public:
 
     inline void setGraphicsEffectSource(QGraphicsEffectSource *newSource)
     {
-        QGraphicsEffect::ChangeFlags flags;
-        if (source) {
+        QGraphicsEffect::ChangeFlags    flags;
+
+        if (source)
+        {
             flags |= QGraphicsEffect::SourceDetached;
             source->d_func()->invalidateCache();
             source->d_func()->detach();
             delete source;
         }
+
         source = newSource;
         if (newSource)
             flags |= QGraphicsEffect::SourceAttached;
+
         q_func()->sourceChanged(flags);
     }
 
-    QGraphicsEffectSource *source;
-    QRectF boundingRect;
-    quint32 isEnabled : 1;
-    quint32 padding : 31; // feel free to use
+    QGraphicsEffectSource       *source;
+    QRectF                      boundingRect;
+    quint32                     isEnabled : 1;
+    quint32                     padding : 31; // feel free to use
 };
 
 
@@ -183,11 +193,14 @@ public:
     {
         filter = new QPixmapColorizeFilter;
     }
-    ~QGraphicsColorizeEffectPrivate() { delete filter; }
+    ~QGraphicsColorizeEffectPrivate()
+    {
+        delete filter;
+    }
 
-    QPixmapColorizeFilter *filter;
-    quint32 opaque : 1;
-    quint32 padding : 31;
+    QPixmapColorizeFilter       *filter;
+    quint32                     opaque : 1;
+    quint32                     padding : 31;
 };
 
 class QGraphicsBlurEffectPrivate : public QGraphicsEffectPrivate
@@ -195,9 +208,12 @@ class QGraphicsBlurEffectPrivate : public QGraphicsEffectPrivate
     Q_DECLARE_PUBLIC(QGraphicsBlurEffect)
 public:
     QGraphicsBlurEffectPrivate() : filter(new QPixmapBlurFilter) {}
-    ~QGraphicsBlurEffectPrivate() { delete filter; }
+    ~QGraphicsBlurEffectPrivate()
+    {
+        delete filter;
+    }
 
-    QPixmapBlurFilter *filter;
+    QPixmapBlurFilter    *filter;
 };
 
 class QGraphicsDropShadowEffectPrivate : public QGraphicsEffectPrivate
@@ -205,9 +221,12 @@ class QGraphicsDropShadowEffectPrivate : public QGraphicsEffectPrivate
     Q_DECLARE_PUBLIC(QGraphicsDropShadowEffect)
 public:
     QGraphicsDropShadowEffectPrivate() : filter(new QPixmapDropShadowFilter) {}
-    ~QGraphicsDropShadowEffectPrivate() { delete filter; }
+    ~QGraphicsDropShadowEffectPrivate()
+    {
+        delete filter;
+    }
 
-    QPixmapDropShadowFilter *filter;
+    QPixmapDropShadowFilter    *filter;
 };
 
 class QGraphicsOpacityEffectPrivate : public QGraphicsEffectPrivate
@@ -218,11 +237,11 @@ public:
         : opacity(qreal(0.7)), isFullyTransparent(0), isFullyOpaque(0), hasOpacityMask(0) {}
     ~QGraphicsOpacityEffectPrivate() {}
 
-    qreal opacity;
-    QBrush opacityMask;
-    uint isFullyTransparent : 1;
-    uint isFullyOpaque : 1;
-    uint hasOpacityMask : 1;
+    qreal       opacity;
+    QBrush      opacityMask;
+    uint        isFullyTransparent : 1;
+    uint        isFullyOpaque : 1;
+    uint        hasOpacityMask : 1;
 };
 
 QT_END_NAMESPACE

@@ -1,17 +1,17 @@
-/////////////////////////////////////////////////////////////////////////////// 
-// 
-// Copyright (c) 2015 Microsoft Corporation. All rights reserved. 
-// 
-// This code is licensed under the MIT License (MIT). 
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
-// THE SOFTWARE. 
-// 
+///////////////////////////////////////////////////////////////////////////////
+//
+// Copyright (c) 2015 Microsoft Corporation. All rights reserved.
+//
+// This code is licensed under the MIT License (MIT).
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 /***    cvinfo.h - Generic CodeView information definitions
@@ -50,15 +50,15 @@
 #endif
 
 #pragma pack ( push, 1 )
-typedef unsigned long   CV_uoff32_t;
-typedef          long   CV_off32_t;
-typedef unsigned short  CV_uoff16_t;
-typedef          short  CV_off16_t;
-typedef unsigned short  CV_typ16_t;
-typedef unsigned long   CV_typ_t;
-typedef unsigned long   CV_pubsymflag_t;    // must be same as CV_typ_t.
-typedef unsigned short  _2BYTEPAD;
-typedef unsigned long   CV_tkn_t;
+typedef unsigned long CV_uoff32_t;
+typedef          long CV_off32_t;
+typedef unsigned short CV_uoff16_t;
+typedef          short CV_off16_t;
+typedef unsigned short CV_typ16_t;
+typedef unsigned long CV_typ_t;
+typedef unsigned long CV_pubsymflag_t;      // must be same as CV_typ_t.
+typedef unsigned short _2BYTEPAD;
+typedef unsigned long CV_tkn_t;
 
 #if !defined (CV_ZEROLEN)
 #define CV_ZEROLEN
@@ -87,18 +87,16 @@ typedef struct FLOAT10
 #ifndef GUID_DEFINED
 #define GUID_DEFINED
 
-typedef struct _GUID {          // size is 16
-    unsigned long   Data1;
-    unsigned short  Data2;
-    unsigned short  Data3;
-    unsigned char   Data4[8];
-} GUID;
-
+typedef struct _GUID            // size is 16
+{unsigned long                                                      Data1;
+ unsigned short                                                     Data2;
+ unsigned short                                                     Data3;
+ unsigned char                                                      Data4[8]; } GUID;
 #endif // !GUID_DEFINED
 
-typedef GUID            SIG70;      // new to 7.0 are 16-byte guid-like signatures
-typedef SIG70 *         PSIG70;
-typedef const SIG70 *   PCSIG70;
+typedef GUID SIG70;                 // new to 7.0 are 16-byte guid-like signatures
+typedef SIG70*PSIG70;
+typedef const SIG70*PCSIG70;
 
 
 
@@ -158,15 +156,16 @@ typedef const SIG70 *   PCSIG70;
 
 //     pointer mode enumeration values
 
-typedef enum CV_prmode_e {
-    CV_TM_DIRECT = 0,       // mode is not a pointer
-    CV_TM_NPTR   = 1,       // mode is a near pointer
-    CV_TM_FPTR   = 2,       // mode is a far pointer
-    CV_TM_HPTR   = 3,       // mode is a huge pointer
-    CV_TM_NPTR32 = 4,       // mode is a 32 bit near pointer
-    CV_TM_FPTR32 = 5,       // mode is a 32 bit far pointer
-    CV_TM_NPTR64 = 6,       // mode is a 64 bit near pointer
-    CV_TM_NPTR128 = 7,      // mode is a 128 bit near pointer
+typedef enum CV_prmode_e
+{
+    CV_TM_DIRECT    = 0,    // mode is not a pointer
+    CV_TM_NPTR      = 1,    // mode is a near pointer
+    CV_TM_FPTR      = 2,    // mode is a far pointer
+    CV_TM_HPTR      = 3,    // mode is a huge pointer
+    CV_TM_NPTR32    = 4,    // mode is a 32 bit near pointer
+    CV_TM_FPTR32    = 5,    // mode is a 32 bit far pointer
+    CV_TM_NPTR64    = 6,    // mode is a 64 bit near pointer
+    CV_TM_NPTR128   = 7,    // mode is a 128 bit near pointer
 } CV_prmode_e;
 
 
@@ -175,7 +174,8 @@ typedef enum CV_prmode_e {
 //      type enumeration values
 
 
-typedef enum CV_type_e {
+typedef enum CV_type_e
+{
     CV_SPECIAL      = 0x00,         // special type size values
     CV_SIGNED       = 0x01,         // signed integral size values
     CV_UNSIGNED     = 0x02,         // unsigned integral size values
@@ -193,7 +193,8 @@ typedef enum CV_type_e {
 //      subtype enumeration values for CV_SPECIAL
 
 
-typedef enum CV_special_e {
+typedef enum CV_special_e
+{
     CV_SP_NOTYPE    = 0x00,
     CV_SP_ABS       = 0x01,
     CV_SP_SEGMENT   = 0x02,
@@ -211,7 +212,8 @@ typedef enum CV_special_e {
 //      subtype enumeration values for CV_SPECIAL2
 
 
-typedef enum CV_special2_e {
+typedef enum CV_special2_e
+{
     CV_S2_BIT       = 0x00,
     CV_S2_PASCHAR   = 0x01,         // Pascal CHAR
     CV_S2_BOOL32FF  = 0x02,         // 32-bit BOOL where true is 0xffffffff
@@ -224,7 +226,8 @@ typedef enum CV_special2_e {
 //      subtype enumeration values for CV_SIGNED, CV_UNSIGNED and CV_BOOLEAN
 
 
-typedef enum CV_integral_e {
+typedef enum CV_integral_e
+{
     CV_IN_1BYTE     = 0x00,
     CV_IN_2BYTE     = 0x01,
     CV_IN_4BYTE     = 0x02,
@@ -239,7 +242,8 @@ typedef enum CV_integral_e {
 //      subtype enumeration values for CV_REAL and CV_COMPLEX
 
 
-typedef enum CV_real_e {
+typedef enum CV_real_e
+{
     CV_RC_REAL32    = 0x00,
     CV_RC_REAL64    = 0x01,
     CV_RC_REAL80    = 0x02,
@@ -255,7 +259,8 @@ typedef enum CV_real_e {
 //      subtype enumeration values for CV_INT (really int)
 
 
-typedef enum CV_int_e {
+typedef enum CV_int_e
+{
     CV_RI_CHAR      = 0x00,
     CV_RI_INT1      = 0x00,
     CV_RI_WCHAR     = 0x01,
@@ -285,26 +290,26 @@ typedef enum CV_int_e {
 #define CV_TYP_IS_FPTR32(typ)   (CV_MODE(typ) == CV_TM_FPTR32)
 
 #define CV_TYP_IS_SIGNED(typ)   (((CV_TYPE(typ) == CV_SIGNED) && CV_TYP_IS_DIRECT(typ)) || \
-                                 (typ == T_INT1)  || \
-                                 (typ == T_INT2)  || \
-                                 (typ == T_INT4)  || \
-                                 (typ == T_INT8)  || \
-                                 (typ == T_INT16) || \
+                                 (typ == T_INT1) ||                                        \
+                                 (typ == T_INT2) ||                                        \
+                                 (typ == T_INT4) ||                                        \
+                                 (typ == T_INT8) ||                                        \
+                                 (typ == T_INT16) ||                                       \
                                  (typ == T_RCHAR))
 
 #define CV_TYP_IS_UNSIGNED(typ) (((CV_TYPE(typ) == CV_UNSIGNED) && CV_TYP_IS_DIRECT(typ)) || \
-                                 (typ == T_UINT1) || \
-                                 (typ == T_UINT2) || \
-                                 (typ == T_UINT4) || \
-                                 (typ == T_UINT8) || \
+                                 (typ == T_UINT1) ||                                         \
+                                 (typ == T_UINT2) ||                                         \
+                                 (typ == T_UINT4) ||                                         \
+                                 (typ == T_UINT8) ||                                         \
                                  (typ == T_UINT16))
 
-#define CV_TYP_IS_REAL(typ)     ((CV_TYPE(typ) == CV_REAL)  && CV_TYP_IS_DIRECT(typ))
+#define CV_TYP_IS_REAL(typ)     ((CV_TYPE(typ) == CV_REAL) && CV_TYP_IS_DIRECT(typ))
 
 #define CV_FIRST_NONPRIM 0x1000
 #define CV_IS_PRIMITIVE(typ)    ((typ) < CV_FIRST_NONPRIM)
-#define CV_TYP_IS_COMPLEX(typ)  ((CV_TYPE(typ) == CV_COMPLEX)   && CV_TYP_IS_DIRECT(typ))
-#define CV_IS_INTERNAL_PTR(typ) (CV_IS_PRIMITIVE(typ) && \
+#define CV_TYP_IS_COMPLEX(typ)  ((CV_TYPE(typ) == CV_COMPLEX) && CV_TYP_IS_DIRECT(typ))
+#define CV_IS_INTERNAL_PTR(typ) (CV_IS_PRIMITIVE(typ) &&          \
                                  CV_TYPE(typ) == CV_CVRESERVED && \
                                  CV_TYP_IS_PTR(typ))
 
@@ -321,7 +326,8 @@ typedef enum CV_int_e {
 
 //      Special Types
 
-typedef enum TYPE_ENUM_e {
+typedef enum TYPE_ENUM_e
+{
 //      Special Types
 
     T_NOTYPE        = 0x0000,   // uncharacterized type (no type)
@@ -389,23 +395,23 @@ typedef enum TYPE_ENUM_e {
 
 //      really a 16-bit unicode char
 
-    T_CHAR16         = 0x007a,   // 16-bit unicode char
-    T_PCHAR16        = 0x017a,   // 16 bit pointer to a 16-bit unicode char
-    T_PFCHAR16       = 0x027a,   // 16:16 far pointer to a 16-bit unicode char
-    T_PHCHAR16       = 0x037a,   // 16:16 huge pointer to a 16-bit unicode char
-    T_32PCHAR16      = 0x047a,   // 32 bit pointer to a 16-bit unicode char
-    T_32PFCHAR16     = 0x057a,   // 16:32 pointer to a 16-bit unicode char
-    T_64PCHAR16      = 0x067a,   // 64 bit pointer to a 16-bit unicode char
+    T_CHAR16            = 0x007a, // 16-bit unicode char
+    T_PCHAR16           = 0x017a, // 16 bit pointer to a 16-bit unicode char
+    T_PFCHAR16          = 0x027a, // 16:16 far pointer to a 16-bit unicode char
+    T_PHCHAR16          = 0x037a, // 16:16 huge pointer to a 16-bit unicode char
+    T_32PCHAR16         = 0x047a, // 32 bit pointer to a 16-bit unicode char
+    T_32PFCHAR16        = 0x057a, // 16:32 pointer to a 16-bit unicode char
+    T_64PCHAR16         = 0x067a, // 64 bit pointer to a 16-bit unicode char
 
 //      really a 32-bit unicode char
 
-    T_CHAR32         = 0x007b,   // 32-bit unicode char
-    T_PCHAR32        = 0x017b,   // 16 bit pointer to a 32-bit unicode char
-    T_PFCHAR32       = 0x027b,   // 16:16 far pointer to a 32-bit unicode char
-    T_PHCHAR32       = 0x037b,   // 16:16 huge pointer to a 32-bit unicode char
-    T_32PCHAR32      = 0x047b,   // 32 bit pointer to a 32-bit unicode char
-    T_32PFCHAR32     = 0x057b,   // 16:32 pointer to a 32-bit unicode char
-    T_64PCHAR32      = 0x067b,   // 64 bit pointer to a 32-bit unicode char
+    T_CHAR32            = 0x007b, // 32-bit unicode char
+    T_PCHAR32           = 0x017b, // 16 bit pointer to a 32-bit unicode char
+    T_PFCHAR32          = 0x027b, // 16:16 far pointer to a 32-bit unicode char
+    T_PHCHAR32          = 0x037b, // 16:16 huge pointer to a 32-bit unicode char
+    T_32PCHAR32         = 0x047b, // 32 bit pointer to a 32-bit unicode char
+    T_32PFCHAR32        = 0x057b, // 16:32 pointer to a 32-bit unicode char
+    T_64PCHAR32         = 0x067b, // 64 bit pointer to a 32-bit unicode char
 
 //      8 bit int types
 
@@ -742,7 +748,6 @@ typedef enum TYPE_ENUM_e {
     T_32NCVPTR      = 0x04f0,   // CV Internal type for created near 32-bit pointers
     T_32FCVPTR      = 0x05f0,   // CV Internal type for created far 32-bit pointers
     T_64NCVPTR      = 0x06f0,   // CV Internal type for created near 64-bit pointers
-
 } TYPE_ENUM_e;
 
 /**     No leaf index can have a value of 0x0000.  The leaf indices are
@@ -765,7 +770,8 @@ typedef enum TYPE_ENUM_e {
  */
 
 
-typedef enum LEAF_ENUM_e {
+typedef enum LEAF_ENUM_e
+{
     // leaf indices starting records but referenced from symbol records
 
     LF_MODIFIER_16t     = 0x0001,
@@ -957,7 +963,7 @@ typedef enum LEAF_ENUM_e {
     LF_UTF8STRING       = 0x801b,
 
     LF_REAL16           = 0x801c,
-    
+
     LF_PAD0             = 0xf0,
     LF_PAD1             = 0xf1,
     LF_PAD2             = 0xf2,
@@ -974,7 +980,6 @@ typedef enum LEAF_ENUM_e {
     LF_PAD13            = 0xfd,
     LF_PAD14            = 0xfe,
     LF_PAD15            = 0xff,
-
 } LEAF_ENUM_e;
 
 // end of leaf indices
@@ -986,7 +991,8 @@ typedef enum LEAF_ENUM_e {
 //      Pointers can be one of the following types
 
 
-typedef enum CV_ptrtype_e {
+typedef enum CV_ptrtype_e
+{
     CV_PTR_NEAR         = 0x00, // 16 bit pointer
     CV_PTR_FAR          = 0x01, // 16:16 far pointer
     CV_PTR_HUGE         = 0x02, // 16:16 huge pointer
@@ -1013,9 +1019,10 @@ typedef enum CV_ptrtype_e {
 //  To support for l-value and r-value reference, we added CV_PTR_MODE_LVREF
 //  and CV_PTR_MODE_RVREF.  CV_PTR_MODE_REF should be removed at some point.
 //  We keep it now so that old code that uses it won't be broken.
-//  
+//
 
-typedef enum CV_ptrmode_e {
+typedef enum CV_ptrmode_e
+{
     CV_PTR_MODE_PTR     = 0x00, // "normal" pointer
     CV_PTR_MODE_REF     = 0x01, // "old" reference
     CV_PTR_MODE_LVREF   = 0x01, // l-value reference
@@ -1028,7 +1035,8 @@ typedef enum CV_ptrmode_e {
 
 //      enumeration for pointer-to-member types
 
-typedef enum CV_pmtype_e {
+typedef enum CV_pmtype_e
+{
     CV_PMTYPE_Undef     = 0x00, // not specified (pre VC8)
     CV_PMTYPE_D_Single  = 0x01, // member data, single inheritance
     CV_PMTYPE_D_Multiple= 0x02, // member data, multiple inheritance
@@ -1042,7 +1050,8 @@ typedef enum CV_pmtype_e {
 
 //      enumeration for method properties
 
-typedef enum CV_methodprop_e {
+typedef enum CV_methodprop_e
+{
     CV_MTvanilla        = 0x00,
     CV_MTvirtual        = 0x01,
     CV_MTstatic         = 0x02,
@@ -1057,7 +1066,8 @@ typedef enum CV_methodprop_e {
 
 //      enumeration for virtual shape table entries
 
-typedef enum CV_VTS_desc_e {
+typedef enum CV_VTS_desc_e
+{
     CV_VTS_near         = 0x00,
     CV_VTS_far          = 0x01,
     CV_VTS_thin         = 0x02,
@@ -1073,9 +1083,10 @@ typedef enum CV_VTS_desc_e {
 
 //      enumeration for LF_LABEL address modes
 
-typedef enum CV_LABEL_TYPE_e {
-    CV_LABEL_NEAR = 0,       // near return
-    CV_LABEL_FAR  = 4        // far return
+typedef enum CV_LABEL_TYPE_e
+{
+    CV_LABEL_NEAR   = 0,     // near return
+    CV_LABEL_FAR    = 4      // far return
 } CV_LABEL_TYPE_e;
 
 
@@ -1083,11 +1094,12 @@ typedef enum CV_LABEL_TYPE_e {
 //      enumeration for LF_MODIFIER values
 
 
-typedef struct CV_modifier_t {
-    unsigned short  MOD_const       :1;
-    unsigned short  MOD_volatile    :1;
-    unsigned short  MOD_unaligned   :1;
-    unsigned short  MOD_unused      :13;
+typedef struct CV_modifier_t
+{
+    unsigned short  MOD_const       : 1;
+    unsigned short  MOD_volatile    : 1;
+    unsigned short  MOD_unaligned   : 1;
+    unsigned short  MOD_unused      : 13;
 } CV_modifier_t;
 
 
@@ -1095,39 +1107,42 @@ typedef struct CV_modifier_t {
 
 //  enumeration for HFA kinds
 
-typedef enum CV_HFA_e {
-   CV_HFA_none   =  0,
-   CV_HFA_float  =  1,
-   CV_HFA_double =  2,
-   CV_HFA_other  =  3
+typedef enum CV_HFA_e
+{
+    CV_HFA_none     = 0,
+    CV_HFA_float    = 1,
+    CV_HFA_double   = 2,
+    CV_HFA_other    = 3
 } CV_HFA_e;
 
 //  enumeration for MoCOM UDT kinds
 
-typedef enum CV_MOCOM_UDT_e {
-    CV_MOCOM_UDT_none      = 0,
-    CV_MOCOM_UDT_ref       = 1,
-    CV_MOCOM_UDT_value     = 2,
-    CV_MOCOM_UDT_interface = 3
+typedef enum CV_MOCOM_UDT_e
+{
+    CV_MOCOM_UDT_none       = 0,
+    CV_MOCOM_UDT_ref        = 1,
+    CV_MOCOM_UDT_value      = 2,
+    CV_MOCOM_UDT_interface  = 3
 } CV_MOCOM_UDT_e;
 
 //  bit field structure describing class/struct/union/enum properties
 
-typedef struct CV_prop_t {
-    unsigned short  packed      :1;     // true if structure is packed
-    unsigned short  ctor        :1;     // true if constructors or destructors present
-    unsigned short  ovlops      :1;     // true if overloaded operators present
-    unsigned short  isnested    :1;     // true if this is a nested class
-    unsigned short  cnested     :1;     // true if this class contains nested types
-    unsigned short  opassign    :1;     // true if overloaded assignment (=)
-    unsigned short  opcast      :1;     // true if casting methods
-    unsigned short  fwdref      :1;     // true if forward reference (incomplete defn)
-    unsigned short  scoped      :1;     // scoped definition
-    unsigned short  hasuniquename :1;   // true if there is a decorated name following the regular name
-    unsigned short  sealed      :1;     // true if class cannot be used as a base class
-    unsigned short  hfa         :2;     // CV_HFA_e
-    unsigned short  intrinsic   :1;     // true if class is an intrinsic type (e.g. __m128d)
-    unsigned short  mocom       :2;     // CV_MOCOM_UDT_e
+typedef struct CV_prop_t
+{
+    unsigned short  packed      : 1;    // true if structure is packed
+    unsigned short  ctor        : 1;    // true if constructors or destructors present
+    unsigned short  ovlops      : 1;    // true if overloaded operators present
+    unsigned short  isnested    : 1;    // true if this is a nested class
+    unsigned short  cnested     : 1;    // true if this class contains nested types
+    unsigned short  opassign    : 1;    // true if overloaded assignment (=)
+    unsigned short  opcast      : 1;    // true if casting methods
+    unsigned short  fwdref      : 1;    // true if forward reference (incomplete defn)
+    unsigned short  scoped      : 1;    // scoped definition
+    unsigned short  hasuniquename : 1;  // true if there is a decorated name following the regular name
+    unsigned short  sealed      : 1;    // true if class cannot be used as a base class
+    unsigned short  hfa         : 2;    // CV_HFA_e
+    unsigned short  intrinsic   : 1;    // true if class is an intrinsic type (e.g. __m128d)
+    unsigned short  mocom       : 2;    // CV_MOCOM_UDT_e
 } CV_prop_t;
 
 
@@ -1135,50 +1150,56 @@ typedef struct CV_prop_t {
 
 //  class field attribute
 
-typedef struct CV_fldattr_t {
-    unsigned short  access      :2;     // access protection CV_access_t
-    unsigned short  mprop       :3;     // method properties CV_methodprop_t
-    unsigned short  pseudo      :1;     // compiler generated fcn and does not exist
-    unsigned short  noinherit   :1;     // true if class cannot be inherited
-    unsigned short  noconstruct :1;     // true if class cannot be constructed
-    unsigned short  compgenx    :1;     // compiler generated fcn and does exist
-    unsigned short  sealed      :1;     // true if method cannot be overridden
-    unsigned short  unused      :6;     // unused
+typedef struct CV_fldattr_t
+{
+    unsigned short  access      : 2;    // access protection CV_access_t
+    unsigned short  mprop       : 3;    // method properties CV_methodprop_t
+    unsigned short  pseudo      : 1;    // compiler generated fcn and does not exist
+    unsigned short  noinherit   : 1;    // true if class cannot be inherited
+    unsigned short  noconstruct : 1;    // true if class cannot be constructed
+    unsigned short  compgenx    : 1;    // compiler generated fcn and does exist
+    unsigned short  sealed      : 1;    // true if method cannot be overridden
+    unsigned short  unused      : 6;    // unused
 } CV_fldattr_t;
 
 
 //  function flags
 
-typedef struct CV_funcattr_t {
-    unsigned char  cxxreturnudt :1;  // true if C++ style ReturnUDT
-    unsigned char  ctor         :1;  // true if func is an instance constructor
-    unsigned char  ctorvbase    :1;  // true if func is an instance constructor of a class with virtual bases
-    unsigned char  unused       :5;  // unused
+typedef struct CV_funcattr_t
+{
+    unsigned char   cxxreturnudt : 1; // true if C++ style ReturnUDT
+    unsigned char   ctor         : 1;// true if func is an instance constructor
+    unsigned char   ctorvbase    : 1;// true if func is an instance constructor of a class with virtual bases
+    unsigned char   unused       : 5;// unused
 } CV_funcattr_t;
 
 
 //  matrix flags
 
-typedef struct CV_matrixattr_t {
-    unsigned char  row_major   :1;   // true if matrix has row-major layout (column-major is default)
-    unsigned char  unused      :7;   // unused
+typedef struct CV_matrixattr_t
+{
+    unsigned char   row_major   : 1; // true if matrix has row-major layout (column-major is default)
+    unsigned char   unused      : 7; // unused
 } CV_matrixattr_t;
 
 
 //  Structures to access to the type records
 
 
-typedef struct TYPTYPE {
+typedef struct TYPTYPE
+{
     unsigned short  len;
     unsigned short  leaf;
     unsigned char   data[CV_ZEROLEN];
 } TYPTYPE;          // general types record
 
-__INLINE char *NextType ( _In_ char * pType) {
-    return (pType + ((TYPTYPE *)pType)->len + sizeof(unsigned short));
+__INLINE char* NextType(_In_ char *pType)
+{
+    return (pType + ((TYPTYPE*)pType)->len + sizeof(unsigned short));
 }
 
-typedef enum CV_PMEMBER {
+typedef enum CV_PMEMBER
+{
     CV_PDM16_NONVIRT    = 0x00, // 16:16 data no virtual fcn or base
     CV_PDM16_VFCN       = 0x01, // 16:16 data with virtual functions
     CV_PDM16_VBASE      = 0x02, // 16:16 data with virtual bases
@@ -1209,8 +1230,9 @@ typedef enum CV_PMEMBER {
 //  virtual functions or virtual bases
 
 
-struct CV_PDMR16_NONVIRT {
-    CV_off16_t      mdisp;      // displacement to data (NULL = -1)
+struct CV_PDMR16_NONVIRT
+{
+    CV_off16_t mdisp;           // displacement to data (NULL = -1)
 };
 
 
@@ -1220,8 +1242,9 @@ struct CV_PDMR16_NONVIRT {
 //  functions
 
 
-struct CV_PMDR16_VFCN {
-    CV_off16_t      mdisp;      // displacement to data ( NULL = 0)
+struct CV_PMDR16_VFCN
+{
+    CV_off16_t mdisp;           // displacement to data ( NULL = 0)
 };
 
 
@@ -1231,10 +1254,11 @@ struct CV_PMDR16_VFCN {
 //  virtual bases
 
 
-struct CV_PDMR16_VBASE {
-    CV_off16_t      mdisp;      // displacement to data
-    CV_off16_t      pdisp;      // this pointer displacement to vbptr
-    CV_off16_t      vdisp;      // displacement within vbase table
+struct CV_PDMR16_VBASE
+{
+    CV_off16_t  mdisp;          // displacement to data
+    CV_off16_t  pdisp;          // this pointer displacement to vbptr
+    CV_off16_t  vdisp;          // displacement within vbase table
                                 // NULL = (,,0xffff)
 };
 
@@ -1245,8 +1269,9 @@ struct CV_PDMR16_VBASE {
 //  or without virtual functions and no virtual bases
 
 
-struct CV_PDMR32_NVVFCN {
-    CV_off32_t      mdisp;      // displacement to data (NULL = 0x80000000)
+struct CV_PDMR32_NVVFCN
+{
+    CV_off32_t mdisp;           // displacement to data (NULL = 0x80000000)
 };
 
 
@@ -1256,10 +1281,11 @@ struct CV_PDMR32_NVVFCN {
 //  with virtual bases
 
 
-struct CV_PDMR32_VBASE {
-    CV_off32_t      mdisp;      // displacement to data
-    CV_off32_t      pdisp;      // this pointer displacement
-    CV_off32_t      vdisp;      // vbase table displacement
+struct CV_PDMR32_VBASE
+{
+    CV_off32_t  mdisp;          // displacement to data
+    CV_off32_t  pdisp;          // this pointer displacement
+    CV_off32_t  vdisp;          // vbase table displacement
                                 // NULL = (,,0xffffffff)
 };
 
@@ -1270,8 +1296,9 @@ struct CV_PDMR32_VBASE {
 //  class with no virtual functions or bases and a single address point
 
 
-struct CV_PMFR16_NEARNVSA {
-    CV_uoff16_t     off;        // near address of function (NULL = 0)
+struct CV_PMFR16_NEARNVSA
+{
+    CV_uoff16_t off;            // near address of function (NULL = 0)
 };
 
 
@@ -1280,7 +1307,8 @@ struct CV_PMFR16_NEARNVSA {
 //  class with no virtual bases and multiple address points
 
 
-struct CV_PMFR16_NEARNVMA {
+struct CV_PMFR16_NEARNVMA
+{
     CV_uoff16_t     off;        // offset of function (NULL = 0,x)
     signed short    disp;
 };
@@ -1292,11 +1320,12 @@ struct CV_PMFR16_NEARNVMA {
 //  class with virtual bases
 
 
-struct CV_PMFR16_NEARVBASE {
-    CV_uoff16_t     off;        // offset of function (NULL = 0,x,x,x)
-    CV_off16_t      mdisp;      // displacement to data
-    CV_off16_t      pdisp;      // this pointer displacement
-    CV_off16_t      vdisp;      // vbase table displacement
+struct CV_PMFR16_NEARVBASE
+{
+    CV_uoff16_t off;            // offset of function (NULL = 0,x,x,x)
+    CV_off16_t  mdisp;          // displacement to data
+    CV_off16_t  pdisp;          // this pointer displacement
+    CV_off16_t  vdisp;          // vbase table displacement
 };
 
 
@@ -1306,7 +1335,8 @@ struct CV_PMFR16_NEARVBASE {
 //  class with no virtual bases and a single address point
 
 
-struct CV_PMFR16_FARNVSA {
+struct CV_PMFR16_FARNVSA
+{
     CV_uoff16_t     off;        // offset of function (NULL = 0:0)
     unsigned short  seg;        // segment of function
 };
@@ -1318,7 +1348,8 @@ struct CV_PMFR16_FARNVSA {
 //  class with no virtual bases and multiple address points
 
 
-struct CV_PMFR16_FARNVMA {
+struct CV_PMFR16_FARNVMA
+{
     CV_uoff16_t     off;        // offset of function (NULL = 0:0,x)
     unsigned short  seg;
     signed short    disp;
@@ -1331,13 +1362,13 @@ struct CV_PMFR16_FARNVMA {
 //  class with virtual bases
 
 
-struct CV_PMFR16_FARVBASE {
+struct CV_PMFR16_FARVBASE
+{
     CV_uoff16_t     off;        // offset of function (NULL = 0:0,x,x,x)
     unsigned short  seg;
     CV_off16_t      mdisp;      // displacement to data
     CV_off16_t      pdisp;      // this pointer displacement
     CV_off16_t      vdisp;      // vbase table displacement
-
 };
 
 
@@ -1347,8 +1378,9 @@ struct CV_PMFR16_FARVBASE {
 //  class with no virtual bases and a single address point
 
 
-struct CV_PMFR32_NVSA {
-    CV_uoff32_t      off;        // near address of function (NULL = 0L)
+struct CV_PMFR32_NVSA
+{
+    CV_uoff32_t off;             // near address of function (NULL = 0L)
 };
 
 
@@ -1358,9 +1390,10 @@ struct CV_PMFR32_NVSA {
 //  class with no virtual bases and multiple address points
 
 
-struct CV_PMFR32_NVMA {
-    CV_uoff32_t     off;        // near address of function (NULL = 0L,x)
-    CV_off32_t      disp;
+struct CV_PMFR32_NVMA
+{
+    CV_uoff32_t off;            // near address of function (NULL = 0L,x)
+    CV_off32_t  disp;
 };
 
 
@@ -1370,11 +1403,12 @@ struct CV_PMFR32_NVMA {
 //  class with virtual bases
 
 
-struct CV_PMFR32_VBASE {
-    CV_uoff32_t     off;        // near address of function (NULL = 0L,x,x,x)
-    CV_off32_t      mdisp;      // displacement to data
-    CV_off32_t      pdisp;      // this pointer displacement
-    CV_off32_t      vdisp;      // vbase table displacement
+struct CV_PMFR32_VBASE
+{
+    CV_uoff32_t off;            // near address of function (NULL = 0L,x,x,x)
+    CV_off32_t  mdisp;          // displacement to data
+    CV_off32_t  pdisp;          // this pointer displacement
+    CV_off32_t  vdisp;          // vbase table displacement
 };
 
 
@@ -1384,8 +1418,9 @@ struct CV_PMFR32_VBASE {
 //  Easy leaf - used for generic casting to reference leaf field
 //  of a subfield of a complex list
 
-typedef struct lfEasy {
-    unsigned short  leaf;           // LF_...
+typedef struct lfEasy
+{
+    unsigned short leaf;            // LF_...
 } lfEasy;
 
 
@@ -1443,17 +1478,19 @@ typedef struct lfEasy {
     PROCSYMMIPS         f
 
 
-*/
+ */
 
 //      Type record for LF_MODIFIER
 
-typedef struct lfModifier_16t {
+typedef struct lfModifier_16t
+{
     unsigned short  leaf;           // LF_MODIFIER_16t
     CV_modifier_t   attr;           // modifier attribute modifier_t
     CV_typ16_t      type;           // modified type
 } lfModifier_16t;
 
-typedef struct lfModifier {
+typedef struct lfModifier
+{
     unsigned short  leaf;           // LF_MODIFIER
     CV_typ_t        type;           // modified type
     CV_modifier_t   attr;           // modifier attribute modifier_t
@@ -1465,82 +1502,96 @@ typedef struct lfModifier {
 //      type record for LF_POINTER
 
 #ifndef __cplusplus
-typedef struct lfPointer_16t {
+typedef struct lfPointer_16t
+{
 #endif
-    struct lfPointerBody_16t {
-        unsigned short      leaf;           // LF_POINTER_16t
-        struct lfPointerAttr_16t {
-            unsigned char   ptrtype     :5; // ordinal specifying pointer type (CV_ptrtype_e)
-            unsigned char   ptrmode     :3; // ordinal specifying pointer mode (CV_ptrmode_e)
-            unsigned char   isflat32    :1; // true if 0:32 pointer
-            unsigned char   isvolatile  :1; // TRUE if volatile pointer
-            unsigned char   isconst     :1; // TRUE if const pointer
-            unsigned char   isunaligned :1; // TRUE if unaligned pointer
-            unsigned char   unused      :4;
-        } attr;
-        CV_typ16_t  utype;          // type index of the underlying type
+struct lfPointerBody_16t
+{
+    unsigned short leaf;                    // LF_POINTER_16t
+    struct lfPointerAttr_16t
+    {
+        unsigned char   ptrtype     : 5;    // ordinal specifying pointer type (CV_ptrtype_e)
+        unsigned char   ptrmode     : 3;    // ordinal specifying pointer mode (CV_ptrmode_e)
+        unsigned char   isflat32    : 1;    // true if 0:32 pointer
+        unsigned char   isvolatile  : 1;    // TRUE if volatile pointer
+        unsigned char   isconst     : 1;    // TRUE if const pointer
+        unsigned char   isunaligned : 1;    // TRUE if unaligned pointer
+        unsigned char   unused      : 4;
+    }           attr;
+    CV_typ16_t  utype;              // type index of the underlying type
 #if (defined(__cplusplus) || defined(_MSC_VER)) // for C++ and MS compilers that support unnamed unions
-    };
+};
 #else
-    } u;
+} u;
 #endif
 #ifdef  __cplusplus
-typedef struct lfPointer_16t : public lfPointerBody_16t {
+typedef struct lfPointer_16t : public lfPointerBody_16t
+{
 #endif
-    union {
-        struct {
-            CV_typ16_t      pmclass;    // index of containing class for pointer to member
-            unsigned short  pmenum;     // enumeration specifying pm format (CV_pmtype_e)
-        } pm;
-        unsigned short      bseg;       // base segment if PTR_BASE_SEG
-        unsigned char       Sym[1];     // copy of base symbol record (including length)
-        struct  {
-            CV_typ16_t      index;      // type index if CV_PTR_BASE_TYPE
-            unsigned char   name[1];    // name of base type
-        } btype;
-    } pbase;
+union
+{
+    struct
+    {
+        CV_typ16_t      pmclass;        // index of containing class for pointer to member
+        unsigned short  pmenum;         // enumeration specifying pm format (CV_pmtype_e)
+    }               pm;
+    unsigned short  bseg;               // base segment if PTR_BASE_SEG
+    unsigned char   Sym[1];             // copy of base symbol record (including length)
+    struct
+    {
+        CV_typ16_t      index;          // type index if CV_PTR_BASE_TYPE
+        unsigned char   name[1];        // name of base type
+    } btype;
+} pbase;
 } lfPointer_16t;
 
 #ifndef __cplusplus
-typedef struct lfPointer {
+typedef struct lfPointer
+{
 #endif
-    struct lfPointerBody {
-        unsigned short      leaf;           // LF_POINTER
-        CV_typ_t            utype;          // type index of the underlying type
-        struct lfPointerAttr {
-            unsigned long   ptrtype     :5; // ordinal specifying pointer type (CV_ptrtype_e)
-            unsigned long   ptrmode     :3; // ordinal specifying pointer mode (CV_ptrmode_e)
-            unsigned long   isflat32    :1; // true if 0:32 pointer
-            unsigned long   isvolatile  :1; // TRUE if volatile pointer
-            unsigned long   isconst     :1; // TRUE if const pointer
-            unsigned long   isunaligned :1; // TRUE if unaligned pointer
-            unsigned long   isrestrict  :1; // TRUE if restricted pointer (allow agressive opts)
-            unsigned long   size        :6; // size of pointer (in bytes)
-            unsigned long   ismocom     :1; // TRUE if it is a MoCOM pointer (^ or %)
-            unsigned long   islref      :1; // TRUE if it is this pointer of member function with & ref-qualifier
-            unsigned long   isrref      :1; // TRUE if it is this pointer of member function with && ref-qualifier
-            unsigned long   unused      :10;// pad out to 32-bits for following cv_typ_t's
-        } attr;
+struct lfPointerBody
+{
+    unsigned short  leaf;                   // LF_POINTER
+    CV_typ_t        utype;                  // type index of the underlying type
+    struct lfPointerAttr
+    {
+        unsigned long   ptrtype     : 5;    // ordinal specifying pointer type (CV_ptrtype_e)
+        unsigned long   ptrmode     : 3;    // ordinal specifying pointer mode (CV_ptrmode_e)
+        unsigned long   isflat32    : 1;    // true if 0:32 pointer
+        unsigned long   isvolatile  : 1;    // TRUE if volatile pointer
+        unsigned long   isconst     : 1;    // TRUE if const pointer
+        unsigned long   isunaligned : 1;    // TRUE if unaligned pointer
+        unsigned long   isrestrict  : 1;    // TRUE if restricted pointer (allow agressive opts)
+        unsigned long   size        : 6;    // size of pointer (in bytes)
+        unsigned long   ismocom     : 1;    // TRUE if it is a MoCOM pointer (^ or %)
+        unsigned long   islref      : 1;    // TRUE if it is this pointer of member function with & ref-qualifier
+        unsigned long   isrref      : 1;    // TRUE if it is this pointer of member function with && ref-qualifier
+        unsigned long   unused      : 10;   // pad out to 32-bits for following cv_typ_t's
+    } attr;
 #if (defined(__cplusplus) || defined(_MSC_VER)) // for C++ and MS compilers that support unnamed unions
-    };
+};
 #else
-    } u;
+} u;
 #endif
 #ifdef  __cplusplus
-typedef struct lfPointer : public lfPointerBody {
+typedef struct lfPointer : public lfPointerBody
+{
 #endif
-    union {
-        struct {
-            CV_typ_t        pmclass;    // index of containing class for pointer to member
-            unsigned short  pmenum;     // enumeration specifying pm format (CV_pmtype_e)
-        } pm;
-        unsigned short      bseg;       // base segment if PTR_BASE_SEG
-        unsigned char       Sym[1];     // copy of base symbol record (including length)
-        struct  {
-            CV_typ_t        index;      // type index if CV_PTR_BASE_TYPE
-            unsigned char   name[1];    // name of base type
-        } btype;
-    } pbase;
+union
+{
+    struct
+    {
+        CV_typ_t        pmclass;        // index of containing class for pointer to member
+        unsigned short  pmenum;         // enumeration specifying pm format (CV_pmtype_e)
+    }               pm;
+    unsigned short  bseg;               // base segment if PTR_BASE_SEG
+    unsigned char   Sym[1];             // copy of base symbol record (including length)
+    struct
+    {
+        CV_typ_t        index;          // type index if CV_PTR_BASE_TYPE
+        unsigned char   name[1];        // name of base type
+    } btype;
+} pbase;
 } lfPointer;
 
 
@@ -1549,29 +1600,32 @@ typedef struct lfPointer : public lfPointerBody {
 //      type record for LF_ARRAY
 
 
-typedef struct lfArray_16t {
+typedef struct lfArray_16t
+{
     unsigned short  leaf;           // LF_ARRAY_16t
     CV_typ16_t      elemtype;       // type index of element type
     CV_typ16_t      idxtype;        // type index of indexing type
     unsigned char   data[CV_ZEROLEN];         // variable length data specifying
-                                    // size in bytes and name
+    // size in bytes and name
 } lfArray_16t;
 
-typedef struct lfArray {
+typedef struct lfArray
+{
     unsigned short  leaf;           // LF_ARRAY
     CV_typ_t        elemtype;       // type index of element type
     CV_typ_t        idxtype;        // type index of indexing type
     unsigned char   data[CV_ZEROLEN];         // variable length data specifying
-                                    // size in bytes and name
+    // size in bytes and name
 } lfArray;
 
-typedef struct lfStridedArray {
+typedef struct lfStridedArray
+{
     unsigned short  leaf;           // LF_STRIDED_ARRAY
     CV_typ_t        elemtype;       // type index of element type
     CV_typ_t        idxtype;        // type index of indexing type
     unsigned long   stride;
     unsigned char   data[CV_ZEROLEN];         // variable length data specifying
-                                    // size in bytes and name
+    // size in bytes and name
 } lfStridedArray;
 
 
@@ -1580,12 +1634,13 @@ typedef struct lfStridedArray {
 //      type record for LF_VECTOR
 
 
-typedef struct lfVector {
+typedef struct lfVector
+{
     unsigned short  leaf;           // LF_VECTOR
     CV_typ_t        elemtype;       // type index of element type
     unsigned long   count;          // number of elements in the vector
     unsigned char   data[CV_ZEROLEN];         // variable length data specifying
-                                    // size in bytes and name
+    // size in bytes and name
 } lfVector;
 
 
@@ -1594,7 +1649,8 @@ typedef struct lfVector {
 //      type record for LF_MATRIX
 
 
-typedef struct lfMatrix {
+typedef struct lfMatrix
+{
     unsigned short  leaf;           // LF_MATRIX
     CV_typ_t        elemtype;       // type index of element type
     unsigned long   rows;           // number of rows
@@ -1602,7 +1658,7 @@ typedef struct lfMatrix {
     unsigned long   majorStride;
     CV_matrixattr_t matattr;        // attributes
     unsigned char   data[CV_ZEROLEN];         // variable length data specifying
-                                    // size in bytes and name
+    // size in bytes and name
 } lfMatrix;
 
 
@@ -1611,7 +1667,8 @@ typedef struct lfMatrix {
 //      type record for LF_CLASS, LF_STRUCTURE
 
 
-typedef struct lfClass_16t {
+typedef struct lfClass_16t
+{
     unsigned short  leaf;           // LF_CLASS_16t, LF_STRUCT_16t
     unsigned short  count;          // count of number of elements in class
     CV_typ16_t      field;          // type index of LF_FIELD descriptor list
@@ -1619,12 +1676,13 @@ typedef struct lfClass_16t {
     CV_typ16_t      derived;        // type index of derived from list if not zero
     CV_typ16_t      vshape;         // type index of vshape table for this class
     unsigned char   data[CV_ZEROLEN];         // data describing length of structure in
-                                    // bytes and name
+    // bytes and name
 } lfClass_16t;
 typedef lfClass_16t lfStructure_16t;
 
 
-typedef struct lfClass {
+typedef struct lfClass
+{
     unsigned short  leaf;           // LF_CLASS, LF_STRUCT, LF_INTERFACE
     unsigned short  count;          // count of number of elements in class
     CV_prop_t       property;       // property attribute field (prop_t)
@@ -1632,7 +1690,7 @@ typedef struct lfClass {
     CV_typ_t        derived;        // type index of derived from list if not zero
     CV_typ_t        vshape;         // type index of vshape table for this class
     unsigned char   data[CV_ZEROLEN];         // data describing length of structure in
-                                    // bytes and name
+    // bytes and name
 } lfClass;
 typedef lfClass lfStructure;
 typedef lfClass lfInterface;
@@ -1640,29 +1698,32 @@ typedef lfClass lfInterface;
 //      type record for LF_UNION
 
 
-typedef struct lfUnion_16t {
+typedef struct lfUnion_16t
+{
     unsigned short  leaf;           // LF_UNION_16t
     unsigned short  count;          // count of number of elements in class
     CV_typ16_t      field;          // type index of LF_FIELD descriptor list
     CV_prop_t       property;       // property attribute field
     unsigned char   data[CV_ZEROLEN];         // variable length data describing length of
-                                    // structure and name
+    // structure and name
 } lfUnion_16t;
 
 
-typedef struct lfUnion {
+typedef struct lfUnion
+{
     unsigned short  leaf;           // LF_UNION
     unsigned short  count;          // count of number of elements in class
     CV_prop_t       property;       // property attribute field
     CV_typ_t        field;          // type index of LF_FIELD descriptor list
     unsigned char   data[CV_ZEROLEN];         // variable length data describing length of
-                                    // structure and name
+    // structure and name
 } lfUnion;
 
 
 //      type record for LF_ALIAS
 
-typedef struct lfAlias {
+typedef struct lfAlias
+{
     unsigned short  leaf;           // LF_ALIAS
     CV_typ_t        utype;          // underlying type
     unsigned char   Name[1];        // alias name
@@ -1673,53 +1734,60 @@ typedef struct lfAlias {
 
 typedef CV_typ_t CV_ItemId;
 
-typedef struct lfFuncId {
+typedef struct lfFuncId
+{
     unsigned short  leaf;       // LF_FUNC_ID
     CV_ItemId       scopeId;    // parent scope of the ID, 0 if global
     CV_typ_t        type;       // function type
-    unsigned char   name[CV_ZEROLEN]; 
+    unsigned char   name[CV_ZEROLEN];
 } lfFuncId;
 
-typedef struct lfMFuncId {
+typedef struct lfMFuncId
+{
     unsigned short  leaf;       // LF_MFUNC_ID
     CV_typ_t        parentType; // type index of parent
     CV_typ_t        type;       // function type
-    unsigned char   name[CV_ZEROLEN]; 
+    unsigned char   name[CV_ZEROLEN];
 } lfMFuncId;
 
-typedef struct lfStringId {
+typedef struct lfStringId
+{
     unsigned short  leaf;       // LF_STRING_ID
     CV_ItemId       id;         // ID to list of sub string IDs
     unsigned char   name[CV_ZEROLEN];
 } lfStringId;
 
-typedef struct lfUdtSrcLine {
-    unsigned short leaf;        // LF_UDT_SRC_LINE
-    CV_typ_t       type;        // UDT's type index
-    CV_ItemId      src;         // index to LF_STRING_ID record where source file name is saved
-    unsigned long  line;        // line number
+typedef struct lfUdtSrcLine
+{
+    unsigned short  leaf;       // LF_UDT_SRC_LINE
+    CV_typ_t        type;       // UDT's type index
+    CV_ItemId       src;        // index to LF_STRING_ID record where source file name is saved
+    unsigned long   line;       // line number
 } lfUdtSrcLine;
 
-typedef struct lfUdtModSrcLine {
-    unsigned short leaf;        // LF_UDT_MOD_SRC_LINE
-    CV_typ_t       type;        // UDT's type index
-    CV_ItemId      src;         // index into string table where source file name is saved
-    unsigned long  line;        // line number
-    unsigned short imod;        // module that contributes this UDT definition 
+typedef struct lfUdtModSrcLine
+{
+    unsigned short  leaf;       // LF_UDT_MOD_SRC_LINE
+    CV_typ_t        type;       // UDT's type index
+    CV_ItemId       src;        // index into string table where source file name is saved
+    unsigned long   line;       // line number
+    unsigned short  imod;       // module that contributes this UDT definition
 } lfUdtModSrcLine;
 
-typedef enum CV_BuildInfo_e {
-    CV_BuildInfo_CurrentDirectory = 0,
-    CV_BuildInfo_BuildTool        = 1,    // Cl.exe
-    CV_BuildInfo_SourceFile       = 2,    // foo.cpp
-    CV_BuildInfo_ProgramDatabaseFile = 3, // foo.pdb
-    CV_BuildInfo_CommandArguments = 4,    // -I etc
+typedef enum CV_BuildInfo_e
+{
+    CV_BuildInfo_CurrentDirectory       = 0,
+    CV_BuildInfo_BuildTool              = 1, // Cl.exe
+    CV_BuildInfo_SourceFile             = 2, // foo.cpp
+    CV_BuildInfo_ProgramDatabaseFile    = 3, // foo.pdb
+    CV_BuildInfo_CommandArguments       = 4, // -I etc
     CV_BUILDINFO_KNOWN
 } CV_BuildInfo_e;
 
 // type record for build information
 
-typedef struct lfBuildInfo {
+typedef struct lfBuildInfo
+{
     unsigned short  leaf;                    // LF_BUILDINFO
     unsigned short  count;                   // number of arguments
     CV_ItemId       arg[CV_BUILDINFO_KNOWN]; // arguments as CodeItemId
@@ -1727,7 +1795,8 @@ typedef struct lfBuildInfo {
 
 //      type record for LF_MANAGED
 
-typedef struct lfManaged {
+typedef struct lfManaged
+{
     unsigned short  leaf;           // LF_MANAGED
     unsigned char   Name[1];        // utf8, zero terminated managed type name
 } lfManaged;
@@ -1736,7 +1805,8 @@ typedef struct lfManaged {
 //      type record for LF_ENUM
 
 
-typedef struct lfEnum_16t {
+typedef struct lfEnum_16t
+{
     unsigned short  leaf;           // LF_ENUM_16t
     unsigned short  count;          // count of number of elements in class
     CV_typ16_t      utype;          // underlying type of the enum
@@ -1745,7 +1815,8 @@ typedef struct lfEnum_16t {
     unsigned char   Name[1];        // length prefixed name of enum
 } lfEnum_16t;
 
-typedef struct lfEnum {
+typedef struct lfEnum
+{
     unsigned short  leaf;           // LF_ENUM
     unsigned short  count;          // count of number of elements in class
     CV_prop_t       property;       // property attribute field
@@ -1759,7 +1830,8 @@ typedef struct lfEnum {
 //      Type record for LF_PROCEDURE
 
 
-typedef struct lfProc_16t {
+typedef struct lfProc_16t
+{
     unsigned short  leaf;           // LF_PROCEDURE_16t
     CV_typ16_t      rvtype;         // type index of return value
     unsigned char   calltype;       // calling convention (CV_call_t)
@@ -1768,7 +1840,8 @@ typedef struct lfProc_16t {
     CV_typ16_t      arglist;        // type index of argument list
 } lfProc_16t;
 
-typedef struct lfProc {
+typedef struct lfProc
+{
     unsigned short  leaf;           // LF_PROCEDURE
     CV_typ_t        rvtype;         // type index of return value
     unsigned char   calltype;       // calling convention (CV_call_t)
@@ -1782,7 +1855,8 @@ typedef struct lfProc {
 //      Type record for member function
 
 
-typedef struct lfMFunc_16t {
+typedef struct lfMFunc_16t
+{
     unsigned short  leaf;           // LF_MFUNCTION_16t
     CV_typ16_t      rvtype;         // type index of return value
     CV_typ16_t      classtype;      // type index of containing class
@@ -1794,7 +1868,8 @@ typedef struct lfMFunc_16t {
     long            thisadjust;     // this adjuster (long because pad required anyway)
 } lfMFunc_16t;
 
-typedef struct lfMFunc {
+typedef struct lfMFunc
+{
     unsigned short  leaf;           // LF_MFUNCTION
     CV_typ_t        rvtype;         // type index of return value
     CV_typ_t        classtype;      // type index of containing class
@@ -1812,14 +1887,16 @@ typedef struct lfMFunc {
 //     type record for virtual function table shape
 
 
-typedef struct lfVTShape {
+typedef struct lfVTShape
+{
     unsigned short  leaf;       // LF_VTSHAPE
     unsigned short  count;      // number of entries in vfunctable
     unsigned char   desc[CV_ZEROLEN];     // 4 bit (CV_VTS_desc) descriptors
 } lfVTShape;
 
 //     type record for a virtual function table
-typedef struct lfVftable {
+typedef struct lfVftable
+{
     unsigned short  leaf;             // LF_VFTABLE
     CV_typ_t        type;             // class/structure that owns the vftable
     CV_typ_t        baseVftable;      // vftable from which this vftable is derived
@@ -1835,13 +1912,15 @@ typedef struct lfVftable {
 //      type record for cobol0
 
 
-typedef struct lfCobol0_16t {
+typedef struct lfCobol0_16t
+{
     unsigned short  leaf;       // LF_COBOL0_16t
     CV_typ16_t      type;       // parent type record index
     unsigned char   data[CV_ZEROLEN];
 } lfCobol0_16t;
 
-typedef struct lfCobol0 {
+typedef struct lfCobol0
+{
     unsigned short  leaf;       // LF_COBOL0
     CV_typ_t        type;       // parent type record index
     unsigned char   data[CV_ZEROLEN];
@@ -1853,7 +1932,8 @@ typedef struct lfCobol0 {
 //      type record for cobol1
 
 
-typedef struct lfCobol1 {
+typedef struct lfCobol1
+{
     unsigned short  leaf;       // LF_COBOL1
     unsigned char   data[CV_ZEROLEN];
 } lfCobol1;
@@ -1864,12 +1944,14 @@ typedef struct lfCobol1 {
 //      type record for basic array
 
 
-typedef struct lfBArray_16t {
+typedef struct lfBArray_16t
+{
     unsigned short  leaf;       // LF_BARRAY_16t
     CV_typ16_t      utype;      // type index of underlying type
 } lfBArray_16t;
 
-typedef struct lfBArray {
+typedef struct lfBArray
+{
     unsigned short  leaf;       // LF_BARRAY
     CV_typ_t        utype;      // type index of underlying type
 } lfBArray;
@@ -1877,7 +1959,8 @@ typedef struct lfBArray {
 //      type record for assembler labels
 
 
-typedef struct lfLabel {
+typedef struct lfLabel
+{
     unsigned short  leaf;       // LF_LABEL
     unsigned short  mode;       // addressing mode of label
 } lfLabel;
@@ -1887,14 +1970,16 @@ typedef struct lfLabel {
 //      type record for dimensioned arrays
 
 
-typedef struct lfDimArray_16t {
+typedef struct lfDimArray_16t
+{
     unsigned short  leaf;       // LF_DIMARRAY_16t
     CV_typ16_t      utype;      // underlying type of the array
     CV_typ16_t      diminfo;    // dimension information
     unsigned char   name[1];    // length prefixed name
 } lfDimArray_16t;
 
-typedef struct lfDimArray {
+typedef struct lfDimArray
+{
     unsigned short  leaf;       // LF_DIMARRAY
     CV_typ_t        utype;      // underlying type of the array
     CV_typ_t        diminfo;    // dimension information
@@ -1906,13 +1991,15 @@ typedef struct lfDimArray {
 //      type record describing path to virtual function table
 
 
-typedef struct lfVFTPath_16t {
+typedef struct lfVFTPath_16t
+{
     unsigned short  leaf;       // LF_VFTPATH_16t
     unsigned short  count;      // count of number of bases in path
     CV_typ16_t      base[1];    // bases from root to leaf
 } lfVFTPath_16t;
 
-typedef struct lfVFTPath {
+typedef struct lfVFTPath
+{
     unsigned short  leaf;       // LF_VFTPATH
     unsigned long   count;      // count of number of bases in path
     CV_typ_t        base[1];    // bases from root to leaf
@@ -1922,7 +2009,8 @@ typedef struct lfVFTPath {
 //      type record describing inclusion of precompiled types
 
 
-typedef struct lfPreComp_16t {
+typedef struct lfPreComp_16t
+{
     unsigned short  leaf;       // LF_PRECOMP_16t
     unsigned short  start;      // starting type index included
     unsigned short  count;      // number of types in inclusion
@@ -1930,7 +2018,8 @@ typedef struct lfPreComp_16t {
     unsigned char   name[CV_ZEROLEN];     // length prefixed name of included type file
 } lfPreComp_16t;
 
-typedef struct lfPreComp {
+typedef struct lfPreComp
+{
     unsigned short  leaf;       // LF_PRECOMP
     unsigned long   start;      // starting type index included
     unsigned long   count;      // number of types in inclusion
@@ -1944,7 +2033,8 @@ typedef struct lfPreComp {
 //      included by another file
 
 
-typedef struct lfEndPreComp {
+typedef struct lfEndPreComp
+{
     unsigned short  leaf;       // LF_ENDPRECOMP
     unsigned long   signature;  // signature
 } lfEndPreComp;
@@ -1956,22 +2046,24 @@ typedef struct lfEndPreComp {
 //      type record for OEM definable type strings
 
 
-typedef struct lfOEM_16t {
+typedef struct lfOEM_16t
+{
     unsigned short  leaf;       // LF_OEM_16t
     unsigned short  cvOEM;      // MS assigned OEM identified
     unsigned short  recOEM;     // OEM assigned type identifier
     unsigned short  count;      // count of type indices to follow
     CV_typ16_t      index[CV_ZEROLEN];  // array of type indices followed
-                                // by OEM defined data
+    // by OEM defined data
 } lfOEM_16t;
 
-typedef struct lfOEM {
+typedef struct lfOEM
+{
     unsigned short  leaf;       // LF_OEM
     unsigned short  cvOEM;      // MS assigned OEM identified
     unsigned short  recOEM;     // OEM assigned type identifier
     unsigned long   count;      // count of type indices to follow
     CV_typ_t        index[CV_ZEROLEN];  // array of type indices followed
-                                // by OEM defined data
+    // by OEM defined data
 } lfOEM;
 
 #define OEM_MS_FORTRAN90        0xF090
@@ -1979,17 +2071,19 @@ typedef struct lfOEM {
 #define OEM_THOMSON_SOFTWARE    0x5453
 #define OEM_ODI_REC_BASELIST    0x0000
 
-typedef struct lfOEM2 {
+typedef struct lfOEM2
+{
     unsigned short  leaf;       // LF_OEM2
     unsigned char   idOem[16];  // an oem ID (GUID)
     unsigned long   count;      // count of type indices to follow
     CV_typ_t        index[CV_ZEROLEN];  // array of type indices followed
-                                // by OEM defined data
+    // by OEM defined data
 } lfOEM2;
 
 //      type record describing using of a type server
 
-typedef struct lfTypeServer {
+typedef struct lfTypeServer
+{
     unsigned short  leaf;       // LF_TYPESERVER
     unsigned long   signature;  // signature
     unsigned long   age;        // age of database used by this module
@@ -1998,7 +2092,8 @@ typedef struct lfTypeServer {
 
 //      type record describing using of a type server with v7 (GUID) signatures
 
-typedef struct lfTypeServer2 {
+typedef struct lfTypeServer2
+{
     unsigned short  leaf;       // LF_TYPESERVER2
     SIG70           sig70;      // guid signature
     unsigned long   age;        // age of database used by this module
@@ -2013,13 +2108,15 @@ typedef struct lfTypeServer2 {
 //      type record for skip record
 
 
-typedef struct lfSkip_16t {
+typedef struct lfSkip_16t
+{
     unsigned short  leaf;       // LF_SKIP_16t
     CV_typ16_t      type;       // next valid index
     unsigned char   data[CV_ZEROLEN];     // pad data
 } lfSkip_16t;
 
-typedef struct lfSkip {
+typedef struct lfSkip
+{
     unsigned short  leaf;       // LF_SKIP
     CV_typ_t        type;       // next valid index
     unsigned char   data[CV_ZEROLEN];     // pad data
@@ -2030,13 +2127,15 @@ typedef struct lfSkip {
 //      argument list leaf
 
 
-typedef struct lfArgList_16t {
+typedef struct lfArgList_16t
+{
     unsigned short  leaf;           // LF_ARGLIST_16t
     unsigned short  count;          // number of arguments
     CV_typ16_t      arg[CV_ZEROLEN];      // number of arguments
 } lfArgList_16t;
 
-typedef struct lfArgList {
+typedef struct lfArgList
+{
     unsigned short  leaf;           // LF_ARGLIST, LF_SUBSTR_LIST
     unsigned long   count;          // number of arguments
     CV_typ_t        arg[CV_ZEROLEN];      // number of arguments
@@ -2048,13 +2147,15 @@ typedef struct lfArgList {
 //      derived class list leaf
 
 
-typedef struct lfDerived_16t {
+typedef struct lfDerived_16t
+{
     unsigned short  leaf;           // LF_DERIVED_16t
     unsigned short  count;          // number of arguments
     CV_typ16_t      drvdcls[CV_ZEROLEN];      // type indices of derived classes
 } lfDerived_16t;
 
-typedef struct lfDerived {
+typedef struct lfDerived
+{
     unsigned short  leaf;           // LF_DERIVED
     unsigned long   count;          // number of arguments
     CV_typ_t        drvdcls[CV_ZEROLEN];      // type indices of derived classes
@@ -2066,13 +2167,15 @@ typedef struct lfDerived {
 //      leaf for default arguments
 
 
-typedef struct lfDefArg_16t {
+typedef struct lfDefArg_16t
+{
     unsigned short  leaf;               // LF_DEFARG_16t
     CV_typ16_t      type;               // type of resulting expression
     unsigned char   expr[CV_ZEROLEN];   // length prefixed expression string
 } lfDefArg_16t;
 
-typedef struct lfDefArg {
+typedef struct lfDefArg
+{
     unsigned short  leaf;               // LF_DEFARG
     CV_typ_t        type;               // type of resulting expression
     unsigned char   expr[CV_ZEROLEN];   // length prefixed expression string
@@ -2086,7 +2189,8 @@ typedef struct lfDefArg {
 //          it is.  New specific leaf indices should be used instead.
 
 
-typedef struct lfList {
+typedef struct lfList
+{
     unsigned short  leaf;           // LF_LIST
     char            data[CV_ZEROLEN];         // data format specified by indexing type
 } lfList;
@@ -2099,13 +2203,15 @@ typedef struct lfList {
 //      subfields.
 
 
-typedef struct lfFieldList_16t {
+typedef struct lfFieldList_16t
+{
     unsigned short  leaf;           // LF_FIELDLIST_16t
     char            data[CV_ZEROLEN];         // field list sub lists
 } lfFieldList_16t;
 
 
-typedef struct lfFieldList {
+typedef struct lfFieldList
+{
     unsigned short  leaf;           // LF_FIELDLIST
     char            data[CV_ZEROLEN];         // field list sub lists
 } lfFieldList;
@@ -2118,13 +2224,15 @@ typedef struct lfFieldList {
 
 //  type record for non-static methods and friends in overloaded method list
 
-typedef struct mlMethod_16t {
-    CV_fldattr_t   attr;           // method attribute
-    CV_typ16_t     index;          // index to type record for procedure
-    unsigned long  vbaseoff[CV_ZEROLEN];    // offset in vfunctable if intro virtual
+typedef struct mlMethod_16t
+{
+    CV_fldattr_t    attr;          // method attribute
+    CV_typ16_t      index;         // index to type record for procedure
+    unsigned long   vbaseoff[CV_ZEROLEN];   // offset in vfunctable if intro virtual
 } mlMethod_16t;
 
-typedef struct mlMethod {
+typedef struct mlMethod
+{
     CV_fldattr_t    attr;           // method attribute
     _2BYTEPAD       pad0;           // internal padding, must be 0
     CV_typ_t        index;          // index to type record for procedure
@@ -2132,14 +2240,16 @@ typedef struct mlMethod {
 } mlMethod;
 
 
-typedef struct lfMethodList_16t {
-    unsigned short leaf;
-    unsigned char  mList[CV_ZEROLEN];         // really a mlMethod_16t type
+typedef struct lfMethodList_16t
+{
+    unsigned short  leaf;
+    unsigned char   mList[CV_ZEROLEN];        // really a mlMethod_16t type
 } lfMethodList_16t;
 
-typedef struct lfMethodList {
-    unsigned short leaf;
-    unsigned char  mList[CV_ZEROLEN];         // really a mlMethod type
+typedef struct lfMethodList
+{
+    unsigned short  leaf;
+    unsigned char   mList[CV_ZEROLEN];        // really a mlMethod type
 } lfMethodList;
 
 
@@ -2149,20 +2259,20 @@ typedef struct lfMethodList {
 //      type record for LF_BITFIELD
 
 
-typedef struct lfBitfield_16t {
+typedef struct lfBitfield_16t
+{
     unsigned short  leaf;           // LF_BITFIELD_16t
     unsigned char   length;
     unsigned char   position;
     CV_typ16_t      type;           // type of bitfield
-
 } lfBitfield_16t;
 
-typedef struct lfBitfield {
+typedef struct lfBitfield
+{
     unsigned short  leaf;           // LF_BITFIELD
     CV_typ_t        type;           // type of bitfield
     unsigned char   length;
     unsigned char   position;
-
 } lfBitfield;
 
 
@@ -2171,20 +2281,22 @@ typedef struct lfBitfield {
 //      type record for dimensioned array with constant bounds
 
 
-typedef struct lfDimCon_16t {
+typedef struct lfDimCon_16t
+{
     unsigned short  leaf;           // LF_DIMCONU_16t or LF_DIMCONLU_16t
     unsigned short  rank;           // number of dimensions
     CV_typ16_t      typ;            // type of index
     unsigned char   dim[CV_ZEROLEN];          // array of dimension information with
-                                    // either upper bounds or lower/upper bound
+    // either upper bounds or lower/upper bound
 } lfDimCon_16t;
 
-typedef struct lfDimCon {
+typedef struct lfDimCon
+{
     unsigned short  leaf;           // LF_DIMCONU or LF_DIMCONLU
     CV_typ_t        typ;            // type of index
     unsigned short  rank;           // number of dimensions
     unsigned char   dim[CV_ZEROLEN];          // array of dimension information with
-                                    // either upper bounds or lower/upper bound
+    // either upper bounds or lower/upper bound
 } lfDimCon;
 
 
@@ -2193,27 +2305,29 @@ typedef struct lfDimCon {
 //      type record for dimensioned array with variable bounds
 
 
-typedef struct lfDimVar_16t {
+typedef struct lfDimVar_16t
+{
     unsigned short  leaf;           // LF_DIMVARU_16t or LF_DIMVARLU_16t
     unsigned short  rank;           // number of dimensions
     CV_typ16_t      typ;            // type of index
     CV_typ16_t      dim[CV_ZEROLEN];          // array of type indices for either
-                                    // variable upper bound or variable
-                                    // lower/upper bound.  The referenced
-                                    // types must be LF_REFSYM or T_VOID
+    // variable upper bound or variable
+    // lower/upper bound.  The referenced
+    // types must be LF_REFSYM or T_VOID
 } lfDimVar_16t;
 
-typedef struct lfDimVar {
+typedef struct lfDimVar
+{
     unsigned short  leaf;           // LF_DIMVARU or LF_DIMVARLU
     unsigned long   rank;           // number of dimensions
     CV_typ_t        typ;            // type of index
     CV_typ_t        dim[CV_ZEROLEN];          // array of type indices for either
-                                    // variable upper bound or variable
-                                    // lower/upper bound.  The count of type
-                                    // indices is rank or rank*2 depending on
-                                    // whether it is LFDIMVARU or LF_DIMVARLU.
-                                    // The referenced types must be
-                                    // LF_REFSYM or T_VOID
+    // variable upper bound or variable
+    // lower/upper bound.  The count of type
+    // indices is rank or rank*2 depending on
+    // whether it is LFDIMVARU or LF_DIMVARLU.
+    // The referenced types must be
+    // LF_REFSYM or T_VOID
 } lfDimVar;
 
 
@@ -2222,7 +2336,8 @@ typedef struct lfDimVar {
 //      type record for referenced symbol
 
 
-typedef struct lfRefSym {
+typedef struct lfRefSym
+{
     unsigned short  leaf;           // LF_REFSYM
     unsigned char   Sym[1];         // copy of referenced symbol record
                                     // (including length)
@@ -2233,7 +2348,8 @@ typedef struct lfRefSym {
 //      type record for generic HLSL type
 
 
-typedef struct lfHLSL {
+typedef struct lfHLSL
+{
     unsigned short  leaf;                 // LF_HLSL
     CV_typ_t        subtype;              // sub-type index, if any
     unsigned short  kind;                 // kind of built-in type from CV_builtin_e
@@ -2249,7 +2365,8 @@ typedef struct lfHLSL {
 //      type record for a generalized built-in type modifier
 
 
-typedef struct lfModifierEx {
+typedef struct lfModifierEx
+{
     unsigned short  leaf;                 // LF_MODIFIER_EX
     CV_typ_t        type;                 // type being modified
     unsigned short  count;                // count of modifier values
@@ -2270,7 +2387,8 @@ typedef struct lfModifierEx {
 
 //      signed character leaf
 
-typedef struct lfChar {
+typedef struct lfChar
+{
     unsigned short  leaf;           // LF_CHAR
     signed char     val;            // signed 8-bit value
 } lfChar;
@@ -2280,7 +2398,8 @@ typedef struct lfChar {
 
 //      signed short leaf
 
-typedef struct lfShort {
+typedef struct lfShort
+{
     unsigned short  leaf;           // LF_SHORT
     short           val;            // signed 16-bit value
 } lfShort;
@@ -2290,7 +2409,8 @@ typedef struct lfShort {
 
 //      unsigned short leaf
 
-typedef struct lfUShort {
+typedef struct lfUShort
+{
     unsigned short  leaf;           // LF_unsigned short
     unsigned short  val;            // unsigned 16-bit value
 } lfUShort;
@@ -2300,7 +2420,8 @@ typedef struct lfUShort {
 
 //      signed long leaf
 
-typedef struct lfLong {
+typedef struct lfLong
+{
     unsigned short  leaf;           // LF_LONG
     long            val;            // signed 32-bit value
 } lfLong;
@@ -2310,7 +2431,8 @@ typedef struct lfLong {
 
 //      unsigned long leaf
 
-typedef struct lfULong {
+typedef struct lfULong
+{
     unsigned short  leaf;           // LF_ULONG
     unsigned long   val;            // unsigned 32-bit value
 } lfULong;
@@ -2320,7 +2442,8 @@ typedef struct lfULong {
 
 //      signed quad leaf
 
-typedef struct lfQuad {
+typedef struct lfQuad
+{
     unsigned short  leaf;           // LF_QUAD
     unsigned char   val[8];         // signed 64-bit value
 } lfQuad;
@@ -2330,7 +2453,8 @@ typedef struct lfQuad {
 
 //      unsigned quad leaf
 
-typedef struct lfUQuad {
+typedef struct lfUQuad
+{
     unsigned short  leaf;           // LF_UQUAD
     unsigned char   val[8];         // unsigned 64-bit value
 } lfUQuad;
@@ -2338,14 +2462,16 @@ typedef struct lfUQuad {
 
 //      signed int128 leaf
 
-typedef struct lfOct {
+typedef struct lfOct
+{
     unsigned short  leaf;           // LF_OCT
     unsigned char   val[16];        // signed 128-bit value
 } lfOct;
 
 //      unsigned int128 leaf
 
-typedef struct lfUOct {
+typedef struct lfUOct
+{
     unsigned short  leaf;           // LF_UOCT
     unsigned char   val[16];        // unsigned 128-bit value
 } lfUOct;
@@ -2355,7 +2481,8 @@ typedef struct lfUOct {
 
 //      real 16-bit leaf
 
-typedef struct lfReal16 {
+typedef struct lfReal16
+{
     unsigned short  leaf;           // LF_REAL16
     unsigned short  val;            // 16-bit real value
 } lfReal16;
@@ -2365,7 +2492,8 @@ typedef struct lfReal16 {
 
 //      real 32-bit leaf
 
-typedef struct lfReal32 {
+typedef struct lfReal32
+{
     unsigned short  leaf;           // LF_REAL32
     float           val;            // 32-bit real value
 } lfReal32;
@@ -2375,7 +2503,8 @@ typedef struct lfReal32 {
 
 //      real 48-bit leaf
 
-typedef struct lfReal48 {
+typedef struct lfReal48
+{
     unsigned short  leaf;           // LF_REAL48
     unsigned char   val[6];         // 48-bit real value
 } lfReal48;
@@ -2385,7 +2514,8 @@ typedef struct lfReal48 {
 
 //      real 64-bit leaf
 
-typedef struct lfReal64 {
+typedef struct lfReal64
+{
     unsigned short  leaf;           // LF_REAL64
     double          val;            // 64-bit real value
 } lfReal64;
@@ -2395,7 +2525,8 @@ typedef struct lfReal64 {
 
 //      real 80-bit leaf
 
-typedef struct lfReal80 {
+typedef struct lfReal80
+{
     unsigned short  leaf;           // LF_REAL80
     FLOAT10         val;            // real 80-bit value
 } lfReal80;
@@ -2405,7 +2536,8 @@ typedef struct lfReal80 {
 
 //      real 128-bit leaf
 
-typedef struct lfReal128 {
+typedef struct lfReal128
+{
     unsigned short  leaf;           // LF_REAL128
     char            val[16];        // real 128-bit value
 } lfReal128;
@@ -2415,7 +2547,8 @@ typedef struct lfReal128 {
 
 //      complex 32-bit leaf
 
-typedef struct lfCmplx32 {
+typedef struct lfCmplx32
+{
     unsigned short  leaf;           // LF_COMPLEX32
     float           val_real;       // real component
     float           val_imag;       // imaginary component
@@ -2426,7 +2559,8 @@ typedef struct lfCmplx32 {
 
 //      complex 64-bit leaf
 
-typedef struct lfCmplx64 {
+typedef struct lfCmplx64
+{
     unsigned short  leaf;           // LF_COMPLEX64
     double          val_real;       // real component
     double          val_imag;       // imaginary component
@@ -2437,7 +2571,8 @@ typedef struct lfCmplx64 {
 
 //      complex 80-bit leaf
 
-typedef struct lfCmplx80 {
+typedef struct lfCmplx80
+{
     unsigned short  leaf;           // LF_COMPLEX80
     FLOAT10         val_real;       // real component
     FLOAT10         val_imag;       // imaginary component
@@ -2448,7 +2583,8 @@ typedef struct lfCmplx80 {
 
 //      complex 128-bit leaf
 
-typedef struct lfCmplx128 {
+typedef struct lfCmplx128
+{
     unsigned short  leaf;           // LF_COMPLEX128
     char            val_real[16];   // real component
     char            val_imag[16];   // imaginary component
@@ -2458,25 +2594,28 @@ typedef struct lfCmplx128 {
 
 //  variable length numeric field
 
-typedef struct lfVarString {
+typedef struct lfVarString
+{
     unsigned short  leaf;       // LF_VARSTRING
     unsigned short  len;        // length of value in bytes
     unsigned char   value[CV_ZEROLEN];  // value
 } lfVarString;
 
-//***********************************************************************
+// ***********************************************************************
 
 
 //      index leaf - contains type index of another leaf
 //      a major use of this leaf is to allow the compilers to emit a
 //      long complex list (LF_FIELD) in smaller pieces.
 
-typedef struct lfIndex_16t {
+typedef struct lfIndex_16t
+{
     unsigned short  leaf;           // LF_INDEX_16t
     CV_typ16_t      index;          // type index of referenced leaf
 } lfIndex_16t;
 
-typedef struct lfIndex {
+typedef struct lfIndex
+{
     unsigned short  leaf;           // LF_INDEX
     _2BYTEPAD       pad0;           // internal padding, must be 0
     CV_typ_t        index;          // type index of referenced leaf
@@ -2485,14 +2624,16 @@ typedef struct lfIndex {
 
 //      subfield record for base class field
 
-typedef struct lfBClass_16t {
+typedef struct lfBClass_16t
+{
     unsigned short  leaf;           // LF_BCLASS_16t
     CV_typ16_t      index;          // type index of base class
     CV_fldattr_t    attr;           // attribute
     unsigned char   offset[CV_ZEROLEN];       // variable length offset of base within class
 } lfBClass_16t;
 
-typedef struct lfBClass {
+typedef struct lfBClass
+{
     unsigned short  leaf;           // LF_BCLASS, LF_BINTERFACE
     CV_fldattr_t    attr;           // attribute
     CV_typ_t        index;          // type index of base class
@@ -2505,22 +2646,24 @@ typedef lfBClass lfBInterface;
 
 //      subfield record for direct and indirect virtual base class field
 
-typedef struct lfVBClass_16t {
+typedef struct lfVBClass_16t
+{
     unsigned short  leaf;           // LF_VBCLASS_16t | LV_IVBCLASS_16t
     CV_typ16_t      index;          // type index of direct virtual base class
     CV_typ16_t      vbptr;          // type index of virtual base pointer
     CV_fldattr_t    attr;           // attribute
     unsigned char   vbpoff[CV_ZEROLEN];       // virtual base pointer offset from address point
-                                    // followed by virtual base offset from vbtable
+    // followed by virtual base offset from vbtable
 } lfVBClass_16t;
 
-typedef struct lfVBClass {
+typedef struct lfVBClass
+{
     unsigned short  leaf;           // LF_VBCLASS | LV_IVBCLASS
     CV_fldattr_t    attr;           // attribute
     CV_typ_t        index;          // type index of direct virtual base class
     CV_typ_t        vbptr;          // type index of virtual base pointer
     unsigned char   vbpoff[CV_ZEROLEN];       // virtual base pointer offset from address point
-                                    // followed by virtual base offset from vbtable
+    // followed by virtual base offset from vbtable
 } lfVBClass;
 
 
@@ -2530,12 +2673,14 @@ typedef struct lfVBClass {
 //      subfield record for friend class
 
 
-typedef struct lfFriendCls_16t {
+typedef struct lfFriendCls_16t
+{
     unsigned short  leaf;           // LF_FRIENDCLS_16t
     CV_typ16_t      index;          // index to type record of friend class
 } lfFriendCls_16t;
 
-typedef struct lfFriendCls {
+typedef struct lfFriendCls
+{
     unsigned short  leaf;           // LF_FRIENDCLS
     _2BYTEPAD       pad0;           // internal padding, must be 0
     CV_typ_t        index;          // index to type record of friend class
@@ -2548,13 +2693,15 @@ typedef struct lfFriendCls {
 //      subfield record for friend function
 
 
-typedef struct lfFriendFcn_16t {
+typedef struct lfFriendFcn_16t
+{
     unsigned short  leaf;           // LF_FRIENDFCN_16t
     CV_typ16_t      index;          // index to type record of friend function
     unsigned char   Name[1];        // name of friend function
 } lfFriendFcn_16t;
 
-typedef struct lfFriendFcn {
+typedef struct lfFriendFcn
+{
     unsigned short  leaf;           // LF_FRIENDFCN
     _2BYTEPAD       pad0;           // internal padding, must be 0
     CV_typ_t        index;          // index to type record of friend function
@@ -2565,34 +2712,38 @@ typedef struct lfFriendFcn {
 
 //      subfield record for non-static data members
 
-typedef struct lfMember_16t {
+typedef struct lfMember_16t
+{
     unsigned short  leaf;           // LF_MEMBER_16t
     CV_typ16_t      index;          // index of type record for field
     CV_fldattr_t    attr;           // attribute mask
     unsigned char   offset[CV_ZEROLEN];       // variable length offset of field followed
-                                    // by length prefixed name of field
+    // by length prefixed name of field
 } lfMember_16t;
 
-typedef struct lfMember {
+typedef struct lfMember
+{
     unsigned short  leaf;           // LF_MEMBER
     CV_fldattr_t    attr;           // attribute mask
     CV_typ_t        index;          // index of type record for field
     unsigned char   offset[CV_ZEROLEN];       // variable length offset of field followed
-                                    // by length prefixed name of field
+    // by length prefixed name of field
 } lfMember;
 
 
 
 //  type record for static data members
 
-typedef struct lfSTMember_16t {
+typedef struct lfSTMember_16t
+{
     unsigned short  leaf;           // LF_STMEMBER_16t
     CV_typ16_t      index;          // index of type record for field
     CV_fldattr_t    attr;           // attribute mask
     unsigned char   Name[1];        // length prefixed name of field
 } lfSTMember_16t;
 
-typedef struct lfSTMember {
+typedef struct lfSTMember
+{
     unsigned short  leaf;           // LF_STMEMBER
     CV_fldattr_t    attr;           // attribute mask
     CV_typ_t        index;          // index of type record for field
@@ -2603,12 +2754,14 @@ typedef struct lfSTMember {
 
 //      subfield record for virtual function table pointer
 
-typedef struct lfVFuncTab_16t {
+typedef struct lfVFuncTab_16t
+{
     unsigned short  leaf;           // LF_VFUNCTAB_16t
     CV_typ16_t      type;           // type index of pointer
 } lfVFuncTab_16t;
 
-typedef struct lfVFuncTab {
+typedef struct lfVFuncTab
+{
     unsigned short  leaf;           // LF_VFUNCTAB
     _2BYTEPAD       pad0;           // internal padding, must be 0
     CV_typ_t        type;           // type index of pointer
@@ -2618,13 +2771,15 @@ typedef struct lfVFuncTab {
 
 //      subfield record for virtual function table pointer with offset
 
-typedef struct lfVFuncOff_16t {
+typedef struct lfVFuncOff_16t
+{
     unsigned short  leaf;           // LF_VFUNCOFF_16t
     CV_typ16_t      type;           // type index of pointer
     CV_off32_t      offset;         // offset of virtual function table pointer
 } lfVFuncOff_16t;
 
-typedef struct lfVFuncOff {
+typedef struct lfVFuncOff
+{
     unsigned short  leaf;           // LF_VFUNCOFF
     _2BYTEPAD       pad0;           // internal padding, must be 0.
     CV_typ_t        type;           // type index of pointer
@@ -2636,14 +2791,16 @@ typedef struct lfVFuncOff {
 //      subfield record for overloaded method list
 
 
-typedef struct lfMethod_16t {
+typedef struct lfMethod_16t
+{
     unsigned short  leaf;           // LF_METHOD_16t
     unsigned short  count;          // number of occurrences of function
     CV_typ16_t      mList;          // index to LF_METHODLIST record
     unsigned char   Name[1];        // length prefixed name of method
 } lfMethod_16t;
 
-typedef struct lfMethod {
+typedef struct lfMethod
+{
     unsigned short  leaf;           // LF_METHOD
     unsigned short  count;          // number of occurrences of function
     CV_typ_t        mList;          // index to LF_METHODLIST record
@@ -2655,44 +2812,49 @@ typedef struct lfMethod {
 //      subfield record for nonoverloaded method
 
 
-typedef struct lfOneMethod_16t {
-    unsigned short leaf;            // LF_ONEMETHOD_16t
-    CV_fldattr_t   attr;            // method attribute
-    CV_typ16_t     index;           // index to type record for procedure
-    unsigned long  vbaseoff[CV_ZEROLEN];    // offset in vfunctable if
-                                    // intro virtual followed by
-                                    // length prefixed name of method
+typedef struct lfOneMethod_16t
+{
+    unsigned short  leaf;           // LF_ONEMETHOD_16t
+    CV_fldattr_t    attr;           // method attribute
+    CV_typ16_t      index;          // index to type record for procedure
+    unsigned long   vbaseoff[CV_ZEROLEN];   // offset in vfunctable if
+    // intro virtual followed by
+    // length prefixed name of method
 } lfOneMethod_16t;
 
-typedef struct lfOneMethod {
-    unsigned short leaf;            // LF_ONEMETHOD
-    CV_fldattr_t   attr;            // method attribute
-    CV_typ_t       index;           // index to type record for procedure
-    unsigned long  vbaseoff[CV_ZEROLEN];    // offset in vfunctable if
-                                    // intro virtual followed by
-                                    // length prefixed name of method
+typedef struct lfOneMethod
+{
+    unsigned short  leaf;           // LF_ONEMETHOD
+    CV_fldattr_t    attr;           // method attribute
+    CV_typ_t        index;          // index to type record for procedure
+    unsigned long   vbaseoff[CV_ZEROLEN];   // offset in vfunctable if
+    // intro virtual followed by
+    // length prefixed name of method
 } lfOneMethod;
 
 
 //      subfield record for enumerate
 
-typedef struct lfEnumerate {
+typedef struct lfEnumerate
+{
     unsigned short  leaf;       // LF_ENUMERATE
     CV_fldattr_t    attr;       // access
     unsigned char   value[CV_ZEROLEN];    // variable length value field followed
-                                // by length prefixed name
+    // by length prefixed name
 } lfEnumerate;
 
 
 //  type record for nested (scoped) type definition
 
-typedef struct lfNestType_16t {
+typedef struct lfNestType_16t
+{
     unsigned short  leaf;       // LF_NESTTYPE_16t
     CV_typ16_t      index;      // index of nested type definition
     unsigned char   Name[1];    // length prefixed type name
 } lfNestType_16t;
 
-typedef struct lfNestType {
+typedef struct lfNestType
+{
     unsigned short  leaf;       // LF_NESTTYPE
     _2BYTEPAD       pad0;       // internal padding, must be 0
     CV_typ_t        index;      // index of nested type definition
@@ -2702,7 +2864,8 @@ typedef struct lfNestType {
 //  type record for nested (scoped) type definition, with attributes
 //  new records for vC v5.0, no need to have 16-bit ti versions.
 
-typedef struct lfNestTypeEx {
+typedef struct lfNestTypeEx
+{
     unsigned short  leaf;       // LF_NESTTYPEEX
     CV_fldattr_t    attr;       // member access
     CV_typ_t        index;      // index of nested type definition
@@ -2711,7 +2874,8 @@ typedef struct lfNestTypeEx {
 
 //  type record for modifications to members
 
-typedef struct lfMemberModify {
+typedef struct lfMemberModify
+{
     unsigned short  leaf;       // LF_MEMBERMODIFY
     CV_fldattr_t    attr;       // the new attributes
     CV_typ_t        index;      // index of base class type definition
@@ -2720,285 +2884,285 @@ typedef struct lfMemberModify {
 
 //  type record for pad leaf
 
-typedef struct lfPad {
-    unsigned char   leaf;
+typedef struct lfPad
+{
+    unsigned char leaf;
 } SYM_PAD;
 
 
 
 //  Symbol definitions
 
-typedef enum SYM_ENUM_e {
-    S_COMPILE       =  0x0001,  // Compile flags symbol
-    S_REGISTER_16t  =  0x0002,  // Register variable
-    S_CONSTANT_16t  =  0x0003,  // constant symbol
-    S_UDT_16t       =  0x0004,  // User defined type
-    S_SSEARCH       =  0x0005,  // Start Search
-    S_END           =  0x0006,  // Block, procedure, "with" or thunk end
-    S_SKIP          =  0x0007,  // Reserve symbol space in $$Symbols table
-    S_CVRESERVE     =  0x0008,  // Reserved symbol for CV internal use
-    S_OBJNAME_ST    =  0x0009,  // path to object file name
-    S_ENDARG        =  0x000a,  // end of argument/return list
-    S_COBOLUDT_16t  =  0x000b,  // special UDT for cobol that does not symbol pack
-    S_MANYREG_16t   =  0x000c,  // multiple register variable
-    S_RETURN        =  0x000d,  // return description symbol
-    S_ENTRYTHIS     =  0x000e,  // description of this pointer on entry
+typedef enum SYM_ENUM_e
+{
+    S_COMPILE       = 0x0001,   // Compile flags symbol
+    S_REGISTER_16t  = 0x0002,   // Register variable
+    S_CONSTANT_16t  = 0x0003,   // constant symbol
+    S_UDT_16t       = 0x0004,   // User defined type
+    S_SSEARCH       = 0x0005,   // Start Search
+    S_END           = 0x0006,   // Block, procedure, "with" or thunk end
+    S_SKIP          = 0x0007,   // Reserve symbol space in $$Symbols table
+    S_CVRESERVE     = 0x0008,   // Reserved symbol for CV internal use
+    S_OBJNAME_ST    = 0x0009,   // path to object file name
+    S_ENDARG        = 0x000a,   // end of argument/return list
+    S_COBOLUDT_16t  = 0x000b,   // special UDT for cobol that does not symbol pack
+    S_MANYREG_16t   = 0x000c,   // multiple register variable
+    S_RETURN        = 0x000d,   // return description symbol
+    S_ENTRYTHIS     = 0x000e,   // description of this pointer on entry
 
-    S_BPREL16       =  0x0100,  // BP-relative
-    S_LDATA16       =  0x0101,  // Module-local symbol
-    S_GDATA16       =  0x0102,  // Global data symbol
-    S_PUB16         =  0x0103,  // a public symbol
-    S_LPROC16       =  0x0104,  // Local procedure start
-    S_GPROC16       =  0x0105,  // Global procedure start
-    S_THUNK16       =  0x0106,  // Thunk Start
-    S_BLOCK16       =  0x0107,  // block start
-    S_WITH16        =  0x0108,  // with start
-    S_LABEL16       =  0x0109,  // code label
-    S_CEXMODEL16    =  0x010a,  // change execution model
-    S_VFTABLE16     =  0x010b,  // address of virtual function table
-    S_REGREL16      =  0x010c,  // register relative address
+    S_BPREL16       = 0x0100,   // BP-relative
+    S_LDATA16       = 0x0101,   // Module-local symbol
+    S_GDATA16       = 0x0102,   // Global data symbol
+    S_PUB16         = 0x0103,   // a public symbol
+    S_LPROC16       = 0x0104,   // Local procedure start
+    S_GPROC16       = 0x0105,   // Global procedure start
+    S_THUNK16       = 0x0106,   // Thunk Start
+    S_BLOCK16       = 0x0107,   // block start
+    S_WITH16        = 0x0108,   // with start
+    S_LABEL16       = 0x0109,   // code label
+    S_CEXMODEL16    = 0x010a,   // change execution model
+    S_VFTABLE16     = 0x010b,   // address of virtual function table
+    S_REGREL16      = 0x010c,   // register relative address
 
-    S_BPREL32_16t   =  0x0200,  // BP-relative
-    S_LDATA32_16t   =  0x0201,  // Module-local symbol
-    S_GDATA32_16t   =  0x0202,  // Global data symbol
-    S_PUB32_16t     =  0x0203,  // a public symbol (CV internal reserved)
-    S_LPROC32_16t   =  0x0204,  // Local procedure start
-    S_GPROC32_16t   =  0x0205,  // Global procedure start
-    S_THUNK32_ST    =  0x0206,  // Thunk Start
-    S_BLOCK32_ST    =  0x0207,  // block start
-    S_WITH32_ST     =  0x0208,  // with start
-    S_LABEL32_ST    =  0x0209,  // code label
-    S_CEXMODEL32    =  0x020a,  // change execution model
-    S_VFTABLE32_16t =  0x020b,  // address of virtual function table
-    S_REGREL32_16t  =  0x020c,  // register relative address
-    S_LTHREAD32_16t =  0x020d,  // local thread storage
-    S_GTHREAD32_16t =  0x020e,  // global thread storage
-    S_SLINK32       =  0x020f,  // static link for MIPS EH implementation
+    S_BPREL32_16t   = 0x0200,   // BP-relative
+    S_LDATA32_16t   = 0x0201,   // Module-local symbol
+    S_GDATA32_16t   = 0x0202,   // Global data symbol
+    S_PUB32_16t     = 0x0203,   // a public symbol (CV internal reserved)
+    S_LPROC32_16t   = 0x0204,   // Local procedure start
+    S_GPROC32_16t   = 0x0205,   // Global procedure start
+    S_THUNK32_ST    = 0x0206,   // Thunk Start
+    S_BLOCK32_ST    = 0x0207,   // block start
+    S_WITH32_ST     = 0x0208,   // with start
+    S_LABEL32_ST    = 0x0209,   // code label
+    S_CEXMODEL32    = 0x020a,   // change execution model
+    S_VFTABLE32_16t = 0x020b,   // address of virtual function table
+    S_REGREL32_16t  = 0x020c,   // register relative address
+    S_LTHREAD32_16t = 0x020d,   // local thread storage
+    S_GTHREAD32_16t = 0x020e,   // global thread storage
+    S_SLINK32       = 0x020f,   // static link for MIPS EH implementation
 
-    S_LPROCMIPS_16t =  0x0300,  // Local procedure start
-    S_GPROCMIPS_16t =  0x0301,  // Global procedure start
+    S_LPROCMIPS_16t = 0x0300,   // Local procedure start
+    S_GPROCMIPS_16t = 0x0301,   // Global procedure start
 
     // if these ref symbols have names following then the names are in ST format
-    S_PROCREF_ST    =  0x0400,  // Reference to a procedure
-    S_DATAREF_ST    =  0x0401,  // Reference to data
-    S_ALIGN         =  0x0402,  // Used for page alignment of symbols
+    S_PROCREF_ST    = 0x0400,   // Reference to a procedure
+    S_DATAREF_ST    = 0x0401,   // Reference to data
+    S_ALIGN         = 0x0402,   // Used for page alignment of symbols
 
-    S_LPROCREF_ST   =  0x0403,  // Local Reference to a procedure
-    S_OEM           =  0x0404,  // OEM defined symbol
+    S_LPROCREF_ST   = 0x0403,   // Local Reference to a procedure
+    S_OEM           = 0x0404,   // OEM defined symbol
 
     // sym records with 32-bit types embedded instead of 16-bit
     // all have 0x1000 bit set for easy identification
     // only do the 32-bit target versions since we don't really
     // care about 16-bit ones anymore.
-    S_TI16_MAX          =  0x1000,
+    S_TI16_MAX          = 0x1000,
 
-    S_REGISTER_ST   =  0x1001,  // Register variable
-    S_CONSTANT_ST   =  0x1002,  // constant symbol
-    S_UDT_ST        =  0x1003,  // User defined type
-    S_COBOLUDT_ST   =  0x1004,  // special UDT for cobol that does not symbol pack
-    S_MANYREG_ST    =  0x1005,  // multiple register variable
-    S_BPREL32_ST    =  0x1006,  // BP-relative
-    S_LDATA32_ST    =  0x1007,  // Module-local symbol
-    S_GDATA32_ST    =  0x1008,  // Global data symbol
-    S_PUB32_ST      =  0x1009,  // a public symbol (CV internal reserved)
-    S_LPROC32_ST    =  0x100a,  // Local procedure start
-    S_GPROC32_ST    =  0x100b,  // Global procedure start
-    S_VFTABLE32     =  0x100c,  // address of virtual function table
-    S_REGREL32_ST   =  0x100d,  // register relative address
-    S_LTHREAD32_ST  =  0x100e,  // local thread storage
-    S_GTHREAD32_ST  =  0x100f,  // global thread storage
+    S_REGISTER_ST   = 0x1001,   // Register variable
+    S_CONSTANT_ST   = 0x1002,   // constant symbol
+    S_UDT_ST        = 0x1003,   // User defined type
+    S_COBOLUDT_ST   = 0x1004,   // special UDT for cobol that does not symbol pack
+    S_MANYREG_ST    = 0x1005,   // multiple register variable
+    S_BPREL32_ST    = 0x1006,   // BP-relative
+    S_LDATA32_ST    = 0x1007,   // Module-local symbol
+    S_GDATA32_ST    = 0x1008,   // Global data symbol
+    S_PUB32_ST      = 0x1009,   // a public symbol (CV internal reserved)
+    S_LPROC32_ST    = 0x100a,   // Local procedure start
+    S_GPROC32_ST    = 0x100b,   // Global procedure start
+    S_VFTABLE32     = 0x100c,   // address of virtual function table
+    S_REGREL32_ST   = 0x100d,   // register relative address
+    S_LTHREAD32_ST  = 0x100e,   // local thread storage
+    S_GTHREAD32_ST  = 0x100f,   // global thread storage
 
-    S_LPROCMIPS_ST  =  0x1010,  // Local procedure start
-    S_GPROCMIPS_ST  =  0x1011,  // Global procedure start
+    S_LPROCMIPS_ST  = 0x1010,   // Local procedure start
+    S_GPROCMIPS_ST  = 0x1011,   // Global procedure start
 
-    S_FRAMEPROC     =  0x1012,  // extra frame and proc information
-    S_COMPILE2_ST   =  0x1013,  // extended compile flags and info
+    S_FRAMEPROC     = 0x1012,   // extra frame and proc information
+    S_COMPILE2_ST   = 0x1013,   // extended compile flags and info
 
     // new symbols necessary for 16-bit enumerates of IA64 registers
     // and IA64 specific symbols
 
-    S_MANYREG2_ST   =  0x1014,  // multiple register variable
-    S_LPROCIA64_ST  =  0x1015,  // Local procedure start (IA64)
-    S_GPROCIA64_ST  =  0x1016,  // Global procedure start (IA64)
+    S_MANYREG2_ST   = 0x1014,   // multiple register variable
+    S_LPROCIA64_ST  = 0x1015,   // Local procedure start (IA64)
+    S_GPROCIA64_ST  = 0x1016,   // Global procedure start (IA64)
 
     // Local symbols for IL
-    S_LOCALSLOT_ST  =  0x1017,  // local IL sym with field for local slot index
-    S_PARAMSLOT_ST  =  0x1018,  // local IL sym with field for parameter slot index
+    S_LOCALSLOT_ST  = 0x1017,   // local IL sym with field for local slot index
+    S_PARAMSLOT_ST  = 0x1018,   // local IL sym with field for parameter slot index
 
-    S_ANNOTATION    =  0x1019,  // Annotation string literals
+    S_ANNOTATION    = 0x1019,   // Annotation string literals
 
     // symbols to support managed code debugging
-    S_GMANPROC_ST   =  0x101a,  // Global proc
-    S_LMANPROC_ST   =  0x101b,  // Local proc
-    S_RESERVED1     =  0x101c,  // reserved
-    S_RESERVED2     =  0x101d,  // reserved
-    S_RESERVED3     =  0x101e,  // reserved
-    S_RESERVED4     =  0x101f,  // reserved
-    S_LMANDATA_ST   =  0x1020,
-    S_GMANDATA_ST   =  0x1021,
-    S_MANFRAMEREL_ST=  0x1022,
-    S_MANREGISTER_ST=  0x1023,
-    S_MANSLOT_ST    =  0x1024,
-    S_MANMANYREG_ST =  0x1025,
-    S_MANREGREL_ST  =  0x1026,
-    S_MANMANYREG2_ST=  0x1027,
-    S_MANTYPREF     =  0x1028,  // Index for type referenced by name from metadata
-    S_UNAMESPACE_ST =  0x1029,  // Using namespace
+    S_GMANPROC_ST   = 0x101a,   // Global proc
+    S_LMANPROC_ST   = 0x101b,   // Local proc
+    S_RESERVED1     = 0x101c,   // reserved
+    S_RESERVED2     = 0x101d,   // reserved
+    S_RESERVED3     = 0x101e,   // reserved
+    S_RESERVED4     = 0x101f,   // reserved
+    S_LMANDATA_ST   = 0x1020,
+    S_GMANDATA_ST   = 0x1021,
+    S_MANFRAMEREL_ST= 0x1022,
+    S_MANREGISTER_ST= 0x1023,
+    S_MANSLOT_ST    = 0x1024,
+    S_MANMANYREG_ST = 0x1025,
+    S_MANREGREL_ST  = 0x1026,
+    S_MANMANYREG2_ST= 0x1027,
+    S_MANTYPREF     = 0x1028,   // Index for type referenced by name from metadata
+    S_UNAMESPACE_ST = 0x1029,   // Using namespace
 
     // Symbols w/ SZ name fields. All name fields contain utf8 encoded strings.
-    S_ST_MAX        =  0x1100,  // starting point for SZ name symbols
+    S_ST_MAX        = 0x1100,   // starting point for SZ name symbols
 
-    S_OBJNAME       =  0x1101,  // path to object file name
-    S_THUNK32       =  0x1102,  // Thunk Start
-    S_BLOCK32       =  0x1103,  // block start
-    S_WITH32        =  0x1104,  // with start
-    S_LABEL32       =  0x1105,  // code label
-    S_REGISTER      =  0x1106,  // Register variable
-    S_CONSTANT      =  0x1107,  // constant symbol
-    S_UDT           =  0x1108,  // User defined type
-    S_COBOLUDT      =  0x1109,  // special UDT for cobol that does not symbol pack
-    S_MANYREG       =  0x110a,  // multiple register variable
-    S_BPREL32       =  0x110b,  // BP-relative
-    S_LDATA32       =  0x110c,  // Module-local symbol
-    S_GDATA32       =  0x110d,  // Global data symbol
-    S_PUB32         =  0x110e,  // a public symbol (CV internal reserved)
-    S_LPROC32       =  0x110f,  // Local procedure start
-    S_GPROC32       =  0x1110,  // Global procedure start
-    S_REGREL32      =  0x1111,  // register relative address
-    S_LTHREAD32     =  0x1112,  // local thread storage
-    S_GTHREAD32     =  0x1113,  // global thread storage
+    S_OBJNAME       = 0x1101,   // path to object file name
+    S_THUNK32       = 0x1102,   // Thunk Start
+    S_BLOCK32       = 0x1103,   // block start
+    S_WITH32        = 0x1104,   // with start
+    S_LABEL32       = 0x1105,   // code label
+    S_REGISTER      = 0x1106,   // Register variable
+    S_CONSTANT      = 0x1107,   // constant symbol
+    S_UDT           = 0x1108,   // User defined type
+    S_COBOLUDT      = 0x1109,   // special UDT for cobol that does not symbol pack
+    S_MANYREG       = 0x110a,   // multiple register variable
+    S_BPREL32       = 0x110b,   // BP-relative
+    S_LDATA32       = 0x110c,   // Module-local symbol
+    S_GDATA32       = 0x110d,   // Global data symbol
+    S_PUB32         = 0x110e,   // a public symbol (CV internal reserved)
+    S_LPROC32       = 0x110f,   // Local procedure start
+    S_GPROC32       = 0x1110,   // Global procedure start
+    S_REGREL32      = 0x1111,   // register relative address
+    S_LTHREAD32     = 0x1112,   // local thread storage
+    S_GTHREAD32     = 0x1113,   // global thread storage
 
-    S_LPROCMIPS     =  0x1114,  // Local procedure start
-    S_GPROCMIPS     =  0x1115,  // Global procedure start
-    S_COMPILE2      =  0x1116,  // extended compile flags and info
-    S_MANYREG2      =  0x1117,  // multiple register variable
-    S_LPROCIA64     =  0x1118,  // Local procedure start (IA64)
-    S_GPROCIA64     =  0x1119,  // Global procedure start (IA64)
-    S_LOCALSLOT     =  0x111a,  // local IL sym with field for local slot index
+    S_LPROCMIPS     = 0x1114,   // Local procedure start
+    S_GPROCMIPS     = 0x1115,   // Global procedure start
+    S_COMPILE2      = 0x1116,   // extended compile flags and info
+    S_MANYREG2      = 0x1117,   // multiple register variable
+    S_LPROCIA64     = 0x1118,   // Local procedure start (IA64)
+    S_GPROCIA64     = 0x1119,   // Global procedure start (IA64)
+    S_LOCALSLOT     = 0x111a,   // local IL sym with field for local slot index
     S_SLOT          = S_LOCALSLOT,  // alias for LOCALSLOT
-    S_PARAMSLOT     =  0x111b,  // local IL sym with field for parameter slot index
+    S_PARAMSLOT     = 0x111b,   // local IL sym with field for parameter slot index
 
     // symbols to support managed code debugging
-    S_LMANDATA      =  0x111c,
-    S_GMANDATA      =  0x111d,
-    S_MANFRAMEREL   =  0x111e,
-    S_MANREGISTER   =  0x111f,
-    S_MANSLOT       =  0x1120,
-    S_MANMANYREG    =  0x1121,
-    S_MANREGREL     =  0x1122,
-    S_MANMANYREG2   =  0x1123,
-    S_UNAMESPACE    =  0x1124,  // Using namespace
+    S_LMANDATA      = 0x111c,
+    S_GMANDATA      = 0x111d,
+    S_MANFRAMEREL   = 0x111e,
+    S_MANREGISTER   = 0x111f,
+    S_MANSLOT       = 0x1120,
+    S_MANMANYREG    = 0x1121,
+    S_MANREGREL     = 0x1122,
+    S_MANMANYREG2   = 0x1123,
+    S_UNAMESPACE    = 0x1124,   // Using namespace
 
     // ref symbols with name fields
-    S_PROCREF       =  0x1125,  // Reference to a procedure
-    S_DATAREF       =  0x1126,  // Reference to data
-    S_LPROCREF      =  0x1127,  // Local Reference to a procedure
-    S_ANNOTATIONREF =  0x1128,  // Reference to an S_ANNOTATION symbol
-    S_TOKENREF      =  0x1129,  // Reference to one of the many MANPROCSYM's
+    S_PROCREF       = 0x1125,   // Reference to a procedure
+    S_DATAREF       = 0x1126,   // Reference to data
+    S_LPROCREF      = 0x1127,   // Local Reference to a procedure
+    S_ANNOTATIONREF = 0x1128,   // Reference to an S_ANNOTATION symbol
+    S_TOKENREF      = 0x1129,   // Reference to one of the many MANPROCSYM's
 
     // continuation of managed symbols
-    S_GMANPROC      =  0x112a,  // Global proc
-    S_LMANPROC      =  0x112b,  // Local proc
+    S_GMANPROC      = 0x112a,   // Global proc
+    S_LMANPROC      = 0x112b,   // Local proc
 
     // short, light-weight thunks
-    S_TRAMPOLINE    =  0x112c,  // trampoline thunks
-    S_MANCONSTANT   =  0x112d,  // constants with metadata type info
+    S_TRAMPOLINE    = 0x112c,   // trampoline thunks
+    S_MANCONSTANT   = 0x112d,   // constants with metadata type info
 
     // native attributed local/parms
-    S_ATTR_FRAMEREL =  0x112e,  // relative to virtual frame ptr
-    S_ATTR_REGISTER =  0x112f,  // stored in a register
-    S_ATTR_REGREL   =  0x1130,  // relative to register (alternate frame ptr)
-    S_ATTR_MANYREG  =  0x1131,  // stored in >1 register
+    S_ATTR_FRAMEREL = 0x112e,   // relative to virtual frame ptr
+    S_ATTR_REGISTER = 0x112f,   // stored in a register
+    S_ATTR_REGREL   = 0x1130,   // relative to register (alternate frame ptr)
+    S_ATTR_MANYREG  = 0x1131,   // stored in >1 register
 
     // Separated code (from the compiler) support
-    S_SEPCODE       =  0x1132,
+    S_SEPCODE       = 0x1132,
 
-    S_LOCAL_2005    =  0x1133,  // defines a local symbol in optimized code
-    S_DEFRANGE_2005 =  0x1134,  // defines a single range of addresses in which symbol can be evaluated
-    S_DEFRANGE2_2005 =  0x1135,  // defines ranges of addresses in which symbol can be evaluated
+    S_LOCAL_2005        = 0x1133, // defines a local symbol in optimized code
+    S_DEFRANGE_2005     = 0x1134, // defines a single range of addresses in which symbol can be evaluated
+    S_DEFRANGE2_2005    = 0x1135, // defines ranges of addresses in which symbol can be evaluated
 
-    S_SECTION       =  0x1136,  // A COFF section in a PE executable
-    S_COFFGROUP     =  0x1137,  // A COFF group
-    S_EXPORT        =  0x1138,  // A export
+    S_SECTION       = 0x1136,   // A COFF section in a PE executable
+    S_COFFGROUP     = 0x1137,   // A COFF group
+    S_EXPORT        = 0x1138,   // A export
 
-    S_CALLSITEINFO  =  0x1139,  // Indirect call site information
-    S_FRAMECOOKIE   =  0x113a,  // Security cookie information
+    S_CALLSITEINFO  = 0x1139,   // Indirect call site information
+    S_FRAMECOOKIE   = 0x113a,   // Security cookie information
 
-    S_DISCARDED     =  0x113b,  // Discarded by LINK /OPT:REF (experimental, see richards)
+    S_DISCARDED     = 0x113b,   // Discarded by LINK /OPT:REF (experimental, see richards)
 
-    S_COMPILE3      =  0x113c,  // Replacement for S_COMPILE2
-    S_ENVBLOCK      =  0x113d,  // Environment block split off from S_COMPILE2
+    S_COMPILE3      = 0x113c,   // Replacement for S_COMPILE2
+    S_ENVBLOCK      = 0x113d,   // Environment block split off from S_COMPILE2
 
-    S_LOCAL         =  0x113e,  // defines a local symbol in optimized code
-    S_DEFRANGE      =  0x113f,  // defines a single range of addresses in which symbol can be evaluated
-    S_DEFRANGE_SUBFIELD =  0x1140,           // ranges for a subfield
+    S_LOCAL             = 0x113e, // defines a local symbol in optimized code
+    S_DEFRANGE          = 0x113f, // defines a single range of addresses in which symbol can be evaluated
+    S_DEFRANGE_SUBFIELD = 0x1140,            // ranges for a subfield
 
-    S_DEFRANGE_REGISTER =  0x1141,           // ranges for en-registered symbol
-    S_DEFRANGE_FRAMEPOINTER_REL =  0x1142,   // range for stack symbol.
-    S_DEFRANGE_SUBFIELD_REGISTER =  0x1143,  // ranges for en-registered field of symbol
-    S_DEFRANGE_FRAMEPOINTER_REL_FULL_SCOPE =  0x1144, // range for stack symbol span valid full scope of function body, gap might apply.
-    S_DEFRANGE_REGISTER_REL =  0x1145, // range for symbol address as register + offset.
+    S_DEFRANGE_REGISTER                     = 0x1141, // ranges for en-registered symbol
+    S_DEFRANGE_FRAMEPOINTER_REL             = 0x1142, // range for stack symbol.
+    S_DEFRANGE_SUBFIELD_REGISTER            = 0x1143, // ranges for en-registered field of symbol
+    S_DEFRANGE_FRAMEPOINTER_REL_FULL_SCOPE  = 0x1144, // range for stack symbol span valid full scope of function body, gap might apply.
+    S_DEFRANGE_REGISTER_REL                 = 0x1145, // range for symbol address as register + offset.
 
     // S_PROC symbols that reference ID instead of type
-    S_LPROC32_ID     =  0x1146,
-    S_GPROC32_ID     =  0x1147,
-    S_LPROCMIPS_ID   =  0x1148,
-    S_GPROCMIPS_ID   =  0x1149,
-    S_LPROCIA64_ID   =  0x114a,
-    S_GPROCIA64_ID   =  0x114b,
+    S_LPROC32_ID        = 0x1146,
+    S_GPROC32_ID        = 0x1147,
+    S_LPROCMIPS_ID      = 0x1148,
+    S_GPROCMIPS_ID      = 0x1149,
+    S_LPROCIA64_ID      = 0x114a,
+    S_GPROCIA64_ID      = 0x114b,
 
-    S_BUILDINFO      = 0x114c, // build information.
-    S_INLINESITE     = 0x114d, // inlined function callsite.
-    S_INLINESITE_END = 0x114e,
-    S_PROC_ID_END    = 0x114f,
+    S_BUILDINFO         = 0x114c, // build information.
+    S_INLINESITE        = 0x114d, // inlined function callsite.
+    S_INLINESITE_END    = 0x114e,
+    S_PROC_ID_END       = 0x114f,
 
-    S_DEFRANGE_HLSL  = 0x1150,
-    S_GDATA_HLSL     = 0x1151,
-    S_LDATA_HLSL     = 0x1152,
+    S_DEFRANGE_HLSL     = 0x1150,
+    S_GDATA_HLSL        = 0x1151,
+    S_LDATA_HLSL        = 0x1152,
 
     S_FILESTATIC     = 0x1153,
 
 #if defined(CC_DP_CXX) && CC_DP_CXX
-
     S_LOCAL_DPC_GROUPSHARED = 0x1154, // DPC groupshared variable
-    S_LPROC32_DPC = 0x1155, // DPC local procedure start
-    S_LPROC32_DPC_ID =  0x1156,
-    S_DEFRANGE_DPC_PTR_TAG =  0x1157, // DPC pointer tag definition range
-    S_DPC_SYM_TAG_MAP = 0x1158, // DPC pointer tag value to symbol record map
-
+    S_LPROC32_DPC           = 0x1155, // DPC local procedure start
+    S_LPROC32_DPC_ID        = 0x1156,
+    S_DEFRANGE_DPC_PTR_TAG  = 0x1157, // DPC pointer tag definition range
+    S_DPC_SYM_TAG_MAP       = 0x1158, // DPC pointer tag value to symbol record map
 #endif // CC_DP_CXX
-    
-    S_ARMSWITCHTABLE  = 0x1159,
-    S_CALLEES = 0x115a,
-    S_CALLERS = 0x115b,
-    S_POGODATA = 0x115c,
-    S_INLINESITE2 = 0x115d,      // extended inline site information
+
+    S_ARMSWITCHTABLE    = 0x1159,
+    S_CALLEES           = 0x115a,
+    S_CALLERS           = 0x115b,
+    S_POGODATA          = 0x115c,
+    S_INLINESITE2       = 0x115d, // extended inline site information
 
     S_HEAPALLOCSITE = 0x115e,    // heap allocation site
 
     S_MOD_TYPEREF = 0x115f,      // only generated at link time
 
-    S_REF_MINIPDB = 0x1160,      // only generated at link time for mini PDB
-    S_PDBMAP      = 0x1161,      // only generated at link time for mini PDB
+    S_REF_MINIPDB   = 0x1160,    // only generated at link time for mini PDB
+    S_PDBMAP        = 0x1161,    // only generated at link time for mini PDB
 
-    S_GDATA_HLSL32 = 0x1162,
-    S_LDATA_HLSL32 = 0x1163,
+    S_GDATA_HLSL32  = 0x1162,
+    S_LDATA_HLSL32  = 0x1163,
 
-    S_GDATA_HLSL32_EX = 0x1164,
-    S_LDATA_HLSL32_EX = 0x1165,
+    S_GDATA_HLSL32_EX   = 0x1164,
+    S_LDATA_HLSL32_EX   = 0x1165,
 
     S_RECTYPE_MAX,               // one greater than last
     S_RECTYPE_LAST  = S_RECTYPE_MAX - 1,
     S_RECTYPE_PAD   = S_RECTYPE_MAX + 0x100 // Used *only* to verify symbol record types so that current PDB code can potentially read
-                                // future PDBs (assuming no format change, etc).
-
+                      // future PDBs (assuming no format change, etc).
 } SYM_ENUM_e;
 
 
 //  enum describing compile flag ambient data model
 
 
-typedef enum CV_CFL_DATA {
+typedef enum CV_CFL_DATA
+{
     CV_CFL_DNEAR    = 0x00,
     CV_CFL_DFAR     = 0x01,
     CV_CFL_DHUGE    = 0x02
@@ -3010,7 +3174,8 @@ typedef enum CV_CFL_DATA {
 //  enum describing compile flag ambiant code model
 
 
-typedef enum CV_CFL_CODE_e {
+typedef enum CV_CFL_CODE_e
+{
     CV_CFL_CNEAR    = 0x00,
     CV_CFL_CFAR     = 0x01,
     CV_CFL_CHUGE    = 0x02
@@ -3021,7 +3186,8 @@ typedef enum CV_CFL_CODE_e {
 
 //  enum describing compile flag target floating point package
 
-typedef enum CV_CFL_FPKG_e {
+typedef enum CV_CFL_FPKG_e
+{
     CV_CFL_NDP      = 0x00,
     CV_CFL_EMU      = 0x01,
     CV_CFL_ALT      = 0x02
@@ -3031,58 +3197,65 @@ typedef enum CV_CFL_FPKG_e {
 // enum describing function return method
 
 
-typedef struct CV_PROCFLAGS {
-    union {
+typedef struct CV_PROCFLAGS
+{
+    union
+    {
         unsigned char   bAll;
         unsigned char   grfAll;
-        struct s {
-            unsigned char CV_PFLAG_NOFPO     :1; // frame pointer present
-            unsigned char CV_PFLAG_INT       :1; // interrupt return
-            unsigned char CV_PFLAG_FAR       :1; // far return
-            unsigned char CV_PFLAG_NEVER     :1; // function does not return
-            unsigned char CV_PFLAG_NOTREACHED:1; // label isn't fallen into
-            unsigned char CV_PFLAG_CUST_CALL :1; // custom calling convention
-            unsigned char CV_PFLAG_NOINLINE  :1; // function marked as noinline
-            unsigned char CV_PFLAG_OPTDBGINFO:1; // function has debug information for optimized code
+        struct s
+        {
+            unsigned char   CV_PFLAG_NOFPO     : 1;// frame pointer present
+            unsigned char   CV_PFLAG_INT       : 1;// interrupt return
+            unsigned char   CV_PFLAG_FAR       : 1;// far return
+            unsigned char   CV_PFLAG_NEVER     : 1;// function does not return
+            unsigned char   CV_PFLAG_NOTREACHED : 1; // label isn't fallen into
+            unsigned char   CV_PFLAG_CUST_CALL : 1; // custom calling convention
+            unsigned char   CV_PFLAG_NOINLINE  : 1;// function marked as noinline
+            unsigned char   CV_PFLAG_OPTDBGINFO : 1; // function has debug information for optimized code
         } flags;
     };
 } CV_PROCFLAGS;
 
 // Extended proc flags
 //
-typedef struct CV_EXPROCFLAGS {
+typedef struct CV_EXPROCFLAGS
+{
     CV_PROCFLAGS cvpf;
-    union {
-        unsigned char   grfAll;
-        struct s {
-            unsigned char   __reserved_byte      :8; // must be zero
+    union
+    {
+        unsigned char grfAll;
+        struct s
+        {
+            unsigned char __reserved_byte      : 8;  // must be zero
         };
     };
 } CV_EXPROCFLAGS;
 
 // local variable flags
-typedef struct CV_LVARFLAGS {
-    unsigned short fIsParam          :1; // variable is a parameter
-    unsigned short fAddrTaken        :1; // address is taken
-    unsigned short fCompGenx         :1; // variable is compiler generated
-    unsigned short fIsAggregate      :1; // the symbol is splitted in temporaries,
-                                         // which are treated by compiler as 
+typedef struct CV_LVARFLAGS
+{
+    unsigned short  fIsParam          : 1;// variable is a parameter
+    unsigned short  fAddrTaken        : 1;// address is taken
+    unsigned short  fCompGenx         : 1;// variable is compiler generated
+    unsigned short  fIsAggregate      : 1;// the symbol is splitted in temporaries,
+                                         // which are treated by compiler as
                                          // independent entities
-    unsigned short fIsAggregated     :1; // Counterpart of fIsAggregate - tells
-                                         // that it is a part of a fIsAggregate symbol
-    unsigned short fIsAliased        :1; // variable has multiple simultaneous lifetimes
-    unsigned short fIsAlias          :1; // represents one of the multiple simultaneous lifetimes
-    unsigned short fIsRetValue       :1; // represents a function return value
-    unsigned short fIsOptimizedOut   :1; // variable has no lifetimes
-    unsigned short fIsEnregGlob      :1; // variable is an enregistered global
-    unsigned short fIsEnregStat      :1; // variable is an enregistered static
+    unsigned short fIsAggregated     : 1; // Counterpart of fIsAggregate - tells
+                                          // that it is a part of a fIsAggregate symbol
+    unsigned short  fIsAliased        : 1;// variable has multiple simultaneous lifetimes
+    unsigned short  fIsAlias          : 1;// represents one of the multiple simultaneous lifetimes
+    unsigned short  fIsRetValue       : 1;// represents a function return value
+    unsigned short  fIsOptimizedOut   : 1;// variable has no lifetimes
+    unsigned short  fIsEnregGlob      : 1;// variable is an enregistered global
+    unsigned short  fIsEnregStat      : 1;// variable is an enregistered static
 
-    unsigned short unused            :5; // must be zero
-
+    unsigned short unused            : 5; // must be zero
 } CV_LVARFLAGS;
 
 // extended attributes common to all local variables
-typedef struct CV_lvar_attr {
+typedef struct CV_lvar_attr
+{
     CV_uoff32_t     off;        // first code address where var is live
     unsigned short  seg;
     CV_LVARFLAGS    flags;      // local var flags
@@ -3095,16 +3268,16 @@ typedef struct CV_lvar_attr {
 
 // represents an address range, used for optimized code debug info
 
-typedef struct CV_LVAR_ADDR_RANGE {       // defines a range of addresses
-    CV_uoff32_t     offStart;
-    unsigned short  isectStart;
-    unsigned short  cbRange;
-} CV_LVAR_ADDR_RANGE;
+typedef struct CV_LVAR_ADDR_RANGE         // defines a range of addresses
+{CV_uoff32_t                                                                                    offStart;
+ unsigned short                                                                                 isectStart;
+ unsigned short                                                                                 cbRange; } CV_LVAR_ADDR_RANGE;
 
-// Represents the holes in overall address range, all address is pre-bbt. 
+// Represents the holes in overall address range, all address is pre-bbt.
 // it is for compress and reduce the amount of relocations need.
 
-typedef struct CV_LVAR_ADDR_GAP {
+typedef struct CV_LVAR_ADDR_GAP
+{
     unsigned short  gapStartOffset;   // relative offset from the beginning of the live range.
     unsigned short  cbRange;          // length of this gap.
 } CV_LVAR_ADDR_GAP;
@@ -3112,58 +3285,64 @@ typedef struct CV_LVAR_ADDR_GAP {
 #if defined(CC_DP_CXX) && CC_DP_CXX
 
 // Represents a mapping from a DPC pointer tag value to the corresponding symbol record
-typedef struct CV_DPC_SYM_TAG_MAP_ENTRY {
-    unsigned int tagValue;       // address taken symbol's pointer tag value.
-    CV_off32_t  symRecordOffset; // offset of the symbol record from the S_LPROC32_DPC record it is nested within
+typedef struct CV_DPC_SYM_TAG_MAP_ENTRY
+{
+    unsigned int    tagValue;    // address taken symbol's pointer tag value.
+    CV_off32_t      symRecordOffset; // offset of the symbol record from the S_LPROC32_DPC record it is nested within
 } CV_DPC_SYM_TAG_MAP_ENTRY;
-
 #endif // CC_DP_CXX
 
 // enum describing function data return method
 
-typedef enum CV_GENERIC_STYLE_e {
-    CV_GENERIC_VOID   = 0x00,       // void return type
-    CV_GENERIC_REG    = 0x01,       // return data is in registers
-    CV_GENERIC_ICAN   = 0x02,       // indirect caller allocated near
-    CV_GENERIC_ICAF   = 0x03,       // indirect caller allocated far
-    CV_GENERIC_IRAN   = 0x04,       // indirect returnee allocated near
-    CV_GENERIC_IRAF   = 0x05,       // indirect returnee allocated far
-    CV_GENERIC_UNUSED = 0x06        // first unused
+typedef enum CV_GENERIC_STYLE_e
+{
+    CV_GENERIC_VOID     = 0x00,     // void return type
+    CV_GENERIC_REG      = 0x01,     // return data is in registers
+    CV_GENERIC_ICAN     = 0x02,     // indirect caller allocated near
+    CV_GENERIC_ICAF     = 0x03,     // indirect caller allocated far
+    CV_GENERIC_IRAN     = 0x04,     // indirect returnee allocated near
+    CV_GENERIC_IRAF     = 0x05,     // indirect returnee allocated far
+    CV_GENERIC_UNUSED   = 0x06      // first unused
 } CV_GENERIC_STYLE_e;
 
 
-typedef struct CV_GENERIC_FLAG {
-    unsigned short  cstyle  :1;     // true push varargs right to left
-    unsigned short  rsclean :1;     // true if returnee stack cleanup
-    unsigned short  unused  :14;    // unused
+typedef struct CV_GENERIC_FLAG
+{
+    unsigned short  cstyle  : 1;    // true push varargs right to left
+    unsigned short  rsclean : 1;    // true if returnee stack cleanup
+    unsigned short  unused  : 14;   // unused
 } CV_GENERIC_FLAG;
 
 
 // flag bitfields for separated code attributes
 
-typedef struct CV_SEPCODEFLAGS {
-    unsigned long fIsLexicalScope : 1;     // S_SEPCODE doubles as lexical scope
-    unsigned long fReturnsToParent : 1;    // code frag returns to parent
-    unsigned long pad : 30;                // must be zero
+typedef struct CV_SEPCODEFLAGS
+{
+    unsigned long   fIsLexicalScope : 1;   // S_SEPCODE doubles as lexical scope
+    unsigned long   fReturnsToParent : 1;  // code frag returns to parent
+    unsigned long   pad : 30;              // must be zero
 } CV_SEPCODEFLAGS;
 
 // Generic layout for symbol records
 
-typedef struct SYMTYPE {
-    unsigned short      reclen;     // Record length
-    unsigned short      rectyp;     // Record type
-    char                data[CV_ZEROLEN];
+typedef struct SYMTYPE
+{
+    unsigned short  reclen;         // Record length
+    unsigned short  rectyp;         // Record type
+    char            data[CV_ZEROLEN];
 } SYMTYPE;
 
-__INLINE SYMTYPE *NextSym (SYMTYPE * pSym) {
-    return (SYMTYPE *) ((char *)pSym + pSym->reclen + sizeof(unsigned short));
+__INLINE SYMTYPE* NextSym(SYMTYPE *pSym)
+{
+    return (SYMTYPE*) ((char*)pSym + pSym->reclen + sizeof(unsigned short));
 }
 
 //      non-model specific symbol types
 
 
 
-typedef struct REGSYM_16t {
+typedef struct REGSYM_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_REGISTER_16t
     CV_typ16_t      typind;     // Type index
@@ -3171,7 +3350,8 @@ typedef struct REGSYM_16t {
     unsigned char   name[1];    // Length-prefixed name
 } REGSYM_16t;
 
-typedef struct REGSYM {
+typedef struct REGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_REGISTER
     CV_typ_t        typind;     // Type index or Metadata token
@@ -3179,7 +3359,8 @@ typedef struct REGSYM {
     unsigned char   name[1];    // Length-prefixed name
 } REGSYM;
 
-typedef struct ATTRREGSYM {
+typedef struct ATTRREGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANREGISTER | S_ATTR_REGISTER
     CV_typ_t        typind;     // Type index or Metadata token
@@ -3188,7 +3369,8 @@ typedef struct ATTRREGSYM {
     unsigned char   name[1];    // Length-prefixed name
 } ATTRREGSYM;
 
-typedef struct MANYREGSYM_16t {
+typedef struct MANYREGSYM_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANYREG_16t
     CV_typ16_t      typind;     // Type index
@@ -3198,7 +3380,8 @@ typedef struct MANYREGSYM_16t {
                                 // most significant first.
 } MANYREGSYM_16t;
 
-typedef struct MANYREGSYM {
+typedef struct MANYREGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANYREG
     CV_typ_t        typind;     // Type index or metadata token
@@ -3208,7 +3391,8 @@ typedef struct MANYREGSYM {
                                 // most significant first.
 } MANYREGSYM;
 
-typedef struct MANYREGSYM2 {
+typedef struct MANYREGSYM2
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANYREG2
     CV_typ_t        typind;     // Type index or metadata token
@@ -3218,7 +3402,8 @@ typedef struct MANYREGSYM2 {
                                 // most significant first.
 } MANYREGSYM2;
 
-typedef struct ATTRMANYREGSYM {
+typedef struct ATTRMANYREGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANMANYREG
     CV_typ_t        typind;     // Type index or metadata token
@@ -3227,10 +3412,11 @@ typedef struct ATTRMANYREGSYM {
     unsigned char   reg[1];     // count register enumerates followed by
                                 // length-prefixed name.  Registers are
                                 // most significant first.
-    unsigned char   name[CV_ZEROLEN];   // utf-8 encoded zero terminate name
+    unsigned char name[CV_ZEROLEN];     // utf-8 encoded zero terminate name
 } ATTRMANYREGSYM;
 
-typedef struct ATTRMANYREGSYM2 {
+typedef struct ATTRMANYREGSYM2
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANMANYREG2 | S_ATTR_MANYREG
     CV_typ_t        typind;     // Type index or metadata token
@@ -3239,10 +3425,11 @@ typedef struct ATTRMANYREGSYM2 {
     unsigned short  reg[1];     // count register enumerates followed by
                                 // length-prefixed name.  Registers are
                                 // most significant first.
-    unsigned char   name[CV_ZEROLEN];   // utf-8 encoded zero terminate name
+    unsigned char name[CV_ZEROLEN];     // utf-8 encoded zero terminate name
 } ATTRMANYREGSYM2;
 
-typedef struct CONSTSYM_16t {
+typedef struct CONSTSYM_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_CONSTANT_16t
     CV_typ16_t      typind;     // Type index (containing enum if enumerate)
@@ -3250,7 +3437,8 @@ typedef struct CONSTSYM_16t {
     unsigned char   name[CV_ZEROLEN];     // Length-prefixed name
 } CONSTSYM_16t;
 
-typedef struct CONSTSYM {
+typedef struct CONSTSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_CONSTANT or S_MANCONSTANT
     CV_typ_t        typind;     // Type index (containing enum if enumerate) or metadata token
@@ -3259,7 +3447,8 @@ typedef struct CONSTSYM {
 } CONSTSYM;
 
 
-typedef struct UDTSYM_16t {
+typedef struct UDTSYM_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_UDT_16t | S_COBOLUDT_16t
     CV_typ16_t      typind;     // Type index
@@ -3267,20 +3456,23 @@ typedef struct UDTSYM_16t {
 } UDTSYM_16t;
 
 
-typedef struct UDTSYM {
+typedef struct UDTSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_UDT | S_COBOLUDT
     CV_typ_t        typind;     // Type index
     unsigned char   name[1];    // Length-prefixed name
 } UDTSYM;
 
-typedef struct MANTYPREF {
+typedef struct MANTYPREF
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANTYPREF
     CV_typ_t        typind;     // Type index
 } MANTYPREF;
 
-typedef struct SEARCHSYM {
+typedef struct SEARCHSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_SSEARCH
     unsigned long   startsym;   // offset of the procedure
@@ -3288,28 +3480,32 @@ typedef struct SEARCHSYM {
 } SEARCHSYM;
 
 
-typedef struct CFLAGSYM {
+typedef struct CFLAGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_COMPILE
     unsigned char   machine;    // target processor
-    struct  {
-        unsigned char   language    :8; // language index
-        unsigned char   pcode       :1; // true if pcode present
-        unsigned char   floatprec   :2; // floating precision
-        unsigned char   floatpkg    :2; // float package
-        unsigned char   ambdata     :3; // ambient data model
-        unsigned char   ambcode     :3; // ambient code model
-        unsigned char   mode32      :1; // true if compiled 32 bit mode
-        unsigned char   pad         :4; // reserved
-    } flags;
-    unsigned char       ver[1];     // Length-prefixed compiler version string
+    struct
+    {
+        unsigned char   language    : 8;// language index
+        unsigned char   pcode       : 1;// true if pcode present
+        unsigned char   floatprec   : 2;// floating precision
+        unsigned char   floatpkg    : 2;// float package
+        unsigned char   ambdata     : 3;// ambient data model
+        unsigned char   ambcode     : 3;// ambient code model
+        unsigned char   mode32      : 1;// true if compiled 32 bit mode
+        unsigned char   pad         : 4;// reserved
+    }               flags;
+    unsigned char   ver[1];         // Length-prefixed compiler version string
 } CFLAGSYM;
 
 
-typedef struct COMPILESYM {
+typedef struct COMPILESYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_COMPILE2
-    struct {
+    struct
+    {
         unsigned long   iLanguage       :  8;   // language index
         unsigned long   fEC             :  1;   // compiled for E/C
         unsigned long   fNoDbgInfo      :  1;   // not compiled with debug info
@@ -3321,7 +3517,7 @@ typedef struct COMPILESYM {
         unsigned long   fCVTCIL         :  1;   // converted with CVTCIL
         unsigned long   fMSILModule     :  1;   // MSIL netmodule
         unsigned long   pad             : 15;   // reserved, must be 0
-    } flags;
+    }               flags;
     unsigned short  machine;    // target processor
     unsigned short  verFEMajor; // front end major version #
     unsigned short  verFEMinor; // front end minor version #
@@ -3334,10 +3530,12 @@ typedef struct COMPILESYM {
                                 //  terminated with a double zero.
 } COMPILESYM;
 
-typedef struct COMPILESYM3 {
+typedef struct COMPILESYM3
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_COMPILE3
-    struct {
+    struct
+    {
         unsigned long   iLanguage       :  8;   // language index
         unsigned long   fEC             :  1;   // compiled for E/C
         unsigned long   fNoDbgInfo      :  1;   // not compiled with debug info
@@ -3352,7 +3550,7 @@ typedef struct COMPILESYM3 {
         unsigned long   fPGO            :  1;   // compiled with /ltcg:pgo or pgu
         unsigned long   fExp            :  1;   // .exp module
         unsigned long   pad             : 12;   // reserved, must be 0
-    } flags;
+    }               flags;
     unsigned short  machine;    // target processor
     unsigned short  verFEMajor; // front end major version #
     unsigned short  verFEMinor; // front end minor version #
@@ -3365,17 +3563,20 @@ typedef struct COMPILESYM3 {
     char            verSz[1];   // Zero terminated compiler version string
 } COMPILESYM3;
 
-typedef struct ENVBLOCKSYM {
+typedef struct ENVBLOCKSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_ENVBLOCK
-    struct {
-        unsigned char  rev              : 1;    // reserved
-        unsigned char  pad              : 7;    // reserved, must be 0
-    } flags;
+    struct
+    {
+        unsigned char   rev              : 1;   // reserved
+        unsigned char   pad              : 7;   // reserved, must be 0
+    }               flags;
     unsigned char   rgsz[1];    // Sequence of zero-terminated strings
 } ENVBLOCKSYM;
 
-typedef struct OBJNAMESYM {
+typedef struct OBJNAMESYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_OBJNAME
     unsigned long   signature;  // signature
@@ -3383,13 +3584,15 @@ typedef struct OBJNAMESYM {
 } OBJNAMESYM;
 
 
-typedef struct ENDARGSYM {
+typedef struct ENDARGSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_ENDARG
 } ENDARGSYM;
 
 
-typedef struct RETURNSYM {
+typedef struct RETURNSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_RETURN
     CV_GENERIC_FLAG flags;      // flags
@@ -3398,7 +3601,8 @@ typedef struct RETURNSYM {
 } RETURNSYM;
 
 
-typedef struct ENTRYTHISSYM {
+typedef struct ENTRYTHISSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_ENTRYTHIS
     unsigned char   thissym;    // symbol describing this pointer on entry
@@ -3408,7 +3612,8 @@ typedef struct ENTRYTHISSYM {
 //      symbol types for 16:16 memory model
 
 
-typedef struct BPRELSYM16 {
+typedef struct BPRELSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BPREL16
     CV_off16_t      off;        // BP-relative offset
@@ -3417,7 +3622,8 @@ typedef struct BPRELSYM16 {
 } BPRELSYM16;
 
 
-typedef struct DATASYM16 {
+typedef struct DATASYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LDATA or S_GDATA
     CV_uoff16_t     off;        // offset of symbol
@@ -3428,7 +3634,8 @@ typedef struct DATASYM16 {
 typedef DATASYM16 PUBSYM16;
 
 
-typedef struct PROCSYM16 {
+typedef struct PROCSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROC16 or S_LPROC16
     unsigned long   pParent;    // pointer to the parent
@@ -3445,7 +3652,8 @@ typedef struct PROCSYM16 {
 } PROCSYM16;
 
 
-typedef struct THUNKSYM16 {
+typedef struct THUNKSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_THUNK
     unsigned long   pParent;    // pointer to the parent
@@ -3459,7 +3667,8 @@ typedef struct THUNKSYM16 {
     unsigned char   variant[CV_ZEROLEN]; // variant portion of thunk
 } THUNKSYM16;
 
-typedef struct LABELSYM16 {
+typedef struct LABELSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LABEL16
     CV_uoff16_t     off;        // offset of symbol
@@ -3469,7 +3678,8 @@ typedef struct LABELSYM16 {
 } LABELSYM16;
 
 
-typedef struct BLOCKSYM16 {
+typedef struct BLOCKSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BLOCK16
     unsigned long   pParent;    // pointer to the parent
@@ -3481,7 +3691,8 @@ typedef struct BLOCKSYM16 {
 } BLOCKSYM16;
 
 
-typedef struct WITHSYM16 {
+typedef struct WITHSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_WITH16
     unsigned long   pParent;    // pointer to the parent
@@ -3493,7 +3704,8 @@ typedef struct WITHSYM16 {
 } WITHSYM16;
 
 
-typedef enum CEXM_MODEL_e {
+typedef enum CEXM_MODEL_e
+{
     CEXM_MDL_table          = 0x00, // not executable
     CEXM_MDL_jumptable      = 0x01, // Compiler generated jump table
     CEXM_MDL_datapad        = 0x02, // Data padding for alignment
@@ -3512,25 +3724,30 @@ typedef enum CEXM_MODEL_e {
 // use the correct enumerate name
 #define CEXM_MDL_SQL CEXM_MDL_sql
 
-typedef enum CV_COBOL_e {
+typedef enum CV_COBOL_e
+{
     CV_COBOL_dontstop,
     CV_COBOL_pfm,
     CV_COBOL_false,
     CV_COBOL_extcall
 } CV_COBOL_e;
 
-typedef struct CEXMSYM16 {
+typedef struct CEXMSYM16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_CEXMODEL16
     CV_uoff16_t     off;        // offset of symbol
     unsigned short  seg;        // segment of symbol
     unsigned short  model;      // execution model
-    union {
-        struct  {
+    union
+    {
+        struct
+        {
             CV_uoff16_t pcdtable;   // offset to pcode function table
             CV_uoff16_t pcdspi;     // offset to segment pcode information
         } pcode;
-        struct {
+        struct
+        {
             unsigned short  subtype;   // see CV_COBOL_e above
             unsigned short  flag;
         } cobol;
@@ -3538,7 +3755,8 @@ typedef struct CEXMSYM16 {
 } CEXMSYM16;
 
 
-typedef struct VPATHSYM16 {
+typedef struct VPATHSYM16
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_VFTPATH16
     CV_uoff16_t     off;        // offset of virtual function table
@@ -3548,7 +3766,8 @@ typedef struct VPATHSYM16 {
 } VPATHSYM16;
 
 
-typedef struct REGREL16 {
+typedef struct REGREL16
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_REGREL16
     CV_uoff16_t     off;        // offset of symbol
@@ -3558,7 +3777,8 @@ typedef struct REGREL16 {
 } REGREL16;
 
 
-typedef struct BPRELSYM32_16t {
+typedef struct BPRELSYM32_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BPREL32_16t
     CV_off32_t      off;        // BP-relative offset
@@ -3566,7 +3786,8 @@ typedef struct BPRELSYM32_16t {
     unsigned char   name[1];    // Length-prefixed name
 } BPRELSYM32_16t;
 
-typedef struct BPRELSYM32 {
+typedef struct BPRELSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BPREL32
     CV_off32_t      off;        // BP-relative offset
@@ -3574,7 +3795,8 @@ typedef struct BPRELSYM32 {
     unsigned char   name[1];    // Length-prefixed name
 } BPRELSYM32;
 
-typedef struct FRAMERELSYM {
+typedef struct FRAMERELSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANFRAMEREL | S_ATTR_FRAMEREL
     CV_off32_t      off;        // Frame relative offset
@@ -3586,7 +3808,8 @@ typedef struct FRAMERELSYM {
 typedef FRAMERELSYM ATTRFRAMERELSYM;
 
 
-typedef struct SLOTSYM32 {
+typedef struct SLOTSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LOCALSLOT or S_PARAMSLOT
     unsigned long   iSlot;      // slot index
@@ -3594,7 +3817,8 @@ typedef struct SLOTSYM32 {
     unsigned char   name[1];    // Length-prefixed name
 } SLOTSYM32;
 
-typedef struct ATTRSLOTSYM {
+typedef struct ATTRSLOTSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANSLOT
     unsigned long   iSlot;      // slot index
@@ -3603,7 +3827,8 @@ typedef struct ATTRSLOTSYM {
     unsigned char   name[1];    // Length-prefixed name
 } ATTRSLOTSYM;
 
-typedef struct ANNOTATIONSYM {
+typedef struct ANNOTATIONSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_ANNOTATION
     CV_uoff32_t     off;
@@ -3612,7 +3837,8 @@ typedef struct ANNOTATIONSYM {
     unsigned char   rgsz[1];    // Sequence of zero terminated annotation strings
 } ANNOTATIONSYM;
 
-typedef struct DATASYM32_16t {
+typedef struct DATASYM32_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LDATA32_16t, S_GDATA32_16t or S_PUB32_16t
     CV_uoff32_t     off;
@@ -3622,7 +3848,8 @@ typedef struct DATASYM32_16t {
 } DATASYM32_16t;
 typedef DATASYM32_16t PUBSYM32_16t;
 
-typedef struct DATASYM32 {
+typedef struct DATASYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LDATA32, S_GDATA32, S_LMANDATA, S_GMANDATA
     CV_typ_t        typind;     // Type index, or Metadata token if a managed symbol
@@ -3631,7 +3858,8 @@ typedef struct DATASYM32 {
     unsigned char   name[1];    // Length-prefixed name
 } DATASYM32;
 
-typedef struct DATASYMHLSL {
+typedef struct DATASYMHLSL
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GDATA_HLSL, S_LDATA_HLSL
     CV_typ_t        typind;     // Type index
@@ -3644,7 +3872,8 @@ typedef struct DATASYMHLSL {
     unsigned char   name[1];    // name
 } DATASYMHLSL;
 
-typedef struct DATASYMHLSL32 {
+typedef struct DATASYMHLSL32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GDATA_HLSL32, S_LDATA_HLSL32
     CV_typ_t        typind;     // Type index
@@ -3657,7 +3886,8 @@ typedef struct DATASYMHLSL32 {
     unsigned char   name[1];    // name
 } DATASYMHLSL32;
 
-typedef struct DATASYMHLSL32_EX {
+typedef struct DATASYMHLSL32_EX
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GDATA_HLSL32_EX, S_LDATA_HLSL32_EX
     CV_typ_t        typind;     // Type index
@@ -3670,17 +3900,19 @@ typedef struct DATASYMHLSL32_EX {
 } DATASYMHLSL32_EX;
 
 typedef enum CV_PUBSYMFLAGS_e
- {
-    cvpsfNone     = 0,
-    cvpsfCode     = 0x00000001,
-    cvpsfFunction = 0x00000002,
-    cvpsfManaged  = 0x00000004,
-    cvpsfMSIL     = 0x00000008,
+{
+    cvpsfNone       = 0,
+    cvpsfCode       = 0x00000001,
+    cvpsfFunction   = 0x00000002,
+    cvpsfManaged    = 0x00000004,
+    cvpsfMSIL       = 0x00000008,
 } CV_PUBSYMFLAGS_e;
 
-typedef union CV_PUBSYMFLAGS {
+typedef union CV_PUBSYMFLAGS
+{
     CV_pubsymflag_t grfFlags;
-    struct s {
+    struct s
+    {
         CV_pubsymflag_t fCode       :  1;    // set if public symbol refers to a code address
         CV_pubsymflag_t fFunction   :  1;    // set if public symbol is a function
         CV_pubsymflag_t fManaged    :  1;    // set if managed code (native or IL)
@@ -3689,7 +3921,8 @@ typedef union CV_PUBSYMFLAGS {
     };
 } CV_PUBSYMFLAGS;
 
-typedef struct PUBSYM32 {
+typedef struct PUBSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_PUB32
     CV_PUBSYMFLAGS  pubsymflags;
@@ -3699,7 +3932,8 @@ typedef struct PUBSYM32 {
 } PUBSYM32;
 
 
-typedef struct PROCSYM32_16t {
+typedef struct PROCSYM32_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROC32_16t or S_LPROC32_16t
     unsigned long   pParent;    // pointer to the parent
@@ -3715,7 +3949,8 @@ typedef struct PROCSYM32_16t {
     unsigned char   name[1];    // Length-prefixed name
 } PROCSYM32_16t;
 
-typedef struct PROCSYM32 {
+typedef struct PROCSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROC32, S_LPROC32, S_GPROC32_ID, S_LPROC32_ID, S_LPROC32_DPC or S_LPROC32_DPC_ID
     unsigned long   pParent;    // pointer to the parent
@@ -3731,7 +3966,8 @@ typedef struct PROCSYM32 {
     unsigned char   name[1];    // Length-prefixed name
 } PROCSYM32;
 
-typedef struct MANPROCSYM {
+typedef struct MANPROCSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GMANPROC, S_LMANPROC, S_GMANPROCIA64 or S_LMANPROCIA64
     unsigned long   pParent;    // pointer to the parent
@@ -3748,7 +3984,8 @@ typedef struct MANPROCSYM {
     unsigned char   name[1];    // optional name field
 } MANPROCSYM;
 
-typedef struct MANPROCSYMMIPS {
+typedef struct MANPROCSYMMIPS
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GMANPROCMIPS or S_LMANPROCMIPS
     unsigned long   pParent;    // pointer to the parent
@@ -3769,7 +4006,8 @@ typedef struct MANPROCSYMMIPS {
     unsigned char   name[1];    // optional name field
 } MANPROCSYMMIPS;
 
-typedef struct THUNKSYM32 {
+typedef struct THUNKSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_THUNK32
     unsigned long   pParent;    // pointer to the parent
@@ -3783,23 +4021,24 @@ typedef struct THUNKSYM32 {
     unsigned char   variant[CV_ZEROLEN]; // variant portion of thunk
 } THUNKSYM32;
 
-typedef enum TRAMP_e {      // Trampoline subtype
-    trampIncremental,           // incremental thunks
-    trampBranchIsland,          // Branch island thunks
+typedef enum TRAMP_e        // Trampoline subtype
+{trampIncremental,              // incremental thunks
+ trampBranchIsland,             // Branch island thunks
 } TRAMP_e;
 
-typedef struct TRAMPOLINESYM {  // Trampoline thunk symbol
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_TRAMPOLINE
-    unsigned short  trampType;  // trampoline sym subtype
-    unsigned short  cbThunk;    // size of the thunk
-    CV_uoff32_t     offThunk;   // offset of the thunk
-    CV_uoff32_t     offTarget;  // offset of the target of the thunk
-    unsigned short  sectThunk;  // section index of the thunk
-    unsigned short  sectTarget; // section index of the target of the thunk
+typedef struct TRAMPOLINESYM    // Trampoline thunk symbol
+{unsigned short                                                                 reclen; // Record length
+ unsigned short                                                                 rectyp; // S_TRAMPOLINE
+ unsigned short                                                                 trampType; // trampoline sym subtype
+ unsigned short                                                                 cbThunk; // size of the thunk
+ CV_uoff32_t                                                                    offThunk; // offset of the thunk
+ CV_uoff32_t                                                                    offTarget; // offset of the target of the thunk
+ unsigned short                                                                 sectThunk; // section index of the thunk
+ unsigned short                                                                 sectTarget; // section index of the target of the thunk
 } TRAMPOLINE;
 
-typedef struct LABELSYM32 {
+typedef struct LABELSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LABEL32
     CV_uoff32_t     off;
@@ -3809,7 +4048,8 @@ typedef struct LABELSYM32 {
 } LABELSYM32;
 
 
-typedef struct BLOCKSYM32 {
+typedef struct BLOCKSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BLOCK32
     unsigned long   pParent;    // pointer to the parent
@@ -3821,7 +4061,8 @@ typedef struct BLOCKSYM32 {
 } BLOCKSYM32;
 
 
-typedef struct WITHSYM32 {
+typedef struct WITHSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_WITH32
     unsigned long   pParent;    // pointer to the parent
@@ -3834,31 +4075,37 @@ typedef struct WITHSYM32 {
 
 
 
-typedef struct CEXMSYM32 {
+typedef struct CEXMSYM32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_CEXMODEL32
     CV_uoff32_t     off;        // offset of symbol
     unsigned short  seg;        // segment of symbol
     unsigned short  model;      // execution model
-    union {
-        struct  {
+    union
+    {
+        struct
+        {
             CV_uoff32_t pcdtable;   // offset to pcode function table
             CV_uoff32_t pcdspi;     // offset to segment pcode information
         } pcode;
-        struct {
+        struct
+        {
             unsigned short  subtype;   // see CV_COBOL_e above
             unsigned short  flag;
         } cobol;
-        struct {
-            CV_uoff32_t calltableOff; // offset to function table
-            unsigned short calltableSeg; // segment of function table
+        struct
+        {
+            CV_uoff32_t     calltableOff; // offset to function table
+            unsigned short  calltableSeg; // segment of function table
         } pcode32Mac;
     };
 } CEXMSYM32;
 
 
 
-typedef struct VPATHSYM32_16t {
+typedef struct VPATHSYM32_16t
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_VFTABLE32_16t
     CV_uoff32_t     off;        // offset of virtual function table
@@ -3867,7 +4114,8 @@ typedef struct VPATHSYM32_16t {
     CV_typ16_t      path;       // type index of the path record
 } VPATHSYM32_16t;
 
-typedef struct VPATHSYM32 {
+typedef struct VPATHSYM32
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_VFTABLE32
     CV_typ_t        root;       // type index of the root of path
@@ -3880,7 +4128,8 @@ typedef struct VPATHSYM32 {
 
 
 
-typedef struct REGREL32_16t {
+typedef struct REGREL32_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_REGREL32_16t
     CV_uoff32_t     off;        // offset of symbol
@@ -3889,7 +4138,8 @@ typedef struct REGREL32_16t {
     unsigned char   name[1];    // Length-prefixed name
 } REGREL32_16t;
 
-typedef struct REGREL32 {
+typedef struct REGREL32
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_REGREL32
     CV_uoff32_t     off;        // offset of symbol
@@ -3898,7 +4148,8 @@ typedef struct REGREL32 {
     unsigned char   name[1];    // Length-prefixed name
 } REGREL32;
 
-typedef struct ATTRREGREL {
+typedef struct ATTRREGREL
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_MANREGREL | S_ATTR_REGREL
     CV_uoff32_t     off;        // offset of symbol
@@ -3908,9 +4159,10 @@ typedef struct ATTRREGREL {
     unsigned char   name[1];    // Length-prefixed name
 } ATTRREGREL;
 
-typedef ATTRREGREL  ATTRREGRELSYM;
+typedef ATTRREGREL ATTRREGRELSYM;
 
-typedef struct THREADSYM32_16t {
+typedef struct THREADSYM32_16t
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_LTHREAD32_16t | S_GTHREAD32_16t
     CV_uoff32_t     off;        // offset into thread storage
@@ -3919,7 +4171,8 @@ typedef struct THREADSYM32_16t {
     unsigned char   name[1];    // length prefixed name
 } THREADSYM32_16t;
 
-typedef struct THREADSYM32 {
+typedef struct THREADSYM32
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_LTHREAD32 | S_GTHREAD32
     CV_typ_t        typind;     // type index
@@ -3928,7 +4181,8 @@ typedef struct THREADSYM32 {
     unsigned char   name[1];    // length prefixed name
 } THREADSYM32;
 
-typedef struct SLINK32 {
+typedef struct SLINK32
+{
     unsigned short  reclen;     // record length
     unsigned short  rectyp;     // S_SLINK32
     unsigned long   framesize;  // frame size of parent procedure
@@ -3936,7 +4190,8 @@ typedef struct SLINK32 {
     unsigned short  reg;
 } SLINK32;
 
-typedef struct PROCSYMMIPS_16t {
+typedef struct PROCSYMMIPS_16t
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROCMIPS_16t or S_LPROCMIPS_16t
     unsigned long   pParent;    // pointer to the parent
@@ -3957,7 +4212,8 @@ typedef struct PROCSYMMIPS_16t {
     unsigned char   name[1];    // Length-prefixed name
 } PROCSYMMIPS_16t;
 
-typedef struct PROCSYMMIPS {
+typedef struct PROCSYMMIPS
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROCMIPS or S_LPROCMIPS
     unsigned long   pParent;    // pointer to the parent
@@ -3978,7 +4234,8 @@ typedef struct PROCSYMMIPS {
     unsigned char   name[1];    // Length-prefixed name
 } PROCSYMMIPS;
 
-typedef struct PROCSYMIA64 {
+typedef struct PROCSYMIA64
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROCIA64 or S_LPROCIA64
     unsigned long   pParent;    // pointer to the parent
@@ -3995,7 +4252,8 @@ typedef struct PROCSYMIA64 {
     unsigned char   name[1];    // Length-prefixed name
 } PROCSYMIA64;
 
-typedef struct REFSYM {
+typedef struct REFSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_PROCREF_ST, S_DATAREF_ST, or S_LPROCREF_ST
     unsigned long   sumName;    // SUC of the name
@@ -4004,7 +4262,8 @@ typedef struct REFSYM {
     unsigned short  usFill;     // align this record
 } REFSYM;
 
-typedef struct REFSYM2 {
+typedef struct REFSYM2
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_PROCREF, S_DATAREF, or S_LPROCREF
     unsigned long   sumName;    // SUC of the name
@@ -4013,12 +4272,14 @@ typedef struct REFSYM2 {
     unsigned char   name[1];    // hidden name made a first class member
 } REFSYM2;
 
-typedef struct ALIGNSYM {
+typedef struct ALIGNSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_ALIGN
 } ALIGNSYM;
 
-typedef struct OEMSYMBOL {
+typedef struct OEMSYMBOL
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_OEM
     unsigned char   idOem[16];  // an oem ID (GUID)
@@ -4030,7 +4291,8 @@ typedef struct OEMSYMBOL {
 //  these are similar to the equivalent 16:16 or 16:32 symbols but
 //  only define the length, type and linkage fields
 
-typedef struct PROCSYM {
+typedef struct PROCSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_GPROC16 or S_LPROC16
     unsigned long   pParent;    // pointer to the parent
@@ -4039,7 +4301,8 @@ typedef struct PROCSYM {
 } PROCSYM;
 
 
-typedef struct THUNKSYM {
+typedef struct THUNKSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_THUNK
     unsigned long   pParent;    // pointer to the parent
@@ -4047,7 +4310,8 @@ typedef struct THUNKSYM {
     unsigned long   pNext;      // pointer to next symbol
 } THUNKSYM;
 
-typedef struct BLOCKSYM {
+typedef struct BLOCKSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BLOCK16
     unsigned long   pParent;    // pointer to the parent
@@ -4055,14 +4319,16 @@ typedef struct BLOCKSYM {
 } BLOCKSYM;
 
 
-typedef struct WITHSYM {
+typedef struct WITHSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_WITH16
     unsigned long   pParent;    // pointer to the parent
     unsigned long   pEnd;       // pointer to this blocks end
 } WITHSYM;
 
-typedef struct FRAMEPROCSYM {
+typedef struct FRAMEPROCSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_FRAMEPROC
     unsigned long   cbFrame;    // count of bytes of total frame of procedure
@@ -4073,7 +4339,8 @@ typedef struct FRAMEPROCSYM {
     CV_uoff32_t     offExHdlr;  // offset of exception handler
     unsigned short  sectExHdlr; // section id of exception handler
 
-    struct {
+    struct
+    {
         unsigned long   fHasAlloca  :  1;   // function uses _alloca()
         unsigned long   fHasSetJmp  :  1;   // function uses setjmp()
         unsigned long   fHasLongJmp :  1;   // function uses longjmp()
@@ -4100,48 +4367,62 @@ typedef struct FRAMEPROCSYM {
 } FRAMEPROCSYM;
 
 #ifdef  __cplusplus
-namespace CodeViewInfo 
+namespace CodeViewInfo
 {
-__inline unsigned short ExpandEncodedBasePointerReg(unsigned machineType, unsigned encodedFrameReg) 
-{
-    static const unsigned short rgFramePointerRegX86[] = {
-        CV_REG_NONE, CV_ALLREG_VFRAME, CV_REG_EBP, CV_REG_EBX};
-    static const unsigned short rgFramePointerRegX64[] = {
-        CV_REG_NONE, CV_AMD64_RSP, CV_AMD64_RBP, CV_AMD64_R13};
-    static const unsigned short rgFramePointerRegArm[] = {
-        CV_REG_NONE, CV_ARM_SP, CV_ARM_R7, CV_REG_NONE};
+    __inline unsigned short ExpandEncodedBasePointerReg(unsigned machineType, unsigned encodedFrameReg)
+    {
+        static const unsigned short    rgFramePointerRegX86[] =
+        {
+            CV_REG_NONE, CV_ALLREG_VFRAME, CV_REG_EBP, CV_REG_EBX
+        };
+        static const unsigned short    rgFramePointerRegX64[] =
+        {
+            CV_REG_NONE, CV_AMD64_RSP, CV_AMD64_RBP, CV_AMD64_R13
+        };
+        static const unsigned short    rgFramePointerRegArm[] =
+        {
+            CV_REG_NONE, CV_ARM_SP, CV_ARM_R7, CV_REG_NONE
+        };
 
-    if (encodedFrameReg >= 4) {
-        return CV_REG_NONE;
-    }
-    switch (machineType) {
-        case CV_CFL_8080 :
-        case CV_CFL_8086 :
-        case CV_CFL_80286 :
-        case CV_CFL_80386 :
-        case CV_CFL_80486 :
-        case CV_CFL_PENTIUM :
-        case CV_CFL_PENTIUMII :
-        case CV_CFL_PENTIUMIII :
-            return rgFramePointerRegX86[encodedFrameReg];
-        case CV_CFL_AMD64 :
-            return rgFramePointerRegX64[encodedFrameReg];
-        case CV_CFL_ARMNT :
-            return rgFramePointerRegArm[encodedFrameReg];
-        default:
+        if (encodedFrameReg >= 4)
+        {
             return CV_REG_NONE;
+        }
+
+        switch (machineType)
+        {
+            case CV_CFL_8080:
+            case CV_CFL_8086:
+            case CV_CFL_80286:
+            case CV_CFL_80386:
+            case CV_CFL_80486:
+            case CV_CFL_PENTIUM:
+            case CV_CFL_PENTIUMII:
+            case CV_CFL_PENTIUMIII:
+                return rgFramePointerRegX86[encodedFrameReg];
+
+            case CV_CFL_AMD64:
+                return rgFramePointerRegX64[encodedFrameReg];
+
+            case CV_CFL_ARMNT:
+                return rgFramePointerRegArm[encodedFrameReg];
+
+            default:
+                return CV_REG_NONE;
+        }
     }
-}
 }
 #endif
 
-typedef struct UNAMESPACE {
+typedef struct UNAMESPACE
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_UNAMESPACE
     unsigned char   name[1];    // name
 } UNAMESPACE;
 
-typedef struct SEPCODESYM {
+typedef struct SEPCODESYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_SEPCODE
     unsigned long   pParent;    // pointer to the parent
@@ -4154,13 +4435,15 @@ typedef struct SEPCODESYM {
     unsigned short  sectParent;
 } SEPCODESYM;
 
-typedef struct BUILDINFOSYM {
+typedef struct BUILDINFOSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_BUILDINFO
     CV_ItemId       id;         // CV_ItemId of Build Info.
 } BUILDINFOSYM;
 
-typedef struct INLINESITESYM {
+typedef struct INLINESITESYM
+{
     unsigned short  reclen;    // Record length
     unsigned short  rectyp;    // S_INLINESITE
     unsigned long   pParent;   // pointer to the inliner
@@ -4169,7 +4452,8 @@ typedef struct INLINESITESYM {
     unsigned char   binaryAnnotations[CV_ZEROLEN];   // an array of compressed binary annotations.
 } INLINESITESYM;
 
-typedef struct INLINESITESYM2 {
+typedef struct INLINESITESYM2
+{
     unsigned short  reclen;         // Record length
     unsigned short  rectyp;         // S_INLINESITE2
     unsigned long   pParent;        // pointer to the inliner
@@ -4183,125 +4467,128 @@ typedef struct INLINESITESYM2 {
 // Defines a locals and it is live range, how to evaluate.
 // S_DEFRANGE modifies previous local S_LOCAL, it has to consecutive.
 
-typedef struct LOCALSYM {
+typedef struct LOCALSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LOCAL
-    CV_typ_t        typind;     // type index   
+    CV_typ_t        typind;     // type index
     CV_LVARFLAGS    flags;      // local var flags
 
-    unsigned char   name[CV_ZEROLEN];   // Name of this symbol, a null terminated array of UTF8 characters.
+    unsigned char name[CV_ZEROLEN];     // Name of this symbol, a null terminated array of UTF8 characters.
 } LOCALSYM;
 
-typedef struct FILESTATICSYM {
+typedef struct FILESTATICSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_FILESTATIC
-    CV_typ_t        typind;     // type index   
+    CV_typ_t        typind;     // type index
     CV_uoff32_t     modOffset;  // index of mod filename in stringtable
     CV_LVARFLAGS    flags;      // local var flags
 
-    unsigned char   name[CV_ZEROLEN];   // Name of this symbol, a null terminated array of UTF8 characters
+    unsigned char name[CV_ZEROLEN];     // Name of this symbol, a null terminated array of UTF8 characters
 } FILESTATICSYM;
 
-typedef struct DEFRANGESYM {    // A live range of sub field of variable
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE
+typedef struct DEFRANGESYM      // A live range of sub field of variable
+{unsigned short                                                                                 reclen; // Record length
+ unsigned short                                                                                 rectyp; // S_DEFRANGE
 
-    CV_uoff32_t     program;    // DIA program to evaluate the value of the symbol
+ CV_uoff32_t program;           // DIA program to evaluate the value of the symbol
 
-    CV_LVAR_ADDR_RANGE range;   // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps. 
+ CV_LVAR_ADDR_RANGE     range;  // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYM;
 
-typedef struct DEFRANGESYMSUBFIELD { // A live range of sub field of variable. like locala.i
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_SUBFIELD
+typedef struct DEFRANGESYMSUBFIELD   // A live range of sub field of variable. like locala.i
+{unsigned short                                                                                                     reclen; // Record length
+ unsigned short                                                                                                     rectyp; // S_DEFRANGE_SUBFIELD
 
-    CV_uoff32_t     program;    // DIA program to evaluate the value of the symbol
+ CV_uoff32_t program;           // DIA program to evaluate the value of the symbol
 
-    CV_uoff32_t     offParent;  // Offset in parent variable.
+ CV_uoff32_t offParent;         // Offset in parent variable.
 
-    CV_LVAR_ADDR_RANGE range;   // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps. 
+ CV_LVAR_ADDR_RANGE     range;  // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYMSUBFIELD;
 
-typedef struct CV_RANGEATTR {
+typedef struct CV_RANGEATTR
+{
     unsigned short  maybe : 1;    // May have no user name on one of control flow path.
     unsigned short  padding : 15; // Padding for future use.
 } CV_RANGEATTR;
 
-typedef struct DEFRANGESYMREGISTER {    // A live range of en-registed variable
-    unsigned short     reclen;     // Record length
-    unsigned short     rectyp;     // S_DEFRANGE_REGISTER 
-    unsigned short     reg;        // Register to hold the value of the symbol
-    CV_RANGEATTR       attr;       // Attribute of the register range.
-    CV_LVAR_ADDR_RANGE range;      // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps. 
+typedef struct DEFRANGESYMREGISTER      // A live range of en-registed variable
+{unsigned short                                                                                         reclen; // Record length
+ unsigned short                                                                                         rectyp; // S_DEFRANGE_REGISTER
+ unsigned short                                                                                         reg; // Register to hold the value of the symbol
+ CV_RANGEATTR                                                                                           attr; // Attribute of the register range.
+ CV_LVAR_ADDR_RANGE                                                                                     range; // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP                                                                                       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYMREGISTER;
 
-typedef struct DEFRANGESYMFRAMEPOINTERREL {    // A live range of frame variable
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_FRAMEPOINTER_REL
+typedef struct DEFRANGESYMFRAMEPOINTERREL      // A live range of frame variable
+{unsigned short                                                                                         reclen; // Record length
+ unsigned short                                                                                         rectyp; // S_DEFRANGE_FRAMEPOINTER_REL
 
-    CV_off32_t      offFramePointer;  // offset to frame pointer
+ CV_off32_t offFramePointer;          // offset to frame pointer
 
-    CV_LVAR_ADDR_RANGE range;   // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps. 
+ CV_LVAR_ADDR_RANGE     range;  // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYMFRAMEPOINTERREL;
 
-typedef struct DEFRANGESYMFRAMEPOINTERREL_FULL_SCOPE { // A frame variable valid in all function scope 
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_FRAMEPOINTER_REL
+typedef struct DEFRANGESYMFRAMEPOINTERREL_FULL_SCOPE   // A frame variable valid in all function scope
+{unsigned short                                                                                                             reclen; // Record length
+ unsigned short                                                                                                             rectyp; // S_DEFRANGE_FRAMEPOINTER_REL
 
-    CV_off32_t      offFramePointer;  // offset to frame pointer
+ CV_off32_t offFramePointer;          // offset to frame pointer
 } DEFRANGESYMFRAMEPOINTERREL_FULL_SCOPE;
 
 #define CV_OFFSET_PARENT_LENGTH_LIMIT 12
 
-// Note DEFRANGESYMREGISTERREL and DEFRANGESYMSUBFIELDREGISTER had same layout. 
-typedef struct DEFRANGESYMSUBFIELDREGISTER { // A live range of sub field of variable. like locala.i
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_SUBFIELD_REGISTER 
+// Note DEFRANGESYMREGISTERREL and DEFRANGESYMSUBFIELDREGISTER had same layout.
+typedef struct DEFRANGESYMSUBFIELDREGISTER   // A live range of sub field of variable. like locala.i
+{unsigned short                                                                                                             reclen; // Record length
+ unsigned short                                                                                                             rectyp; // S_DEFRANGE_SUBFIELD_REGISTER
 
-    unsigned short     reg;        // Register to hold the value of the symbol
-    CV_RANGEATTR       attr;       // Attribute of the register range.
-    CV_uoff32_t        offParent : CV_OFFSET_PARENT_LENGTH_LIMIT;  // Offset in parent variable.
-    CV_uoff32_t        padding   : 20;  // Padding for future use.
-    CV_LVAR_ADDR_RANGE range;   // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps. 
+ unsigned short         reg;       // Register to hold the value of the symbol
+ CV_RANGEATTR           attr;      // Attribute of the register range.
+ CV_uoff32_t            offParent: CV_OFFSET_PARENT_LENGTH_LIMIT;  // Offset in parent variable.
+ CV_uoff32_t            padding   : 20; // Padding for future use.
+ CV_LVAR_ADDR_RANGE     range;  // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYMSUBFIELDREGISTER;
 
 // Note DEFRANGESYMREGISTERREL and DEFRANGESYMSUBFIELDREGISTER had same layout.
 // Used when /GS Copy parameter as local variable or other variable don't cover by FRAMERELATIVE.
-typedef struct DEFRANGESYMREGISTERREL {    // A live range of variable related to a register.
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_REGISTER_REL
+typedef struct DEFRANGESYMREGISTERREL      // A live range of variable related to a register.
+{unsigned short                                                                                                     reclen; // Record length
+ unsigned short                                                                                                     rectyp; // S_DEFRANGE_REGISTER_REL
 
-    unsigned short  baseReg;         // Register to hold the base pointer of the symbol
-    unsigned short  spilledUdtMember : 1;   // Spilled member for s.i.
-    unsigned short  padding          : 3;   // Padding for future use.
-    unsigned short  offsetParent     : CV_OFFSET_PARENT_LENGTH_LIMIT;  // Offset in parent variable.
-    CV_off32_t      offBasePointer;  // offset to register
+ unsigned short     baseReg;         // Register to hold the base pointer of the symbol
+ unsigned short     spilledUdtMember : 1;   // Spilled member for s.i.
+ unsigned short     padding          : 3;   // Padding for future use.
+ unsigned short     offsetParent: CV_OFFSET_PARENT_LENGTH_LIMIT;       // Offset in parent variable.
+ CV_off32_t         offBasePointer;  // offset to register
 
-    CV_LVAR_ADDR_RANGE range;   // Range of addresses where this program is valid
-    CV_LVAR_ADDR_GAP   gaps[CV_ZEROLEN];  // The value is not available in following gaps.
+ CV_LVAR_ADDR_RANGE     range;  // Range of addresses where this program is valid
+ CV_LVAR_ADDR_GAP       gaps[CV_ZEROLEN]; // The value is not available in following gaps.
 } DEFRANGESYMREGISTERREL;
 
-typedef struct DEFRANGESYMHLSL {    // A live range of variable related to a symbol in HLSL code.
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DEFRANGE_HLSL or S_DEFRANGE_DPC_PTR_TAG
+typedef struct DEFRANGESYMHLSL      // A live range of variable related to a symbol in HLSL code.
+{unsigned short                                                                                                         reclen; // Record length
+ unsigned short                                                                                                         rectyp; // S_DEFRANGE_HLSL or S_DEFRANGE_DPC_PTR_TAG
 
-    unsigned short  regType;    // register type from CV_HLSLREG_e
+ unsigned short regType;        // register type from CV_HLSLREG_e
 
-    unsigned short  regIndices       : 2;   // 0, 1 or 2, dimensionality of register space
-    unsigned short  spilledUdtMember : 1;   // this is a spilled member
-    unsigned short  memorySpace      : 4;   // memory space
-    unsigned short  padding          : 9;   // for future use
-    
-    unsigned short  offsetParent;           // Offset in parent variable.
-    unsigned short  sizeInParent;           // Size of enregistered portion
+ unsigned short     regIndices       : 2;   // 0, 1 or 2, dimensionality of register space
+ unsigned short     spilledUdtMember : 1;   // this is a spilled member
+ unsigned short     memorySpace      : 4;   // memory space
+ unsigned short     padding          : 9;   // for future use
 
-    CV_LVAR_ADDR_RANGE range;               // Range of addresses where this program is valid
-    unsigned char   data[CV_ZEROLEN];       // variable length data specifying gaps where the value is not available
+ unsigned short     offsetParent;           // Offset in parent variable.
+ unsigned short     sizeInParent;           // Size of enregistered portion
+
+ CV_LVAR_ADDR_RANGE     range;              // Range of addresses where this program is valid
+ unsigned char          data[CV_ZEROLEN];   // variable length data specifying gaps where the value is not available
                                             // followed by multi-dimensional offset of variable location in register
                                             // space (see CV_DEFRANGESYMHLSL_* macros below)
 } DEFRANGESYMHLSL;
@@ -4310,7 +4597,7 @@ typedef struct DEFRANGESYMHLSL {    // A live range of variable related to a sym
     (((x)->reclen + sizeof((x)->reclen) - sizeof(DEFRANGESYM)) / sizeof(CV_LVAR_ADDR_GAP))
 
 #define CV_DEFRANGESYMSUBFIELD_GAPS_COUNT(x) \
-    (((x)->reclen + sizeof((x)->reclen) - sizeof(DEFRANGESYMSUBFIELD)) / sizeof(CV_LVAR_ADDR_GAP)) 
+    (((x)->reclen + sizeof((x)->reclen) - sizeof(DEFRANGESYMSUBFIELD)) / sizeof(CV_LVAR_ADDR_GAP))
 
 #define CV_DEFRANGESYMHLSL_GAPS_COUNT(x) \
     (((x)->reclen + sizeof((x)->reclen) - sizeof(DEFRANGESYMHLSL) - (x)->regIndices * sizeof(CV_uoff32_t)) / sizeof(CV_LVAR_ADDR_GAP))
@@ -4325,41 +4612,42 @@ typedef struct DEFRANGESYMHLSL {    // A live range of variable related to a sym
 
 #define CV_DEFRANGESYMHLSL_OFFSET_PTR_BASE(x, t) \
     reinterpret_cast<t>(((CV_LVAR_ADDR_GAP*)(x)->data) + CV_DEFRANGESYMHLSL_GAPS_COUNT(x))
- 
+
 #define CV_DEFRANGESYMHLSL_OFFSET_CONST_PTR(x) \
     CV_DEFRANGESYMHLSL_OFFSET_PTR_BASE(x, const CV_uoff32_t*)
- 
+
 #define CV_DEFRANGESYMHLSL_OFFSET_PTR(x) \
     CV_DEFRANGESYMHLSL_OFFSET_PTR_BASE(x, CV_uoff32_t*)
 
 #if defined(CC_DP_CXX) && CC_DP_CXX
 
 // Defines a local DPC group shared variable and its location.
-typedef struct LOCALDPCGROUPSHAREDSYM {
+typedef struct LOCALDPCGROUPSHAREDSYM
+{
     unsigned short  reclen;     // Record length
     unsigned short  rectyp;     // S_LOCAL_DPC_GROUPSHARED
-    CV_typ_t        typind;     // type index   
+    CV_typ_t        typind;     // type index
     CV_LVARFLAGS    flags;      // local var flags
 
     unsigned short  dataslot;   // Base data (cbuffer, groupshared, etc.) slot
     unsigned short  dataoff;    // Base data byte offset start
-    
-    unsigned char   name[CV_ZEROLEN];   // Name of this symbol, a null terminated array of UTF8 characters.
+
+    unsigned char name[CV_ZEROLEN];     // Name of this symbol, a null terminated array of UTF8 characters.
 } LOCALDPCGROUPSHAREDSYM;
 
-typedef struct DPCSYMTAGMAP {   // A map for DPC pointer tag values to symbol records.
-    unsigned short  reclen;     // Record length
-    unsigned short  rectyp;     // S_DPC_SYM_TAG_MAP
+typedef struct DPCSYMTAGMAP     // A map for DPC pointer tag values to symbol records.
+{unsigned short                                                                                             reclen; // Record length
+ unsigned short                                                                                             rectyp; // S_DPC_SYM_TAG_MAP
 
-    CV_DPC_SYM_TAG_MAP_ENTRY mapEntries[CV_ZEROLEN];  // Array of mappings from DPC pointer tag values to symbol record offsets
+ CV_DPC_SYM_TAG_MAP_ENTRY mapEntries[CV_ZEROLEN];     // Array of mappings from DPC pointer tag values to symbol record offsets
 } DPCSYMTAGMAP;
 
 #define CV_DPCSYMTAGMAP_COUNT(x) \
     (((x)->reclen + sizeof((x)->reclen) - sizeof(DPCSYMTAGMAP)) / sizeof(CV_DPC_SYM_TAG_MAP_ENTRY))
-
 #endif // CC_DP_CXX
 
-typedef enum CV_armswitchtype {
+typedef enum CV_armswitchtype
+{
     CV_SWT_INT1         = 0,
     CV_SWT_UINT1        = 1,
     CV_SWT_INT2         = 2,
@@ -4375,7 +4663,8 @@ typedef enum CV_armswitchtype {
     CV_SWT_TBH          = CV_SWT_UINT2SHL1,
 } CV_armswitchtype;
 
-typedef struct FUNCTIONLIST {
+typedef struct FUNCTIONLIST
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_CALLERS or S_CALLEES
 
@@ -4385,7 +4674,8 @@ typedef struct FUNCTIONLIST {
     // invocation counts. Counts > reclen are assumed to be zero
 } FUNCTIONLIST;
 
-typedef struct POGOINFO {
+typedef struct POGOINFO
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_POGODATA
 
@@ -4395,7 +4685,8 @@ typedef struct POGOINFO {
     unsigned long   staInstLive;        // Final static instruction count (post inlining)
 } POGOINFO;
 
-typedef struct ARMSWITCHTABLE {
+typedef struct ARMSWITCHTABLE
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_ARMSWITCHTABLE
 
@@ -4409,7 +4700,8 @@ typedef struct ARMSWITCHTABLE {
     unsigned long   cEntries;           // number of switch table entries
 } ARMSWITCHTABLE;
 
-typedef struct MODTYPEREF {
+typedef struct MODTYPEREF
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_MOD_TYPEREF
 
@@ -4425,7 +4717,8 @@ typedef struct MODTYPEREF {
     unsigned short  word1;              // on above flags
 } MODTYPEREF;
 
-typedef struct SECTIONSYM {
+typedef struct SECTIONSYM
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_SECTION
 
@@ -4438,7 +4731,8 @@ typedef struct SECTIONSYM {
     unsigned char   name[1];            // name
 } SECTIONSYM;
 
-typedef struct COFFGROUPSYM {
+typedef struct COFFGROUPSYM
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_COFFGROUP
 
@@ -4449,7 +4743,8 @@ typedef struct COFFGROUPSYM {
     unsigned char   name[1];            // name
 } COFFGROUPSYM;
 
-typedef struct EXPORTSYM {
+typedef struct EXPORTSYM
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_EXPORT
 
@@ -4484,7 +4779,8 @@ typedef struct EXPORTSYM {
 //  (*pfn)(arg list);
 //
 
-typedef struct CALLSITEINFO {
+typedef struct CALLSITEINFO
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_CALLSITEINFO
     CV_off32_t      off;                // offset of call site
@@ -4493,7 +4789,8 @@ typedef struct CALLSITEINFO {
     CV_typ_t        typind;             // type index describing function signature
 } CALLSITEINFO;
 
-typedef struct HEAPALLOCSITE {
+typedef struct HEAPALLOCSITE
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_HEAPALLOCSITE
     CV_off32_t      off;                // offset of call site
@@ -4506,16 +4803,17 @@ typedef struct HEAPALLOCSITE {
 
 typedef enum CV_cookietype_e
 {
-   CV_COOKIETYPE_COPY = 0, 
-   CV_COOKIETYPE_XOR_SP, 
-   CV_COOKIETYPE_XOR_BP,
-   CV_COOKIETYPE_XOR_R13,
+    CV_COOKIETYPE_COPY = 0,
+    CV_COOKIETYPE_XOR_SP,
+    CV_COOKIETYPE_XOR_BP,
+    CV_COOKIETYPE_XOR_R13,
 } CV_cookietype_e;
 
-// Symbol for describing security cookie's position and type 
+// Symbol for describing security cookie's position and type
 // (raw, xor'd with esp, xor'd with ebp).
 
-typedef struct FRAMECOOKIE {
+typedef struct FRAMECOOKIE
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_FRAMECOOKIE
     CV_off32_t      off;                // Frame relative offset
@@ -4526,12 +4824,13 @@ typedef struct FRAMECOOKIE {
 
 typedef enum CV_DISCARDED_e
 {
-   CV_DISCARDED_UNKNOWN,
-   CV_DISCARDED_NOT_SELECTED,
-   CV_DISCARDED_NOT_REFERENCED,
+    CV_DISCARDED_UNKNOWN,
+    CV_DISCARDED_NOT_SELECTED,
+    CV_DISCARDED_NOT_REFERENCED,
 } CV_DISCARDED_e;
 
-typedef struct DISCARDEDSYM {
+typedef struct DISCARDEDSYM
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_DISCARDED
     unsigned long   discarded : 8;      // CV_DISCARDED_e
@@ -4541,12 +4840,14 @@ typedef struct DISCARDEDSYM {
     char            data[CV_ZEROLEN];   // Original record(s) with invalid type indices
 } DISCARDEDSYM;
 
-typedef struct REFMINIPDB {
+typedef struct REFMINIPDB
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_REF_MINIPDB
-    union {
-        unsigned long  isectCoff;       // coff section
-        CV_typ_t       typind;          // type index
+    union
+    {
+        unsigned long   isectCoff;      // coff section
+        CV_typ_t        typind;         // type index
     };
     unsigned short  imod;               // mod index
     unsigned short  fLocal   :  1;      // reference to local (vs. global) func or data
@@ -4558,7 +4859,8 @@ typedef struct REFMINIPDB {
     unsigned char   name[1];            // zero terminated name string
 } REFMINIPDB;
 
-typedef struct PDBMAP {
+typedef struct PDBMAP
+{
     unsigned short  reclen;             // Record length
     unsigned short  rectyp;             // S_PDBMAP
     unsigned char   name[CV_ZEROLEN];   // zero terminated source PDB filename followed by zero
@@ -4569,7 +4871,8 @@ typedef struct PDBMAP {
 // V7 line number data types
 //
 
-enum DEBUG_S_SUBSECTION_TYPE {
+enum DEBUG_S_SUBSECTION_TYPE
+{
     DEBUG_S_IGNORE = 0x80000000,    // if this bit is set in a subsection type then ignore the subsection contents
 
     DEBUG_S_SYMBOLS = 0xf1,
@@ -4589,22 +4892,25 @@ enum DEBUG_S_SUBSECTION_TYPE {
     DEBUG_S_COFF_SYMBOL_RVA,
 };
 
-struct CV_DebugSSubsectionHeader_t {
-    enum DEBUG_S_SUBSECTION_TYPE type; 
-    CV_off32_t                   cbLen;
+struct CV_DebugSSubsectionHeader_t
+{
+    enum DEBUG_S_SUBSECTION_TYPE    type;
+    CV_off32_t                      cbLen;
 };
 
-struct CV_DebugSLinesHeader_t {
-    CV_off32_t     offCon;
-    unsigned short segCon;
-    unsigned short flags;
-    CV_off32_t     cbCon;
+struct CV_DebugSLinesHeader_t
+{
+    CV_off32_t      offCon;
+    unsigned short  segCon;
+    unsigned short  flags;
+    CV_off32_t      cbCon;
 };
 
-struct CV_DebugSLinesFileBlockHeader_t {
-    CV_off32_t     offFile;
-    CV_off32_t     nLines;
-    CV_off32_t     cbBlock;
+struct CV_DebugSLinesFileBlockHeader_t
+{
+    CV_off32_t  offFile;
+    CV_off32_t  nLines;
+    CV_off32_t  cbBlock;
     // CV_Line_t      lines[nLines];
     // CV_Column_t    columns[nColumns];
 };
@@ -4614,21 +4920,24 @@ struct CV_DebugSLinesFileBlockHeader_t {
 //
 #define CV_LINES_HAVE_COLUMNS 0x0001
 
-struct CV_Line_t {
-        unsigned long   offset;             // Offset to start of code bytes for line number
-        unsigned long   linenumStart:24;    // line where statement/expression starts
-        unsigned long   deltaLineEnd:7;     // delta to line where statement ends (optional)
-        unsigned long   fStatement:1;       // true if a statement linenumber, else an expression line num
+struct CV_Line_t
+{
+    unsigned long   offset;                 // Offset to start of code bytes for line number
+    unsigned long   linenumStart : 24;      // line where statement/expression starts
+    unsigned long   deltaLineEnd : 7;       // delta to line where statement ends (optional)
+    unsigned long   fStatement : 1;         // true if a statement linenumber, else an expression line num
 };
 
 typedef unsigned short CV_columnpos_t;    // byte offset in a source line
 
-struct CV_Column_t {
-    CV_columnpos_t offColumnStart;
-    CV_columnpos_t offColumnEnd;
+struct CV_Column_t
+{
+    CV_columnpos_t  offColumnStart;
+    CV_columnpos_t  offColumnEnd;
 };
 
-struct tagFRAMEDATA {
+struct tagFRAMEDATA
+{
     unsigned long   ulRvaStart;
     unsigned long   cbBlock;
     unsigned long   cbLocals;
@@ -4637,200 +4946,213 @@ struct tagFRAMEDATA {
     unsigned long   frameFunc;
     unsigned short  cbProlog;
     unsigned short  cbSavedRegs;
-    unsigned long   fHasSEH:1;
-    unsigned long   fHasEH:1;
-    unsigned long   fIsFunctionStart:1;
-    unsigned long   reserved:29;
+    unsigned long   fHasSEH : 1;
+    unsigned long   fHasEH : 1;
+    unsigned long   fIsFunctionStart : 1;
+    unsigned long   reserved : 29;
 };
 
-typedef struct tagFRAMEDATA FRAMEDATA, * PFRAMEDATA;
+typedef struct tagFRAMEDATA FRAMEDATA, *PFRAMEDATA;
 
-typedef struct tagXFIXUP_DATA {
-   unsigned short wType;
-   unsigned short wExtra;
-   unsigned long rva;
-   unsigned long rvaTarget;
+typedef struct tagXFIXUP_DATA
+{
+    unsigned short  wType;
+    unsigned short  wExtra;
+    unsigned long   rva;
+    unsigned long   rvaTarget;
 } XFIXUP_DATA;
 
-// Those cross scope IDs are private convention, 
-// it used to delay the ID merging for frontend and backend even linker. 
-// It is transparent for DIA client. 
-// Use those ID will let DIA run a litter slower and but 
+// Those cross scope IDs are private convention,
+// it used to delay the ID merging for frontend and backend even linker.
+// It is transparent for DIA client.
+// Use those ID will let DIA run a litter slower and but
 // avoid the copy type tree in some scenarios.
 
 #ifdef  __cplusplus
-namespace CodeViewInfo 
+namespace CodeViewInfo
 {
-
-typedef struct ComboID
-{
-    static const unsigned int IndexBitWidth = 20;
-    static const unsigned int ImodBitWidth = 12;
-
-    ComboID(unsigned short imod, unsigned int index)
+    typedef struct ComboID
     {
-        m_comboID = (((unsigned int) imod) << IndexBitWidth) | index;
-    }
+        static const unsigned int   IndexBitWidth   = 20;
+        static const unsigned int   ImodBitWidth    = 12;
 
-    ComboID(unsigned int comboID)
-    {
-        m_comboID = comboID;
-    }
+        ComboID(unsigned short imod, unsigned int index)
+        {
+            m_comboID = (((unsigned int)imod) << IndexBitWidth) | index;
+        }
 
-    operator unsigned int()
-    {
-        return m_comboID;
-    }
+        ComboID(unsigned int comboID)
+        {
+            m_comboID = comboID;
+        }
 
-    unsigned short GetModIndex()
-    {
-        return (unsigned short) (m_comboID >> IndexBitWidth);
-    }
+        operator unsigned int()
+        {
+            return m_comboID;
+        }
 
-    unsigned int GetIndex()
-    {
-        return (m_comboID & ((1 << IndexBitWidth) - 1));
-    }
+        unsigned short GetModIndex()
+        {
+            return (unsigned short)(m_comboID >> IndexBitWidth);
+        }
+
+        unsigned int GetIndex()
+        {
+            return (m_comboID & ((1 << IndexBitWidth) - 1));
+        }
 
 private:
 
-    unsigned int m_comboID;
-} ComboID;
+        unsigned int m_comboID;
+    } ComboID;
 
 
-typedef struct CrossScopeId
-{
-    static const unsigned int LocalIdBitWidth = 20;
-    static const unsigned int IdScopeBitWidth = 11;
-    static const unsigned int StartCrossScopeId = 
-        (unsigned int) (1 << (LocalIdBitWidth + IdScopeBitWidth));
-    static const unsigned int LocalIdMask = (1 << LocalIdBitWidth) - 1;
-    static const unsigned int ScopeIdMask = StartCrossScopeId - (1 << LocalIdBitWidth);
-
-    // Compilation unit at most reference 1M constructed type.
-    static const unsigned int MaxLocalId = (1 << LocalIdBitWidth) - 1;
-
-    // Compilation unit at most reference to another 2K compilation units.
-    static const unsigned int MaxScopeId = (1 << IdScopeBitWidth) - 1;
-
-    CrossScopeId(unsigned short aIdScopeId, unsigned int aLocalId) 
-    {  
-        crossScopeId = StartCrossScopeId
-               | (aIdScopeId << LocalIdBitWidth)
-               | aLocalId;
-    }
-
-    operator unsigned int() {
-        return crossScopeId;
-    }
-
-    unsigned int GetLocalId() {
-        return crossScopeId & LocalIdMask;
-    }
-
-    unsigned int GetIdScopeId() {
-        return (crossScopeId & ScopeIdMask) >> LocalIdBitWidth;
-    }
-
-    static bool IsCrossScopeId(unsigned int i) 
+    typedef struct CrossScopeId
     {
-        return (StartCrossScopeId & i) != 0;
-    }
+        static const unsigned int   LocalIdBitWidth     = 20;
+        static const unsigned int   IdScopeBitWidth     = 11;
+        static const unsigned int   StartCrossScopeId   =
+            (unsigned int)(1 << (LocalIdBitWidth + IdScopeBitWidth));
+        static const unsigned int   LocalIdMask = (1 << LocalIdBitWidth) - 1;
+        static const unsigned int   ScopeIdMask = StartCrossScopeId - (1 << LocalIdBitWidth);
 
-    static CrossScopeId Decode(unsigned int i) 
-    {
-        CrossScopeId retval;
-        retval.crossScopeId = i;
-        return retval;
-    }
+        // Compilation unit at most reference 1M constructed type.
+        static const unsigned int MaxLocalId = (1 << LocalIdBitWidth) - 1;
+
+        // Compilation unit at most reference to another 2K compilation units.
+        static const unsigned int MaxScopeId = (1 << IdScopeBitWidth) - 1;
+
+        CrossScopeId(unsigned short aIdScopeId, unsigned int aLocalId)
+        {
+            crossScopeId = StartCrossScopeId
+                           | (aIdScopeId << LocalIdBitWidth)
+                           | aLocalId;
+        }
+
+        operator unsigned int()
+        {
+            return crossScopeId;
+        }
+
+        unsigned int GetLocalId()
+        {
+            return crossScopeId & LocalIdMask;
+        }
+
+        unsigned int GetIdScopeId()
+        {
+            return (crossScopeId & ScopeIdMask) >> LocalIdBitWidth;
+        }
+
+        static bool IsCrossScopeId(unsigned int i)
+        {
+            return (StartCrossScopeId & i) != 0;
+        }
+
+        static CrossScopeId Decode(unsigned int i)
+        {
+            CrossScopeId    retval;
+
+            retval.crossScopeId = i;
+            return retval;
+        }
 
 private:
 
-    CrossScopeId() {}
+        CrossScopeId() {}
 
-    unsigned int crossScopeId;
-
-} CrossScopeId; 
+        unsigned int crossScopeId;
+    } CrossScopeId;
 
 // Combined encoding of TI or FuncId, In compiler implementation
 // Id prefixed by 1 if it is function ID.
 
-typedef struct DecoratedItemId
-{
-    DecoratedItemId(bool isFuncId, CV_ItemId inputId) {
-        if (isFuncId) {
-            decoratedItemId = 0x80000000 | inputId;
-        } else {
-            decoratedItemId = inputId;
+    typedef struct DecoratedItemId
+    {
+        DecoratedItemId(bool isFuncId, CV_ItemId inputId)
+        {
+            if (isFuncId)
+            {
+                decoratedItemId = 0x80000000 | inputId;
+            }
+            else
+            {
+                decoratedItemId = inputId;
+            }
         }
-    }
 
-    DecoratedItemId(CV_ItemId encodedId) {
-        decoratedItemId = encodedId;
-    }
+        DecoratedItemId(CV_ItemId encodedId)
+        {
+            decoratedItemId = encodedId;
+        }
 
-    operator unsigned int() {
-        return decoratedItemId;
-    }
+        operator unsigned int()
+        {
+            return decoratedItemId;
+        }
 
-    bool IsFuncId() 
-    {
-        return (decoratedItemId & 0x80000000) == 0x80000000;
-    }
+        bool IsFuncId()
+        {
+            return (decoratedItemId & 0x80000000) == 0x80000000;
+        }
 
-    CV_ItemId GetItemId() 
-    {
-        return decoratedItemId & 0x7fffffff;
-    }
+        CV_ItemId GetItemId()
+        {
+            return decoratedItemId & 0x7fffffff;
+        }
 
 private:
 
-    unsigned int decoratedItemId;
-
-} DecoratedItemId;
+        unsigned int decoratedItemId;
+    } DecoratedItemId;
 
 // Compilation Unit object file path include library name
 // Or compile time PDB full path
 
-typedef struct tagPdbIdScope {
-    CV_off32_t  offObjectFilePath; 
-} PdbIdScope;
+    typedef struct tagPdbIdScope
+    {
+        CV_off32_t offObjectFilePath;
+    } PdbIdScope;
 
 // An array of all imports by import module.
 // List all cross reference for a specific ID scope.
-// Format of DEBUG_S_CROSSSCOPEIMPORTS subsection is 
-typedef struct tagCrossScopeReferences {
-    PdbIdScope    externalScope;              // Module of definition Scope.
-    unsigned int  countOfCrossReferences;     // Count of following array. 
-    CV_ItemId     referenceIds[CV_ZEROLEN];   // CV_ItemId in another compilation unit.
-} CrossScopeReferences;
+// Format of DEBUG_S_CROSSSCOPEIMPORTS subsection is
+    typedef struct tagCrossScopeReferences
+    {
+        PdbIdScope      externalScope;        // Module of definition Scope.
+        unsigned int    countOfCrossReferences; // Count of following array.
+        CV_ItemId       referenceIds[CV_ZEROLEN]; // CV_ItemId in another compilation unit.
+    } CrossScopeReferences;
 
 // An array of all exports in this module.
-// Format of DEBUG_S_CROSSSCOPEEXPORTS subsection is 
-typedef struct tagLocalIdAndGlobalIdPair {
-    CV_ItemId localId;    // local id inside the compile time PDB scope. 0 based
-    CV_ItemId globalId;   // global id inside the link time PDB scope, if scope are different.
-} LocalIdAndGlobalIdPair;
+// Format of DEBUG_S_CROSSSCOPEEXPORTS subsection is
+    typedef struct tagLocalIdAndGlobalIdPair
+    {
+        CV_ItemId   localId; // local id inside the compile time PDB scope. 0 based
+        CV_ItemId   globalId; // global id inside the link time PDB scope, if scope are different.
+    } LocalIdAndGlobalIdPair;
 
 // Format of DEBUG_S_INLINEELINEINFO subsection
 // List start source file information for an inlined function.
 
-#define CV_INLINEE_SOURCE_LINE_SIGNATURE     0x0
-#define CV_INLINEE_SOURCE_LINE_SIGNATURE_EX  0x1
+#define CV_INLINEE_SOURCE_LINE_SIGNATURE        0x0
+#define CV_INLINEE_SOURCE_LINE_SIGNATURE_EX     0x1
 
-typedef struct tagInlineeSourceLine {
-    CV_ItemId      inlinee;       // function id.
-    CV_off32_t     fileId;        // offset into file table DEBUG_S_FILECHKSMS
-    CV_off32_t     sourceLineNum; // definition start line number.
-} InlineeSourceLine;
+    typedef struct tagInlineeSourceLine
+    {
+        CV_ItemId   inlinee;      // function id.
+        CV_off32_t  fileId;       // offset into file table DEBUG_S_FILECHKSMS
+        CV_off32_t  sourceLineNum; // definition start line number.
+    } InlineeSourceLine;
 
-typedef struct tagInlineeSourceLineEx {
-    CV_ItemId      inlinee;       // function id
-    CV_off32_t     fileId;        // offset into file table DEBUG_S_FILECHKSMS
-    CV_off32_t     sourceLineNum; // definition start line number
-    unsigned int   countOfExtraFiles;
-    CV_off32_t     extraFileId[CV_ZEROLEN];
-} InlineeSourceLineEx;
+    typedef struct tagInlineeSourceLineEx
+    {
+        CV_ItemId       inlinee;  // function id
+        CV_off32_t      fileId;   // offset into file table DEBUG_S_FILECHKSMS
+        CV_off32_t      sourceLineNum; // definition start line number
+        unsigned int    countOfExtraFiles;
+        CV_off32_t      extraFileId[CV_ZEROLEN];
+    } InlineeSourceLineEx;
 
 // BinaryAnnotations ::= BinaryAnnotationInstruction+
 // BinaryAnnotationInstruction ::= BinaryAnnotationOpcode Operand+
@@ -4845,34 +5167,34 @@ typedef struct tagInlineeSourceLineEx {
 // encoding only.  These annotations append to S_INLINESITE record, and
 // operands are unsigned except for BA_OP_ChangeLineOffset.
 
-enum BinaryAnnotationOpcode
-{
-    BA_OP_Invalid,               // link time pdb contains PADDINGs
-    BA_OP_CodeOffset,            // param : start offset 
-    BA_OP_ChangeCodeOffsetBase,  // param : nth separated code chunk (main code chunk == 0)
-    BA_OP_ChangeCodeOffset,      // param : delta of offset
-    BA_OP_ChangeCodeLength,      // param : length of code, default next start
-    BA_OP_ChangeFile,            // param : fileId 
-    BA_OP_ChangeLineOffset,      // param : line offset (signed)
-    BA_OP_ChangeLineEndDelta,    // param : how many lines, default 1
-    BA_OP_ChangeRangeKind,       // param : either 1 (default, for statement)
+    enum BinaryAnnotationOpcode
+    {
+        BA_OP_Invalid,           // link time pdb contains PADDINGs
+        BA_OP_CodeOffset,        // param : start offset
+        BA_OP_ChangeCodeOffsetBase, // param : nth separated code chunk (main code chunk == 0)
+        BA_OP_ChangeCodeOffset,  // param : delta of offset
+        BA_OP_ChangeCodeLength,  // param : length of code, default next start
+        BA_OP_ChangeFile,        // param : fileId
+        BA_OP_ChangeLineOffset,  // param : line offset (signed)
+        BA_OP_ChangeLineEndDelta, // param : how many lines, default 1
+        BA_OP_ChangeRangeKind,   // param : either 1 (default, for statement)
                                  //         or 0 (for expression)
 
-    BA_OP_ChangeColumnStart,     // param : start column number, 0 means no column info
-    BA_OP_ChangeColumnEndDelta,  // param : end column number delta (signed)
+        BA_OP_ChangeColumnStart, // param : start column number, 0 means no column info
+        BA_OP_ChangeColumnEndDelta, // param : end column number delta (signed)
 
-    // Combo opcodes for smaller encoding size.
+        // Combo opcodes for smaller encoding size.
 
-    BA_OP_ChangeCodeOffsetAndLineOffset,  // param : ((sourceDelta << 4) | CodeDelta)
-    BA_OP_ChangeCodeLengthAndCodeOffset,  // param : codeLength, codeOffset
+        BA_OP_ChangeCodeOffsetAndLineOffset, // param : ((sourceDelta << 4) | CodeDelta)
+        BA_OP_ChangeCodeLengthAndCodeOffset, // param : codeLength, codeOffset
 
-    BA_OP_ChangeColumnEnd,       // param : end column number
-};
+        BA_OP_ChangeColumnEnd,   // param : end column number
+    };
 
-inline int BinaryAnnotationInstructionOperandCount(BinaryAnnotationOpcode op)
-{
-    return (op == BA_OP_ChangeCodeLengthAndCodeOffset) ? 2 : 1;
-}
+    inline int BinaryAnnotationInstructionOperandCount(BinaryAnnotationOpcode op)
+    {
+        return (op == BA_OP_ChangeCodeLengthAndCodeOffset) ? 2 : 1;
+    }
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -4889,39 +5211,42 @@ inline int BinaryAnnotationInstructionOperandCount(BinaryAnnotationOpcode op)
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-typedef unsigned __int8 UInt8;
-typedef unsigned __int32 UInt32;
+    typedef unsigned __int8 UInt8;
+    typedef unsigned __int32 UInt32;
 
-typedef UInt8 CompressedAnnotation;
-typedef CompressedAnnotation* PCompressedAnnotation;
+    typedef UInt8 CompressedAnnotation;
+    typedef CompressedAnnotation*PCompressedAnnotation;
 
-inline UInt32 CVCompressData(
-    UInt32  iLen,       // [IN]  given uncompressed data
-    void *  pDataOut)   // [OUT] buffer for the compressed data
-{
-    UInt8 *pBytes = reinterpret_cast<UInt8 *>(pDataOut);
+    inline UInt32 CVCompressData(
+        UInt32 iLen,    // [IN]  given uncompressed data
+        void *pDataOut) // [OUT] buffer for the compressed data
+    {
+        UInt8    *pBytes = reinterpret_cast<UInt8*>(pDataOut);
 
-    if (iLen <= 0x7F) {
-        *pBytes = UInt8(iLen);
-        return 1;
+        if (iLen <= 0x7F)
+        {
+            *pBytes = UInt8(iLen);
+            return 1;
+        }
+
+        if (iLen <= 0x3FFF)
+        {
+            *pBytes         = UInt8((iLen >> 8) | 0x80);
+            *(pBytes + 1)   = UInt8(iLen & 0xff);
+            return 2;
+        }
+
+        if (iLen <= 0x1FFFFFFF)
+        {
+            *pBytes         = UInt8((iLen >> 24) | 0xC0);
+            *(pBytes + 1)   = UInt8((iLen >> 16) & 0xff);
+            *(pBytes + 2)   = UInt8((iLen >> 8) & 0xff);
+            *(pBytes + 3)   = UInt8(iLen & 0xff);
+            return 4;
+        }
+
+        return (UInt32) - 1;
     }
-
-    if (iLen <= 0x3FFF) {
-        *pBytes     = UInt8((iLen >> 8) | 0x80);
-        *(pBytes+1) = UInt8(iLen & 0xff);
-        return 2;
-    }
-
-    if (iLen <= 0x1FFFFFFF) {
-        *pBytes     = UInt8((iLen >> 24) | 0xC0);
-        *(pBytes+1) = UInt8((iLen >> 16) & 0xff);
-        *(pBytes+2) = UInt8((iLen >> 8)  & 0xff);
-        *(pBytes+3) = UInt8(iLen & 0xff);
-        return 4;
-    }
-
-    return (UInt32) -1;
-}
 
 ///////////////////////////////////////////////////////////////////////////////
 //
@@ -4929,73 +5254,80 @@ inline UInt32 CVCompressData(
 //
 // Return value is the uncompressed unsigned integer.  pData is incremented to
 // point to the next piece of uncompressed data.
-// 
+//
 // Returns -1 if what is passed in is incorrectly compressed data, such as
 // (*pBytes & 0xE0) == 0xE0.
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-inline UInt32 CVUncompressData(
-    PCompressedAnnotation & pData)    // [IN,OUT] compressed data 
-{
-    UInt32 res = (UInt32)(-1);
+    inline UInt32 CVUncompressData(
+        PCompressedAnnotation &pData) // [IN,OUT] compressed data
+    {
+        UInt32    res = (UInt32)(-1);
 
-    if ((*pData & 0x80) == 0x00) {
-        // 0??? ????
+        if ((*pData & 0x80) == 0x00)
+        {
+            // 0??? ????
 
-        res = (UInt32)(*pData++);
+            res = (UInt32)(*pData++);
+        }
+        else if ((*pData & 0xC0) == 0x80)
+        {
+            // 10?? ????
+
+            res = (UInt32)((*pData++ & 0x3f) << 8);
+            res |= *pData++;
+        }
+        else if ((*pData & 0xE0) == 0xC0)
+        {
+            // 110? ????
+
+            res = (*pData++ & 0x1f) << 24;
+            res |= *pData++ << 16;
+            res |= *pData++ << 8;
+            res |= *pData++;
+        }
+
+        return res;
     }
-    else if ((*pData & 0xC0) == 0x80) {
-        // 10?? ????
-
-        res = (UInt32)((*pData++ & 0x3f) << 8);
-        res |= *pData++;
-    }
-    else if ((*pData & 0xE0) == 0xC0) {
-        // 110? ???? 
-
-        res = (*pData++ & 0x1f) << 24;
-        res |= *pData++ << 16;
-        res |= *pData++ << 8;
-        res |= *pData++;
-    }
-
-    return res; 
-}
 
 // Encode smaller absolute numbers with smaller buffer.
 //
-// General compression only work for input < 0x1FFFFFFF 
-// algorithm will not work on 0x80000000 
+// General compression only work for input < 0x1FFFFFFF
+// algorithm will not work on 0x80000000
 
-inline unsigned __int32 EncodeSignedInt32(__int32 input)
-{
-    unsigned __int32 rotatedInput;
+    inline unsigned __int32 EncodeSignedInt32(__int32 input)
+    {
+        unsigned __int32    rotatedInput;
 
-    if (input >= 0) {
-        rotatedInput = input << 1;
-    } else {
-        rotatedInput = ((-input) << 1) | 1;
+        if (input >= 0)
+        {
+            rotatedInput = input << 1;
+        }
+        else
+        {
+            rotatedInput = ((-input) << 1) | 1;
+        }
+
+        return rotatedInput;
     }
 
-    return rotatedInput;
-}
+    inline __int32 DecodeSignedInt32(unsigned __int32 input)
+    {
+        __int32    rotatedInput;
 
-inline __int32 DecodeSignedInt32(unsigned __int32 input)
-{
-    __int32 rotatedInput;
+        if (input & 1)
+        {
+            rotatedInput = -(int)(input >> 1);
+        }
+        else
+        {
+            rotatedInput = input >> 1;
+        }
 
-    if (input & 1) {
-        rotatedInput = - (int)(input >> 1);
-    } else {
-        rotatedInput = input >> 1;
+        return rotatedInput;
     }
-
-    return rotatedInput;
-}
-
 }
 #endif
 #pragma pack ( pop )
-
 #endif /* CV_INFO_INCLUDED */

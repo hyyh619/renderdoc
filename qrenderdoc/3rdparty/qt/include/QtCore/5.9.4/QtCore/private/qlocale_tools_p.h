@@ -72,7 +72,8 @@
 
 QT_BEGIN_NAMESPACE
 
-enum TrailingJunkMode {
+enum TrailingJunkMode
+{
     TrailingJunkProhibited,
     TrailingJunkAllowed
 };
@@ -86,30 +87,35 @@ QString qulltoa(qulonglong l, int base, const QChar _zero);
 QString qlltoa(qlonglong l, int base, const QChar zero);
 Q_CORE_EXPORT QString qdtoa(qreal d, int *decpt, int *sign);
 
-enum PrecisionMode {
-    PMDecimalDigits =             0x01,
-    PMSignificantDigits =   0x02,
-    PMChopTrailingZeros =   0x03
+enum PrecisionMode
+{
+    PMDecimalDigits     = 0x01,
+    PMSignificantDigits = 0x02,
+    PMChopTrailingZeros = 0x03
 };
 
-QString &decimalForm(QChar zero, QChar decimal, QChar group,
-                     QString &digits, int decpt, int precision,
-                     PrecisionMode pm,
-                     bool always_show_decpt,
-                     bool thousands_group);
-QString &exponentForm(QChar zero, QChar decimal, QChar exponential,
-                      QChar group, QChar plus, QChar minus,
-                      QString &digits, int decpt, int precision,
-                      PrecisionMode pm,
-                      bool always_show_decpt,
-                      bool leading_zero_in_exponent);
+QString    &decimalForm(QChar zero, QChar decimal, QChar group,
+                        QString &digits, int decpt, int precision,
+                        PrecisionMode pm,
+                        bool always_show_decpt,
+                        bool thousands_group);
+QString    &exponentForm(QChar zero, QChar decimal, QChar exponential,
+                         QChar group, QChar plus, QChar minus,
+                         QString &digits, int decpt, int precision,
+                         PrecisionMode pm,
+                         bool always_show_decpt,
+                         bool leading_zero_in_exponent);
 
 inline bool isZero(double d)
 {
-    uchar *ch = (uchar *)&d;
-    if (QSysInfo::ByteOrder == QSysInfo::BigEndian) {
+    uchar    *ch = (uchar*)&d;
+
+    if (QSysInfo::ByteOrder == QSysInfo::BigEndian)
+    {
         return !(ch[0] & 0x7F || ch[1] || ch[2] || ch[3] || ch[4] || ch[5] || ch[6] || ch[7]);
-    } else {
+    }
+    else
+    {
         return !(ch[7] & 0x7F || ch[6] || ch[5] || ch[4] || ch[3] || ch[2] || ch[1] || ch[0]);
     }
 }

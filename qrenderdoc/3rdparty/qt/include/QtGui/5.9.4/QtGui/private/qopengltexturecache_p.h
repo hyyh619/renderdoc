@@ -62,18 +62,19 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLCachedTexture;
 
-class Q_GUI_EXPORT QOpenGLTextureCache : public QOpenGLSharedResource
+class Q_GUI_EXPORT    QOpenGLTextureCache : public QOpenGLSharedResource
 {
 public:
-    static QOpenGLTextureCache *cacheForContext(QOpenGLContext *context);
+    static QOpenGLTextureCache* cacheForContext(QOpenGLContext *context);
 
-    QOpenGLTextureCache(QOpenGLContext *);
+    QOpenGLTextureCache(QOpenGLContext*);
     ~QOpenGLTextureCache();
 
-    enum BindOption {
-        NoBindOption                            = 0x0000,
-        PremultipliedAlphaBindOption            = 0x0001,
-        UseRedFor8BitBindOption                 = 0x0002,
+    enum BindOption
+    {
+        NoBindOption                    = 0x0000,
+        PremultipliedAlphaBindOption    = 0x0001,
+        UseRedFor8BitBindOption         = 0x0002,
     };
     Q_DECLARE_FLAGS(BindOptions, BindOption)
 
@@ -88,8 +89,8 @@ public:
 private:
     GLuint bindTexture(QOpenGLContext *context, qint64 key, const QImage &image, QOpenGLTextureCache::BindOptions options);
 
-    QMutex m_mutex;
-    QCache<quint64, QOpenGLCachedTexture> m_cache;
+    QMutex                                      m_mutex;
+    QCache<quint64, QOpenGLCachedTexture>       m_cache;
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QOpenGLTextureCache::BindOptions)
@@ -98,17 +99,25 @@ class QOpenGLCachedTexture
 {
 public:
     QOpenGLCachedTexture(GLuint id, QOpenGLTextureCache::BindOptions options, QOpenGLContext *context);
-    ~QOpenGLCachedTexture() { m_resource->free(); }
+    ~QOpenGLCachedTexture()
+    {
+        m_resource->free();
+    }
 
-    GLuint id() const { return m_resource->id(); }
-    QOpenGLTextureCache::BindOptions options() const { return m_options; }
+    GLuint id() const
+    {
+        return m_resource->id();
+    }
+    QOpenGLTextureCache::BindOptions options() const
+    {
+        return m_options;
+    }
 
 private:
-    QOpenGLSharedResourceGuard *m_resource;
-    QOpenGLTextureCache::BindOptions m_options;
+    QOpenGLSharedResourceGuard          *m_resource;
+    QOpenGLTextureCache::BindOptions    m_options;
 };
 
 QT_END_NAMESPACE
 
 #endif
-

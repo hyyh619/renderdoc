@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLPaintDevicePrivate;
 
-class Q_GUI_EXPORT QOpenGLPaintDevice : public QPaintDevice
+class Q_GUI_EXPORT    QOpenGLPaintDevice : public QPaintDevice
 {
     Q_DECLARE_PRIVATE(QOpenGLPaintDevice)
 public:
@@ -61,10 +61,13 @@ public:
     QOpenGLPaintDevice(int width, int height);
     virtual ~QOpenGLPaintDevice();
 
-    int devType() const override { return QInternal::OpenGL; }
-    QPaintEngine *paintEngine() const override;
+    int devType() const override
+    {
+        return QInternal::OpenGL;
+    }
+    QPaintEngine* paintEngine() const override;
 
-    QOpenGLContext *context() const;
+    QOpenGLContext* context() const;
     QSize size() const;
     void setSize(const QSize &size);
     void setDevicePixelRatio(qreal devicePixelRatio);
@@ -72,8 +75,8 @@ public:
     qreal dotsPerMeterX() const;
     qreal dotsPerMeterY() const;
 
-    void setDotsPerMeterX(qreal);
-    void setDotsPerMeterY(qreal);
+    void    setDotsPerMeterX(qreal);
+    void    setDotsPerMeterY(qreal);
 
     void setPaintFlipped(bool flipped);
     bool paintFlipped() const;
@@ -89,7 +92,6 @@ protected:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLPAINTDEVICE_H

@@ -68,49 +68,61 @@ typedef bool (*StrokeLine)(QCosmeticStroker *stroker, qreal x1, qreal y1, qreal 
 class QCosmeticStroker
 {
 public:
-    struct Point {
+    struct Point
+    {
         int x;
         int y;
     };
-    struct PointF {
-        qreal x;
-        qreal y;
+    struct PointF
+    {
+        qreal   x;
+        qreal   y;
     };
 
-    enum Caps {
-        NoCaps = 0,
-        CapBegin = 0x1,
-        CapEnd = 0x2
+    enum Caps
+    {
+        NoCaps      = 0,
+        CapBegin    = 0x1,
+        CapEnd      = 0x2
     };
 
     // used to avoid drop outs or duplicated points
-    enum Direction {
-        TopToBottom = 0x1,
-        BottomToTop = 0x2,
-        LeftToRight = 0x4,
-        RightToLeft = 0x8,
-        VerticalMask = 0x3,
-        HorizontalMask = 0xc
+    enum Direction
+    {
+        TopToBottom     = 0x1,
+        BottomToTop     = 0x2,
+        LeftToRight     = 0x4,
+        RightToLeft     = 0x8,
+        VerticalMask    = 0x3,
+        HorizontalMask  = 0xc
     };
 
     QCosmeticStroker(QRasterPaintEngineState *s, const QRect &dr, const QRect &dr_unclipped)
         : state(s),
-          deviceRect(dr_unclipped),
-          clip(dr),
-          pattern(0),
-          reversePattern(0),
-          patternSize(0),
-          patternLength(0),
-          patternOffset(0),
-          legacyRounding(false),
-          current_span(0),
-          lastDir(LeftToRight),
-          lastAxisAligned(false)
-    { setup(); }
+        deviceRect(dr_unclipped),
+        clip(dr),
+        pattern(0),
+        reversePattern(0),
+        patternSize(0),
+        patternLength(0),
+        patternOffset(0),
+        legacyRounding(false),
+        current_span(0),
+        lastDir(LeftToRight),
+        lastAxisAligned(false)
+    {
+        setup();
+    }
 
-    ~QCosmeticStroker() { free(pattern); free(reversePattern); }
+    ~QCosmeticStroker()
+    {
+        free(pattern); free(reversePattern);
+    }
 
-    void setLegacyRoundingEnabled(bool legacyRoundingEnabled) { legacyRounding = legacyRoundingEnabled; }
+    void setLegacyRoundingEnabled(bool legacyRoundingEnabled)
+    {
+        legacyRounding = legacyRoundingEnabled;
+    }
 
     void drawLine(const QPointF &p1, const QPointF &p2);
     void drawPath(const QVectorPath &path);
@@ -118,38 +130,38 @@ public:
     void drawPoints(const QPointF *points, int num);
 
 
-    QRasterPaintEngineState *state;
-    QRect deviceRect;
-    QRect clip;
+    QRasterPaintEngineState     *state;
+    QRect                       deviceRect;
+    QRect                       clip;
     // clip bounds in real
-    qreal xmin, xmax;
-    qreal ymin, ymax;
+    qreal       xmin, xmax;
+    qreal       ymin, ymax;
 
-    StrokeLine stroke;
-    bool drawCaps;
+    StrokeLine      stroke;
+    bool            drawCaps;
 
-    int *pattern;
-    int *reversePattern;
-    int patternSize;
-    int patternLength;
-    int patternOffset;
+    int     *pattern;
+    int     *reversePattern;
+    int     patternSize;
+    int     patternLength;
+    int     patternOffset;
 
-    bool legacyRounding;
+    bool    legacyRounding;
 
     enum { NSPANS = 255 };
-    QT_FT_Span spans[NSPANS];
-    int current_span;
-    ProcessSpans blend;
+    QT_FT_Span      spans[NSPANS];
+    int             current_span;
+    ProcessSpans    blend;
 
-    int opacity;
+    int    opacity;
 
-    uint color;
-    uint *pixels;
-    int ppl;
+    uint    color;
+    uint    *pixels;
+    int     ppl;
 
-    Direction lastDir;
-    Point lastPixel;
-    bool lastAxisAligned;
+    Direction       lastDir;
+    Point           lastPixel;
+    bool            lastAxisAligned;
 
 private:
     void setup();

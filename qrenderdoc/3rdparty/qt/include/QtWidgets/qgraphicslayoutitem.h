@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 class QGraphicsLayoutItemPrivate;
 class QGraphicsItem;
-class Q_WIDGETS_EXPORT QGraphicsLayoutItem
+class Q_WIDGETS_EXPORT    QGraphicsLayoutItem
 {
 public:
     QGraphicsLayoutItem(QGraphicsLayoutItem *parent = Q_NULLPTR, bool isLayout = false);
@@ -94,11 +94,11 @@ public:
 
     virtual void updateGeometry();
 
-    QGraphicsLayoutItem *parentLayoutItem() const;
+    QGraphicsLayoutItem* parentLayoutItem() const;
     void setParentLayoutItem(QGraphicsLayoutItem *parent);
 
     bool isLayout() const;
-    QGraphicsItem *graphicsItem() const;
+    QGraphicsItem* graphicsItem() const;
     bool ownedByLayout() const;
 
 protected:
@@ -107,10 +107,10 @@ protected:
     QGraphicsLayoutItem(QGraphicsLayoutItemPrivate &dd);
 
     virtual QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const = 0;
-    QScopedPointer<QGraphicsLayoutItemPrivate> d_ptr;
+    QScopedPointer<QGraphicsLayoutItemPrivate>    d_ptr;
 
 private:
-    QSizeF *effectiveSizeHints(const QSizeF &constraint) const;
+    QSizeF* effectiveSizeHints(const QSizeF &constraint) const;
     Q_DECLARE_PRIVATE(QGraphicsLayoutItem)
 
     friend class QGraphicsLayout;
@@ -119,26 +119,44 @@ private:
 Q_DECLARE_INTERFACE(QGraphicsLayoutItem, "org.qt-project.Qt.QGraphicsLayoutItem")
 
 inline void QGraphicsLayoutItem::setMinimumSize(qreal aw, qreal ah)
-{ setMinimumSize(QSizeF(aw, ah)); }
+{
+    setMinimumSize(QSizeF(aw, ah));
+}
 inline void QGraphicsLayoutItem::setPreferredSize(qreal aw, qreal ah)
-{ setPreferredSize(QSizeF(aw, ah)); }
+{
+    setPreferredSize(QSizeF(aw, ah));
+}
 inline void QGraphicsLayoutItem::setMaximumSize(qreal aw, qreal ah)
-{ setMaximumSize(QSizeF(aw, ah)); }
+{
+    setMaximumSize(QSizeF(aw, ah));
+}
 
 inline qreal QGraphicsLayoutItem::minimumWidth() const
-{ return effectiveSizeHint(Qt::MinimumSize).width(); }
+{
+    return effectiveSizeHint(Qt::MinimumSize).width();
+}
 inline qreal QGraphicsLayoutItem::minimumHeight() const
-{ return effectiveSizeHint(Qt::MinimumSize).height(); }
+{
+    return effectiveSizeHint(Qt::MinimumSize).height();
+}
 
 inline qreal QGraphicsLayoutItem::preferredWidth() const
-{ return effectiveSizeHint(Qt::PreferredSize).width(); }
+{
+    return effectiveSizeHint(Qt::PreferredSize).width();
+}
 inline qreal QGraphicsLayoutItem::preferredHeight() const
-{ return effectiveSizeHint(Qt::PreferredSize).height(); }
+{
+    return effectiveSizeHint(Qt::PreferredSize).height();
+}
 
 inline qreal QGraphicsLayoutItem::maximumWidth() const
-{ return effectiveSizeHint(Qt::MaximumSize).width(); }
+{
+    return effectiveSizeHint(Qt::MaximumSize).width();
+}
 inline qreal QGraphicsLayoutItem::maximumHeight() const
-{ return effectiveSizeHint(Qt::MaximumSize).height(); }
+{
+    return effectiveSizeHint(Qt::MaximumSize).height();
+}
 
 QT_END_NAMESPACE
 

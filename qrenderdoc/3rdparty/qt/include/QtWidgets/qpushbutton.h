@@ -52,7 +52,7 @@ class QPushButtonPrivate;
 class QMenu;
 class QStyleOptionButton;
 
-class Q_WIDGETS_EXPORT QPushButton : public QAbstractButton
+class Q_WIDGETS_EXPORT    QPushButton : public QAbstractButton
 {
     Q_OBJECT
 
@@ -63,7 +63,7 @@ class Q_WIDGETS_EXPORT QPushButton : public QAbstractButton
 public:
     explicit QPushButton(QWidget *parent = Q_NULLPTR);
     explicit QPushButton(const QString &text, QWidget *parent = Q_NULLPTR);
-    QPushButton(const QIcon& icon, const QString &text, QWidget *parent = Q_NULLPTR);
+    QPushButton(const QIcon &icon, const QString &text, QWidget *parent = Q_NULLPTR);
     ~QPushButton();
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -75,7 +75,7 @@ public:
     void setDefault(bool);
 
 #if QT_CONFIG(menu)
-    void setMenu(QMenu* menu);
+    void setMenu(QMenu *menu);
     QMenu* menu() const;
 #endif
 
@@ -89,12 +89,12 @@ public Q_SLOTS:
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void focusInEvent(QFocusEvent *) Q_DECL_OVERRIDE;
-    void focusOutEvent(QFocusEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void focusInEvent(QFocusEvent*) Q_DECL_OVERRIDE;
+    void focusOutEvent(QFocusEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionButton *option) const;
-    QPushButton(QPushButtonPrivate &dd, QWidget* parent = Q_NULLPTR);
+    QPushButton(QPushButtonPrivate &dd, QWidget *parent = Q_NULLPTR);
 
 public:
 

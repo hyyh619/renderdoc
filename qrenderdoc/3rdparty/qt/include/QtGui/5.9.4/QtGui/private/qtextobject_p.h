@@ -66,10 +66,9 @@ class QTextObjectPrivate : public QObjectPrivate
 public:
     QTextObjectPrivate(QTextDocument *doc)
         : pieceTable(doc->d_func()), objectIndex(-1)
-    {
-    }
-    QTextDocumentPrivate *pieceTable;
-    int objectIndex;
+    {}
+    QTextDocumentPrivate    *pieceTable;
+    int                     objectIndex;
 };
 
 class QTextBlockGroupPrivate : public QTextObjectPrivate
@@ -78,10 +77,9 @@ class QTextBlockGroupPrivate : public QTextObjectPrivate
 public:
     QTextBlockGroupPrivate(QTextDocument *doc)
         : QTextObjectPrivate(doc)
-    {
-    }
+    {}
     typedef QList<QTextBlock> BlockList;
-    BlockList blocks;
+    BlockList    blocks;
     void markBlocksDirty();
 };
 
@@ -94,18 +92,17 @@ class QTextFramePrivate : public QTextObjectPrivate
 public:
     QTextFramePrivate(QTextDocument *doc)
         : QTextObjectPrivate(doc), fragment_start(0), fragment_end(0), parentFrame(0), layoutData(0)
-    {
-    }
+    {}
     virtual void fragmentAdded(QChar type, uint fragment);
     virtual void fragmentRemoved(QChar type, uint fragment);
     void remove_me();
 
-    uint fragment_start;
-    uint fragment_end;
+    uint    fragment_start;
+    uint    fragment_end;
 
-    QTextFrame *parentFrame;
-    QList<QTextFrame *> childFrames;
-    QTextFrameLayoutData *layoutData;
+    QTextFrame              *parentFrame;
+    QList<QTextFrame*>      childFrames;
+    QTextFrameLayoutData    *layoutData;
 };
 
 QT_END_NAMESPACE

@@ -33,16 +33,16 @@
  */
 class ToolWindowManagerSplitter : public QSplitter
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  //! Creates new tab bar.
-  explicit ToolWindowManagerSplitter(QWidget *parent = 0);
-  //! Destroys the tab bar.
-  virtual ~ToolWindowManagerSplitter();
+    // ! Creates new tab bar.
+    explicit ToolWindowManagerSplitter(QWidget *parent = 0);
+    // ! Destroys the tab bar.
+    virtual ~ToolWindowManagerSplitter();
 
 protected:
-  //! Reimplemented from QSplitter to share excess space differently.
-  void childEvent(QChildEvent *) Q_DECL_OVERRIDE;
+    // ! Reimplemented from QSplitter to share excess space differently.
+    void childEvent(QChildEvent*) Q_DECL_OVERRIDE;
 };
 
 #endif    // TOOLWINDOWMANAGERSPLITTER_H

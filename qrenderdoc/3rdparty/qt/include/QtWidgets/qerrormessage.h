@@ -50,15 +50,15 @@ QT_BEGIN_NAMESPACE
 
 class QErrorMessagePrivate;
 
-class Q_WIDGETS_EXPORT QErrorMessage: public QDialog
+class Q_WIDGETS_EXPORT    QErrorMessage : public QDialog
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QErrorMessage)
 public:
-    explicit QErrorMessage(QWidget* parent = Q_NULLPTR);
+    explicit QErrorMessage(QWidget *parent = Q_NULLPTR);
     ~QErrorMessage();
 
-    static QErrorMessage * qtHandler();
+    static QErrorMessage* qtHandler();
 
 public Q_SLOTS:
     void showMessage(const QString &message);

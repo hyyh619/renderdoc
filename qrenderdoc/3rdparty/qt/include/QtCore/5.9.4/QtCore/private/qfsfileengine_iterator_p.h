@@ -76,14 +76,13 @@ public:
 
 private:
     void advance() const;
-    mutable QScopedPointer<QFileSystemIterator> nativeIterator;
-    mutable QFileInfo currentInfo;
-    mutable QFileInfo nextInfo;
-    mutable bool done;
+    mutable QScopedPointer<QFileSystemIterator>     nativeIterator;
+    mutable QFileInfo                               currentInfo;
+    mutable QFileInfo                               nextInfo;
+    mutable bool                                    done;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_FILESYSTEMITERATOR
 
 #endif // QFSFILEENGINE_ITERATOR_P_H

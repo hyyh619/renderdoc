@@ -74,16 +74,17 @@ Q_FORWARD_DECLARE_OBJC_CLASS(NSTimeZone);
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QTimeZonePrivate : public QSharedData
+class Q_AUTOTEST_EXPORT    QTimeZonePrivate : public QSharedData
 {
 public:
-    //Version of QTimeZone::OffsetData struct using msecs for efficiency
-    struct Data {
+    // Version of QTimeZone::OffsetData struct using msecs for efficiency
+    struct Data
+    {
         QString abbreviation;
-        qint64 atMSecsSinceEpoch;
-        int offsetFromUtc;
-        int standardTimeOffset;
-        int daylightTimeOffset;
+        qint64  atMSecsSinceEpoch;
+        int     offsetFromUtc;
+        int     standardTimeOffset;
+        int     daylightTimeOffset;
     };
     typedef QVector<Data> DataList;
 
@@ -92,7 +93,7 @@ public:
     QTimeZonePrivate(const QTimeZonePrivate &other);
     virtual ~QTimeZonePrivate();
 
-    virtual QTimeZonePrivate *clone() const;
+    virtual QTimeZonePrivate* clone() const;
 
     bool operator==(const QTimeZonePrivate &other) const;
     bool operator!=(const QTimeZonePrivate &other) const;
@@ -135,10 +136,22 @@ public:
     virtual void serialize(QDataStream &ds) const;
 
     // Static Utility Methods
-    static inline qint64 maxMSecs() { return std::numeric_limits<qint64>::max(); }
-    static inline qint64 minMSecs() { return std::numeric_limits<qint64>::min() + 1; }
-    static inline qint64 invalidMSecs() { return std::numeric_limits<qint64>::min(); }
-    static inline qint64 invalidSeconds() { return std::numeric_limits<int>::min(); }
+    static inline qint64 maxMSecs()
+    {
+        return std::numeric_limits<qint64>::max();
+    }
+    static inline qint64 minMSecs()
+    {
+        return std::numeric_limits<qint64>::min() + 1;
+    }
+    static inline qint64 invalidMSecs()
+    {
+        return std::numeric_limits<qint64>::min();
+    }
+    static inline qint64 invalidSeconds()
+    {
+        return std::numeric_limits<int>::min();
+    }
     static Data invalidData();
     static QTimeZone::OffsetData invalidOffsetData();
     static QTimeZone::OffsetData toOffsetData(const Data &data);
@@ -148,10 +161,10 @@ public:
     static QByteArray ianaIdToWindowsId(const QByteArray &ianaId);
     static QByteArray windowsIdToDefaultIanaId(const QByteArray &windowsId);
     static QByteArray windowsIdToDefaultIanaId(const QByteArray &windowsId,
-                                                QLocale::Country country);
+                                               QLocale::Country country);
     static QList<QByteArray> windowsIdToIanaIds(const QByteArray &windowsId);
     static QList<QByteArray> windowsIdToIanaIds(const QByteArray &windowsId,
-                                                 QLocale::Country country);
+                                                QLocale::Country country);
 
     // returns "UTC" QString and QByteArray
     Q_REQUIRED_RESULT static inline QString utcQString()
@@ -165,11 +178,11 @@ public:
     }
 
 protected:
-    QByteArray m_id;
+    QByteArray    m_id;
 };
 Q_DECLARE_TYPEINFO(QTimeZonePrivate::Data, Q_MOVABLE_TYPE);
 
-template<> QTimeZonePrivate *QSharedDataPointer<QTimeZonePrivate>::clone();
+template<> QTimeZonePrivate*QSharedDataPointer<QTimeZonePrivate>::clone();
 
 class Q_AUTOTEST_EXPORT QUtcTimeZonePrivate Q_DECL_FINAL : public QTimeZonePrivate
 {
@@ -187,7 +200,7 @@ public:
     QUtcTimeZonePrivate(const QUtcTimeZonePrivate &other);
     virtual ~QUtcTimeZonePrivate();
 
-    QUtcTimeZonePrivate *clone() const override;
+    QUtcTimeZonePrivate* clone() const override;
 
     Data data(qint64 forMSecsSinceEpoch) const Q_DECL_OVERRIDE;
 
@@ -216,11 +229,11 @@ private:
               const QString &abbreviation, QLocale::Country country,
               const QString &comment);
 
-    QString m_name;
-    QString m_abbreviation;
-    QString m_comment;
-    QLocale::Country m_country;
-    int m_offsetFromUtc;
+    QString             m_name;
+    QString             m_abbreviation;
+    QString             m_comment;
+    QLocale::Country    m_country;
+    int                 m_offsetFromUtc;
 };
 
 #if QT_CONFIG(icu)
@@ -234,7 +247,7 @@ public:
     QIcuTimeZonePrivate(const QIcuTimeZonePrivate &other);
     ~QIcuTimeZonePrivate();
 
-    QIcuTimeZonePrivate *clone() const override;
+    QIcuTimeZonePrivate* clone() const override;
 
     QString displayName(QTimeZone::TimeType timeType, QTimeZone::NameType nameType,
                         const QLocale &locale) const Q_DECL_OVERRIDE;
@@ -262,32 +275,36 @@ public:
 private:
     void init(const QByteArray &ianaId);
 
-    UCalendar *m_ucal;
+    UCalendar    *m_ucal;
 };
 #endif
 
 #if defined Q_OS_UNIX && !defined Q_OS_MAC && !defined Q_OS_ANDROID
 struct QTzTransitionTime
 {
-    qint64 atMSecsSinceEpoch;
-    quint8 ruleIndex;
+    qint64  atMSecsSinceEpoch;
+    quint8  ruleIndex;
 };
 Q_DECLARE_TYPEINFO(QTzTransitionTime, Q_PRIMITIVE_TYPE);
 struct QTzTransitionRule
 {
-    int stdOffset;
-    int dstOffset;
-    quint8 abbreviationIndex;
+    int     stdOffset;
+    int     dstOffset;
+    quint8  abbreviationIndex;
 };
 Q_DECLARE_TYPEINFO(QTzTransitionRule, Q_PRIMITIVE_TYPE);
 Q_DECL_CONSTEXPR inline bool operator==(const QTzTransitionRule &lhs, const QTzTransitionRule &rhs) Q_DECL_NOTHROW
-{ return lhs.stdOffset == rhs.stdOffset && lhs.dstOffset == rhs.dstOffset && lhs.abbreviationIndex == rhs.abbreviationIndex; }
+{
+    return lhs.stdOffset == rhs.stdOffset && lhs.dstOffset == rhs.dstOffset && lhs.abbreviationIndex == rhs.abbreviationIndex;
+}
 Q_DECL_CONSTEXPR inline bool operator!=(const QTzTransitionRule &lhs, const QTzTransitionRule &rhs) Q_DECL_NOTHROW
-{ return !operator==(lhs, rhs); }
+{
+    return !operator==(lhs, rhs);
+}
 
 class Q_AUTOTEST_EXPORT QTzTimeZonePrivate Q_DECL_FINAL : public QTimeZonePrivate
 {
-    QTzTimeZonePrivate(const QTzTimeZonePrivate &) = default;
+    QTzTimeZonePrivate(const QTzTimeZonePrivate    &) = default;
 public:
     // Create default time zone
     QTzTimeZonePrivate();
@@ -295,7 +312,7 @@ public:
     QTzTimeZonePrivate(const QByteArray &ianaId);
     ~QTzTimeZonePrivate();
 
-    QTzTimeZonePrivate *clone() const override;
+    QTzTimeZonePrivate* clone() const override;
 
     QLocale::Country country() const Q_DECL_OVERRIDE;
     QString comment() const Q_DECL_OVERRIDE;
@@ -330,13 +347,13 @@ private:
     void init(const QByteArray &ianaId);
 
     Data dataForTzTransition(QTzTransitionTime tran) const;
-    QVector<QTzTransitionTime> m_tranTimes;
-    QVector<QTzTransitionRule> m_tranRules;
-    QList<QByteArray> m_abbreviations;
+    QVector<QTzTransitionTime>      m_tranTimes;
+    QVector<QTzTransitionRule>      m_tranRules;
+    QList<QByteArray>               m_abbreviations;
 #if QT_CONFIG(icu)
-    mutable QSharedDataPointer<QTimeZonePrivate> m_icu;
+    mutable QSharedDataPointer<QTimeZonePrivate>    m_icu;
 #endif
-    QByteArray m_posixRule;
+    QByteArray    m_posixRule;
 };
 #endif // Q_OS_UNIX
 
@@ -351,7 +368,7 @@ public:
     QMacTimeZonePrivate(const QMacTimeZonePrivate &other);
     ~QMacTimeZonePrivate();
 
-    QMacTimeZonePrivate *clone() const override;
+    QMacTimeZonePrivate* clone() const override;
 
     QString comment() const Q_DECL_OVERRIDE;
 
@@ -376,12 +393,12 @@ public:
 
     QList<QByteArray> availableTimeZoneIds() const Q_DECL_OVERRIDE;
 
-    NSTimeZone *nsTimeZone() const;
+    NSTimeZone* nsTimeZone() const;
 
 private:
     void init(const QByteArray &zoneId);
 
-    NSTimeZone *m_nstz;
+    NSTimeZone    *m_nstz;
 };
 #endif // Q_OS_MAC
 
@@ -389,12 +406,13 @@ private:
 class Q_AUTOTEST_EXPORT QWinTimeZonePrivate Q_DECL_FINAL : public QTimeZonePrivate
 {
 public:
-    struct QWinTransitionRule {
-        int startYear;
-        int standardTimeBias;
-        int daylightTimeBias;
-        SYSTEMTIME standardTimeRule;
-        SYSTEMTIME daylightTimeRule;
+    struct QWinTransitionRule
+    {
+        int         startYear;
+        int         standardTimeBias;
+        int         daylightTimeBias;
+        SYSTEMTIME  standardTimeRule;
+        SYSTEMTIME  daylightTimeRule;
     };
 
     // Create default time zone
@@ -404,7 +422,7 @@ public:
     QWinTimeZonePrivate(const QWinTimeZonePrivate &other);
     ~QWinTimeZonePrivate();
 
-    QWinTimeZonePrivate *clone() const override;
+    QWinTimeZonePrivate* clone() const override;
 
     QString comment() const Q_DECL_OVERRIDE;
 
@@ -435,16 +453,16 @@ private:
     QTimeZonePrivate::Data ruleToData(const QWinTransitionRule &rule, qint64 atMSecsSinceEpoch,
                                       QTimeZone::TimeType type) const;
 
-    QByteArray m_windowsId;
-    QString m_displayName;
-    QString m_standardName;
-    QString m_daylightName;
-    QList<QWinTransitionRule> m_tranRules;
+    QByteArray                      m_windowsId;
+    QString                         m_displayName;
+    QString                         m_standardName;
+    QString                         m_daylightName;
+    QList<QWinTransitionRule>       m_tranRules;
 };
 #endif // Q_OS_WIN
 
 #ifdef Q_OS_ANDROID
-class QAndroidTimeZonePrivate Q_DECL_FINAL : public QTimeZonePrivate
+class QAndroidTimeZonePrivate    Q_DECL_FINAL : public QTimeZonePrivate
 {
 public:
     // Create default time zone
@@ -454,7 +472,7 @@ public:
     QAndroidTimeZonePrivate(const QAndroidTimeZonePrivate &other);
     ~QAndroidTimeZonePrivate();
 
-    QAndroidTimeZonePrivate *clone() const override;
+    QAndroidTimeZonePrivate* clone() const override;
 
     QString displayName(QTimeZone::TimeType timeType, QTimeZone::NameType nameType,
                         const QLocale &locale) const Q_DECL_OVERRIDE;
@@ -480,8 +498,7 @@ public:
 private:
     void init(const QByteArray &zoneId);
 
-    QJNIObjectPrivate androidTimeZone;
-
+    QJNIObjectPrivate    androidTimeZone;
 };
 #endif // Q_OS_ANDROID
 

@@ -59,22 +59,22 @@ class QOffscreenSurface;
 class QPlatformScreen;
 class QPlatformOffscreenSurfacePrivate;
 
-class Q_GUI_EXPORT QPlatformOffscreenSurface : public QPlatformSurface
+class Q_GUI_EXPORT    QPlatformOffscreenSurface : public QPlatformSurface
 {
     Q_DECLARE_PRIVATE(QPlatformOffscreenSurface)
 public:
     explicit QPlatformOffscreenSurface(QOffscreenSurface *offscreenSurface);
     virtual ~QPlatformOffscreenSurface();
 
-    QOffscreenSurface *offscreenSurface() const;
+    QOffscreenSurface* offscreenSurface() const;
 
-    QPlatformScreen *screen() const;
+    QPlatformScreen* screen() const;
 
     virtual QSurfaceFormat format() const Q_DECL_OVERRIDE;
     virtual bool isValid() const;
 
 protected:
-    QScopedPointer<QPlatformOffscreenSurfacePrivate> d_ptr;
+    QScopedPointer<QPlatformOffscreenSurfacePrivate>    d_ptr;
 private:
     Q_DISABLE_COPY(QPlatformOffscreenSurface)
 };

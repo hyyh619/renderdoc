@@ -77,19 +77,18 @@ namespace QStyleHelper
     QPolygonF calcLines(const QStyleOptionSlider *dial);
     int calcBigLineSize(int radius);
     void drawDial(const QStyleOptionSlider *dial, QPainter *painter);
-#endif //QT_CONFIG(dial)
+#endif // QT_CONFIG(dial)
     void drawBorderPixmap(const QPixmap &pixmap, QPainter *painter, const QRect &rect,
-                     int left = 0, int top = 0, int right = 0,
-                     int bottom = 0);
+                          int left = 0, int top = 0, int right = 0,
+                          int bottom = 0);
 #ifndef QT_NO_ACCESSIBILITY
     bool isInstanceOf(QObject *obj, QAccessible::Role role);
     bool hasAncestor(QObject *obj, QAccessible::Role role);
 #endif
-    QColor backgroundColor(const QPalette &pal, const QWidget* widget = 0);
-    QWindow *styleObjectWindow(QObject *so);
+    QColor backgroundColor(const QPalette &pal, const QWidget *widget = 0);
+    QWindow* styleObjectWindow(QObject *so);
 }
 
 
 QT_END_NAMESPACE
-
 #endif // QSTYLEHELPER_P_H

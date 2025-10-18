@@ -53,7 +53,7 @@
 #ifndef EGLAPIENTRY
 #define EGLAPIENTRY  KHRONOS_APIENTRY
 #endif
-#define EGLAPIENTRYP EGLAPIENTRY*
+#define EGLAPIENTRYP EGLAPIENTRY *
 
 /* The types NativeDisplayType, NativeWindowType, and NativePixmapType
  * are aliases of window-system-dependent types, such as X Display * or
@@ -73,15 +73,15 @@
 #endif
 #include <windows.h>
 
-typedef HDC     EGLNativeDisplayType;
+typedef HDC EGLNativeDisplayType;
 typedef HBITMAP EGLNativePixmapType;
-typedef HWND    EGLNativeWindowType;
+typedef HWND EGLNativeWindowType;
 
 #elif defined(__APPLE__) || defined(__WINSCW__) || defined(__SYMBIAN32__)  /* Symbian */
 
-typedef int   EGLNativeDisplayType;
-typedef void *EGLNativeWindowType;
-typedef void *EGLNativePixmapType;
+typedef int EGLNativeDisplayType;
+typedef void*EGLNativeWindowType;
+typedef void*EGLNativePixmapType;
 
 #elif defined(__ANDROID__) || defined(ANDROID)
 
@@ -89,9 +89,9 @@ typedef void *EGLNativePixmapType;
 
 struct egl_native_pixmap_t;
 
-typedef struct ANativeWindow*           EGLNativeWindowType;
-typedef struct egl_native_pixmap_t*     EGLNativePixmapType;
-typedef void*                           EGLNativeDisplayType;
+typedef struct ANativeWindow*EGLNativeWindowType;
+typedef struct egl_native_pixmap_t*EGLNativePixmapType;
+typedef void*EGLNativeDisplayType;
 
 #elif defined(__unix__)
 
@@ -99,9 +99,9 @@ typedef void*                           EGLNativeDisplayType;
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-typedef Display *EGLNativeDisplayType;
-typedef Pixmap   EGLNativePixmapType;
-typedef Window   EGLNativeWindowType;
+typedef Display*EGLNativeDisplayType;
+typedef Pixmap EGLNativePixmapType;
+typedef Window EGLNativeWindowType;
 
 #else
 #error "Platform not recognized"
@@ -109,8 +109,8 @@ typedef Window   EGLNativeWindowType;
 
 /* EGL 1.2 types, renamed for consistency in EGL 1.3 */
 typedef EGLNativeDisplayType NativeDisplayType;
-typedef EGLNativePixmapType  NativePixmapType;
-typedef EGLNativeWindowType  NativeWindowType;
+typedef EGLNativePixmapType NativePixmapType;
+typedef EGLNativeWindowType NativeWindowType;
 
 
 /* Define EGLint. This must be a signed integral type large enough to contain

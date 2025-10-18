@@ -47,7 +47,7 @@
 QT_BEGIN_NAMESPACE
 
 
-template <typename T>
+template<typename T>
 class QFutureSynchronizer
 {
     Q_DISABLE_COPY(QFutureSynchronizer)
@@ -56,8 +56,13 @@ public:
     QFutureSynchronizer() : m_cancelOnWait(false) { }
     explicit QFutureSynchronizer(const QFuture<T> &future)
         : m_cancelOnWait(false)
-    { addFuture(future); }
-    ~QFutureSynchronizer()  { waitForFinished(); }
+    {
+        addFuture(future);
+    }
+    ~QFutureSynchronizer()
+    {
+        waitForFinished();
+    }
 
     void setFuture(const QFuture<T> &future)
     {
@@ -73,15 +78,18 @@ public:
 
     void waitForFinished()
     {
-        if (m_cancelOnWait) {
-            for (int i = 0; i < m_futures.count(); ++i) {
-                 m_futures[i].cancel();
+        if (m_cancelOnWait)
+        {
+            for (int i = 0; i < m_futures.count(); ++i)
+            {
+                m_futures[i].cancel();
             }
         }
 
-        for (int i = 0; i < m_futures.count(); ++i) {
-             m_futures[i].waitForFinished();
-         }
+        for (int i = 0; i < m_futures.count(); ++i)
+        {
+            m_futures[i].waitForFinished();
+        }
     }
 
     void clearFutures()
@@ -105,8 +113,8 @@ public:
     }
 
 protected:
-    QList<QFuture<T> > m_futures;
-    bool m_cancelOnWait;
+    QList<QFuture<T> >      m_futures;
+    bool                    m_cancelOnWait;
 };
 
 QT_END_NAMESPACE

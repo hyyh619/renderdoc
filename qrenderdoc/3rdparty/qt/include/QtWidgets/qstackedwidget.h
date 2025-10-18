@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QStackedWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QStackedWidget : public QFrame
+class Q_WIDGETS_EXPORT    QStackedWidget : public QFrame
 {
     Q_OBJECT
 
@@ -63,11 +63,11 @@ public:
     int insertWidget(int index, QWidget *w);
     void removeWidget(QWidget *w);
 
-    QWidget *currentWidget() const;
+    QWidget* currentWidget() const;
     int currentIndex() const;
 
-    int indexOf(QWidget *) const;
-    QWidget *widget(int) const;
+    int indexOf(QWidget*) const;
+    QWidget* widget(int) const;
     int count() const;
 
 public Q_SLOTS:

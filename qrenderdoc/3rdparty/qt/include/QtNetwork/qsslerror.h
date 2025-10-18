@@ -51,10 +51,11 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_SSL
 
 class QSslErrorPrivate;
-class Q_NETWORK_EXPORT QSslError
+class Q_NETWORK_EXPORT    QSslError
 {
 public:
-    enum SslError {
+    enum SslError
+    {
         NoError,
         UnableToGetIssuerCertificate,
         UnableToDecryptCertificateSignature,
@@ -92,23 +93,30 @@ public:
     QSslError(const QSslError &other);
 
     void swap(QSslError &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     ~QSslError();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslError &operator=(QSslError &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslError&operator=(QSslError &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslError &operator=(const QSslError &other);
+    QSslError&operator=(const QSslError &other);
     bool operator==(const QSslError &other) const;
     inline bool operator!=(const QSslError &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     SslError error() const;
     QString errorString() const;
     QSslCertificate certificate() const;
 
 private:
-    QScopedPointer<QSslErrorPrivate> d;
+    QScopedPointer<QSslErrorPrivate>    d;
 };
 Q_DECLARE_SHARED(QSslError)
 
@@ -119,13 +127,12 @@ class QDebug;
 Q_NETWORK_EXPORT QDebug operator<<(QDebug debug, const QSslError &error);
 Q_NETWORK_EXPORT QDebug operator<<(QDebug debug, const QSslError::SslError &error);
 #endif
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE
 
 #ifndef QT_NO_SSL
-Q_DECLARE_METATYPE(QList<QSslError>)
+Q_DECLARE_METATYPE(QList<QSslError> )
 #endif
 
 #endif

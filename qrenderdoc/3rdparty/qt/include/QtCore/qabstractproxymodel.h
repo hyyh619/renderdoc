@@ -50,19 +50,19 @@ QT_BEGIN_NAMESPACE
 class QAbstractProxyModelPrivate;
 class QItemSelection;
 
-class Q_CORE_EXPORT QAbstractProxyModel : public QAbstractItemModel
+class Q_CORE_EXPORT    QAbstractProxyModel : public QAbstractItemModel
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractItemModel* sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
+    Q_PROPERTY(QAbstractItemModel*sourceModel READ sourceModel WRITE setSourceModel NOTIFY sourceModelChanged)
 
 public:
     explicit QAbstractProxyModel(QObject *parent = Q_NULLPTR);
     ~QAbstractProxyModel();
 
     virtual void setSourceModel(QAbstractItemModel *sourceModel);
-    QAbstractItemModel *sourceModel() const;
+    QAbstractItemModel* sourceModel() const;
 
-    Q_INVOKABLE virtual QModelIndex mapToSource(const QModelIndex &proxyIndex) const = 0;
+    Q_INVOKABLE virtual QModelIndex mapToSource(const QModelIndex &proxyIndex) const    = 0;
     Q_INVOKABLE virtual QModelIndex mapFromSource(const QModelIndex &sourceIndex) const = 0;
 
     Q_INVOKABLE virtual QItemSelection mapSelectionToSource(const QItemSelection &selection) const;
@@ -77,7 +77,7 @@ public:
     Qt::ItemFlags flags(const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
-    bool setItemData(const QModelIndex& index, const QMap<int, QVariant> &roles) Q_DECL_OVERRIDE;
+    bool setItemData(const QModelIndex &index, const QMap<int, QVariant> &roles) Q_DECL_OVERRIDE;
     bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role = Qt::EditRole) Q_DECL_OVERRIDE;
 
     QModelIndex buddy(const QModelIndex &index) const Q_DECL_OVERRIDE;
@@ -98,20 +98,19 @@ public:
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
-    void sourceModelChanged(QPrivateSignal);
+    void    sourceModelChanged(QPrivateSignal);
 
 protected Q_SLOTS:
     void resetInternalData();
 
 protected:
-    QAbstractProxyModel(QAbstractProxyModelPrivate &, QObject *parent);
+    QAbstractProxyModel(QAbstractProxyModelPrivate&, QObject *parent);
 
 private:
     Q_DECLARE_PRIVATE(QAbstractProxyModel)
     Q_DISABLE_COPY(QAbstractProxyModel)
     Q_PRIVATE_SLOT(d_func(), void _q_sourceModelDestroyed())
 };
-
 #endif // QT_NO_PROXYMODEL
 
 QT_END_NAMESPACE

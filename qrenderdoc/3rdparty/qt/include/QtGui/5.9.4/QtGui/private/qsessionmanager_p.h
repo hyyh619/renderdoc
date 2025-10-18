@@ -71,11 +71,10 @@ public:
 
     virtual ~QSessionManagerPrivate();
 
-    QPlatformSessionManager *platformSessionManager;
+    QPlatformSessionManager    *platformSessionManager;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SESSIONMANAGER
 
 #endif // QSESSIONMANAGER_P_H

@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -77,9 +77,9 @@
 
 #if defined(RENDERDOC_PLATFORM_WIN32)
 
-#define RENDERDOC_EXPORT_API __declspec(dllexport)
-#define RENDERDOC_IMPORT_API __declspec(dllimport)
-#define RENDERDOC_CC __cdecl
+#define RENDERDOC_EXPORT_API    __declspec(dllexport)
+#define RENDERDOC_IMPORT_API    __declspec(dllimport)
+#define RENDERDOC_CC            __cdecl
 
 #elif defined(RENDERDOC_PLATFORM_LINUX) || defined(RENDERDOC_PLATFORM_APPLE) || \
     defined(RENDERDOC_PLATFORM_ANDROID) || defined(RENDERDOC_PLATFORM_SWITCH)
@@ -92,7 +92,6 @@
 #else
 
 #error "Unknown platform"
-
 #endif
 
 // define the API visibility depending on whether we're exporting
@@ -117,123 +116,149 @@
 // If you get an error about missing operator then you're probably doing something like
 // (bitfield & value) == 0 or (bitfield & value) != 0 or similar. Instead prefer:
 // !(bitfield & value)     or (bitfield & value) to make use of the bool cast directly
-template <typename enum_name>
+template<typename enum_name>
 struct EnumCastHelper
 {
 public:
-  constexpr EnumCastHelper(enum_name v) : val(v) {}
-  constexpr operator enum_name() const { return val; }
-  constexpr explicit operator bool() const
-  {
-    typedef typename std::underlying_type<enum_name>::type etype;
-    return etype(val) != 0;
-  }
+    constexpr EnumCastHelper(enum_name v) : val(v) {}
+    constexpr operator enum_name() const
+    {
+        return val;
+    }
+    constexpr explicit operator bool() const
+    {
+        typedef typename std::underlying_type<enum_name>::type etype;
+        return etype(val) != 0;
+    }
 
 private:
-  const enum_name val;
+    const enum_name val;
 };
 
 // helper templates for iterating over all values in an enum that has sequential values and is
 // to be used for array indices or something like that.
-template <typename enum_name>
+template<typename enum_name>
 struct ValueIterContainer
 {
-  struct ValueIter
-  {
-    ValueIter(enum_name v) : val(v) {}
-    enum_name val;
-    enum_name operator*() const { return val; }
-    bool operator!=(const ValueIter &it) const { return !(val == *it); }
-    const inline enum_name operator++()
+    struct ValueIter
     {
-      ++val;
-      return val;
-    }
-  };
+        ValueIter(enum_name v) : val(v) {}
+        enum_name val;
+        enum_name operator*() const
+        {
+            return val;
+        }
+        bool operator!=(const ValueIter &it) const
+        {
+            return !(val == *it);
+        }
+        const inline enum_name operator++()
+        {
+            ++val;
+            return val;
+        }
+    };
 
-  ValueIter begin() { return ValueIter(enum_name::First); }
-  ValueIter end() { return ValueIter(enum_name::Count); }
+    ValueIter begin()
+    {
+        return ValueIter(enum_name::First);
+    }
+    ValueIter end()
+    {
+        return ValueIter(enum_name::Count);
+    }
 };
 
-template <typename enum_name>
+template<typename enum_name>
 struct IndexIterContainer
 {
-  typedef typename std::underlying_type<enum_name>::type etype;
+    typedef typename std::underlying_type<enum_name>::type etype;
 
-  struct IndexIter
-  {
-    IndexIter(enum_name v) : val(v) {}
-    enum_name val;
-    etype operator*() const { return etype(val); }
-    bool operator!=(const IndexIter &it) const { return !(val == it.val); }
-    const inline enum_name operator++()
+    struct IndexIter
     {
-      ++val;
-      return val;
-    }
-  };
+        IndexIter(enum_name v) : val(v) {}
+        enum_name val;
+        etype operator*() const
+        {
+            return etype(val);
+        }
+        bool operator!=(const IndexIter &it) const
+        {
+            return !(val == it.val);
+        }
+        const inline enum_name operator++()
+        {
+            ++val;
+            return val;
+        }
+    };
 
-  IndexIter begin() { return IndexIter(enum_name::First); }
-  IndexIter end() { return IndexIter(enum_name::Count); }
+    IndexIter begin()
+    {
+        return IndexIter(enum_name::First);
+    }
+    IndexIter end()
+    {
+        return IndexIter(enum_name::Count);
+    }
 };
 
-template <typename enum_name>
+template<typename enum_name>
 constexpr inline ValueIterContainer<enum_name> values()
 {
-  return ValueIterContainer<enum_name>();
+    return ValueIterContainer<enum_name>();
 };
 
-template <typename enum_name>
+template<typename enum_name>
 constexpr inline IndexIterContainer<enum_name> indices()
 {
-  return IndexIterContainer<enum_name>();
+    return IndexIterContainer<enum_name>();
 };
 
-template <typename enum_name>
+template<typename enum_name>
 constexpr inline unsigned int arraydim()
 {
-  typedef typename std::underlying_type<enum_name>::type etype;
-  return (unsigned int)etype(enum_name::Count);
+    typedef typename std::underlying_type<enum_name>::type etype;
+    return (unsigned int)etype(enum_name::Count);
 };
 
 #define ENUM_ARRAY_SIZE(enum_name) int(enum_name::Count)
 
-#define BITMASK_OPERATORS(enum_name)                                             \
-                                                                                 \
-  constexpr inline enum_name operator|(enum_name a, enum_name b)                 \
-  {                                                                              \
-    typedef typename std::underlying_type<enum_name>::type etype;                \
-    return enum_name(etype(a) | etype(b));                                       \
-  }                                                                              \
-                                                                                 \
-  constexpr inline EnumCastHelper<enum_name> operator&(enum_name a, enum_name b) \
-  {                                                                              \
-    typedef typename std::underlying_type<enum_name>::type etype;                \
-    return EnumCastHelper<enum_name>(enum_name(etype(a) & etype(b)));            \
-  }                                                                              \
-                                                                                 \
-  constexpr inline enum_name operator~(enum_name a)                              \
-  {                                                                              \
-    typedef typename std::underlying_type<enum_name>::type etype;                \
-    return enum_name(~etype(a));                                                 \
-  }                                                                              \
-                                                                                 \
-  inline enum_name &operator|=(enum_name &a, enum_name b)                        \
-  {                                                                              \
-    return a = a | b;                                                            \
-  }                                                                              \
-                                                                                 \
-  inline enum_name &operator&=(enum_name &a, enum_name b)                        \
-  {                                                                              \
-    return a = a & b;                                                            \
-  }
+#define BITMASK_OPERATORS(enum_name)                                               \
+                                                                                   \
+    constexpr inline enum_name operator|(enum_name a, enum_name b)                 \
+    {                                                                              \
+        typedef typename std::underlying_type<enum_name>::type etype;              \
+        return enum_name(etype(a) | etype(b));                                     \
+    }                                                                              \
+                                                                                   \
+    constexpr inline EnumCastHelper<enum_name> operator&(enum_name a, enum_name b) \
+    {                                                                              \
+        typedef typename std::underlying_type<enum_name>::type etype;              \
+        return EnumCastHelper<enum_name>(enum_name(etype(a) & etype(b)));          \
+    }                                                                              \
+                                                                                   \
+    constexpr inline enum_name operator~(enum_name a)                              \
+    {                                                                              \
+        typedef typename std::underlying_type<enum_name>::type etype;              \
+        return enum_name(~etype(a));                                               \
+    }                                                                              \
+                                                                                   \
+    inline enum_name    &operator|=(enum_name &a, enum_name b)                     \
+    {                                                                              \
+        return a = a | b;                                                          \
+    }                                                                              \
+                                                                                   \
+    inline enum_name    &operator&=(enum_name &a, enum_name b)                     \
+    {                                                                              \
+        return a = a & b;                                                          \
+    }
 
-#define ITERABLE_OPERATORS(enum_name)                             \
-                                                                  \
-  inline enum_name operator++(enum_name &a)                       \
-  {                                                               \
-    typedef typename std::underlying_type<enum_name>::type etype; \
-    return a = enum_name(etype(a) + 1);                           \
-  }
-
+#define ITERABLE_OPERATORS(enum_name)                                 \
+                                                                      \
+    inline enum_name operator++(enum_name & a)                        \
+    {                                                                 \
+        typedef typename std::underlying_type<enum_name>::type etype; \
+        return a = enum_name(etype(a) + 1);                           \
+    }
 #endif

@@ -60,15 +60,15 @@ class QPlatformIntegration;
 
 #define QPlatformIntegrationFactoryInterface_iid "org.qt-project.Qt.QPA.QPlatformIntegrationFactoryInterface.5.3"
 
-class Q_GUI_EXPORT QPlatformIntegrationPlugin : public QObject
+class Q_GUI_EXPORT    QPlatformIntegrationPlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QPlatformIntegrationPlugin(QObject *parent = 0);
     ~QPlatformIntegrationPlugin();
 
-    virtual QPlatformIntegration *create(const QString &key, const QStringList &paramList);
-    virtual QPlatformIntegration *create(const QString &key, const QStringList &paramList, int &argc, char **argv);
+    virtual QPlatformIntegration* create(const QString &key, const QStringList &paramList);
+    virtual QPlatformIntegration* create(const QString &key, const QStringList &paramList, int &argc, char **argv);
 };
 
 QT_END_NAMESPACE

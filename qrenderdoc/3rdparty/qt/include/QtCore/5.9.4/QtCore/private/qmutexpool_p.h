@@ -60,31 +60,32 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QMutexPool
+class Q_CORE_EXPORT    QMutexPool
 {
 public:
     explicit QMutexPool(QMutex::RecursionMode recursionMode = QMutex::NonRecursive, int size = 131);
     ~QMutexPool();
 
-    inline QMutex *get(const void *address) {
-        int index = uint(quintptr(address)) % mutexes.count();
-        QMutex *m = mutexes[index].load();
+    inline QMutex* get(const void *address)
+    {
+        int         index   = uint(quintptr(address)) % mutexes.count();
+        QMutex      *m      = mutexes[index].load();
+
         if (m)
             return m;
         else
             return createMutex(index);
     }
-    static QMutexPool *instance();
-    static QMutex *globalInstanceGet(const void *address);
+    static QMutexPool* instance();
+    static QMutex* globalInstanceGet(const void *address);
 
 private:
-    QMutex *createMutex(int index);
-    QVarLengthArray<QAtomicPointer<QMutex>, 131> mutexes;
-    QMutex::RecursionMode recursionMode;
+    QMutex* createMutex(int index);
+    QVarLengthArray<QAtomicPointer<QMutex>, 131>    mutexes;
+    QMutex::RecursionMode                           recursionMode;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_THREAD
 
 #endif // QMUTEXPOOL_P_H

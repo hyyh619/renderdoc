@@ -83,20 +83,20 @@ protected:
 #endif
 
 public:
-    QString rootPath;
-    QByteArray device;
-    QByteArray subvolume;
-    QByteArray fileSystemType;
-    QString name;
+    QString         rootPath;
+    QByteArray      device;
+    QByteArray      subvolume;
+    QByteArray      fileSystemType;
+    QString         name;
 
-    qint64 bytesTotal;
-    qint64 bytesFree;
-    qint64 bytesAvailable;
-    int blockSize;
+    qint64      bytesTotal;
+    qint64      bytesFree;
+    qint64      bytesAvailable;
+    int         blockSize;
 
-    bool readOnly;
-    bool ready;
-    bool valid;
+    bool    readOnly;
+    bool    ready;
+    bool    valid;
 };
 
 QT_END_NAMESPACE

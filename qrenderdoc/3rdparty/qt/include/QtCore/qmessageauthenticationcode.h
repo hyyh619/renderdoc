@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 class QMessageAuthenticationCodePrivate;
 class QIODevice;
 
-class Q_CORE_EXPORT QMessageAuthenticationCode
+class Q_CORE_EXPORT    QMessageAuthenticationCode
 {
 public:
     explicit QMessageAuthenticationCode(QCryptographicHash::Algorithm method,
@@ -70,7 +70,7 @@ public:
 
 private:
     Q_DISABLE_COPY(QMessageAuthenticationCode)
-    QMessageAuthenticationCodePrivate *d;
+    QMessageAuthenticationCodePrivate * d;
 };
 
 QT_END_NAMESPACE

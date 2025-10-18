@@ -59,14 +59,13 @@ QT_BEGIN_NAMESPACE
 
 class QPlatformIntegration;
 
-class Q_GUI_EXPORT QPlatformIntegrationFactory
+class Q_GUI_EXPORT    QPlatformIntegrationFactory
 {
 public:
     static QStringList keys(const QString &platformPluginPath = QString());
-    static QPlatformIntegration *create(const QString &name, const QStringList &args, int &argc, char **argv, const QString &platformPluginPath = QString());
+    static QPlatformIntegration* create(const QString &name, const QStringList &args, int &argc, char **argv, const QString &platformPluginPath = QString());
 };
 
 QT_END_NAMESPACE
 
 #endif // QPLATFORMINTEGRATIONFACTORY_H
-

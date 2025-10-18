@@ -66,17 +66,16 @@ extern void qDrawEdge(QPainter *p, qreal x1, qreal y1, qreal x2, qreal y2, qreal
                       QCss::Edge edge, QCss::BorderStyle style, QBrush c);
 
 extern void qDrawRoundedCorners(QPainter *p, qreal x1, qreal y1, qreal x2, qreal y2,
-                                const QSizeF& r1, const QSizeF& r2,
+                                const QSizeF &r1, const QSizeF &r2,
                                 QCss::Edge edge, QCss::BorderStyle s, QBrush c);
 
 extern void Q_GUI_EXPORT qDrawBorder(QPainter *p, const QRect &rect, const QCss::BorderStyle *styles,
-                        const int *borders, const QBrush *colors, const QSize *radii);
+                                     const int *borders, const QBrush *colors, const QSize *radii);
 
 extern void Q_GUI_EXPORT qNormalizeRadii(const QRect &br, const QSize *radii,
-                            QSize *tlr, QSize *trr, QSize *blr, QSize *brr);
+                                         QSize *tlr, QSize *trr, QSize *blr, QSize *brr);
 
 QT_END_NAMESPACE
-
-#endif //QT_NO_CSSPARSER
+#endif // QT_NO_CSSPARSER
 
 #endif // QCSSUTIL_P_H

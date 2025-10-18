@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QPaintDeviceWindowPrivate;
 class QPaintEvent;
 
-class Q_GUI_EXPORT QPaintDeviceWindow : public QWindow, public QPaintDevice
+class Q_GUI_EXPORT    QPaintDeviceWindow : public QWindow, public QPaintDevice
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPaintDeviceWindow)
@@ -69,13 +69,13 @@ protected:
     virtual void paintEvent(QPaintEvent *event);
 
     int metric(PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
-    void exposeEvent(QExposeEvent *) Q_DECL_OVERRIDE;
+    void exposeEvent(QExposeEvent*) Q_DECL_OVERRIDE;
     bool event(QEvent *event) Q_DECL_OVERRIDE;
 
     QPaintDeviceWindow(QPaintDeviceWindowPrivate &dd, QWindow *parent);
 
 private:
-    QPaintEngine *paintEngine() const Q_DECL_OVERRIDE;
+    QPaintEngine* paintEngine() const Q_DECL_OVERRIDE;
     Q_DISABLE_COPY(QPaintDeviceWindow)
 };
 

@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "vk_test.h"
 
 RD_TEST(VK_Multi_Entry, VulkanGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test shader modules with multiple entry points are handled correctly.";
+    static constexpr const char    *Description =
+        "Test shader modules with multiple entry points are handled correctly.";
 
-  std::string combined_asm = R"EOSHADER(
+    std::string    combined_asm = R"EOSHADER(
                OpCapability Shader
           %2 = OpExtInstImport "GLSL.std.450"
                OpMemoryModel Logical GLSL450
@@ -208,132 +208,134 @@ RD_TEST(VK_Multi_Entry, VulkanGraphicsTest)
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
+    int main()
+    {
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-    VkDescriptorSetLayout setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+        VkDescriptorSetLayout    setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {
+                0,
+                VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                100,
+                VK_SHADER_STAGE_FRAGMENT_BIT,
+            },
+        }));
+
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
+                                                              {setlayout}, {
+            vkh::PushConstantRange(VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(Vec4i)),
+        }));
+
+        vkh::GraphicsPipelineCreateInfo    pipeCreateInfo;
+
+        pipeCreateInfo.layout       = layout;
+        pipeCreateInfo.renderPass   = mainWindow->rp;
+
+        pipeCreateInfo.vertexInputState.vertexBindingDescriptions   = {vkh::vertexBind(0, DefaultA2V)};
+        pipeCreateInfo.vertexInputState.vertexAttributeDescriptions =
         {
-            0,
-            VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-            100,
-            VK_SHADER_STAGE_FRAGMENT_BIT,
-        },
-    }));
+            vkh::vertexAttr(0, 0, DefaultA2V, pos),
+            vkh::vertexAttr(1, 0, DefaultA2V, col),
+            vkh::vertexAttr(2, 0, DefaultA2V, uv),
+        };
 
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
-        {setlayout}, {
-                         vkh::PushConstantRange(VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(Vec4i)),
-                     }));
+        VkPipelineShaderStageCreateInfo    shad = CompileShaderModule(
+            combined_asm, ShaderLang::spvasm, ShaderStage::vert, "main", {}, SPIRVTarget::vulkan);
 
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
+        pipeCreateInfo.stages =
+        {
+            shad,
+            shad,
+        };
 
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.renderPass = mainWindow->rp;
+        pipeCreateInfo.stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
 
-    pipeCreateInfo.vertexInputState.vertexBindingDescriptions = {vkh::vertexBind(0, DefaultA2V)};
-    pipeCreateInfo.vertexInputState.vertexAttributeDescriptions = {
-        vkh::vertexAttr(0, 0, DefaultA2V, pos),
-        vkh::vertexAttr(1, 0, DefaultA2V, col),
-        vkh::vertexAttr(2, 0, DefaultA2V, uv),
-    };
+        VkPipeline    pipe = createGraphicsPipeline(pipeCreateInfo);
 
-    VkPipelineShaderStageCreateInfo shad = CompileShaderModule(
-        combined_asm, ShaderLang::spvasm, ShaderStage::vert, "main", {}, SPIRVTarget::vulkan);
+        AllocatedBuffer    vb(
+            this,
+            vkh::BufferCreateInfo(sizeof(DefaultTri),
+                                  VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
 
-    pipeCreateInfo.stages = {
-        shad,
-        shad,
-    };
+        vb.upload(DefaultTri);
 
-    pipeCreateInfo.stages[1].stage = VK_SHADER_STAGE_FRAGMENT_BIT;
+        AllocatedImage    img(
+            this,
+            vkh::ImageCreateInfo(4, 4, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+                                 VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
 
-    VkPipeline pipe = createGraphicsPipeline(pipeCreateInfo);
+        VkImageView    view = createImageView(
+            vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
 
-    AllocatedBuffer vb(
-        this,
-        vkh::BufferCreateInfo(sizeof(DefaultTri),
-                              VK_BUFFER_USAGE_VERTEX_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+        VkSampler    sampler = createSampler(vkh::SamplerCreateInfo(VK_FILTER_NEAREST));
 
-    vb.upload(DefaultTri);
+        VkDescriptorSet    descset = allocateDescriptorSet(setlayout);
 
-    AllocatedImage img(
-        this,
-        vkh::ImageCreateInfo(4, 4, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
-                             VK_IMAGE_USAGE_SAMPLED_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
+        for (size_t i = 0; i < 100; i++)
+        {
+            vkh::updateDescriptorSets(
+                device, {
+                vkh::WriteDescriptorSet(
+                    descset, 0, (uint32_t)i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
+                {
+                    vkh::DescriptorImageInfo(
+                        view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, sampler),
+                }),
+            });
+        }
 
-    VkImageView view = createImageView(
-        vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
 
-    VkSampler sampler = createSampler(vkh::SamplerCreateInfo(VK_FILTER_NEAREST));
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
 
-    VkDescriptorSet descset = allocateDescriptorSet(setlayout);
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
 
-    for(size_t i = 0; i < 100; i++)
-    {
-      vkh::updateDescriptorSets(
-          device, {
-                      vkh::WriteDescriptorSet(
-                          descset, 0, (uint32_t)i, VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER,
-                          {
-                              vkh::DescriptorImageInfo(
-                                  view, VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, sampler),
-                          }),
-                  });
+            vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
+                                 vkh::ImageSubresourceRange());
+
+            vkh::cmdPipelineBarrier(
+                cmd, {
+                vkh::ImageMemoryBarrier(0, VK_ACCESS_SHADER_READ_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                        VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, img.image),
+            });
+
+            vkCmdBeginRenderPass(
+                cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
+                VK_SUBPASS_CONTENTS_INLINE);
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
+
+            Vec4i    idx = {15, 15, 15, 15};
+            vkCmdPushConstants(cmd, layout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(Vec4i), &idx);
+
+            vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, {descset}, {});
+
+            vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
+            vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
+            vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
+            vkCmdDraw(cmd, 3, 1, 0, 0);
+
+            vkCmdEndRenderPass(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            Submit(0, 1, {cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
-                           vkh::ImageSubresourceRange());
-
-      vkh::cmdPipelineBarrier(
-          cmd, {
-                   vkh::ImageMemoryBarrier(0, VK_ACCESS_SHADER_READ_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                           VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL, img.image),
-               });
-
-      vkCmdBeginRenderPass(
-          cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
-          VK_SUBPASS_CONTENTS_INLINE);
-
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
-
-      Vec4i idx = {15, 15, 15, 15};
-      vkCmdPushConstants(cmd, layout, VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(Vec4i), &idx);
-
-      vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0, {descset}, {});
-
-      vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
-      vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
-      vkh::cmdBindVertexBuffers(cmd, 0, {vb.buffer}, {0});
-      vkCmdDraw(cmd, 3, 1, 0, 0);
-
-      vkCmdEndRenderPass(cmd);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(0, 1, {cmd});
-
-      Present();
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

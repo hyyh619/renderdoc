@@ -49,9 +49,9 @@ QT_BEGIN_NAMESPACE
 
 class QColumnViewPrivate;
 
-class Q_WIDGETS_EXPORT QColumnView : public QAbstractItemView {
-
-Q_OBJECT
+class Q_WIDGETS_EXPORT    QColumnView : public QAbstractItemView
+{
+    Q_OBJECT
     Q_PROPERTY(bool resizeGripsVisible READ resizeGripsVisible WRITE setResizeGripsVisible)
 
 Q_SIGNALS:
@@ -67,7 +67,7 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QRect visualRect(const QModelIndex &index) const Q_DECL_OVERRIDE;
     void setModel(QAbstractItemModel *model) Q_DECL_OVERRIDE;
-    void setSelectionModel(QItemSelectionModel * selectionModel) Q_DECL_OVERRIDE;
+    void setSelectionModel(QItemSelectionModel *selectionModel) Q_DECL_OVERRIDE;
     void setRootIndex(const QModelIndex &index) Q_DECL_OVERRIDE;
     void selectAll() Q_DECL_OVERRIDE;
 
@@ -75,7 +75,7 @@ public:
     void setResizeGripsVisible(bool visible);
     bool resizeGripsVisible() const;
 
-    QWidget *previewWidget() const;
+    QWidget* previewWidget() const;
     void setPreviewWidget(QWidget *widget);
 
     void setColumnWidths(const QList<int> &list);
@@ -88,7 +88,7 @@ protected:
     bool isIndexHidden(const QModelIndex &index) const Q_DECL_OVERRIDE;
     QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers) Q_DECL_OVERRIDE;
     void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
-    void setSelection(const QRect & rect, QItemSelectionModel::SelectionFlags command) Q_DECL_OVERRIDE;
+    void setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command) Q_DECL_OVERRIDE;
     QRegion visualRegionForSelection(const QItemSelection &selection) const Q_DECL_OVERRIDE;
     int horizontalOffset() const Q_DECL_OVERRIDE;
     int verticalOffset() const Q_DECL_OVERRIDE;
@@ -111,4 +111,3 @@ private:
 QT_END_NAMESPACE
 
 #endif // QCOLUMNVIEW_H
-

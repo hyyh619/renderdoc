@@ -44,14 +44,13 @@
 
 QT_BEGIN_NAMESPACE
 
-template <typename T>
+template<typename T>
 class QScopedValueRollback
 {
 public:
     explicit QScopedValueRollback(T &var) :
         varRef(var), oldValue(var)
-    {
-    }
+    {}
 
     explicit QScopedValueRollback(T &var, T value) :
         varRef(var), oldValue(var)
@@ -70,8 +69,8 @@ public:
     }
 
 private:
-    T& varRef;
-    T oldValue;
+    T       &varRef;
+    T       oldValue;
 
     Q_DISABLE_COPY(QScopedValueRollback)
 };

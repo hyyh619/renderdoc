@@ -61,14 +61,16 @@ class QBlitterPaintEnginePrivate;
 class QBlittablePlatformPixmap;
 class QBlittable;
 
-class Q_GUI_EXPORT QBlitterPaintEngine : public QRasterPaintEngine
+class Q_GUI_EXPORT    QBlitterPaintEngine : public QRasterPaintEngine
 {
     Q_DECLARE_PRIVATE(QBlitterPaintEngine)
 public:
     QBlitterPaintEngine(QBlittablePlatformPixmap *p);
 
     virtual QPaintEngine::Type type() const Q_DECL_OVERRIDE
-    { return Blitter; }
+    {
+        return Blitter;
+    }
 
     virtual bool begin(QPaintDevice *pdev) Q_DECL_OVERRIDE;
     virtual bool end() Q_DECL_OVERRIDE;
@@ -106,12 +108,11 @@ public:
     void drawPoints(const QPointF *points, int pointCount) Q_DECL_OVERRIDE;
     void drawPoints(const QPoint *points, int pointCount) Q_DECL_OVERRIDE;
     void stroke(const QVectorPath &path, const QPen &pen) Q_DECL_OVERRIDE;
-    void drawStaticTextItem(QStaticTextItem *) Q_DECL_OVERRIDE;
+    void drawStaticTextItem(QStaticTextItem*) Q_DECL_OVERRIDE;
     bool drawCachedGlyphs(int numGlyphs, const glyph_t *glyphs, const QFixedPoint *positions,
                           QFontEngine *fontEngine) Q_DECL_OVERRIDE;
 };
 
 QT_END_NAMESPACE
-#endif //QT_NO_BLITTABLE
+#endif // QT_NO_BLITTABLE
 #endif // QPAINTENGINE_BLITTER_P_H
-

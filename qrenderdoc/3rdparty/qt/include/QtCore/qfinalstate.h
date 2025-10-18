@@ -47,7 +47,7 @@ QT_REQUIRE_CONFIG(statemachine);
 QT_BEGIN_NAMESPACE
 
 class QFinalStatePrivate;
-class Q_CORE_EXPORT QFinalState : public QAbstractState
+class Q_CORE_EXPORT    QFinalState : public QAbstractState
 {
     Q_OBJECT
 public:

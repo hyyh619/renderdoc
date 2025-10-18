@@ -48,14 +48,15 @@ QT_BEGIN_NAMESPACE
 
 class QAbstractTransition;
 class QHistoryStatePrivate;
-class Q_CORE_EXPORT QHistoryState : public QAbstractState
+class Q_CORE_EXPORT    QHistoryState : public QAbstractState
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractState* defaultState READ defaultState WRITE setDefaultState NOTIFY defaultStateChanged)
-    Q_PROPERTY(QAbstractTransition* defaultTransition READ defaultTransition WRITE setDefaultTransition NOTIFY defaultTransitionChanged)
+    Q_PROPERTY(QAbstractState*defaultState READ defaultState WRITE setDefaultState NOTIFY defaultStateChanged)
+    Q_PROPERTY(QAbstractTransition * defaultTransition READ defaultTransition WRITE setDefaultTransition NOTIFY defaultTransitionChanged)
     Q_PROPERTY(HistoryType historyType READ historyType WRITE setHistoryType NOTIFY historyTypeChanged)
 public:
-    enum HistoryType {
+    enum HistoryType
+    {
         ShallowHistory,
         DeepHistory
     };
@@ -65,19 +66,19 @@ public:
     QHistoryState(HistoryType type, QState *parent = Q_NULLPTR);
     ~QHistoryState();
 
-    QAbstractTransition *defaultTransition() const;
+    QAbstractTransition* defaultTransition() const;
     void setDefaultTransition(QAbstractTransition *transition);
 
-    QAbstractState *defaultState() const;
+    QAbstractState* defaultState() const;
     void setDefaultState(QAbstractState *state);
 
     HistoryType historyType() const;
     void setHistoryType(HistoryType type);
 
 Q_SIGNALS:
-    void defaultTransitionChanged(QPrivateSignal);
-    void defaultStateChanged(QPrivateSignal);
-    void historyTypeChanged(QPrivateSignal);
+    void    defaultTransitionChanged(QPrivateSignal);
+    void    defaultStateChanged(QPrivateSignal);
+    void    historyTypeChanged(QPrivateSignal);
 
 protected:
     void onEntry(QEvent *event) Q_DECL_OVERRIDE;

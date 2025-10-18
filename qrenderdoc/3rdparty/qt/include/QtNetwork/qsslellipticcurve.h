@@ -54,12 +54,12 @@ class QSslEllipticCurve;
 // qHash is a friend, but we can't use default arguments for friends (§8.3.6.4)
 Q_DECL_CONSTEXPR uint qHash(QSslEllipticCurve curve, uint seed = 0) Q_DECL_NOTHROW;
 
-class QSslEllipticCurve {
+class QSslEllipticCurve
+{
 public:
     Q_DECL_CONSTEXPR QSslEllipticCurve() Q_DECL_NOTHROW
         : id(0)
-    {
-    }
+    {}
 
     Q_NETWORK_EXPORT static QSslEllipticCurve fromShortName(const QString &name);
     Q_NETWORK_EXPORT static QSslEllipticCurve fromLongName(const QString &name);
@@ -75,7 +75,7 @@ public:
     Q_NETWORK_EXPORT bool isTlsNamedCurve() const Q_DECL_NOTHROW;
 
 private:
-    int id;
+    int    id;
 
     friend Q_DECL_CONSTEXPR bool operator==(QSslEllipticCurve lhs, QSslEllipticCurve rhs) Q_DECL_NOTHROW;
     friend Q_DECL_CONSTEXPR uint qHash(QSslEllipticCurve curve, uint seed) Q_DECL_NOTHROW;
@@ -87,13 +87,19 @@ private:
 Q_DECLARE_TYPEINFO(QSslEllipticCurve, Q_PRIMITIVE_TYPE);
 
 Q_DECL_CONSTEXPR inline uint qHash(QSslEllipticCurve curve, uint seed) Q_DECL_NOTHROW
-{ return qHash(curve.id, seed); }
+{
+    return qHash(curve.id, seed);
+}
 
 Q_DECL_CONSTEXPR inline bool operator==(QSslEllipticCurve lhs, QSslEllipticCurve rhs) Q_DECL_NOTHROW
-{ return lhs.id == rhs.id; }
+{
+    return lhs.id == rhs.id;
+}
 
 Q_DECL_CONSTEXPR inline bool operator!=(QSslEllipticCurve lhs, QSslEllipticCurve rhs) Q_DECL_NOTHROW
-{ return !operator==(lhs, rhs); }
+{
+    return !operator==(lhs, rhs);
+}
 
 #ifndef QT_NO_DEBUG_STREAM
 class QDebug;

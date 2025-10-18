@@ -73,11 +73,10 @@ class QAbstractOpenGLFunctions;
 class QOpenGLVersionFunctionsFactory
 {
 public:
-    static QAbstractOpenGLFunctions *create(const QOpenGLVersionProfile &versionProfile);
+    static QAbstractOpenGLFunctions* create(const QOpenGLVersionProfile &versionProfile);
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif

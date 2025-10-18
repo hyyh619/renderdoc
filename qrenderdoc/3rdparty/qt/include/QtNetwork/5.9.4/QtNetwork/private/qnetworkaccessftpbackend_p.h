@@ -67,13 +67,14 @@ QT_BEGIN_NAMESPACE
 class QNetworkAccessFtpIODevice;
 class QNetworkAccessCachedFtpConnection;
 
-class QNetworkAccessFtpBackend: public QNetworkAccessBackend
+class QNetworkAccessFtpBackend : public QNetworkAccessBackend
 {
     Q_OBJECT
 public:
-    enum State {
+    enum State
+    {
         Idle,
-        //Connecting,
+        // Connecting,
         LoggingIn,
         CheckingFeatures,
         Statting,
@@ -89,7 +90,8 @@ public:
 
     virtual void downstreamReadyWrite() Q_DECL_OVERRIDE;
 
-    enum CacheCleanupMode {
+    enum CacheCleanupMode
+    {
         ReleaseCachedConnection,
         RemoveCachedConnection
     };
@@ -104,19 +106,19 @@ public slots:
 
 private:
     friend class QNetworkAccessFtpIODevice;
-    QPointer<QNetworkAccessCachedFtpConnection> ftp;
-    QIODevice *uploadDevice;
-    qint64 totalBytes;
-    int helpId, sizeId, mdtmId;
-    bool supportsSize, supportsMdtm;
-    State state;
+    QPointer<QNetworkAccessCachedFtpConnection>     ftp;
+    QIODevice                                       *uploadDevice;
+    qint64                                          totalBytes;
+    int                                             helpId, sizeId, mdtmId;
+    bool                                            supportsSize, supportsMdtm;
+    State                                           state;
 };
 
-class QNetworkAccessFtpBackendFactory: public QNetworkAccessBackendFactory
+class QNetworkAccessFtpBackendFactory : public QNetworkAccessBackendFactory
 {
 public:
     virtual QStringList supportedSchemes() const Q_DECL_OVERRIDE;
-    virtual QNetworkAccessBackend *create(QNetworkAccessManager::Operation op,
+    virtual QNetworkAccessBackend* create(QNetworkAccessManager::Operation op,
                                           const QNetworkRequest &request) const Q_DECL_OVERRIDE;
 };
 

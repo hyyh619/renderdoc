@@ -64,18 +64,20 @@ class QSignalTransitionPrivate : public QAbstractTransitionPrivate
 public:
     QSignalTransitionPrivate();
 
-    static QSignalTransitionPrivate *get(QSignalTransition *q)
-    { return q->d_func(); }
+    static QSignalTransitionPrivate* get(QSignalTransition *q)
+    {
+        return q->d_func();
+    }
 
     void unregister();
     void maybeRegister();
 
     virtual void callOnTransition(QEvent *e) Q_DECL_OVERRIDE;
 
-    const QObject *sender;
-    QByteArray signal;
-    int signalIndex;
-    int originalSignalIndex;
+    const QObject       *sender;
+    QByteArray          signal;
+    int                 signalIndex;
+    int                 originalSignalIndex;
 };
 
 QT_END_NAMESPACE

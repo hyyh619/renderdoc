@@ -58,26 +58,26 @@ QT_BEGIN_NAMESPACE
 
 class QObject;
 
-namespace QHooks {
+namespace QHooks
+{
+    enum HookIndex
+    {
+        HookDataVersion         = 0,
+        HookDataSize            = 1,
+        QtVersion               = 2,
+        AddQObject              = 3,
+        RemoveQObject           = 4,
+        Startup                 = 5,
+        TypeInformationVersion  = 6,
+        LastHookIndex
+    };
 
-enum HookIndex {
-    HookDataVersion = 0,
-    HookDataSize = 1,
-    QtVersion = 2,
-    AddQObject = 3,
-    RemoveQObject = 4,
-    Startup = 5,
-    TypeInformationVersion = 6,
-    LastHookIndex
-};
-
-typedef void(*AddQObjectCallback)(QObject*);
-typedef void(*RemoveQObjectCallback)(QObject*);
-typedef void(*StartupCallback)();
-
+    typedef void (*AddQObjectCallback)(QObject*);
+    typedef void (*RemoveQObjectCallback)(QObject*);
+    typedef void (*StartupCallback)();
 }
 
-extern quintptr Q_CORE_EXPORT qtHookData[];
+extern quintptr Q_CORE_EXPORT    qtHookData[];
 
 QT_END_NAMESPACE
 

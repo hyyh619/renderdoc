@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 
 class QEventDispatcherUNIXPrivate;
 
-struct Q_CORE_EXPORT QSocketNotifierSetUNIX Q_DECL_FINAL
+struct Q_CORE_EXPORT QSocketNotifierSetUNIX    Q_DECL_FINAL
 {
     inline QSocketNotifierSetUNIX() Q_DECL_NOTHROW;
 
@@ -80,24 +80,24 @@ struct QThreadPipe
     QThreadPipe();
     ~QThreadPipe();
 
-    bool init();
-    pollfd prepare() const;
+    bool    init();
+    pollfd  prepare() const;
 
-    void wakeUp();
-    int check(const pollfd &pfd);
+    void    wakeUp();
+    int     check(const pollfd &pfd);
 
     // note for eventfd(7) support:
     // if fds[1] is -1, then eventfd(7) is in use and is stored in fds[0]
-    int fds[2];
-    QAtomicInt wakeUps;
+    int         fds[2];
+    QAtomicInt  wakeUps;
 
 #if defined(Q_OS_VXWORKS)
-    static const int len_name = 20;
-    char name[len_name];
+    static const int    len_name = 20;
+    char                name[len_name];
 #endif
 };
 
-class Q_CORE_EXPORT QEventDispatcherUNIX : public QAbstractEventDispatcher
+class Q_CORE_EXPORT    QEventDispatcherUNIX : public QAbstractEventDispatcher
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QEventDispatcherUNIX)
@@ -127,7 +127,7 @@ protected:
     QEventDispatcherUNIX(QEventDispatcherUNIXPrivate &dd, QObject *parent = 0);
 };
 
-class Q_CORE_EXPORT QEventDispatcherUNIXPrivate : public QAbstractEventDispatcherPrivate
+class Q_CORE_EXPORT    QEventDispatcherUNIXPrivate : public QAbstractEventDispatcherPrivate
 {
     Q_DECLARE_PUBLIC(QEventDispatcherUNIX)
 
@@ -141,21 +141,21 @@ public:
     int activateSocketNotifiers();
     void setSocketNotifierPending(QSocketNotifier *notifier);
 
-    QThreadPipe threadPipe;
-    QVector<pollfd> pollfds;
+    QThreadPipe         threadPipe;
+    QVector<pollfd>     pollfds;
 
-    QHash<int, QSocketNotifierSetUNIX> socketNotifiers;
-    QVector<QSocketNotifier *> pendingNotifiers;
+    QHash<int, QSocketNotifierSetUNIX>      socketNotifiers;
+    QVector<QSocketNotifier*>               pendingNotifiers;
 
-    QTimerInfoList timerList;
-    QAtomicInt interrupt; // bool
+    QTimerInfoList      timerList;
+    QAtomicInt          interrupt; // bool
 };
 
 inline QSocketNotifierSetUNIX::QSocketNotifierSetUNIX() Q_DECL_NOTHROW
 {
-    notifiers[0] = 0;
-    notifiers[1] = 0;
-    notifiers[2] = 0;
+    notifiers[0]    = 0;
+    notifiers[1]    = 0;
+    notifiers[2]    = 0;
 }
 
 inline bool QSocketNotifierSetUNIX::isEmpty() const Q_DECL_NOTHROW
@@ -165,7 +165,7 @@ inline bool QSocketNotifierSetUNIX::isEmpty() const Q_DECL_NOTHROW
 
 inline short QSocketNotifierSetUNIX::events() const Q_DECL_NOTHROW
 {
-    short result = 0;
+    short    result = 0;
 
     if (notifiers[0])
         result |= POLLIN;

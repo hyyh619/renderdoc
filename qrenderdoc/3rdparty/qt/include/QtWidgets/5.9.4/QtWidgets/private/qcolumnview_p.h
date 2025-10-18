@@ -69,25 +69,27 @@ QT_REQUIRE_CONFIG(columnview);
 
 QT_BEGIN_NAMESPACE
 
-class QColumnViewPreviewColumn : public QAbstractItemView {
-
+class QColumnViewPreviewColumn : public QAbstractItemView
+{
 public:
-    explicit QColumnViewPreviewColumn(QWidget *parent) : QAbstractItemView(parent), previewWidget(0) {
-    }
+    explicit QColumnViewPreviewColumn(QWidget *parent) : QAbstractItemView(parent), previewWidget(0) {}
 
-    void setPreviewWidget(QWidget *widget) {
+    void setPreviewWidget(QWidget *widget)
+    {
         previewWidget = widget;
         setMinimumWidth(previewWidget->minimumWidth());
     }
 
-    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE{
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE
+    {
         if (!previewWidget)
             return;
+
         previewWidget->resize(
-                qMax(previewWidget->minimumWidth(), event->size().width()),
-                previewWidget->height());
-        QSize p = viewport()->size();
-        QSize v = previewWidget->size();
+            qMax(previewWidget->minimumWidth(), event->size().width()),
+            previewWidget->height());
+        QSize       p   = viewport()->size();
+        QSize       v   = previewWidget->size();
         horizontalScrollBar()->setRange(0, v.width() - p.width());
         horizontalScrollBar()->setPageStep(p.width());
         verticalScrollBar()->setRange(0, v.height() - p.height());
@@ -100,20 +102,20 @@ public:
     {
         if (!previewWidget)
             return;
+
         scrollDirtyRegion(dx, dy);
         viewport()->scroll(dx, dy);
 
         QAbstractItemView::scrollContentsBy(dx, dy);
     }
 
-    QRect visualRect(const QModelIndex &) const Q_DECL_OVERRIDE
+    QRect visualRect(const QModelIndex&) const Q_DECL_OVERRIDE
     {
         return QRect();
     }
-    void scrollTo(const QModelIndex &, ScrollHint) Q_DECL_OVERRIDE
-    {
-    }
-    QModelIndex indexAt(const QPoint &) const Q_DECL_OVERRIDE
+    void scrollTo(const QModelIndex&, ScrollHint) Q_DECL_OVERRIDE
+    {}
+    QModelIndex indexAt(const QPoint&) const Q_DECL_OVERRIDE
     {
         return QModelIndex();
     }
@@ -121,28 +123,29 @@ public:
     {
         return QModelIndex();
     }
-    int horizontalOffset () const Q_DECL_OVERRIDE {
+    int horizontalOffset() const Q_DECL_OVERRIDE
+    {
         return 0;
     }
-    int verticalOffset () const Q_DECL_OVERRIDE {
+    int verticalOffset() const Q_DECL_OVERRIDE
+    {
         return 0;
     }
-    QRegion visualRegionForSelection(const QItemSelection &) const Q_DECL_OVERRIDE
+    QRegion visualRegionForSelection(const QItemSelection&) const Q_DECL_OVERRIDE
     {
         return QRegion();
     }
-    bool isIndexHidden(const QModelIndex &) const Q_DECL_OVERRIDE
+    bool isIndexHidden(const QModelIndex&) const Q_DECL_OVERRIDE
     {
         return false;
     }
-    void setSelection(const QRect &, QItemSelectionModel::SelectionFlags) Q_DECL_OVERRIDE
-    {
-    }
+    void setSelection(const QRect&, QItemSelectionModel::SelectionFlags) Q_DECL_OVERRIDE
+    {}
 private:
-    QWidget *previewWidget;
+    QWidget    *previewWidget;
 };
 
-class Q_AUTOTEST_EXPORT QColumnViewPrivate : public QAbstractItemViewPrivate
+class Q_AUTOTEST_EXPORT    QColumnViewPrivate : public QAbstractItemViewPrivate
 {
     Q_DECLARE_PUBLIC(QColumnView)
 
@@ -151,7 +154,7 @@ public:
     ~QColumnViewPrivate();
     void initialize();
 
-    QAbstractItemView *createColumn(const QModelIndex &index, bool show);
+    QAbstractItemView* createColumn(const QModelIndex &index, bool show);
 
     void updateScrollbars();
     void closeColumns(const QModelIndex &parent = QModelIndex(), bool build = false);
@@ -165,15 +168,15 @@ public:
     void _q_clicked(const QModelIndex &index);
     void _q_columnsInserted(const QModelIndex &parent, int start, int end) Q_DECL_OVERRIDE;
 
-    QList<QAbstractItemView*> columns;
-    QVector<int> columnSizes; // used during init and corner moving
-    bool showResizeGrips;
-    int offset;
+    QList<QAbstractItemView*>       columns;
+    QVector<int>                    columnSizes; // used during init and corner moving
+    bool                            showResizeGrips;
+    int                             offset;
 #ifndef QT_NO_ANIMATION
-    QPropertyAnimation currentAnimation;
+    QPropertyAnimation    currentAnimation;
 #endif
-    QWidget *previewWidget;
-    QAbstractItemView *previewColumn;
+    QWidget                 *previewWidget;
+    QAbstractItemView       *previewColumn;
 };
 
 /*!
@@ -181,7 +184,6 @@ public:
  */
 class QColumnViewDelegate : public QItemDelegate
 {
-
 public:
     explicit QColumnViewDelegate(QObject *parent = 0) : QItemDelegate(parent) {}
     ~QColumnViewDelegate() {}
@@ -193,4 +195,4 @@ public:
 
 QT_END_NAMESPACE
 
-#endif //QCOLUMNVIEW_P_H
+#endif // QCOLUMNVIEW_P_H

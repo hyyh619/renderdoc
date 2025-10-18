@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QPagedPaintDevicePrivate;
 
-class Q_GUI_EXPORT QPagedPaintDevice : public QPaintDevice
+class Q_GUI_EXPORT    QPagedPaintDevice : public QPaintDevice
 {
 public:
     QPagedPaintDevice();
@@ -62,7 +62,8 @@ public:
 
     // ### Qt6 Remove in favor of QPage::PageSize
     // NOTE: Must keep in sync with QPageSize and QPrinter
-    enum PageSize {
+    enum PageSize
+    {
         // Existing Qt sizes
         A4,
         B5,
@@ -201,16 +202,16 @@ public:
         EnvelopeYou4,
 
         // Last item, with commonly used synynoms from QPagedPrintEngine / QPrinter
-        LastPageSize = EnvelopeYou4,
-        NPageSize = LastPageSize,
-        NPaperSize = LastPageSize,
+        LastPageSize    = EnvelopeYou4,
+        NPageSize       = LastPageSize,
+        NPaperSize      = LastPageSize,
 
         // Convenience overloads for naming consistency
-        AnsiA = Letter,
-        AnsiB = Ledger,
-        EnvelopeC5 = C5E,
-        EnvelopeDL = DLE,
-        Envelope10 = Comm10E
+        AnsiA       = Letter,
+        AnsiB       = Ledger,
+        EnvelopeC5  = C5E,
+        EnvelopeDL  = DLE,
+        Envelope10  = Comm10E
     };
 
     // ### Qt6 Make these virtual
@@ -228,11 +229,12 @@ public:
     QSizeF pageSizeMM() const;
 
     // ### Qt6 Remove in favor of QMarginsF
-    struct Margins {
-        qreal left;
-        qreal right;
-        qreal top;
-        qreal bottom;
+    struct Margins
+    {
+        qreal   left;
+        qreal   right;
+        qreal   top;
+        qreal   bottom;
     };
 
     virtual void setMargins(const Margins &margins);
@@ -240,11 +242,11 @@ public:
 
 protected:
     QPagedPaintDevice(QPagedPaintDevicePrivate *dd);
-    QPagedPaintDevicePrivate *dd();
+    QPagedPaintDevicePrivate* dd();
     QPageLayout devicePageLayout() const;
-    QPageLayout &devicePageLayout();
+    QPageLayout    &devicePageLayout();
     friend class QPagedPaintDevicePrivate;
-    QPagedPaintDevicePrivate *d;
+    QPagedPaintDevicePrivate    *d;
 };
 
 QT_END_NAMESPACE

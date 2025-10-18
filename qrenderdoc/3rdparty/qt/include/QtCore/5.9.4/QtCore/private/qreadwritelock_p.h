@@ -67,38 +67,36 @@ public:
         : readerCount(0), writerCount(0), waitingReaders(0), waitingWriters(0),
         recursive(isRecursive), id(0), currentWriter(nullptr) {}
 
-    QMutex mutex;
-    QWaitCondition writerCond;
-    QWaitCondition readerCond;
-    int readerCount;
-    int writerCount;
-    int waitingReaders;
-    int waitingWriters;
-    const bool recursive;
+    QMutex              mutex;
+    QWaitCondition      writerCond;
+    QWaitCondition      readerCond;
+    int                 readerCount;
+    int                 writerCount;
+    int                 waitingReaders;
+    int                 waitingWriters;
+    const bool          recursive;
 
-    //Called with the mutex locked
+    // Called with the mutex locked
     bool lockForWrite(int timeout);
     bool lockForRead(int timeout);
     void unlock();
 
-    //memory management
-    int id;
+    // memory management
+    int    id;
     void release();
-    static QReadWriteLockPrivate *allocate();
+    static QReadWriteLockPrivate* allocate();
 
     // Recusive mutex handling
-    Qt::HANDLE currentWriter;
-    QHash<Qt::HANDLE, int> currentReaders;
+    Qt::HANDLE                  currentWriter;
+    QHash<Qt::HANDLE, int>      currentReaders;
 
     // called with the mutex unlocked
     bool recursiveLockForWrite(int timeout);
     bool recursiveLockForRead(int timeout);
     void recursiveUnlock();
-
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_THREAD
 
 #endif // QREADWRITELOCK_P_H

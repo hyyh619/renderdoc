@@ -57,24 +57,28 @@
 QT_BEGIN_NAMESPACE
 
 // Environment ------------------------------------------------------
-struct Variable {
+struct Variable
+{
     Variable() { }
 
     Variable(const QByteArray &name, const QByteArray &value)
         : name(name), value(value) { }
 
-    QByteArray name;
-    QByteArray value;
+    QByteArray  name;
+    QByteArray  value;
 };
 
 Q_DECLARE_TYPEINFO(Variable, Q_MOVABLE_TYPE);
 
-struct NameEquals {
+struct NameEquals
+{
     typedef bool result_type;
     const char *name;
     explicit NameEquals(const char *name) Q_DECL_NOTHROW : name(name) {}
     result_type operator()(const Variable &other) const Q_DECL_NOTHROW
-    { return qstrcmp(other.name, name) == 0; }
+    {
+        return qstrcmp(other.name, name) == 0;
+    }
 };
 
 Q_GLOBAL_STATIC(QVector<Variable>, qt_app_environment)
@@ -84,18 +88,21 @@ errno_t qt_fake_getenv_s(size_t *sizeNeeded, char *buffer, size_t bufferSize, co
     if (!sizeNeeded)
         return EINVAL;
 
-    QVector<Variable>::const_iterator end = qt_app_environment->constEnd();
-    QVector<Variable>::const_iterator iterator = std::find_if(qt_app_environment->constBegin(),
-                                                              end,
-                                                              NameEquals(varName));
-    if (iterator == end) {
+    QVector<Variable>::const_iterator       end         = qt_app_environment->constEnd();
+    QVector<Variable>::const_iterator       iterator    = std::find_if(qt_app_environment->constBegin(),
+                                                                       end,
+                                                                       NameEquals(varName));
+    if (iterator == end)
+    {
         if (buffer)
             buffer[0] = '\0';
+
         return ENOENT;
     }
 
-    const int size = iterator->value.size() + 1;
-    if (bufferSize < size_t(size)) {
+    const int    size = iterator->value.size() + 1;
+    if (bufferSize < size_t(size))
+    {
         *sizeNeeded = size;
         return ERANGE;
     }
@@ -106,14 +113,17 @@ errno_t qt_fake_getenv_s(size_t *sizeNeeded, char *buffer, size_t bufferSize, co
 
 errno_t qt_fake__putenv_s(const char *varName, const char *value)
 {
-    QVector<Variable>::iterator end = qt_app_environment->end();
-    QVector<Variable>::iterator iterator = std::find_if(qt_app_environment->begin(),
-                                                        end,
-                                                        NameEquals(varName));
-    if (!value || !*value) {
+    QVector<Variable>::iterator     end         = qt_app_environment->end();
+    QVector<Variable>::iterator     iterator    = std::find_if(qt_app_environment->begin(),
+                                                               end,
+                                                               NameEquals(varName));
+    if (!value || !*value)
+    {
         if (iterator != end)
             qt_app_environment->erase(iterator);
-    } else {
+    }
+    else
+    {
         if (iterator == end)
             qt_app_environment->append(Variable(varName, value));
         else

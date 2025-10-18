@@ -56,17 +56,16 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QPagedPaintDevicePrivate
+class Q_GUI_EXPORT    QPagedPaintDevicePrivate
 {
 public:
     QPagedPaintDevicePrivate()
         : m_pageLayout(QPageSize(QPageSize::A4), QPageLayout::Portrait, QMarginsF(0, 0, 0, 0)),
-          fromPage(0),
-          toPage(0),
-          pageOrderAscending(true),
-          printSelectionOnly(false)
-    {
-    }
+        fromPage(0),
+        toPage(0),
+        pageOrderAscending(true),
+        printSelectionOnly(false)
+    {}
 
     virtual ~QPagedPaintDevicePrivate();
 
@@ -106,15 +105,18 @@ public:
         return m_pageLayout;
     }
 
-    static inline QPagedPaintDevicePrivate *get(QPagedPaintDevice *pd) { return pd->d; }
+    static inline QPagedPaintDevicePrivate* get(QPagedPaintDevice *pd)
+    {
+        return pd->d;
+    }
 
-    QPageLayout m_pageLayout;
+    QPageLayout    m_pageLayout;
 
     // These are currently required to keep QPrinter functionality working in QTextDocument::print()
-    int fromPage;
-    int toPage;
-    bool pageOrderAscending;
-    bool printSelectionOnly;
+    int     fromPage;
+    int     toPage;
+    bool    pageOrderAscending;
+    bool    printSelectionOnly;
 };
 
 QT_END_NAMESPACE

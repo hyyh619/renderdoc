@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QGraphicsGridLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsGridLayout : public QGraphicsLayout
+class Q_WIDGETS_EXPORT    QGraphicsGridLayout : public QGraphicsLayout
 {
 public:
     QGraphicsGridLayout(QGraphicsLayoutItem *parent = Q_NULLPTR);
@@ -103,11 +103,11 @@ public:
     int rowCount() const;
     int columnCount() const;
 
-    QGraphicsLayoutItem *itemAt(int row, int column) const;
+    QGraphicsLayoutItem* itemAt(int row, int column) const;
 
     // inherited from QGraphicsLayout
     int count() const Q_DECL_OVERRIDE;
-    QGraphicsLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
+    QGraphicsLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
     void removeAt(int index) Q_DECL_OVERRIDE;
     void removeItem(QGraphicsLayoutItem *item);
 
@@ -118,8 +118,8 @@ public:
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const Q_DECL_OVERRIDE;
 
     // ####
-    //QRect cellRect(int row, int column, int rowSpan = 1, int columnSpan = 1) const;
-    //QSizePolicy::ControlTypes controlTypes(LayoutSide side) const;
+    // QRect cellRect(int row, int column, int rowSpan = 1, int columnSpan = 1) const;
+    // QSizePolicy::ControlTypes controlTypes(LayoutSide side) const;
 
 private:
     Q_DISABLE_COPY(QGraphicsGridLayout)
@@ -127,7 +127,9 @@ private:
 };
 
 inline void QGraphicsGridLayout::addItem(QGraphicsLayoutItem *aitem, int arow, int acolumn, Qt::Alignment aalignment)
-{ addItem(aitem, arow, acolumn, 1, 1, aalignment); }
+{
+    addItem(aitem, arow, acolumn, 1, 1, aalignment);
+}
 
 QT_END_NAMESPACE
 

@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QPauseAnimationPrivate;
 
-class Q_CORE_EXPORT QPauseAnimation : public QAbstractAnimation
+class Q_CORE_EXPORT    QPauseAnimation : public QAbstractAnimation
 {
     Q_OBJECT
     Q_PROPERTY(int duration READ duration WRITE setDuration)
@@ -69,8 +69,7 @@ private:
     Q_DISABLE_COPY(QPauseAnimation)
     Q_DECLARE_PRIVATE(QPauseAnimation)
 };
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 

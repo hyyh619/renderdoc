@@ -71,22 +71,22 @@ public:
     QMimeProviderBase(QMimeDatabasePrivate *db);
     virtual ~QMimeProviderBase() {}
 
-    virtual bool isValid() = 0;
-    virtual QMimeType mimeTypeForName(const QString &name) = 0;
-    virtual QMimeGlobMatchResult findByFileName(const QString &fileName) = 0;
-    virtual QStringList parents(const QString &mime) = 0;
-    virtual QString resolveAlias(const QString &name) = 0;
-    virtual QStringList listAliases(const QString &name) = 0;
+    virtual bool isValid()                                                  = 0;
+    virtual QMimeType mimeTypeForName(const QString &name)                  = 0;
+    virtual QMimeGlobMatchResult findByFileName(const QString &fileName)    = 0;
+    virtual QStringList parents(const QString &mime)                        = 0;
+    virtual QString resolveAlias(const QString &name)                       = 0;
+    virtual QStringList listAliases(const QString &name)                    = 0;
     virtual QMimeType findByMagic(const QByteArray &data, int *accuracyPtr) = 0;
     virtual QList<QMimeType> allMimeTypes() = 0;
-    virtual void loadMimeTypePrivate(QMimeTypePrivate &) {}
-    virtual void loadIcon(QMimeTypePrivate &) {}
-    virtual void loadGenericIcon(QMimeTypePrivate &) {}
+    virtual void loadMimeTypePrivate(QMimeTypePrivate&) {}
+    virtual void loadIcon(QMimeTypePrivate&) {}
+    virtual void loadGenericIcon(QMimeTypePrivate&) {}
 
-    QMimeDatabasePrivate *m_db;
+    QMimeDatabasePrivate    *m_db;
 protected:
     bool shouldCheck();
-    QElapsedTimer m_lastCheck;
+    QElapsedTimer    m_lastCheck;
 };
 
 /*
@@ -106,9 +106,9 @@ public:
     virtual QStringList listAliases(const QString &name) Q_DECL_OVERRIDE;
     virtual QMimeType findByMagic(const QByteArray &data, int *accuracyPtr) Q_DECL_OVERRIDE;
     virtual QList<QMimeType> allMimeTypes() Q_DECL_OVERRIDE;
-    virtual void loadMimeTypePrivate(QMimeTypePrivate &) Q_DECL_OVERRIDE;
-    virtual void loadIcon(QMimeTypePrivate &) Q_DECL_OVERRIDE;
-    virtual void loadGenericIcon(QMimeTypePrivate &) Q_DECL_OVERRIDE;
+    virtual void loadMimeTypePrivate(QMimeTypePrivate&) Q_DECL_OVERRIDE;
+    virtual void loadIcon(QMimeTypePrivate&) Q_DECL_OVERRIDE;
+    virtual void loadGenericIcon(QMimeTypePrivate&) Q_DECL_OVERRIDE;
 
 private:
     struct CacheFile;
@@ -120,16 +120,16 @@ private:
     void loadMimeTypeList();
     void checkCache();
 
-    class CacheFileList : public QList<CacheFile *>
+    class CacheFileList : public QList<CacheFile*>
     {
-    public:
-        CacheFile *findCacheFile(const QString &fileName) const;
+public:
+        CacheFile* findCacheFile(const QString &fileName) const;
         bool checkCacheChanged();
     };
-    CacheFileList m_cacheFiles;
-    QStringList m_cacheFileNames;
-    QSet<QString> m_mimetypeNames;
-    bool m_mimetypeListLoaded;
+    CacheFileList       m_cacheFiles;
+    QStringList         m_cacheFileNames;
+    QSet<QString>       m_mimetypeNames;
+    bool                m_mimetypeListLoaded;
 };
 
 /*
@@ -163,23 +163,22 @@ private:
     void ensureLoaded();
     void load(const QString &fileName);
 
-    bool m_loaded;
+    bool    m_loaded;
 
     typedef QHash<QString, QMimeType> NameMimeTypeMap;
-    NameMimeTypeMap m_nameMimeTypeMap;
+    NameMimeTypeMap    m_nameMimeTypeMap;
 
     typedef QHash<QString, QString> AliasHash;
-    AliasHash m_aliases;
+    AliasHash    m_aliases;
 
     typedef QHash<QString, QStringList> ParentsHash;
-    ParentsHash m_parents;
-    QMimeAllGlobPatterns m_mimeTypeGlobs;
+    ParentsHash             m_parents;
+    QMimeAllGlobPatterns    m_mimeTypeGlobs;
 
-    QList<QMimeMagicRuleMatcher> m_magicMatchers;
-    QStringList m_allFiles;
+    QList<QMimeMagicRuleMatcher>    m_magicMatchers;
+    QStringList                     m_allFiles;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEPROVIDER_P_H

@@ -4,15 +4,15 @@
 #include "pyconfig.h" /* include for defines */
 
 /**************************************************************************
-Symbols and macros to supply platform-independent interfaces to mathematical
-functions and constants
+   Symbols and macros to supply platform-independent interfaces to mathematical
+   functions and constants
 **************************************************************************/
 
 /* Python provides implementations for copysign, round and hypot in
  * Python/pymath.c just in case your math library doesn't provide the
  * functions.
  *
- *Note: PC/pyconfig.h defines copysign as _copysign
+ * Note: PC/pyconfig.h defines copysign as _copysign
  */
 #ifndef HAVE_COPYSIGN
 extern double copysign(double, double);
@@ -29,10 +29,10 @@ extern double hypot(double, double);
 /* extra declarations */
 #ifndef _MSC_VER
 #ifndef __STDC__
-extern double fmod (double, double);
-extern double frexp (double, int *);
-extern double ldexp (double, int);
-extern double modf (double, double *);
+extern double fmod(double, double);
+extern double frexp(double, int*);
+extern double ldexp(double, int);
+extern double modf(double, double*);
 extern double pow(double, double);
 #endif /* __STDC__ */
 #endif /* _MSC_VER */
@@ -118,8 +118,8 @@ PyAPI_FUNC(void) _Py_set_387controlword(unsigned short);
 #  if defined HAVE_DECL_ISINF && HAVE_DECL_ISINF == 1
 #    define Py_IS_INFINITY(X) isinf(X)
 #  else
-#    define Py_IS_INFINITY(X) ((X) &&                                   \
-                               (Py_FORCE_DOUBLE(X)*0.5 == Py_FORCE_DOUBLE(X)))
+#    define Py_IS_INFINITY(X) ((X) && \
+                               (Py_FORCE_DOUBLE(X) * 0.5 == Py_FORCE_DOUBLE(X)))
 #  endif
 #endif
 
@@ -164,18 +164,18 @@ PyAPI_FUNC(void) _Py_set_387controlword(unsigned short);
         #pragma float_control(precise, on)
         #pragma float_control(except,  on)
         #if defined(_MSC_VER)
-            __declspec(noinline)
+__declspec(noinline)
         #else /* Linux */
-            __attribute__((noinline))
+__attribute__((noinline))
         #endif /* _MSC_VER */
-        static double __icc_nan()
-        {
-            return sqrt(-1.0);
-        }
+static double __icc_nan()
+{
+    return sqrt(-1.0);
+}
         #pragma float_control (pop)
         #define Py_NAN __icc_nan()
     #else /* ICC_NAN_RELAXED as default for Intel Compiler */
-        static const union { unsigned char buf[8]; double __icc_nan; } __nan_store = {0,0,0,0,0,0,0xf8,0x7f};
+static const union { unsigned char buf[8]; double __icc_nan; }    __nan_store = {0, 0, 0, 0, 0, 0, 0xf8, 0x7f};
         #define Py_NAN (__nan_store.__icc_nan)
     #endif /* ICC_NAN_STRICT */
 #endif /* __INTEL_COMPILER */
@@ -218,7 +218,7 @@ PyAPI_FUNC(void) _Py_set_387controlword(unsigned short);
 /* Return whether integral type *type* is signed or not. */
 #define _Py_IntegralTypeSigned(type) ((type)(-1) < 0)
 /* Return the maximum value of integral type *type*. */
-#define _Py_IntegralTypeMax(type) ((_Py_IntegralTypeSigned(type)) ? (((((type)1 << (sizeof(type)*CHAR_BIT - 2)) - 1) << 1) + 1) : ~(type)0)
+#define _Py_IntegralTypeMax(type) ((_Py_IntegralTypeSigned(type)) ? (((((type)1 << (sizeof(type) * CHAR_BIT - 2)) - 1) << 1) + 1) : ~(type)0)
 /* Return the minimum value of integral type *type*. */
 #define _Py_IntegralTypeMin(type) ((_Py_IntegralTypeSigned(type)) ? -_Py_IntegralTypeMax(type) - 1 : 0)
 /* Check whether *v* is in the range of integral type *type*. This is most

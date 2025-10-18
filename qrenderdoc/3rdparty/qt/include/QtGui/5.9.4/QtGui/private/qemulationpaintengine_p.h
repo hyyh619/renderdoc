@@ -66,7 +66,7 @@ public:
     bool end() override;
 
     Type type() const override;
-    QPainterState *createState(QPainterState *orig) const override;
+    QPainterState* createState(QPainterState *orig) const override;
 
     void fill(const QVectorPath &path, const QBrush &brush) override;
     void stroke(const QVectorPath &path, const QPen &pen) override;
@@ -92,12 +92,21 @@ public:
     void beginNativePainting() override;
     void endNativePainting() override;
 
-    uint flags() const override { return QPaintEngineEx::IsEmulationEngine | QPaintEngineEx::DoNotEmulate; }
+    uint flags() const override
+    {
+        return QPaintEngineEx::IsEmulationEngine | QPaintEngineEx::DoNotEmulate;
+    }
 
-    inline QPainterState *state() { return (QPainterState *)QPaintEngine::state; }
-    inline const QPainterState *state() const { return (const QPainterState *)QPaintEngine::state; }
+    inline QPainterState* state()
+    {
+        return (QPainterState*)QPaintEngine::state;
+    }
+    inline const QPainterState* state() const
+    {
+        return (const QPainterState*)QPaintEngine::state;
+    }
 
-    QPaintEngineEx *real_engine;
+    QPaintEngineEx    *real_engine;
 private:
     void fillBGRect(const QRectF &r);
 };

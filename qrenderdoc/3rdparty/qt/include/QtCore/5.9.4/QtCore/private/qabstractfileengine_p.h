@@ -65,38 +65,40 @@ class QVariant;
 class QAbstractFileEngineIterator;
 class QAbstractFileEnginePrivate;
 
-class Q_CORE_EXPORT QAbstractFileEngine
+class Q_CORE_EXPORT    QAbstractFileEngine
 {
 public:
-    enum FileFlag {
-        //perms (overlaps the QFile::Permission)
-        ReadOwnerPerm = 0x4000, WriteOwnerPerm = 0x2000, ExeOwnerPerm = 0x1000,
-        ReadUserPerm  = 0x0400, WriteUserPerm  = 0x0200, ExeUserPerm  = 0x0100,
-        ReadGroupPerm = 0x0040, WriteGroupPerm = 0x0020, ExeGroupPerm = 0x0010,
-        ReadOtherPerm = 0x0004, WriteOtherPerm = 0x0002, ExeOtherPerm = 0x0001,
+    enum FileFlag
+    {
+        // perms (overlaps the QFile::Permission)
+        ReadOwnerPerm   = 0x4000, WriteOwnerPerm = 0x2000, ExeOwnerPerm = 0x1000,
+        ReadUserPerm    = 0x0400, WriteUserPerm = 0x0200, ExeUserPerm = 0x0100,
+        ReadGroupPerm   = 0x0040, WriteGroupPerm = 0x0020, ExeGroupPerm = 0x0010,
+        ReadOtherPerm   = 0x0004, WriteOtherPerm = 0x0002, ExeOtherPerm = 0x0001,
 
-        //types
-        LinkType      = 0x10000,
-        FileType      = 0x20000,
-        DirectoryType = 0x40000,
-        BundleType    = 0x80000,
+        // types
+        LinkType        = 0x10000,
+        FileType        = 0x20000,
+        DirectoryType   = 0x40000,
+        BundleType      = 0x80000,
 
-        //flags
-        HiddenFlag     = 0x0100000,
-        LocalDiskFlag  = 0x0200000,
-        ExistsFlag     = 0x0400000,
-        RootFlag       = 0x0800000,
-        Refresh        = 0x1000000,
+        // flags
+        HiddenFlag      = 0x0100000,
+        LocalDiskFlag   = 0x0200000,
+        ExistsFlag      = 0x0400000,
+        RootFlag        = 0x0800000,
+        Refresh         = 0x1000000,
 
-        //masks
-        PermsMask  = 0x0000FFFF,
-        TypesMask  = 0x000F0000,
-        FlagsMask  = 0x0FF00000,
+        // masks
+        PermsMask   = 0x0000FFFF,
+        TypesMask   = 0x000F0000,
+        FlagsMask   = 0x0FF00000,
         FileInfoAll = FlagsMask | PermsMask | TypesMask
     };
     Q_DECLARE_FLAGS(FileFlags, FileFlag)
 
-    enum FileName {
+    enum FileName
+    {
         DefaultName,
         BaseName,
         PathName,
@@ -108,11 +110,13 @@ public:
         BundleName,
         NFileNames = 9
     };
-    enum FileOwner {
+    enum FileOwner
+    {
         OwnerUser,
         OwnerGroup
     };
-    enum FileTime {
+    enum FileTime
+    {
         CreationTime,
         ModificationTime,
         AccessTime
@@ -139,22 +143,22 @@ public:
     virtual bool caseSensitive() const;
     virtual bool isRelativePath() const;
     virtual QStringList entryList(QDir::Filters filters, const QStringList &filterNames) const;
-    virtual FileFlags fileFlags(FileFlags type=FileInfoAll) const;
+    virtual FileFlags fileFlags(FileFlags type= FileInfoAll) const;
     virtual bool setPermissions(uint perms);
     virtual QByteArray id() const;
-    virtual QString fileName(FileName file=DefaultName) const;
-    virtual uint ownerId(FileOwner) const;
-    virtual QString owner(FileOwner) const;
+    virtual QString fileName(FileName file= DefaultName) const;
+    virtual uint        ownerId(FileOwner) const;
+    virtual QString     owner(FileOwner) const;
     virtual QDateTime fileTime(FileTime time) const;
     virtual void setFileName(const QString &file);
     virtual int handle() const;
     bool atEnd() const;
-    uchar *map(qint64 offset, qint64 size, QFile::MemoryMapFlags flags);
+    uchar* map(qint64 offset, qint64 size, QFile::MemoryMapFlags flags);
     bool unmap(uchar *ptr);
 
     typedef QAbstractFileEngineIterator Iterator;
-    virtual Iterator *beginEntryList(QDir::Filters filters, const QStringList &filterNames);
-    virtual Iterator *endEntryList();
+    virtual Iterator* beginEntryList(QDir::Filters filters, const QStringList &filterNames);
+    virtual Iterator* endEntryList();
 
     virtual qint64 read(char *data, qint64 maxlen);
     virtual qint64 readLine(char *data, qint64 maxlen);
@@ -163,7 +167,8 @@ public:
     QFile::FileError error() const;
     QString errorString() const;
 
-    enum Extension {
+    enum Extension
+    {
         AtEndExtension,
         FastReadLineExtension,
         MapExtension,
@@ -174,35 +179,38 @@ public:
     class ExtensionReturn
     {};
 
-    class MapExtensionOption : public ExtensionOption {
-    public:
-        qint64 offset;
-        qint64 size;
-        QFile::MemoryMapFlags flags;
+    class MapExtensionOption : public ExtensionOption
+    {
+public:
+        qint64                      offset;
+        qint64                      size;
+        QFile::MemoryMapFlags       flags;
     };
-    class MapExtensionReturn : public ExtensionReturn {
-    public:
-        uchar *address;
+    class MapExtensionReturn : public ExtensionReturn
+    {
+public:
+        uchar    *address;
     };
 
-    class UnMapExtensionOption : public ExtensionOption {
-    public:
-        uchar *address;
+    class UnMapExtensionOption : public ExtensionOption
+    {
+public:
+        uchar    *address;
     };
 
     virtual bool extension(Extension extension, const ExtensionOption *option = 0, ExtensionReturn *output = 0);
     virtual bool supportsExtension(Extension extension) const;
 
     // Factory
-    static QAbstractFileEngine *create(const QString &fileName);
+    static QAbstractFileEngine* create(const QString &fileName);
 
 protected:
     void setError(QFile::FileError error, const QString &str);
 
     QAbstractFileEngine();
-    QAbstractFileEngine(QAbstractFileEnginePrivate &);
+    QAbstractFileEngine(QAbstractFileEnginePrivate&);
 
-    QScopedPointer<QAbstractFileEnginePrivate> d_ptr;
+    QScopedPointer<QAbstractFileEnginePrivate>    d_ptr;
 private:
     Q_DECLARE_PRIVATE(QAbstractFileEngine)
     Q_DISABLE_COPY(QAbstractFileEngine)
@@ -210,23 +218,23 @@ private:
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QAbstractFileEngine::FileFlags)
 
-class Q_CORE_EXPORT QAbstractFileEngineHandler
+class Q_CORE_EXPORT    QAbstractFileEngineHandler
 {
 public:
     QAbstractFileEngineHandler();
     virtual ~QAbstractFileEngineHandler();
-    virtual QAbstractFileEngine *create(const QString &fileName) const = 0;
+    virtual QAbstractFileEngine* create(const QString &fileName) const = 0;
 };
 
 class QAbstractFileEngineIteratorPrivate;
-class Q_CORE_EXPORT QAbstractFileEngineIterator
+class Q_CORE_EXPORT    QAbstractFileEngineIterator
 {
 public:
     QAbstractFileEngineIterator(QDir::Filters filters, const QStringList &nameFilters);
     virtual ~QAbstractFileEngineIterator();
 
-    virtual QString next() = 0;
-    virtual bool hasNext() const = 0;
+    virtual QString next()          = 0;
+    virtual bool hasNext() const    = 0;
 
     QString path() const;
     QStringList nameFilters() const;
@@ -237,8 +245,8 @@ public:
     QString currentFilePath() const;
 
 protected:
-    enum EntryInfoType {
-    };
+    enum EntryInfoType
+    {};
     virtual QVariant entryInfo(EntryInfoType type) const;
 
 private:
@@ -246,7 +254,7 @@ private:
     friend class QDirIterator;
     friend class QDirIteratorPrivate;
     void setPath(const QString &path);
-    QScopedPointer<QAbstractFileEngineIteratorPrivate> d;
+    QScopedPointer<QAbstractFileEngineIteratorPrivate>    d;
 };
 
 class QAbstractFileEnginePrivate
@@ -254,18 +262,17 @@ class QAbstractFileEnginePrivate
 public:
     inline QAbstractFileEnginePrivate()
         : fileError(QFile::UnspecifiedError)
-    {
-    }
+    {}
     inline virtual ~QAbstractFileEnginePrivate() { }
 
-    QFile::FileError fileError;
-    QString errorString;
+    QFile::FileError    fileError;
+    QString             errorString;
 
-    QAbstractFileEngine *q_ptr;
+    QAbstractFileEngine    *q_ptr;
     Q_DECLARE_PUBLIC(QAbstractFileEngine)
 };
 
-QAbstractFileEngine *qt_custom_file_engine_handler_create(const QString &path);
+QAbstractFileEngine* qt_custom_file_engine_handler_create(const QString &path);
 
 QT_END_NAMESPACE
 

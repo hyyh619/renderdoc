@@ -52,12 +52,12 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_SSL
 
-template <typename A, typename B> struct QPair;
+template<typename A, typename B> struct QPair;
 
 class QIODevice;
 
 class QSslKeyPrivate;
-class Q_NETWORK_EXPORT QSslKey
+class Q_NETWORK_EXPORT    QSslKey
 {
 public:
     QSslKey();
@@ -72,12 +72,18 @@ public:
     explicit QSslKey(Qt::HANDLE handle, QSsl::KeyType type = QSsl::PrivateKey);
     QSslKey(const QSslKey &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslKey &operator=(QSslKey &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslKey&operator=(QSslKey &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslKey &operator=(const QSslKey &other);
+    QSslKey&operator=(const QSslKey &other);
     ~QSslKey();
 
-    void swap(QSslKey &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QSslKey &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool isNull() const;
     void clear();
@@ -92,10 +98,13 @@ public:
     Qt::HANDLE handle() const;
 
     bool operator==(const QSslKey &key) const;
-    inline bool operator!=(const QSslKey &key) const { return !operator==(key); }
+    inline bool operator!=(const QSslKey &key) const
+    {
+        return !operator==(key);
+    }
 
 private:
-    QExplicitlySharedDataPointer<QSslKeyPrivate> d;
+    QExplicitlySharedDataPointer<QSslKeyPrivate>    d;
     friend class QSslCertificate;
     friend class QSslSocketBackendPrivate;
 };
@@ -106,7 +115,6 @@ Q_DECLARE_SHARED(QSslKey)
 class QDebug;
 Q_NETWORK_EXPORT QDebug operator<<(QDebug debug, const QSslKey &key);
 #endif
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE

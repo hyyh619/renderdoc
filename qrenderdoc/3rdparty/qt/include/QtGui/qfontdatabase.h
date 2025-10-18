@@ -49,19 +49,20 @@ QT_BEGIN_NAMESPACE
 
 
 class QStringList;
-template <class T> class QList;
+template<class T> class QList;
 struct QFontDef;
 class QFontEngine;
 
 class QFontDatabasePrivate;
 
-class Q_GUI_EXPORT QFontDatabase
+class Q_GUI_EXPORT    QFontDatabase
 {
     Q_GADGET
 public:
     // do not re-order or delete entries from this enum without updating the
     // QPF2 format and makeqpf!!
-    enum WritingSystem {
+    enum WritingSystem
+    {
         Any,
 
         Latin,
@@ -105,7 +106,8 @@ public:
     };
     Q_ENUM(WritingSystem)
 
-    enum SystemFont {
+    enum SystemFont
+    {
         GeneralFont,
         FixedFont,
         TitleFont,
@@ -160,7 +162,7 @@ private:
     static void createDatabase();
     static void parseFontName(const QString &name, QString &foundry, QString &family);
     static QString resolveFontFamilyAlias(const QString &family);
-    static QFontEngine *findFont(const QFontDef &request, int script);
+    static QFontEngine* findFont(const QFontDef &request, int script);
     static void load(const QFontPrivate *d, int script);
 
     friend struct QFontDef;
@@ -170,7 +172,7 @@ private:
     friend class QFontEngineMulti;
     friend class QRawFont;
 
-    QFontDatabasePrivate *d;
+    QFontDatabasePrivate    *d;
 };
 
 QT_END_NAMESPACE

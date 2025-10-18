@@ -64,19 +64,22 @@ public:
     explicit QShapedPixmapWindow(QScreen *screen = 0);
     ~QShapedPixmapWindow();
 
-    void setUseCompositing(bool on) { m_useCompositing = on; }
+    void setUseCompositing(bool on)
+    {
+        m_useCompositing = on;
+    }
     void setPixmap(const QPixmap &pixmap);
     void setHotspot(const QPoint &hotspot);
 
     void updateGeometry(const QPoint &pos);
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
 
 private:
-    QPixmap m_pixmap;
-    QPoint m_hotSpot;
-    bool m_useCompositing;
+    QPixmap     m_pixmap;
+    QPoint      m_hotSpot;
+    bool        m_useCompositing;
 };
 
 QT_END_NAMESPACE

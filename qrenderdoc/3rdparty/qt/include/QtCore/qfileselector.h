@@ -46,7 +46,7 @@
 QT_BEGIN_NAMESPACE
 
 class QFileSelectorPrivate;
-class Q_CORE_EXPORT QFileSelector : public QObject
+class Q_CORE_EXPORT    QFileSelector : public QObject
 {
     Q_OBJECT
 public:

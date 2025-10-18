@@ -69,10 +69,16 @@ public:
 
     QPushButtonPrivate()
         : QAbstractButtonPrivate(QSizePolicy::PushButton), autoDefault(Auto),
-          defaultButton(false), flat(false), menuOpen(false), lastAutoDefault(false) {}
+        defaultButton(false), flat(false), menuOpen(false), lastAutoDefault(false) {}
 
-    inline void init() { resetLayoutItemMargins(); }
-    static QPushButtonPrivate* get(QPushButton *b) { return b->d_func(); }
+    inline void init()
+    {
+        resetLayoutItemMargins();
+    }
+    static QPushButtonPrivate* get(QPushButton *b)
+    {
+        return b->d_func();
+    }
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
     bool hitButton(const QPoint &pos);
 #endif
@@ -82,17 +88,20 @@ public:
     void resetLayoutItemMargins();
     void _q_popupPressed();
 #if QT_CONFIG(dialog)
-    QDialog *dialogParent() const;
+    QDialog* dialogParent() const;
 #else
-    QDialog *dialogParent() const { return 0; };
+    QDialog* dialogParent() const
+    {
+        return 0;
+    };
 #endif
 
-    QPointer<QMenu> menu;
-    uint autoDefault : 2;
-    uint defaultButton : 1;
-    uint flat : 1;
-    uint menuOpen : 1;
-    mutable uint lastAutoDefault : 1;
+    QPointer<QMenu>     menu;
+    uint                autoDefault : 2;
+    uint                defaultButton : 1;
+    uint                flat : 1;
+    uint                menuOpen : 1;
+    mutable uint        lastAutoDefault : 1;
 };
 
 QT_END_NAMESPACE

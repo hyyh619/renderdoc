@@ -72,13 +72,23 @@ public:
     virtual ~QAbstractSocketPrivate();
 
     // from QAbstractSocketEngineReceiver
-    inline void readNotification() override { canReadNotification(); }
-    inline void writeNotification() override { canWriteNotification(); }
+    inline void readNotification() override
+    {
+        canReadNotification();
+    }
+    inline void writeNotification() override
+    {
+        canWriteNotification();
+    }
     inline void exceptionNotification() override {}
-    inline void closeNotification() override { canCloseNotification(); }
+    inline void closeNotification() override
+    {
+        canCloseNotification();
+    }
     void connectionNotification() override;
 #ifndef QT_NO_NETWORKPROXY
-    inline void proxyAuthenticationRequired(const QNetworkProxy &proxy, QAuthenticator *authenticator) override {
+    inline void proxyAuthenticationRequired(const QNetworkProxy &proxy, QAuthenticator *authenticator) override
+    {
         Q_Q(QAbstractSocket);
         q->proxyAuthenticationRequired(proxy, authenticator);
     }
@@ -96,36 +106,39 @@ public:
     void _q_testConnection();
     void _q_abortConnectionAttempt();
 
-    bool emittedReadyRead;
-    bool emittedBytesWritten;
+    bool    emittedReadyRead;
+    bool    emittedBytesWritten;
 
-    bool abortCalled;
-    bool pendingClose;
+    bool    abortCalled;
+    bool    pendingClose;
 
-    QAbstractSocket::PauseModes pauseMode;
+    QAbstractSocket::PauseModes    pauseMode;
 
-    QString hostName;
-    quint16 port;
-    QHostAddress host;
-    QList<QHostAddress> addresses;
+    QString                 hostName;
+    quint16                 port;
+    QHostAddress            host;
+    QList<QHostAddress>     addresses;
 
-    quint16 localPort;
-    quint16 peerPort;
-    QHostAddress localAddress;
-    QHostAddress peerAddress;
-    QString peerName;
+    quint16         localPort;
+    quint16         peerPort;
+    QHostAddress    localAddress;
+    QHostAddress    peerAddress;
+    QString         peerName;
 
-    QAbstractSocketEngine *socketEngine;
-    qintptr cachedSocketDescriptor;
+    QAbstractSocketEngine       *socketEngine;
+    qintptr                     cachedSocketDescriptor;
 
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy proxy;
-    QNetworkProxy proxyInUse;
+    QNetworkProxy       proxy;
+    QNetworkProxy       proxyInUse;
     void resolveProxy(const QString &hostName, quint16 port);
 #else
-    inline void resolveProxy(const QString &, quint16) { }
+    inline void resolveProxy(const QString&, quint16) { }
 #endif
-    inline void resolveProxy(quint16 port) { resolveProxy(QString(), port); }
+    inline void resolveProxy(quint16 port)
+    {
+        resolveProxy(QString(), port);
+    }
 
     void resetSocketLayer();
     virtual bool flush();
@@ -142,24 +155,24 @@ public:
     void setError(QAbstractSocket::SocketError errorCode, const QString &errorString);
     void setErrorAndEmit(QAbstractSocket::SocketError errorCode, const QString &errorString);
 
-    qint64 readBufferMaxSize;
-    bool isBuffered;
-    bool hasPendingData;
+    qint64      readBufferMaxSize;
+    bool        isBuffered;
+    bool        hasPendingData;
 
-    QTimer *connectTimer;
+    QTimer    *connectTimer;
 
-    int hostLookupId;
+    int    hostLookupId;
 
-    QAbstractSocket::SocketType socketType;
-    QAbstractSocket::SocketState state;
+    QAbstractSocket::SocketType     socketType;
+    QAbstractSocket::SocketState    state;
 
-    QAbstractSocket::SocketError socketError;
+    QAbstractSocket::SocketError    socketError;
 
-    QAbstractSocket::NetworkLayerProtocol preferredNetworkLayerProtocol;
+    QAbstractSocket::NetworkLayerProtocol    preferredNetworkLayerProtocol;
 
-    bool prePauseReadSocketNotifierState;
-    bool prePauseWriteSocketNotifierState;
-    bool prePauseExceptionSocketNotifierState;
+    bool    prePauseReadSocketNotifierState;
+    bool    prePauseWriteSocketNotifierState;
+    bool    prePauseExceptionSocketNotifierState;
     static void pauseSocketNotifiers(QAbstractSocket*);
     static void resumeSocketNotifiers(QAbstractSocket*);
     static QAbstractSocketEngine* getSocketEngine(QAbstractSocket*);

@@ -70,77 +70,84 @@ public:
 
     void setSteps(int single, int page);
 
-    int minimum, maximum, pageStep, value, position, pressValue;
+    int    minimum, maximum, pageStep, value, position, pressValue;
 
     /**
      * Call effectiveSingleStep() when changing the slider value.
      */
-    int singleStep;
-    int singleStepFromItemView; // If we have itemViews we track the views preferred singleStep value.
-    bool viewMayChangeSingleStep;
+    int     singleStep;
+    int     singleStepFromItemView; // If we have itemViews we track the views preferred singleStep value.
+    bool    viewMayChangeSingleStep;
 
-    float offset_accumulated;
-    uint tracking : 1;
-    uint blocktracking :1;
-    uint pressed : 1;
-    uint invertedAppearance : 1;
-    uint invertedControls : 1;
-    Qt::Orientation orientation;
+    float               offset_accumulated;
+    uint                tracking : 1;
+    uint                blocktracking : 1;
+    uint                pressed : 1;
+    uint                invertedAppearance : 1;
+    uint                invertedControls : 1;
+    Qt::Orientation     orientation;
 
-    QBasicTimer repeatActionTimer;
-    int repeatActionTime;
-    QAbstractSlider::SliderAction repeatAction;
+    QBasicTimer                         repeatActionTimer;
+    int                                 repeatActionTime;
+    QAbstractSlider::SliderAction       repeatAction;
 
 #ifdef QT_KEYPAD_NAVIGATION
-    int origValue;
+    int    origValue;
 
     /**
      */
-    bool isAutoRepeating;
+    bool    isAutoRepeating;
 
     /**
      * When we're auto repeating, we multiply singleStep with this value to
      * get our effective step.
      */
-    qreal repeatMultiplier;
+    qreal    repeatMultiplier;
 
     /**
      * The time of when the first auto repeating key press event occurs.
      */
-    QElapsedTimer firstRepeat;
-
+    QElapsedTimer    firstRepeat;
 #endif
 
     inline int effectiveSingleStep() const
     {
         return singleStep
 #ifdef QT_KEYPAD_NAVIGATION
-        * repeatMultiplier
+               * repeatMultiplier
 #endif
         ;
     }
     void itemviewChangeSingleStep(int step);
 
-    virtual int bound(int val) const { return qMax(minimum, qMin(maximum, val)); }
+    virtual int bound(int val) const
+    {
+        return qMax(minimum, qMin(maximum, val));
+    }
     inline int overflowSafeAdd(int add) const
     {
-        int newValue = value + add;
+        int    newValue = value + add;
+
         if (add > 0 && newValue < value)
             newValue = maximum;
         else if (add < 0 && newValue > value)
             newValue = minimum;
+
         return newValue;
     }
     inline void setAdjustedSliderPosition(int position)
     {
         Q_Q(QAbstractSlider);
-        if (q->style()->styleHint(QStyle::SH_Slider_StopMouseOverSlider, 0, q)) {
-            if ((position > pressValue - 2 * pageStep) && (position < pressValue + 2 * pageStep)) {
+        if (q->style()->styleHint(QStyle::SH_Slider_StopMouseOverSlider, 0, q))
+        {
+            if ((position > pressValue - 2 * pageStep) && (position < pressValue + 2 * pageStep))
+            {
                 repeatAction = QAbstractSlider::SliderNoAction;
                 q->setSliderPosition(pressValue);
                 return;
             }
         }
+
         q->triggerAction(repeatAction);
     }
     bool scrollByDelta(Qt::Orientation orientation, Qt::KeyboardModifiers modifiers, int delta);

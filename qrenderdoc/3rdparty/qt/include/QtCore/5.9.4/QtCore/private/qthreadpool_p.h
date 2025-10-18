@@ -62,9 +62,11 @@
 
 QT_BEGIN_NAMESPACE
 
-class QueuePage {
+class QueuePage
+{
 public:
-    enum {
+    enum
+    {
         MaxPageSize = 256
     };
 
@@ -74,42 +76,49 @@ public:
         push(runnable);
     }
 
-    bool isFull() {
+    bool isFull()
+    {
         return m_lastIndex >= MaxPageSize - 1;
     }
 
-    bool isFinished() {
+    bool isFinished()
+    {
         return m_firstIndex > m_lastIndex;
     }
 
-    void push(QRunnable *runnable) {
+    void push(QRunnable *runnable)
+    {
         Q_ASSERT(runnable != nullptr);
         Q_ASSERT(!isFull());
-        m_lastIndex += 1;
-        m_entries[m_lastIndex] = runnable;
+        m_lastIndex             += 1;
+        m_entries[m_lastIndex]  = runnable;
     }
 
-    void skipToNextOrEnd() {
-        while (!isFinished() && m_entries[m_firstIndex] == nullptr) {
+    void skipToNextOrEnd()
+    {
+        while (!isFinished() && m_entries[m_firstIndex] == nullptr)
+        {
             m_firstIndex += 1;
         }
     }
 
-    QRunnable *first() {
+    QRunnable* first()
+    {
         Q_ASSERT(!isFinished());
-        QRunnable *runnable = m_entries[m_firstIndex];
+        QRunnable    *runnable = m_entries[m_firstIndex];
         Q_ASSERT(runnable);
         return runnable;
     }
 
-    QRunnable *pop() {
+    QRunnable* pop()
+    {
         Q_ASSERT(!isFinished());
-        QRunnable *runnable = first();
+        QRunnable    *runnable = first();
         Q_ASSERT(runnable);
 
         // clear the entry although this should not be necessary
         m_entries[m_firstIndex] = nullptr;
-        m_firstIndex += 1;
+        m_firstIndex            += 1;
 
         // make sure the next runnable returned by first() is not a nullptr
         skipToNextOrEnd();
@@ -117,34 +126,42 @@ public:
         return runnable;
     }
 
-    bool tryTake(QRunnable *runnable) {
+    bool tryTake(QRunnable *runnable)
+    {
         Q_ASSERT(!isFinished());
-        for (int i = m_firstIndex; i <= m_lastIndex; i++) {
-            if (m_entries[i] == runnable) {
+
+        for (int i = m_firstIndex; i <= m_lastIndex; i++)
+        {
+            if (m_entries[i] == runnable)
+            {
                 m_entries[i] = nullptr;
-                if (i == m_firstIndex) {
+                if (i == m_firstIndex)
+                {
                     // make sure first() does not return a nullptr
                     skipToNextOrEnd();
                 }
+
                 return true;
             }
         }
+
         return false;
     }
 
-    int priority() const {
+    int priority() const
+    {
         return m_priority;
     }
 
 private:
-    int m_priority = 0;
-    int m_firstIndex = 0;
-    int m_lastIndex = -1;
-    QRunnable *m_entries[MaxPageSize];
+    int             m_priority      = 0;
+    int             m_firstIndex    = 0;
+    int             m_lastIndex     = -1;
+    QRunnable       *m_entries[MaxPageSize];
 };
 
 class QThreadPoolThread;
-class Q_CORE_EXPORT QThreadPoolPrivate : public QObjectPrivate
+class Q_CORE_EXPORT    QThreadPoolPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QThreadPool)
     friend class QThreadPoolThread;
@@ -166,21 +183,20 @@ public:
     void stealAndRunRunnable(QRunnable *runnable);
     void deletePageIfFinished(QueuePage *page);
 
-    mutable QMutex mutex;
-    QList<QThreadPoolThread *> allThreads;
-    QQueue<QThreadPoolThread *> waitingThreads;
-    QQueue<QThreadPoolThread *> expiredThreads;
-    QVector<QueuePage*> queue;
-    QWaitCondition noActiveThreads;
+    mutable QMutex                  mutex;
+    QList<QThreadPoolThread*>       allThreads;
+    QQueue<QThreadPoolThread*>      waitingThreads;
+    QQueue<QThreadPoolThread*>      expiredThreads;
+    QVector<QueuePage*>             queue;
+    QWaitCondition                  noActiveThreads;
 
-    bool isExiting;
-    int expiryTimeout;
-    int maxThreadCount;
-    int reservedThreads;
-    int activeThreads;
+    bool    isExiting;
+    int     expiryTimeout;
+    int     maxThreadCount;
+    int     reservedThreads;
+    int     activeThreads;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_THREAD
 #endif

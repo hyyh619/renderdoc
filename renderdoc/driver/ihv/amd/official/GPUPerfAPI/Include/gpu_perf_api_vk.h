@@ -1,4 +1,4 @@
-//==============================================================================
+// ==============================================================================
 // Copyright (c) 2017-2021 Advanced Micro Devices, Inc. All rights reserved.
 /// @author AMD Developer Tools Team
 /// @file
@@ -6,7 +6,7 @@
 ///         the Vulkan version of GPUPerfAPI. It defines structures that should
 ///         be passed to the GPA_OpenContext calls when using GPUPerfAPI with
 ///         Vulkan.
-//==============================================================================
+// ==============================================================================
 
 #ifndef GPU_PERFORMANCE_API_GPU_PERF_API_VK_H_
 #define GPU_PERFORMANCE_API_GPU_PERF_API_VK_H_
@@ -39,9 +39,9 @@
 /// to reflect the Vulkan objects on which profiling will take place.
 typedef struct GpaVkContextOpenInfoType
 {
-    VkInstance       instance;         ///< The instance on which to profile.
-    VkPhysicalDevice physical_device;  ///< The physical device on which to profile.
-    VkDevice         device;           ///< The device on which to profile.
+    VkInstance          instance;      ///< The instance on which to profile.
+    VkPhysicalDevice    physical_device; ///< The physical device on which to profile.
+    VkDevice            device;        ///< The device on which to profile.
 } GpaVkContextOpenInfo;
 
 #endif  // GPU_PERFORMANCE_API_GPU_PERF_API_VK_H_

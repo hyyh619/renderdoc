@@ -63,8 +63,10 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace WinRTSocketEngine {
-    enum ErrorString {
+namespace WinRTSocketEngine
+{
+    enum ErrorString
+    {
         NonBlockingInitFailedErrorString,
         BroadcastingInitFailedErrorString,
         NoIpV6ErrorString,
@@ -99,12 +101,13 @@ namespace WinRTSocketEngine {
 class QNativeSocketEnginePrivate;
 class SocketEngineWorker;
 
-struct WinRtDatagram {
-    QByteArray data;
+struct WinRtDatagram
+{
+    QByteArray      data;
     QIpPacketHeader header;
 };
 
-class Q_AUTOTEST_EXPORT QNativeSocketEngine : public QAbstractSocketEngine
+class Q_AUTOTEST_EXPORT    QNativeSocketEngine : public QAbstractSocketEngine
 {
     Q_OBJECT
 public:
@@ -139,7 +142,7 @@ public:
     qint64 read(char *data, qint64 maxlen);
     qint64 write(const char *data, qint64 len);
 
-    qint64 readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0, PacketHeaderOptions = WantNone);
+    qint64    readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0, PacketHeaderOptions = WantNone);
     qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader &header);
     bool hasPendingDatagrams() const;
     qint64 pendingDatagramSize() const;
@@ -194,11 +197,11 @@ public:
     QNativeSocketEnginePrivate();
     ~QNativeSocketEnginePrivate();
 
-    qintptr socketDescriptor;
-    SocketEngineWorker *worker;
+    qintptr                 socketDescriptor;
+    SocketEngineWorker      *worker;
 
-    bool notifyOnRead, notifyOnWrite, notifyOnException;
-    QAtomicInt closingDown;
+    bool            notifyOnRead, notifyOnWrite, notifyOnException;
+    QAtomicInt      closingDown;
 
     void setError(QAbstractSocket::SocketError error, WinRTSocketEngine::ErrorString errorString) const;
 
@@ -212,31 +215,35 @@ public:
     bool fetchConnectionParameters();
 
 private:
-    inline ABI::Windows::Networking::Sockets::IStreamSocket *tcpSocket() const
-        { return reinterpret_cast<ABI::Windows::Networking::Sockets::IStreamSocket *>(socketDescriptor); }
-    inline ABI::Windows::Networking::Sockets::IDatagramSocket *udpSocket() const
-        { return reinterpret_cast<ABI::Windows::Networking::Sockets::IDatagramSocket *>(socketDescriptor); }
-    Microsoft::WRL::ComPtr<ABI::Windows::Networking::Sockets::IStreamSocketListener> tcpListener;
+    inline ABI::Windows::Networking::Sockets::IStreamSocket* tcpSocket() const
+    {
+        return reinterpret_cast<ABI::Windows::Networking::Sockets::IStreamSocket*>(socketDescriptor);
+    }
+    inline ABI::Windows::Networking::Sockets::IDatagramSocket* udpSocket() const
+    {
+        return reinterpret_cast<ABI::Windows::Networking::Sockets::IDatagramSocket*>(socketDescriptor);
+    }
+    Microsoft::WRL::ComPtr<ABI::Windows::Networking::Sockets::IStreamSocketListener>    tcpListener;
 
     // In case of TCP readMutex protects readBytes and bytesAvailable. In case of UDP it is
     // pendingDatagrams. They are written inside native callbacks (handleReadyRead and
     // handleNewDatagrams/putIntoPendingDatagramsList)
-    mutable QMutex readMutex;
+    mutable QMutex    readMutex;
 
     // Protected by readMutex. Written in handleReadyRead (native callback)
-    QAtomicInteger<int> bytesAvailable;
+    QAtomicInteger<int>    bytesAvailable;
 
     // Protected by readMutex. Written in handleNewData/putIntoPendingData (native callback)
-    QVector<QByteArray> pendingData;
+    QVector<QByteArray>    pendingData;
 
     // Protected by readMutex. Written in handleNewDatagrams/putIntoPendingDatagramsList
-    QList<WinRtDatagram> pendingDatagrams;
+    QList<WinRtDatagram>    pendingDatagrams;
 
-    QList<ABI::Windows::Networking::Sockets::IStreamSocket *> pendingConnections;
-    QList<ABI::Windows::Networking::Sockets::IStreamSocket *> currentConnections;
-    QEventLoop eventLoop;
-    QAbstractSocket *sslSocket;
-    EventRegistrationToken connectionToken;
+    QList<ABI::Windows::Networking::Sockets::IStreamSocket*>    pendingConnections;
+    QList<ABI::Windows::Networking::Sockets::IStreamSocket*>    currentConnections;
+    QEventLoop                                                  eventLoop;
+    QAbstractSocket                                             *sslSocket;
+    EventRegistrationToken                                      connectionToken;
 
     HRESULT handleNewDatagram(ABI::Windows::Networking::Sockets::IDatagramSocket *socket,
                               ABI::Windows::Networking::Sockets::IDatagramSocketMessageReceivedEventArgs *args);

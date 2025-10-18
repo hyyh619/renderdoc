@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QFramePrivate;
 class QStyleOptionFrame;
 
-class Q_WIDGETS_EXPORT QFrame : public QWidget
+class Q_WIDGETS_EXPORT    QFrame : public QWidget
 {
     Q_OBJECT
 
@@ -61,7 +61,7 @@ class Q_WIDGETS_EXPORT QFrame : public QWidget
     Q_PROPERTY(QRect frameRect READ frameRect WRITE setFrameRect DESIGNABLE false)
 
 public:
-    explicit QFrame(QWidget* parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit QFrame(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
     ~QFrame();
 
     int frameStyle() const;
@@ -71,32 +71,35 @@ public:
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-    enum Shape {
-        NoFrame  = 0, // no frame
-        Box = 0x0001, // rectangular box
-        Panel = 0x0002, // rectangular panel
-        WinPanel = 0x0003, // rectangular panel (Windows)
-        HLine = 0x0004, // horizontal line
-        VLine = 0x0005, // vertical line
+    enum Shape
+    {
+        NoFrame     = 0, // no frame
+        Box         = 0x0001, // rectangular box
+        Panel       = 0x0002, // rectangular panel
+        WinPanel    = 0x0003, // rectangular panel (Windows)
+        HLine       = 0x0004, // horizontal line
+        VLine       = 0x0005, // vertical line
         StyledPanel = 0x0006 // rectangular panel depending on the GUI style
     };
     Q_ENUM(Shape)
-    enum Shadow {
-        Plain = 0x0010, // plain line
-        Raised = 0x0020, // raised shadow effect
-        Sunken = 0x0030 // sunken shadow effect
+    enum Shadow
+    {
+        Plain   = 0x0010, // plain line
+        Raised  = 0x0020, // raised shadow effect
+        Sunken  = 0x0030 // sunken shadow effect
     };
     Q_ENUM(Shadow)
 
-    enum StyleMask {
+    enum StyleMask
+    {
         Shadow_Mask = 0x00f0, // mask for the shadow
-        Shape_Mask = 0x000f // mask for the shape
+        Shape_Mask  = 0x000f // mask for the shape
     };
 
     Shape frameShape() const;
-    void setFrameShape(Shape);
+    void    setFrameShape(Shape);
     Shadow frameShadow() const;
-    void setFrameShadow(Shadow);
+    void    setFrameShadow(Shadow);
 
     int lineWidth() const;
     void setLineWidth(int);
@@ -105,17 +108,17 @@ public:
     void setMidLineWidth(int);
 
     QRect frameRect() const;
-    void setFrameRect(const QRect &);
+    void setFrameRect(const QRect&);
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
-    void drawFrame(QPainter *);
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
+    void drawFrame(QPainter*);
 
 
 protected:
-    QFrame(QFramePrivate &dd, QWidget* parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+    QFrame(QFramePrivate &dd, QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
     void initStyleOption(QStyleOptionFrame *option) const;
 
 private:

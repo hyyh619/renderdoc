@@ -51,35 +51,34 @@ QT_BEGIN_NAMESPACE
 class QDirIterator;
 class QDirPrivate;
 
-class Q_CORE_EXPORT QDir
+class Q_CORE_EXPORT    QDir
 {
 public:
-    enum Filter { Dirs        = 0x001,
-                  Files       = 0x002,
-                  Drives      = 0x004,
-                  NoSymLinks  = 0x008,
-                  AllEntries  = Dirs | Files | Drives,
-                  TypeMask    = 0x00f,
+    enum Filter { Dirs          = 0x001,
+                  Files         = 0x002,
+                  Drives        = 0x004,
+                  NoSymLinks    = 0x008,
+                  AllEntries    = Dirs | Files | Drives,
+                  TypeMask      = 0x00f,
 
-                  Readable    = 0x010,
-                  Writable    = 0x020,
-                  Executable  = 0x040,
+                  Readable          = 0x010,
+                  Writable          = 0x020,
+                  Executable        = 0x040,
                   PermissionMask    = 0x070,
 
-                  Modified    = 0x080,
-                  Hidden      = 0x100,
-                  System      = 0x200,
+                  Modified  = 0x080,
+                  Hidden    = 0x100,
+                  System    = 0x200,
 
-                  AccessMask  = 0x3F0,
+                  AccessMask = 0x3F0,
 
-                  AllDirs       = 0x400,
-                  CaseSensitive = 0x800,
-                  NoDot         = 0x2000,
-                  NoDotDot      = 0x4000,
-                  NoDotAndDotDot = NoDot | NoDotDot,
+                  AllDirs           = 0x400,
+                  CaseSensitive     = 0x800,
+                  NoDot             = 0x2000,
+                  NoDotDot          = 0x4000,
+                  NoDotAndDotDot    = NoDot | NoDotDot,
 
-                  NoFilter = -1
-    };
+                  NoFilter = -1};
     Q_DECLARE_FLAGS(Filters, Filter)
 
     enum SortFlag { Name        = 0x00,
@@ -94,24 +93,28 @@ public:
                     DirsLast    = 0x20,
                     LocaleAware = 0x40,
                     Type        = 0x80,
-                    NoSort = -1
-    };
+                    NoSort      = -1};
     Q_DECLARE_FLAGS(SortFlags, SortFlag)
 
-    QDir(const QDir &);
+    QDir(const QDir&);
     QDir(const QString &path = QString());
     QDir(const QString &path, const QString &nameFilter,
          SortFlags sort = SortFlags(Name | IgnoreCase), Filters filter = AllEntries);
     ~QDir();
 
-    QDir &operator=(const QDir &);
-    QDir &operator=(const QString &path);
+    QDir&operator=(const QDir&);
+    QDir&operator=(const QString &path);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QDir &operator=(QDir &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QDir&operator=(QDir &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
     void swap(QDir &other) Q_DECL_NOTHROW
-    { qSwap(d_ptr, other.d_ptr); }
+    {
+        qSwap(d_ptr, other.d_ptr);
+    }
 
     void setPath(const QString &path);
     QString path() const;
@@ -170,13 +173,22 @@ public:
     bool isRoot() const;
 
     static bool isRelativePath(const QString &path);
-    inline static bool isAbsolutePath(const QString &path) { return !isRelativePath(path); }
+    inline static bool isAbsolutePath(const QString &path)
+    {
+        return !isRelativePath(path);
+    }
     bool isRelative() const;
-    inline bool isAbsolute() const { return !isRelative(); }
+    inline bool isAbsolute() const
+    {
+        return !isRelative();
+    }
     bool makeAbsolute();
 
     bool operator==(const QDir &dir) const;
-    inline bool operator!=(const QDir &dir) const {  return !operator==(dir); }
+    inline bool operator!=(const QDir &dir) const
+    {
+        return !operator==(dir);
+    }
 
     bool remove(const QString &fileName);
     bool rename(const QString &oldName, const QString &newName);
@@ -196,14 +208,26 @@ public:
     static QChar separator(); // ### Qt6: Make it inline
 
     static bool setCurrent(const QString &path);
-    static inline QDir current() { return QDir(currentPath()); }
+    static inline QDir current()
+    {
+        return QDir(currentPath());
+    }
     static QString currentPath();
 
-    static inline QDir home() { return QDir(homePath()); }
+    static inline QDir home()
+    {
+        return QDir(homePath());
+    }
     static QString homePath();
-    static inline QDir root() { return QDir(rootPath()); }
+    static inline QDir root()
+    {
+        return QDir(rootPath());
+    }
     static QString rootPath();
-    static inline QDir temp() { return QDir(tempPath()); }
+    static inline QDir temp()
+    {
+        return QDir(tempPath());
+    }
     static QString tempPath();
 
 #ifndef QT_NO_REGEXP
@@ -217,7 +241,7 @@ public:
 protected:
     explicit QDir(QDirPrivate &d);
 
-    QSharedDataPointer<QDirPrivate> d_ptr;
+    QSharedDataPointer<QDirPrivate>    d_ptr;
 
 private:
     friend class QDirIterator;
@@ -227,7 +251,6 @@ private:
     {
         return d_ptr.constData();
     }
-
 };
 
 Q_DECLARE_SHARED(QDir)

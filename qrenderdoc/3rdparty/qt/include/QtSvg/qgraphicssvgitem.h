@@ -53,10 +53,10 @@ QT_BEGIN_NAMESPACE
 class QSvgRenderer;
 class QGraphicsSvgItemPrivate;
 
-class Q_SVG_EXPORT QGraphicsSvgItem : public QGraphicsObject
+class Q_SVG_EXPORT    QGraphicsSvgItem : public QGraphicsObject
 {
     Q_OBJECT
-    Q_INTERFACES(QGraphicsItem)
+                      Q_INTERFACES(QGraphicsItem)
     Q_PROPERTY(QString elementId READ elementId WRITE setElementId)
     Q_PROPERTY(QSize maximumCacheSize READ maximumCacheSize WRITE setMaximumCacheSize)
 
@@ -65,7 +65,7 @@ public:
     QGraphicsSvgItem(const QString &fileName, QGraphicsItem *parentItem = Q_NULLPTR);
 
     void setSharedRenderer(QSvgRenderer *renderer);
-    QSvgRenderer *renderer() const;
+    QSvgRenderer* renderer() const;
 
     void setElementId(const QString &id);
     QString elementId() const;
@@ -93,7 +93,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_GRAPHICSVIEW or QT_NO_WIDGETS
 
 #endif // QGRAPHICSSVGITEM_H

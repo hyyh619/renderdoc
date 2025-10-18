@@ -48,7 +48,7 @@ QT_REQUIRE_CONFIG(sizegrip);
 QT_BEGIN_NAMESPACE
 
 class QSizeGripPrivate;
-class Q_WIDGETS_EXPORT QSizeGrip : public QWidget
+class Q_WIDGETS_EXPORT    QSizeGrip : public QWidget
 {
     Q_OBJECT
 public:
@@ -59,15 +59,15 @@ public:
     void setVisible(bool) Q_DECL_OVERRIDE;
 
 protected:
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
     void mouseReleaseEvent(QMouseEvent *mouseEvent) Q_DECL_OVERRIDE;
     void moveEvent(QMoveEvent *moveEvent) Q_DECL_OVERRIDE;
     void showEvent(QShowEvent *showEvent) Q_DECL_OVERRIDE;
     void hideEvent(QHideEvent *hideEvent) Q_DECL_OVERRIDE;
-    bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
 
 public:
 

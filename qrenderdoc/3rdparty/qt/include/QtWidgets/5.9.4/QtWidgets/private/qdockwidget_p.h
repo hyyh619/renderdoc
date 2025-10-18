@@ -71,22 +71,23 @@ class QDockWidgetPrivate : public QWidgetPrivate
 {
     Q_DECLARE_PUBLIC(QDockWidget)
 
-    struct DragState {
-        QPoint pressPos;
-        bool dragging;
+    struct DragState
+    {
+        QPoint      pressPos;
+        bool        dragging;
         QLayoutItem *widgetItem;
-        bool ownWidgetItem;
-        bool nca;
-        bool ctrlDrag;
+        bool        ownWidgetItem;
+        bool        nca;
+        bool        ctrlDrag;
     };
 
 public:
     inline QDockWidgetPrivate()
         : QWidgetPrivate(), state(0),
-          features(QDockWidget::DockWidgetClosable
-                   | QDockWidget::DockWidgetMovable
-                   | QDockWidget::DockWidgetFloatable),
-          allowedAreas(Qt::AllDockWidgetAreas), resizer(0)
+        features(QDockWidget::DockWidgetClosable
+                 | QDockWidget::DockWidgetMovable
+                 | QDockWidget::DockWidgetFloatable),
+        allowedAreas(Qt::AllDockWidgetAreas), resizer(0)
     { }
 
     void init();
@@ -94,18 +95,18 @@ public:
     void _q_toggleTopLevel(); // private slot
 
     void updateButtons();
-    DragState *state;
+    DragState    *state;
 
-    QDockWidget::DockWidgetFeatures features;
-    Qt::DockWidgetAreas allowedAreas;
+    QDockWidget::DockWidgetFeatures     features;
+    Qt::DockWidgetAreas                 allowedAreas;
 
 #ifndef QT_NO_ACTION
-    QAction *toggleViewAction;
+    QAction    *toggleViewAction;
 #endif
 
 //    QMainWindow *findMainWindow(QWidget *widget) const;
-    QRect undockedGeometry;
-    QString fixedWindowTitle;
+    QRect       undockedGeometry;
+    QString     fixedWindowTitle;
 
     bool mousePressEvent(QMouseEvent *event);
     bool mouseDoubleClickEvent(QMouseEvent *event);
@@ -126,18 +127,18 @@ public:
     bool isAnimating() const;
 
 private:
-    QWidgetResizeHandler *resizer;
+    QWidgetResizeHandler    *resizer;
 };
 
-class Q_WIDGETS_EXPORT QDockWidgetLayout : public QLayout
+class Q_WIDGETS_EXPORT    QDockWidgetLayout : public QLayout
 {
     Q_OBJECT
 public:
     QDockWidgetLayout(QWidget *parent = 0);
     ~QDockWidgetLayout();
     void addItem(QLayoutItem *item) Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
 
     QSize maximumSize() const Q_DECL_OVERRIDE;
@@ -149,11 +150,14 @@ public:
     void setGeometry(const QRect &r) Q_DECL_OVERRIDE;
 
     enum Role { Content, CloseButton, FloatButton, TitleBar, RoleCount };
-    QWidget *widgetForRole(Role r) const;
+    QWidget* widgetForRole(Role r) const;
     void setWidgetForRole(Role r, QWidget *w);
-    QLayoutItem *itemForRole(Role r) const;
+    QLayoutItem* itemForRole(Role r) const;
 
-    QRect titleArea() const { return _titleArea; }
+    QRect titleArea() const
+    {
+        return _titleArea;
+    }
 
     int minimumTitleWidth() const;
     int titleHeight() const;
@@ -164,11 +168,11 @@ public:
 
     void setVerticalTitleBar(bool b);
 
-    bool verticalTitleBar;
+    bool    verticalTitleBar;
 
 private:
-    QVector<QLayoutItem*> item_list;
-    QRect _titleArea;
+    QVector<QLayoutItem*>       item_list;
+    QRect                       _titleArea;
 };
 
 /* The size hints of a QDockWidget will depend on whether it is docked or not.
@@ -183,22 +187,25 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
 private:
-    inline QLayoutItem *dockWidgetChildItem() const;
-    inline QDockWidgetLayout *dockWidgetLayout() const;
+    inline QLayoutItem* dockWidgetChildItem() const;
+    inline QDockWidgetLayout* dockWidgetLayout() const;
 };
 
-inline QLayoutItem *QDockWidgetItem::dockWidgetChildItem() const
+inline QLayoutItem* QDockWidgetItem::dockWidgetChildItem() const
 {
     if (QDockWidgetLayout *layout = dockWidgetLayout())
         return layout->itemForRole(QDockWidgetLayout::Content);
+
     return 0;
 }
 
-inline QDockWidgetLayout *QDockWidgetItem::dockWidgetLayout() const
+inline QDockWidgetLayout* QDockWidgetItem::dockWidgetLayout() const
 {
-    QWidget *w = const_cast<QDockWidgetItem*>(this)->widget();
+    QWidget    *w = const_cast<QDockWidgetItem*>(this)->widget();
+
     if (w != 0)
         return qobject_cast<QDockWidgetLayout*>(w->layout());
+
     return 0;
 }
 

@@ -56,10 +56,11 @@ QT_BEGIN_NAMESPACE
 
 class QTimeZone;
 
-class Q_CORE_EXPORT QDate
+class Q_CORE_EXPORT    QDate
 {
 public:
-    enum MonthNameType {
+    enum MonthNameType
+    {
         DateFormat = 0,
         StandaloneFormat
     };
@@ -69,8 +70,14 @@ public:
     Q_DECL_CONSTEXPR QDate() : jd(nullJd()) {}
     QDate(int y, int m, int d);
 
-    Q_DECL_CONSTEXPR bool isNull() const { return !isValid(); }
-    Q_DECL_CONSTEXPR bool isValid() const { return jd >= minJd() && jd <= maxJd(); }
+    Q_DECL_CONSTEXPR bool isNull() const
+    {
+        return !isValid();
+    }
+    Q_DECL_CONSTEXPR bool isValid() const
+    {
+        return jd >= minJd() && jd <= maxJd();
+    }
 
     int year() const;
     int month() const;
@@ -91,9 +98,14 @@ public:
     QString toString(Qt::DateFormat f = Qt::TextDate) const;
     QString toString(const QString &format) const;
 #endif
-#if QT_DEPRECATED_SINCE(5,0)
-QT_DEPRECATED inline bool setYMD(int y, int m, int d)
-{ if (uint(y) <= 99) y += 1900; return setDate(y, m, d); }
+#if QT_DEPRECATED_SINCE(5, 0)
+    QT_DEPRECATED inline bool setYMD(int y, int m, int d)
+    {
+        if (uint(y) <= 99)
+            y += 1900;
+
+        return setDate(y, m, d);
+    }
 #endif
 
     bool setDate(int year, int month, int day);
@@ -106,14 +118,32 @@ QT_DEPRECATED inline bool setYMD(int y, int m, int d)
     Q_REQUIRED_RESULT QDate addDays(qint64 days) const;
     Q_REQUIRED_RESULT QDate addMonths(int months) const;
     Q_REQUIRED_RESULT QDate addYears(int years) const;
-    qint64 daysTo(const QDate &) const;
+    qint64 daysTo(const QDate&) const;
 
-    Q_DECL_CONSTEXPR bool operator==(const QDate &other) const { return jd == other.jd; }
-    Q_DECL_CONSTEXPR bool operator!=(const QDate &other) const { return jd != other.jd; }
-    Q_DECL_CONSTEXPR bool operator< (const QDate &other) const { return jd <  other.jd; }
-    Q_DECL_CONSTEXPR bool operator<=(const QDate &other) const { return jd <= other.jd; }
-    Q_DECL_CONSTEXPR bool operator> (const QDate &other) const { return jd >  other.jd; }
-    Q_DECL_CONSTEXPR bool operator>=(const QDate &other) const { return jd >= other.jd; }
+    Q_DECL_CONSTEXPR bool operator==(const QDate &other) const
+    {
+        return jd == other.jd;
+    }
+    Q_DECL_CONSTEXPR bool operator!=(const QDate &other) const
+    {
+        return jd != other.jd;
+    }
+    Q_DECL_CONSTEXPR bool operator<(const QDate &other) const
+    {
+        return jd <  other.jd;
+    }
+    Q_DECL_CONSTEXPR bool operator<=(const QDate &other) const
+    {
+        return jd <= other.jd;
+    }
+    Q_DECL_CONSTEXPR bool operator>(const QDate &other) const
+    {
+        return jd >  other.jd;
+    }
+    Q_DECL_CONSTEXPR bool operator>=(const QDate &other) const
+    {
+        return jd >= other.jd;
+    }
 
     static QDate currentDate();
 #ifndef QT_NO_DATESTRING
@@ -124,36 +154,53 @@ QT_DEPRECATED inline bool setYMD(int y, int m, int d)
     static bool isLeapYear(int year);
 
     static Q_DECL_CONSTEXPR inline QDate fromJulianDay(qint64 jd_)
-    { return jd_ >= minJd() && jd_ <= maxJd() ? QDate(jd_) : QDate() ; }
-    Q_DECL_CONSTEXPR inline qint64 toJulianDay() const { return jd; }
+    {
+        return jd_ >= minJd() && jd_ <= maxJd() ? QDate(jd_) : QDate();
+    }
+    Q_DECL_CONSTEXPR inline qint64 toJulianDay() const
+    {
+        return jd;
+    }
 
 private:
     // using extra parentheses around min to avoid expanding it if it is a macro
-    static Q_DECL_CONSTEXPR inline qint64 nullJd() { return (std::numeric_limits<qint64>::min)(); }
-    static Q_DECL_CONSTEXPR inline qint64 minJd() { return Q_INT64_C(-784350574879); }
-    static Q_DECL_CONSTEXPR inline qint64 maxJd() { return Q_INT64_C( 784354017364); }
+    static Q_DECL_CONSTEXPR inline qint64 nullJd()
+    {
+        return (std::numeric_limits<qint64>::min)();
+    }
+    static Q_DECL_CONSTEXPR inline qint64 minJd()
+    {
+        return Q_INT64_C(-784350574879);
+    }
+    static Q_DECL_CONSTEXPR inline qint64 maxJd()
+    {
+        return Q_INT64_C(784354017364);
+    }
 
-    qint64 jd;
+    qint64    jd;
 
     friend class QDateTime;
     friend class QDateTimePrivate;
 #ifndef QT_NO_DATASTREAM
-    friend Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QDate &);
-    friend Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QDate &);
+    friend Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QDate&);
+    friend Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QDate&);
 #endif
 };
 Q_DECLARE_TYPEINFO(QDate, Q_MOVABLE_TYPE);
 
-class Q_CORE_EXPORT QTime
+class Q_CORE_EXPORT    QTime
 {
     explicit Q_DECL_CONSTEXPR QTime(int ms) : mds(ms)
     {}
 public:
-    Q_DECL_CONSTEXPR QTime(): mds(NullTime)
+    Q_DECL_CONSTEXPR QTime() : mds(NullTime)
     {}
     QTime(int h, int m, int s = 0, int ms = 0);
 
-    Q_DECL_CONSTEXPR bool isNull() const { return mds == NullTime; }
+    Q_DECL_CONSTEXPR bool isNull() const
+    {
+        return mds == NullTime;
+    }
     bool isValid() const;
 
     int hour() const;
@@ -167,19 +214,43 @@ public:
     bool setHMS(int h, int m, int s, int ms = 0);
 
     Q_REQUIRED_RESULT QTime addSecs(int secs) const;
-    int secsTo(const QTime &) const;
+    int secsTo(const QTime&) const;
     Q_REQUIRED_RESULT QTime addMSecs(int ms) const;
-    int msecsTo(const QTime &) const;
+    int msecsTo(const QTime&) const;
 
-    Q_DECL_CONSTEXPR bool operator==(const QTime &other) const { return mds == other.mds; }
-    Q_DECL_CONSTEXPR bool operator!=(const QTime &other) const { return mds != other.mds; }
-    Q_DECL_CONSTEXPR bool operator< (const QTime &other) const { return mds <  other.mds; }
-    Q_DECL_CONSTEXPR bool operator<=(const QTime &other) const { return mds <= other.mds; }
-    Q_DECL_CONSTEXPR bool operator> (const QTime &other) const { return mds >  other.mds; }
-    Q_DECL_CONSTEXPR bool operator>=(const QTime &other) const { return mds >= other.mds; }
+    Q_DECL_CONSTEXPR bool operator==(const QTime &other) const
+    {
+        return mds == other.mds;
+    }
+    Q_DECL_CONSTEXPR bool operator!=(const QTime &other) const
+    {
+        return mds != other.mds;
+    }
+    Q_DECL_CONSTEXPR bool operator<(const QTime &other) const
+    {
+        return mds <  other.mds;
+    }
+    Q_DECL_CONSTEXPR bool operator<=(const QTime &other) const
+    {
+        return mds <= other.mds;
+    }
+    Q_DECL_CONSTEXPR bool operator>(const QTime &other) const
+    {
+        return mds >  other.mds;
+    }
+    Q_DECL_CONSTEXPR bool operator>=(const QTime &other) const
+    {
+        return mds >= other.mds;
+    }
 
-    static Q_DECL_CONSTEXPR inline QTime fromMSecsSinceStartOfDay(int msecs) { return QTime(msecs); }
-    Q_DECL_CONSTEXPR inline int msecsSinceStartOfDay() const { return mds == NullTime ? 0 : mds; }
+    static Q_DECL_CONSTEXPR inline QTime fromMSecsSinceStartOfDay(int msecs)
+    {
+        return QTime(msecs);
+    }
+    Q_DECL_CONSTEXPR inline int msecsSinceStartOfDay() const
+    {
+        return mds == NullTime ? 0 : mds;
+    }
 
     static QTime currentTime();
 #ifndef QT_NO_DATESTRING
@@ -193,37 +264,43 @@ public:
     int elapsed() const;
 private:
     enum TimeFlag { NullTime = -1 };
-    Q_DECL_CONSTEXPR inline int ds() const { return mds == -1 ? 0 : mds; }
-    int mds;
+    Q_DECL_CONSTEXPR inline int ds() const
+    {
+        return mds == -1 ? 0 : mds;
+    }
+    int    mds;
 
     friend class QDateTime;
     friend class QDateTimePrivate;
 #ifndef QT_NO_DATASTREAM
-    friend Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QTime &);
-    friend Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QTime &);
+    friend Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QTime&);
+    friend Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QTime&);
 #endif
 };
 Q_DECLARE_TYPEINFO(QTime, Q_MOVABLE_TYPE);
 
 class QDateTimePrivate;
 
-class Q_CORE_EXPORT QDateTime
+class Q_CORE_EXPORT    QDateTime
 {
     // ### Qt 6: revisit the optimization
-    struct ShortData {
+    struct ShortData
+    {
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
         quintptr status : 8;
 #endif
         // note: this is only 24 bits on 32-bit systems...
-        qintptr msecs : sizeof(void *) * 8 - 8;
+        qintptr msecs : sizeof(void*) * 8 - 8;
 
 #if Q_BYTE_ORDER == Q_BIG_ENDIAN
         quintptr status : 8;
 #endif
     };
 
-    union Data {
-        enum {
+    union Data
+    {
+        enum
+        {
             // To be of any use, we need at least 60 years around 1970, which
             // is 1,893,456,000,000 ms. That requires 41 bits to store, plus
             // the sign bit. With the status byte, the minimum size is 50 bits.
@@ -233,24 +310,24 @@ class Q_CORE_EXPORT QDateTime
         Data();
         Data(Qt::TimeSpec);
         Data(const Data &other);
-        Data(Data &&other);
-        Data &operator=(const Data &other);
+        Data(Data && other);
+        Data&operator=(const Data &other);
         ~Data();
 
-        bool isShort() const;
-        void detach();
+        bool    isShort() const;
+        void    detach();
 
-        const QDateTimePrivate *operator->() const;
-        QDateTimePrivate *operator->();
+        const QDateTimePrivate* operator->() const;
+        QDateTimePrivate* operator->();
 
-        QDateTimePrivate *d;
-        ShortData data;
+        QDateTimePrivate    *d;
+        ShortData           data;
     };
 
 public:
     QDateTime() Q_DECL_NOEXCEPT_EXPR(Data::CanBeSmall);
-    explicit QDateTime(const QDate &);
-    QDateTime(const QDate &, const QTime &, Qt::TimeSpec spec = Qt::LocalTime);
+    explicit QDateTime(const QDate&);
+    QDateTime(const QDate&, const QTime&, Qt::TimeSpec spec = Qt::LocalTime);
     // ### Qt 6: Merge with above with default offsetSeconds = 0
     QDateTime(const QDate &date, const QTime &time, Qt::TimeSpec spec, int offsetSeconds);
 #if QT_CONFIG(timezone)
@@ -261,11 +338,17 @@ public:
     ~QDateTime();
 
 #ifdef Q_COMPILER_RVALUE_REFS
-    QDateTime &operator=(QDateTime &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QDateTime&operator=(QDateTime &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QDateTime &operator=(const QDateTime &other) Q_DECL_NOTHROW;
+    QDateTime&operator=(const QDateTime &other) Q_DECL_NOTHROW;
 
-    void swap(QDateTime &other) Q_DECL_NOTHROW { qSwap(d.d, other.d.d); }
+    void swap(QDateTime &other) Q_DECL_NOTHROW
+    {
+        qSwap(d.d, other.d.d);
+    }
 
     bool isNull() const;
     bool isValid() const;
@@ -304,23 +387,41 @@ public:
     Q_REQUIRED_RESULT QDateTime addMSecs(qint64 msecs) const;
 
     QDateTime toTimeSpec(Qt::TimeSpec spec) const;
-    inline QDateTime toLocalTime() const { return toTimeSpec(Qt::LocalTime); }
-    inline QDateTime toUTC() const { return toTimeSpec(Qt::UTC); }
+    inline QDateTime toLocalTime() const
+    {
+        return toTimeSpec(Qt::LocalTime);
+    }
+    inline QDateTime toUTC() const
+    {
+        return toTimeSpec(Qt::UTC);
+    }
     QDateTime toOffsetFromUtc(int offsetSeconds) const;
 #if QT_CONFIG(timezone)
     QDateTime toTimeZone(const QTimeZone &toZone) const;
 #endif // timezone
 
-    qint64 daysTo(const QDateTime &) const;
-    qint64 secsTo(const QDateTime &) const;
-    qint64 msecsTo(const QDateTime &) const;
+    qint64 daysTo(const QDateTime&) const;
+    qint64 secsTo(const QDateTime&) const;
+    qint64 msecsTo(const QDateTime&) const;
 
     bool operator==(const QDateTime &other) const;
-    inline bool operator!=(const QDateTime &other) const { return !(*this == other); }
+    inline bool operator!=(const QDateTime &other) const
+    {
+        return !(*this == other);
+    }
     bool operator<(const QDateTime &other) const;
-    inline bool operator<=(const QDateTime &other) const { return !(other < *this); }
-    inline bool operator>(const QDateTime &other) const { return other < *this; }
-    inline bool operator>=(const QDateTime &other) const { return !(*this < other); }
+    inline bool operator<=(const QDateTime &other) const
+    {
+        return !(other < *this);
+    }
+    inline bool operator>(const QDateTime &other) const
+    {
+        return other < *this;
+    }
+    inline bool operator>=(const QDateTime &other) const
+    {
+        return !(*this < other);
+    }
 
 #if QT_DEPRECATED_SINCE(5, 2)
     QT_DEPRECATED void setUtcOffset(int seconds);
@@ -360,38 +461,38 @@ public:
     static QDateTime fromCFDate(CFDateRef date);
     CFDateRef toCFDate() const Q_DECL_CF_RETURNS_RETAINED;
     static QDateTime fromNSDate(const NSDate *date);
-    NSDate *toNSDate() const Q_DECL_NS_RETURNS_AUTORELEASED;
+    NSDate* toNSDate() const Q_DECL_NS_RETURNS_AUTORELEASED;
 #endif
 
 private:
     friend class QDateTimePrivate;
 
-    Data d;
+    Data    d;
 
 #ifndef QT_NO_DATASTREAM
-    friend Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QDateTime &);
-    friend Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QDateTime &);
+    friend Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QDateTime&);
+    friend Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QDateTime&);
 #endif
 
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_NO_DATESTRING)
-    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QDateTime &);
+    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QDateTime&);
 #endif
 };
 Q_DECLARE_SHARED(QDateTime)
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QDate &);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QDate &);
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QTime &);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QTime &);
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &, const QDateTime &);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &, QDateTime &);
+Q_CORE_EXPORT QDataStream & operator<<(QDataStream &, const QDate    &);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QDate&);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QTime&);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QTime&);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream&, const QDateTime&);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream&, QDateTime&);
 #endif // QT_NO_DATASTREAM
 
 #if !defined(QT_NO_DEBUG_STREAM) && !defined(QT_NO_DATESTRING)
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QDate &);
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QTime &);
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QDateTime &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QDate&);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QTime&);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QDateTime&);
 #endif
 
 // QDateTime is not noexcept for now -- to be revised once

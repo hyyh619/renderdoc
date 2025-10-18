@@ -5,12 +5,12 @@ extern "C" {
 #endif
 
 
-#define MSTART 256
-#define RULE 257
-#define RHS 258
-#define ALT 259
-#define ITEM 260
-#define ATOM 261
+#define MSTART  256
+#define RULE    257
+#define RHS     258
+#define ALT     259
+#define ITEM    260
+#define ATOM    261
 
 #ifdef __cplusplus
 }

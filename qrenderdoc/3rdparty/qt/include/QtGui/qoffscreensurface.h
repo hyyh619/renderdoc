@@ -51,7 +51,7 @@ class QOffscreenSurfacePrivate;
 class QScreen;
 class QPlatformOffscreenSurface;
 
-class Q_GUI_EXPORT QOffscreenSurface : public QObject, public QSurface
+class Q_GUI_EXPORT    QOffscreenSurface : public QObject, public QSurface
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QOffscreenSurface)
@@ -74,12 +74,12 @@ public:
 
     QSize size() const Q_DECL_OVERRIDE;
 
-    QScreen *screen() const;
+    QScreen* screen() const;
     void setScreen(QScreen *screen);
 
-    QPlatformOffscreenSurface *handle() const;
+    QPlatformOffscreenSurface* handle() const;
 
-    void *nativeHandle() const;
+    void* nativeHandle() const;
     void setNativeHandle(void *handle);
 
 Q_SIGNALS:
@@ -90,7 +90,7 @@ private Q_SLOTS:
 
 private:
 
-    QPlatformSurface *surfaceHandle() const Q_DECL_OVERRIDE;
+    QPlatformSurface* surfaceHandle() const Q_DECL_OVERRIDE;
 
     Q_DISABLE_COPY(QOffscreenSurface)
 };

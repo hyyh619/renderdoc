@@ -62,14 +62,14 @@ class QPlatformInputContext;
 
 #define QPlatformInputContextFactoryInterface_iid "org.qt-project.Qt.QPlatformInputContextFactoryInterface.5.1"
 
-class Q_GUI_EXPORT QPlatformInputContextPlugin : public QObject
+class Q_GUI_EXPORT    QPlatformInputContextPlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QPlatformInputContextPlugin(QObject *parent = 0);
     ~QPlatformInputContextPlugin();
 
-    virtual QPlatformInputContext *create(const QString &key, const QStringList &paramList) = 0;
+    virtual QPlatformInputContext* create(const QString &key, const QStringList &paramList) = 0;
 };
 
 QT_END_NAMESPACE

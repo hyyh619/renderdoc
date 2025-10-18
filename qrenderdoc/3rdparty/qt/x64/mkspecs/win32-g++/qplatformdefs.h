@@ -60,31 +60,32 @@
 #include <stdlib.h>
 #include <limits.h>
 
-#if !defined(_WIN32_WINNT) || (_WIN32_WINNT-0 < 0x0500)
-typedef enum {
-    NameUnknown           = 0,
-    NameFullyQualifiedDN  = 1,
-    NameSamCompatible     = 2,
-    NameDisplay           = 3,
-    NameUniqueId          = 6,
-    NameCanonical         = 7,
-    NameUserPrincipal     = 8,
-    NameCanonicalEx       = 9,
-    NameServicePrincipal  = 10,
-    NameDnsDomain         = 12
+#if !defined(_WIN32_WINNT) || (_WIN32_WINNT - 0 < 0x0500)
+typedef enum
+{
+    NameUnknown             = 0,
+    NameFullyQualifiedDN    = 1,
+    NameSamCompatible       = 2,
+    NameDisplay             = 3,
+    NameUniqueId            = 6,
+    NameCanonical           = 7,
+    NameUserPrincipal       = 8,
+    NameCanonicalEx         = 9,
+    NameServicePrincipal    = 10,
+    NameDnsDomain           = 12
 } EXTENDED_NAME_FORMAT, *PEXTENDED_NAME_FORMAT;
 #endif
 
 #ifdef QT_LARGEFILE_SUPPORT
-#define QT_STATBUF              struct _stati64         // non-ANSI defs
-#define QT_STATBUF4TSTAT        struct _stati64         // non-ANSI defs
-#define QT_STAT                 ::_stati64
-#define QT_FSTAT                ::_fstati64
+#define QT_STATBUF                  struct _stati64     // non-ANSI defs
+#define QT_STATBUF4TSTAT            struct _stati64     // non-ANSI defs
+#define    QT_STAT                  ::_stati64
+#define QT_FSTAT                    ::_fstati64
 #else
-#define QT_STATBUF              struct _stat            // non-ANSI defs
-#define QT_STATBUF4TSTAT        struct _stat            // non-ANSI defs
-#define QT_STAT                 ::_stat
-#define QT_FSTAT                ::_fstat
+#define QT_STATBUF                  struct _stat        // non-ANSI defs
+#define QT_STATBUF4TSTAT            struct _stat        // non-ANSI defs
+#define    QT_STAT                  ::_stat
+#define QT_FSTAT                    ::_fstat
 #endif
 #define QT_STAT_REG             _S_IFREG
 #define QT_STAT_DIR             _S_IFDIR

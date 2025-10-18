@@ -27,8 +27,8 @@
 #ifndef _NVAPI_INTERFACE_H
 #define _NVAPI_INTERFACE_H
 
-struct NVAPI_INTERFACE_TABLE { const char * func; unsigned int id; };
-struct NVAPI_INTERFACE_TABLE nvapi_interface_table[] =
+struct NVAPI_INTERFACE_TABLE { const char *func; unsigned int id; };
+struct NVAPI_INTERFACE_TABLE    nvapi_interface_table[] =
 {
     { "NvAPI_Initialize", 0x0150e828 },
     { "NvAPI_Unload", 0xd22bdd7e },

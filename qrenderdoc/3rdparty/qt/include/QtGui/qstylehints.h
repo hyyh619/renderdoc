@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QPlatformIntegration;
 class QStyleHintsPrivate;
 
-class Q_GUI_EXPORT QStyleHints : public QObject
+class Q_GUI_EXPORT    QStyleHints : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QStyleHints)

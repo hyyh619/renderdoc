@@ -70,9 +70,9 @@ protected:
     bool openExternalFile(int flags, int fd, QFile::FileHandleFlags handleFlags);
     bool openExternalFile(int flags, FILE *fh, QFile::FileHandleFlags handleFlags);
 
-    QAbstractFileEngine *engine() const override;
+    QAbstractFileEngine* engine() const override;
 
-    QString fileName;
+    QString    fileName;
 };
 
 QT_END_NAMESPACE

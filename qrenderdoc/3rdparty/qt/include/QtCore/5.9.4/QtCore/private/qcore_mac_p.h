@@ -69,7 +69,7 @@
 
 #include "qstring.h"
 
-#if defined( __OBJC__) && defined(QT_NAMESPACE)
+#if defined(__OBJC__) && defined(QT_NAMESPACE)
 #define QT_NAMESPACE_ALIAS_OBJC_CLASS(__KLASS__) @compatibility_alias __KLASS__ QT_MANGLE_NAMESPACE(__KLASS__)
 #else
 #define QT_NAMESPACE_ALIAS_OBJC_CLASS(__KLASS__)
@@ -88,38 +88,58 @@ QT_BEGIN_NAMESPACE
     you got the object from a "Get" function, either retain it or use
     constructFromGet(). One exception to this rule is the
     HIThemeGet*Shape functions, which in reality are "Copy" functions.
-*/
-template <typename T>
-class Q_CORE_EXPORT QCFType
+ */
+template<typename T>
+class Q_CORE_EXPORT    QCFType
 {
 public:
     inline QCFType(const T &t = 0) : type(t) {}
-    inline QCFType(const QCFType &helper) : type(helper.type) { if (type) CFRetain(type); }
-    inline ~QCFType() { if (type) CFRelease(type); }
-    inline operator T() { return type; }
+    inline QCFType(const QCFType &helper) : type(helper.type)
+    {
+        if (type)
+            CFRetain(type);
+    }
+    inline ~QCFType()
+    {
+        if (type)
+            CFRelease(type);
+    }
+    inline operator T()
+    {
+        return type;
+    }
     inline QCFType operator =(const QCFType &helper)
     {
         if (helper.type)
             CFRetain(helper.type);
-        CFTypeRef type2 = type;
+
+        CFTypeRef    type2 = type;
         type = helper.type;
         if (type2)
             CFRelease(type2);
+
         return *this;
     }
-    inline T *operator&() { return &type; }
-    template <typename X> X as() const { return reinterpret_cast<X>(type); }
+    inline T* operator&()
+    {
+        return &type;
+    }
+    template<typename X> X as() const
+    {
+        return reinterpret_cast<X>(type);
+    }
     static QCFType constructFromGet(const T &t)
     {
         if (t)
             CFRetain(t);
+
         return QCFType<T>(t);
     }
 protected:
-    T type;
+    T    type;
 };
 
-class Q_CORE_EXPORT QCFString : public QCFType<CFStringRef>
+class Q_CORE_EXPORT    QCFString : public QCFType<CFStringRef>
 {
 public:
     inline QCFString(const QString &str) : QCFType<CFStringRef>(0), string(str) {}
@@ -129,7 +149,7 @@ public:
     operator CFStringRef() const;
 
 private:
-    QString string;
+    QString    string;
 };
 
 #ifdef Q_OS_OSX

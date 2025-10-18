@@ -48,14 +48,14 @@ QT_BEGIN_NAMESPACE
 
 #define QGenericPluginFactoryInterface_iid "org.qt-project.Qt.QGenericPluginFactoryInterface"
 
-class Q_GUI_EXPORT QGenericPlugin : public QObject
+class Q_GUI_EXPORT    QGenericPlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QGenericPlugin(QObject *parent = Q_NULLPTR);
     ~QGenericPlugin();
 
-    virtual QObject* create(const QString& name, const QString &spec) = 0;
+    virtual QObject* create(const QString &name, const QString &spec) = 0;
 };
 
 QT_END_NAMESPACE

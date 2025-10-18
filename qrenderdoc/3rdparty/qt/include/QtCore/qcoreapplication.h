@@ -69,7 +69,7 @@ class QAbstractNativeEventFilter;
 
 #define qApp QCoreApplication::instance()
 
-class Q_CORE_EXPORT QCoreApplication
+class Q_CORE_EXPORT    QCoreApplication
 #ifndef QT_NO_QOBJECT
     : public QObject
 #endif
@@ -85,14 +85,13 @@ class Q_CORE_EXPORT QCoreApplication
 
     Q_DECLARE_PRIVATE(QCoreApplication)
 public:
-    enum { ApplicationFlags = QT_VERSION
-    };
+    enum { ApplicationFlags = QT_VERSION};
 
-    QCoreApplication(int &argc, char **argv
+    QCoreApplication(int &argc, char**argv
 #ifndef Q_QDOC
                      , int = ApplicationFlags
 #endif
-            );
+                     );
 
     ~QCoreApplication();
 
@@ -113,13 +112,16 @@ public:
     static void setSetuidAllowed(bool allow);
     static bool isSetuidAllowed();
 
-    static QCoreApplication *instance() { return self; }
+    static QCoreApplication* instance()
+    {
+        return self;
+    }
 
 #ifndef QT_NO_QOBJECT
     static int exec();
     static void processEvents(QEventLoop::ProcessEventsFlags flags = QEventLoop::AllEvents);
     static void processEvents(QEventLoop::ProcessEventsFlags flags, int maxtime);
-    static void exit(int retcode=0);
+    static void exit(int retcode= 0);
 
     static bool sendEvent(QObject *receiver, QEvent *event);
     static void postEvent(QObject *receiver, QEvent *event, int priority = Qt::NormalEventPriority);
@@ -128,10 +130,10 @@ public:
 #if QT_DEPRECATED_SINCE(5, 3)
     QT_DEPRECATED static bool hasPendingEvents();
 #endif
-    static QAbstractEventDispatcher *eventDispatcher();
+    static QAbstractEventDispatcher* eventDispatcher();
     static void setEventDispatcher(QAbstractEventDispatcher *eventDispatcher);
 
-    virtual bool notify(QObject *, QEvent *);
+    virtual bool notify(QObject*, QEvent*);
 
     static bool startingUp();
     static bool closingDown();
@@ -142,26 +144,28 @@ public:
     static qint64 applicationPid();
 
 #if QT_CONFIG(library)
-    static void setLibraryPaths(const QStringList &);
+    static void setLibraryPaths(const QStringList&);
     static QStringList libraryPaths();
-    static void addLibraryPath(const QString &);
-    static void removeLibraryPath(const QString &);
+    static void addLibraryPath(const QString&);
+    static void removeLibraryPath(const QString&);
 #endif // QT_CONFIG(library)
 
 #ifndef QT_NO_TRANSLATION
-    static bool installTranslator(QTranslator * messageFile);
-    static bool removeTranslator(QTranslator * messageFile);
+    static bool installTranslator(QTranslator *messageFile);
+    static bool removeTranslator(QTranslator *messageFile);
 #endif
 
-    static QString translate(const char * context,
-                             const char * key,
-                             const char * disambiguation = Q_NULLPTR,
+    static QString translate(const char *context,
+                             const char *key,
+                             const char *disambiguation = Q_NULLPTR,
                              int n = -1);
 #if QT_DEPRECATED_SINCE(5, 0)
     enum Encoding { UnicodeUTF8, Latin1, DefaultCodec = UnicodeUTF8, CodecForTr = UnicodeUTF8 };
-    QT_DEPRECATED static inline QString translate(const char * context, const char * key,
-                             const char * disambiguation, Encoding, int n = -1)
-        { return translate(context, key, disambiguation, n); }
+    QT_DEPRECATED static inline QString translate(const char *context, const char *key,
+                                                  const char *disambiguation, Encoding, int n = -1)
+    {
+        return translate(context, key, disambiguation, n);
+    }
 #endif
 
 #ifndef QT_NO_QOBJECT
@@ -179,7 +183,7 @@ public Q_SLOTS:
     static void quit();
 
 Q_SIGNALS:
-    void aboutToQuit(QPrivateSignal);
+    void    aboutToQuit(QPrivateSignal);
 
     void organizationNameChanged();
     void organizationDomainChanged();
@@ -187,28 +191,28 @@ Q_SIGNALS:
     void applicationVersionChanged();
 
 protected:
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
 
-    virtual bool compressEvent(QEvent *, QObject *receiver, QPostEventList *);
+    virtual bool compressEvent(QEvent*, QObject *receiver, QPostEventList*);
 #endif // QT_NO_QOBJECT
 
 protected:
     QCoreApplication(QCoreApplicationPrivate &p);
 
 #ifdef QT_NO_QOBJECT
-    QScopedPointer<QCoreApplicationPrivate> d_ptr;
+    QScopedPointer<QCoreApplicationPrivate>    d_ptr;
 #endif
 
 private:
 #ifndef QT_NO_QOBJECT
     static bool sendSpontaneousEvent(QObject *receiver, QEvent *event);
-#  if QT_DEPRECATED_SINCE(5,6)
+#  if QT_DEPRECATED_SINCE(5, 6)
     QT_DEPRECATED bool notifyInternal(QObject *receiver, QEvent *event); // ### Qt6 BIC: remove me
 #  endif
-    static bool notifyInternal2(QObject *receiver, QEvent *);
+    static bool notifyInternal2(QObject *receiver, QEvent*);
 #endif
 
-    static QCoreApplication *self;
+    static QCoreApplication * self;
 
     Q_DISABLE_COPY(QCoreApplication)
 
@@ -230,45 +234,55 @@ private:
 
 #ifndef QT_NO_QOBJECT
 inline bool QCoreApplication::sendEvent(QObject *receiver, QEvent *event)
-{  if (event) event->spont = false; return notifyInternal2(receiver, event); }
+{
+    if (event)
+        event->spont = false;
+
+    return notifyInternal2(receiver, event);
+}
 
 inline bool QCoreApplication::sendSpontaneousEvent(QObject *receiver, QEvent *event)
-{ if (event) event->spont = true; return notifyInternal2(receiver, event); }
+{
+    if (event)
+        event->spont = true;
+
+    return notifyInternal2(receiver, event);
+}
 #endif
 
 #ifdef QT_NO_DEPRECATED
 #  define QT_DECLARE_DEPRECATED_TR_FUNCTIONS(context)
 #else
-#  define QT_DECLARE_DEPRECATED_TR_FUNCTIONS(context) \
+#  define QT_DECLARE_DEPRECATED_TR_FUNCTIONS(context)                                                                      \
     QT_DEPRECATED static inline QString trUtf8(const char *sourceText, const char *disambiguation = Q_NULLPTR, int n = -1) \
-        { return QCoreApplication::translate(#context, sourceText, disambiguation, n); }
+    { return QCoreApplication::translate(#context, sourceText, disambiguation, n); }
 #endif
 
-#define Q_DECLARE_TR_FUNCTIONS(context) \
-public: \
+#define Q_DECLARE_TR_FUNCTIONS(context)                                                                  \
+public:                                                                                                  \
     static inline QString tr(const char *sourceText, const char *disambiguation = Q_NULLPTR, int n = -1) \
-        { return QCoreApplication::translate(#context, sourceText, disambiguation, n); } \
-    QT_DECLARE_DEPRECATED_TR_FUNCTIONS(context) \
+    { return QCoreApplication::translate(#context, sourceText, disambiguation, n); }                     \
+    QT_DECLARE_DEPRECATED_TR_FUNCTIONS(context)                                                          \
 private:
 
 typedef void (*QtStartUpFunction)();
 typedef void (*QtCleanUpFunction)();
 
-Q_CORE_EXPORT void qAddPreRoutine(QtStartUpFunction);
-Q_CORE_EXPORT void qAddPostRoutine(QtCleanUpFunction);
-Q_CORE_EXPORT void qRemovePostRoutine(QtCleanUpFunction);
+Q_CORE_EXPORT void      qAddPreRoutine(QtStartUpFunction);
+Q_CORE_EXPORT void      qAddPostRoutine(QtCleanUpFunction);
+Q_CORE_EXPORT void      qRemovePostRoutine(QtCleanUpFunction);
 Q_CORE_EXPORT QString qAppName();                // get application name
 
 #define Q_COREAPP_STARTUP_FUNCTION(AFUNC) \
-    static void AFUNC ## _ctor_function() {  \
-        qAddPreRoutine(AFUNC);        \
-    }                                 \
-    Q_CONSTRUCTOR_FUNCTION(AFUNC ## _ctor_function)
+    static void AFUNC##_ctor_function() { \
+        qAddPreRoutine(AFUNC);            \
+    }                                     \
+    Q_CONSTRUCTOR_FUNCTION(AFUNC##_ctor_function)
 
 #ifndef QT_NO_QOBJECT
 #if defined(Q_OS_WIN) && !defined(QT_NO_DEBUG_STREAM)
-Q_CORE_EXPORT QString decodeMSG(const MSG &);
-Q_CORE_EXPORT QDebug operator<<(QDebug, const MSG &);
+Q_CORE_EXPORT QString decodeMSG(const MSG&);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const MSG&);
 #endif
 #endif
 

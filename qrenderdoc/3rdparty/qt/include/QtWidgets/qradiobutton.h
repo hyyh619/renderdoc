@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QRadioButtonPrivate;
 class QStyleOptionButton;
 
-class Q_WIDGETS_EXPORT QRadioButton : public QAbstractButton
+class Q_WIDGETS_EXPORT    QRadioButton : public QAbstractButton
 {
     Q_OBJECT
 
@@ -65,9 +65,9 @@ public:
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    bool hitButton(const QPoint &) const Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    bool hitButton(const QPoint&) const Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionButton *button) const;
 
 

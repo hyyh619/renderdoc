@@ -67,11 +67,11 @@ class QUndoCommandPrivate
 {
 public:
     QUndoCommandPrivate() : id(-1), obsolete(false) {}
-    QList<QUndoCommand*> child_list;
-    QString text;
-    QString actionText;
-    int id;
-    bool obsolete;
+    QList<QUndoCommand*>    child_list;
+    QString                 text;
+    QString                 actionText;
+    int                     id;
+    bool                    obsolete;
 };
 
 #if QT_CONFIG(undostack)
@@ -82,12 +82,12 @@ class QUndoStackPrivate : public QObjectPrivate
 public:
     QUndoStackPrivate() : index(0), clean_index(0), group(0), undo_limit(0) {}
 
-    QList<QUndoCommand*> command_list;
-    QList<QUndoCommand*> macro_stack;
-    int index;
-    int clean_index;
-    QUndoGroup *group;
-    int undo_limit;
+    QList<QUndoCommand*>    command_list;
+    QList<QUndoCommand*>    macro_stack;
+    int                     index;
+    int                     clean_index;
+    QUndoGroup              *group;
+    int                     undo_limit;
 
     void setIndex(int idx, bool clean);
     bool checkUndoLimit();
@@ -103,8 +103,8 @@ public:
 public Q_SLOTS:
     void setPrefixedText(const QString &text);
 private:
-    QString m_prefix;
-    QString m_defaultText;
+    QString     m_prefix;
+    QString     m_defaultText;
 };
 #endif // QT_NO_ACTION
 

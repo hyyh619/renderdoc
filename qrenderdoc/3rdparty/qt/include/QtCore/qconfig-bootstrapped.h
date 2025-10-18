@@ -67,7 +67,7 @@
 #define QT_NO_DEPRECATED
 
 // Keep feature-test macros in alphabetic order by feature name:
-#define QT_FEATURE_alloca 1
+#define QT_FEATURE_alloca   1
 #define QT_FEATURE_alloca_h -1
 #ifdef _WIN32
 # define QT_FEATURE_alloca_malloc_h 1
@@ -78,21 +78,21 @@
 #define QT_NO_DATASTREAM
 #define QT_FEATURE_datetimeparser -1
 #define QT_NO_GEOM_VARIANT
-#define QT_FEATURE_iconv -1
-#define QT_FEATURE_icu -1
+#define QT_FEATURE_iconv    -1
+#define QT_FEATURE_icu      -1
 #define QT_FEATURE_journald -1
-#define QT_FEATURE_library -1
+#define QT_FEATURE_library  -1
 #define QT_NO_QOBJECT
-#define QT_FEATURE_process -1
+#define QT_FEATURE_process      -1
 #define QT_FEATURE_sharedmemory -1
-#define QT_FEATURE_slog2 -1
-#define QT_FEATURE_syslog -1
+#define QT_FEATURE_slog2        -1
+#define QT_FEATURE_syslog       -1
 #define QT_NO_SYSTEMLOCALE
-#define QT_FEATURE_systemsemaphore -1
-#define QT_FEATURE_temporaryfile 1
+#define QT_FEATURE_systemsemaphore  -1
+#define QT_FEATURE_temporaryfile    1
 #define QT_NO_THREAD
-#define QT_FEATURE_timezone -1
-#define QT_FEATURE_topleveldomain -1
+#define QT_FEATURE_timezone         -1
+#define QT_FEATURE_topleveldomain   -1
 #define QT_NO_TRANSLATION
 #define QT_FEATURE_translation -1
 
@@ -105,9 +105,8 @@
 #define QT_FEATURE_textcodec -1
 #else
 #define QT_NO_CODECS
-#define QT_FEATURE_codecs -1
-#define QT_FEATURE_commandlineparser 1
-#define QT_FEATURE_textcodec 1
+#define QT_FEATURE_codecs               -1
+#define QT_FEATURE_commandlineparser    1
+#define QT_FEATURE_textcodec            1
 #endif
-
 #endif // QT_BOOTSTRAPPED

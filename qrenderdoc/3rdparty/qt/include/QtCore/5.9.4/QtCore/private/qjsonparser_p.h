@@ -57,70 +57,76 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace QJsonPrivate {
-
-class Parser
+namespace QJsonPrivate
 {
-public:
-    Parser(const char *json, int length);
-
-    QJsonDocument parse(QJsonParseError *error);
-
-    class ParsedObject
+    class Parser
     {
-    public:
-        ParsedObject(Parser *p, int pos) : parser(p), objectPosition(pos) {
-            offsets.reserve(64);
-        }
-        void insert(uint offset);
+public:
+        Parser(const char *json, int length);
 
-        Parser *parser;
-        int objectPosition;
-        QVector<uint> offsets;
+        QJsonDocument parse(QJsonParseError *error);
 
-        inline QJsonPrivate::Entry *entryAt(int i) const {
-            return reinterpret_cast<QJsonPrivate::Entry *>(parser->data + objectPosition + offsets[i]);
-        }
-    };
+        class ParsedObject
+        {
+public:
+            ParsedObject(Parser *p, int pos) : parser(p), objectPosition(pos)
+            {
+                offsets.reserve(64);
+            }
+            void insert(uint offset);
+
+            Parser              *parser;
+            int                 objectPosition;
+            QVector<uint>       offsets;
+
+            inline QJsonPrivate::Entry* entryAt(int i) const
+            {
+                return reinterpret_cast<QJsonPrivate::Entry*>(parser->data + objectPosition + offsets[i]);
+            }
+        };
 
 
 private:
-    inline void eatBOM();
-    inline bool eatSpace();
-    inline char nextToken();
+        inline void eatBOM();
+        inline bool eatSpace();
+        inline char nextToken();
 
-    bool parseObject();
-    bool parseArray();
-    bool parseMember(int baseOffset);
-    bool parseString(bool *latin1);
-    bool parseValue(QJsonPrivate::Value *val, int baseOffset);
-    bool parseNumber(QJsonPrivate::Value *val, int baseOffset);
-    const char *head;
-    const char *json;
-    const char *end;
+        bool parseObject();
+        bool parseArray();
+        bool parseMember(int baseOffset);
+        bool parseString(bool *latin1);
+        bool parseValue(QJsonPrivate::Value *val, int baseOffset);
+        bool parseNumber(QJsonPrivate::Value *val, int baseOffset);
+        const char      *head;
+        const char      *json;
+        const char      *end;
 
-    char *data;
-    int dataLength;
-    int current;
-    int nestingLevel;
-    QJsonParseError::ParseError lastError;
+        char                            *data;
+        int                             dataLength;
+        int                             current;
+        int                             nestingLevel;
+        QJsonParseError::ParseError     lastError;
 
-    inline int reserveSpace(int space) {
-        if (current + space >= dataLength) {
-            dataLength = 2*dataLength + space;
-            char *newData = (char *)realloc(data, dataLength);
-            if (!newData) {
-                lastError = QJsonParseError::DocumentTooLarge;
-                return -1;
+        inline int reserveSpace(int space)
+        {
+            if (current + space >= dataLength)
+            {
+                dataLength = 2 * dataLength + space;
+                char    *newData = (char*)realloc(data, dataLength);
+                if (!newData)
+                {
+                    lastError = QJsonParseError::DocumentTooLarge;
+                    return -1;
+                }
+
+                data = newData;
             }
-            data = newData;
-        }
-        int pos = current;
-        current += space;
-        return pos;
-    }
-};
 
+            int    pos = current;
+            current += space;
+            return pos;
+        }
+    };
 }
 
 QT_END_NAMESPACE

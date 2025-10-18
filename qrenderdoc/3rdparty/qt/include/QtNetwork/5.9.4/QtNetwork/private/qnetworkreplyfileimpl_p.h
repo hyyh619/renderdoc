@@ -61,7 +61,7 @@
 QT_BEGIN_NAMESPACE
 
 class QNetworkReplyFileImplPrivate;
-class QNetworkReplyFileImpl: public QNetworkReply
+class QNetworkReplyFileImpl : public QNetworkReply
 {
     Q_OBJECT
 public:
@@ -72,7 +72,7 @@ public:
     // reimplemented from QNetworkReply
     virtual void close() Q_DECL_OVERRIDE;
     virtual qint64 bytesAvailable() const Q_DECL_OVERRIDE;
-    virtual bool isSequential () const Q_DECL_OVERRIDE;
+    virtual bool isSequential() const Q_DECL_OVERRIDE;
     qint64 size() const Q_DECL_OVERRIDE;
 
     virtual qint64 readData(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
@@ -83,13 +83,13 @@ private Q_SLOTS:
     Q_DECLARE_PRIVATE(QNetworkReplyFileImpl)
 };
 
-class QNetworkReplyFileImplPrivate: public QNetworkReplyPrivate
+class QNetworkReplyFileImplPrivate : public QNetworkReplyPrivate
 {
 public:
     QNetworkReplyFileImplPrivate();
 
-    QNetworkAccessManagerPrivate *managerPrivate;
-    QPointer<QFile> realFile;
+    QNetworkAccessManagerPrivate    *managerPrivate;
+    QPointer<QFile>                 realFile;
 
     Q_DECLARE_PUBLIC(QNetworkReplyFileImpl)
 };

@@ -53,7 +53,7 @@ class QDirIteratorPrivate;
 class QDateTime;
 class QFileInfoPrivate;
 
-class Q_CORE_EXPORT QFileInfo
+class Q_CORE_EXPORT    QFileInfo
 {
     friend class QDirIteratorPrivate;
 public:
@@ -66,16 +66,24 @@ public:
     QFileInfo(const QFileInfo &fileinfo);
     ~QFileInfo();
 
-    QFileInfo &operator=(const QFileInfo &fileinfo);
+    QFileInfo&operator=(const QFileInfo &fileinfo);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QFileInfo &operator=(QFileInfo &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QFileInfo&operator=(QFileInfo &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
     void swap(QFileInfo &other) Q_DECL_NOTHROW
-    { qSwap(d_ptr, other.d_ptr); }
+    {
+        qSwap(d_ptr, other.d_ptr);
+    }
 
     bool operator==(const QFileInfo &fileinfo) const;
-    inline bool operator!=(const QFileInfo &fileinfo) const { return !(operator==(fileinfo)); }
+    inline bool operator!=(const QFileInfo &fileinfo) const
+    {
+        return !(operator==(fileinfo));
+    }
 
     void setFile(const QString &file);
     void setFile(const QFile &file);
@@ -107,7 +115,10 @@ public:
     bool isNativePath() const;
 
     bool isRelative() const;
-    inline bool isAbsolute() const { return !isRelative(); }
+    inline bool isAbsolute() const
+    {
+        return !isRelative();
+    }
     bool makeAbsolute();
 
     bool isFile() const;
@@ -117,7 +128,10 @@ public:
     bool isBundle() const;
 
     QString readLink() const;
-    inline QString symLinkTarget() const { return readLink(); }
+    inline QString symLinkTarget() const
+    {
+        return readLink();
+    }
 
     QString owner() const;
     uint ownerId() const;
@@ -137,7 +151,7 @@ public:
     void setCaching(bool on);
 
 protected:
-    QSharedDataPointer<QFileInfoPrivate> d_ptr;
+    QSharedDataPointer<QFileInfoPrivate>    d_ptr;
 
 private:
     QFileInfoPrivate* d_func();

@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QFocusFramePrivate;
 class QStyleOption;
 
-class Q_WIDGETS_EXPORT QFocusFrame : public QWidget
+class Q_WIDGETS_EXPORT    QFocusFrame : public QWidget
 {
     Q_OBJECT
 public:
@@ -57,13 +57,13 @@ public:
     ~QFocusFrame();
 
     void setWidget(QWidget *widget);
-    QWidget *widget() const;
+    QWidget* widget() const;
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
-    bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOption *option) const;
 
 private:

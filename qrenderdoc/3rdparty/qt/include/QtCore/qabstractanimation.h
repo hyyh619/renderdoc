@@ -52,7 +52,7 @@ class QSequentialAnimationGroup;
 class QAnimationDriver;
 
 class QAbstractAnimationPrivate;
-class Q_CORE_EXPORT QAbstractAnimation : public QObject
+class Q_CORE_EXPORT    QAbstractAnimation : public QObject
 {
     Q_OBJECT
 
@@ -64,20 +64,23 @@ class Q_CORE_EXPORT QAbstractAnimation : public QObject
     Q_PROPERTY(int duration READ duration)
 
 public:
-    enum Direction {
+    enum Direction
+    {
         Forward,
         Backward
     };
     Q_ENUM(Direction)
 
-    enum State {
+    enum State
+    {
         Stopped,
         Paused,
         Running
     };
     Q_ENUM(State)
 
-    enum DeletionPolicy {
+    enum DeletionPolicy
+    {
         KeepWhenStopped = 0,
         DeleteWhenStopped
     };
@@ -87,7 +90,7 @@ public:
 
     State state() const;
 
-    QAnimationGroup *group() const;
+    QAnimationGroup* group() const;
 
     Direction direction() const;
     void setDirection(Direction direction);
@@ -130,7 +133,7 @@ private:
 };
 
 class QAnimationDriverPrivate;
-class Q_CORE_EXPORT QAnimationDriver : public QObject
+class Q_CORE_EXPORT    QAnimationDriver : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QAnimationDriver)
@@ -166,13 +169,8 @@ protected:
 
 private:
     friend class QUnifiedTimer;
-
 };
-
-
-
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 

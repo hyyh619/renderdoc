@@ -65,7 +65,6 @@ QT_BEGIN_NAMESPACE
 
 class QSystemSemaphorePrivate
 {
-
 public:
     QSystemSemaphorePrivate();
 
@@ -75,9 +74,13 @@ public:
     }
 
     inline void setError(QSystemSemaphore::SystemSemaphoreError e, const QString &message)
-    { error = e; errorString = message; }
+    {
+        error = e; errorString = message;
+    }
     inline void clearError()
-    { setError(QSystemSemaphore::NoError, QString()); }
+    {
+        setError(QSystemSemaphore::NoError, QString());
+    }
 
 #ifdef Q_OS_WIN
     Qt::HANDLE handle(QSystemSemaphore::AccessMode mode = QSystemSemaphore::Open);
@@ -92,28 +95,26 @@ public:
     void cleanHandle();
     bool modifySemaphore(int count);
 
-    QString key;
-    QString fileName;
-    int initialValue;
+    QString     key;
+    QString     fileName;
+    int         initialValue;
 #ifdef Q_OS_WIN
-    Qt::HANDLE semaphore;
-    Qt::HANDLE semaphoreLock;
+    Qt::HANDLE      semaphore;
+    Qt::HANDLE      semaphoreLock;
 #elif defined(QT_POSIX_IPC)
-    sem_t *semaphore;
-    bool createdSemaphore;
+    sem_t       *semaphore;
+    bool        createdSemaphore;
 #else
-    key_t unix_key;
-    int semaphore;
-    bool createdFile;
-    bool createdSemaphore;
+    key_t       unix_key;
+    int         semaphore;
+    bool        createdFile;
+    bool        createdSemaphore;
 #endif
-    QString errorString;
-    QSystemSemaphore::SystemSemaphoreError error;
+    QString                                     errorString;
+    QSystemSemaphore::SystemSemaphoreError      error;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SYSTEMSEMAPHORE
 
 #endif // QSYSTEMSEMAPHORE_P_H
-

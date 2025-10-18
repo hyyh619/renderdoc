@@ -69,8 +69,7 @@ class QFileSystemWatcherEngine : public QObject
 protected:
     inline QFileSystemWatcherEngine(QObject *parent)
         : QObject(parent)
-    {
-    }
+    {}
 
 public:
     // fills \a files and \a directories with the \a paths it could
@@ -94,27 +93,27 @@ class QFileSystemWatcherPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QFileSystemWatcher)
 
-    static QFileSystemWatcherEngine *createNativeEngine(QObject *parent);
+    static QFileSystemWatcherEngine * createNativeEngine(QObject * parent);
 
 public:
     QFileSystemWatcherPrivate();
     void init();
     void initPollerEngine();
 
-    QFileSystemWatcherEngine *native, *poller;
-    QStringList files, directories;
+    QFileSystemWatcherEngine    *native, *poller;
+    QStringList                 files, directories;
 
     // private slots
     void _q_fileChanged(const QString &path, bool removed);
     void _q_directoryChanged(const QString &path, bool removed);
 
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINRT)
-    void _q_winDriveLockForRemoval(const QString &);
-    void _q_winDriveLockForRemovalFailed(const QString &);
-    void _q_winDriveRemoved(const QString &);
+    void _q_winDriveLockForRemoval(const QString&);
+    void _q_winDriveLockForRemovalFailed(const QString&);
+    void _q_winDriveRemoved(const QString&);
 
 private:
-    QHash<QChar, QStringList> temporarilyRemovedPaths;
+    QHash<QChar, QStringList>    temporarilyRemovedPaths;
 #endif // Q_OS_WIN && !Q_OS_WINRT
 };
 

@@ -68,39 +68,45 @@ class QOpenGL2GradientCache : public QOpenGLSharedResource
         inline CacheInfo(QGradientStops s, qreal op, QGradient::InterpolationMode mode) :
             stops(qMove(s)), opacity(op), interpolationMode(mode) {}
 
-        GLuint texId;
-        QGradientStops stops;
-        qreal opacity;
-        QGradient::InterpolationMode interpolationMode;
+        GLuint                          texId;
+        QGradientStops                  stops;
+        qreal                           opacity;
+        QGradient::InterpolationMode    interpolationMode;
     };
 
     typedef QMultiHash<quint64, CacheInfo> QOpenGLGradientColorTableHash;
 
 public:
-    static QOpenGL2GradientCache *cacheForContext(QOpenGLContext *context);
+    static QOpenGL2GradientCache* cacheForContext(QOpenGLContext *context);
 
-    QOpenGL2GradientCache(QOpenGLContext *);
+    QOpenGL2GradientCache(QOpenGLContext*);
     ~QOpenGL2GradientCache();
 
     GLuint getBuffer(const QGradient &gradient, qreal opacity);
-    inline int paletteSize() const { return 1024; }
+    inline int paletteSize() const
+    {
+        return 1024;
+    }
 
     void invalidateResource() Q_DECL_OVERRIDE;
     void freeResource(QOpenGLContext *ctx) Q_DECL_OVERRIDE;
 
 private:
-    inline int maxCacheSize() const { return 60; }
-    inline void generateGradientColorTable(const QGradient& gradient,
+    inline int maxCacheSize() const
+    {
+        return 60;
+    }
+    inline void generateGradientColorTable(const QGradient &gradient,
                                            QRgba64 *colorTable,
                                            int size, qreal opacity) const;
-    inline void generateGradientColorTable(const QGradient& gradient,
+    inline void generateGradientColorTable(const QGradient &gradient,
                                            uint *colorTable,
                                            int size, qreal opacity) const;
     GLuint addCacheElement(quint64 hash_val, const QGradient &gradient, qreal opacity);
     void cleanCache();
 
-    QOpenGLGradientColorTableHash cache;
-    QMutex m_mutex;
+    QOpenGLGradientColorTableHash       cache;
+    QMutex                              m_mutex;
 };
 
 QT_END_NAMESPACE

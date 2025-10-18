@@ -54,7 +54,7 @@
 #include <QtGui/qopengl.h>
 #include <QtGui/qopenglcontext.h>
 
-//#define Q_ENABLE_OPENGL_FUNCTIONS_DEBUG
+// #define Q_ENABLE_OPENGL_FUNCTIONS_DEBUG
 
 #ifdef QT_OPENGL_ES
 typedef double GLdouble;
@@ -62,14 +62,14 @@ typedef double GLdouble;
 
 #ifdef Q_ENABLE_OPENGL_FUNCTIONS_DEBUG
 #include <stdio.h>
-#define Q_OPENGL_FUNCTIONS_DEBUG \
-    GLenum error = glGetError(); \
-    if (error != GL_NO_ERROR) { \
-        unsigned clamped = qMin(unsigned(error - GL_INVALID_ENUM), 4U); \
-        const char *errors[] = { "GL_INVALID_ENUM", "GL_INVALID_VALUE", "GL_INVALID_OPERATION", "Unknown" }; \
-        printf("GL error at %s:%d: %s\n", __FILE__, __LINE__, errors[clamped]); \
-        int *value = 0; \
-        *value = 0; \
+#define Q_OPENGL_FUNCTIONS_DEBUG                                                                                    \
+    GLenum error = glGetError();                                                                                    \
+    if (error != GL_NO_ERROR) {                                                                                     \
+        unsigned        clamped     = qMin(unsigned(error - GL_INVALID_ENUM), 4U);                                  \
+        const char      *errors[]   = { "GL_INVALID_ENUM", "GL_INVALID_VALUE", "GL_INVALID_OPERATION", "Unknown" }; \
+        printf("GL error at %s:%d: %s\n", __FILE__, __LINE__, errors[clamped]);                                     \
+        int    *value = 0;                                                                                          \
+        *value = 0;                                                                                                 \
     }
 #else
 #define Q_OPENGL_FUNCTIONS_DEBUG
@@ -227,7 +227,7 @@ struct QOpenGLFunctionsPrivate;
 
 #undef glTexLevelParameteriv
 
-class Q_GUI_EXPORT QOpenGLFunctions
+class Q_GUI_EXPORT    QOpenGLFunctions
 {
 public:
     QOpenGLFunctions();
@@ -236,23 +236,23 @@ public:
 
     enum OpenGLFeature
     {
-        Multitexture          = 0x0001,
-        Shaders               = 0x0002,
-        Buffers               = 0x0004,
-        Framebuffers          = 0x0008,
-        BlendColor            = 0x0010,
-        BlendEquation         = 0x0020,
-        BlendEquationSeparate = 0x0040,
-        BlendFuncSeparate     = 0x0080,
-        BlendSubtract         = 0x0100,
-        CompressedTextures    = 0x0200,
-        Multisample           = 0x0400,
-        StencilSeparate       = 0x0800,
-        NPOTTextures          = 0x1000,
-        NPOTTextureRepeat     = 0x2000,
-        FixedFunctionPipeline = 0x4000,
-        TextureRGFormats      = 0x8000,
-        MultipleRenderTargets = 0x10000
+        Multitexture            = 0x0001,
+        Shaders                 = 0x0002,
+        Buffers                 = 0x0004,
+        Framebuffers            = 0x0008,
+        BlendColor              = 0x0010,
+        BlendEquation           = 0x0020,
+        BlendEquationSeparate   = 0x0040,
+        BlendFuncSeparate       = 0x0080,
+        BlendSubtract           = 0x0100,
+        CompressedTextures      = 0x0200,
+        Multisample             = 0x0400,
+        StencilSeparate         = 0x0800,
+        NPOTTextures            = 0x1000,
+        NPOTTextureRepeat       = 0x2000,
+        FixedFunctionPipeline   = 0x4000,
+        TextureRGFormats        = 0x8000,
+        MultipleRenderTargets   = 0x10000
     };
     Q_DECLARE_FLAGS(OpenGLFeatures, OpenGLFeature)
 
@@ -262,7 +262,10 @@ public:
     void initializeOpenGLFunctions();
 
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED void initializeGLFunctions() { initializeOpenGLFunctions(); }
+    QT_DEPRECATED void initializeGLFunctions()
+    {
+        initializeOpenGLFunctions();
+    }
 #endif
 
     // GLES2 + OpenGL1 common subset
@@ -275,47 +278,47 @@ public:
     void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
     void glCopyTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height);
     void glCullFace(GLenum mode);
-    void glDeleteTextures(GLsizei n, const GLuint* textures);
+    void glDeleteTextures(GLsizei n, const GLuint *textures);
     void glDepthFunc(GLenum func);
     void glDepthMask(GLboolean flag);
     void glDisable(GLenum cap);
     void glDrawArrays(GLenum mode, GLint first, GLsizei count);
-    void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid* indices);
+    void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
     void glEnable(GLenum cap);
     void glFinish();
     void glFlush();
     void glFrontFace(GLenum mode);
-    void glGenTextures(GLsizei n, GLuint* textures);
-    void glGetBooleanv(GLenum pname, GLboolean* params);
+    void glGenTextures(GLsizei n, GLuint *textures);
+    void glGetBooleanv(GLenum pname, GLboolean *params);
     GLenum glGetError();
-    void glGetFloatv(GLenum pname, GLfloat* params);
-    void glGetIntegerv(GLenum pname, GLint* params);
-    const GLubyte *glGetString(GLenum name);
-    void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat* params);
-    void glGetTexParameteriv(GLenum target, GLenum pname, GLint* params);
+    void glGetFloatv(GLenum pname, GLfloat *params);
+    void glGetIntegerv(GLenum pname, GLint *params);
+    const GLubyte* glGetString(GLenum name);
+    void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
+    void glGetTexParameteriv(GLenum target, GLenum pname, GLint *params);
     void glHint(GLenum target, GLenum mode);
     GLboolean glIsEnabled(GLenum cap);
     GLboolean glIsTexture(GLuint texture);
     void glLineWidth(GLfloat width);
     void glPixelStorei(GLenum pname, GLint param);
     void glPolygonOffset(GLfloat factor, GLfloat units);
-    void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels);
+    void glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels);
     void glScissor(GLint x, GLint y, GLsizei width, GLsizei height);
     void glStencilFunc(GLenum func, GLint ref, GLuint mask);
     void glStencilMask(GLuint mask);
     void glStencilOp(GLenum fail, GLenum zfail, GLenum zpass);
-    void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* pixels);
+    void glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels);
     void glTexParameterf(GLenum target, GLenum pname, GLfloat param);
-    void glTexParameterfv(GLenum target, GLenum pname, const GLfloat* params);
+    void glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params);
     void glTexParameteri(GLenum target, GLenum pname, GLint param);
-    void glTexParameteriv(GLenum target, GLenum pname, const GLint* params);
-    void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* pixels);
+    void glTexParameteriv(GLenum target, GLenum pname, const GLint *params);
+    void glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels);
     void glViewport(GLint x, GLint y, GLsizei width, GLsizei height);
 
     // GL(ES)2
     void glActiveTexture(GLenum texture);
     void glAttachShader(GLuint program, GLuint shader);
-    void glBindAttribLocation(GLuint program, GLuint index, const char* name);
+    void glBindAttribLocation(GLuint program, GLuint index, const char *name);
     void glBindBuffer(GLenum target, GLuint buffer);
     void glBindFramebuffer(GLenum target, GLuint framebuffer);
     void glBindRenderbuffer(GLenum target, GLuint renderbuffer);
@@ -323,19 +326,19 @@ public:
     void glBlendEquation(GLenum mode);
     void glBlendEquationSeparate(GLenum modeRGB, GLenum modeAlpha);
     void glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha);
-    void glBufferData(GLenum target, qopengl_GLsizeiptr size, const void* data, GLenum usage);
-    void glBufferSubData(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void* data);
+    void glBufferData(GLenum target, qopengl_GLsizeiptr size, const void *data, GLenum usage);
+    void glBufferSubData(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void *data);
     GLenum glCheckFramebufferStatus(GLenum target);
     void glClearDepthf(GLclampf depth);
     void glCompileShader(GLuint shader);
-    void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void* data);
-    void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void* data);
+    void glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data);
+    void glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data);
     GLuint glCreateProgram();
     GLuint glCreateShader(GLenum type);
-    void glDeleteBuffers(GLsizei n, const GLuint* buffers);
-    void glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers);
+    void glDeleteBuffers(GLsizei n, const GLuint *buffers);
+    void glDeleteFramebuffers(GLsizei n, const GLuint *framebuffers);
     void glDeleteProgram(GLuint program);
-    void glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers);
+    void glDeleteRenderbuffers(GLsizei n, const GLuint *renderbuffers);
     void glDeleteShader(GLuint shader);
     void glDepthRangef(GLclampf zNear, GLclampf zFar);
     void glDetachShader(GLuint program, GLuint shader);
@@ -343,29 +346,29 @@ public:
     void glEnableVertexAttribArray(GLuint index);
     void glFramebufferRenderbuffer(GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
     void glFramebufferTexture2D(GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level);
-    void glGenBuffers(GLsizei n, GLuint* buffers);
+    void glGenBuffers(GLsizei n, GLuint *buffers);
     void glGenerateMipmap(GLenum target);
-    void glGenFramebuffers(GLsizei n, GLuint* framebuffers);
-    void glGenRenderbuffers(GLsizei n, GLuint* renderbuffers);
-    void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name);
-    void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name);
-    void glGetAttachedShaders(GLuint program, GLsizei maxcount, GLsizei* count, GLuint* shaders);
-    GLint glGetAttribLocation(GLuint program, const char* name);
-    void glGetBufferParameteriv(GLenum target, GLenum pname, GLint* params);
-    void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params);
-    void glGetProgramiv(GLuint program, GLenum pname, GLint* params);
-    void glGetProgramInfoLog(GLuint program, GLsizei bufsize, GLsizei* length, char* infolog);
-    void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint* params);
-    void glGetShaderiv(GLuint shader, GLenum pname, GLint* params);
-    void glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei* length, char* infolog);
-    void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision);
-    void glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei* length, char* source);
-    void glGetUniformfv(GLuint program, GLint location, GLfloat* params);
-    void glGetUniformiv(GLuint program, GLint location, GLint* params);
-    GLint glGetUniformLocation(GLuint program, const char* name);
-    void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat* params);
-    void glGetVertexAttribiv(GLuint index, GLenum pname, GLint* params);
-    void glGetVertexAttribPointerv(GLuint index, GLenum pname, void** pointer);
+    void glGenFramebuffers(GLsizei n, GLuint *framebuffers);
+    void glGenRenderbuffers(GLsizei n, GLuint *renderbuffers);
+    void glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufsize, GLsizei *length, GLint *size, GLenum *type, char *name);
+    void glGetActiveUniform(GLuint program, GLuint index, GLsizei bufsize, GLsizei *length, GLint *size, GLenum *type, char *name);
+    void glGetAttachedShaders(GLuint program, GLsizei maxcount, GLsizei *count, GLuint *shaders);
+    GLint glGetAttribLocation(GLuint program, const char *name);
+    void glGetBufferParameteriv(GLenum target, GLenum pname, GLint *params);
+    void glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params);
+    void glGetProgramiv(GLuint program, GLenum pname, GLint *params);
+    void glGetProgramInfoLog(GLuint program, GLsizei bufsize, GLsizei *length, char *infolog);
+    void glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params);
+    void glGetShaderiv(GLuint shader, GLenum pname, GLint *params);
+    void glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei *length, char *infolog);
+    void glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision);
+    void glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei *length, char *source);
+    void glGetUniformfv(GLuint program, GLint location, GLfloat *params);
+    void glGetUniformiv(GLuint program, GLint location, GLint *params);
+    GLint glGetUniformLocation(GLuint program, const char *name);
+    void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params);
+    void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params);
+    void glGetVertexAttribPointerv(GLuint index, GLenum pname, void **pointer);
     GLboolean glIsBuffer(GLuint buffer);
     GLboolean glIsFramebuffer(GLuint framebuffer);
     GLboolean glIsProgram(GLuint program);
@@ -375,214 +378,217 @@ public:
     void glReleaseShaderCompiler();
     void glRenderbufferStorage(GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
     void glSampleCoverage(GLclampf value, GLboolean invert);
-    void glShaderBinary(GLint n, const GLuint* shaders, GLenum binaryformat, const void* binary, GLint length);
-    void glShaderSource(GLuint shader, GLsizei count, const char** string, const GLint* length);
+    void glShaderBinary(GLint n, const GLuint *shaders, GLenum binaryformat, const void *binary, GLint length);
+    void glShaderSource(GLuint shader, GLsizei count, const char **string, const GLint *length);
     void glStencilFuncSeparate(GLenum face, GLenum func, GLint ref, GLuint mask);
     void glStencilMaskSeparate(GLenum face, GLuint mask);
     void glStencilOpSeparate(GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
     void glUniform1f(GLint location, GLfloat x);
-    void glUniform1fv(GLint location, GLsizei count, const GLfloat* v);
+    void glUniform1fv(GLint location, GLsizei count, const GLfloat *v);
     void glUniform1i(GLint location, GLint x);
-    void glUniform1iv(GLint location, GLsizei count, const GLint* v);
+    void glUniform1iv(GLint location, GLsizei count, const GLint *v);
     void glUniform2f(GLint location, GLfloat x, GLfloat y);
-    void glUniform2fv(GLint location, GLsizei count, const GLfloat* v);
+    void glUniform2fv(GLint location, GLsizei count, const GLfloat *v);
     void glUniform2i(GLint location, GLint x, GLint y);
-    void glUniform2iv(GLint location, GLsizei count, const GLint* v);
+    void glUniform2iv(GLint location, GLsizei count, const GLint *v);
     void glUniform3f(GLint location, GLfloat x, GLfloat y, GLfloat z);
-    void glUniform3fv(GLint location, GLsizei count, const GLfloat* v);
+    void glUniform3fv(GLint location, GLsizei count, const GLfloat *v);
     void glUniform3i(GLint location, GLint x, GLint y, GLint z);
-    void glUniform3iv(GLint location, GLsizei count, const GLint* v);
+    void glUniform3iv(GLint location, GLsizei count, const GLint *v);
     void glUniform4f(GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-    void glUniform4fv(GLint location, GLsizei count, const GLfloat* v);
+    void glUniform4fv(GLint location, GLsizei count, const GLfloat *v);
     void glUniform4i(GLint location, GLint x, GLint y, GLint z, GLint w);
-    void glUniform4iv(GLint location, GLsizei count, const GLint* v);
-    void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
-    void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
-    void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value);
+    void glUniform4iv(GLint location, GLsizei count, const GLint *v);
+    void glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+    void glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
+    void glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value);
     void glUseProgram(GLuint program);
     void glValidateProgram(GLuint program);
     void glVertexAttrib1f(GLuint indx, GLfloat x);
-    void glVertexAttrib1fv(GLuint indx, const GLfloat* values);
+    void glVertexAttrib1fv(GLuint indx, const GLfloat *values);
     void glVertexAttrib2f(GLuint indx, GLfloat x, GLfloat y);
-    void glVertexAttrib2fv(GLuint indx, const GLfloat* values);
+    void glVertexAttrib2fv(GLuint indx, const GLfloat *values);
     void glVertexAttrib3f(GLuint indx, GLfloat x, GLfloat y, GLfloat z);
-    void glVertexAttrib3fv(GLuint indx, const GLfloat* values);
+    void glVertexAttrib3fv(GLuint indx, const GLfloat *values);
     void glVertexAttrib4f(GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w);
-    void glVertexAttrib4fv(GLuint indx, const GLfloat* values);
-    void glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* ptr);
+    void glVertexAttrib4fv(GLuint indx, const GLfloat *values);
+    void glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *ptr);
 
 protected:
-    QOpenGLFunctionsPrivate *d_ptr;
-    static bool isInitialized(const QOpenGLFunctionsPrivate *d) { return d != Q_NULLPTR; }
+    QOpenGLFunctionsPrivate    *d_ptr;
+    static bool isInitialized(const QOpenGLFunctionsPrivate *d)
+    {
+        return d != Q_NULLPTR;
+    }
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QOpenGLFunctions::OpenGLFeatures)
 
 #define QT_OPENGL_DECLARE_FUNCTIONS(ret, name, args) \
-    ret (QOPENGLF_APIENTRYP name)args;
-#define QT_OPENGL_COUNT_FUNCTIONS(ret, name, args) +1
+    ret (QOPENGLF_APIENTRYP name) args;
+#define QT_OPENGL_COUNT_FUNCTIONS(ret, name, args) + 1
 
-#define QT_OPENGL_DECLARE(FUNCTIONS) \
-public: \
-    struct Functions { \
-        FUNCTIONS(QT_OPENGL_DECLARE_FUNCTIONS) \
-    }; \
-    union { \
-        QFunctionPointer functions[FUNCTIONS(QT_OPENGL_COUNT_FUNCTIONS)]; \
-        Functions f; \
-    }; \
-private: \
-    void init(QOpenGLContext *context);
+#define QT_OPENGL_DECLARE(FUNCTIONS)                                         \
+public:                                                                      \
+    struct Functions {                                                       \
+        FUNCTIONS(QT_OPENGL_DECLARE_FUNCTIONS)                               \
+    };                                                                       \
+    union {                                                                  \
+        QFunctionPointer    functions[FUNCTIONS(QT_OPENGL_COUNT_FUNCTIONS)]; \
+        Functions           f;                                               \
+    };                                                                       \
+private:                                                                     \
+    void init(QOpenGLContext * context);
 
 struct QOpenGLFunctionsPrivate
 {
     QOpenGLFunctionsPrivate(QOpenGLContext *ctx);
 
-#define QT_OPENGL_FUNCTIONS(F) \
-    F(void, BindTexture, (GLenum target, GLuint texture)) \
-    F(void, BlendFunc, (GLenum sfactor, GLenum dfactor)) \
-    F(void, Clear, (GLbitfield mask)) \
-    F(void, ClearColor, (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)) \
-    F(void, ClearDepthf, (GLclampf depth)) \
-    F(void, ClearStencil, (GLint s)) \
-    F(void, ColorMask, (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha)) \
-    F(void, CopyTexImage2D, (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border)) \
-    F(void, CopyTexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height)) \
-    F(void, CullFace, (GLenum mode)) \
-    F(void, DeleteTextures, (GLsizei n, const GLuint* textures)) \
-    F(void, DepthFunc, (GLenum func)) \
-    F(void, DepthMask, (GLboolean flag)) \
-    F(void, DepthRangef, (GLclampf nearVal, GLclampf farVal)) \
-    F(void, Disable, (GLenum cap)) \
-    F(void, DrawArrays, (GLenum mode, GLint first, GLsizei count)) \
-    F(void, DrawElements, (GLenum mode, GLsizei count, GLenum type, const GLvoid* indices)) \
-    F(void, Enable, (GLenum cap)) \
-    F(void, Finish, ()) \
-    F(void, Flush, ()) \
-    F(void, FrontFace, (GLenum mode)) \
-    F(void, GenTextures, (GLsizei n, GLuint* textures)) \
-    F(void, GetBooleanv, (GLenum pname, GLboolean* params)) \
-    F(GLenum, GetError, ()) \
-    F(void, GetFloatv, (GLenum pname, GLfloat* params)) \
-    F(void, GetIntegerv, (GLenum pname, GLint* params)) \
-    F(const GLubyte *, GetString, (GLenum name)) \
-    F(void, GetTexParameterfv, (GLenum target, GLenum pname, GLfloat* params)) \
-    F(void, GetTexParameteriv, (GLenum target, GLenum pname, GLint* params)) \
-    F(void, Hint, (GLenum target, GLenum mode)) \
-    F(GLboolean, IsEnabled, (GLenum cap)) \
-    F(GLboolean, IsTexture, (GLuint texture)) \
-    F(void, LineWidth, (GLfloat width)) \
-    F(void, PixelStorei, (GLenum pname, GLint param)) \
-    F(void, PolygonOffset, (GLfloat factor, GLfloat units)) \
-    F(void, ReadPixels, (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)) \
-    F(void, Scissor, (GLint x, GLint y, GLsizei width, GLsizei height)) \
-    F(void, StencilFunc, (GLenum func, GLint ref, GLuint mask)) \
-    F(void, StencilMask, (GLuint mask)) \
-    F(void, StencilOp, (GLenum fail, GLenum zfail, GLenum zpass)) \
-    F(void, TexImage2D, (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* pixels)) \
-    F(void, TexParameterf, (GLenum target, GLenum pname, GLfloat param)) \
-    F(void, TexParameterfv, (GLenum target, GLenum pname, const GLfloat* params)) \
-    F(void, TexParameteri, (GLenum target, GLenum pname, GLint param)) \
-    F(void, TexParameteriv, (GLenum target, GLenum pname, const GLint* params)) \
-    F(void, TexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* pixels)) \
-    F(void, Viewport, (GLint x, GLint y, GLsizei width, GLsizei height)) \
-    F(void, ActiveTexture, (GLenum texture)) \
-    F(void, AttachShader, (GLuint program, GLuint shader)) \
-    F(void, BindAttribLocation, (GLuint program, GLuint index, const char* name)) \
-    F(void, BindBuffer, (GLenum target, GLuint buffer)) \
-    F(void, BindFramebuffer, (GLenum target, GLuint framebuffer)) \
-    F(void, BindRenderbuffer, (GLenum target, GLuint renderbuffer)) \
-    F(void, BlendColor, (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha)) \
-    F(void, BlendEquation, (GLenum mode)) \
-    F(void, BlendEquationSeparate, (GLenum modeRGB, GLenum modeAlpha)) \
-    F(void, BlendFuncSeparate, (GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha)) \
-    F(void, BufferData, (GLenum target, qopengl_GLsizeiptr size, const void* data, GLenum usage)) \
-    F(void, BufferSubData, (GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void* data)) \
-    F(GLenum, CheckFramebufferStatus, (GLenum target)) \
-    F(void, CompileShader, (GLuint shader)) \
-    F(void, CompressedTexImage2D, (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void* data)) \
-    F(void, CompressedTexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void* data)) \
-    F(GLuint, CreateProgram, ()) \
-    F(GLuint, CreateShader, (GLenum type)) \
-    F(void, DeleteBuffers, (GLsizei n, const GLuint* buffers)) \
-    F(void, DeleteFramebuffers, (GLsizei n, const GLuint* framebuffers)) \
-    F(void, DeleteProgram, (GLuint program)) \
-    F(void, DeleteRenderbuffers, (GLsizei n, const GLuint* renderbuffers)) \
-    F(void, DeleteShader, (GLuint shader)) \
-    F(void, DetachShader, (GLuint program, GLuint shader)) \
-    F(void, DisableVertexAttribArray, (GLuint index)) \
-    F(void, EnableVertexAttribArray, (GLuint index)) \
-    F(void, FramebufferRenderbuffer, (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer)) \
-    F(void, FramebufferTexture2D, (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level)) \
-    F(void, GenBuffers, (GLsizei n, GLuint* buffers)) \
-    F(void, GenerateMipmap, (GLenum target)) \
-    F(void, GenFramebuffers, (GLsizei n, GLuint* framebuffers)) \
-    F(void, GenRenderbuffers, (GLsizei n, GLuint* renderbuffers)) \
-    F(void, GetActiveAttrib, (GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name)) \
-    F(void, GetActiveUniform, (GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name)) \
-    F(void, GetAttachedShaders, (GLuint program, GLsizei maxcount, GLsizei* count, GLuint* shaders)) \
-    F(GLint, GetAttribLocation, (GLuint program, const char* name)) \
-    F(void, GetBufferParameteriv, (GLenum target, GLenum pname, GLint* params)) \
-    F(void, GetFramebufferAttachmentParameteriv, (GLenum target, GLenum attachment, GLenum pname, GLint* params)) \
-    F(void, GetProgramiv, (GLuint program, GLenum pname, GLint* params)) \
-    F(void, GetProgramInfoLog, (GLuint program, GLsizei bufsize, GLsizei* length, char* infolog)) \
-    F(void, GetRenderbufferParameteriv, (GLenum target, GLenum pname, GLint* params)) \
-    F(void, GetShaderiv, (GLuint shader, GLenum pname, GLint* params)) \
-    F(void, GetShaderInfoLog, (GLuint shader, GLsizei bufsize, GLsizei* length, char* infolog)) \
-    F(void, GetShaderPrecisionFormat, (GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision)) \
-    F(void, GetShaderSource, (GLuint shader, GLsizei bufsize, GLsizei* length, char* source)) \
-    F(void, GetUniformfv, (GLuint program, GLint location, GLfloat* params)) \
-    F(void, GetUniformiv, (GLuint program, GLint location, GLint* params)) \
-    F(GLint, GetUniformLocation, (GLuint program, const char* name)) \
-    F(void, GetVertexAttribfv, (GLuint index, GLenum pname, GLfloat* params)) \
-    F(void, GetVertexAttribiv, (GLuint index, GLenum pname, GLint* params)) \
-    F(void, GetVertexAttribPointerv, (GLuint index, GLenum pname, void** pointer)) \
-    F(GLboolean, IsBuffer, (GLuint buffer)) \
-    F(GLboolean, IsFramebuffer, (GLuint framebuffer)) \
-    F(GLboolean, IsProgram, (GLuint program)) \
-    F(GLboolean, IsRenderbuffer, (GLuint renderbuffer)) \
-    F(GLboolean, IsShader, (GLuint shader)) \
-    F(void, LinkProgram, (GLuint program)) \
-    F(void, ReleaseShaderCompiler, ()) \
-    F(void, RenderbufferStorage, (GLenum target, GLenum internalformat, GLsizei width, GLsizei height)) \
-    F(void, SampleCoverage, (GLclampf value, GLboolean invert)) \
-    F(void, ShaderBinary, (GLint n, const GLuint* shaders, GLenum binaryformat, const void* binary, GLint length)) \
-    F(void, ShaderSource, (GLuint shader, GLsizei count, const char** string, const GLint* length)) \
-    F(void, StencilFuncSeparate, (GLenum face, GLenum func, GLint ref, GLuint mask)) \
-    F(void, StencilMaskSeparate, (GLenum face, GLuint mask)) \
-    F(void, StencilOpSeparate, (GLenum face, GLenum fail, GLenum zfail, GLenum zpass)) \
-    F(void, Uniform1f, (GLint location, GLfloat x)) \
-    F(void, Uniform1fv, (GLint location, GLsizei count, const GLfloat* v)) \
-    F(void, Uniform1i, (GLint location, GLint x)) \
-    F(void, Uniform1iv, (GLint location, GLsizei count, const GLint* v)) \
-    F(void, Uniform2f, (GLint location, GLfloat x, GLfloat y)) \
-    F(void, Uniform2fv, (GLint location, GLsizei count, const GLfloat* v)) \
-    F(void, Uniform2i, (GLint location, GLint x, GLint y)) \
-    F(void, Uniform2iv, (GLint location, GLsizei count, const GLint* v)) \
-    F(void, Uniform3f, (GLint location, GLfloat x, GLfloat y, GLfloat z)) \
-    F(void, Uniform3fv, (GLint location, GLsizei count, const GLfloat* v)) \
-    F(void, Uniform3i, (GLint location, GLint x, GLint y, GLint z)) \
-    F(void, Uniform3iv, (GLint location, GLsizei count, const GLint* v)) \
-    F(void, Uniform4f, (GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w)) \
-    F(void, Uniform4fv, (GLint location, GLsizei count, const GLfloat* v)) \
-    F(void, Uniform4i, (GLint location, GLint x, GLint y, GLint z, GLint w)) \
-    F(void, Uniform4iv, (GLint location, GLsizei count, const GLint* v)) \
-    F(void, UniformMatrix2fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)) \
-    F(void, UniformMatrix3fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)) \
-    F(void, UniformMatrix4fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)) \
-    F(void, UseProgram, (GLuint program)) \
-    F(void, ValidateProgram, (GLuint program)) \
-    F(void, VertexAttrib1f, (GLuint indx, GLfloat x)) \
-    F(void, VertexAttrib1fv, (GLuint indx, const GLfloat* values)) \
-    F(void, VertexAttrib2f, (GLuint indx, GLfloat x, GLfloat y)) \
-    F(void, VertexAttrib2fv, (GLuint indx, const GLfloat* values)) \
-    F(void, VertexAttrib3f, (GLuint indx, GLfloat x, GLfloat y, GLfloat z)) \
-    F(void, VertexAttrib3fv, (GLuint indx, const GLfloat* values)) \
-    F(void, VertexAttrib4f, (GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w)) \
-    F(void, VertexAttrib4fv, (GLuint indx, const GLfloat* values)) \
-    F(void, VertexAttribPointer, (GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* ptr)) \
-    F(void, ClearDepth, (GLdouble depth)) \
-    F(void, DepthRange, (GLdouble zNear, GLdouble zFar)) \
+#define QT_OPENGL_FUNCTIONS(F)                                                                                                                                                      \
+    F(void, BindTexture, (GLenum target, GLuint texture))                                                                                                                           \
+    F(void, BlendFunc, (GLenum sfactor, GLenum dfactor))                                                                                                                            \
+    F(void, Clear, (GLbitfield mask))                                                                                                                                               \
+    F(void, ClearColor, (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha))                                                                                              \
+    F(void, ClearDepthf, (GLclampf depth))                                                                                                                                          \
+    F(void, ClearStencil, (GLint s))                                                                                                                                                \
+    F(void, ColorMask, (GLboolean red, GLboolean green, GLboolean blue, GLboolean alpha))                                                                                           \
+    F(void, CopyTexImage2D, (GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border))                                     \
+    F(void, CopyTexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLint x, GLint y, GLsizei width, GLsizei height))                                         \
+    F(void, CullFace, (GLenum mode))                                                                                                                                                \
+    F(void, DeleteTextures, (GLsizei n, const GLuint * textures))                                                                                                                   \
+    F(void, DepthFunc, (GLenum func))                                                                                                                                               \
+    F(void, DepthMask, (GLboolean flag))                                                                                                                                            \
+    F(void, DepthRangef, (GLclampf nearVal, GLclampf farVal))                                                                                                                       \
+    F(void, Disable, (GLenum cap))                                                                                                                                                  \
+    F(void, DrawArrays, (GLenum mode, GLint first, GLsizei count))                                                                                                                  \
+    F(void, DrawElements, (GLenum mode, GLsizei count, GLenum type, const GLvoid * indices))                                                                                        \
+    F(void, Enable, (GLenum cap))                                                                                                                                                   \
+    F(void, Finish, ())                                                                                                                                                             \
+    F(void, Flush, ())                                                                                                                                                              \
+    F(void, FrontFace, (GLenum mode))                                                                                                                                               \
+    F(void, GenTextures, (GLsizei n, GLuint * textures))                                                                                                                            \
+    F(void, GetBooleanv, (GLenum pname, GLboolean * params))                                                                                                                        \
+    F(GLenum, GetError, ())                                                                                                                                                         \
+    F(void, GetFloatv, (GLenum pname, GLfloat * params))                                                                                                                            \
+    F(void, GetIntegerv, (GLenum pname, GLint * params))                                                                                                                            \
+    F(const GLubyte*, GetString, (GLenum name))                                                                                                                                     \
+    F(void, GetTexParameterfv, (GLenum target, GLenum pname, GLfloat * params))                                                                                                     \
+    F(void, GetTexParameteriv, (GLenum target, GLenum pname, GLint * params))                                                                                                       \
+    F(void, Hint, (GLenum target, GLenum mode))                                                                                                                                     \
+    F(GLboolean, IsEnabled, (GLenum cap))                                                                                                                                           \
+    F(GLboolean, IsTexture, (GLuint texture))                                                                                                                                       \
+    F(void, LineWidth, (GLfloat width))                                                                                                                                             \
+    F(void, PixelStorei, (GLenum pname, GLint param))                                                                                                                               \
+    F(void, PolygonOffset, (GLfloat factor, GLfloat units))                                                                                                                         \
+    F(void, ReadPixels, (GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid * pixels))                                                             \
+    F(void, Scissor, (GLint x, GLint y, GLsizei width, GLsizei height))                                                                                                             \
+    F(void, StencilFunc, (GLenum func, GLint ref, GLuint mask))                                                                                                                     \
+    F(void, StencilMask, (GLuint mask))                                                                                                                                             \
+    F(void, StencilOp, (GLenum fail, GLenum zfail, GLenum zpass))                                                                                                                   \
+    F(void, TexImage2D, (GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid * pixels))         \
+    F(void, TexParameterf, (GLenum target, GLenum pname, GLfloat param))                                                                                                            \
+    F(void, TexParameterfv, (GLenum target, GLenum pname, const GLfloat * params))                                                                                                  \
+    F(void, TexParameteri, (GLenum target, GLenum pname, GLint param))                                                                                                              \
+    F(void, TexParameteriv, (GLenum target, GLenum pname, const GLint * params))                                                                                                    \
+    F(void, TexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid * pixels))            \
+    F(void, Viewport, (GLint x, GLint y, GLsizei width, GLsizei height))                                                                                                            \
+    F(void, ActiveTexture, (GLenum texture))                                                                                                                                        \
+    F(void, AttachShader, (GLuint program, GLuint shader))                                                                                                                          \
+    F(void, BindAttribLocation, (GLuint program, GLuint index, const char *name))                                                                                                   \
+    F(void, BindBuffer, (GLenum target, GLuint buffer))                                                                                                                             \
+    F(void, BindFramebuffer, (GLenum target, GLuint framebuffer))                                                                                                                   \
+    F(void, BindRenderbuffer, (GLenum target, GLuint renderbuffer))                                                                                                                 \
+    F(void, BlendColor, (GLclampf red, GLclampf green, GLclampf blue, GLclampf alpha))                                                                                              \
+    F(void, BlendEquation, (GLenum mode))                                                                                                                                           \
+    F(void, BlendEquationSeparate, (GLenum modeRGB, GLenum modeAlpha))                                                                                                              \
+    F(void, BlendFuncSeparate, (GLenum srcRGB, GLenum dstRGB, GLenum srcAlpha, GLenum dstAlpha))                                                                                    \
+    F(void, BufferData, (GLenum target, qopengl_GLsizeiptr size, const void *data, GLenum usage))                                                                                   \
+    F(void, BufferSubData, (GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void *data))                                                                     \
+    F(GLenum, CheckFramebufferStatus, (GLenum target))                                                                                                                              \
+    F(void, CompileShader, (GLuint shader))                                                                                                                                         \
+    F(void, CompressedTexImage2D, (GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data))            \
+    F(void, CompressedTexSubImage2D, (GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data)) \
+    F(GLuint, CreateProgram, ())                                                                                                                                                    \
+    F(GLuint, CreateShader, (GLenum type))                                                                                                                                          \
+    F(void, DeleteBuffers, (GLsizei n, const GLuint * buffers))                                                                                                                     \
+    F(void, DeleteFramebuffers, (GLsizei n, const GLuint * framebuffers))                                                                                                           \
+    F(void, DeleteProgram, (GLuint program))                                                                                                                                        \
+    F(void, DeleteRenderbuffers, (GLsizei n, const GLuint * renderbuffers))                                                                                                         \
+    F(void, DeleteShader, (GLuint shader))                                                                                                                                          \
+    F(void, DetachShader, (GLuint program, GLuint shader))                                                                                                                          \
+    F(void, DisableVertexAttribArray, (GLuint index))                                                                                                                               \
+    F(void, EnableVertexAttribArray, (GLuint index))                                                                                                                                \
+    F(void, FramebufferRenderbuffer, (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer))                                                            \
+    F(void, FramebufferTexture2D, (GLenum target, GLenum attachment, GLenum textarget, GLuint texture, GLint level))                                                                \
+    F(void, GenBuffers, (GLsizei n, GLuint * buffers))                                                                                                                              \
+    F(void, GenerateMipmap, (GLenum target))                                                                                                                                        \
+    F(void, GenFramebuffers, (GLsizei n, GLuint * framebuffers))                                                                                                                    \
+    F(void, GenRenderbuffers, (GLsizei n, GLuint * renderbuffers))                                                                                                                  \
+    F(void, GetActiveAttrib, (GLuint program, GLuint index, GLsizei bufsize, GLsizei * length, GLint * size, GLenum * type, char *name))                                            \
+    F(void, GetActiveUniform, (GLuint program, GLuint index, GLsizei bufsize, GLsizei * length, GLint * size, GLenum * type, char *name))                                           \
+    F(void, GetAttachedShaders, (GLuint program, GLsizei maxcount, GLsizei * count, GLuint * shaders))                                                                              \
+    F(GLint, GetAttribLocation, (GLuint program, const char *name))                                                                                                                 \
+    F(void, GetBufferParameteriv, (GLenum target, GLenum pname, GLint * params))                                                                                                    \
+    F(void, GetFramebufferAttachmentParameteriv, (GLenum target, GLenum attachment, GLenum pname, GLint * params))                                                                  \
+    F(void, GetProgramiv, (GLuint program, GLenum pname, GLint * params))                                                                                                           \
+    F(void, GetProgramInfoLog, (GLuint program, GLsizei bufsize, GLsizei * length, char *infolog))                                                                                  \
+    F(void, GetRenderbufferParameteriv, (GLenum target, GLenum pname, GLint * params))                                                                                              \
+    F(void, GetShaderiv, (GLuint shader, GLenum pname, GLint * params))                                                                                                             \
+    F(void, GetShaderInfoLog, (GLuint shader, GLsizei bufsize, GLsizei * length, char *infolog))                                                                                    \
+    F(void, GetShaderPrecisionFormat, (GLenum shadertype, GLenum precisiontype, GLint * range, GLint * precision))                                                                  \
+    F(void, GetShaderSource, (GLuint shader, GLsizei bufsize, GLsizei * length, char *source))                                                                                      \
+    F(void, GetUniformfv, (GLuint program, GLint location, GLfloat * params))                                                                                                       \
+    F(void, GetUniformiv, (GLuint program, GLint location, GLint * params))                                                                                                         \
+    F(GLint, GetUniformLocation, (GLuint program, const char *name))                                                                                                                \
+    F(void, GetVertexAttribfv, (GLuint index, GLenum pname, GLfloat * params))                                                                                                      \
+    F(void, GetVertexAttribiv, (GLuint index, GLenum pname, GLint * params))                                                                                                        \
+    F(void, GetVertexAttribPointerv, (GLuint index, GLenum pname, void **pointer))                                                                                                  \
+    F(GLboolean, IsBuffer, (GLuint buffer))                                                                                                                                         \
+    F(GLboolean, IsFramebuffer, (GLuint framebuffer))                                                                                                                               \
+    F(GLboolean, IsProgram, (GLuint program))                                                                                                                                       \
+    F(GLboolean, IsRenderbuffer, (GLuint renderbuffer))                                                                                                                             \
+    F(GLboolean, IsShader, (GLuint shader))                                                                                                                                         \
+    F(void, LinkProgram, (GLuint program))                                                                                                                                          \
+    F(void, ReleaseShaderCompiler, ())                                                                                                                                              \
+    F(void, RenderbufferStorage, (GLenum target, GLenum internalformat, GLsizei width, GLsizei height))                                                                             \
+    F(void, SampleCoverage, (GLclampf value, GLboolean invert))                                                                                                                     \
+    F(void, ShaderBinary, (GLint n, const GLuint * shaders, GLenum binaryformat, const void *binary, GLint length))                                                                 \
+    F(void, ShaderSource, (GLuint shader, GLsizei count, const char **string, const GLint * length))                                                                                \
+    F(void, StencilFuncSeparate, (GLenum face, GLenum func, GLint ref, GLuint mask))                                                                                                \
+    F(void, StencilMaskSeparate, (GLenum face, GLuint mask))                                                                                                                        \
+    F(void, StencilOpSeparate, (GLenum face, GLenum fail, GLenum zfail, GLenum zpass))                                                                                              \
+    F(void, Uniform1f, (GLint location, GLfloat x))                                                                                                                                 \
+    F(void, Uniform1fv, (GLint location, GLsizei count, const GLfloat * v))                                                                                                         \
+    F(void, Uniform1i, (GLint location, GLint x))                                                                                                                                   \
+    F(void, Uniform1iv, (GLint location, GLsizei count, const GLint * v))                                                                                                           \
+    F(void, Uniform2f, (GLint location, GLfloat x, GLfloat y))                                                                                                                      \
+    F(void, Uniform2fv, (GLint location, GLsizei count, const GLfloat * v))                                                                                                         \
+    F(void, Uniform2i, (GLint location, GLint x, GLint y))                                                                                                                          \
+    F(void, Uniform2iv, (GLint location, GLsizei count, const GLint * v))                                                                                                           \
+    F(void, Uniform3f, (GLint location, GLfloat x, GLfloat y, GLfloat z))                                                                                                           \
+    F(void, Uniform3fv, (GLint location, GLsizei count, const GLfloat * v))                                                                                                         \
+    F(void, Uniform3i, (GLint location, GLint x, GLint y, GLint z))                                                                                                                 \
+    F(void, Uniform3iv, (GLint location, GLsizei count, const GLint * v))                                                                                                           \
+    F(void, Uniform4f, (GLint location, GLfloat x, GLfloat y, GLfloat z, GLfloat w))                                                                                                \
+    F(void, Uniform4fv, (GLint location, GLsizei count, const GLfloat * v))                                                                                                         \
+    F(void, Uniform4i, (GLint location, GLint x, GLint y, GLint z, GLint w))                                                                                                        \
+    F(void, Uniform4iv, (GLint location, GLsizei count, const GLint * v))                                                                                                           \
+    F(void, UniformMatrix2fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat * value))                                                                          \
+    F(void, UniformMatrix3fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat * value))                                                                          \
+    F(void, UniformMatrix4fv, (GLint location, GLsizei count, GLboolean transpose, const GLfloat * value))                                                                          \
+    F(void, UseProgram, (GLuint program))                                                                                                                                           \
+    F(void, ValidateProgram, (GLuint program))                                                                                                                                      \
+    F(void, VertexAttrib1f, (GLuint indx, GLfloat x))                                                                                                                               \
+    F(void, VertexAttrib1fv, (GLuint indx, const GLfloat * values))                                                                                                                 \
+    F(void, VertexAttrib2f, (GLuint indx, GLfloat x, GLfloat y))                                                                                                                    \
+    F(void, VertexAttrib2fv, (GLuint indx, const GLfloat * values))                                                                                                                 \
+    F(void, VertexAttrib3f, (GLuint indx, GLfloat x, GLfloat y, GLfloat z))                                                                                                         \
+    F(void, VertexAttrib3fv, (GLuint indx, const GLfloat * values))                                                                                                                 \
+    F(void, VertexAttrib4f, (GLuint indx, GLfloat x, GLfloat y, GLfloat z, GLfloat w))                                                                                              \
+    F(void, VertexAttrib4fv, (GLuint indx, const GLfloat * values))                                                                                                                 \
+    F(void, VertexAttribPointer, (GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *ptr))                                                     \
+    F(void, ClearDepth, (GLdouble depth))                                                                                                                                           \
+    F(void, DepthRange, (GLdouble zNear, GLdouble zFar))                                                                                                                            \
 
     QT_OPENGL_DECLARE(QT_OPENGL_FUNCTIONS)
 };
@@ -658,10 +664,10 @@ inline void QOpenGLFunctions::glColorMask(GLboolean red, GLboolean green, GLbool
 inline void QOpenGLFunctions::glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    ::glCopyTexImage2D(target, level, internalformat, x, y, width,height, border);
+    ::glCopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    d_ptr->f.CopyTexImage2D(target, level, internalformat, x, y, width,height, border);
+    d_ptr->f.CopyTexImage2D(target, level, internalformat, x, y, width, height, border);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
 }
@@ -688,7 +694,7 @@ inline void QOpenGLFunctions::glCullFace(GLenum mode)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glDeleteTextures(GLsizei n, const GLuint* textures)
+inline void QOpenGLFunctions::glDeleteTextures(GLsizei n, const GLuint *textures)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glDeleteTextures(n, textures);
@@ -743,7 +749,7 @@ inline void QOpenGLFunctions::glDrawArrays(GLenum mode, GLint first, GLsizei cou
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid* indices)
+inline void QOpenGLFunctions::glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glDrawElements(mode, count, type, indices);
@@ -798,7 +804,7 @@ inline void QOpenGLFunctions::glFrontFace(GLenum mode)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGenTextures(GLsizei n, GLuint* textures)
+inline void QOpenGLFunctions::glGenTextures(GLsizei n, GLuint *textures)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGenTextures(n, textures);
@@ -809,7 +815,7 @@ inline void QOpenGLFunctions::glGenTextures(GLsizei n, GLuint* textures)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetBooleanv(GLenum pname, GLboolean* params)
+inline void QOpenGLFunctions::glGetBooleanv(GLenum pname, GLboolean *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetBooleanv(pname, params);
@@ -823,15 +829,15 @@ inline void QOpenGLFunctions::glGetBooleanv(GLenum pname, GLboolean* params)
 inline GLenum QOpenGLFunctions::glGetError()
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLenum result = ::glGetError();
+    GLenum    result = ::glGetError();
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLenum result = d_ptr->f.GetError();
+    GLenum    result = d_ptr->f.GetError();
 #endif
     return result;
 }
 
-inline void QOpenGLFunctions::glGetFloatv(GLenum pname, GLfloat* params)
+inline void QOpenGLFunctions::glGetFloatv(GLenum pname, GLfloat *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetFloatv(pname, params);
@@ -842,7 +848,7 @@ inline void QOpenGLFunctions::glGetFloatv(GLenum pname, GLfloat* params)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetIntegerv(GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetIntegerv(GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetIntegerv(pname, params);
@@ -853,19 +859,19 @@ inline void QOpenGLFunctions::glGetIntegerv(GLenum pname, GLint* params)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline const GLubyte *QOpenGLFunctions::glGetString(GLenum name)
+inline const GLubyte* QOpenGLFunctions::glGetString(GLenum name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    const GLubyte *result = ::glGetString(name);
+    const GLubyte    *result = ::glGetString(name);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    const GLubyte *result = d_ptr->f.GetString(name);
+    const GLubyte    *result = d_ptr->f.GetString(name);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
 }
 
-inline void QOpenGLFunctions::glGetTexParameterfv(GLenum target, GLenum pname, GLfloat* params)
+inline void QOpenGLFunctions::glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetTexParameterfv(target, pname, params);
@@ -876,7 +882,7 @@ inline void QOpenGLFunctions::glGetTexParameterfv(GLenum target, GLenum pname, G
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetTexParameteriv(GLenum target, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetTexParameteriv(GLenum target, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetTexParameteriv(target, pname, params);
@@ -901,10 +907,10 @@ inline void QOpenGLFunctions::glHint(GLenum target, GLenum mode)
 inline GLboolean QOpenGLFunctions::glIsEnabled(GLenum cap)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsEnabled(cap);
+    GLboolean    result = ::glIsEnabled(cap);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsEnabled(cap);
+    GLboolean    result = d_ptr->f.IsEnabled(cap);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -913,10 +919,10 @@ inline GLboolean QOpenGLFunctions::glIsEnabled(GLenum cap)
 inline GLboolean QOpenGLFunctions::glIsTexture(GLuint texture)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsTexture(texture);
+    GLboolean    result = ::glIsTexture(texture);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsTexture(texture);
+    GLboolean    result = d_ptr->f.IsTexture(texture);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -955,7 +961,7 @@ inline void QOpenGLFunctions::glPolygonOffset(GLfloat factor, GLfloat units)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid* pixels)
+inline void QOpenGLFunctions::glReadPixels(GLint x, GLint y, GLsizei width, GLsizei height, GLenum format, GLenum type, GLvoid *pixels)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glReadPixels(x, y, width, height, format, type, pixels);
@@ -1010,13 +1016,13 @@ inline void QOpenGLFunctions::glStencilOp(GLenum fail, GLenum zfail, GLenum zpas
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid* pixels)
+inline void QOpenGLFunctions::glTexImage2D(GLenum target, GLint level, GLint internalformat, GLsizei width, GLsizei height, GLint border, GLenum format, GLenum type, const GLvoid *pixels)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    ::glTexImage2D(target, level, internalformat, width,height, border, format, type, pixels);
+    ::glTexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    d_ptr->f.TexImage2D(target, level, internalformat, width,height, border, format, type, pixels);
+    d_ptr->f.TexImage2D(target, level, internalformat, width, height, border, format, type, pixels);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
 }
@@ -1032,7 +1038,7 @@ inline void QOpenGLFunctions::glTexParameterf(GLenum target, GLenum pname, GLflo
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glTexParameterfv(GLenum target, GLenum pname, const GLfloat* params)
+inline void QOpenGLFunctions::glTexParameterfv(GLenum target, GLenum pname, const GLfloat *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glTexParameterfv(target, pname, params);
@@ -1054,7 +1060,7 @@ inline void QOpenGLFunctions::glTexParameteri(GLenum target, GLenum pname, GLint
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glTexParameteriv(GLenum target, GLenum pname, const GLint* params)
+inline void QOpenGLFunctions::glTexParameteriv(GLenum target, GLenum pname, const GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glTexParameteriv(target, pname, params);
@@ -1065,7 +1071,7 @@ inline void QOpenGLFunctions::glTexParameteriv(GLenum target, GLenum pname, cons
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid* pixels)
+inline void QOpenGLFunctions::glTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLenum type, const GLvoid *pixels)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glTexSubImage2D(target, level, xoffset, yoffset, width, height, format, type, pixels);
@@ -1111,7 +1117,7 @@ inline void QOpenGLFunctions::glAttachShader(GLuint program, GLuint shader)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glBindAttribLocation(GLuint program, GLuint index, const char* name)
+inline void QOpenGLFunctions::glBindAttribLocation(GLuint program, GLuint index, const char *name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glBindAttribLocation(program, index, name);
@@ -1137,6 +1143,7 @@ inline void QOpenGLFunctions::glBindFramebuffer(GLenum target, GLuint framebuffe
 {
     if (framebuffer == 0)
         framebuffer = QOpenGLContext::currentContext()->defaultFramebufferObject();
+
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glBindFramebuffer(target, framebuffer);
 #else
@@ -1201,7 +1208,7 @@ inline void QOpenGLFunctions::glBlendFuncSeparate(GLenum srcRGB, GLenum dstRGB, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glBufferData(GLenum target, qopengl_GLsizeiptr size, const void* data, GLenum usage)
+inline void QOpenGLFunctions::glBufferData(GLenum target, qopengl_GLsizeiptr size, const void *data, GLenum usage)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glBufferData(target, size, data, usage);
@@ -1212,7 +1219,7 @@ inline void QOpenGLFunctions::glBufferData(GLenum target, qopengl_GLsizeiptr siz
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glBufferSubData(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void* data)
+inline void QOpenGLFunctions::glBufferSubData(GLenum target, qopengl_GLintptr offset, qopengl_GLsizeiptr size, const void *data)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glBufferSubData(target, offset, size, data);
@@ -1226,10 +1233,10 @@ inline void QOpenGLFunctions::glBufferSubData(GLenum target, qopengl_GLintptr of
 inline GLenum QOpenGLFunctions::glCheckFramebufferStatus(GLenum target)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLenum result = ::glCheckFramebufferStatus(target);
+    GLenum    result = ::glCheckFramebufferStatus(target);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLenum result = d_ptr->f.CheckFramebufferStatus(target);
+    GLenum    result = d_ptr->f.CheckFramebufferStatus(target);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1257,7 +1264,7 @@ inline void QOpenGLFunctions::glCompileShader(GLuint shader)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void* data)
+inline void QOpenGLFunctions::glCompressedTexImage2D(GLenum target, GLint level, GLenum internalformat, GLsizei width, GLsizei height, GLint border, GLsizei imageSize, const void *data)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glCompressedTexImage2D(target, level, internalformat, width, height, border, imageSize, data);
@@ -1268,7 +1275,7 @@ inline void QOpenGLFunctions::glCompressedTexImage2D(GLenum target, GLint level,
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void* data)
+inline void QOpenGLFunctions::glCompressedTexSubImage2D(GLenum target, GLint level, GLint xoffset, GLint yoffset, GLsizei width, GLsizei height, GLenum format, GLsizei imageSize, const void *data)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glCompressedTexSubImage2D(target, level, xoffset, yoffset, width, height, format, imageSize, data);
@@ -1282,10 +1289,10 @@ inline void QOpenGLFunctions::glCompressedTexSubImage2D(GLenum target, GLint lev
 inline GLuint QOpenGLFunctions::glCreateProgram()
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLuint result = ::glCreateProgram();
+    GLuint    result = ::glCreateProgram();
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLuint result = d_ptr->f.CreateProgram();
+    GLuint    result = d_ptr->f.CreateProgram();
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1294,16 +1301,16 @@ inline GLuint QOpenGLFunctions::glCreateProgram()
 inline GLuint QOpenGLFunctions::glCreateShader(GLenum type)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLuint result = ::glCreateShader(type);
+    GLuint    result = ::glCreateShader(type);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLuint result = d_ptr->f.CreateShader(type);
+    GLuint    result = d_ptr->f.CreateShader(type);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
 }
 
-inline void QOpenGLFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers)
+inline void QOpenGLFunctions::glDeleteBuffers(GLsizei n, const GLuint *buffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glDeleteBuffers(n, buffers);
@@ -1314,7 +1321,7 @@ inline void QOpenGLFunctions::glDeleteBuffers(GLsizei n, const GLuint* buffers)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glDeleteFramebuffers(GLsizei n, const GLuint* framebuffers)
+inline void QOpenGLFunctions::glDeleteFramebuffers(GLsizei n, const GLuint *framebuffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glDeleteFramebuffers(n, framebuffers);
@@ -1336,7 +1343,7 @@ inline void QOpenGLFunctions::glDeleteProgram(GLuint program)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glDeleteRenderbuffers(GLsizei n, const GLuint* renderbuffers)
+inline void QOpenGLFunctions::glDeleteRenderbuffers(GLsizei n, const GLuint *renderbuffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glDeleteRenderbuffers(n, renderbuffers);
@@ -1424,7 +1431,7 @@ inline void QOpenGLFunctions::glFramebufferTexture2D(GLenum target, GLenum attac
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGenBuffers(GLsizei n, GLuint* buffers)
+inline void QOpenGLFunctions::glGenBuffers(GLsizei n, GLuint *buffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGenBuffers(n, buffers);
@@ -1446,7 +1453,7 @@ inline void QOpenGLFunctions::glGenerateMipmap(GLenum target)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGenFramebuffers(GLsizei n, GLuint* framebuffers)
+inline void QOpenGLFunctions::glGenFramebuffers(GLsizei n, GLuint *framebuffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGenFramebuffers(n, framebuffers);
@@ -1457,7 +1464,7 @@ inline void QOpenGLFunctions::glGenFramebuffers(GLsizei n, GLuint* framebuffers)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGenRenderbuffers(GLsizei n, GLuint* renderbuffers)
+inline void QOpenGLFunctions::glGenRenderbuffers(GLsizei n, GLuint *renderbuffers)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGenRenderbuffers(n, renderbuffers);
@@ -1468,7 +1475,7 @@ inline void QOpenGLFunctions::glGenRenderbuffers(GLsizei n, GLuint* renderbuffer
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name)
+inline void QOpenGLFunctions::glGetActiveAttrib(GLuint program, GLuint index, GLsizei bufsize, GLsizei *length, GLint *size, GLenum *type, char *name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetActiveAttrib(program, index, bufsize, length, size, type, name);
@@ -1479,7 +1486,7 @@ inline void QOpenGLFunctions::glGetActiveAttrib(GLuint program, GLuint index, GL
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetActiveUniform(GLuint program, GLuint index, GLsizei bufsize, GLsizei* length, GLint* size, GLenum* type, char* name)
+inline void QOpenGLFunctions::glGetActiveUniform(GLuint program, GLuint index, GLsizei bufsize, GLsizei *length, GLint *size, GLenum *type, char *name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetActiveUniform(program, index, bufsize, length, size, type, name);
@@ -1490,7 +1497,7 @@ inline void QOpenGLFunctions::glGetActiveUniform(GLuint program, GLuint index, G
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetAttachedShaders(GLuint program, GLsizei maxcount, GLsizei* count, GLuint* shaders)
+inline void QOpenGLFunctions::glGetAttachedShaders(GLuint program, GLsizei maxcount, GLsizei *count, GLuint *shaders)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetAttachedShaders(program, maxcount, count, shaders);
@@ -1501,19 +1508,19 @@ inline void QOpenGLFunctions::glGetAttachedShaders(GLuint program, GLsizei maxco
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline GLint QOpenGLFunctions::glGetAttribLocation(GLuint program, const char* name)
+inline GLint QOpenGLFunctions::glGetAttribLocation(GLuint program, const char *name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLint result = ::glGetAttribLocation(program, name);
+    GLint    result = ::glGetAttribLocation(program, name);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLint result = d_ptr->f.GetAttribLocation(program, name);
+    GLint    result = d_ptr->f.GetAttribLocation(program, name);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
 }
 
-inline void QOpenGLFunctions::glGetBufferParameteriv(GLenum target, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetBufferParameteriv(GLenum target, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetBufferParameteriv(target, pname, params);
@@ -1524,7 +1531,7 @@ inline void QOpenGLFunctions::glGetBufferParameteriv(GLenum target, GLenum pname
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetFramebufferAttachmentParameteriv(GLenum target, GLenum attachment, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetFramebufferAttachmentParameteriv(target, attachment, pname, params);
@@ -1535,7 +1542,7 @@ inline void QOpenGLFunctions::glGetFramebufferAttachmentParameteriv(GLenum targe
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetProgramiv(program, pname, params);
@@ -1546,7 +1553,7 @@ inline void QOpenGLFunctions::glGetProgramiv(GLuint program, GLenum pname, GLint
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetProgramInfoLog(GLuint program, GLsizei bufsize, GLsizei* length, char* infolog)
+inline void QOpenGLFunctions::glGetProgramInfoLog(GLuint program, GLsizei bufsize, GLsizei *length, char *infolog)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetProgramInfoLog(program, bufsize, length, infolog);
@@ -1557,7 +1564,7 @@ inline void QOpenGLFunctions::glGetProgramInfoLog(GLuint program, GLsizei bufsiz
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetRenderbufferParameteriv(GLenum target, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetRenderbufferParameteriv(target, pname, params);
@@ -1568,7 +1575,7 @@ inline void QOpenGLFunctions::glGetRenderbufferParameteriv(GLenum target, GLenum
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetShaderiv(shader, pname, params);
@@ -1579,7 +1586,7 @@ inline void QOpenGLFunctions::glGetShaderiv(GLuint shader, GLenum pname, GLint* 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei* length, char* infolog)
+inline void QOpenGLFunctions::glGetShaderInfoLog(GLuint shader, GLsizei bufsize, GLsizei *length, char *infolog)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetShaderInfoLog(shader, bufsize, length, infolog);
@@ -1590,7 +1597,7 @@ inline void QOpenGLFunctions::glGetShaderInfoLog(GLuint shader, GLsizei bufsize,
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint* range, GLint* precision)
+inline void QOpenGLFunctions::glGetShaderPrecisionFormat(GLenum shadertype, GLenum precisiontype, GLint *range, GLint *precision)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetShaderPrecisionFormat(shadertype, precisiontype, range, precision);
@@ -1601,7 +1608,7 @@ inline void QOpenGLFunctions::glGetShaderPrecisionFormat(GLenum shadertype, GLen
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei* length, char* source)
+inline void QOpenGLFunctions::glGetShaderSource(GLuint shader, GLsizei bufsize, GLsizei *length, char *source)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetShaderSource(shader, bufsize, length, source);
@@ -1612,7 +1619,7 @@ inline void QOpenGLFunctions::glGetShaderSource(GLuint shader, GLsizei bufsize, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetUniformfv(GLuint program, GLint location, GLfloat* params)
+inline void QOpenGLFunctions::glGetUniformfv(GLuint program, GLint location, GLfloat *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetUniformfv(program, location, params);
@@ -1623,7 +1630,7 @@ inline void QOpenGLFunctions::glGetUniformfv(GLuint program, GLint location, GLf
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetUniformiv(GLuint program, GLint location, GLint* params)
+inline void QOpenGLFunctions::glGetUniformiv(GLuint program, GLint location, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetUniformiv(program, location, params);
@@ -1634,19 +1641,19 @@ inline void QOpenGLFunctions::glGetUniformiv(GLuint program, GLint location, GLi
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline GLint QOpenGLFunctions::glGetUniformLocation(GLuint program, const char* name)
+inline GLint QOpenGLFunctions::glGetUniformLocation(GLuint program, const char *name)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLint result = ::glGetUniformLocation(program, name);
+    GLint    result = ::glGetUniformLocation(program, name);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLint result = d_ptr->f.GetUniformLocation(program, name);
+    GLint    result = d_ptr->f.GetUniformLocation(program, name);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
 }
 
-inline void QOpenGLFunctions::glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat* params)
+inline void QOpenGLFunctions::glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetVertexAttribfv(index, pname, params);
@@ -1657,7 +1664,7 @@ inline void QOpenGLFunctions::glGetVertexAttribfv(GLuint index, GLenum pname, GL
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetVertexAttribiv(GLuint index, GLenum pname, GLint* params)
+inline void QOpenGLFunctions::glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetVertexAttribiv(index, pname, params);
@@ -1668,7 +1675,7 @@ inline void QOpenGLFunctions::glGetVertexAttribiv(GLuint index, GLenum pname, GL
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glGetVertexAttribPointerv(GLuint index, GLenum pname, void** pointer)
+inline void QOpenGLFunctions::glGetVertexAttribPointerv(GLuint index, GLenum pname, void **pointer)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glGetVertexAttribPointerv(index, pname, pointer);
@@ -1682,10 +1689,10 @@ inline void QOpenGLFunctions::glGetVertexAttribPointerv(GLuint index, GLenum pna
 inline GLboolean QOpenGLFunctions::glIsBuffer(GLuint buffer)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsBuffer(buffer);
+    GLboolean    result = ::glIsBuffer(buffer);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsBuffer(buffer);
+    GLboolean    result = d_ptr->f.IsBuffer(buffer);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1694,10 +1701,10 @@ inline GLboolean QOpenGLFunctions::glIsBuffer(GLuint buffer)
 inline GLboolean QOpenGLFunctions::glIsFramebuffer(GLuint framebuffer)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsFramebuffer(framebuffer);
+    GLboolean    result = ::glIsFramebuffer(framebuffer);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsFramebuffer(framebuffer);
+    GLboolean    result = d_ptr->f.IsFramebuffer(framebuffer);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1706,10 +1713,10 @@ inline GLboolean QOpenGLFunctions::glIsFramebuffer(GLuint framebuffer)
 inline GLboolean QOpenGLFunctions::glIsProgram(GLuint program)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsProgram(program);
+    GLboolean    result = ::glIsProgram(program);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsProgram(program);
+    GLboolean    result = d_ptr->f.IsProgram(program);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1718,10 +1725,10 @@ inline GLboolean QOpenGLFunctions::glIsProgram(GLuint program)
 inline GLboolean QOpenGLFunctions::glIsRenderbuffer(GLuint renderbuffer)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsRenderbuffer(renderbuffer);
+    GLboolean    result = ::glIsRenderbuffer(renderbuffer);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsRenderbuffer(renderbuffer);
+    GLboolean    result = d_ptr->f.IsRenderbuffer(renderbuffer);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1730,10 +1737,10 @@ inline GLboolean QOpenGLFunctions::glIsRenderbuffer(GLuint renderbuffer)
 inline GLboolean QOpenGLFunctions::glIsShader(GLuint shader)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
-    GLboolean result = ::glIsShader(shader);
+    GLboolean    result = ::glIsShader(shader);
 #else
     Q_ASSERT(QOpenGLFunctions::isInitialized(d_ptr));
-    GLboolean result = d_ptr->f.IsShader(shader);
+    GLboolean    result = d_ptr->f.IsShader(shader);
 #endif
     Q_OPENGL_FUNCTIONS_DEBUG
     return result;
@@ -1783,7 +1790,7 @@ inline void QOpenGLFunctions::glSampleCoverage(GLclampf value, GLboolean invert)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glShaderBinary(GLint n, const GLuint* shaders, GLenum binaryformat, const void* binary, GLint length)
+inline void QOpenGLFunctions::glShaderBinary(GLint n, const GLuint *shaders, GLenum binaryformat, const void *binary, GLint length)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glShaderBinary(n, shaders, binaryformat, binary, length);
@@ -1794,7 +1801,7 @@ inline void QOpenGLFunctions::glShaderBinary(GLint n, const GLuint* shaders, GLe
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glShaderSource(GLuint shader, GLsizei count, const char** string, const GLint* length)
+inline void QOpenGLFunctions::glShaderSource(GLuint shader, GLsizei count, const char **string, const GLint *length)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glShaderSource(shader, count, string, length);
@@ -1849,7 +1856,7 @@ inline void QOpenGLFunctions::glUniform1f(GLint location, GLfloat x)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform1fv(GLint location, GLsizei count, const GLfloat* v)
+inline void QOpenGLFunctions::glUniform1fv(GLint location, GLsizei count, const GLfloat *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform1fv(location, count, v);
@@ -1871,7 +1878,7 @@ inline void QOpenGLFunctions::glUniform1i(GLint location, GLint x)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform1iv(GLint location, GLsizei count, const GLint* v)
+inline void QOpenGLFunctions::glUniform1iv(GLint location, GLsizei count, const GLint *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform1iv(location, count, v);
@@ -1893,7 +1900,7 @@ inline void QOpenGLFunctions::glUniform2f(GLint location, GLfloat x, GLfloat y)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform2fv(GLint location, GLsizei count, const GLfloat* v)
+inline void QOpenGLFunctions::glUniform2fv(GLint location, GLsizei count, const GLfloat *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform2fv(location, count, v);
@@ -1915,7 +1922,7 @@ inline void QOpenGLFunctions::glUniform2i(GLint location, GLint x, GLint y)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform2iv(GLint location, GLsizei count, const GLint* v)
+inline void QOpenGLFunctions::glUniform2iv(GLint location, GLsizei count, const GLint *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform2iv(location, count, v);
@@ -1937,7 +1944,7 @@ inline void QOpenGLFunctions::glUniform3f(GLint location, GLfloat x, GLfloat y, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform3fv(GLint location, GLsizei count, const GLfloat* v)
+inline void QOpenGLFunctions::glUniform3fv(GLint location, GLsizei count, const GLfloat *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform3fv(location, count, v);
@@ -1959,7 +1966,7 @@ inline void QOpenGLFunctions::glUniform3i(GLint location, GLint x, GLint y, GLin
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform3iv(GLint location, GLsizei count, const GLint* v)
+inline void QOpenGLFunctions::glUniform3iv(GLint location, GLsizei count, const GLint *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform3iv(location, count, v);
@@ -1981,7 +1988,7 @@ inline void QOpenGLFunctions::glUniform4f(GLint location, GLfloat x, GLfloat y, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform4fv(GLint location, GLsizei count, const GLfloat* v)
+inline void QOpenGLFunctions::glUniform4fv(GLint location, GLsizei count, const GLfloat *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform4fv(location, count, v);
@@ -2003,7 +2010,7 @@ inline void QOpenGLFunctions::glUniform4i(GLint location, GLint x, GLint y, GLin
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniform4iv(GLint location, GLsizei count, const GLint* v)
+inline void QOpenGLFunctions::glUniform4iv(GLint location, GLsizei count, const GLint *v)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniform4iv(location, count, v);
@@ -2014,7 +2021,7 @@ inline void QOpenGLFunctions::glUniform4iv(GLint location, GLsizei count, const 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+inline void QOpenGLFunctions::glUniformMatrix2fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniformMatrix2fv(location, count, transpose, value);
@@ -2025,7 +2032,7 @@ inline void QOpenGLFunctions::glUniformMatrix2fv(GLint location, GLsizei count, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+inline void QOpenGLFunctions::glUniformMatrix3fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniformMatrix3fv(location, count, transpose, value);
@@ -2036,7 +2043,7 @@ inline void QOpenGLFunctions::glUniformMatrix3fv(GLint location, GLsizei count, 
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat* value)
+inline void QOpenGLFunctions::glUniformMatrix4fv(GLint location, GLsizei count, GLboolean transpose, const GLfloat *value)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glUniformMatrix4fv(location, count, transpose, value);
@@ -2080,7 +2087,7 @@ inline void QOpenGLFunctions::glVertexAttrib1f(GLuint indx, GLfloat x)
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glVertexAttrib1fv(GLuint indx, const GLfloat* values)
+inline void QOpenGLFunctions::glVertexAttrib1fv(GLuint indx, const GLfloat *values)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glVertexAttrib1fv(indx, values);
@@ -2102,7 +2109,7 @@ inline void QOpenGLFunctions::glVertexAttrib2f(GLuint indx, GLfloat x, GLfloat y
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glVertexAttrib2fv(GLuint indx, const GLfloat* values)
+inline void QOpenGLFunctions::glVertexAttrib2fv(GLuint indx, const GLfloat *values)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glVertexAttrib2fv(indx, values);
@@ -2124,7 +2131,7 @@ inline void QOpenGLFunctions::glVertexAttrib3f(GLuint indx, GLfloat x, GLfloat y
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glVertexAttrib3fv(GLuint indx, const GLfloat* values)
+inline void QOpenGLFunctions::glVertexAttrib3fv(GLuint indx, const GLfloat *values)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glVertexAttrib3fv(indx, values);
@@ -2146,7 +2153,7 @@ inline void QOpenGLFunctions::glVertexAttrib4f(GLuint indx, GLfloat x, GLfloat y
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glVertexAttrib4fv(GLuint indx, const GLfloat* values)
+inline void QOpenGLFunctions::glVertexAttrib4fv(GLuint indx, const GLfloat *values)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glVertexAttrib4fv(indx, values);
@@ -2157,7 +2164,7 @@ inline void QOpenGLFunctions::glVertexAttrib4fv(GLuint indx, const GLfloat* valu
     Q_OPENGL_FUNCTIONS_DEBUG
 }
 
-inline void QOpenGLFunctions::glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void* ptr)
+inline void QOpenGLFunctions::glVertexAttribPointer(GLuint indx, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const void *ptr)
 {
 #if defined(QT_OPENGL_ES_2) && defined(Q_OS_ANDROID)
     ::glVertexAttribPointer(indx, size, type, normalized, stride, ptr);
@@ -2173,7 +2180,6 @@ inline void QOpenGLFunctions::glVertexAttribPointer(GLuint indx, GLint size, GLe
 #undef QT_OPENGL_DECLARE
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif

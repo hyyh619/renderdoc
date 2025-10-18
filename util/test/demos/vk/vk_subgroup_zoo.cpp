@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "3rdparty/fmt/core.h"
 #include "vk_test.h"
 
 RD_TEST(VK_Subgroup_Zoo, VulkanGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test of behaviour around subgroup operations in shaders.";
+    static constexpr const char    *Description =
+        "Test of behaviour around subgroup operations in shaders.";
 
-  const std::string common = R"EOSHADER(
+    const std::string    common = R"EOSHADER(
 
 #version 460 core
 #extension GL_KHR_shader_subgroup_basic : enable
@@ -67,7 +67,7 @@ layout(push_constant) uniform PushData
 
 )EOSHADER";
 
-  const std::string vertex = common + R"EOSHADER(
+    const std::string    vertex = common + R"EOSHADER(
 
 layout(location = 0) out vec4 vertdata;
 
@@ -99,7 +99,7 @@ void main()
 
 )EOSHADER";
 
-  const std::string pixel = common + R"EOSHADER(
+    const std::string    pixel = common + R"EOSHADER(
 
 layout(location = 0) in vec4 vertdata;
 
@@ -141,7 +141,7 @@ void main()
 
 )EOSHADER";
 
-  const std::string comp = common + R"EOSHADER(
+    const std::string    comp = common + R"EOSHADER(
 
 struct Output
 {
@@ -261,309 +261,322 @@ void main()
 
 )EOSHADER";
 
-  VkSubgroupFeatureFlags ops = 0;
+    VkSubgroupFeatureFlags    ops = 0;
 
-  void Prepare(int argc, char **argv)
-  {
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    if(!Avail.empty())
-      return;
-
-    if(devVersion < VK_API_VERSION_1_1)
-      Avail = "Vulkan device version isn't 1.1";
-
-    static VkPhysicalDeviceSubgroupProperties subProps = {
-        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES,
-    };
-
-    getPhysProperties2(&subProps);
-
-    if(subProps.subgroupSize < 16)
-      Avail = "Subgroup size is less than 16";
-
-    // require at least a few ops so we only have a few conditional compilations
-    const VkSubgroupFeatureFlags requiredOps =
-        VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_VOTE_BIT |
-        VK_SUBGROUP_FEATURE_ARITHMETIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
-
-    ops = subProps.supportedOperations;
-
-    if((subProps.supportedOperations & requiredOps) != requiredOps)
-      Avail = "Missing ops support";
-
-    // require all stages for simplicity
-    if((subProps.supportedStages & VK_SHADER_STAGE_VERTEX_BIT) == 0)
-      Avail = "Missing vertex subgroup support";
-
-    if((subProps.supportedStages & VK_SHADER_STAGE_FRAGMENT_BIT) == 0)
-      Avail = "Missing pixel subgroup support";
-
-    if((subProps.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) == 0)
-      Avail = "Missing compute subgroup support";
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    VkDescriptorSetLayout setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
-        {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
-    }));
-
-    VkPipelineLayout layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
-        {setlayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 4)}));
-
-    const uint32_t imgDim = 128;
-
-    AllocatedImage img(
-        this,
-        vkh::ImageCreateInfo(imgDim, imgDim, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
-                             VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
-
-    VkImageView imgview = createImageView(
-        vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
-
-    vkh::RenderPassCreator renderPassCreateInfo;
-
-    renderPassCreateInfo.attachments.push_back(
-        vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                   VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
-
-    renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
-
-    VkRenderPass renderPass = createRenderPass(renderPassCreateInfo);
-
-    VkFramebuffer framebuffer =
-        createFramebuffer(vkh::FramebufferCreateInfo(renderPass, {imgview}, {imgDim, imgDim}));
-
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
-
-    pipeCreateInfo.renderPass = renderPass;
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.inputAssemblyState.topology = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
-
-    std::map<std::string, std::string> macros;
-
-    int vertTests = 0, pixTests = 0;
-    int numCompTests = 0;
-
+    void Prepare(int argc, char **argv)
     {
-      size_t pos = 0;
-      while(pos != std::string::npos)
-      {
-        pos = pixel.find("IsTest(", pos);
-        if(pos == std::string::npos)
-          break;
-        pos += sizeof("IsTest(") - 1;
-        pixTests = std::max(pixTests, atoi(pixel.c_str() + pos) + 1);
-      }
+        VulkanGraphicsTest::Prepare(argc, argv);
 
-      pos = 0;
-      while(pos != std::string::npos)
-      {
-        pos = vertex.find("IsTest(", pos);
-        if(pos == std::string::npos)
-          break;
-        pos += sizeof("IsTest(") - 1;
-        vertTests = std::max(vertTests, atoi(vertex.c_str() + pos) + 1);
-      }
+        if (!Avail.empty())
+            return;
 
-      pos = 0;
-      while(pos != std::string::npos)
-      {
-        pos = comp.find("IsTest(", pos);
-        if(pos == std::string::npos)
-          break;
-        pos += sizeof("IsTest(") - 1;
-        numCompTests = std::max(numCompTests, atoi(comp.c_str() + pos) + 1);
-      }
+        if (devVersion < VK_API_VERSION_1_1)
+            Avail = "Vulkan device version isn't 1.1";
+
+        static VkPhysicalDeviceSubgroupProperties    subProps =
+        {
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SUBGROUP_PROPERTIES,
+        };
+
+        getPhysProperties2(&subProps);
+
+        if (subProps.subgroupSize < 16)
+            Avail = "Subgroup size is less than 16";
+
+        // require at least a few ops so we only have a few conditional compilations
+        const VkSubgroupFeatureFlags    requiredOps =
+            VK_SUBGROUP_FEATURE_BASIC_BIT | VK_SUBGROUP_FEATURE_VOTE_BIT |
+            VK_SUBGROUP_FEATURE_ARITHMETIC_BIT | VK_SUBGROUP_FEATURE_BALLOT_BIT;
+
+        ops = subProps.supportedOperations;
+
+        if ((subProps.supportedOperations & requiredOps) != requiredOps)
+            Avail = "Missing ops support";
+
+        // require all stages for simplicity
+        if ((subProps.supportedStages & VK_SHADER_STAGE_VERTEX_BIT) == 0)
+            Avail = "Missing vertex subgroup support";
+
+        if ((subProps.supportedStages & VK_SHADER_STAGE_FRAGMENT_BIT) == 0)
+            Avail = "Missing pixel subgroup support";
+
+        if ((subProps.supportedStages & VK_SHADER_STAGE_COMPUTE_BIT) == 0)
+            Avail = "Missing compute subgroup support";
     }
 
-    const uint32_t numGraphicsTests = std::max(vertTests, pixTests);
-
-    if(ops & VK_SUBGROUP_FEATURE_SHUFFLE_BIT)
-      macros["FEAT_SHUFFLE"] = "1";
-    else
-      macros["FEAT_SHUFFLE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT)
-      macros["FEAT_SHUFFLE_RELATIVE"] = "1";
-    else
-      macros["FEAT_SHUFFLE_RELATIVE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_CLUSTERED_BIT)
-      macros["FEAT_CLUSTERED"] = "1";
-    else
-      macros["FEAT_CLUSTERED"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_QUAD_BIT)
-      macros["FEAT_QUAD"] = "1";
-    else
-      macros["FEAT_QUAD"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_ROTATE_BIT_KHR)
-      macros["FEAT_ROTATE"] = "1";
-    else
-      macros["FEAT_ROTATE"] = "0";
-    if(ops & VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR)
-      macros["FEAT_ROTATE_CLUSTERED"] = "1";
-    else
-      macros["FEAT_ROTATE_CLUSTERED"] = "0";
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main", macros,
-                            SPIRVTarget::vulkan11),
-        CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main", macros,
-                            SPIRVTarget::vulkan11),
-    };
-
-    VkPipeline pipe = createGraphicsPipeline(pipeCreateInfo);
-
-    std::string comppipe_name[4];
-    VkPipeline comppipe[4];
-
-    macros["COMP_TESTS"] = fmt::format("{}", numCompTests);
-
-    macros["GROUP_SIZE_X"] = "256";
-    macros["GROUP_SIZE_Y"] = "1";
-    comppipe_name[0] = "256x1";
-    comppipe[0] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-
-    macros["GROUP_SIZE_X"] = "128";
-    macros["GROUP_SIZE_Y"] = "2";
-    comppipe_name[1] = "128x2";
-    comppipe[1] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-
-    macros["GROUP_SIZE_X"] = "8";
-    macros["GROUP_SIZE_Y"] = "128";
-    comppipe_name[2] = "8x128";
-    comppipe[2] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-
-    macros["GROUP_SIZE_X"] = "150";
-    macros["GROUP_SIZE_Y"] = "1";
-    comppipe_name[3] = "150x1";
-    comppipe[3] = createComputePipeline(vkh::ComputePipelineCreateInfo(
-        layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
-                                    SPIRVTarget::vulkan11)));
-
-    AllocatedBuffer bufout(
-        this,
-        vkh::BufferCreateInfo(sizeof(Vec4f) * 1024 * numCompTests,
-                              VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
-        VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
-
-    setName(bufout.buffer, "bufout");
-
-    VkDescriptorSet set = allocateDescriptorSet(setlayout);
-
-    vkh::updateDescriptorSets(
-        device, {vkh::WriteDescriptorSet(set, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
-                                         {vkh::DescriptorBufferInfo(bufout.buffer)})});
-
-    while(Running())
+    int main()
     {
-      VkCommandBuffer cmd = GetCommandBuffer();
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+        VkDescriptorSetLayout    setlayout = createDescriptorSetLayout(vkh::DescriptorSetLayoutCreateInfo({
+            {0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1, VK_SHADER_STAGE_COMPUTE_BIT},
+        }));
 
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+        VkPipelineLayout    layout = createPipelineLayout(vkh::PipelineLayoutCreateInfo(
+                                                              {setlayout}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 4)}));
 
-      vkh::cmdPipelineBarrier(
-          cmd, {vkh::ImageMemoryBarrier(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                                        VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
-                                        VK_IMAGE_LAYOUT_GENERAL, img.image)});
+        const uint32_t    imgDim = 128;
 
-      vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
+        AllocatedImage    img(
+            this,
+            vkh::ImageCreateInfo(imgDim, imgDim, 0, VK_FORMAT_R32G32B32A32_SFLOAT,
+                                 VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_SRC_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_GPU_ONLY}));
 
-      vkh::cmdPipelineBarrier(
-          cmd,
-          {vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
-                                   VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, img.image)});
+        VkImageView    imgview = createImageView(
+            vkh::ImageViewCreateInfo(img.image, VK_IMAGE_VIEW_TYPE_2D, VK_FORMAT_R32G32B32A32_SFLOAT));
 
-      vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
+        vkh::RenderPassCreator    renderPassCreateInfo;
 
-      VkViewport v = {};
-      v.maxDepth = 1.0f;
-      v.width = v.height = (float)imgDim;
+        renderPassCreateInfo.attachments.push_back(
+            vkh::AttachmentDescription(VK_FORMAT_R32G32B32A32_SFLOAT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                       VK_IMAGE_LAYOUT_GENERAL, VK_ATTACHMENT_LOAD_OP_CLEAR));
 
-      VkRect2D s = {};
-      s.extent.width = s.extent.height = imgDim;
+        renderPassCreateInfo.addSubpass({VkAttachmentReference({0, VK_IMAGE_LAYOUT_GENERAL})});
 
-      vkCmdSetViewport(cmd, 0, 1, &v);
-      vkCmdSetScissor(cmd, 0, 1, &s);
+        VkRenderPass    renderPass = createRenderPass(renderPassCreateInfo);
 
-      // separate render passes with a fat barrier before each to avoid subgroups crossing draws
+        VkFramebuffer    framebuffer =
+            createFramebuffer(vkh::FramebufferCreateInfo(renderPass, {imgview}, {imgDim, imgDim}));
 
-      pushMarker(cmd, "Graphics Tests");
+        vkh::GraphicsPipelineCreateInfo    pipeCreateInfo;
 
-      for(uint32_t i = 0; i < numGraphicsTests; i++)
-      {
-        vkh::cmdPipelineBarrier(
-            cmd, {}, {},
-            {vkh::MemoryBarrier(VK_ACCESS_MEMORY_READ_BIT | VK_ACCESS_MEMORY_WRITE_BIT,
-                                VK_ACCESS_MEMORY_READ_BIT | VK_ACCESS_MEMORY_WRITE_BIT)});
+        pipeCreateInfo.renderPass                   = renderPass;
+        pipeCreateInfo.layout                       = layout;
+        pipeCreateInfo.inputAssemblyState.topology  = VK_PRIMITIVE_TOPOLOGY_TRIANGLE_LIST;
 
-        vkCmdBeginRenderPass(
-            cmd,
-            vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
-                                     {vkh::ClearValue(123456.0f, 789.0f, 101112.0f, 0.0f)}),
-            VK_SUBPASS_CONTENTS_INLINE);
+        std::map<std::string, std::string>    macros;
 
-        vkh::cmdPushConstants(cmd, layout, i);
-        vkCmdDraw(cmd, 6, 1, 0, 0);
-        vkCmdEndRenderPass(cmd);
-      }
+        int     vertTests       = 0, pixTests = 0;
+        int     numCompTests    = 0;
 
-      popMarker(cmd);
-
-      pushMarker(cmd, "Compute Tests");
-
-      for(size_t p = 0; p < ARRAY_COUNT(comppipe); p++)
-      {
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
-
-        vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
-
-        vkh::cmdPipelineBarrier(
-            cmd, {},
-            {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
-                                      bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
-
-        pushMarker(cmd, comppipe_name[p]);
-
-        vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, comppipe[p]);
-        vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
-
-        for(int i = 0; i < numCompTests; i++)
         {
-          vkh::cmdPushConstants(cmd, layout, i);
-          vkCmdDispatch(cmd, 1, 1, 1);
+            size_t    pos = 0;
+
+            while (pos != std::string::npos)
+            {
+                pos = pixel.find("IsTest(", pos);
+                if (pos == std::string::npos)
+                    break;
+
+                pos         += sizeof("IsTest(") - 1;
+                pixTests    = std::max(pixTests, atoi(pixel.c_str() + pos) + 1);
+            }
+
+            pos = 0;
+
+            while (pos != std::string::npos)
+            {
+                pos = vertex.find("IsTest(", pos);
+                if (pos == std::string::npos)
+                    break;
+
+                pos         += sizeof("IsTest(") - 1;
+                vertTests   = std::max(vertTests, atoi(vertex.c_str() + pos) + 1);
+            }
+
+            pos = 0;
+
+            while (pos != std::string::npos)
+            {
+                pos = comp.find("IsTest(", pos);
+                if (pos == std::string::npos)
+                    break;
+
+                pos             += sizeof("IsTest(") - 1;
+                numCompTests    = std::max(numCompTests, atoi(comp.c_str() + pos) + 1);
+            }
         }
 
-        popMarker(cmd);
-      }
+        const uint32_t    numGraphicsTests = std::max(vertTests, pixTests);
 
-      popMarker(cmd);
+        if (ops & VK_SUBGROUP_FEATURE_SHUFFLE_BIT)
+            macros["FEAT_SHUFFLE"] = "1";
+        else
+            macros["FEAT_SHUFFLE"] = "0";
 
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+        if (ops & VK_SUBGROUP_FEATURE_SHUFFLE_RELATIVE_BIT)
+            macros["FEAT_SHUFFLE_RELATIVE"] = "1";
+        else
+            macros["FEAT_SHUFFLE_RELATIVE"] = "0";
 
-      vkEndCommandBuffer(cmd);
+        if (ops & VK_SUBGROUP_FEATURE_CLUSTERED_BIT)
+            macros["FEAT_CLUSTERED"] = "1";
+        else
+            macros["FEAT_CLUSTERED"] = "0";
 
-      SubmitAndPresent({cmd});
+        if (ops & VK_SUBGROUP_FEATURE_QUAD_BIT)
+            macros["FEAT_QUAD"] = "1";
+        else
+            macros["FEAT_QUAD"] = "0";
+
+        if (ops & VK_SUBGROUP_FEATURE_ROTATE_BIT_KHR)
+            macros["FEAT_ROTATE"] = "1";
+        else
+            macros["FEAT_ROTATE"] = "0";
+
+        if (ops & VK_SUBGROUP_FEATURE_ROTATE_CLUSTERED_BIT_KHR)
+            macros["FEAT_ROTATE_CLUSTERED"] = "1";
+        else
+            macros["FEAT_ROTATE_CLUSTERED"] = "0";
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(vertex, ShaderLang::glsl, ShaderStage::vert, "main", macros,
+                                SPIRVTarget::vulkan11),
+            CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main", macros,
+                                SPIRVTarget::vulkan11),
+        };
+
+        VkPipeline    pipe = createGraphicsPipeline(pipeCreateInfo);
+
+        std::string     comppipe_name[4];
+        VkPipeline      comppipe[4];
+
+        macros["COMP_TESTS"] = fmt::format("{}", numCompTests);
+
+        macros["GROUP_SIZE_X"]  = "256";
+        macros["GROUP_SIZE_Y"]  = "1";
+        comppipe_name[0]        = "256x1";
+        comppipe[0]             = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                            layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                                        SPIRVTarget::vulkan11)));
+
+        macros["GROUP_SIZE_X"]  = "128";
+        macros["GROUP_SIZE_Y"]  = "2";
+        comppipe_name[1]        = "128x2";
+        comppipe[1]             = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                            layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                                        SPIRVTarget::vulkan11)));
+
+        macros["GROUP_SIZE_X"]  = "8";
+        macros["GROUP_SIZE_Y"]  = "128";
+        comppipe_name[2]        = "8x128";
+        comppipe[2]             = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                            layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                                        SPIRVTarget::vulkan11)));
+
+        macros["GROUP_SIZE_X"]  = "150";
+        macros["GROUP_SIZE_Y"]  = "1";
+        comppipe_name[3]        = "150x1";
+        comppipe[3]             = createComputePipeline(vkh::ComputePipelineCreateInfo(
+                                                            layout, CompileShaderModule(comp, ShaderLang::glsl, ShaderStage::comp, "main", macros,
+                                                                                        SPIRVTarget::vulkan11)));
+
+        AllocatedBuffer    bufout(
+            this,
+            vkh::BufferCreateInfo(sizeof(Vec4f) * 1024 * numCompTests,
+                                  VK_BUFFER_USAGE_STORAGE_BUFFER_BIT | VK_BUFFER_USAGE_TRANSFER_DST_BIT),
+            VmaAllocationCreateInfo({0, VMA_MEMORY_USAGE_CPU_TO_GPU}));
+
+        setName(bufout.buffer, "bufout");
+
+        VkDescriptorSet    set = allocateDescriptorSet(setlayout);
+
+        vkh::updateDescriptorSets(
+            device, {vkh::WriteDescriptorSet(set, 0, VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
+                                             {vkh::DescriptorBufferInfo(bufout.buffer)})});
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkh::cmdPipelineBarrier(
+                cmd, {vkh::ImageMemoryBarrier(VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+                                              VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_UNDEFINED,
+                                              VK_IMAGE_LAYOUT_GENERAL, img.image)});
+
+            vkh::cmdClearImage(cmd, swapimg, vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f));
+
+            vkh::cmdPipelineBarrier(
+                cmd,
+                {vkh::ImageMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT,
+                                         VK_IMAGE_LAYOUT_GENERAL, VK_IMAGE_LAYOUT_GENERAL, img.image)});
+
+            vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipe);
+
+            VkViewport    v = {};
+            v.maxDepth  = 1.0f;
+            v.width     = v.height = (float)imgDim;
+
+            VkRect2D    s = {};
+            s.extent.width = s.extent.height = imgDim;
+
+            vkCmdSetViewport(cmd, 0, 1, &v);
+            vkCmdSetScissor(cmd, 0, 1, &s);
+
+            // separate render passes with a fat barrier before each to avoid subgroups crossing draws
+
+            pushMarker(cmd, "Graphics Tests");
+
+            for (uint32_t i = 0; i < numGraphicsTests; i++)
+            {
+                vkh::cmdPipelineBarrier(
+                    cmd, {}, {},
+                    {vkh::MemoryBarrier(VK_ACCESS_MEMORY_READ_BIT | VK_ACCESS_MEMORY_WRITE_BIT,
+                                        VK_ACCESS_MEMORY_READ_BIT | VK_ACCESS_MEMORY_WRITE_BIT)});
+
+                vkCmdBeginRenderPass(
+                    cmd,
+                    vkh::RenderPassBeginInfo(renderPass, framebuffer, s,
+                                             {vkh::ClearValue(123456.0f, 789.0f, 101112.0f, 0.0f)}),
+                    VK_SUBPASS_CONTENTS_INLINE);
+
+                vkh::cmdPushConstants(cmd, layout, i);
+                vkCmdDraw(cmd, 6, 1, 0, 0);
+                vkCmdEndRenderPass(cmd);
+            }
+
+            popMarker(cmd);
+
+            pushMarker(cmd, "Compute Tests");
+
+            for (size_t p = 0; p < ARRAY_COUNT(comppipe); p++)
+            {
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_SHADER_WRITE_BIT, VK_ACCESS_TRANSFER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                vkCmdFillBuffer(cmd, bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests, 0);
+
+                vkh::cmdPipelineBarrier(
+                    cmd, {},
+                    {vkh::BufferMemoryBarrier(VK_ACCESS_TRANSFER_WRITE_BIT, VK_ACCESS_SHADER_WRITE_BIT,
+                                              bufout.buffer, 0, sizeof(Vec4f) * 1024 * numCompTests)});
+
+                pushMarker(cmd, comppipe_name[p]);
+
+                vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, comppipe[p]);
+                vkh::cmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_COMPUTE, layout, 0, {set}, {});
+
+                for (int i = 0; i < numCompTests; i++)
+                {
+                    vkh::cmdPushConstants(cmd, layout, i);
+                    vkCmdDispatch(cmd, 1, 1, 1);
+                }
+
+                popMarker(cmd);
+            }
+
+            popMarker(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            SubmitAndPresent({cmd});
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

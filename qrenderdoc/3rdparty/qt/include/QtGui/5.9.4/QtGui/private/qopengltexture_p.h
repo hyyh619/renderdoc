@@ -60,11 +60,12 @@
 
 #include <cmath>
 
-namespace {
-inline double qLog2(const double x)
+namespace
 {
-    return std::log(x) / std::log(2.0);
-}
+    inline double qLog2(const double x)
+    {
+        return std::log(x) / std::log(2.0);
+    }
 }
 
 QT_BEGIN_NAMESPACE
@@ -100,17 +101,17 @@ public:
     void allocateImmutableStorage();
     void setData(int mipLevel, int layer, int layerCount, QOpenGLTexture::CubeMapFace cubeFace,
                  QOpenGLTexture::PixelFormat sourceFormat, QOpenGLTexture::PixelType sourceType,
-                 const void *data, const QOpenGLPixelTransferOptions * const options);
+                 const void *data, const QOpenGLPixelTransferOptions* const options);
     void setCompressedData(int mipLevel, int layer, int layerCount, QOpenGLTexture::CubeMapFace cubeFace,
                            int dataSize, const void *data,
-                           const QOpenGLPixelTransferOptions * const options);
+                           const QOpenGLPixelTransferOptions* const options);
 
 
     void setWrapMode(QOpenGLTexture::WrapMode mode);
     void setWrapMode(QOpenGLTexture::CoordinateDirection direction, QOpenGLTexture::WrapMode mode);
     QOpenGLTexture::WrapMode wrapMode(QOpenGLTexture::CoordinateDirection direction) const;
 
-    QOpenGLTexture *createTextureView(QOpenGLTexture::Target target, QOpenGLTexture::TextureFormat viewFormat,
+    QOpenGLTexture* createTextureView(QOpenGLTexture::Target target, QOpenGLTexture::TextureFormat viewFormat,
                                       int minimumMipmapLevel, int maximumMipmapLevel,
                                       int minimumLayer, int maximumLayer) const;
 
@@ -128,53 +129,52 @@ public:
 
     bool isUsingImmutableStorage() const;
 
-    QOpenGLTexture *q_ptr;
-    QOpenGLContext *context;
-    QOpenGLTexture::Target target;
-    QOpenGLTexture::BindingTarget bindingTarget;
-    GLuint textureId;
-    QOpenGLTexture::TextureFormat format;
-    QOpenGLTexture::TextureFormatClass formatClass;
-    int dimensions[3];
-    int requestedMipLevels;
-    int mipLevels;
-    int layers;
-    int faces;
+    QOpenGLTexture                          *q_ptr;
+    QOpenGLContext                          *context;
+    QOpenGLTexture::Target                  target;
+    QOpenGLTexture::BindingTarget           bindingTarget;
+    GLuint                                  textureId;
+    QOpenGLTexture::TextureFormat           format;
+    QOpenGLTexture::TextureFormatClass      formatClass;
+    int                                     dimensions[3];
+    int                                     requestedMipLevels;
+    int                                     mipLevels;
+    int                                     layers;
+    int                                     faces;
 
-    int samples;
-    bool fixedSamplePositions;
+    int     samples;
+    bool    fixedSamplePositions;
 
-    int baseLevel;
-    int maxLevel;
+    int     baseLevel;
+    int     maxLevel;
 
-    QOpenGLTexture::SwizzleValue swizzleMask[4];
-    QOpenGLTexture::DepthStencilMode depthStencilMode;
-    QOpenGLTexture::ComparisonFunction comparisonFunction;
-    QOpenGLTexture::ComparisonMode comparisonMode;
+    QOpenGLTexture::SwizzleValue            swizzleMask[4];
+    QOpenGLTexture::DepthStencilMode        depthStencilMode;
+    QOpenGLTexture::ComparisonFunction      comparisonFunction;
+    QOpenGLTexture::ComparisonMode          comparisonMode;
 
-    QOpenGLTexture::Filter minFilter;
-    QOpenGLTexture::Filter magFilter;
-    float maxAnisotropy;
-    QOpenGLTexture::WrapMode wrapModes[3];
-    QVariantList borderColor;
-    float minLevelOfDetail;
-    float maxLevelOfDetail;
-    float levelOfDetailBias;
+    QOpenGLTexture::Filter      minFilter;
+    QOpenGLTexture::Filter      magFilter;
+    float                       maxAnisotropy;
+    QOpenGLTexture::WrapMode    wrapModes[3];
+    QVariantList                borderColor;
+    float                       minLevelOfDetail;
+    float                       maxLevelOfDetail;
+    float                       levelOfDetailBias;
 
-    bool textureView;
-    bool autoGenerateMipMaps;
-    bool storageAllocated;
+    bool    textureView;
+    bool    autoGenerateMipMaps;
+    bool    storageAllocated;
 
-    QOpenGLTextureHelper *texFuncs;
-    QOpenGLFunctions *functions;
+    QOpenGLTextureHelper    *texFuncs;
+    QOpenGLFunctions        *functions;
 
-    QOpenGLTexture::Features features;
+    QOpenGLTexture::Features    features;
 };
 
 QT_END_NAMESPACE
 
 #undef Q_CALL_MEMBER_FUNCTION
-
 #endif // QT_NO_OPENGL
 
 #endif // QABSTRACTOPENGLTEXTURE_P_H

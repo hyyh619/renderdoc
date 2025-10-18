@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 
 class QGridLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QGridLayout : public QLayout
+class Q_WIDGETS_EXPORT    QGridLayout : public QLayout
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QGridLayout)
@@ -99,18 +99,21 @@ public:
     Qt::Orientations expandingDirections() const Q_DECL_OVERRIDE;
     void invalidate() Q_DECL_OVERRIDE;
 
-    inline void addWidget(QWidget *w) { QLayout::addWidget(w); }
-    void addWidget(QWidget *, int row, int column, Qt::Alignment = Qt::Alignment());
-    void addWidget(QWidget *, int row, int column, int rowSpan, int columnSpan, Qt::Alignment = Qt::Alignment());
-    void addLayout(QLayout *, int row, int column, Qt::Alignment = Qt::Alignment());
-    void addLayout(QLayout *, int row, int column, int rowSpan, int columnSpan, Qt::Alignment = Qt::Alignment());
+    inline void addWidget(QWidget *w)
+    {
+        QLayout::addWidget(w);
+    }
+    void addWidget(QWidget*, int row, int column, Qt::Alignment = Qt::Alignment());
+    void addWidget(QWidget*, int row, int column, int rowSpan, int columnSpan, Qt::Alignment = Qt::Alignment());
+    void addLayout(QLayout*, int row, int column, Qt::Alignment = Qt::Alignment());
+    void addLayout(QLayout*, int row, int column, int rowSpan, int columnSpan, Qt::Alignment = Qt::Alignment());
 
     void setOriginCorner(Qt::Corner);
     Qt::Corner originCorner() const;
 
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
-    QLayoutItem *itemAtPosition(int row, int column) const;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* itemAtPosition(int row, int column) const;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
     void setGeometry(const QRect&) Q_DECL_OVERRIDE;
 
@@ -120,11 +123,10 @@ public:
     void getItemPosition(int idx, int *row, int *column, int *rowSpan, int *columnSpan) const;
 
 protected:
-    void addItem(QLayoutItem *) Q_DECL_OVERRIDE;
+    void addItem(QLayoutItem*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QGridLayout)
-
 };
 
 QT_END_NAMESPACE

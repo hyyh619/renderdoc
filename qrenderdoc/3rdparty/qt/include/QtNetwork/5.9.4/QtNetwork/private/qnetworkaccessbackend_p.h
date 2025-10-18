@@ -115,7 +115,7 @@ public:
     // slot-like:
     virtual void downstreamReadyWrite();
     virtual void setDownstreamLimited(bool b);
-    virtual void copyFinished(QIODevice *);
+    virtual void copyFinished(QIODevice*);
     virtual void ignoreSslErrors();
     virtual void ignoreSslErrors(const QList<QSslError> &errors);
 
@@ -131,7 +131,7 @@ public:
     QList<QNetworkProxy> proxyList() const;
 #endif
 
-    QAbstractNetworkCache *networkCache() const;
+    QAbstractNetworkCache* networkCache() const;
     void setCachingEnabled(bool enable);
     bool isCachingEnabled() const;
 
@@ -153,19 +153,37 @@ public:
     QVariant attribute(QNetworkRequest::Attribute code) const;
     void setAttribute(QNetworkRequest::Attribute code, const QVariant &value);
 
-    bool isSynchronous() { return synchronous; }
-    void setSynchronous(bool sync) { synchronous = sync; }
+    bool isSynchronous()
+    {
+        return synchronous;
+    }
+    void setSynchronous(bool sync)
+    {
+        synchronous = sync;
+    }
 
     // return true if the QNonContiguousByteDevice of the upload
     // data needs to support reset(). Currently needed for HTTP.
     // This will possibly enable buffering of the upload data.
-    virtual bool needsResetableUploadData() { return false; }
+    virtual bool needsResetableUploadData()
+    {
+        return false;
+    }
 
     // Returns \c true if backend is able to resume downloads.
-    virtual bool canResume() const { return false; }
-    virtual void setResumeOffset(quint64 offset) { Q_UNUSED(offset); }
+    virtual bool canResume() const
+    {
+        return false;
+    }
+    virtual void setResumeOffset(quint64 offset)
+    {
+        Q_UNUSED(offset);
+    }
 
-    virtual bool processRequestSynchronously() { return false; }
+    virtual bool processRequestSynchronously()
+    {
+        return false;
+    }
 
 protected:
     // Create the device used for reading the upload data
@@ -177,10 +195,10 @@ protected:
     void writeDownstreamData(QByteDataBuffer &list);
 
     // not actually appending data, it was already written to the user buffer
-    void writeDownstreamDataDownloadBuffer(qint64, qint64);
-    char* getDownloadBuffer(qint64);
+    void    writeDownstreamDataDownloadBuffer(qint64, qint64);
+    char    *getDownloadBuffer(qint64);
 
-    QSharedPointer<QNonContiguousByteDevice> uploadByteDevice;
+    QSharedPointer<QNonContiguousByteDevice>    uploadByteDevice;
 
 public slots:
     // for task 251801, needs to be a slot to be called asynchronously
@@ -202,15 +220,15 @@ protected slots:
 protected:
     // FIXME In the long run we should get rid of our QNAM architecture
     // and scrap this ReplyImpl/Backend distinction.
-    QNetworkAccessManagerPrivate *manager;
-    QNetworkReplyImplPrivate *reply;
+    QNetworkAccessManagerPrivate    *manager;
+    QNetworkReplyImplPrivate        *reply;
 
 private:
     friend class QNetworkAccessManager;
     friend class QNetworkAccessManagerPrivate;
     friend class QNetworkReplyImplPrivate;
 
-    bool synchronous;
+    bool    synchronous;
 };
 
 class QNetworkAccessBackendFactory
@@ -219,11 +237,10 @@ public:
     QNetworkAccessBackendFactory();
     virtual ~QNetworkAccessBackendFactory();
     virtual QStringList supportedSchemes() const = 0;
-    virtual QNetworkAccessBackend *create(QNetworkAccessManager::Operation op,
+    virtual QNetworkAccessBackend* create(QNetworkAccessManager::Operation op,
                                           const QNetworkRequest &request) const = 0;
 };
 
 QT_END_NAMESPACE
 
 #endif
-

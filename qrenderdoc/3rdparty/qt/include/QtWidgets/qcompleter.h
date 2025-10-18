@@ -56,7 +56,7 @@ class QAbstractItemView;
 class QAbstractProxyModel;
 class QWidget;
 
-class Q_WIDGETS_EXPORT QCompleter : public QObject
+class Q_WIDGETS_EXPORT    QCompleter : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QString completionPrefix READ completionPrefix WRITE setCompletionPrefix)
@@ -70,13 +70,15 @@ class Q_WIDGETS_EXPORT QCompleter : public QObject
     Q_PROPERTY(bool wrapAround READ wrapAround WRITE setWrapAround)
 
 public:
-    enum CompletionMode {
+    enum CompletionMode
+    {
         PopupCompletion,
         UnfilteredPopupCompletion,
         InlineCompletion
     };
 
-    enum ModelSorting {
+    enum ModelSorting
+    {
         UnsortedModel = 0,
         CaseSensitivelySortedModel,
         CaseInsensitivelySortedModel
@@ -85,15 +87,15 @@ public:
     QCompleter(QObject *parent = Q_NULLPTR);
     QCompleter(QAbstractItemModel *model, QObject *parent = Q_NULLPTR);
 #ifndef QT_NO_STRINGLISTMODEL
-    QCompleter(const QStringList& completions, QObject *parent = Q_NULLPTR);
+    QCompleter(const QStringList &completions, QObject *parent = Q_NULLPTR);
 #endif
     ~QCompleter();
 
     void setWidget(QWidget *widget);
-    QWidget *widget() const;
+    QWidget* widget() const;
 
     void setModel(QAbstractItemModel *c);
-    QAbstractItemModel *model() const;
+    QAbstractItemModel* model() const;
 
     void setCompletionMode(CompletionMode mode);
     CompletionMode completionMode() const;
@@ -101,7 +103,7 @@ public:
     void setFilterMode(Qt::MatchFlags filterMode);
     Qt::MatchFlags filterMode() const;
 
-    QAbstractItemView *popup() const;
+    QAbstractItemView* popup() const;
     void setPopup(QAbstractItemView *popup);
 
     void setCaseSensitivity(Qt::CaseSensitivity caseSensitivity);
@@ -128,13 +130,13 @@ public:
     QModelIndex currentIndex() const;
     QString currentCompletion() const;
 
-    QAbstractItemModel *completionModel() const;
+    QAbstractItemModel* completionModel() const;
 
     QString completionPrefix() const;
 
 public Q_SLOTS:
     void setCompletionPrefix(const QString &prefix);
-    void complete(const QRect& rect = QRect());
+    void complete(const QRect &rect = QRect());
     void setWrapAround(bool wrap);
 
 public:
@@ -143,7 +145,7 @@ public:
 
 protected:
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
 
 Q_SIGNALS:
     void activated(const QString &text);
@@ -156,9 +158,9 @@ private:
     Q_DECLARE_PRIVATE(QCompleter)
 
     Q_PRIVATE_SLOT(d_func(), void _q_complete(QModelIndex))
-    Q_PRIVATE_SLOT(d_func(), void _q_completionSelected(const QItemSelection&))
+    Q_PRIVATE_SLOT(d_func(), void _q_completionSelected(const QItemSelection &))
     Q_PRIVATE_SLOT(d_func(), void _q_autoResizePopup())
-    Q_PRIVATE_SLOT(d_func(), void _q_fileSystemModelDirectoryLoaded(const QString&))
+    Q_PRIVATE_SLOT(d_func(), void _q_fileSystemModelDirectoryLoaded(const QString &))
 };
 
 QT_END_NAMESPACE

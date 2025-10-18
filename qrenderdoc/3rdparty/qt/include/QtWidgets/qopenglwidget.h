@@ -52,18 +52,19 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QOpenGLWidget : public QWidget
+class Q_WIDGETS_EXPORT    QOpenGLWidget : public QWidget
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QOpenGLWidget)
 
 public:
-    enum UpdateBehavior {
+    enum UpdateBehavior
+    {
         NoPartialUpdate,
         PartialUpdate
     };
 
-    explicit QOpenGLWidget(QWidget* parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
+    explicit QOpenGLWidget(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
     ~QOpenGLWidget();
 
     void setUpdateBehavior(UpdateBehavior updateBehavior);
@@ -77,7 +78,7 @@ public:
     void makeCurrent();
     void doneCurrent();
 
-    QOpenGLContext *context() const;
+    QOpenGLContext* context() const;
     GLuint defaultFramebufferObject() const;
 
     QImage grabFramebuffer();
@@ -98,15 +99,14 @@ protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 
     int metric(QPaintDevice::PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
-    QPaintDevice *redirected(QPoint *p) const Q_DECL_OVERRIDE;
-    QPaintEngine *paintEngine() const Q_DECL_OVERRIDE;
+    QPaintDevice* redirected(QPoint *p) const Q_DECL_OVERRIDE;
+    QPaintEngine* paintEngine() const Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QOpenGLWidget)
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLWIDGET_H

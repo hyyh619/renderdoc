@@ -1,37 +1,37 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "3rdparty/fmt/core.h"
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_Reflection_Zoo, D3D12GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Tests every kind of resource that could be reflected, to test that reflection is accurate "
-      "on DXBC and DXIL.";
+    static constexpr const char    *Description =
+        "Tests every kind of resource that could be reflected, to test that reflection is accurate "
+        "on DXBC and DXIL.";
 
-  std::string respixel = R"EOSHADER(
+    std::string    respixel = R"EOSHADER(
 
 // ensure the source being passed through can preserve unicode characters
 
@@ -260,431 +260,432 @@ float4 main(float4 pos : SV_Position) : SV_Target0
 
 )EOSHADER";
 
-  struct PSOs
-  {
-    const char *name;
-    ID3D12PipelineStatePtr res;
-  };
-
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3DBlobPtr vs5blob = Compile(D3DFullscreenQuadVertex, "main", "vs_5_0");
-    ID3DBlobPtr vs6blob = m_DXILSupport ? Compile(D3DFullscreenQuadVertex, "main", "vs_6_0") : NULL;
-
-    ID3D12PipelineStatePtr dxbc, sm60, sm67;
-
-    D3D12_STATIC_SAMPLER_DESC samp = {
-        D3D12_FILTER_MIN_MAG_MIP_POINT,
-        D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
-        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-        D3D12_TEXTURE_ADDRESS_MODE_WRAP,
-        0.0f,
-        0,
-        D3D12_COMPARISON_FUNC_ALWAYS,
-        D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE,
-        0.0f,
-        0.0f,
-        0,
-        0,
-        D3D12_SHADER_VISIBILITY_PIXEL,
+    struct PSOs
+    {
+        const char              *name;
+        ID3D12PipelineStatePtr  res;
     };
 
-    D3D12_STATIC_SAMPLER_DESC samps[2];
-    samps[0] = samps[1] = samp;
-    samps[0].ShaderRegister = 5;
-    samps[1].ShaderRegister = 8;
+    int main()
+    {
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-    D3D12_SHADER_VISIBILITY vis = D3D12_SHADER_VISIBILITY_PIXEL;
-    D3D12_DESCRIPTOR_RANGE_FLAGS flags = D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
-                                         D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE;
+        ID3DBlobPtr     vs5blob = Compile(D3DFullscreenQuadVertex, "main", "vs_5_0");
+        ID3DBlobPtr     vs6blob = m_DXILSupport ? Compile(D3DFullscreenQuadVertex, "main", "vs_6_0") : NULL;
 
-    ID3D12RootSignaturePtr sig = MakeSig(
+        ID3D12PipelineStatePtr    dxbc, sm60, sm67;
+
+        D3D12_STATIC_SAMPLER_DESC    samp =
+        {
+            D3D12_FILTER_MIN_MAG_MIP_POINT,
+            D3D12_TEXTURE_ADDRESS_MODE_CLAMP,
+            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+            D3D12_TEXTURE_ADDRESS_MODE_WRAP,
+            0.0f,
+            0,
+            D3D12_COMPARISON_FUNC_ALWAYS,
+            D3D12_STATIC_BORDER_COLOR_OPAQUE_WHITE,
+            0.0f,
+            0.0f,
+            0,
+            0,
+            D3D12_SHADER_VISIBILITY_PIXEL,
+        };
+
+        D3D12_STATIC_SAMPLER_DESC    samps[2];
+        samps[0]                = samps[1] = samp;
+        samps[0].ShaderRegister = 5;
+        samps[1].ShaderRegister = 8;
+
+        D3D12_SHADER_VISIBILITY         vis     = D3D12_SHADER_VISIBILITY_PIXEL;
+        D3D12_DESCRIPTOR_RANGE_FLAGS    flags   = D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
+                                                  D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE;
+
+        ID3D12RootSignaturePtr    sig = MakeSig(
         {
             tableParam(vis, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0, 0, 100, 0, flags),
             tableParam(vis, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 0, 100, 100, flags),
             tableParam(vis, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 0, 100, 200, flags),
         },
-        D3D12_ROOT_SIGNATURE_FLAG_NONE, 2, samps);
+            D3D12_ROOT_SIGNATURE_FLAG_NONE, 2, samps);
 
-    D3D12PSOCreator creator =
-        MakePSO().RootSig(sig).RTVs({DXGI_FORMAT_R8G8B8A8_UNORM_SRGB}).VS(vs5blob);
+        D3D12PSOCreator    creator =
+            MakePSO().RootSig(sig).RTVs({DXGI_FORMAT_R8G8B8A8_UNORM_SRGB}).VS(vs5blob);
 
-    respixel = fmt::format("#define ROV {0}\n\n{1}\n", opts.ROVsSupported ? 1 : 0, respixel);
+        respixel = fmt::format("#define ROV {0}\n\n{1}\n", opts.ROVsSupported ? 1 : 0, respixel);
 
-    ID3DBlobPtr dxbcBlob = Compile(respixel, "main", "ps_5_1");
-    dxbc = creator.VS(vs5blob).PS(dxbcBlob);
-    if(m_DXILSupport)
-    {
-      ID3DBlobPtr sm60Blob = Compile(respixel, "main", "ps_6_0");
-      sm60 = creator.VS(vs6blob).PS(sm60Blob);
+        ID3DBlobPtr    dxbcBlob = Compile(respixel, "main", "ps_5_1");
+        dxbc = creator.VS(vs5blob).PS(dxbcBlob);
+        if (m_DXILSupport)
+        {
+            ID3DBlobPtr    sm60Blob = Compile(respixel, "main", "ps_6_0");
+            sm60 = creator.VS(vs6blob).PS(sm60Blob);
 
-      if(m_HighestShaderModel >= D3D_SHADER_MODEL_6_7)
-      {
-        ID3DBlobPtr sm67Blob = Compile("#define SM67 1\n" + respixel, "main", "ps_6_7");
-        sm67 = creator.VS(vs6blob).PS(sm67Blob);
-      }
+            if (m_HighestShaderModel >= D3D_SHADER_MODEL_6_7)
+            {
+                ID3DBlobPtr    sm67Blob = Compile("#define SM67 1\n" + respixel, "main", "ps_6_7");
+                sm67 = creator.VS(vs6blob).PS(sm67Blob);
+            }
+        }
+
+        D3D12_SHADER_RESOURCE_VIEW_DESC     srvDesc = {};
+        D3D12_SHADER_RESOURCE_VIEW_DESC     defaultSrvDesc = {};
+        defaultSrvDesc.Format                   = DXGI_FORMAT_R8G8B8A8_UNORM;
+        defaultSrvDesc.Shader4ComponentMapping  = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+
+        // make valid NULL descriptors
+        D3D12_CPU_DESCRIPTOR_HANDLE     start       = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+        UINT                            increment   = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+        D3D12_CPU_DESCRIPTOR_HANDLE     cur;
+
+        // t0...
+        cur.ptr                     = start.ptr + (100 + 0) * increment;
+        srvDesc                     = defaultSrvDesc;
+        srvDesc.ViewDimension       = D3D12_SRV_DIMENSION_TEXTURE1D;
+        srvDesc.Texture1D.MipLevels = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                     = start.ptr + (100 + 1) * increment;
+        srvDesc                     = defaultSrvDesc;
+        srvDesc.ViewDimension       = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                     = start.ptr + (100 + 2) * increment;
+        srvDesc                     = defaultSrvDesc;
+        srvDesc.ViewDimension       = D3D12_SRV_DIMENSION_TEXTURE3D;
+        srvDesc.Texture3D.MipLevels = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 3) * increment;
+        srvDesc                             = defaultSrvDesc;
+        srvDesc.ViewDimension               = D3D12_SRV_DIMENSION_TEXTURE1DARRAY;
+        srvDesc.Texture1DArray.MipLevels    = 1;
+        srvDesc.Texture1DArray.ArraySize    = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 4) * increment;
+        srvDesc                             = defaultSrvDesc;
+        srvDesc.ViewDimension               = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+        srvDesc.Texture2DArray.MipLevels    = 1;
+        srvDesc.Texture2DArray.ArraySize    = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                         = start.ptr + (100 + 5) * increment;
+        srvDesc                         = defaultSrvDesc;
+        srvDesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURECUBE;
+        srvDesc.TextureCube.MipLevels   = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 6) * increment;
+        srvDesc                             = defaultSrvDesc;
+        srvDesc.ViewDimension               = D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
+        srvDesc.TextureCubeArray.MipLevels  = 1;
+        srvDesc.TextureCubeArray.NumCubes   = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                 = start.ptr + (100 + 7) * increment;
+        srvDesc                 = defaultSrvDesc;
+        srvDesc.ViewDimension   = D3D12_SRV_DIMENSION_TEXTURE2DMS;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 8) * increment;
+        srvDesc                             = defaultSrvDesc;
+        srvDesc.ViewDimension               = D3D12_SRV_DIMENSION_TEXTURE2DMSARRAY;
+        srvDesc.Texture2DMSArray.ArraySize  = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                     = start.ptr + (100 + 10) * increment;
+        srvDesc                     = defaultSrvDesc;
+        srvDesc.Format              = DXGI_FORMAT_R8_UNORM;
+        srvDesc.ViewDimension       = D3D12_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 11) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R8G8_UNORM;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 12) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32_FLOAT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 13) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R8G8_UINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 14) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32_UINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 15) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R8G8_SINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 16) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32_SINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                 = start.ptr + (100 + 17) * increment;
+        srvDesc                 = defaultSrvDesc;
+        srvDesc.ViewDimension   = D3D12_SRV_DIMENSION_TEXTURE2DMS;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                 = start.ptr + (100 + 18) * increment;
+        srvDesc                 = defaultSrvDesc;
+        srvDesc.ViewDimension   = D3D12_SRV_DIMENSION_TEXTURE2DMS;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                 = start.ptr + (100 + 19) * increment;
+        srvDesc                 = defaultSrvDesc;
+        srvDesc.ViewDimension   = D3D12_SRV_DIMENSION_TEXTURE2DMS;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                     = start.ptr + (100 + 20) * increment;
+        srvDesc.Format              = DXGI_FORMAT_R32_FLOAT;
+        srvDesc.ViewDimension       = D3D12_SRV_DIMENSION_BUFFER;
+        srvDesc.Buffer.NumElements  = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 21) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32_FLOAT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 22) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32_FLOAT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 23) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 24) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32_UINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr         = start.ptr + (100 + 25) * increment;
+        srvDesc.Format  = DXGI_FORMAT_R32G32B32_SINT;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                 = start.ptr + (100 + 30) * increment;
+        srvDesc.Format          = DXGI_FORMAT_R32_TYPELESS;
+        srvDesc.Buffer.Flags    = D3D12_BUFFER_SRV_FLAG_RAW;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 40) * increment;
+        srvDesc.Format                      = DXGI_FORMAT_UNKNOWN;
+        srvDesc.Buffer.Flags                = D3D12_BUFFER_SRV_FLAG_NONE;
+        srvDesc.Buffer.StructureByteStride  = 16;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 41) * increment;
+        srvDesc.Buffer.StructureByteStride  = 8;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        cur.ptr                             = start.ptr + (100 + 50) * increment;
+        srvDesc                             = defaultSrvDesc;
+        srvDesc.ViewDimension               = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+        srvDesc.Texture2DArray.MipLevels    = 1;
+        srvDesc.Texture2DArray.ArraySize    = 1;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+        cur.ptr += increment;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+        cur.ptr += increment;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+        cur.ptr += increment;
+        dev->CreateShaderResourceView(NULL, &srvDesc, cur);
+
+        D3D12_UNORDERED_ACCESS_VIEW_DESC    uavDesc = {};
+        D3D12_UNORDERED_ACCESS_VIEW_DESC    defaultUavDesc = {};
+        defaultUavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+        // u0...
+        cur.ptr                 = start.ptr + (200 + 0) * increment;
+        uavDesc                 = defaultUavDesc;
+        uavDesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE1D;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                 = start.ptr + (200 + 1) * increment;
+        uavDesc                 = defaultUavDesc;
+        uavDesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE2D;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                 = start.ptr + (200 + 2) * increment;
+        uavDesc                 = defaultUavDesc;
+        uavDesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE3D;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 3) * increment;
+        uavDesc                             = defaultUavDesc;
+        uavDesc.ViewDimension               = D3D12_UAV_DIMENSION_TEXTURE1DARRAY;
+        uavDesc.Texture1DArray.ArraySize    = 1;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 4) * increment;
+        uavDesc                             = defaultUavDesc;
+        uavDesc.ViewDimension               = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
+        uavDesc.Texture2DArray.ArraySize    = 1;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                 = start.ptr + (200 + 10) * increment;
+        uavDesc                 = defaultUavDesc;
+        uavDesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE2D;
+        uavDesc.Format          = DXGI_FORMAT_R8_UNORM;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 11) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R8G8_UNORM;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 12) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 13) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32_UINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 14) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_UINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 15) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32_SINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 16) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_SINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                     = start.ptr + (200 + 20) * increment;
+        uavDesc                     = defaultUavDesc;
+        uavDesc.ViewDimension       = D3D12_UAV_DIMENSION_BUFFER;
+        uavDesc.Buffer.NumElements  = 1;
+        uavDesc.Format              = DXGI_FORMAT_R32_FLOAT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 21) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32_FLOAT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 22) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 23) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_FLOAT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 24) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32_UINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr         = start.ptr + (200 + 25) * increment;
+        uavDesc.Format  = DXGI_FORMAT_R32G32B32A32_SINT;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                 = start.ptr + (200 + 30) * increment;
+        uavDesc                 = defaultUavDesc;
+        uavDesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE2D;
+        uavDesc.Format          = DXGI_FORMAT_R8G8B8A8_UNORM;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                     = start.ptr + (200 + 40) * increment;
+        uavDesc                     = defaultUavDesc;
+        uavDesc.ViewDimension       = D3D12_UAV_DIMENSION_BUFFER;
+        uavDesc.Format              = DXGI_FORMAT_R32_TYPELESS;
+        uavDesc.Buffer.NumElements  = 1;
+        uavDesc.Buffer.Flags        = D3D12_BUFFER_UAV_FLAG_RAW;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 50) * increment;
+        uavDesc                             = defaultUavDesc;
+        uavDesc.ViewDimension               = D3D12_UAV_DIMENSION_BUFFER;
+        uavDesc.Format                      = DXGI_FORMAT_UNKNOWN;
+        uavDesc.Buffer.NumElements          = 1;
+        uavDesc.Buffer.StructureByteStride  = 16;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        // NULL resources don't have to do anything special for the counter
+
+        cur.ptr = start.ptr + (200 + 51) * increment;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr = start.ptr + (200 + 52) * increment;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr = start.ptr + (200 + 53) * increment;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 54) * increment;
+        uavDesc.Buffer.StructureByteStride  = 8;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 55) * increment;
+        uavDesc.Buffer.StructureByteStride  = 52;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        cur.ptr                             = start.ptr + (200 + 56) * increment;
+        uavDesc.Buffer.StructureByteStride  = 52;
+        dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
+
+        while (Running())
+        {
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
+
+            Reset(cmd);
+
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            D3D12_CPU_DESCRIPTOR_HANDLE    bbrtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+
+            ClearRenderTargetView(cmd, bbrtv, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+            cmd->SetGraphicsRootSignature(sig);
+            cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+            cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+            cmd->SetGraphicsRootDescriptorTable(2, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+            RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+            OMSetRenderTargets(cmd, {bbrtv}, {});
+
+            setMarker(cmd, "DXBC");
+            cmd->SetPipelineState(dxbc);
+            cmd->DrawInstanced(3, 1, 0, 0);
+
+            if (sm60)
+            {
+                setMarker(cmd, "SM6.0");
+                cmd->SetPipelineState(sm60);
+                cmd->DrawInstanced(3, 1, 0, 0);
+            }
+
+            if (sm67)
+            {
+                setMarker(cmd, "SM6.7");
+                cmd->SetPipelineState(sm67);
+                cmd->DrawInstanced(3, 1, 0, 0);
+            }
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            cmd->Close();
+
+            Submit({cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-    D3D12_SHADER_RESOURCE_VIEW_DESC defaultSrvDesc = {};
-    defaultSrvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    defaultSrvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-
-    // make valid NULL descriptors
-    D3D12_CPU_DESCRIPTOR_HANDLE start = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-    UINT increment = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-    D3D12_CPU_DESCRIPTOR_HANDLE cur;
-
-    // t0...
-    cur.ptr = start.ptr + (100 + 0) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE1D;
-    srvDesc.Texture1D.MipLevels = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 1) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MipLevels = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 2) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE3D;
-    srvDesc.Texture3D.MipLevels = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 3) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE1DARRAY;
-    srvDesc.Texture1DArray.MipLevels = 1;
-    srvDesc.Texture1DArray.ArraySize = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 4) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-    srvDesc.Texture2DArray.MipLevels = 1;
-    srvDesc.Texture2DArray.ArraySize = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 5) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBE;
-    srvDesc.TextureCube.MipLevels = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 6) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURECUBEARRAY;
-    srvDesc.TextureCubeArray.MipLevels = 1;
-    srvDesc.TextureCubeArray.NumCubes = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 7) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 8) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMSARRAY;
-    srvDesc.Texture2DMSArray.ArraySize = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 10) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.Format = DXGI_FORMAT_R8_UNORM;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MipLevels = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 11) * increment;
-    srvDesc.Format = DXGI_FORMAT_R8G8_UNORM;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 12) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 13) * increment;
-    srvDesc.Format = DXGI_FORMAT_R8G8_UINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 14) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32_UINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 15) * increment;
-    srvDesc.Format = DXGI_FORMAT_R8G8_SINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 16) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 17) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 18) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 19) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DMS;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 20) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32_FLOAT;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-    srvDesc.Buffer.NumElements = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 21) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 22) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32_FLOAT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 23) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 24) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32_UINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 25) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32G32B32_SINT;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 30) * increment;
-    srvDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-    srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_RAW;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 40) * increment;
-    srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-    srvDesc.Buffer.Flags = D3D12_BUFFER_SRV_FLAG_NONE;
-    srvDesc.Buffer.StructureByteStride = 16;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 41) * increment;
-    srvDesc.Buffer.StructureByteStride = 8;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    cur.ptr = start.ptr + (100 + 50) * increment;
-    srvDesc = defaultSrvDesc;
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-    srvDesc.Texture2DArray.MipLevels = 1;
-    srvDesc.Texture2DArray.ArraySize = 1;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-    cur.ptr += increment;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-    cur.ptr += increment;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-    cur.ptr += increment;
-    dev->CreateShaderResourceView(NULL, &srvDesc, cur);
-
-    D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-    D3D12_UNORDERED_ACCESS_VIEW_DESC defaultUavDesc = {};
-    defaultUavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-    // u0...
-    cur.ptr = start.ptr + (200 + 0) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE1D;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 1) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 2) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE3D;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 3) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE1DARRAY;
-    uavDesc.Texture1DArray.ArraySize = 1;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 4) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2DARRAY;
-    uavDesc.Texture2DArray.ArraySize = 1;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 10) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-    uavDesc.Format = DXGI_FORMAT_R8_UNORM;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 11) * increment;
-    uavDesc.Format = DXGI_FORMAT_R8G8_UNORM;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 12) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 13) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32_UINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 14) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_UINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 15) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32_SINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 16) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 20) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-    uavDesc.Buffer.NumElements = 1;
-    uavDesc.Format = DXGI_FORMAT_R32_FLOAT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 21) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32_FLOAT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 22) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 23) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 24) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32_UINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 25) * increment;
-    uavDesc.Format = DXGI_FORMAT_R32G32B32A32_SINT;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 30) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-    uavDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 40) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-    uavDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-    uavDesc.Buffer.NumElements = 1;
-    uavDesc.Buffer.Flags = D3D12_BUFFER_UAV_FLAG_RAW;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 50) * increment;
-    uavDesc = defaultUavDesc;
-    uavDesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-    uavDesc.Format = DXGI_FORMAT_UNKNOWN;
-    uavDesc.Buffer.NumElements = 1;
-    uavDesc.Buffer.StructureByteStride = 16;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    // NULL resources don't have to do anything special for the counter
-
-    cur.ptr = start.ptr + (200 + 51) * increment;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 52) * increment;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 53) * increment;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 54) * increment;
-    uavDesc.Buffer.StructureByteStride = 8;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 55) * increment;
-    uavDesc.Buffer.StructureByteStride = 52;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    cur.ptr = start.ptr + (200 + 56) * increment;
-    uavDesc.Buffer.StructureByteStride = 52;
-    dev->CreateUnorderedAccessView(NULL, NULL, &uavDesc, cur);
-
-    while(Running())
-    {
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
-
-      Reset(cmd);
-
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      D3D12_CPU_DESCRIPTOR_HANDLE bbrtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
-
-      ClearRenderTargetView(cmd, bbrtv, {0.2f, 0.2f, 0.2f, 1.0f});
-
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-      cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-      cmd->SetGraphicsRootSignature(sig);
-      cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-      cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-      cmd->SetGraphicsRootDescriptorTable(2, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-
-      RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
-
-      OMSetRenderTargets(cmd, {bbrtv}, {});
-
-      setMarker(cmd, "DXBC");
-      cmd->SetPipelineState(dxbc);
-      cmd->DrawInstanced(3, 1, 0, 0);
-
-      if(sm60)
-      {
-        setMarker(cmd, "SM6.0");
-        cmd->SetPipelineState(sm60);
-        cmd->DrawInstanced(3, 1, 0, 0);
-      }
-
-      if(sm67)
-      {
-        setMarker(cmd, "SM6.7");
-        cmd->SetPipelineState(sm67);
-        cmd->DrawInstanced(3, 1, 0, 0);
-      }
-
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      cmd->Close();
-
-      Submit({cmd});
-
-      Present();
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

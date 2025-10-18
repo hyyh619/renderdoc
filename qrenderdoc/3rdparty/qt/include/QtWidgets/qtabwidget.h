@@ -52,7 +52,7 @@ class QTabBar;
 class QTabWidgetPrivate;
 class QStyleOptionTabWidgetFrame;
 
-class Q_WIDGETS_EXPORT QTabWidget : public QWidget
+class Q_WIDGETS_EXPORT    QTabWidget : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(TabPosition tabPosition READ tabPosition WRITE setTabPosition)
@@ -71,11 +71,11 @@ public:
     explicit QTabWidget(QWidget *parent = Q_NULLPTR);
     ~QTabWidget();
 
-    int addTab(QWidget *widget, const QString &);
-    int addTab(QWidget *widget, const QIcon& icon, const QString &label);
+    int addTab(QWidget *widget, const QString&);
+    int addTab(QWidget *widget, const QIcon &icon, const QString &label);
 
-    int insertTab(int index, QWidget *widget, const QString &);
-    int insertTab(int index, QWidget *widget, const QIcon& icon, const QString &label);
+    int insertTab(int index, QWidget *widget, const QString&);
+    int insertTab(int index, QWidget *widget, const QIcon &icon, const QString &label);
 
     void removeTab(int index);
 
@@ -83,13 +83,13 @@ public:
     void setTabEnabled(int index, bool);
 
     QString tabText(int index) const;
-    void setTabText(int index, const QString &);
+    void setTabText(int index, const QString&);
 
     QIcon tabIcon(int index) const;
-    void setTabIcon(int index, const QIcon & icon);
+    void setTabIcon(int index, const QIcon &icon);
 
 #ifndef QT_NO_TOOLTIP
-    void setTabToolTip(int index, const QString & tip);
+    void setTabToolTip(int index, const QString &tip);
     QString tabToolTip(int index) const;
 #endif
 
@@ -99,15 +99,15 @@ public:
 #endif
 
     int currentIndex() const;
-    QWidget *currentWidget() const;
-    QWidget *widget(int index) const;
+    QWidget* currentWidget() const;
+    QWidget* widget(int index) const;
     int indexOf(QWidget *widget) const;
     int count() const;
 
     enum TabPosition { North, South, West, East };
     Q_ENUM(TabPosition)
     TabPosition tabPosition() const;
-    void setTabPosition(TabPosition);
+    void    setTabPosition(TabPosition);
 
     bool tabsClosable() const;
     void setTabsClosable(bool closeable);
@@ -125,8 +125,8 @@ public:
     int heightForWidth(int width) const Q_DECL_OVERRIDE;
     bool hasHeightForWidth() const Q_DECL_OVERRIDE;
 
-    void setCornerWidget(QWidget * w, Qt::Corner corner = Qt::TopRightCorner);
-    QWidget * cornerWidget(Qt::Corner corner = Qt::TopRightCorner) const;
+    void setCornerWidget(QWidget *w, Qt::Corner corner = Qt::TopRightCorner);
+    QWidget* cornerWidget(Qt::Corner corner = Qt::TopRightCorner) const;
 
     Qt::TextElideMode elideMode() const;
     void setElideMode(Qt::TextElideMode);
@@ -161,13 +161,13 @@ protected:
     virtual void tabInserted(int index);
     virtual void tabRemoved(int index);
 
-    void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void setTabBar(QTabBar *);
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void setTabBar(QTabBar*);
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionTabWidgetFrame *option) const;
 
 

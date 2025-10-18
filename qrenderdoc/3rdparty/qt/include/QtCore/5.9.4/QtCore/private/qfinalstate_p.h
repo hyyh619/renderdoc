@@ -58,7 +58,7 @@ QT_REQUIRE_CONFIG(statemachine);
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QFinalStatePrivate : public QAbstractStatePrivate
+class Q_CORE_EXPORT    QFinalStatePrivate : public QAbstractStatePrivate
 {
     Q_DECLARE_PUBLIC(QFinalState)
 

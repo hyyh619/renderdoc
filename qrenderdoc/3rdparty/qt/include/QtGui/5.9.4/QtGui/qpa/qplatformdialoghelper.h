@@ -75,47 +75,49 @@ class QMessageDialogOptionsPrivate;
 
 #define QPLATFORMDIALOGHELPERS_HAS_CREATE
 
-class Q_GUI_EXPORT QPlatformDialogHelper : public QObject
+class Q_GUI_EXPORT    QPlatformDialogHelper : public QObject
 {
     Q_OBJECT
 public:
-    enum StyleHint {
-    };
+    enum StyleHint
+    {};
     enum DialogCode { Rejected, Accepted };
 
-    enum StandardButton {
+    enum StandardButton
+    {
         // keep this in sync with QDialogButtonBox::StandardButton and QMessageBox::StandardButton
-        NoButton           = 0x00000000,
-        Ok                 = 0x00000400,
-        Save               = 0x00000800,
-        SaveAll            = 0x00001000,
-        Open               = 0x00002000,
-        Yes                = 0x00004000,
-        YesToAll           = 0x00008000,
-        No                 = 0x00010000,
-        NoToAll            = 0x00020000,
-        Abort              = 0x00040000,
-        Retry              = 0x00080000,
-        Ignore             = 0x00100000,
-        Close              = 0x00200000,
-        Cancel             = 0x00400000,
-        Discard            = 0x00800000,
-        Help               = 0x01000000,
-        Apply              = 0x02000000,
-        Reset              = 0x04000000,
-        RestoreDefaults    = 0x08000000,
+        NoButton        = 0x00000000,
+        Ok              = 0x00000400,
+        Save            = 0x00000800,
+        SaveAll         = 0x00001000,
+        Open            = 0x00002000,
+        Yes             = 0x00004000,
+        YesToAll        = 0x00008000,
+        No              = 0x00010000,
+        NoToAll         = 0x00020000,
+        Abort           = 0x00040000,
+        Retry           = 0x00080000,
+        Ignore          = 0x00100000,
+        Close           = 0x00200000,
+        Cancel          = 0x00400000,
+        Discard         = 0x00800000,
+        Help            = 0x01000000,
+        Apply           = 0x02000000,
+        Reset           = 0x04000000,
+        RestoreDefaults = 0x08000000,
 
 
-        FirstButton        = Ok,                // internal
-        LastButton         = RestoreDefaults,   // internal
-        LowestBit          = 10,                // internal: log2(FirstButton)
-        HighestBit         = 27                 // internal: log2(LastButton)
+        FirstButton = Ok,                       // internal
+        LastButton  = RestoreDefaults,          // internal
+        LowestBit   = 10,                       // internal: log2(FirstButton)
+        HighestBit  = 27                        // internal: log2(LastButton)
     };
 
     Q_DECLARE_FLAGS(StandardButtons, StandardButton)
     Q_FLAG(StandardButtons)
 
-    enum ButtonRole {
+    enum ButtonRole
+    {
         // keep this in sync with QDialogButtonBox::ButtonRole and QMessageBox::ButtonRole
         // TODO Qt 6: make the enum copies explicit, and make InvalidRole == 0 so that
         // AcceptRole can be or'ed with flags, and EOL can be the same as InvalidRole (null-termination)
@@ -140,7 +142,8 @@ public:
     };
     Q_ENUM(ButtonRole)
 
-    enum ButtonLayout {
+    enum ButtonLayout
+    {
         // keep this in sync with QDialogButtonBox::ButtonLayout and QMessageBox::ButtonLayout
         UnknownLayout = -1,
         WinLayout,
@@ -157,13 +160,13 @@ public:
 
     virtual void exec() = 0;
     virtual bool show(Qt::WindowFlags windowFlags,
-                          Qt::WindowModality windowModality,
-                          QWindow *parent) = 0;
-    virtual void hide() = 0;
+                      Qt::WindowModality windowModality,
+                      QWindow *parent)  = 0;
+    virtual void hide()                 = 0;
 
     static QVariant defaultStyleHint(QPlatformDialogHelper::StyleHint hint);
 
-    static const int *buttonLayout(Qt::Orientation orientation = Qt::Horizontal, ButtonLayout policy = UnknownLayout);
+    static const int* buttonLayout(Qt::Orientation orientation = Qt::Horizontal, ButtonLayout policy = UnknownLayout);
     static ButtonRole buttonRole(StandardButton button);
 
 Q_SIGNALS:
@@ -176,7 +179,7 @@ Q_DECLARE_METATYPE(QPlatformDialogHelper::StandardButton)
 Q_DECLARE_METATYPE(QPlatformDialogHelper::ButtonRole)
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QColorDialogOptions
+class Q_GUI_EXPORT    QColorDialogOptions
 {
     Q_GADGET
     Q_DISABLE_COPY(QColorDialogOptions)
@@ -184,7 +187,8 @@ protected:
     explicit QColorDialogOptions(QColorDialogOptionsPrivate *dd);
     ~QColorDialogOptions();
 public:
-    enum ColorDialogOption {
+    enum ColorDialogOption
+    {
         ShowAlphaChannel    = 0x00000001,
         NoButtons           = 0x00000002,
         DontUseNativeDialog = 0x00000004
@@ -197,7 +201,7 @@ public:
     QSharedPointer<QColorDialogOptions> clone() const;
 
     QString windowTitle() const;
-    void setWindowTitle(const QString &);
+    void setWindowTitle(const QString&);
 
     void setOption(ColorDialogOption option, bool on = true);
     bool testOption(ColorDialogOption option) const;
@@ -206,36 +210,36 @@ public:
 
     static int customColorCount();
     static QRgb customColor(int index);
-    static QRgb *customColors();
+    static QRgb* customColors();
     static void setCustomColor(int index, QRgb color);
 
-    static QRgb *standardColors();
+    static QRgb* standardColors();
     static QRgb standardColor(int index);
     static void setStandardColor(int index, QRgb color);
 
 private:
-    QColorDialogOptionsPrivate *d;
+    QColorDialogOptionsPrivate    *d;
 };
 
-class Q_GUI_EXPORT QPlatformColorDialogHelper : public QPlatformDialogHelper
+class Q_GUI_EXPORT    QPlatformColorDialogHelper : public QPlatformDialogHelper
 {
     Q_OBJECT
 public:
-    const QSharedPointer<QColorDialogOptions> &options() const;
+    const QSharedPointer<QColorDialogOptions>&options() const;
     void setOptions(const QSharedPointer<QColorDialogOptions> &options);
 
-    virtual void setCurrentColor(const QColor &) = 0;
-    virtual QColor currentColor() const = 0;
+    virtual void setCurrentColor(const QColor&) = 0;
+    virtual QColor currentColor() const         = 0;
 
 Q_SIGNALS:
     void currentColorChanged(const QColor &color);
     void colorSelected(const QColor &color);
 
 private:
-    QSharedPointer<QColorDialogOptions> m_options;
+    QSharedPointer<QColorDialogOptions>    m_options;
 };
 
-class Q_GUI_EXPORT QFontDialogOptions
+class Q_GUI_EXPORT    QFontDialogOptions
 {
     Q_GADGET
     Q_DISABLE_COPY(QFontDialogOptions)
@@ -244,7 +248,8 @@ protected:
     ~QFontDialogOptions();
 
 public:
-    enum FontDialogOption {
+    enum FontDialogOption
+    {
         NoButtons           = 0x00000001,
         DontUseNativeDialog = 0x00000002,
         ScalableFonts       = 0x00000004,
@@ -260,7 +265,7 @@ public:
     QSharedPointer<QFontDialogOptions> clone() const;
 
     QString windowTitle() const;
-    void setWindowTitle(const QString &);
+    void setWindowTitle(const QString&);
 
     void setOption(FontDialogOption option, bool on = true);
     bool testOption(FontDialogOption option) const;
@@ -268,17 +273,17 @@ public:
     FontDialogOptions options() const;
 
 private:
-    QFontDialogOptionsPrivate *d;
+    QFontDialogOptionsPrivate    *d;
 };
 
-class Q_GUI_EXPORT QPlatformFontDialogHelper : public QPlatformDialogHelper
+class Q_GUI_EXPORT    QPlatformFontDialogHelper : public QPlatformDialogHelper
 {
     Q_OBJECT
 public:
-    virtual void setCurrentFont(const QFont &) = 0;
-    virtual QFont currentFont() const = 0;
+    virtual void setCurrentFont(const QFont&)   = 0;
+    virtual QFont currentFont() const           = 0;
 
-    const QSharedPointer<QFontDialogOptions> &options() const;
+    const QSharedPointer<QFontDialogOptions>&options() const;
     void setOptions(const QSharedPointer<QFontDialogOptions> &options);
 
 Q_SIGNALS:
@@ -286,10 +291,10 @@ Q_SIGNALS:
     void fontSelected(const QFont &font);
 
 private:
-    QSharedPointer<QFontDialogOptions> m_options;
+    QSharedPointer<QFontDialogOptions>    m_options;
 };
 
-class Q_GUI_EXPORT QFileDialogOptions
+class Q_GUI_EXPORT    QFileDialogOptions
 {
     Q_GADGET
     Q_DISABLE_COPY(QFileDialogOptions)
@@ -328,7 +333,7 @@ public:
     QSharedPointer<QFileDialogOptions> clone() const;
 
     QString windowTitle() const;
-    void setWindowTitle(const QString &);
+    void setWindowTitle(const QString&);
 
     void setOption(FileDialogOption option, bool on = true);
     bool testOption(FileDialogOption option) const;
@@ -370,16 +375,16 @@ public:
     bool isLabelExplicitlySet(DialogLabel label);
 
     QUrl initialDirectory() const;
-    void setInitialDirectory(const QUrl &);
+    void setInitialDirectory(const QUrl&);
 
     QString initiallySelectedMimeTypeFilter() const;
-    void setInitiallySelectedMimeTypeFilter(const QString &);
+    void setInitiallySelectedMimeTypeFilter(const QString&);
 
     QString initiallySelectedNameFilter() const;
-    void setInitiallySelectedNameFilter(const QString &);
+    void setInitiallySelectedNameFilter(const QString&);
 
     QList<QUrl> initiallySelectedFiles() const;
-    void setInitiallySelectedFiles(const QList<QUrl> &);
+    void setInitiallySelectedFiles(const QList<QUrl>&);
 
     void setSupportedSchemes(const QStringList &schemes);
     QStringList supportedSchemes() const;
@@ -387,17 +392,17 @@ public:
     static QString defaultNameFilterString();
 
 private:
-    QFileDialogOptionsPrivate *d;
+    QFileDialogOptionsPrivate    *d;
 };
 
-class Q_GUI_EXPORT QPlatformFileDialogHelper : public QPlatformDialogHelper
+class Q_GUI_EXPORT    QPlatformFileDialogHelper : public QPlatformDialogHelper
 {
     Q_OBJECT
 public:
-    virtual bool defaultNameFilterDisables() const = 0;
-    virtual void setDirectory(const QUrl &directory) = 0;
-    virtual QUrl directory() const = 0;
-    virtual void selectFile(const QUrl &filename) = 0;
+    virtual bool defaultNameFilterDisables() const      = 0;
+    virtual void setDirectory(const QUrl &directory)    = 0;
+    virtual QUrl directory() const                      = 0;
+    virtual void selectFile(const QUrl &filename)       = 0;
     virtual QList<QUrl> selectedFiles() const = 0;
     virtual void setFilter() = 0;
     virtual void selectMimeTypeFilter(const QString &filter);
@@ -407,11 +412,11 @@ public:
 
     virtual bool isSupportedUrl(const QUrl &url) const;
 
-    const QSharedPointer<QFileDialogOptions> &options() const;
+    const QSharedPointer<QFileDialogOptions>&options() const;
     void setOptions(const QSharedPointer<QFileDialogOptions> &options);
 
     static QStringList cleanFilterList(const QString &filter);
-    static const char *filterRegExp;
+    static const char    *filterRegExp;
 
 Q_SIGNALS:
     void fileSelected(const QUrl &file);
@@ -421,10 +426,10 @@ Q_SIGNALS:
     void filterSelected(const QString &filter);
 
 private:
-    QSharedPointer<QFileDialogOptions> m_options;
+    QSharedPointer<QFileDialogOptions>    m_options;
 };
 
-class Q_GUI_EXPORT QMessageDialogOptions
+class Q_GUI_EXPORT    QMessageDialogOptions
 {
     Q_GADGET
     Q_DISABLE_COPY(QMessageDialogOptions)
@@ -441,7 +446,7 @@ public:
     QSharedPointer<QMessageDialogOptions> clone() const;
 
     QString windowTitle() const;
-    void setWindowTitle(const QString &);
+    void setWindowTitle(const QString&);
 
     void setIcon(Icon icon);
     Icon icon() const;
@@ -459,21 +464,21 @@ public:
     QPlatformDialogHelper::StandardButtons standardButtons() const;
 
 private:
-    QMessageDialogOptionsPrivate *d;
+    QMessageDialogOptionsPrivate    *d;
 };
 
-class Q_GUI_EXPORT QPlatformMessageDialogHelper : public QPlatformDialogHelper
+class Q_GUI_EXPORT    QPlatformMessageDialogHelper : public QPlatformDialogHelper
 {
     Q_OBJECT
 public:
-    const QSharedPointer<QMessageDialogOptions> &options() const;
+    const QSharedPointer<QMessageDialogOptions>&options() const;
     void setOptions(const QSharedPointer<QMessageDialogOptions> &options);
 
 Q_SIGNALS:
     void clicked(QPlatformDialogHelper::StandardButton button, QPlatformDialogHelper::ButtonRole role);
 
 private:
-    QSharedPointer<QMessageDialogOptions> m_options;
+    QSharedPointer<QMessageDialogOptions>    m_options;
 };
 
 QT_END_NAMESPACE

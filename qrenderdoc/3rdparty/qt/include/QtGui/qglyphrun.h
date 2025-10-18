@@ -52,10 +52,11 @@ QT_BEGIN_NAMESPACE
 
 
 class QGlyphRunPrivate;
-class Q_GUI_EXPORT QGlyphRun
+class Q_GUI_EXPORT    QGlyphRun
 {
 public:
-    enum GlyphRunFlag {
+    enum GlyphRunFlag
+    {
         Overline        = 0x01,
         Underline       = 0x02,
         StrikeOut       = 0x04,
@@ -67,12 +68,18 @@ public:
     QGlyphRun();
     QGlyphRun(const QGlyphRun &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QGlyphRun &operator=(QGlyphRun &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QGlyphRun&operator=(QGlyphRun &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QGlyphRun &operator=(const QGlyphRun &other);
+    QGlyphRun&operator=(const QGlyphRun &other);
     ~QGlyphRun();
 
-    void swap(QGlyphRun &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QGlyphRun &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     QRawFont rawFont() const;
     void setRawFont(const QRawFont &rawFont);
@@ -91,7 +98,9 @@ public:
 
     bool operator==(const QGlyphRun &other) const;
     inline bool operator!=(const QGlyphRun &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
     void setOverline(bool overline);
     bool overline() const;
@@ -119,16 +128,15 @@ private:
     friend class QTextLine;
 
     QGlyphRun operator+(const QGlyphRun &other) const;
-    QGlyphRun &operator+=(const QGlyphRun &other);
+    QGlyphRun&operator+=(const QGlyphRun &other);
 
     void detach();
-    QExplicitlySharedDataPointer<QGlyphRunPrivate> d;
+    QExplicitlySharedDataPointer<QGlyphRunPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QGlyphRun)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_RAWFONT
 
 #endif // QGLYPHRUN_H

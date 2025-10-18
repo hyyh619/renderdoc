@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QByteArrayMatcherPrivate;
 
-class Q_CORE_EXPORT QByteArrayMatcher
+class Q_CORE_EXPORT    QByteArrayMatcher
 {
 public:
     QByteArrayMatcher();
@@ -56,7 +56,7 @@ public:
     QByteArrayMatcher(const QByteArrayMatcher &other);
     ~QByteArrayMatcher();
 
-    QByteArrayMatcher &operator=(const QByteArrayMatcher &other);
+    QByteArrayMatcher&operator=(const QByteArrayMatcher &other);
 
     void setPattern(const QByteArray &pattern);
 
@@ -66,29 +66,33 @@ public:
     {
         if (q_pattern.isNull())
             return QByteArray(reinterpret_cast<const char*>(p.p), p.l);
+
         return q_pattern;
     }
 
 private:
-    QByteArrayMatcherPrivate *d;
-    QByteArray q_pattern;
-    struct Data {
-        uchar q_skiptable[256];
+    QByteArrayMatcherPrivate    *d;
+    QByteArray                  q_pattern;
+    struct Data
+    {
+        uchar       q_skiptable[256];
         const uchar *p;
-        int l;
+        int         l;
     };
-    union {
-        uint dummy[256];
-        Data p;
+    union
+    {
+        uint    dummy[256];
+        Data    p;
     };
 };
 
 class QStaticByteArrayMatcherBase
 {
     Q_DECL_ALIGN(16)
-    struct Skiptable {
+    struct Skiptable
+    {
         uchar data[256];
-    } m_skiptable;
+    }    m_skiptable;
 protected:
     explicit Q_DECL_RELAXED_CONSTEXPR QStaticByteArrayMatcherBase(const char *pattern, uint n) Q_DECL_NOTHROW
         : m_skiptable(generate(pattern, n)) {}
@@ -100,9 +104,10 @@ protected:
 private:
     static Q_DECL_RELAXED_CONSTEXPR Skiptable generate(const char *pattern, uint n) Q_DECL_NOTHROW
     {
-        const auto uchar_max = (std::numeric_limits<uchar>::max)();
-        uchar max = n > uchar_max ? uchar_max : n;
-        Skiptable table = {
+        const auto      uchar_max   = (std::numeric_limits<uchar>::max)();
+        uchar           max         = n > uchar_max ? uchar_max : n;
+        Skiptable       table       =
+        {
             // this verbose initialization code aims to avoid some opaque error messages
             // even on powerful compilers such as GCC 5.3. Even though for GCC a loop
             // format can be found that v5.3 groks, it's probably better to go with this
@@ -127,9 +132,12 @@ private:
                 max, max, max, max, max, max, max, max,   max, max, max, max, max, max, max, max,
             }
         };
+
         pattern += n - max;
+
         while (max--)
             table.data[uchar(*pattern++)] = max;
+
         return table;
     }
 };
@@ -137,10 +145,10 @@ private:
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_MSVC(4351) // MSVC 2013: "new behavior: elements of array ... will be default initialized"
                               // remove once we drop MSVC 2013 support
-template <uint N>
+template<uint N>
 class QStaticByteArrayMatcher : QStaticByteArrayMatcherBase
 {
-    char m_pattern[N];
+    char    m_pattern[N];
     Q_STATIC_ASSERT_X(N > 2, "QStaticByteArrayMatcher makes no sense for finding a single-char pattern");
 public:
     explicit Q_DECL_RELAXED_CONSTEXPR QStaticByteArrayMatcher(const char (&patternToMatch)[N]) Q_DECL_NOTHROW
@@ -151,18 +159,27 @@ public:
     }
 
     int indexIn(const QByteArray &haystack, int from = 0) const Q_DECL_NOTHROW
-    { return this->indexOfIn(m_pattern, N - 1, haystack.data(), haystack.size(), from); }
+    {
+        return this->indexOfIn(m_pattern, N - 1, haystack.data(), haystack.size(), from);
+    }
     int indexIn(const char *haystack, int hlen, int from = 0) const Q_DECL_NOTHROW
-    { return this->indexOfIn(m_pattern, N - 1, haystack, hlen, from); }
+    {
+        return this->indexOfIn(m_pattern, N - 1, haystack, hlen, from);
+    }
 
-    QByteArray pattern() const { return QByteArray(m_pattern, int(N - 1)); }
+    QByteArray pattern() const
+    {
+        return QByteArray(m_pattern, int(N - 1));
+    }
 };
 
 QT_WARNING_POP
 
-template <uint N>
+template<uint N>
 Q_DECL_RELAXED_CONSTEXPR QStaticByteArrayMatcher<N> qMakeStaticByteArrayMatcher(const char (&pattern)[N]) Q_DECL_NOTHROW
-{ return QStaticByteArrayMatcher<N>(pattern); }
+{
+    return QStaticByteArrayMatcher<N>(pattern);
+}
 
 QT_END_NAMESPACE
 

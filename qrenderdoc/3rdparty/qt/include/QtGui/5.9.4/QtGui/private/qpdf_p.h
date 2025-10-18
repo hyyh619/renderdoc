@@ -66,14 +66,14 @@
 
 QT_BEGIN_NAMESPACE
 
-const char *qt_real_to_string(qreal val, char *buf);
-const char *qt_int_to_string(int val, char *buf);
+const char* qt_real_to_string(qreal val, char *buf);
+const char* qt_int_to_string(int val, char *buf);
 
-namespace QPdf {
-
+namespace QPdf
+{
     class ByteStream
     {
-    public:
+public:
         // fileBacking means that ByteStream will buffer the contents on disk
         // if the size exceeds a certain threshold. In this case, if a byte
         // array was passed in, its contents may no longer correspond to the
@@ -81,36 +81,43 @@ namespace QPdf {
         explicit ByteStream(bool fileBacking = false);
         explicit ByteStream(QByteArray *ba, bool fileBacking = false);
         ~ByteStream();
-        ByteStream &operator <<(char chr);
-        ByteStream &operator <<(const char *str);
-        ByteStream &operator <<(const QByteArray &str);
-        ByteStream &operator <<(const ByteStream &src);
-        ByteStream &operator <<(qreal val);
-        ByteStream &operator <<(int val);
-        ByteStream &operator <<(const QPointF &p);
+        ByteStream&operator <<(char chr);
+        ByteStream&operator <<(const char *str);
+        ByteStream&operator <<(const QByteArray &str);
+        ByteStream&operator <<(const ByteStream &src);
+        ByteStream&operator <<(qreal val);
+        ByteStream&operator <<(int val);
+        ByteStream&operator <<(const QPointF &p);
         // Note that the stream may be invalidated by calls that insert data.
-        QIODevice *stream();
+        QIODevice* stream();
         void clear();
 
-        static inline int maxMemorySize() { return 100000000; }
-        static inline int chunkSize()     { return 10000000; }
+        static inline int maxMemorySize()
+        {
+            return 100000000;
+        }
+        static inline int chunkSize()
+        {
+            return 10000000;
+        }
 
-    protected:
+protected:
         void constructor_helper(QIODevice *dev);
         void constructor_helper(QByteArray *ba);
 
-    private:
+private:
         void prepareBuffer();
 
-    private:
-        QIODevice *dev;
-        QByteArray ba;
-        bool fileBackingEnabled;
-        bool fileBackingActive;
-        bool handleDirty;
+private:
+        QIODevice       *dev;
+        QByteArray      ba;
+        bool            fileBackingEnabled;
+        bool            fileBackingActive;
+        bool            handleDirty;
     };
 
-    enum PathFlags {
+    enum PathFlags
+    {
         ClipPath,
         FillPath,
         StrokePath,
@@ -121,25 +128,25 @@ namespace QPdf {
     QByteArray generateDashes(const QPen &pen);
     QByteArray patternForBrush(const QBrush &b);
 
-    struct Stroker {
+    struct Stroker
+    {
         Stroker();
-        void setPen(const QPen &pen, QPainter::RenderHints hints);
-        void strokePath(const QPainterPath &path);
-        ByteStream *stream;
-        bool first;
-        QTransform matrix;
-        bool cosmeticPen;
-    private:
-        QStroker basicStroker;
-        QDashStroker dashStroker;
-        QStrokerOps *stroker;
+        void        setPen(const QPen &pen, QPainter::RenderHints hints);
+        void        strokePath(const QPainterPath &path);
+        ByteStream  *stream;
+        bool        first;
+        QTransform  matrix;
+        bool        cosmeticPen;
+private:
+        QStroker        basicStroker;
+        QDashStroker    dashStroker;
+        QStrokerOps     *stroker;
     };
 
     QByteArray ascii85Encode(const QByteArray &input);
 
-    const char *toHex(ushort u, char *buffer);
-    const char *toHex(uchar u, char *buffer);
-
+    const char* toHex(ushort u, char *buffer);
+    const char* toHex(uchar u, char *buffer);
 }
 
 
@@ -148,22 +155,22 @@ class QPdfPage : public QPdf::ByteStream
 public:
     QPdfPage();
 
-    QVector<uint> images;
-    QVector<uint> graphicStates;
-    QVector<uint> patterns;
-    QVector<uint> fonts;
-    QVector<uint> annotations;
+    QVector<uint>       images;
+    QVector<uint>       graphicStates;
+    QVector<uint>       patterns;
+    QVector<uint>       fonts;
+    QVector<uint>       annotations;
 
     void streamImage(int w, int h, int object);
 
-    QSize pageSize;
+    QSize    pageSize;
 private:
 };
 
 class QPdfWriter;
 class QPdfEnginePrivate;
 
-class Q_GUI_EXPORT QPdfEngine : public QPaintEngine
+class Q_GUI_EXPORT    QPdfEngine : public QPaintEngine
 {
     Q_DECLARE_PRIVATE(QPdfEngine)
     friend class QPdfWriter;
@@ -185,14 +192,14 @@ public:
     void drawLines(const QLineF *lines, int lineCount) Q_DECL_OVERRIDE;
     void drawRects(const QRectF *rects, int rectCount) Q_DECL_OVERRIDE;
     void drawPolygon(const QPointF *points, int pointCount, PolygonDrawMode mode) Q_DECL_OVERRIDE;
-    void drawPath (const QPainterPath & path) Q_DECL_OVERRIDE;
+    void drawPath(const QPainterPath &path) Q_DECL_OVERRIDE;
 
     void drawTextItem(const QPointF &p, const QTextItem &textItem) Q_DECL_OVERRIDE;
 
-    void drawPixmap (const QRectF & rectangle, const QPixmap & pixmap, const QRectF & sr) Q_DECL_OVERRIDE;
+    void drawPixmap(const QRectF &rectangle, const QPixmap &pixmap, const QRectF &sr) Q_DECL_OVERRIDE;
     void drawImage(const QRectF &r, const QImage &pm, const QRectF &sr,
                    Qt::ImageConversionFlags flags = Qt::AutoColor) Q_DECL_OVERRIDE;
-    void drawTiledPixmap (const QRectF & rectangle, const QPixmap & pixmap, const QPointF & point) Q_DECL_OVERRIDE;
+    void drawTiledPixmap(const QRectF &rectangle, const QPixmap &pixmap, const QPointF &point) Q_DECL_OVERRIDE;
 
     void drawHyperlink(const QRectF &r, const QUrl &url);
 
@@ -218,17 +225,20 @@ public:
     void setupGraphicsState(QPaintEngine::DirtyFlags flags);
 
 private:
-    void updateClipPath(const QPainterPath & path, Qt::ClipOperation op);
+    void updateClipPath(const QPainterPath &path, Qt::ClipOperation op);
 };
 
-class Q_GUI_EXPORT QPdfEnginePrivate : public QPaintEnginePrivate
+class Q_GUI_EXPORT    QPdfEnginePrivate : public QPaintEnginePrivate
 {
     Q_DECLARE_PUBLIC(QPdfEngine)
 public:
     QPdfEnginePrivate();
     ~QPdfEnginePrivate();
 
-    inline uint requestObject() { return currentObject++; }
+    inline uint requestObject()
+    {
+        return currentObject++;
+    }
 
     void writeHeader();
     void writeTail();
@@ -243,40 +253,40 @@ public:
 
     void newPage();
 
-    int currentObject;
+    int    currentObject;
 
-    QPdfPage* currentPage;
-    QPdf::Stroker stroker;
+    QPdfPage            *currentPage;
+    QPdf::Stroker       stroker;
 
-    QPointF brushOrigin;
-    QBrush brush;
-    QPen pen;
-    QVector<QPainterPath> clips;
-    bool clipEnabled;
-    bool allClipped;
-    bool hasPen;
-    bool hasBrush;
-    bool simplePen;
-    qreal opacity;
+    QPointF                     brushOrigin;
+    QBrush                      brush;
+    QPen                        pen;
+    QVector<QPainterPath>       clips;
+    bool                        clipEnabled;
+    bool                        allClipped;
+    bool                        hasPen;
+    bool                        hasBrush;
+    bool                        simplePen;
+    qreal                       opacity;
 
-    QHash<QFontEngine::FaceId, QFontSubset *> fonts;
+    QHash<QFontEngine::FaceId, QFontSubset*>    fonts;
 
-    QPaintDevice *pdev;
+    QPaintDevice    *pdev;
 
     // the device the output is in the end streamed to.
-    QIODevice *outDevice;
-    bool ownsDevice;
+    QIODevice       *outDevice;
+    bool            ownsDevice;
 
     // printer options
-    QString outputFileName;
-    QString title;
-    QString creator;
-    bool embedFonts;
-    int resolution;
-    bool grayscale;
+    QString     outputFileName;
+    QString     title;
+    QString     creator;
+    bool        embedFonts;
+    int         resolution;
+    bool        grayscale;
 
     // Page layout: size, orientation and margins
-    QPageLayout m_pageLayout;
+    QPageLayout    m_pageLayout;
 
 private:
     int gradientBrush(const QBrush &b, const QTransform &matrix, int *gStateObject);
@@ -290,9 +300,9 @@ private:
     void writeFonts();
     void embedFont(QFontSubset *font);
 
-    QVector<int> xrefPositions;
-    QDataStream* stream;
-    int streampos;
+    QVector<int>    xrefPositions;
+    QDataStream     *stream;
+    int             streampos;
 
     int writeImage(const QByteArray &data, int width, int height, int depth,
                    int maskObject, int softMaskObject, bool dct = false, bool isMono = false);
@@ -300,26 +310,28 @@ private:
 
     int addXrefEntry(int object, bool printostr = true);
     void printString(const QString &string);
-    void xprintf(const char* fmt, ...);
-    inline void write(const QByteArray &data) {
+    void xprintf(const char *fmt, ...);
+    inline void write(const QByteArray &data)
+    {
         stream->writeRawData(data.constData(), data.size());
         streampos += data.size();
     }
 
     int writeCompressed(const char *src, int len);
-    inline int writeCompressed(const QByteArray &data) { return writeCompressed(data.constData(), data.length()); }
+    inline int writeCompressed(const QByteArray &data)
+    {
+        return writeCompressed(data.constData(), data.length());
+    }
     int writeCompressed(QIODevice *dev);
 
     // various PDF objects
-    int pageRoot, catalog, info, graphicsState, patternColorSpace;
-    QVector<uint> pages;
-    QHash<qint64, uint> imageCache;
-    QHash<QPair<uint, uint>, uint > alphaCache;
+    int                                 pageRoot, catalog, info, graphicsState, patternColorSpace;
+    QVector<uint>                       pages;
+    QHash<qint64, uint>                 imageCache;
+    QHash<QPair<uint, uint>, uint>      alphaCache;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_PDF
 
 #endif // QPDF_P_H
-

@@ -12,10 +12,10 @@
 
 #ifndef DIRECT3D_VERSION
 #define DIRECT3D_VERSION         0x0900
-#endif  //DIRECT3D_VERSION
+#endif  // DIRECT3D_VERSION
 
 // include this file content only if compiling for DX9 interfaces
-#if(DIRECT3D_VERSION >= 0x0900)
+#if (DIRECT3D_VERSION >= 0x0900)
 
 #include "winapifamily.h"
 
@@ -28,75 +28,75 @@
 
 typedef struct _D3DVSHADERCAPS2_0
 {
-        DWORD Caps;
-        INT DynamicFlowControlDepth;
-        INT NumTemps;
-        INT StaticFlowControlDepth;
+    DWORD   Caps;
+    INT     DynamicFlowControlDepth;
+    INT     NumTemps;
+    INT     StaticFlowControlDepth;
 } D3DVSHADERCAPS2_0;
 
-#define D3DVS20CAPS_PREDICATION             (1<<0)
+#define D3DVS20CAPS_PREDICATION             (1 << 0)
 
-#define D3DVS20_MAX_DYNAMICFLOWCONTROLDEPTH  24
-#define D3DVS20_MIN_DYNAMICFLOWCONTROLDEPTH  0
-#define D3DVS20_MAX_NUMTEMPS    32
-#define D3DVS20_MIN_NUMTEMPS    12
-#define D3DVS20_MAX_STATICFLOWCONTROLDEPTH    4
-#define D3DVS20_MIN_STATICFLOWCONTROLDEPTH    1
+#define D3DVS20_MAX_DYNAMICFLOWCONTROLDEPTH     24
+#define D3DVS20_MIN_DYNAMICFLOWCONTROLDEPTH     0
+#define D3DVS20_MAX_NUMTEMPS                    32
+#define D3DVS20_MIN_NUMTEMPS                    12
+#define D3DVS20_MAX_STATICFLOWCONTROLDEPTH      4
+#define D3DVS20_MIN_STATICFLOWCONTROLDEPTH      1
 
 typedef struct _D3DPSHADERCAPS2_0
 {
-    DWORD Caps;
-    INT DynamicFlowControlDepth;
-    INT NumTemps;
-    INT StaticFlowControlDepth;
-    INT NumInstructionSlots;
+    DWORD   Caps;
+    INT     DynamicFlowControlDepth;
+    INT     NumTemps;
+    INT     StaticFlowControlDepth;
+    INT     NumInstructionSlots;
 } D3DPSHADERCAPS2_0;
 
-#define D3DPS20CAPS_ARBITRARYSWIZZLE        (1<<0)
-#define D3DPS20CAPS_GRADIENTINSTRUCTIONS    (1<<1)
-#define D3DPS20CAPS_PREDICATION             (1<<2)
-#define D3DPS20CAPS_NODEPENDENTREADLIMIT    (1<<3)
-#define D3DPS20CAPS_NOTEXINSTRUCTIONLIMIT   (1<<4)
+#define D3DPS20CAPS_ARBITRARYSWIZZLE        (1 << 0)
+#define D3DPS20CAPS_GRADIENTINSTRUCTIONS    (1 << 1)
+#define D3DPS20CAPS_PREDICATION             (1 << 2)
+#define D3DPS20CAPS_NODEPENDENTREADLIMIT    (1 << 3)
+#define D3DPS20CAPS_NOTEXINSTRUCTIONLIMIT   (1 << 4)
 
-#define D3DPS20_MAX_DYNAMICFLOWCONTROLDEPTH    24
-#define D3DPS20_MIN_DYNAMICFLOWCONTROLDEPTH    0
-#define D3DPS20_MAX_NUMTEMPS    32
-#define D3DPS20_MIN_NUMTEMPS    12
-#define D3DPS20_MAX_STATICFLOWCONTROLDEPTH    4
-#define D3DPS20_MIN_STATICFLOWCONTROLDEPTH    0
-#define D3DPS20_MAX_NUMINSTRUCTIONSLOTS    512
-#define D3DPS20_MIN_NUMINSTRUCTIONSLOTS    96
+#define D3DPS20_MAX_DYNAMICFLOWCONTROLDEPTH     24
+#define D3DPS20_MIN_DYNAMICFLOWCONTROLDEPTH     0
+#define D3DPS20_MAX_NUMTEMPS                    32
+#define D3DPS20_MIN_NUMTEMPS                    12
+#define D3DPS20_MAX_STATICFLOWCONTROLDEPTH      4
+#define D3DPS20_MIN_STATICFLOWCONTROLDEPTH      0
+#define D3DPS20_MAX_NUMINSTRUCTIONSLOTS         512
+#define D3DPS20_MIN_NUMINSTRUCTIONSLOTS         96
 
-#define D3DMIN30SHADERINSTRUCTIONS 512
-#define D3DMAX30SHADERINSTRUCTIONS 32768
+#define D3DMIN30SHADERINSTRUCTIONS  512
+#define D3DMAX30SHADERINSTRUCTIONS  32768
 
 /* D3D9Ex only -- */
 #if !defined(D3D_DISABLE_9EX)
 
 typedef struct _D3DOVERLAYCAPS
 {
-    UINT   Caps;
-    UINT   MaxOverlayDisplayWidth;
-    UINT   MaxOverlayDisplayHeight;
+    UINT    Caps;
+    UINT    MaxOverlayDisplayWidth;
+    UINT    MaxOverlayDisplayHeight;
 } D3DOVERLAYCAPS;
 
-#define D3DOVERLAYCAPS_FULLRANGERGB          0x00000001
-#define D3DOVERLAYCAPS_LIMITEDRANGERGB       0x00000002
-#define D3DOVERLAYCAPS_YCbCr_BT601           0x00000004
-#define D3DOVERLAYCAPS_YCbCr_BT709           0x00000008
-#define D3DOVERLAYCAPS_YCbCr_BT601_xvYCC     0x00000010
-#define D3DOVERLAYCAPS_YCbCr_BT709_xvYCC     0x00000020
-#define D3DOVERLAYCAPS_STRETCHX              0x00000040
-#define D3DOVERLAYCAPS_STRETCHY              0x00000080
+#define D3DOVERLAYCAPS_FULLRANGERGB             0x00000001
+#define D3DOVERLAYCAPS_LIMITEDRANGERGB          0x00000002
+#define D3DOVERLAYCAPS_YCbCr_BT601              0x00000004
+#define D3DOVERLAYCAPS_YCbCr_BT709              0x00000008
+#define D3DOVERLAYCAPS_YCbCr_BT601_xvYCC        0x00000010
+#define D3DOVERLAYCAPS_YCbCr_BT709_xvYCC        0x00000020
+#define D3DOVERLAYCAPS_STRETCHX                 0x00000040
+#define D3DOVERLAYCAPS_STRETCHY                 0x00000080
 
 
 typedef struct _D3DCONTENTPROTECTIONCAPS
 {
-    DWORD     Caps;
-    GUID      KeyExchangeType;
-    UINT      BufferAlignmentStart;
-    UINT      BlockAlignmentSize;
-    ULONGLONG ProtectedMemorySize;
+    DWORD       Caps;
+    GUID        KeyExchangeType;
+    UINT        BufferAlignmentStart;
+    UINT        BlockAlignmentSize;
+    ULONGLONG   ProtectedMemorySize;
 } D3DCONTENTPROTECTIONCAPS;
 
 #define D3DCPCAPS_SOFTWARE              0x00000001
@@ -110,16 +110,15 @@ typedef struct _D3DCONTENTPROTECTIONCAPS
 #define D3DCPCAPS_SEQUENTIAL_CTR_IV     0x00000100
 #define D3DCPCAPS_ENCRYPTSLICEDATAONLY  0x00000200
 
-DEFINE_GUID(D3DCRYPTOTYPE_AES128_CTR, 
-0x9b6bd711, 0x4f74, 0x41c9, 0x9e, 0x7b, 0xb, 0xe2, 0xd7, 0xd9, 0x3b, 0x4f);
-DEFINE_GUID(D3DCRYPTOTYPE_PROPRIETARY, 
-0xab4e9afd, 0x1d1c, 0x46e6, 0xa7, 0x2f, 0x8, 0x69, 0x91, 0x7b, 0xd, 0xe8);
+DEFINE_GUID(D3DCRYPTOTYPE_AES128_CTR,
+            0x9b6bd711, 0x4f74, 0x41c9, 0x9e, 0x7b, 0xb, 0xe2, 0xd7, 0xd9, 0x3b, 0x4f);
+DEFINE_GUID(D3DCRYPTOTYPE_PROPRIETARY,
+            0xab4e9afd, 0x1d1c, 0x46e6, 0xa7, 0x2f, 0x8, 0x69, 0x91, 0x7b, 0xd, 0xe8);
 
-DEFINE_GUID(D3DKEYEXCHANGE_RSAES_OAEP, 
-0xc1949895, 0xd72a, 0x4a1d, 0x8e, 0x5d, 0xed, 0x85, 0x7d, 0x17, 0x15, 0x20);
-DEFINE_GUID(D3DKEYEXCHANGE_DXVA, 
-0x43d3775c, 0x38e5, 0x4924, 0x8d, 0x86, 0xd3, 0xfc, 0xcf, 0x15, 0x3e, 0x9b);
-
+DEFINE_GUID(D3DKEYEXCHANGE_RSAES_OAEP,
+            0xc1949895, 0xd72a, 0x4a1d, 0x8e, 0x5d, 0xed, 0x85, 0x7d, 0x17, 0x15, 0x20);
+DEFINE_GUID(D3DKEYEXCHANGE_DXVA,
+            0x43d3775c, 0x38e5, 0x4924, 0x8d, 0x86, 0xd3, 0xfc, 0xcf, 0x15, 0x3e, 0x9b);
 #endif // !D3D_DISABLE_9EX
 /* -- D3D9Ex only */
 
@@ -136,10 +135,10 @@ typedef struct _D3DCAPS9
     DWORD   PresentationIntervals;
 
     /* Cursor Caps */
-    DWORD   CursorCaps;
+    DWORD CursorCaps;
 
     /* 3D Device Caps */
-    DWORD   DevCaps;
+    DWORD DevCaps;
 
     DWORD   PrimitiveMiscCaps;
     DWORD   RasterCaps;
@@ -155,7 +154,7 @@ typedef struct _D3DCAPS9
     DWORD   TextureAddressCaps;         // D3DPTADDRESSCAPS for IDirect3DTexture9's
     DWORD   VolumeTextureAddressCaps;   // D3DPTADDRESSCAPS for IDirect3DVolumeTexture9's
 
-    DWORD   LineCaps;                   // D3DLINECAPS
+    DWORD LineCaps;                     // D3DLINECAPS
 
     DWORD   MaxTextureWidth, MaxTextureHeight;
     DWORD   MaxVolumeExtent;
@@ -184,7 +183,7 @@ typedef struct _D3DCAPS9
     DWORD   MaxVertexBlendMatrices;
     DWORD   MaxVertexBlendMatrixIndex;
 
-    float   MaxPointSize;
+    float MaxPointSize;
 
     DWORD   MaxPrimitiveCount;          // max number of primitives per DrawPrimitive call
     DWORD   MaxVertexIndex;
@@ -198,24 +197,24 @@ typedef struct _D3DCAPS9
     float   PixelShader1xMaxValue;      // max value storable in registers of ps.1.x shaders
 
     // Here are the DX9 specific ones
-    DWORD   DevCaps2;
+    DWORD DevCaps2;
 
     float   MaxNpatchTessellationLevel;
     DWORD   Reserved5;
 
-    UINT    MasterAdapterOrdinal;       // ordinal of master adaptor for adapter group
-    UINT    AdapterOrdinalInGroup;      // ordinal inside the adapter group
-    UINT    NumberOfAdaptersInGroup;    // number of adapters in this adapter group (only if master)
-    DWORD   DeclTypes;                  // Data types, supported in vertex declarations
-    DWORD   NumSimultaneousRTs;         // Will be at least 1
-    DWORD   StretchRectFilterCaps;      // Filter caps supported by StretchRect
-    D3DVSHADERCAPS2_0 VS20Caps;
-    D3DPSHADERCAPS2_0 PS20Caps;
-    DWORD   VertexTextureFilterCaps;    // D3DPTFILTERCAPS for IDirect3DTexture9's for texture, used in vertex shaders
-    DWORD   MaxVShaderInstructionsExecuted; // maximum number of vertex shader instructions that can be executed
-    DWORD   MaxPShaderInstructionsExecuted; // maximum number of pixel shader instructions that can be executed
-    DWORD   MaxVertexShader30InstructionSlots; 
-    DWORD   MaxPixelShader30InstructionSlots;
+    UINT                MasterAdapterOrdinal; // ordinal of master adaptor for adapter group
+    UINT                AdapterOrdinalInGroup; // ordinal inside the adapter group
+    UINT                NumberOfAdaptersInGroup; // number of adapters in this adapter group (only if master)
+    DWORD               DeclTypes;      // Data types, supported in vertex declarations
+    DWORD               NumSimultaneousRTs; // Will be at least 1
+    DWORD               StretchRectFilterCaps; // Filter caps supported by StretchRect
+    D3DVSHADERCAPS2_0   VS20Caps;
+    D3DPSHADERCAPS2_0   PS20Caps;
+    DWORD               VertexTextureFilterCaps; // D3DPTFILTERCAPS for IDirect3DTexture9's for texture, used in vertex shaders
+    DWORD               MaxVShaderInstructionsExecuted; // maximum number of vertex shader instructions that can be executed
+    DWORD               MaxPShaderInstructionsExecuted; // maximum number of pixel shader instructions that can be executed
+    DWORD               MaxVertexShader30InstructionSlots;
+    DWORD               MaxPixelShader30InstructionSlots;
 } D3DCAPS9;
 
 //
@@ -242,7 +241,6 @@ typedef struct _D3DCAPS9
 #if !defined(D3D_DISABLE_9EX)
 
 #define D3DCAPS2_CANSHARERESOURCE       0x80000000L
-
 #endif // !D3D_DISABLE_9EX
 /* -- D3D9Ex only */
 
@@ -256,7 +254,7 @@ typedef struct _D3DCAPS9
 // COPY and COPYVSYNC swap effects work whether or not this flag is set.
 #define D3DCAPS3_ALPHA_FULLSCREEN_FLIP_OR_DISCARD   0x00000020L
 
-// Indicates that the device can perform a gamma correction from 
+// Indicates that the device can perform a gamma correction from
 // a windowed back buffer containing linear content to the sRGB desktop.
 #define D3DCAPS3_LINEAR_TO_SRGB_PRESENTATION 0x00000080L
 
@@ -287,44 +285,44 @@ typedef struct _D3DCAPS9
 //
 // DevCaps
 //
-#define D3DDEVCAPS_EXECUTESYSTEMMEMORY  0x00000010L /* Device can use execute buffers from system memory */
-#define D3DDEVCAPS_EXECUTEVIDEOMEMORY   0x00000020L /* Device can use execute buffers from video memory */
-#define D3DDEVCAPS_TLVERTEXSYSTEMMEMORY 0x00000040L /* Device can use TL buffers from system memory */
-#define D3DDEVCAPS_TLVERTEXVIDEOMEMORY  0x00000080L /* Device can use TL buffers from video memory */
-#define D3DDEVCAPS_TEXTURESYSTEMMEMORY  0x00000100L /* Device can texture from system memory */
-#define D3DDEVCAPS_TEXTUREVIDEOMEMORY   0x00000200L /* Device can texture from device memory */
-#define D3DDEVCAPS_DRAWPRIMTLVERTEX     0x00000400L /* Device can draw TLVERTEX primitives */
-#define D3DDEVCAPS_CANRENDERAFTERFLIP   0x00000800L /* Device can render without waiting for flip to complete */
-#define D3DDEVCAPS_TEXTURENONLOCALVIDMEM 0x00001000L /* Device can texture from nonlocal video memory */
-#define D3DDEVCAPS_DRAWPRIMITIVES2      0x00002000L /* Device can support DrawPrimitives2 */
-#define D3DDEVCAPS_SEPARATETEXTUREMEMORIES 0x00004000L /* Device is texturing from separate memory pools */
-#define D3DDEVCAPS_DRAWPRIMITIVES2EX    0x00008000L /* Device can support Extended DrawPrimitives2 i.e. DX7 compliant driver*/
-#define D3DDEVCAPS_HWTRANSFORMANDLIGHT  0x00010000L /* Device can support transformation and lighting in hardware and DRAWPRIMITIVES2EX must be also */
-#define D3DDEVCAPS_CANBLTSYSTONONLOCAL  0x00020000L /* Device supports a Tex Blt from system memory to non-local vidmem */
-#define D3DDEVCAPS_HWRASTERIZATION      0x00080000L /* Device has HW acceleration for rasterization */
-#define D3DDEVCAPS_PUREDEVICE           0x00100000L /* Device supports D3DCREATE_PUREDEVICE */
-#define D3DDEVCAPS_QUINTICRTPATCHES     0x00200000L /* Device supports quintic Beziers and BSplines */
-#define D3DDEVCAPS_RTPATCHES            0x00400000L /* Device supports Rect and Tri patches */
-#define D3DDEVCAPS_RTPATCHHANDLEZERO    0x00800000L /* Indicates that RT Patches may be drawn efficiently using handle 0 */
-#define D3DDEVCAPS_NPATCHES             0x01000000L /* Device supports N-Patches */
+#define D3DDEVCAPS_EXECUTESYSTEMMEMORY      0x00000010L /* Device can use execute buffers from system memory */
+#define D3DDEVCAPS_EXECUTEVIDEOMEMORY       0x00000020L /* Device can use execute buffers from video memory */
+#define D3DDEVCAPS_TLVERTEXSYSTEMMEMORY     0x00000040L /* Device can use TL buffers from system memory */
+#define D3DDEVCAPS_TLVERTEXVIDEOMEMORY      0x00000080L /* Device can use TL buffers from video memory */
+#define D3DDEVCAPS_TEXTURESYSTEMMEMORY      0x00000100L /* Device can texture from system memory */
+#define D3DDEVCAPS_TEXTUREVIDEOMEMORY       0x00000200L /* Device can texture from device memory */
+#define D3DDEVCAPS_DRAWPRIMTLVERTEX         0x00000400L /* Device can draw TLVERTEX primitives */
+#define D3DDEVCAPS_CANRENDERAFTERFLIP       0x00000800L /* Device can render without waiting for flip to complete */
+#define D3DDEVCAPS_TEXTURENONLOCALVIDMEM    0x00001000L /* Device can texture from nonlocal video memory */
+#define D3DDEVCAPS_DRAWPRIMITIVES2          0x00002000L /* Device can support DrawPrimitives2 */
+#define D3DDEVCAPS_SEPARATETEXTUREMEMORIES  0x00004000L /* Device is texturing from separate memory pools */
+#define D3DDEVCAPS_DRAWPRIMITIVES2EX        0x00008000L /* Device can support Extended DrawPrimitives2 i.e. DX7 compliant driver*/
+#define D3DDEVCAPS_HWTRANSFORMANDLIGHT      0x00010000L /* Device can support transformation and lighting in hardware and DRAWPRIMITIVES2EX must be also */
+#define D3DDEVCAPS_CANBLTSYSTONONLOCAL      0x00020000L /* Device supports a Tex Blt from system memory to non-local vidmem */
+#define D3DDEVCAPS_HWRASTERIZATION          0x00080000L /* Device has HW acceleration for rasterization */
+#define D3DDEVCAPS_PUREDEVICE               0x00100000L /* Device supports D3DCREATE_PUREDEVICE */
+#define D3DDEVCAPS_QUINTICRTPATCHES         0x00200000L /* Device supports quintic Beziers and BSplines */
+#define D3DDEVCAPS_RTPATCHES                0x00400000L /* Device supports Rect and Tri patches */
+#define D3DDEVCAPS_RTPATCHHANDLEZERO        0x00800000L /* Indicates that RT Patches may be drawn efficiently using handle 0 */
+#define D3DDEVCAPS_NPATCHES                 0x01000000L /* Device supports N-Patches */
 
 //
 // PrimitiveMiscCaps
 //
-#define D3DPMISCCAPS_MASKZ              0x00000002L
-#define D3DPMISCCAPS_CULLNONE           0x00000010L
-#define D3DPMISCCAPS_CULLCW             0x00000020L
-#define D3DPMISCCAPS_CULLCCW            0x00000040L
-#define D3DPMISCCAPS_COLORWRITEENABLE   0x00000080L
-#define D3DPMISCCAPS_CLIPPLANESCALEDPOINTS 0x00000100L /* Device correctly clips scaled points to clip planes */
-#define D3DPMISCCAPS_CLIPTLVERTS        0x00000200L /* device will clip post-transformed vertex primitives */
-#define D3DPMISCCAPS_TSSARGTEMP         0x00000400L /* device supports D3DTA_TEMP for temporary register */
-#define D3DPMISCCAPS_BLENDOP            0x00000800L /* device supports D3DRS_BLENDOP */
-#define D3DPMISCCAPS_NULLREFERENCE      0x00001000L /* Reference Device that doesnt render */
-#define D3DPMISCCAPS_INDEPENDENTWRITEMASKS     0x00004000L /* Device supports independent write masks for MET or MRT */
-#define D3DPMISCCAPS_PERSTAGECONSTANT   0x00008000L /* Device supports per-stage constants */
-#define D3DPMISCCAPS_FOGANDSPECULARALPHA   0x00010000L /* Device supports separate fog and specular alpha (many devices
-                                                          use the specular alpha channel to store fog factor) */
+#define D3DPMISCCAPS_MASKZ                      0x00000002L
+#define D3DPMISCCAPS_CULLNONE                   0x00000010L
+#define D3DPMISCCAPS_CULLCW                     0x00000020L
+#define D3DPMISCCAPS_CULLCCW                    0x00000040L
+#define D3DPMISCCAPS_COLORWRITEENABLE           0x00000080L
+#define D3DPMISCCAPS_CLIPPLANESCALEDPOINTS      0x00000100L /* Device correctly clips scaled points to clip planes */
+#define D3DPMISCCAPS_CLIPTLVERTS                0x00000200L /* device will clip post-transformed vertex primitives */
+#define D3DPMISCCAPS_TSSARGTEMP                 0x00000400L /* device supports D3DTA_TEMP for temporary register */
+#define D3DPMISCCAPS_BLENDOP                    0x00000800L /* device supports D3DRS_BLENDOP */
+#define D3DPMISCCAPS_NULLREFERENCE              0x00001000L /* Reference Device that doesnt render */
+#define D3DPMISCCAPS_INDEPENDENTWRITEMASKS      0x00004000L /* Device supports independent write masks for MET or MRT */
+#define D3DPMISCCAPS_PERSTAGECONSTANT           0x00008000L /* Device supports per-stage constants */
+#define D3DPMISCCAPS_FOGANDSPECULARALPHA        0x00010000L /* Device supports separate fog and specular alpha (many devices
+                                                               use the specular alpha channel to store fog factor) */
 #define D3DPMISCCAPS_SEPARATEALPHABLEND         0x00020000L /* Device supports separate blend settings for the alpha channel */
 #define D3DPMISCCAPS_MRTINDEPENDENTBITDEPTHS    0x00040000L /* Device supports different bit depths for MRT */
 #define D3DPMISCCAPS_MRTPOSTPIXELSHADERBLENDING 0x00080000L /* Device supports post-pixel shader operations for MRT */
@@ -334,7 +332,6 @@ typedef struct _D3DCAPS9
 #if !defined(D3D_DISABLE_9EX)
 
 #define D3DPMISCCAPS_POSTBLENDSRGBCONVERT       0x00200000L /* Indicates device can perform conversion to sRGB after blending. */
-
 #endif // !D3D_DISABLE_9EX
 /* -- D3D9Ex only */
 
@@ -352,22 +349,22 @@ typedef struct _D3DCAPS9
 //
 // RasterCaps
 //
-#define D3DPRASTERCAPS_DITHER                 0x00000001L
-#define D3DPRASTERCAPS_ZTEST                  0x00000010L
-#define D3DPRASTERCAPS_FOGVERTEX              0x00000080L
-#define D3DPRASTERCAPS_FOGTABLE               0x00000100L
-#define D3DPRASTERCAPS_MIPMAPLODBIAS          0x00002000L
-#define D3DPRASTERCAPS_ZBUFFERLESSHSR         0x00008000L
-#define D3DPRASTERCAPS_FOGRANGE               0x00010000L
-#define D3DPRASTERCAPS_ANISOTROPY             0x00020000L
-#define D3DPRASTERCAPS_WBUFFER                0x00040000L
-#define D3DPRASTERCAPS_WFOG                   0x00100000L
-#define D3DPRASTERCAPS_ZFOG                   0x00200000L
-#define D3DPRASTERCAPS_COLORPERSPECTIVE       0x00400000L /* Device iterates colors perspective correct */
-#define D3DPRASTERCAPS_SCISSORTEST            0x01000000L
-#define D3DPRASTERCAPS_SLOPESCALEDEPTHBIAS    0x02000000L
-#define D3DPRASTERCAPS_DEPTHBIAS              0x04000000L 
-#define D3DPRASTERCAPS_MULTISAMPLE_TOGGLE     0x08000000L
+#define D3DPRASTERCAPS_DITHER                   0x00000001L
+#define D3DPRASTERCAPS_ZTEST                    0x00000010L
+#define D3DPRASTERCAPS_FOGVERTEX                0x00000080L
+#define D3DPRASTERCAPS_FOGTABLE                 0x00000100L
+#define D3DPRASTERCAPS_MIPMAPLODBIAS            0x00002000L
+#define D3DPRASTERCAPS_ZBUFFERLESSHSR           0x00008000L
+#define D3DPRASTERCAPS_FOGRANGE                 0x00010000L
+#define D3DPRASTERCAPS_ANISOTROPY               0x00020000L
+#define D3DPRASTERCAPS_WBUFFER                  0x00040000L
+#define D3DPRASTERCAPS_WFOG                     0x00100000L
+#define D3DPRASTERCAPS_ZFOG                     0x00200000L
+#define D3DPRASTERCAPS_COLORPERSPECTIVE         0x00400000L /* Device iterates colors perspective correct */
+#define D3DPRASTERCAPS_SCISSORTEST              0x01000000L
+#define D3DPRASTERCAPS_SLOPESCALEDEPTHBIAS      0x02000000L
+#define D3DPRASTERCAPS_DEPTHBIAS                0x04000000L
+#define D3DPRASTERCAPS_MULTISAMPLE_TOGGLE       0x08000000L
 
 //
 // ZCmpCaps, AlphaCmpCaps
@@ -404,7 +401,6 @@ typedef struct _D3DCAPS9
 
 #define D3DPBLENDCAPS_SRCCOLOR2         0x00004000L
 #define D3DPBLENDCAPS_INVSRCCOLOR2      0x00008000L
-
 #endif // !D3D_DISABLE_9EX
 /* -- D3D9Ex only */
 
@@ -420,12 +416,12 @@ typedef struct _D3DCAPS9
 //
 // TextureCaps
 //
-#define D3DPTEXTURECAPS_PERSPECTIVE         0x00000001L /* Perspective-correct texturing is supported */
-#define D3DPTEXTURECAPS_POW2                0x00000002L /* Power-of-2 texture dimensions are required - applies to non-Cube/Volume textures only. */
-#define D3DPTEXTURECAPS_ALPHA               0x00000004L /* Alpha in texture pixels is supported */
-#define D3DPTEXTURECAPS_SQUAREONLY          0x00000020L /* Only square textures are supported */
-#define D3DPTEXTURECAPS_TEXREPEATNOTSCALEDBYSIZE 0x00000040L /* Texture indices are not scaled by the texture size prior to interpolation */
-#define D3DPTEXTURECAPS_ALPHAPALETTE        0x00000080L /* Device can draw alpha from texture palettes */
+#define D3DPTEXTURECAPS_PERSPECTIVE                 0x00000001L /* Perspective-correct texturing is supported */
+#define D3DPTEXTURECAPS_POW2                        0x00000002L /* Power-of-2 texture dimensions are required - applies to non-Cube/Volume textures only. */
+#define D3DPTEXTURECAPS_ALPHA                       0x00000004L /* Alpha in texture pixels is supported */
+#define D3DPTEXTURECAPS_SQUAREONLY                  0x00000020L /* Only square textures are supported */
+#define D3DPTEXTURECAPS_TEXREPEATNOTSCALEDBYSIZE    0x00000040L /* Texture indices are not scaled by the texture size prior to interpolation */
+#define D3DPTEXTURECAPS_ALPHAPALETTE                0x00000080L /* Device can draw alpha from texture palettes */
 // Device can use non-POW2 textures if:
 //  1) D3DTEXTURE_ADDRESS is set to CLAMP for this texture's stage
 //  2) D3DRS_WRAP(N) is zero for this texture's coordinates
@@ -439,7 +435,7 @@ typedef struct _D3DCAPS9
 #define D3DPTEXTURECAPS_MIPCUBEMAP          0x00010000L /* Device can do mipmapped cube maps */
 #define D3DPTEXTURECAPS_CUBEMAP_POW2        0x00020000L /* Device requires that cubemaps be power-of-2 dimension */
 #define D3DPTEXTURECAPS_VOLUMEMAP_POW2      0x00040000L /* Device requires that volume maps be power-of-2 dimension */
-#define D3DPTEXTURECAPS_NOPROJECTEDBUMPENV  0x00200000L /* Device does not support projected bump env lookup operation 
+#define D3DPTEXTURECAPS_NOPROJECTEDBUMPENV  0x00200000L /* Device does not support projected bump env lookup operation
                                                            in programmable and fixed function pixel shaders */
 
 //
@@ -457,7 +453,6 @@ typedef struct _D3DCAPS9
 #if !defined(D3D_DISABLE_9EX)
 
 #define D3DPTFILTERCAPS_CONVOLUTIONMONO     0x00040000L /* Min and Mag for the convolution mono filter */
-
 #endif // !D3D_DISABLE_9EX
 /* -- D3D9Ex only */
 
@@ -530,15 +525,15 @@ typedef struct _D3DCAPS9
 //
 // VertexProcessingCaps
 //
-#define D3DVTXPCAPS_TEXGEN              0x00000001L /* device can do texgen */
-#define D3DVTXPCAPS_MATERIALSOURCE7     0x00000002L /* device can do DX7-level colormaterialsource ops */
-#define D3DVTXPCAPS_DIRECTIONALLIGHTS   0x00000008L /* device can do directional lights */
-#define D3DVTXPCAPS_POSITIONALLIGHTS    0x00000010L /* device can do positional lights (includes point and spot) */
-#define D3DVTXPCAPS_LOCALVIEWER         0x00000020L /* device can do local viewer */
-#define D3DVTXPCAPS_TWEENING            0x00000040L /* device can do vertex tweening */
-#define D3DVTXPCAPS_TEXGEN_SPHEREMAP    0x00000100L /* device supports D3DTSS_TCI_SPHEREMAP */
-#define D3DVTXPCAPS_NO_TEXGEN_NONLOCALVIEWER   0x00000200L /* device does not support TexGen in non-local
-                                                            viewer mode */
+#define D3DVTXPCAPS_TEXGEN                      0x00000001L /* device can do texgen */
+#define D3DVTXPCAPS_MATERIALSOURCE7             0x00000002L /* device can do DX7-level colormaterialsource ops */
+#define D3DVTXPCAPS_DIRECTIONALLIGHTS           0x00000008L /* device can do directional lights */
+#define D3DVTXPCAPS_POSITIONALLIGHTS            0x00000010L /* device can do positional lights (includes point and spot) */
+#define D3DVTXPCAPS_LOCALVIEWER                 0x00000020L /* device can do local viewer */
+#define D3DVTXPCAPS_TWEENING                    0x00000040L /* device can do vertex tweening */
+#define D3DVTXPCAPS_TEXGEN_SPHEREMAP            0x00000100L /* device supports D3DTSS_TCI_SPHEREMAP */
+#define D3DVTXPCAPS_NO_TEXGEN_NONLOCALVIEWER    0x00000200L /* device does not support TexGen in non-local
+                                                               viewer mode */
 
 //
 // DevCaps2
@@ -554,23 +549,20 @@ typedef struct _D3DCAPS9
 //
 // DeclTypes
 //
-#define D3DDTCAPS_UBYTE4     0x00000001L
-#define D3DDTCAPS_UBYTE4N    0x00000002L
-#define D3DDTCAPS_SHORT2N    0x00000004L
-#define D3DDTCAPS_SHORT4N    0x00000008L
-#define D3DDTCAPS_USHORT2N   0x00000010L
-#define D3DDTCAPS_USHORT4N   0x00000020L
-#define D3DDTCAPS_UDEC3      0x00000040L
-#define D3DDTCAPS_DEC3N      0x00000080L
-#define D3DDTCAPS_FLOAT16_2  0x00000100L
-#define D3DDTCAPS_FLOAT16_4  0x00000200L
+#define D3DDTCAPS_UBYTE4        0x00000001L
+#define D3DDTCAPS_UBYTE4N       0x00000002L
+#define D3DDTCAPS_SHORT2N       0x00000004L
+#define D3DDTCAPS_SHORT4N       0x00000008L
+#define D3DDTCAPS_USHORT2N      0x00000010L
+#define D3DDTCAPS_USHORT4N      0x00000020L
+#define D3DDTCAPS_UDEC3         0x00000040L
+#define D3DDTCAPS_DEC3N         0x00000080L
+#define D3DDTCAPS_FLOAT16_2     0x00000100L
+#define D3DDTCAPS_FLOAT16_4     0x00000200L
 
 
 #pragma pack()
-
 #endif /* WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP) */
 #pragma endregion
-
 #endif /* (DIRECT3D_VERSION >= 0x0900) */
 #endif /* _d3d9CAPS_H_ */
-

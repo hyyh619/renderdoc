@@ -55,7 +55,8 @@
 
 QT_BEGIN_NAMESPACE
 
-class QMetaTypeSwitcher {
+class QMetaTypeSwitcher
+{
 public:
     class NotBuiltinType;   // type is not a built-in type, but it may be a custom type or an unknown type
     class UnknownType;      // type not known to QMetaType system
@@ -64,21 +65,24 @@ public:
 };
 
 
-#define QT_METATYPE_SWICHER_CASE(TypeName, TypeId, Name)\
-    case QMetaType::TypeName: return logic.delegate(static_cast<Name const *>(data));
+#define QT_METATYPE_SWICHER_CASE(TypeName, TypeId, Name) \
+    case QMetaType::TypeName: return logic.delegate(static_cast<Name const*>(data));
 
 template<class ReturnType, class DelegateObject>
 ReturnType QMetaTypeSwitcher::switcher(DelegateObject &logic, int type, const void *data)
 {
-    switch (QMetaType::Type(type)) {
-    QT_FOR_EACH_STATIC_TYPE(QT_METATYPE_SWICHER_CASE)
+    switch (QMetaType::Type(type))
+    {
+        QT_FOR_EACH_STATIC_TYPE(QT_METATYPE_SWICHER_CASE)
 
-    case QMetaType::UnknownType:
-        return logic.delegate(static_cast<UnknownType const *>(data));
-    default:
-        if (type < QMetaType::User)
-            return logic.delegate(static_cast<UnknownType const *>(data));
-        return logic.delegate(static_cast<NotBuiltinType const *>(data));
+        case QMetaType::UnknownType:
+            return logic.delegate(static_cast<UnknownType const*>(data));
+
+        default:
+            if (type < QMetaType::User)
+                return logic.delegate(static_cast<UnknownType const*>(data));
+
+            return logic.delegate(static_cast<NotBuiltinType const*>(data));
     }
 }
 

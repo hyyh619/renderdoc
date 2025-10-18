@@ -52,9 +52,9 @@ class QAction;
 class QUndoCommandPrivate;
 class QUndoStackPrivate;
 
-class Q_WIDGETS_EXPORT QUndoCommand
+class Q_WIDGETS_EXPORT    QUndoCommand
 {
-    QUndoCommandPrivate *d;
+    QUndoCommandPrivate    *d;
 
 public:
     explicit QUndoCommand(QUndoCommand *parent = Q_NULLPTR);
@@ -75,7 +75,7 @@ public:
     virtual bool mergeWith(const QUndoCommand *other);
 
     int childCount() const;
-    const QUndoCommand *child(int index) const;
+    const QUndoCommand* child(int index) const;
 
 private:
     Q_DISABLE_COPY(QUndoCommand)
@@ -84,7 +84,7 @@ private:
 
 #if QT_CONFIG(undostack)
 
-class Q_WIDGETS_EXPORT QUndoStack : public QObject
+class Q_WIDGETS_EXPORT    QUndoStack : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QUndoStack)
@@ -108,10 +108,10 @@ public:
     QString text(int idx) const;
 
 #ifndef QT_NO_ACTION
-    QAction *createUndoAction(QObject *parent,
-                                const QString &prefix = QString()) const;
-    QAction *createRedoAction(QObject *parent,
-                                const QString &prefix = QString()) const;
+    QAction* createUndoAction(QObject *parent,
+                              const QString &prefix = QString()) const;
+    QAction* createRedoAction(QObject *parent,
+                              const QString &prefix = QString()) const;
 #endif // QT_NO_ACTION
 
     bool isActive() const;
@@ -124,7 +124,7 @@ public:
     void setUndoLimit(int limit);
     int undoLimit() const;
 
-    const QUndoCommand *command(int index) const;
+    const QUndoCommand* command(int index) const;
 
 public Q_SLOTS:
     void setClean();
@@ -146,7 +146,6 @@ private:
     Q_DISABLE_COPY(QUndoStack)
     friend class QUndoGroup;
 };
-
 #endif // QT_CONFIG(undostack)
 
 QT_END_NAMESPACE

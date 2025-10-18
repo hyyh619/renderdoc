@@ -66,37 +66,37 @@ class QOpenGLQueryHelper
 public:
     QOpenGLQueryHelper(QOpenGLContext *context)
         : GetQueryObjectuiv(0),
-          GetQueryObjectiv(0),
-          GetQueryiv(0),
-          EndQuery(0),
-          BeginQuery(0),
-          IsQuery(0),
-          DeleteQueries(0),
-          GenQueries(0),
-          GetInteger64v(0),
-          GetQueryObjectui64v(0),
-          GetQueryObjecti64v(0),
-          QueryCounter(0)
+        GetQueryObjectiv(0),
+        GetQueryiv(0),
+        EndQuery(0),
+        BeginQuery(0),
+        IsQuery(0),
+        DeleteQueries(0),
+        GenQueries(0),
+        GetInteger64v(0),
+        GetQueryObjectui64v(0),
+        GetQueryObjecti64v(0),
+        QueryCounter(0)
     {
         Q_ASSERT(context);
 
         // Core in OpenGL >=1.5
-        GetQueryObjectuiv = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint , GLenum , GLuint *)>(context->getProcAddress("glGetQueryObjectuiv"));
-        GetQueryObjectiv = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint , GLenum , GLint *)>(context->getProcAddress("glGetQueryObjectiv"));
-        GetQueryiv = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum , GLenum , GLint *)>(context->getProcAddress("glGetQueryiv"));
-        EndQuery = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum )>(context->getProcAddress("glEndQuery"));
-        BeginQuery = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum , GLuint )>(context->getProcAddress("glBeginQuery"));
-        IsQuery = reinterpret_cast<GLboolean (QOPENGLF_APIENTRYP)(GLuint )>(context->getProcAddress("glIsQuery"));
-        DeleteQueries = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLsizei , const GLuint *)>(context->getProcAddress("glDeleteQueries"));
-        GenQueries = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLsizei , GLuint *)>(context->getProcAddress("glGenQueries"));
+        GetQueryObjectuiv   = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint, GLenum, GLuint*)>(context->getProcAddress("glGetQueryObjectuiv"));
+        GetQueryObjectiv    = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint, GLenum, GLint*)>(context->getProcAddress("glGetQueryObjectiv"));
+        GetQueryiv          = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum, GLenum, GLint*)>(context->getProcAddress("glGetQueryiv"));
+        EndQuery            = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum)>(context->getProcAddress("glEndQuery"));
+        BeginQuery          = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum, GLuint)>(context->getProcAddress("glBeginQuery"));
+        IsQuery             = reinterpret_cast<GLboolean (QOPENGLF_APIENTRYP)(GLuint)>(context->getProcAddress("glIsQuery"));
+        DeleteQueries       = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLsizei, const GLuint*)>(context->getProcAddress("glDeleteQueries"));
+        GenQueries          = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLsizei, GLuint*)>(context->getProcAddress("glGenQueries"));
 
         // Core in OpenGL >=3.2
-        GetInteger64v = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum , GLint64 *)>(context->getProcAddress("glGetInteger64v"));
+        GetInteger64v = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLenum, GLint64*)>(context->getProcAddress("glGetInteger64v"));
 
         // Core in OpenGL >=3.3 / ARB_timer_query
-        GetQueryObjectui64v = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint , GLenum , GLuint64 *)>(context->getProcAddress("glGetQueryObjectui64v"));
-        GetQueryObjecti64v = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint , GLenum , GLint64 *)>(context->getProcAddress("glGetQueryObjecti64v"));
-        QueryCounter = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint , GLenum )>(context->getProcAddress("glQueryCounter"));
+        GetQueryObjectui64v = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint, GLenum, GLuint64*)>(context->getProcAddress("glGetQueryObjectui64v"));
+        GetQueryObjecti64v  = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint, GLenum, GLint64*)>(context->getProcAddress("glGetQueryObjecti64v"));
+        QueryCounter        = reinterpret_cast<void (QOPENGLF_APIENTRYP)(GLuint, GLenum)>(context->getProcAddress("glQueryCounter"));
     }
 
     inline void glGetQueryObjectuiv(GLuint id, GLenum pname, GLuint *params)
@@ -161,26 +161,25 @@ public:
 
 private:
     // Core in OpenGL >=1.5
-    void (QOPENGLF_APIENTRYP GetQueryObjectuiv)(GLuint id, GLenum pname, GLuint *params);
-    void (QOPENGLF_APIENTRYP GetQueryObjectiv)(GLuint id, GLenum pname, GLint *params);
-    void (QOPENGLF_APIENTRYP GetQueryiv)(GLenum target, GLenum pname, GLint *params);
+    void (QOPENGLF_APIENTRYP GetQueryObjectuiv)(GLuint id, GLenum pname, GLuint * params);
+    void (QOPENGLF_APIENTRYP GetQueryObjectiv)(GLuint id, GLenum pname, GLint * params);
+    void (QOPENGLF_APIENTRYP GetQueryiv)(GLenum target, GLenum pname, GLint * params);
     void (QOPENGLF_APIENTRYP EndQuery)(GLenum target);
     void (QOPENGLF_APIENTRYP BeginQuery)(GLenum target, GLuint id);
     GLboolean (QOPENGLF_APIENTRYP IsQuery)(GLuint id);
-    void (QOPENGLF_APIENTRYP DeleteQueries)(GLsizei n, const GLuint *ids);
-    void (QOPENGLF_APIENTRYP GenQueries)(GLsizei n, GLuint *ids);
+    void (QOPENGLF_APIENTRYP DeleteQueries)(GLsizei n, const GLuint * ids);
+    void (QOPENGLF_APIENTRYP GenQueries)(GLsizei n, GLuint * ids);
 
     // Core in OpenGL >=3.2
-    void (QOPENGLF_APIENTRYP GetInteger64v)(GLenum pname, GLint64 *params);
+    void (QOPENGLF_APIENTRYP GetInteger64v)(GLenum pname, GLint64 * params);
 
     // Core in OpenGL >=3.3 and provided by ARB_timer_query
-    void (QOPENGLF_APIENTRYP GetQueryObjectui64v)(GLuint id, GLenum pname, GLuint64 *params);
-    void (QOPENGLF_APIENTRYP GetQueryObjecti64v)(GLuint id, GLenum pname, GLint64 *params);
+    void (QOPENGLF_APIENTRYP GetQueryObjectui64v)(GLuint id, GLenum pname, GLuint64 * params);
+    void (QOPENGLF_APIENTRYP GetQueryObjecti64v)(GLuint id, GLenum pname, GLint64 * params);
     void (QOPENGLF_APIENTRYP QueryCounter)(GLuint id, GLenum target);
 };
 
 QT_END_NAMESPACE
-
 #endif
 
 #endif // QOPENGLQUERYHELPER_P_H

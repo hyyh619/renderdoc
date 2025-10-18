@@ -1,27 +1,27 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- * Copyright (c) 2014 Crytek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+* Copyright (c) 2014 Crytek
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -36,34 +36,40 @@ DOCUMENT(R"(The size information for a task group.
 )");
 struct TaskGroupSize
 {
-  DOCUMENT(R"(The size in the x dimension.
+    DOCUMENT(R"(The size in the x dimension.
 
 :type: int
 )");
-  uint32_t x;
-  DOCUMENT(R"(The size in the y dimension.
+    uint32_t x;
+    DOCUMENT(R"(The size in the y dimension.
 
 :type: int
 )");
-  uint32_t y;
-  DOCUMENT(R"(The size in the z dimension.
+    uint32_t y;
+    DOCUMENT(R"(The size in the z dimension.
 
 :type: int
 )");
-  uint32_t z;
+    uint32_t z;
 
-  DOCUMENT("");
-  bool operator==(const TaskGroupSize &o) const { return x == o.x && y == o.y && z == o.z; }
-  bool operator<(const TaskGroupSize &o) const
-  {
-    if(!(x == o.x))
-      return x < o.x;
-    if(!(y == o.y))
-      return y < o.y;
-    if(!(z == o.z))
-      return z < o.z;
-    return false;
-  }
+    DOCUMENT("");
+    bool operator==(const TaskGroupSize &o) const
+    {
+        return x == o.x && y == o.y && z == o.z;
+    }
+    bool operator<(const TaskGroupSize &o) const
+    {
+        if (!(x == o.x))
+            return x < o.x;
+
+        if (!(y == o.y))
+            return y < o.y;
+
+        if (!(z == o.z))
+            return z < o.z;
+
+        return false;
+    }
 };
 
 DECLARE_REFLECTION_STRUCT(TaskGroupSize);
@@ -72,31 +78,33 @@ DOCUMENT(R"(The size information for a meshlet.
 )");
 struct MeshletSize
 {
-  DOCUMENT(R"(The number of indices in the meshlet.
+    DOCUMENT(R"(The number of indices in the meshlet.
 
 :type: int
 )");
-  uint32_t numIndices;
-  DOCUMENT(R"(The number of vertices in this meshlet. This may be larger or smaller than the number
+    uint32_t numIndices;
+    DOCUMENT(R"(The number of vertices in this meshlet. This may be larger or smaller than the number
 of indices.
 
 :type: int
 )");
-  uint32_t numVertices;
+    uint32_t numVertices;
 
-  DOCUMENT("");
-  bool operator==(const MeshletSize &o) const
-  {
-    return numIndices == o.numIndices && numVertices == o.numVertices;
-  }
-  bool operator<(const MeshletSize &o) const
-  {
-    if(!(numIndices == o.numIndices))
-      return numIndices < o.numIndices;
-    if(!(numVertices == o.numVertices))
-      return numVertices < o.numVertices;
-    return false;
-  }
+    DOCUMENT("");
+    bool operator==(const MeshletSize &o) const
+    {
+        return numIndices == o.numIndices && numVertices == o.numVertices;
+    }
+    bool operator<(const MeshletSize &o) const
+    {
+        if (!(numIndices == o.numIndices))
+            return numIndices < o.numIndices;
+
+        if (!(numVertices == o.numVertices))
+            return numVertices < o.numVertices;
+
+        return false;
+    }
 };
 
 DECLARE_REFLECTION_STRUCT(MeshletSize);
@@ -106,58 +114,58 @@ co-ordinates) within a mesh.
 )");
 struct MeshFormat
 {
-  MeshFormat() = default;
-  MeshFormat(const MeshFormat &o) = default;
-  MeshFormat &operator=(const MeshFormat &) = default;
+    MeshFormat()                            = default;
+    MeshFormat(const MeshFormat &o)         = default;
+    MeshFormat&operator=(const MeshFormat&) = default;
 
-  DOCUMENT(R"(The :class:`ResourceId` of the index buffer that goes with this mesh element.
-
-:type: ResourceId
-)");
-  ResourceId indexResourceId;
-  DOCUMENT(R"(The offset in bytes where the indices start in idxbuf.
-
-:type: int
-)");
-  uint64_t indexByteOffset = 0;
-  DOCUMENT(R"(The width in bytes of each index. Valid values are 1 (depending on API), 2 or 4.
-
-:type: int
-)");
-  uint32_t indexByteStride = 0;
-  DOCUMENT(R"(The number of bytes to use from the index buffer. Only valid on APIs that allow it.
-
-:type: int
-)");
-  uint64_t indexByteSize = 0;
-  DOCUMENT(R"(For indexed meshes, a value added to each index before using it to read the vertex.
-
-:type: int
-)");
-  int32_t baseVertex = 0;
-
-  DOCUMENT(R"(The :class:`ResourceId` of the vertex buffer containing this mesh element.
+    DOCUMENT(R"(The :class:`ResourceId` of the index buffer that goes with this mesh element.
 
 :type: ResourceId
 )");
-  ResourceId vertexResourceId;
-  DOCUMENT(R"(The offset in bytes to the start of the vertex data.
+    ResourceId indexResourceId;
+    DOCUMENT(R"(The offset in bytes where the indices start in idxbuf.
 
 :type: int
 )");
-  uint64_t vertexByteOffset = 0;
-  DOCUMENT(R"(The stride in bytes between the start of one vertex and the start of another.
+    uint64_t indexByteOffset = 0;
+    DOCUMENT(R"(The width in bytes of each index. Valid values are 1 (depending on API), 2 or 4.
 
 :type: int
 )");
-  uint32_t vertexByteStride = 0;
-  DOCUMENT(R"(The number of bytes to use from the vertex buffer. Only valid on APIs that allow it.
+    uint32_t indexByteStride = 0;
+    DOCUMENT(R"(The number of bytes to use from the index buffer. Only valid on APIs that allow it.
 
 :type: int
 )");
-  uint64_t vertexByteSize = 0;
+    uint64_t indexByteSize = 0;
+    DOCUMENT(R"(For indexed meshes, a value added to each index before using it to read the vertex.
 
-  DOCUMENT(R"(The size of each meshlet, for a meshlet based draw.
+:type: int
+)");
+    int32_t baseVertex = 0;
+
+    DOCUMENT(R"(The :class:`ResourceId` of the vertex buffer containing this mesh element.
+
+:type: ResourceId
+)");
+    ResourceId vertexResourceId;
+    DOCUMENT(R"(The offset in bytes to the start of the vertex data.
+
+:type: int
+)");
+    uint64_t vertexByteOffset = 0;
+    DOCUMENT(R"(The stride in bytes between the start of one vertex and the start of another.
+
+:type: int
+)");
+    uint32_t vertexByteStride = 0;
+    DOCUMENT(R"(The number of bytes to use from the vertex buffer. Only valid on APIs that allow it.
+
+:type: int
+)");
+    uint64_t vertexByteSize = 0;
+
+    DOCUMENT(R"(The size of each meshlet, for a meshlet based draw.
 
 Each meshlet lists its individual size, but a cumulative sum can be used for defining boundaries
 between meshlets either by raw vertex order (using the number of indices) or by index value (using
@@ -165,9 +173,9 @@ the number of vertices).
 
 :type: List[MeshletSize]
 )");
-  rdcarray<MeshletSize> meshletSizes;
+    rdcarray<MeshletSize> meshletSizes;
 
-  DOCUMENT(R"(The size of the dispatch that launched a meshlet based draw.
+    DOCUMENT(R"(The size of the dispatch that launched a meshlet based draw.
 
 Only valid for the task stage if task shaders are used.
 
@@ -178,18 +186,18 @@ Only valid for the task stage if task shaders are used.
 
 :type: Tuple[int,int,int]
 )");
-  rdcfixedarray<uint32_t, 3> dispatchSize;
+    rdcfixedarray<uint32_t, 3> dispatchSize;
 
-  DOCUMENT(R"(The size of each task group's dispatch, for a meshlet based draw.
+    DOCUMENT(R"(The size of each task group's dispatch, for a meshlet based draw.
 
 Each group of a task shader within a dispatch can itself fill out a payload and dispatch a number
 of mesh groups. This list contains the 3-dimensional dimension that each task group emitted.
 
 :type: List[TaskGroupSize]
 )");
-  rdcarray<TaskGroupSize> taskSizes;
+    rdcarray<TaskGroupSize> taskSizes;
 
-  DOCUMENT(R"(If showing a set of meshlets that don't start from meshlet 0, this is the number of
+    DOCUMENT(R"(If showing a set of meshlets that don't start from meshlet 0, this is the number of
 meshlet to consider skipped before :data:`meshletSizes`.
 
 Primarily useful for keeping a consistent colouring of meshlets when filtering to a subset
@@ -198,9 +206,9 @@ See also :data:`meshletIndexOffset`.
 
 :type: int
 )");
-  uint32_t meshletOffset = 0;
+    uint32_t meshletOffset = 0;
 
-  DOCUMENT(R"(If showing a set of meshlets that don't start from index 0, this is the number of
+    DOCUMENT(R"(If showing a set of meshlets that don't start from index 0, this is the number of
 vertices to consider skipped before :data:`meshletSizes` - equivalent to baseVertex.
 
 Primarily useful for keeping a consistent colouring of meshlets when filtering to a subset
@@ -209,104 +217,104 @@ See also :data:`meshletOffset`.
 
 :type: int
 )");
-  uint32_t meshletIndexOffset = 0;
+    uint32_t meshletIndexOffset = 0;
 
-  DOCUMENT(R"(The offset in bytes to the start of the per-primitive rate vertex data.
-
-Only for meshlet outputs.
-
-:type: int
-)");
-  uint64_t perPrimitiveOffset = 0;
-  DOCUMENT(R"(The stride in bytes of the per-primitive rate vertex data.
+    DOCUMENT(R"(The offset in bytes to the start of the per-primitive rate vertex data.
 
 Only for meshlet outputs.
 
 :type: int
 )");
-  uint32_t perPrimitiveStride = 0;
+    uint64_t perPrimitiveOffset = 0;
+    DOCUMENT(R"(The stride in bytes of the per-primitive rate vertex data.
 
-  DOCUMENT(R"(The format description of this mesh components elements.
+Only for meshlet outputs.
+
+:type: int
+)");
+    uint32_t perPrimitiveStride = 0;
+
+    DOCUMENT(R"(The format description of this mesh components elements.
 
 :type: ResourceFormat
 )");
-  ResourceFormat format;
+    ResourceFormat format;
 
-  DOCUMENT(R"(The color to use for rendering the wireframe of this mesh element.
+    DOCUMENT(R"(The color to use for rendering the wireframe of this mesh element.
 
 :type: FloatVector
 )");
-  FloatVector meshColor;
+    FloatVector meshColor;
 
-  DOCUMENT(R"(The :class:`Topology` that describes the primitives in this mesh.
+    DOCUMENT(R"(The :class:`Topology` that describes the primitives in this mesh.
 
 :type: Topology
 )");
-  Topology topology = Topology::Unknown;
-  DOCUMENT(R"(The number of vertices in the mesh.
+    Topology topology = Topology::Unknown;
+    DOCUMENT(R"(The number of vertices in the mesh.
 
 :type: int
 )");
-  uint32_t numIndices = 0;
-  DOCUMENT(R"(The number of instances to render with the same value. See :data:`instanced`.
+    uint32_t numIndices = 0;
+    DOCUMENT(R"(The number of instances to render with the same value. See :data:`instanced`.
 
 :type: int
 )");
-  uint32_t instStepRate = 1;
-  DOCUMENT(R"(The primitive restart index to use, if possible. See :data:`allowRestart`.
+    uint32_t instStepRate = 1;
+    DOCUMENT(R"(The primitive restart index to use, if possible. See :data:`allowRestart`.
 
 :type: int
 )");
-  uint32_t restartIndex = 0xffffffff;
+    uint32_t restartIndex = 0xffffffff;
 
-  DOCUMENT(R"(The near plane for the projection matrix.
+    DOCUMENT(R"(The near plane for the projection matrix.
 
 :type: float
 )");
-  float nearPlane = 0.1f;
-  DOCUMENT(R"(The far plane for the projection matrix.
+    float nearPlane = 0.1f;
+    DOCUMENT(R"(The far plane for the projection matrix.
 
 :type: float
 )");
-  float farPlane = 100.0f;
-  DOCUMENT(R"(``True`` if this mesh element contains post-projection positional data.
+    float farPlane = 100.0f;
+    DOCUMENT(R"(``True`` if this mesh element contains post-projection positional data.
 
 :type: bool
 )");
-  bool unproject = false;
+    bool unproject = false;
 
-  DOCUMENT(R"(``True`` if there is an implicit Y-flip to account for in the projection.
-
-:type: bool
-)");
-  bool flipY = false;
-
-  DOCUMENT(R"(``True`` if this mesh element comes from instanced data. See :data:`instStepRate`.
+    DOCUMENT(R"(``True`` if there is an implicit Y-flip to account for in the projection.
 
 :type: bool
 )");
-  bool instanced = false;
+    bool flipY = false;
 
-  DOCUMENT(R"(``True`` if the alpha component of this element should be used.
-
-:type: bool
-)");
-  bool showAlpha = false;
-
-  DOCUMENT(R"(``True`` if the primitive restart index feature should be used.
+    DOCUMENT(R"(``True`` if this mesh element comes from instanced data. See :data:`instStepRate`.
 
 :type: bool
 )");
-  bool allowRestart = true;
+    bool instanced = false;
 
-  DOCUMENT(R"(A string with the status of this mesh format - only used when a mesh format is
+    DOCUMENT(R"(``True`` if the alpha component of this element should be used.
+
+:type: bool
+)");
+    bool showAlpha = false;
+
+    DOCUMENT(R"(``True`` if the primitive restart index feature should be used.
+
+:type: bool
+)");
+    bool allowRestart = true;
+
+    DOCUMENT(R"(A string with the status of this mesh format - only used when a mesh format is
 returned to the application detailing e.g. vertex output data.
 
 An empty string indicates no errors/problems.
 
 :type: str
 )");
-  rdcstr status;
+    rdcstr status;
 };
 
 DECLARE_REFLECTION_STRUCT(MeshFormat);
@@ -323,125 +331,125 @@ well as what options to use when rendering both the current mesh, and any other 
 )");
 struct MeshDisplay
 {
-  DOCUMENT("");
-  MeshDisplay() = default;
-  MeshDisplay(const MeshDisplay &) = default;
-  MeshDisplay &operator=(const MeshDisplay &) = default;
+    DOCUMENT("");
+    MeshDisplay()                               = default;
+    MeshDisplay(const MeshDisplay&)             = default;
+    MeshDisplay&operator=(const MeshDisplay&)   = default;
 
-  DOCUMENT(R"(The :class:`MeshDataStage` where this mesh data comes from.
+    DOCUMENT(R"(The :class:`MeshDataStage` where this mesh data comes from.
 
 :type: MeshDataStage
 )");
-  MeshDataStage type = MeshDataStage::VSIn;
+    MeshDataStage type = MeshDataStage::VSIn;
 
-  DOCUMENT(R"(The camera to use when rendering all of the meshes.
+    DOCUMENT(R"(The camera to use when rendering all of the meshes.
 
 :type: Camera
 )");
-  ICamera *cam = NULL;
+    ICamera *cam = NULL;
 
-  DOCUMENT(R"(The axis mapping to apply to the mesh.
+    DOCUMENT(R"(The axis mapping to apply to the mesh.
 
 :type: AxisMapping
 )");
-  AxisMapping axisMapping;
+    AxisMapping axisMapping;
 
-  DOCUMENT(R"(``True`` if the projection matrix to use when unprojecting vertex positions is orthographic.
+    DOCUMENT(R"(``True`` if the projection matrix to use when unprojecting vertex positions is orthographic.
 
 :type: bool
 )");
-  bool ortho = false;
-  DOCUMENT(R"(The field of view to use when calculating a perspective projection matrix.
+    bool ortho = false;
+    DOCUMENT(R"(The field of view to use when calculating a perspective projection matrix.
 
 :type: float
 )");
-  float fov = 90.0f;
-  DOCUMENT(R"(The aspect ratio to use when calculating a perspective projection matrix.
+    float fov = 90.0f;
+    DOCUMENT(R"(The aspect ratio to use when calculating a perspective projection matrix.
 
 :type: float
 )");
-  float aspect = 1.0f;
+    float aspect = 1.0f;
 
-  DOCUMENT(R"(``True`` if all previous instances in the drawcall should be drawn as secondary meshes.
-
-:type: bool
-)");
-  bool showPrevInstances = false;
-  DOCUMENT(R"(``True`` if all instances in the drawcall should be drawn as secondary meshes.
+    DOCUMENT(R"(``True`` if all previous instances in the drawcall should be drawn as secondary meshes.
 
 :type: bool
 )");
-  bool showAllInstances = false;
-  DOCUMENT(R"(``True`` if all draws in the current pass up to the current draw should be drawn as secondary meshes.
+    bool showPrevInstances = false;
+    DOCUMENT(R"(``True`` if all instances in the drawcall should be drawn as secondary meshes.
 
 :type: bool
 )");
-  bool showWholePass = false;
-  DOCUMENT(R"(The index of the currently selected instance in the drawcall.
+    bool showAllInstances = false;
+    DOCUMENT(R"(``True`` if all draws in the current pass up to the current draw should be drawn as secondary meshes.
+
+:type: bool
+)");
+    bool showWholePass = false;
+    DOCUMENT(R"(The index of the currently selected instance in the drawcall.
 
 :type: int
 )");
-  uint32_t curInstance = 0;
-  DOCUMENT(R"(The index of the currently selected multiview view in the drawcall.
+    uint32_t curInstance = 0;
+    DOCUMENT(R"(The index of the currently selected multiview view in the drawcall.
 
 :type: int
 )");
-  uint32_t curView = 0;
+    uint32_t curView = 0;
 
-  DOCUMENT(R"(The index of the vertex to highlight, or :data:`NoHighlight` to select no vertex.
+    DOCUMENT(R"(The index of the vertex to highlight, or :data:`NoHighlight` to select no vertex.
 
 :type: int
 )");
-  uint32_t highlightVert = ~0U;
-  DOCUMENT(R"(The configuration for the primary mesh's position data.
+    uint32_t highlightVert = ~0U;
+    DOCUMENT(R"(The configuration for the primary mesh's position data.
 
 :type: MeshFormat
 )");
-  MeshFormat position;
-  DOCUMENT(R"(The configuration for the primary mesh's secondary data, if used for solid shading.
+    MeshFormat position;
+    DOCUMENT(R"(The configuration for the primary mesh's secondary data, if used for solid shading.
 
 :type: MeshFormat
 )");
-  MeshFormat second;
+    MeshFormat second;
 
-  DOCUMENT(R"(The minimum co-ordinates in each axis of the mesh bounding box.
-
-:type: FloatVector
-)");
-  FloatVector minBounds;
-  DOCUMENT(R"(The maximum co-ordinates in each axis of the mesh bounding box.
+    DOCUMENT(R"(The minimum co-ordinates in each axis of the mesh bounding box.
 
 :type: FloatVector
 )");
-  FloatVector maxBounds;
-  DOCUMENT(R"(``True`` if the bounding box around the mesh should be rendered.
+    FloatVector minBounds;
+    DOCUMENT(R"(The maximum co-ordinates in each axis of the mesh bounding box.
+
+:type: FloatVector
+)");
+    FloatVector maxBounds;
+    DOCUMENT(R"(``True`` if the bounding box around the mesh should be rendered.
 
 :type: bool
 )");
-  bool showBBox = false;
+    bool showBBox = false;
 
-  DOCUMENT(R"(The :class:`visualisation mode <Visualisation>` to use when rendering the current mesh.
+    DOCUMENT(R"(The :class:`visualisation mode <Visualisation>` to use when rendering the current mesh.
 
 :type: Visualisation
 )");
-  Visualisation visualisationMode = Visualisation::NoSolid;
-  DOCUMENT(R"(``True`` if the wireframe of the mesh should be rendered as well as solid shading.
+    Visualisation visualisationMode = Visualisation::NoSolid;
+    DOCUMENT(R"(``True`` if the wireframe of the mesh should be rendered as well as solid shading.
 
 :type: bool
 )");
-  bool wireframeDraw = true;
-  DOCUMENT(R"(Displace/explode vertices to help visualise vertex reuse vs disjointedness.
+    bool wireframeDraw = true;
+    DOCUMENT(R"(Displace/explode vertices to help visualise vertex reuse vs disjointedness.
 
 :type: float
 )");
-  float vtxExploderSliderSNorm = 0.0f;
-  DOCUMENT(R"(Scales the exploded vertex displacement.
+    float vtxExploderSliderSNorm = 0.0f;
+    DOCUMENT(R"(Scales the exploded vertex displacement.
 
 :type: float
 )");
-  float exploderScale = 1.0f;
+    float exploderScale = 1.0f;
 
-  static const uint32_t NoHighlight = ~0U;
+    static const uint32_t NoHighlight = ~0U;
 };
 
 DECLARE_REFLECTION_STRUCT(MeshDisplay);
@@ -463,18 +471,18 @@ particular subresource (such as array slice, mip or multi-sampled sample).
 )");
 struct TextureDisplay
 {
-  DOCUMENT("");
-  TextureDisplay() = default;
-  TextureDisplay(const TextureDisplay &) = default;
-  TextureDisplay &operator=(const TextureDisplay &) = default;
+    DOCUMENT("");
+    TextureDisplay()                                = default;
+    TextureDisplay(const TextureDisplay&)           = default;
+    TextureDisplay&operator=(const TextureDisplay&) = default;
 
-  DOCUMENT(R"(The :class:`ResourceId` of the texture to display.
+    DOCUMENT(R"(The :class:`ResourceId` of the texture to display.
 
 :type: ResourceId
 )");
-  ResourceId resourceId;
+    ResourceId resourceId;
 
-  DOCUMENT(R"(If possible interpret the texture with this type instead of its normal type.
+    DOCUMENT(R"(If possible interpret the texture with this type instead of its normal type.
 
 If set to :data:`CompType.Typeless` then no cast is applied, otherwise where allowed the texture
 data will be reinterpreted - e.g. from unsigned integers to floats, or to unsigned normalised
@@ -482,140 +490,140 @@ values.
 
 :type: CompType
 )");
-  CompType typeCast = CompType::Typeless;
+    CompType typeCast = CompType::Typeless;
 
-  DOCUMENT(R"(The value in each channel to map to the black point.
-
-:type: float
-)");
-  float rangeMin = 0.0f;
-
-  DOCUMENT(R"(The value in each channel to map to the white point.
+    DOCUMENT(R"(The value in each channel to map to the black point.
 
 :type: float
 )");
-  float rangeMax = 1.0f;
+    float rangeMin = 0.0f;
 
-  DOCUMENT(R"(The scale to apply to the texture when rendering as a floating point value.
+    DOCUMENT(R"(The value in each channel to map to the white point.
+
+:type: float
+)");
+    float rangeMax = 1.0f;
+
+    DOCUMENT(R"(The scale to apply to the texture when rendering as a floating point value.
 
 ``1.0`` corresponds to ``100%``
 
 :type: float
 )");
-  float scale = 1.0f;
+    float scale = 1.0f;
 
-  DOCUMENT(R"(``True`` if the red channel should be visible.
-
-If only one channel is selected, it will be rendered in grayscale
-
-:type: bool
-)");
-  bool red = true;
-
-  DOCUMENT(R"(``True`` if the green channel should be visible.
+    DOCUMENT(R"(``True`` if the red channel should be visible.
 
 If only one channel is selected, it will be rendered in grayscale
 
 :type: bool
 )");
-  bool green = true;
+    bool red = true;
 
-  DOCUMENT(R"(``True`` if the blue channel should be visible.
+    DOCUMENT(R"(``True`` if the green channel should be visible.
 
 If only one channel is selected, it will be rendered in grayscale
 
 :type: bool
 )");
-  bool blue = true;
+    bool green = true;
 
-  DOCUMENT(R"(``True`` if the alpha channel should be visible. If enabled with any of RGB, the
+    DOCUMENT(R"(``True`` if the blue channel should be visible.
+
+If only one channel is selected, it will be rendered in grayscale
+
+:type: bool
+)");
+    bool blue = true;
+
+    DOCUMENT(R"(``True`` if the alpha channel should be visible. If enabled with any of RGB, the
 texture will be blended to the background color or checkerboard.
 
 If only one channel is selected, it will be rendered in grayscale
 
 :type: bool
 )");
-  bool alpha = false;
+    bool alpha = false;
 
-  DOCUMENT(R"(``True`` if the texture should be flipped vertically when rendering.
+    DOCUMENT(R"(``True`` if the texture should be flipped vertically when rendering.
 
 :type: bool
 )");
-  bool flipY = false;
+    bool flipY = false;
 
-  DOCUMENT(R"(If ``>= 0.0`` the RGBA values will be viewed as HDRM with this as the multiplier.
+    DOCUMENT(R"(If ``>= 0.0`` the RGBA values will be viewed as HDRM with this as the multiplier.
 
 :type: float
 )");
-  float hdrMultiplier = -1.0f;
+    float hdrMultiplier = -1.0f;
 
-  DOCUMENT(R"(``True`` if the texture should be decoded as if it contains YUV data.
+    DOCUMENT(R"(``True`` if the texture should be decoded as if it contains YUV data.
 
 :type: bool
 )");
-  bool decodeYUV = false;
+    bool decodeYUV = false;
 
-  DOCUMENT(R"(``True`` if the texture should be interpreted as gamma.
+    DOCUMENT(R"(``True`` if the texture should be interpreted as gamma.
 
 See :ref:`the FAQ entry <gamma-linear-display>`.
 
 :type: bool
 )");
-  bool linearDisplayAsGamma = true;
+    bool linearDisplayAsGamma = true;
 
-  DOCUMENT(R"(The :class:`ResourceId` of a custom shader to use when rendering.
+    DOCUMENT(R"(The :class:`ResourceId` of a custom shader to use when rendering.
 
 See :meth:`ReplayController.BuildCustomShader` for creating an appropriate custom shader.
 
 :type: ResourceId
 )");
-  ResourceId customShaderId;
+    ResourceId customShaderId;
 
-  DOCUMENT(R"(The subresource of the texture to display.
+    DOCUMENT(R"(The subresource of the texture to display.
 
 If the :data:`Subresource.sample` member is set to :data:`ResolveSamples` then a default resolve
 will be performed that averages all samples.
 
 :type: Subresource
 )");
-  Subresource subresource = {0, 0, 0};
+    Subresource subresource = {0, 0, 0};
 
-  DOCUMENT(R"(``True`` if the rendered image should be as close as possible in value to the input.
+    DOCUMENT(R"(``True`` if the rendered image should be as close as possible in value to the input.
 
 This is primarily useful when rendering to a floating point target for retrieving pixel data from
 the input texture in cases where it isn't easy to directly fetch the input texture data.
 
 :type: bool
 )");
-  bool rawOutput = false;
+    bool rawOutput = false;
 
-  DOCUMENT(R"(The offset to pan in the X axis.
-
-:type: float
-)");
-  float xOffset = 0.0f;
-
-  DOCUMENT(R"(The offset to pan in the Y axis.
+    DOCUMENT(R"(The offset to pan in the X axis.
 
 :type: float
 )");
-  float yOffset = 0.0f;
+    float xOffset = 0.0f;
 
-  DOCUMENT(R"(The background color to use behind the texture display.
+    DOCUMENT(R"(The offset to pan in the Y axis.
+
+:type: float
+)");
+    float yOffset = 0.0f;
+
+    DOCUMENT(R"(The background color to use behind the texture display.
 
 If set to (0, 0, 0, 0) the global checkerboard colors are used.
 
 :type: FloatVector
 )");
-  FloatVector backgroundColor;
+    FloatVector backgroundColor;
 
-  DOCUMENT(R"(Selects a :class:`DebugOverlay` to draw over the top of the texture.
+    DOCUMENT(R"(Selects a :class:`DebugOverlay` to draw over the top of the texture.
 
 :type: DebugOverlay
 )");
-  DebugOverlay overlay = DebugOverlay::NoOverlay;
+    DebugOverlay overlay = DebugOverlay::NoOverlay;
 
-  static const uint32_t ResolveSamples = ~0U;
+    static const uint32_t ResolveSamples = ~0U;
 };
 
 DECLARE_REFLECTION_STRUCT(TextureDisplay);
@@ -624,21 +632,21 @@ DECLARE_REFLECTION_STRUCT(TextureDisplay);
 DOCUMENT("How to map components to normalised ``[0, 255]`` for saving to 8-bit file formats.");
 struct TextureComponentMapping
 {
-  DOCUMENT("");
-  TextureComponentMapping() = default;
-  TextureComponentMapping(const TextureComponentMapping &) = default;
-  TextureComponentMapping &operator=(const TextureComponentMapping &) = default;
+    DOCUMENT("");
+    TextureComponentMapping()                                           = default;
+    TextureComponentMapping(const TextureComponentMapping&)             = default;
+    TextureComponentMapping&operator=(const TextureComponentMapping&)   = default;
 
-  DOCUMENT(R"(The value that should be mapped to ``0``
-
-:type: float
-)");
-  float blackPoint = 0.0f;
-  DOCUMENT(R"(The value that should be mapped to ``255``
+    DOCUMENT(R"(The value that should be mapped to ``0``
 
 :type: float
 )");
-  float whitePoint = 1.0f;
+    float blackPoint = 0.0f;
+    DOCUMENT(R"(The value that should be mapped to ``255``
+
+:type: float
+)");
+    float whitePoint = 1.0f;
 };
 
 DECLARE_REFLECTION_STRUCT(TextureComponentMapping);
@@ -651,12 +659,12 @@ DOCUMENT(R"(How to map multisampled textures for saving to non-multisampled file
 )");
 struct TextureSampleMapping
 {
-  DOCUMENT("");
-  TextureSampleMapping() = default;
-  TextureSampleMapping(const TextureSampleMapping &) = default;
-  TextureSampleMapping &operator=(const TextureSampleMapping &) = default;
+    DOCUMENT("");
+    TextureSampleMapping()                                      = default;
+    TextureSampleMapping(const TextureSampleMapping&)           = default;
+    TextureSampleMapping&operator=(const TextureSampleMapping&) = default;
 
-  DOCUMENT(R"(
+    DOCUMENT(R"(
 ``True`` if the samples should be mapped to array slices. A multisampled array expands each slice
 in-place, so it would be slice 0: sample 0, slice 0: sample 1, slice 1: sample 0, etc.
 
@@ -665,17 +673,17 @@ is ignored.
 
 :type: bool
 )");
-  bool mapToArray = false;
+    bool mapToArray = false;
 
-  DOCUMENT(R"(
+    DOCUMENT(R"(
 If :data:`mapToArray` is ``False`` this selects which sample should be extracted to treat as a
 normal 2D image. If set to :data:`ResolveSamples` then instead there's a default average resolve.
 
 :type: int
 )");
-  uint32_t sampleIndex = ~0U;
+    uint32_t sampleIndex = ~0U;
 
-  static const uint32_t ResolveSamples = ~0U;
+    static const uint32_t ResolveSamples = ~0U;
 };
 
 DECLARE_REFLECTION_STRUCT(TextureSampleMapping);
@@ -687,12 +695,12 @@ format doesn't support saving all slices, only slice 0 is saved.
 )");
 struct TextureSliceMapping
 {
-  DOCUMENT("");
-  TextureSliceMapping() = default;
-  TextureSliceMapping(const TextureSliceMapping &) = default;
-  TextureSliceMapping &operator=(const TextureSliceMapping &) = default;
+    DOCUMENT("");
+    TextureSliceMapping()                                       = default;
+    TextureSliceMapping(const TextureSliceMapping&)             = default;
+    TextureSliceMapping&operator=(const TextureSliceMapping&)   = default;
 
-  DOCUMENT(R"(
+    DOCUMENT(R"(
 Selects the (depth/array) slice to save.
 
 If this is -1, then all slices are written out as detailed below. This is only supported in formats
@@ -700,25 +708,25 @@ that don't support slices natively, and will be done in RGBA8.
 
 :type: int
 )");
-  int32_t sliceIndex = -1;
+    int32_t sliceIndex = -1;
 
-  // write out the slices as a 2D grid, with the below
-  // width. Any empty slices are writted as (0,0,0,0)
-  DOCUMENT(R"(
+    // write out the slices as a 2D grid, with the below
+    // width. Any empty slices are writted as (0,0,0,0)
+    DOCUMENT(R"(
 If ``True``, write out the slices as a 2D grid with the width given in :data:`sliceGridWidth`. Any
 empty slices in the grid are written as transparent black.
 
 :type: bool
 )");
-  bool slicesAsGrid = false;
+    bool slicesAsGrid = false;
 
-  DOCUMENT(R"(The width of a grid if :data:`slicesAsGrid` is ``True``.
+    DOCUMENT(R"(The width of a grid if :data:`slicesAsGrid` is ``True``.
 
 :type: int
 )");
-  int32_t sliceGridWidth = 1;
+    int32_t sliceGridWidth = 1;
 
-  DOCUMENT(R"(Write out 6 slices in a cruciform pattern::
+    DOCUMENT(R"(Write out 6 slices in a cruciform pattern::
 
           +----+
           | +y |
@@ -735,7 +743,7 @@ With the gaps filled in with transparent black.
 
 :type: bool
 )");
-  bool cubeCruciform = false;
+    bool cubeCruciform = false;
 };
 
 DECLARE_REFLECTION_STRUCT(TextureSliceMapping);
@@ -743,18 +751,18 @@ DECLARE_REFLECTION_STRUCT(TextureSliceMapping);
 DOCUMENT("Describes a texture to save and how to map it to the destination file format.");
 struct TextureSave
 {
-  DOCUMENT("");
-  TextureSave() = default;
-  TextureSave(const TextureSave &) = default;
-  TextureSave &operator=(const TextureSave &) = default;
+    DOCUMENT("");
+    TextureSave()                               = default;
+    TextureSave(const TextureSave&)             = default;
+    TextureSave&operator=(const TextureSave&)   = default;
 
-  DOCUMENT(R"(The :class:`ResourceId` of the texture to save.
+    DOCUMENT(R"(The :class:`ResourceId` of the texture to save.
 
 :type: ResourceId
 )");
-  ResourceId resourceId;
+    ResourceId resourceId;
 
-  DOCUMENT(R"(If possible interpret the texture with this type instead of its normal type.
+    DOCUMENT(R"(If possible interpret the texture with this type instead of its normal type.
 
 If set to :data:`CompType.Typeless` then no cast is applied, otherwise where allowed the texture
 data will be reinterpreted - e.g. from unsigned integers to floats, or to unsigned normalised
@@ -762,74 +770,74 @@ values.
 
 :type: CompType
 )");
-  CompType typeCast = CompType::Typeless;
+    CompType typeCast = CompType::Typeless;
 
-  DOCUMENT(R"(The :class:`FileType` to use when saving to the destination file.
+    DOCUMENT(R"(The :class:`FileType` to use when saving to the destination file.
 
 :type: FileType
 )");
-  FileType destType = FileType::DDS;
+    FileType destType = FileType::DDS;
 
-  // mip == -1 writes out all mips where allowed by file format
-  // or writes mip 0 otherwise
-  DOCUMENT(R"(Selects the mip to be written out.
+    // mip == -1 writes out all mips where allowed by file format
+    // or writes mip 0 otherwise
+    DOCUMENT(R"(Selects the mip to be written out.
 
 If set to ``-1`` then all mips are written, where allowed by file format. If not allowed, mip 0 is
 written
 
 :type: int
 )");
-  int32_t mip = -1;
+    int32_t mip = -1;
 
-  DOCUMENT(R"(Controls black/white point mapping for output formats that are normal
+    DOCUMENT(R"(Controls black/white point mapping for output formats that are normal
 :attr:`8-bit SRGB <CompType.UNorm>`, values are truncated so that values below the black point
 and above the white point are clamped, and the values in between are evenly distributed.
 
 :type: TextureComponentMapping
 )");
-  TextureComponentMapping comp;
+    TextureComponentMapping comp;
 
-  DOCUMENT(R"(Controls mapping for multisampled textures (ignored if texture is not multisampled)
+    DOCUMENT(R"(Controls mapping for multisampled textures (ignored if texture is not multisampled)
 
 :type: TextureSampleMapping
 )");
-  TextureSampleMapping sample;
+    TextureSampleMapping sample;
 
-  DOCUMENT(R"(Controls mapping for arrayed textures (ignored if texture is not arrayed)
+    DOCUMENT(R"(Controls mapping for arrayed textures (ignored if texture is not arrayed)
 
 :type: TextureSliceMapping
 )");
-  TextureSliceMapping slice;
+    TextureSliceMapping slice;
 
-  DOCUMENT(R"(Selects a single component out of a texture to save as grayscale, or -1 to save all.
+    DOCUMENT(R"(Selects a single component out of a texture to save as grayscale, or -1 to save all.
 
 :type: int
 )");
-  int channelExtract = -1;
+    int channelExtract = -1;
 
-  // for formats without an alpha channel, define how it should be
-  // mapped. Only available for uncompressed simple formats, done
-  // in RGBA8 space.
-  DOCUMENT(R"(Controls handling of alpha channel, only relevant for file formats that don't have
+    // for formats without an alpha channel, define how it should be
+    // mapped. Only available for uncompressed simple formats, done
+    // in RGBA8 space.
+    DOCUMENT(R"(Controls handling of alpha channel, only relevant for file formats that don't have
 alpha.
 
 It is an :class:`AlphaMapping` that controls what behaviour to use.
 
 :type: AlphaMapping
 )");
-  AlphaMapping alpha = AlphaMapping::Preserve;
+    AlphaMapping alpha = AlphaMapping::Preserve;
 
-  DOCUMENT(R"(The background color if :data:`alpha` is set to :attr:`AlphaMapping.BlendToColor`.
+    DOCUMENT(R"(The background color if :data:`alpha` is set to :attr:`AlphaMapping.BlendToColor`.
 
 :type: FloatVector
 )");
-  FloatVector alphaCol;
+    FloatVector alphaCol;
 
-  DOCUMENT(R"(The quality to use when saving to a ``JPG`` file. Valid values are between 1 and 100.
+    DOCUMENT(R"(The quality to use when saving to a ``JPG`` file. Valid values are between 1 and 100.
 
 :type: int
 )");
-  int jpegQuality = 90;
+    int jpegQuality = 90;
 };
 
 DECLARE_REFLECTION_STRUCT(TextureSave);
@@ -837,57 +845,61 @@ DECLARE_REFLECTION_STRUCT(TextureSave);
 DOCUMENT("A range of sized descriptors.");
 struct DescriptorRange
 {
-  DOCUMENT("");
-  DescriptorRange() = default;
-  DescriptorRange(const DescriptorRange &) = default;
-  DescriptorRange &operator=(const DescriptorRange &) = default;
+    DOCUMENT("");
+    DescriptorRange()                                   = default;
+    DescriptorRange(const DescriptorRange&)             = default;
+    DescriptorRange&operator=(const DescriptorRange&)   = default;
 
-  DescriptorRange(const DescriptorAccess &access)
-  {
-    offset = access.byteOffset;
-    descriptorSize = access.byteSize;
-    type = access.type;
-  }
+    DescriptorRange(const DescriptorAccess &access)
+    {
+        offset          = access.byteOffset;
+        descriptorSize  = access.byteSize;
+        type            = access.type;
+    }
 
-  DOCUMENT(R"(The offset in the descriptor storage where the descriptor range starts.
-
-:type: int
-)");
-  uint32_t offset = 0;
-  DOCUMENT(R"(The size of each descriptor in the range.
+    DOCUMENT(R"(The offset in the descriptor storage where the descriptor range starts.
 
 :type: int
 )");
-  uint32_t descriptorSize = 1;
-  DOCUMENT(R"(The number of descriptors in this range.
+    uint32_t offset = 0;
+    DOCUMENT(R"(The size of each descriptor in the range.
 
 :type: int
 )");
-  uint32_t count = 1;
-  DOCUMENT(R"(The type of descriptor in the descriptor range.
+    uint32_t descriptorSize = 1;
+    DOCUMENT(R"(The number of descriptors in this range.
+
+:type: int
+)");
+    uint32_t count = 1;
+    DOCUMENT(R"(The type of descriptor in the descriptor range.
 
 :type: DescriptorType
 )");
-  DescriptorType type = DescriptorType::Unknown;
+    DescriptorType type = DescriptorType::Unknown;
 
-  DOCUMENT("");
-  bool operator==(const DescriptorRange &o) const
-  {
-    return offset == o.offset && descriptorSize == o.descriptorSize && count == o.count &&
-           type == o.type;
-  }
-  bool operator<(const DescriptorRange &o) const
-  {
-    if(!(offset == o.offset))
-      return offset < o.offset;
-    if(!(descriptorSize == o.descriptorSize))
-      return descriptorSize < o.descriptorSize;
-    if(!(count == o.count))
-      return count < o.count;
-    if(!(type == o.type))
-      return type < o.type;
-    return false;
-  }
+    DOCUMENT("");
+    bool operator==(const DescriptorRange &o) const
+    {
+        return offset == o.offset && descriptorSize == o.descriptorSize && count == o.count &&
+               type == o.type;
+    }
+    bool operator<(const DescriptorRange &o) const
+    {
+        if (!(offset == o.offset))
+            return offset < o.offset;
+
+        if (!(descriptorSize == o.descriptorSize))
+            return descriptorSize < o.descriptorSize;
+
+        if (!(count == o.count))
+            return count < o.count;
+
+        if (!(type == o.type))
+            return type < o.type;
+
+        return false;
+    }
 };
 
 DECLARE_REFLECTION_STRUCT(DescriptorRange);
@@ -896,69 +908,69 @@ DECLARE_REFLECTION_STRUCT(DescriptorRange);
 DOCUMENT("Information about the a new capture created by the target.");
 struct NewCaptureData
 {
-  DOCUMENT("");
-  NewCaptureData() = default;
-  NewCaptureData(const NewCaptureData &) = default;
-  NewCaptureData &operator=(const NewCaptureData &) = default;
+    DOCUMENT("");
+    NewCaptureData()                                = default;
+    NewCaptureData(const NewCaptureData&)           = default;
+    NewCaptureData&operator=(const NewCaptureData&) = default;
 
-  DOCUMENT(R"(An identifier to use to refer to this capture.
-
-:type: int
-)");
-  uint32_t captureId = 0;
-  DOCUMENT(R"(The frame number that this capture came from.
+    DOCUMENT(R"(An identifier to use to refer to this capture.
 
 :type: int
 )");
-  uint32_t frameNumber = 0;
-  DOCUMENT(R"(The time the capture was created, as a unix timestamp in UTC.
+    uint32_t captureId = 0;
+    DOCUMENT(R"(The frame number that this capture came from.
 
 :type: int
 )");
-  uint64_t timestamp = 0;
-  DOCUMENT(R"(The size of the capture, in bytes.
+    uint32_t frameNumber = 0;
+    DOCUMENT(R"(The time the capture was created, as a unix timestamp in UTC.
 
 :type: int
 )");
-  uint64_t byteSize = 0;
-  DOCUMENT(R"(The raw bytes that contain the capture thumbnail, as RGB8 data.
+    uint64_t timestamp = 0;
+    DOCUMENT(R"(The size of the capture, in bytes.
+
+:type: int
+)");
+    uint64_t byteSize = 0;
+    DOCUMENT(R"(The raw bytes that contain the capture thumbnail, as RGB8 data.
 
 :type: bytes
 )");
-  bytebuf thumbnail;
-  DOCUMENT(R"(The width of the image contained in :data:`thumbnail`.
+    bytebuf thumbnail;
+    DOCUMENT(R"(The width of the image contained in :data:`thumbnail`.
 
 :type: int
 )");
-  int32_t thumbWidth = 0;
-  DOCUMENT(R"(The height of the image contained in :data:`thumbnail`.
+    int32_t thumbWidth = 0;
+    DOCUMENT(R"(The height of the image contained in :data:`thumbnail`.
 
 :type: int
 )");
-  int32_t thumbHeight = 0;
-  DOCUMENT(R"(The local path on the target system where the capture is saved.
+    int32_t thumbHeight = 0;
+    DOCUMENT(R"(The local path on the target system where the capture is saved.
 
 :type: str
 )");
-  rdcstr path;
-  DOCUMENT(R"(The custom title for this capture, if empty a default title can be used.
+    rdcstr path;
+    DOCUMENT(R"(The custom title for this capture, if empty a default title can be used.
 
 :type: str
 )");
-  rdcstr title;
-  DOCUMENT(R"(The API used for this capture, if available.
+    rdcstr title;
+    DOCUMENT(R"(The API used for this capture, if available.
 
 .. note::
   May be empty if running with an older version of RenderDoc
 
 :type: str
 )");
-  rdcstr api;
-  DOCUMENT(R"(``True`` if the target is running on the local system.
+    rdcstr api;
+    DOCUMENT(R"(``True`` if the target is running on the local system.
 
 :type: bool
 )");
-  bool local = true;
+    bool local = true;
 };
 
 DECLARE_REFLECTION_STRUCT(NewCaptureData);
@@ -966,34 +978,34 @@ DECLARE_REFLECTION_STRUCT(NewCaptureData);
 DOCUMENT("Information about the API that the target is using.");
 struct APIUseData
 {
-  DOCUMENT("");
-  APIUseData() = default;
-  APIUseData(const APIUseData &) = default;
-  APIUseData &operator=(const APIUseData &) = default;
+    DOCUMENT("");
+    APIUseData()                            = default;
+    APIUseData(const APIUseData&)           = default;
+    APIUseData&operator=(const APIUseData&) = default;
 
-  DOCUMENT(R"(The name of the API.
+    DOCUMENT(R"(The name of the API.
 
 :type: str
 )");
-  rdcstr name;
+    rdcstr name;
 
-  DOCUMENT(R"(``True`` if the API is presenting to a swapchain
+    DOCUMENT(R"(``True`` if the API is presenting to a swapchain
   
 :type: bool
 )");
-  bool presenting = false;
+    bool presenting = false;
 
-  DOCUMENT(R"(``True`` if the API can be captured.
+    DOCUMENT(R"(``True`` if the API can be captured.
 
 :type: bool
 )");
-  bool supported = false;
+    bool supported = false;
 
-  DOCUMENT(R"(A string message if the API is unsupported explaining why.
+    DOCUMENT(R"(A string message if the API is unsupported explaining why.
 
 :type: str
 )");
-  rdcstr supportMessage;
+    rdcstr supportMessage;
 };
 
 DECLARE_REFLECTION_STRUCT(APIUseData);
@@ -1001,16 +1013,16 @@ DECLARE_REFLECTION_STRUCT(APIUseData);
 DOCUMENT("Information about why the target is busy.");
 struct BusyData
 {
-  DOCUMENT("");
-  BusyData() = default;
-  BusyData(const BusyData &) = default;
-  BusyData &operator=(const BusyData &) = default;
+    DOCUMENT("");
+    BusyData()                          = default;
+    BusyData(const BusyData&)           = default;
+    BusyData&operator=(const BusyData&) = default;
 
-  DOCUMENT(R"(The name of the client currently connected to the target.
+    DOCUMENT(R"(The name of the client currently connected to the target.
 
 :type: str
 )");
-  rdcstr clientName;
+    rdcstr clientName;
 };
 
 DECLARE_REFLECTION_STRUCT(BusyData);
@@ -1018,21 +1030,21 @@ DECLARE_REFLECTION_STRUCT(BusyData);
 DOCUMENT("Information about a new child process spawned by the target.");
 struct NewChildData
 {
-  DOCUMENT("");
-  NewChildData() = default;
-  NewChildData(const NewChildData &) = default;
-  NewChildData &operator=(const NewChildData &) = default;
+    DOCUMENT("");
+    NewChildData()                              = default;
+    NewChildData(const NewChildData&)           = default;
+    NewChildData&operator=(const NewChildData&) = default;
 
-  DOCUMENT(R"(The PID (Process ID) of the new child.
-
-:type: int
-)");
-  uint32_t processId = 0;
-  DOCUMENT(R"(The ident where the new child's target control is active.
+    DOCUMENT(R"(The PID (Process ID) of the new child.
 
 :type: int
 )");
-  uint32_t ident = 0;
+    uint32_t processId = 0;
+    DOCUMENT(R"(The ident where the new child's target control is active.
+
+:type: int
+)");
+    uint32_t ident = 0;
 };
 
 DECLARE_REFLECTION_STRUCT(NewChildData);
@@ -1040,55 +1052,55 @@ DECLARE_REFLECTION_STRUCT(NewChildData);
 DOCUMENT("A message from a target control connection.");
 struct TargetControlMessage
 {
-  DOCUMENT("");
-  TargetControlMessage() = default;
-  TargetControlMessage(const TargetControlMessage &) = default;
-  TargetControlMessage &operator=(const TargetControlMessage &) = default;
+    DOCUMENT("");
+    TargetControlMessage()                                      = default;
+    TargetControlMessage(const TargetControlMessage&)           = default;
+    TargetControlMessage&operator=(const TargetControlMessage&) = default;
 
-  DOCUMENT(R"(The :class:`type <TargetControlMessageType>` of message received
+    DOCUMENT(R"(The :class:`type <TargetControlMessageType>` of message received
 
 :type: TargetControlMessageType
 )");
-  TargetControlMessageType type = TargetControlMessageType::Unknown;
+    TargetControlMessageType type = TargetControlMessageType::Unknown;
 
-  DOCUMENT(R"(The new capture data.
+    DOCUMENT(R"(The new capture data.
 
 :type: NewCaptureData
 )");
-  NewCaptureData newCapture;
+    NewCaptureData newCapture;
 
-  DOCUMENT(R"(The API use data.
+    DOCUMENT(R"(The API use data.
 
 :type: APIUseData
 )");
-  APIUseData apiUse;
+    APIUseData apiUse;
 
-  DOCUMENT(R"(The busy signal data.
+    DOCUMENT(R"(The busy signal data.
 
 :type: BusyData
 )");
-  BusyData busy;
+    BusyData busy;
 
-  DOCUMENT(R"(The new child process data.
+    DOCUMENT(R"(The new child process data.
 
 :type: NewChildData
 )");
-  NewChildData newChild;
+    NewChildData newChild;
 
-  DOCUMENT(R"(The progress of an on-going capture.
+    DOCUMENT(R"(The progress of an on-going capture.
 
 When valid, will be in the range of 0.0 to 1.0 (0 - 100%). If not valid when a capture isn't going
 or has finished, it will be -1.0
 
 :type: float
 )");
-  float capProgress = -1.0f;
+    float capProgress = -1.0f;
 
-  DOCUMENT(R"(The number of the capturable windows
+    DOCUMENT(R"(The number of the capturable windows
 
 :type: int
 )");
-  uint32_t capturableWindowCount = 0;
+    uint32_t capturableWindowCount = 0;
 };
 
 DECLARE_REFLECTION_STRUCT(TargetControlMessage);
@@ -1096,51 +1108,54 @@ DECLARE_REFLECTION_STRUCT(TargetControlMessage);
 DOCUMENT("A modification to a single environment variable.");
 struct EnvironmentModification
 {
-  DOCUMENT("");
-  EnvironmentModification() : mod(EnvMod::Set), sep(EnvSep::NoSep), name(""), value("") {}
-  EnvironmentModification(const EnvironmentModification &) = default;
-  EnvironmentModification(EnvMod m, EnvSep s, const rdcstr &n, const rdcstr &v)
-      : mod(m), sep(s), name(n), value(v)
-  {
-  }
-  EnvironmentModification &operator=(const EnvironmentModification &) = default;
+    DOCUMENT("");
+    EnvironmentModification() : mod(EnvMod::Set), sep(EnvSep::NoSep), name(""), value("") {}
+    EnvironmentModification(const EnvironmentModification&) = default;
+    EnvironmentModification(EnvMod m, EnvSep s, const rdcstr &n, const rdcstr &v)
+        : mod(m), sep(s), name(n), value(v)
+    {}
+    EnvironmentModification&operator=(const EnvironmentModification&) = default;
 
-  bool operator==(const EnvironmentModification &o) const
-  {
-    return mod == o.mod && sep == o.sep && name == o.name && value == o.value;
-  }
-  bool operator<(const EnvironmentModification &o) const
-  {
-    if(!(mod == o.mod))
-      return mod < o.mod;
-    if(!(sep == o.sep))
-      return sep < o.sep;
-    if(!(name == o.name))
-      return name < o.name;
-    if(!(value == o.value))
-      return value < o.value;
-    return false;
-  }
-  DOCUMENT(R"(The :class:`modification <EnvMod>` to use.
+    bool operator==(const EnvironmentModification &o) const
+    {
+        return mod == o.mod && sep == o.sep && name == o.name && value == o.value;
+    }
+    bool operator<(const EnvironmentModification &o) const
+    {
+        if (!(mod == o.mod))
+            return mod < o.mod;
+
+        if (!(sep == o.sep))
+            return sep < o.sep;
+
+        if (!(name == o.name))
+            return name < o.name;
+
+        if (!(value == o.value))
+            return value < o.value;
+
+        return false;
+    }
+    DOCUMENT(R"(The :class:`modification <EnvMod>` to use.
 
 :type: EnvMod
 )");
-  EnvMod mod;
-  DOCUMENT(R"(The :class:`separator <EnvSep>` to use if needed.
+    EnvMod mod;
+    DOCUMENT(R"(The :class:`separator <EnvSep>` to use if needed.
 
 :type: EnvSep
 )");
-  EnvSep sep;
-  DOCUMENT(R"(The name of the environment variable.
+    EnvSep sep;
+    DOCUMENT(R"(The name of the environment variable.
 
 :type: str
 )");
-  rdcstr name;
-  DOCUMENT(R"(The value to use with the modification specified in :data:`mod`.
+    rdcstr name;
+    DOCUMENT(R"(The value to use with the modification specified in :data:`mod`.
 
 :type: str
 )");
-  rdcstr value;
+    rdcstr value;
 };
 
 DECLARE_REFLECTION_STRUCT(EnvironmentModification);
@@ -1148,71 +1163,77 @@ DECLARE_REFLECTION_STRUCT(EnvironmentModification);
 DOCUMENT("The format for a capture file either supported to read from, or export to");
 struct CaptureFileFormat
 {
-  DOCUMENT("");
-  CaptureFileFormat() = default;
-  CaptureFileFormat(const CaptureFileFormat &) = default;
-  CaptureFileFormat &operator=(const CaptureFileFormat &) = default;
+    DOCUMENT("");
+    CaptureFileFormat()                                     = default;
+    CaptureFileFormat(const CaptureFileFormat&)             = default;
+    CaptureFileFormat&operator=(const CaptureFileFormat&)   = default;
 
-  bool operator==(const CaptureFileFormat &o) const
-  {
-    return extension == o.extension && name == o.name && description == o.description &&
-           requiresBuffers == o.requiresBuffers && openSupported == o.openSupported &&
-           convertSupported == o.convertSupported;
-  }
-  bool operator<(const CaptureFileFormat &o) const
-  {
-    if(!(extension == o.extension))
-      return extension < o.extension;
-    if(!(name == o.name))
-      return name < o.name;
-    if(!(description == o.description))
-      return description < o.description;
-    if(!(requiresBuffers == o.requiresBuffers))
-      return requiresBuffers < o.requiresBuffers;
-    if(!(openSupported == o.openSupported))
-      return openSupported < o.openSupported;
-    if(!(convertSupported == o.convertSupported))
-      return convertSupported < o.convertSupported;
-    return false;
-  }
-  DOCUMENT(R"(The file of the format as a single minimal string, e.g. ``rdc``.
+    bool operator==(const CaptureFileFormat &o) const
+    {
+        return extension == o.extension && name == o.name && description == o.description &&
+               requiresBuffers == o.requiresBuffers && openSupported == o.openSupported &&
+               convertSupported == o.convertSupported;
+    }
+    bool operator<(const CaptureFileFormat &o) const
+    {
+        if (!(extension == o.extension))
+            return extension < o.extension;
 
-:type: str
-)");
-  rdcstr extension;
+        if (!(name == o.name))
+            return name < o.name;
 
-  DOCUMENT(R"(A human readable short phrase naming the file format.
+        if (!(description == o.description))
+            return description < o.description;
 
-:type: str
-)");
-  rdcstr name;
+        if (!(requiresBuffers == o.requiresBuffers))
+            return requiresBuffers < o.requiresBuffers;
 
-  DOCUMENT(R"(A human readable long-form description of the file format.
+        if (!(openSupported == o.openSupported))
+            return openSupported < o.openSupported;
+
+        if (!(convertSupported == o.convertSupported))
+            return convertSupported < o.convertSupported;
+
+        return false;
+    }
+    DOCUMENT(R"(The file of the format as a single minimal string, e.g. ``rdc``.
 
 :type: str
 )");
-  rdcstr description;
+    rdcstr extension;
 
-  DOCUMENT(R"(Indicates whether exporting to this format requires buffers or just structured data.
+    DOCUMENT(R"(A human readable short phrase naming the file format.
+
+:type: str
+)");
+    rdcstr name;
+
+    DOCUMENT(R"(A human readable long-form description of the file format.
+
+:type: str
+)");
+    rdcstr description;
+
+    DOCUMENT(R"(Indicates whether exporting to this format requires buffers or just structured data.
 If it doesn't require buffers then it can be exported directly from an opened capture, which by
 default has structured data but no buffers available.
 
 :type: bool
 )");
-  bool requiresBuffers;
+    bool requiresBuffers;
 
-  DOCUMENT(R"(Indicates whether or not files in this format can be opened and processed as
+    DOCUMENT(R"(Indicates whether or not files in this format can be opened and processed as
 structured data.
 
 :type: bool
 )");
-  bool openSupported;
+    bool openSupported;
 
-  DOCUMENT(R"(Indicates whether captures or structured data can be saved out in this format.
+    DOCUMENT(R"(Indicates whether captures or structured data can be saved out in this format.
 
 :type: bool
 )");
-  bool convertSupported;
+    bool convertSupported;
 };
 
 DECLARE_REFLECTION_STRUCT(CaptureFileFormat);
@@ -1220,53 +1241,56 @@ DECLARE_REFLECTION_STRUCT(CaptureFileFormat);
 DOCUMENT("Describes a single GPU at replay time.");
 struct GPUDevice
 {
-  DOCUMENT("");
-  GPUDevice() = default;
-  GPUDevice(const GPUDevice &) = default;
-  GPUDevice &operator=(const GPUDevice &) = default;
+    DOCUMENT("");
+    GPUDevice()                             = default;
+    GPUDevice(const GPUDevice&)             = default;
+    GPUDevice&operator=(const GPUDevice&)   = default;
 
-  bool operator==(const GPUDevice &o) const
-  {
-    // deliberately don't compare name or APIs - only this triple counts for equality
-    return vendor == o.vendor && deviceID == o.deviceID && driver == o.driver;
-  }
-  bool operator<(const GPUDevice &o) const
-  {
-    if(!(vendor == o.vendor))
-      return vendor < o.vendor;
-    if(!(deviceID == o.deviceID))
-      return deviceID < o.deviceID;
-    if(!(driver == o.driver))
-      return driver < o.driver;
-    return false;
-  }
-  DOCUMENT(R"(The :class:`GPUVendor` of this GPU.
+    bool operator==(const GPUDevice &o) const
+    {
+        // deliberately don't compare name or APIs - only this triple counts for equality
+        return vendor == o.vendor && deviceID == o.deviceID && driver == o.driver;
+    }
+    bool operator<(const GPUDevice &o) const
+    {
+        if (!(vendor == o.vendor))
+            return vendor < o.vendor;
+
+        if (!(deviceID == o.deviceID))
+            return deviceID < o.deviceID;
+
+        if (!(driver == o.driver))
+            return driver < o.driver;
+
+        return false;
+    }
+    DOCUMENT(R"(The :class:`GPUVendor` of this GPU.
 
 :type: GPUVendor
 )");
-  GPUVendor vendor = GPUVendor::Unknown;
-  DOCUMENT(R"(The PCI deviceID of this GPU.
+    GPUVendor vendor = GPUVendor::Unknown;
+    DOCUMENT(R"(The PCI deviceID of this GPU.
 
 :type: int
 )");
-  uint32_t deviceID = 0;
-  DOCUMENT(R"(The name of the driver of this GPU, if multiple drivers are available for it.
+    uint32_t deviceID = 0;
+    DOCUMENT(R"(The name of the driver of this GPU, if multiple drivers are available for it.
 
 :type: str
 )");
-  rdcstr driver;
+    rdcstr driver;
 
-  DOCUMENT(R"(The human-readable name of this GPU.
+    DOCUMENT(R"(The human-readable name of this GPU.
 
 :type: str
 )");
-  rdcstr name;
+    rdcstr name;
 
-  DOCUMENT(R"(The APIs that this device supports.
+    DOCUMENT(R"(The APIs that this device supports.
 
 :type: List[GraphicsAPI]
 )");
-  rdcarray<GraphicsAPI> apis;
+    rdcarray<GraphicsAPI> apis;
 };
 
 DECLARE_REFLECTION_STRUCT(GPUDevice);
@@ -1274,12 +1298,12 @@ DECLARE_REFLECTION_STRUCT(GPUDevice);
 DOCUMENT("The options controlling how replay of a capture should be performed");
 struct ReplayOptions
 {
-  DOCUMENT("");
-  ReplayOptions() = default;
-  ReplayOptions(const ReplayOptions &) = default;
-  ReplayOptions &operator=(const ReplayOptions &) = default;
+    DOCUMENT("");
+    ReplayOptions()                                 = default;
+    ReplayOptions(const ReplayOptions&)             = default;
+    ReplayOptions&operator=(const ReplayOptions&)   = default;
 
-  DOCUMENT(R"(Replay with API validation enabled and use debug messages from there, ignoring any
+    DOCUMENT(R"(Replay with API validation enabled and use debug messages from there, ignoring any
 that may be contained in the capture.
 
 The default is not to do any validation.
@@ -1289,9 +1313,9 @@ The default is not to do any validation.
 
 :type: bool
 )");
-  bool apiValidation = false;
+    bool apiValidation = false;
 
-  DOCUMENT(R"(Force the selection of a GPU by vendor ID. This allows overriding which GPU is used to
+    DOCUMENT(R"(Force the selection of a GPU by vendor ID. This allows overriding which GPU is used to
 replay on, even if a different GPU would be the best match for the capture.
 
 When set to :data:`GPUVendor.Unknown`, specifies no particular vendor.
@@ -1312,9 +1336,9 @@ the closest matching GPU is used on replay.
 
 :type: GPUVendor
 )");
-  GPUVendor forceGPUVendor = GPUVendor::Unknown;
+    GPUVendor forceGPUVendor = GPUVendor::Unknown;
 
-  DOCUMENT(R"(Force the selection of a GPU by device ID. This allows overriding which GPU is used to
+    DOCUMENT(R"(Force the selection of a GPU by device ID. This allows overriding which GPU is used to
 replay on.
 
 When set to 0, specifies no particular device.
@@ -1323,9 +1347,9 @@ See :data:`forceGPUDeviceID` for a full explanation of GPU selection override.
 
 :type: int
 )");
-  uint32_t forceGPUDeviceID = 0;
+    uint32_t forceGPUDeviceID = 0;
 
-  DOCUMENT(R"(Force the selection of a GPU by driver name. This allows overriding which GPU is used
+    DOCUMENT(R"(Force the selection of a GPU by driver name. This allows overriding which GPU is used
 to replay on.
 
 When set to an empty string, specifies no particular driver.
@@ -1334,20 +1358,20 @@ See :data:`forceGPUDeviceID` for a full explanation of GPU selection override.
 
 :type: str
 )");
-  rdcstr forceGPUDriverName;
+    rdcstr forceGPUDriverName;
 
-  DOCUMENT(R"(How much optimisation should be done, potentially at the cost of correctness.
+    DOCUMENT(R"(How much optimisation should be done, potentially at the cost of correctness.
 
 The default is :data:`ReplayOptimisationLevel.Balanced`.
 
 :type: ReplayOptimisationLevel
 )");
-  ReplayOptimisationLevel optimisation = ReplayOptimisationLevel::Balanced;
+    ReplayOptimisationLevel optimisation = ReplayOptimisationLevel::Balanced;
 
 // helpers for Qt, define constructor and cast. These will be defined in Qt code
 #if defined(RENDERDOC_QT_COMPAT)
-  ReplayOptions(const QVariant &var);
-  operator QVariant() const;
+    ReplayOptions(const QVariant &var);
+    operator QVariant() const;
 #endif
 };
 
@@ -1358,7 +1382,7 @@ DECLARE_REFLECTION_STRUCT(ReplayOptions);
 // pointers or integers.
 
 // Win32
-typedef struct HWND__ *HWND;
+typedef struct HWND__*HWND;
 
 // xlib
 typedef struct _XDisplay Display;
@@ -1380,90 +1404,88 @@ struct ANativeWindow;
 
 DOCUMENT("An opaque structure created to hold windowing setup data");
 struct WindowingData
-{
-};
+{};
 
 #else
 
 struct WindowingData
 {
-  WindowingSystem system;
+    WindowingSystem system;
 
-  union
-  {
-    struct
+    union
     {
-      int32_t width, height;
-    } headless;
+        struct
+        {
+            int32_t width, height;
+        } headless;
 
-    struct
-    {
-      HWND window;
-    } win32;
+        struct
+        {
+            HWND window;
+        } win32;
 
-    struct
-    {
-      Display *display;
-      Drawable window;
-    } xlib;
+        struct
+        {
+            Display     *display;
+            Drawable    window;
+        } xlib;
 
-    struct
-    {
-      xcb_connection_t *connection;
-      xcb_window_t window;
-    } xcb;
+        struct
+        {
+            xcb_connection_t    *connection;
+            xcb_window_t        window;
+        } xcb;
 
-    struct
-    {
-      wl_display *display;
-      wl_surface *window;
-    } wayland;
+        struct
+        {
+            wl_display  *display;
+            wl_surface  *window;
+        } wayland;
 
-    struct
-    {
-      ANativeWindow *window;
-    } android;
+        struct
+        {
+            ANativeWindow *window;
+        } android;
 
-    struct
-    {
-      void *view;
-      void *layer;
-    } macOS;
-  };
+        struct
+        {
+            void    *view;
+            void    *layer;
+        } macOS;
+    };
 };
 
 DECLARE_STRINGISE_TYPE(WindowingData);
-
 #endif
 
 DOCUMENT(R"(Structure used for initialising environment in a replay application.)");
 struct GlobalEnvironment
 {
-  DOCUMENT("");
-  GlobalEnvironment() = default;
-  GlobalEnvironment(const GlobalEnvironment &) = default;
-  GlobalEnvironment &operator=(const GlobalEnvironment &) = default;
+    DOCUMENT("");
+    GlobalEnvironment()                                     = default;
+    GlobalEnvironment(const GlobalEnvironment&)             = default;
+    GlobalEnvironment&operator=(const GlobalEnvironment&)   = default;
 
-  DOCUMENT(R"(The handle to the X display to use internally. If left ``NULL``, one will be opened.
+    DOCUMENT(R"(The handle to the X display to use internally. If left ``NULL``, one will be opened.
 
 :type: Display
 )");
-  Display *xlibDisplay = NULL;
+    Display *xlibDisplay = NULL;
 
-  DOCUMENT(
-      R"(The handle to the wayland display to use internally. If left ``NULL``, wayland cannot be used.
+    DOCUMENT(
+        R"(The handle to the wayland display to use internally. If left ``NULL``, wayland cannot be used.
 
 :type: wl_display
 )");
-  wl_display *waylandDisplay = NULL;
+    wl_display *waylandDisplay = NULL;
 
-  DOCUMENT(R"(Whether to enumerate available GPUs. If the replay program is only being used for
+    DOCUMENT(R"(Whether to enumerate available GPUs. If the replay program is only being used for
 internal operation where enumerating GPUs would be too expensive or problematic, it can be disabled
 here.
 
 :type: bool
 )");
-  bool enumerateGPUs = true;
+    bool enumerateGPUs = true;
 };
 
 DECLARE_REFLECTION_STRUCT(GlobalEnvironment);
@@ -1484,37 +1506,49 @@ converted to a string it includes the formatted result code and message as appro
 )")
 struct ResultDetails
 {
-  DOCUMENT("");
-  ResultDetails() = default;
-  ResultDetails(const ResultDetails &) = default;
-  ResultDetails &operator=(const ResultDetails &) = default;
+    DOCUMENT("");
+    ResultDetails()                                 = default;
+    ResultDetails(const ResultDetails&)             = default;
+    ResultDetails&operator=(const ResultDetails&)   = default;
 
-  ResultDetails &operator=(ResultCode c)
-  {
-    code = c;
-    internal_msg = NULL;
-    return *this;
-  }
+    ResultDetails&operator=(ResultCode c)
+    {
+        code            = c;
+        internal_msg    = NULL;
+        return *this;
+    }
 
-  DOCUMENT(R"(A simple helper function to check if this result is successful.
+    DOCUMENT(R"(A simple helper function to check if this result is successful.
 
 :return: Whether or not this result is successful
 :rtype: bool
 )");
-  bool OK() const { return code == ResultCode::Succeeded; }
-  DOCUMENT("");
-  explicit operator bool() const { return OK(); }
+    bool OK() const
+    {
+        return code == ResultCode::Succeeded;
+    }
+    DOCUMENT("");
+    explicit operator bool() const
+    {
+        return OK();
+    }
 #if defined(SWIG) || defined(SWIG_GENERATED)
-  bool operator==(ResultCode resultCode) const { return code == resultCode; }
-  bool operator!=(ResultCode resultCode) const { return code != resultCode; }
+    bool operator==(ResultCode resultCode) const
+    {
+        return code == resultCode;
+    }
+    bool operator!=(ResultCode resultCode) const
+    {
+        return code != resultCode;
+    }
 #endif
-  DOCUMENT(R"(The :class:`ResultCode` resulting from the operation, indicating success or failure.
+    DOCUMENT(R"(The :class:`ResultCode` resulting from the operation, indicating success or failure.
 
 :type: ResultCode
 )");
-  ResultCode code;
+    ResultCode code;
 
-  DOCUMENT(R"(For error codes, this will contain the stringified error code as well as any optional
+    DOCUMENT(R"(For error codes, this will contain the stringified error code as well as any optional
 extra information that is available about the error.
 
 .. note::
@@ -1525,8 +1559,11 @@ extra information that is available about the error.
 :return: A formatted message for failure codes, including the code itself.
 :rtype: str
 )");
-  rdcstr Message() const { return internal_msg ? *internal_msg : ToStr(code); }
-  const rdcstr *internal_msg;
+    rdcstr Message() const
+    {
+        return internal_msg ? *internal_msg : ToStr(code);
+    }
+    const rdcstr *internal_msg;
 };
 
 DECLARE_REFLECTION_STRUCT(ResultDetails);
@@ -1534,22 +1571,22 @@ DECLARE_REFLECTION_STRUCT(ResultDetails);
 DOCUMENT("The result of executing or injecting into a program.")
 struct ExecuteResult
 {
-  DOCUMENT("");
-  ExecuteResult() = default;
-  ExecuteResult(const ExecuteResult &) = default;
-  ExecuteResult &operator=(const ExecuteResult &) = default;
+    DOCUMENT("");
+    ExecuteResult()                                 = default;
+    ExecuteResult(const ExecuteResult&)             = default;
+    ExecuteResult&operator=(const ExecuteResult&)   = default;
 
-  DOCUMENT(R"(The :class:`ResultDetails` resulting from the operation, indicating success or failure.
+    DOCUMENT(R"(The :class:`ResultDetails` resulting from the operation, indicating success or failure.
 
 :type: ResultDetails
 )");
-  ResultDetails result;
-  DOCUMENT(R"(The ident where the new application is listening for target control, or 0 if something
+    ResultDetails result;
+    DOCUMENT(R"(The ident where the new application is listening for target control, or 0 if something
 went wrong.
 
 :type: int
 )");
-  uint32_t ident;
+    uint32_t ident;
 };
 
 DECLARE_REFLECTION_STRUCT(ExecuteResult);
@@ -1557,6 +1594,6 @@ DECLARE_REFLECTION_STRUCT(ExecuteResult);
 // there's not a good way to document a callback, so for lack of a better place we declare these
 // here and document them in the main IReplayController. They can be linked to from anywhere by
 // name.
-typedef std::function<bool()> RENDERDOC_KillCallback;
-typedef std::function<void(float)> RENDERDOC_ProgressCallback;
-typedef std::function<WindowingData(bool, const rdcarray<WindowingSystem> &)> RENDERDOC_PreviewWindowCallback;
+typedef std::function<bool ()> RENDERDOC_KillCallback;
+typedef std::function<void (float)> RENDERDOC_ProgressCallback;
+typedef std::function<WindowingData(bool, const rdcarray<WindowingSystem>&)> RENDERDOC_PreviewWindowCallback;

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QWidgetActionPrivate;
 
-class Q_WIDGETS_EXPORT QWidgetAction : public QAction
+class Q_WIDGETS_EXPORT    QWidgetAction : public QAction
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QWidgetAction)
@@ -60,24 +60,23 @@ public:
     virtual ~QWidgetAction();
 
     void setDefaultWidget(QWidget *w);
-    QWidget *defaultWidget() const;
+    QWidget* defaultWidget() const;
 
-    QWidget *requestWidget(QWidget *parent);
+    QWidget* requestWidget(QWidget *parent);
     void releaseWidget(QWidget *widget);
 
 protected:
-    virtual bool event(QEvent *) Q_DECL_OVERRIDE;
-    virtual bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
-    virtual QWidget *createWidget(QWidget *parent);
+    virtual bool event(QEvent*) Q_DECL_OVERRIDE;
+    virtual bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    virtual QWidget* createWidget(QWidget *parent);
     virtual void deleteWidget(QWidget *widget);
-    QList<QWidget *> createdWidgets() const;
+    QList<QWidget*> createdWidgets() const;
 
 private:
     Q_DISABLE_COPY(QWidgetAction)
-    Q_PRIVATE_SLOT(d_func(), void _q_widgetDestroyed(QObject *))
+    Q_PRIVATE_SLOT(d_func(), void _q_widgetDestroyed(QObject*))
     friend class QToolBar;
 };
-
 #endif // QT_NO_ACTION
 
 QT_END_NAMESPACE

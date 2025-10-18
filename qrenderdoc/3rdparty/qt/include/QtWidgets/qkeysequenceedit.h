@@ -49,7 +49,7 @@ QT_REQUIRE_CONFIG(keysequenceedit);
 QT_BEGIN_NAMESPACE
 
 class QKeySequenceEditPrivate;
-class Q_WIDGETS_EXPORT QKeySequenceEdit : public QWidget
+class Q_WIDGETS_EXPORT    QKeySequenceEdit : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(QKeySequence keySequence READ keySequence WRITE setKeySequence NOTIFY keySequenceChanged USER true)
@@ -72,10 +72,10 @@ Q_SIGNALS:
 protected:
     QKeySequenceEdit(QKeySequenceEditPrivate &d, QWidget *parent, Qt::WindowFlags f);
 
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void keyReleaseEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void keyReleaseEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QKeySequenceEdit)

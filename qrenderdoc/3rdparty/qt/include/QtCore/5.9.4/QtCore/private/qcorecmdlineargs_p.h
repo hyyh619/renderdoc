@@ -70,15 +70,20 @@ QT_BEGIN_NAMESPACE
 
 static inline QStringList qWinCmdArgs(const QString &cmdLine)
 {
-    QStringList result;
-    int size;
-    if (wchar_t **argv = CommandLineToArgvW((const wchar_t *)cmdLine.utf16(), &size)) {
+    QStringList     result;
+    int             size;
+
+    if (wchar_t **argv = CommandLineToArgvW((const wchar_t*)cmdLine.utf16(), &size))
+    {
         result.reserve(size);
-        wchar_t **argvEnd = argv + size;
+        wchar_t    **argvEnd = argv + size;
+
         for (wchar_t **a = argv; a < argvEnd; ++a)
             result.append(QString::fromWCharArray(*a));
+
         LocalFree(argv);
     }
+
     return result;
 }
 
@@ -86,16 +91,16 @@ static inline QStringList qWinCmdArgs(const QString &cmdLine)
 
 static inline QStringList qCmdLineArgs(int argc, char *argv[])
 {
-    QStringList args;
+    QStringList    args;
+
     for (int i = 0; i != argc; ++i)
         args += QString::fromLocal8Bit(argv[i]);
+
     return args;
 }
-
 #endif // Q_OS_WINRT
 
 QT_END_NAMESPACE
-
 #endif // Q_OS_WIN
 
 #endif // QCORECMDLINEARGS_WIN_P_H

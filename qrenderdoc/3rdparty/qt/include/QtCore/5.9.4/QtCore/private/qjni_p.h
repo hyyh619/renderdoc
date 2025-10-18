@@ -57,7 +57,7 @@
 
 QT_BEGIN_NAMESPACE
 
-struct Q_CORE_EXPORT QJNILocalRefDeleter
+struct Q_CORE_EXPORT    QJNILocalRefDeleter
 {
     static void cleanup(jobject obj);
 };
@@ -65,33 +65,33 @@ struct Q_CORE_EXPORT QJNILocalRefDeleter
 // To simplify this we only define it for jobjects.
 typedef QScopedPointer<_jobject, QJNILocalRefDeleter> QJNIScopedLocalRef;
 
-class Q_CORE_EXPORT QJNIEnvironmentPrivate
+class Q_CORE_EXPORT    QJNIEnvironmentPrivate
 {
 public:
     QJNIEnvironmentPrivate();
     ~QJNIEnvironmentPrivate();
-    JNIEnv *operator->();
+    JNIEnv* operator->();
     operator JNIEnv*() const;
     static jclass findClass(const char *className, JNIEnv *env = 0);
 
 private:
     friend class QAndroidJniEnvironment;
     Q_DISABLE_COPY(QJNIEnvironmentPrivate)
-    JNIEnv *jniEnv;
+    JNIEnv * jniEnv;
 };
 
-class Q_CORE_EXPORT QJNIObjectData
+class Q_CORE_EXPORT    QJNIObjectData
 {
 public:
     QJNIObjectData();
     ~QJNIObjectData();
-    jobject m_jobject;
-    jclass m_jclass;
-    bool m_own_jclass;
-    QByteArray m_className;
+    jobject         m_jobject;
+    jclass          m_jclass;
+    bool            m_own_jclass;
+    QByteArray      m_className;
 };
 
-class Q_CORE_EXPORT QJNIObjectPrivate
+class Q_CORE_EXPORT    QJNIObjectPrivate
 {
 public:
     QJNIObjectPrivate();
@@ -104,44 +104,44 @@ public:
     // NOTE: see fromLocalRef() for converting a local ref. to QJNIObjectPrivate.
     explicit QJNIObjectPrivate(jobject globalRef);
 
-    template <typename T>
+    template<typename T>
     T callMethod(const char *methodName,
                  const char *sig,
                  ...) const;
-    template <typename T>
+    template<typename T>
     T callMethod(const char *methodName) const;
-    template <typename T>
+    template<typename T>
     QJNIObjectPrivate callObjectMethod(const char *methodName) const;
     QJNIObjectPrivate callObjectMethod(const char *methodName,
                                        const char *sig,
                                        ...) const;
-    template <typename T>
+    template<typename T>
     static T callStaticMethod(const char *className,
                               const char *methodName,
                               const char *sig, ...);
-    template <typename T>
+    template<typename T>
     static T callStaticMethod(const char *className,
                               const char *methodName);
-    template <typename T>
+    template<typename T>
     static T callStaticMethod(jclass clazz,
                               const char *methodName,
                               const char *sig, ...);
-    template <typename T>
+    template<typename T>
     static T callStaticMethod(jclass clazz,
                               const char *methodName);
     static QJNIObjectPrivate callStaticObjectMethod(const char *className,
-                                             const char *methodName,
-                                             const char *sig, ...);
+                                                    const char *methodName,
+                                                    const char *sig, ...);
 
     static QJNIObjectPrivate callStaticObjectMethod(jclass clazz,
-                                             const char *methodName,
-                                             const char *sig, ...);
+                                                    const char *methodName,
+                                                    const char *sig, ...);
 
-    template <typename T>
+    template<typename T>
     T getField(const char *fieldName) const;
-    template <typename T>
+    template<typename T>
     static T getStaticField(const char *className, const char *fieldName);
-    template <typename T>
+    template<typename T>
     static T getStaticField(jclass clazz, const char *fieldName);
 
     QJNIObjectPrivate getObjectField(const char *fieldName, const char *sig) const;
@@ -152,26 +152,26 @@ public:
                                                   const char *fieldName,
                                                   const char *sig);
 
-    template <typename T>
+    template<typename T>
     void setField(const char *fieldName, T value);
-    template <typename T>
+    template<typename T>
     void setField(const char *fieldName, const char *sig, T value);
-    template <typename T>
+    template<typename T>
     static void setStaticField(const char *className,
                                const char *fieldName,
                                T value);
-    template <typename T>
+    template<typename T>
     static void setStaticField(const char *className,
                                const char *fieldName,
                                const char *sig,
                                T value);
-    template <typename T>
+    template<typename T>
     static void setStaticField(jclass clazz,
                                const char *fieldName,
                                const char *sig,
                                T value);
 
-    template <typename T>
+    template<typename T>
     static void setStaticField(jclass clazz,
                                const char *fieldName,
                                T value);
@@ -181,18 +181,24 @@ public:
 
     static bool isClassAvailable(const char *className);
     bool isValid() const;
-    jobject object() const { return d->m_jobject; }
-
-    template <typename T>
-    inline QJNIObjectPrivate &operator=(T o)
+    jobject object() const
     {
-        jobject jobj = static_cast<jobject>(o);
-        if (!isSameObject(jobj)) {
+        return d->m_jobject;
+    }
+
+    template<typename T>
+    inline QJNIObjectPrivate&operator=(T o)
+    {
+        jobject    jobj = static_cast<jobject>(o);
+
+        if (!isSameObject(jobj))
+        {
             d = QSharedPointer<QJNIObjectData>::create();
-            if (jobj) {
-                QJNIEnvironmentPrivate env;
+            if (jobj)
+            {
+                QJNIEnvironmentPrivate    env;
                 d->m_jobject = env->NewGlobalRef(jobj);
-                jclass objectClass = env->GetObjectClass(jobj);
+                jclass    objectClass = env->GetObjectClass(jobj);
                 d->m_jclass = static_cast<jclass>(env->NewGlobalRef(objectClass));
                 env->DeleteLocalRef(objectClass);
             }
@@ -207,24 +213,28 @@ public:
 private:
     friend class QAndroidJniObject;
 
-    struct QVaListPrivate { operator va_list &() const { return m_args; } va_list &m_args; };
+    struct QVaListPrivate { operator va_list&() const
+                            {
+                                return m_args;
+                            }
+                            va_list &m_args; };
 
     QJNIObjectPrivate(const char *className, const char *sig, const QVaListPrivate &args);
     QJNIObjectPrivate(jclass clazz, const char *sig, const QVaListPrivate &args);
 
-    template <typename T>
+    template<typename T>
     T callMethodV(const char *methodName,
-                   const char *sig,
-                   va_list args) const;
+                  const char *sig,
+                  va_list args) const;
     QJNIObjectPrivate callObjectMethodV(const char *methodName,
                                         const char *sig,
                                         va_list args) const;
-    template <typename T>
+    template<typename T>
     static T callStaticMethodV(const char *className,
                                const char *methodName,
                                const char *sig,
                                va_list args);
-    template <typename T>
+    template<typename T>
     static T callStaticMethodV(jclass clazz,
                                const char *methodName,
                                const char *sig,
@@ -242,45 +252,45 @@ private:
     bool isSameObject(jobject obj) const;
     bool isSameObject(const QJNIObjectPrivate &other) const;
 
-    friend bool operator==(const QJNIObjectPrivate &, const QJNIObjectPrivate &);
+    friend bool operator==(const QJNIObjectPrivate&, const QJNIObjectPrivate&);
     friend bool operator!=(const QJNIObjectPrivate&, const QJNIObjectPrivate&);
-    template <typename T> friend bool operator!=(const QJNIObjectPrivate&, T);
-    template <typename T> friend bool operator==(const QJNIObjectPrivate&, T);
-    template <typename T> friend bool operator!=(T, const QJNIObjectPrivate&);
-    template <typename T> friend bool operator==(T, const QJNIObjectPrivate&);
+    template<typename T> friend bool operator!=(const QJNIObjectPrivate&, T);
+    template<typename T> friend bool operator==(const QJNIObjectPrivate&, T);
+    template<typename T> friend bool operator!=(T, const QJNIObjectPrivate&);
+    template<typename T> friend bool operator==(T, const QJNIObjectPrivate&);
 
-    QSharedPointer<QJNIObjectData> d;
+    QSharedPointer<QJNIObjectData>    d;
 };
 
-inline bool operator==(const QJNIObjectPrivate&obj1, const QJNIObjectPrivate&obj2)
+inline bool operator==(const QJNIObjectPrivate &obj1, const QJNIObjectPrivate &obj2)
 {
     return obj1.isSameObject(obj2);
 }
 
-inline bool operator!=(const QJNIObjectPrivate&obj1, const QJNIObjectPrivate&obj2)
+inline bool operator!=(const QJNIObjectPrivate &obj1, const QJNIObjectPrivate &obj2)
 {
     return !obj1.isSameObject(obj2);
 }
 
-template <typename T>
+template<typename T>
 inline bool operator==(const QJNIObjectPrivate &obj1, T obj2)
 {
     return obj1.isSameObject(static_cast<jobject>(obj2));
 }
 
-template <typename T>
+template<typename T>
 inline bool operator==(T obj1, const QJNIObjectPrivate &obj2)
 {
     return obj2.isSameObject(static_cast<jobject>(obj1));
 }
 
-template <typename T>
+template<typename T>
 inline bool operator!=(const QJNIObjectPrivate &obj1, T obj2)
 {
     return !obj1.isSameObject(obj2);
 }
 
-template <typename T>
+template<typename T>
 inline bool operator!=(T obj1, const QJNIObjectPrivate &obj2)
 {
     return !obj2.isSameObject(obj1);

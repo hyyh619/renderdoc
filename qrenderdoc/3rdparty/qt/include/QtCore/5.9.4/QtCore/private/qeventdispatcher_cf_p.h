@@ -100,19 +100,20 @@ QT_BEGIN_NAMESPACE
 
 class QEventDispatcherCoreFoundation;
 
-template <class T = QEventDispatcherCoreFoundation>
+template<class T = QEventDispatcherCoreFoundation>
 class RunLoopSource
 {
 public:
     typedef bool (T::*CallbackFunction)();
 
-    enum { kHighestPriority = 0 } RunLoopSourcePriority;
+    enum { kHighestPriority = 0 }    RunLoopSourcePriority;
 
     RunLoopSource(T *delegate, CallbackFunction callback)
         : m_delegate(delegate), m_callback(callback)
     {
-        CFRunLoopSourceContext context = {};
-        context.info = this;
+        CFRunLoopSourceContext    context = {};
+
+        context.info    = this;
         context.perform = RunLoopSource::process;
 
         m_source = CFRunLoopSourceCreate(kCFAllocatorDefault, kHighestPriority, &context);
@@ -133,21 +134,25 @@ public:
         CFRunLoopAddSource(runLoop, m_source, mode);
     }
 
-    void signal() { CFRunLoopSourceSignal(m_source); }
+    void signal()
+    {
+        CFRunLoopSourceSignal(m_source);
+    }
 
 private:
     static void process(void *info)
     {
-        RunLoopSource *self = static_cast<RunLoopSource *>(info);
+        RunLoopSource    *self = static_cast<RunLoopSource*>(info);
+
         ((self->m_delegate)->*(self->m_callback))();
     }
 
-    T *m_delegate;
-    CallbackFunction m_callback;
-    CFRunLoopSourceRef m_source;
+    T                       *m_delegate;
+    CallbackFunction        m_callback;
+    CFRunLoopSourceRef      m_source;
 };
 
-template <class T = QEventDispatcherCoreFoundation>
+template<class T = QEventDispatcherCoreFoundation>
 class RunLoopObserver
 {
 public:
@@ -156,7 +161,8 @@ public:
     RunLoopObserver(T *delegate, CallbackFunction callback, CFOptionFlags activities)
         : m_delegate(delegate), m_callback(callback)
     {
-        CFRunLoopObserverContext context = {};
+        CFRunLoopObserverContext    context = {};
+
         context.info = this;
 
         m_observer = CFRunLoopObserverCreate(kCFAllocatorDefault, activities, true, 0, process, &context);
@@ -190,16 +196,17 @@ public:
 private:
     static void process(CFRunLoopObserverRef, CFRunLoopActivity activity, void *info)
     {
-        RunLoopObserver *self = static_cast<RunLoopObserver *>(info);
+        RunLoopObserver    *self = static_cast<RunLoopObserver*>(info);
+
         ((self->m_delegate)->*(self->m_callback))(activity);
     }
 
-    T *m_delegate;
-    CallbackFunction m_callback;
-    CFRunLoopObserverRef m_observer;
+    T                       *m_delegate;
+    CallbackFunction        m_callback;
+    CFRunLoopObserverRef    m_observer;
 };
 
-class Q_CORE_EXPORT QEventDispatcherCoreFoundation : public QAbstractEventDispatcher
+class Q_CORE_EXPORT    QEventDispatcherCoreFoundation : public QAbstractEventDispatcher
 {
     Q_OBJECT
 
@@ -225,41 +232,41 @@ public:
     void flush();
 
 protected:
-    QEventLoop *currentEventLoop() const;
+    QEventLoop* currentEventLoop() const;
 
     virtual bool processPostedEvents();
 
     struct ProcessEventsState
     {
         ProcessEventsState(QEventLoop::ProcessEventsFlags f)
-         : flags(f), wasInterrupted(false)
-         , processedPostedEvents(false), processedTimers(false)
-         , deferredWakeUp(false), deferredUpdateTimers(false) {}
+            : flags(f), wasInterrupted(false)
+            , processedPostedEvents(false), processedTimers(false)
+            , deferredWakeUp(false), deferredUpdateTimers(false) {}
 
-        QEventLoop::ProcessEventsFlags flags;
-        bool wasInterrupted;
-        bool processedPostedEvents;
-        bool processedTimers;
-        bool deferredWakeUp;
-        bool deferredUpdateTimers;
+        QEventLoop::ProcessEventsFlags  flags;
+        bool                            wasInterrupted;
+        bool                            processedPostedEvents;
+        bool                            processedTimers;
+        bool                            deferredWakeUp;
+        bool                            deferredUpdateTimers;
     };
 
-    ProcessEventsState m_processEvents;
+    ProcessEventsState    m_processEvents;
 
 private:
-    RunLoopSource<> m_postedEventsRunLoopSource;
-    RunLoopObserver<> m_runLoopActivityObserver;
+    RunLoopSource<>         m_postedEventsRunLoopSource;
+    RunLoopObserver<>       m_runLoopActivityObserver;
 
-    QT_MANGLE_NAMESPACE(RunLoopModeTracker) *m_runLoopModeTracker;
+    QT_MANGLE_NAMESPACE(RunLoopModeTracker) * m_runLoopModeTracker;
 
-    QTimerInfoList m_timerInfoList;
-    CFRunLoopTimerRef m_runLoopTimer;
-    CFRunLoopTimerRef m_blockedRunLoopTimer;
-    bool m_overdueTimerScheduled;
+    QTimerInfoList          m_timerInfoList;
+    CFRunLoopTimerRef       m_runLoopTimer;
+    CFRunLoopTimerRef       m_blockedRunLoopTimer;
+    bool                    m_overdueTimerScheduled;
 
-    QCFSocketNotifier m_cfSocketNotifier;
+    QCFSocketNotifier    m_cfSocketNotifier;
 
-    void processTimers(CFRunLoopTimerRef);
+    void    processTimers(CFRunLoopTimerRef);
 
     void handleRunLoopActivity(CFRunLoopActivity activity);
 
@@ -271,11 +278,11 @@ QT_END_NAMESPACE
 
 #if DEBUG_EVENT_DISPATCHER
 extern uint g_eventDispatcherIndentationLevel;
-#define qEventDispatcherDebug() qDebug().nospace() \
-            << qPrintable(QString(QLatin1String("| ")).repeated(g_eventDispatcherIndentationLevel)) \
-            << __FUNCTION__ << "(): "
-#define qIndent() ++g_eventDispatcherIndentationLevel
-#define qUnIndent() --g_eventDispatcherIndentationLevel
+#define qEventDispatcherDebug() qDebug().nospace()                                              \
+        << qPrintable(QString(QLatin1String("| ")).repeated(g_eventDispatcherIndentationLevel)) \
+        << __FUNCTION__ << "(): "
+#define qIndent()               ++ g_eventDispatcherIndentationLevel
+#define qUnIndent()             -- g_eventDispatcherIndentationLevel
 #else
 #define qEventDispatcherDebug() QT_NO_QDEBUG_MACRO()
 #define qIndent()

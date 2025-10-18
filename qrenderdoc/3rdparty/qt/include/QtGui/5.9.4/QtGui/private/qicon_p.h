@@ -66,35 +66,39 @@ class QIconPrivate
 public:
     explicit QIconPrivate(QIconEngine *e);
 
-    ~QIconPrivate() {
+    ~QIconPrivate()
+    {
         delete engine;
     }
 
     qreal pixmapDevicePixelRatio(qreal displayDevicePixelRatio, const QSize &requestedSize, const QSize &actualSize);
 
-    QIconEngine *engine;
+    QIconEngine    *engine;
 
-    QAtomicInt ref;
-    int serialNum;
-    int detach_no;
-    bool is_mask;
+    QAtomicInt      ref;
+    int             serialNum;
+    int             detach_no;
+    bool            is_mask;
 };
 
 
 struct QPixmapIconEngineEntry
 {
-    QPixmapIconEngineEntry():mode(QIcon::Normal), state(QIcon::Off){}
+    QPixmapIconEngineEntry() : mode(QIcon::Normal), state(QIcon::Off){}
     QPixmapIconEngineEntry(const QPixmap &pm, QIcon::Mode m = QIcon::Normal, QIcon::State s = QIcon::Off)
-        :pixmap(pm), size(pm.size()), mode(m), state(s){}
+        : pixmap(pm), size(pm.size()), mode(m), state(s){}
     QPixmapIconEngineEntry(const QString &file, const QSize &sz = QSize(), QIcon::Mode m = QIcon::Normal, QIcon::State s = QIcon::Off)
-        :fileName(file), size(sz), mode(m), state(s){}
+        : fileName(file), size(sz), mode(m), state(s){}
     QPixmapIconEngineEntry(const QString &file, const QImage &image, QIcon::Mode m = QIcon::Normal, QIcon::State s = QIcon::Off);
-    QPixmap pixmap;
-    QString fileName;
-    QSize size;
-    QIcon::Mode mode;
-    QIcon::State state;
-    bool isNull() const {return (fileName.isEmpty() && pixmap.isNull()); }
+    QPixmap         pixmap;
+    QString         fileName;
+    QSize           size;
+    QIcon::Mode     mode;
+    QIcon::State    state;
+    bool            isNull() const
+    {
+        return (fileName.isEmpty() && pixmap.isNull());
+    }
 };
 Q_DECLARE_TYPEINFO(QPixmapIconEngineEntry, Q_MOVABLE_TYPE);
 
@@ -107,32 +111,33 @@ inline QPixmapIconEngineEntry::QPixmapIconEngineEntry(const QString &file, const
     pixmap.setDevicePixelRatio(1.0);
 }
 
-class Q_GUI_EXPORT QPixmapIconEngine : public QIconEngine {
+class Q_GUI_EXPORT    QPixmapIconEngine : public QIconEngine
+{
 public:
     QPixmapIconEngine();
-    QPixmapIconEngine(const QPixmapIconEngine &);
+    QPixmapIconEngine(const QPixmapIconEngine&);
     ~QPixmapIconEngine();
     void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state) Q_DECL_OVERRIDE;
     QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state) Q_DECL_OVERRIDE;
-    QPixmapIconEngineEntry *bestMatch(const QSize &size, QIcon::Mode mode, QIcon::State state, bool sizeOnly);
+    QPixmapIconEngineEntry* bestMatch(const QSize &size, QIcon::Mode mode, QIcon::State state, bool sizeOnly);
     QSize actualSize(const QSize &size, QIcon::Mode mode, QIcon::State state) Q_DECL_OVERRIDE;
     void addPixmap(const QPixmap &pixmap, QIcon::Mode mode, QIcon::State state) Q_DECL_OVERRIDE;
     void addFile(const QString &fileName, const QSize &size, QIcon::Mode mode, QIcon::State state) Q_DECL_OVERRIDE;
 
     QString key() const Q_DECL_OVERRIDE;
-    QIconEngine *clone() const Q_DECL_OVERRIDE;
+    QIconEngine* clone() const Q_DECL_OVERRIDE;
     bool read(QDataStream &in) Q_DECL_OVERRIDE;
     bool write(QDataStream &out) const Q_DECL_OVERRIDE;
     void virtual_hook(int id, void *data) Q_DECL_OVERRIDE;
 
 private:
-    QPixmapIconEngineEntry *tryMatch(const QSize &size, QIcon::Mode mode, QIcon::State state);
-    QVector<QPixmapIconEngineEntry> pixmaps;
+    QPixmapIconEngineEntry* tryMatch(const QSize &size, QIcon::Mode mode, QIcon::State state);
+    QVector<QPixmapIconEngineEntry>    pixmaps;
 
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &s, const QIcon &icon);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream &s, const QIcon &icon);
     friend class QIconThemeEngine;
 };
 
 QT_END_NAMESPACE
-#endif //QT_NO_ICON
+#endif // QT_NO_ICON
 #endif // QICON_P_H

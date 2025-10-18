@@ -64,7 +64,7 @@ typedef QList<QTranslator*> QTranslatorList;
 
 class QAbstractEventDispatcher;
 
-class Q_CORE_EXPORT QCoreApplicationPrivate
+class Q_CORE_EXPORT    QCoreApplicationPrivate
 #ifndef QT_NO_QOBJECT
     : public QObjectPrivate
 #endif
@@ -72,7 +72,8 @@ class Q_CORE_EXPORT QCoreApplicationPrivate
     Q_DECLARE_PUBLIC(QCoreApplication)
 
 public:
-    enum Type {
+    enum Type
+    {
         Tty,
         Gui
     };
@@ -94,28 +95,32 @@ public:
     static bool checkInstance(const char *method);
 
 #ifndef QT_NO_QOBJECT
-    bool sendThroughApplicationEventFilters(QObject *, QEvent *);
-    static bool sendThroughObjectEventFilters(QObject *, QEvent *);
-    static bool notify_helper(QObject *, QEvent *);
-    static inline void setEventSpontaneous(QEvent *e, bool spontaneous) { e->spont = spontaneous; }
+    bool sendThroughApplicationEventFilters(QObject*, QEvent*);
+    static bool sendThroughObjectEventFilters(QObject*, QEvent*);
+    static bool notify_helper(QObject*, QEvent*);
+    static inline void setEventSpontaneous(QEvent *e, bool spontaneous)
+    {
+        e->spont = spontaneous;
+    }
 
     virtual void createEventDispatcher();
     virtual void eventDispatcherReady();
-    static void removePostedEvent(QEvent *);
+    static void removePostedEvent(QEvent*);
 #ifdef Q_OS_WIN
     static void removePostedTimerEvent(QObject *object, int timerId);
 #endif
 
-    QAtomicInt quitLockRef;
+    QAtomicInt    quitLockRef;
     void ref();
     void deref();
-    virtual bool shouldQuit() {
-      return true;
+    virtual bool shouldQuit()
+    {
+        return true;
     }
     void maybeQuit();
 
-    static QBasicAtomicPointer<QThread> theMainThread;
-    static QThread *mainThread();
+    static QBasicAtomicPointer<QThread>    theMainThread;
+    static QThread* mainThread();
     static bool threadRequiresCoreApplication();
 
     static void sendPostedEvents(QObject *receiver, int event_type, QThreadData *data);
@@ -124,50 +129,59 @@ public:
     void cleanupThreadData();
 #endif // QT_NO_QOBJECT
 
-    int &argc;
-    char **argv;
+    int     &argc;
+    char    **argv;
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINRT)
-    int origArgc;
-    char **origArgv; // store unmodified arguments for QCoreApplication::arguments()
+    int     origArgc;
+    char    **origArgv; // store unmodified arguments for QCoreApplication::arguments()
 #endif
     void appendApplicationPathToLibraryPaths(void);
 
 #ifndef QT_NO_TRANSLATION
-    QTranslatorList translators;
+    QTranslatorList    translators;
 
     static bool isTranslatorInstalled(QTranslator *translator);
 #endif
 
-    QCoreApplicationPrivate::Type application_type;
+    QCoreApplicationPrivate::Type    application_type;
 
-    QString cachedApplicationDirPath;
-    static QString *cachedApplicationFilePath;
+    QString             cachedApplicationDirPath;
+    static QString      *cachedApplicationFilePath;
     static void setApplicationFilePath(const QString &path);
-    static inline void clearApplicationFilePath() { delete cachedApplicationFilePath; cachedApplicationFilePath = 0; }
+    static inline void clearApplicationFilePath()
+    {
+        delete cachedApplicationFilePath; cachedApplicationFilePath = 0;
+    }
 
 #ifndef QT_NO_QOBJECT
     void execCleanup();
 
-    bool in_exec;
-    bool aboutToQuitEmitted;
-    bool threadData_clean;
+    bool    in_exec;
+    bool    aboutToQuitEmitted;
+    bool    threadData_clean;
 
-    static QAbstractEventDispatcher *eventDispatcher;
-    static bool is_app_running;
-    static bool is_app_closing;
+    static QAbstractEventDispatcher     *eventDispatcher;
+    static bool                         is_app_running;
+    static bool                         is_app_closing;
 #endif
 
-    static bool setuidAllowed;
-    static uint attribs;
-    static inline bool testAttribute(uint flag) { return attribs & (1 << flag); }
-    static int app_compile_version;
+    static bool     setuidAllowed;
+    static uint     attribs;
+    static inline bool testAttribute(uint flag)
+    {
+        return attribs & (1 << flag);
+    }
+    static int    app_compile_version;
 
     void processCommandLineArguments();
-    QString qmljs_debug_arguments; // a string containing arguments for js/qml debugging.
-    inline QString qmljsDebugArgumentsString() { return qmljs_debug_arguments; }
+    QString    qmljs_debug_arguments; // a string containing arguments for js/qml debugging.
+    inline QString qmljsDebugArgumentsString()
+    {
+        return qmljs_debug_arguments;
+    }
 
 #ifdef QT_NO_QOBJECT
-    QCoreApplication *q_ptr;
+    QCoreApplication    *q_ptr;
 #endif
 };
 

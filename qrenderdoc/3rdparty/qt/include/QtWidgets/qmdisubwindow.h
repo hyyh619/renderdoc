@@ -50,19 +50,21 @@ QT_BEGIN_NAMESPACE
 class QMenu;
 class QMdiArea;
 
-namespace QMdi { class ControlContainer; }
+namespace QMdi
+{ class ControlContainer; }
 class QMdiSubWindowPrivate;
-class Q_WIDGETS_EXPORT QMdiSubWindow : public QWidget
+class Q_WIDGETS_EXPORT    QMdiSubWindow : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(int keyboardSingleStep READ keyboardSingleStep WRITE setKeyboardSingleStep)
     Q_PROPERTY(int keyboardPageStep READ keyboardPageStep WRITE setKeyboardPageStep)
 public:
-    enum SubWindowOption {
-        AllowOutsideAreaHorizontally = 0x1, // internal
-        AllowOutsideAreaVertically = 0x2, // internal
-        RubberBandResize = 0x4,
-        RubberBandMove = 0x8
+    enum SubWindowOption
+    {
+        AllowOutsideAreaHorizontally    = 0x1, // internal
+        AllowOutsideAreaVertically      = 0x2, // internal
+        RubberBandResize                = 0x4,
+        RubberBandMove                  = 0x8
     };
     Q_DECLARE_FLAGS(SubWindowOptions, SubWindowOption)
 
@@ -73,15 +75,15 @@ public:
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
 
     void setWidget(QWidget *widget);
-    QWidget *widget() const;
+    QWidget* widget() const;
 
-    QWidget *maximizedButtonsWidget() const; // internal
-    QWidget *maximizedSystemMenuIconWidget() const; // internal
+    QWidget* maximizedButtonsWidget() const; // internal
+    QWidget* maximizedSystemMenuIconWidget() const; // internal
 
     bool isShaded() const;
 
     void setOption(SubWindowOption option, bool on = true);
-    bool testOption(SubWindowOption) const;
+    bool    testOption(SubWindowOption) const;
 
     void setKeyboardSingleStep(int step);
     int keyboardSingleStep() const;
@@ -91,10 +93,10 @@ public:
 
 #if QT_CONFIG(menu)
     void setSystemMenu(QMenu *systemMenu);
-    QMenu *systemMenu() const;
+    QMenu* systemMenu() const;
 #endif
 
-    QMdiArea *mdiArea() const;
+    QMdiArea* mdiArea() const;
 
 Q_SIGNALS:
     void windowStateChanged(Qt::WindowStates oldState, Qt::WindowStates newState);
@@ -135,7 +137,7 @@ private:
     Q_DECLARE_PRIVATE(QMdiSubWindow)
     Q_PRIVATE_SLOT(d_func(), void _q_updateStaysOnTopHint())
     Q_PRIVATE_SLOT(d_func(), void _q_enterInteractiveMode())
-    Q_PRIVATE_SLOT(d_func(), void _q_processFocusChanged(QWidget *, QWidget *))
+    Q_PRIVATE_SLOT(d_func(), void _q_processFocusChanged(QWidget*, QWidget*))
     friend class QMdiAreaPrivate;
 #if QT_CONFIG(tabbar)
     friend class QMdiAreaTabBar;

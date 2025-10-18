@@ -83,16 +83,18 @@ public:
 
     unsigned priority() const;
 
-    QString mimetype() const { return m_mimetype; }
+    QString mimetype() const
+    {
+        return m_mimetype;
+    }
 
 private:
-    QList<QMimeMagicRule> m_list;
-    unsigned m_priority;
-    QString m_mimetype;
+    QList<QMimeMagicRule>       m_list;
+    unsigned                    m_priority;
+    QString                     m_mimetype;
 };
 Q_DECLARE_SHARED(QMimeMagicRuleMatcher)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEMAGICRULEMATCHER_P_H

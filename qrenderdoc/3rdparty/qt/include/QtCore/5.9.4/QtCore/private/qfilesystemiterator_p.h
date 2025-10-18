@@ -73,34 +73,33 @@ class QFileSystemIterator
 {
 public:
     QFileSystemIterator(const QFileSystemEntry &entry, QDir::Filters filters,
-            const QStringList &nameFilters, QDirIterator::IteratorFlags flags
-                = QDirIterator::FollowSymlinks | QDirIterator::Subdirectories);
+                        const QStringList &nameFilters, QDirIterator::IteratorFlags flags
+                            = QDirIterator::FollowSymlinks | QDirIterator::Subdirectories);
     ~QFileSystemIterator();
 
     bool advance(QFileSystemEntry &fileEntry, QFileSystemMetaData &metaData);
 
 private:
-    QFileSystemEntry::NativePath nativePath;
+    QFileSystemEntry::NativePath    nativePath;
 
     // Platform-specific data
 #if defined(Q_OS_WIN)
-    QString dirPath;
-    HANDLE findFileHandle;
-    QStringList uncShares;
-    bool uncFallback;
-    int uncShareIndex;
-    bool onlyDirs;
+    QString         dirPath;
+    HANDLE          findFileHandle;
+    QStringList     uncShares;
+    bool            uncFallback;
+    int             uncShareIndex;
+    bool            onlyDirs;
 #else
-    QT_DIR *dir;
-    QT_DIRENT *dirEntry;
-    int lastError;
+    QT_DIR          *dir;
+    QT_DIRENT       *dirEntry;
+    int             lastError;
 #endif
 
     Q_DISABLE_COPY(QFileSystemIterator)
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_FILESYSTEMITERATOR
 
 #endif // include guard

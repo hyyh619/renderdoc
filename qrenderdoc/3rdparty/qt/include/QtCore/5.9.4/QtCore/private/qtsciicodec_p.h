@@ -87,17 +87,17 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_CODECS
 
-class QTsciiCodec : public QTextCodec {
+class QTsciiCodec : public QTextCodec
+{
 public:
     ~QTsciiCodec();
 
     QByteArray name() const Q_DECL_OVERRIDE;
     int mibEnum() const Q_DECL_OVERRIDE;
 
-    QString convertToUnicode(const char *, int, ConverterState *) const Q_DECL_OVERRIDE;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const Q_DECL_OVERRIDE;
+    QString convertToUnicode(const char*, int, ConverterState*) const Q_DECL_OVERRIDE;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_CODECS
 
 QT_END_NAMESPACE

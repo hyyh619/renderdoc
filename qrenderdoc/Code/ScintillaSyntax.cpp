@@ -1,37 +1,38 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "ScintillaSyntax.h"
 #include "Code/QRDUtils.h"
 #include "scintilla/include/SciLexer.h"
 #include "scintilla/include/qt/ScintillaEdit.h"
 
-static const char *python_keywords =
+static const char    *python_keywords =
     "False None True and as assert break class continue def del elif else except finally for from "
     "global if import in is lambda nonlocal not or pass raise return try while with yield";
 
-static const char *hlsl_keywords[2] = {
+static const char    *hlsl_keywords[2] =
+{
     // keyword set 0:
     // Secondary keywords and identifiers
     R"EOKEYWORDS(
@@ -121,9 +122,11 @@ ComparisonFilter
 
 texture Texture1D Texture1DArray Texture2D Texture2DArray Texture2DMS Texture2DMSArray Texture3D
 TextureCube
-)EOKEYWORDS"};
+)EOKEYWORDS"
+};
 
-static const char *glsl_keywords[2] = {
+static const char    *glsl_keywords[2] =
+{
     // keyword set 0:
     // Secondary keywords and identifiers
     R"EOKEYWORDS(
@@ -227,13 +230,14 @@ iimage2DRect uimage2DRect imageCube iimageCube uimageCube imageBuffer iimageBuff
 image1DArray iimage1DArray uimage1DArray image2DArray iimage2DArray uimage2DArray imageCubeArray
 iimageCubeArray uimageCubeArray image2DMS iimage2DMS uimage2DMS image2DMSArray iimage2DMSArray
 uimage2DMSArray
-)EOKEYWORDS"};
+)EOKEYWORDS"
+};
 
-static const char *buffer_keywords[2] = {"struct enum",
+static const char    *buffer_keywords[2] = {"struct enum",
 
-                                         // keyword set 1:
-                                         // Secondary keywords and identifiers
-                                         R"EOKEYWORDS(
+                                            // keyword set 1:
+                                            // Secondary keywords and identifiers
+                                            R"EOKEYWORDS(
 bool
 bool bool1 bool2 bool3 bool4 bool1x1 bool1x2 bool1x3 bool1x4 bool2x1 bool2x2 bool2x3 bool2x4 bool3x1
 bool3x2 bool3x3 bool3x4 bool4x1 bool4x2 bool4x3 bool4x4
@@ -335,103 +339,105 @@ row_major column_major unsigned signed rgb
 
 void ConfigureSyntax(ScintillaEdit *scintilla, int language)
 {
-  bool hlsl = false;
-  bool glsl = false;
-  int lexLang = language;
+    bool    hlsl    = false;
+    bool    glsl    = false;
+    int     lexLang = language;
 
-  if(lexLang == SCLEX_HLSL || lexLang == SCLEX_GLSL || lexLang == SCLEX_BUFFER)
-    lexLang = SCLEX_CPP;
+    if (lexLang == SCLEX_HLSL || lexLang == SCLEX_GLSL || lexLang == SCLEX_BUFFER)
+        lexLang = SCLEX_CPP;
 
-  scintilla->setLexer(lexLang);
+    scintilla->setLexer(lexLang);
 
 #define SC_COL(qcol) SCINTILLA_COLOUR(qcol.red(), qcol.green(), qcol.blue())
 
-  // set the default style to base/text
-  QColor base = scintilla->palette().color(QPalette::Base);
-  QColor text = scintilla->palette().color(QPalette::Text);
-  scintilla->styleSetBack(STYLE_DEFAULT, SC_COL(base));
-  scintilla->styleSetFore(STYLE_DEFAULT, SC_COL(text));
+    // set the default style to base/text
+    QColor      base    = scintilla->palette().color(QPalette::Base);
+    QColor      text    = scintilla->palette().color(QPalette::Text);
+    scintilla->styleSetBack(STYLE_DEFAULT, SC_COL(base));
+    scintilla->styleSetFore(STYLE_DEFAULT, SC_COL(text));
 
-  scintilla->setCaretFore(SC_COL(text));
+    scintilla->setCaretFore(SC_COL(text));
 
-  // default all lexer styles up to STYLE_DEFAULT as the same, then override per-colour below
-  for(sptr_t i = 0; i < STYLE_DEFAULT; i++)
-  {
-    scintilla->styleSetBack(i, SC_COL(base));
-    scintilla->styleSetFore(i, SC_COL(text));
-  }
-
-  // set highlight text colour
-  QColor highlight = scintilla->palette().color(QPalette::Highlight);
-  QColor highlightedText = scintilla->palette().color(QPalette::HighlightedText);
-  scintilla->setSelBack(true, SC_COL(highlight));
-  scintilla->setSelFore(true, SC_COL(highlightedText));
-
-  // set margin colours
-  QColor window = scintilla->palette().color(QPalette::Window);
-  QColor windowText = scintilla->palette().color(QPalette::WindowText);
-  for(sptr_t i = 0; i < 5; i++)
-    scintilla->setMarginBackN(i, SC_COL(window));
-  scintilla->styleSetBack(STYLE_LINENUMBER, SC_COL(window));
-  scintilla->styleSetFore(STYLE_LINENUMBER, SC_COL(windowText));
-
-  sptr_t blue = IsDarkTheme() ? SCINTILLA_COLOUR(105, 105, 255) : SCINTILLA_COLOUR(0, 0, 150);
-  sptr_t magenta = IsDarkTheme() ? SCINTILLA_COLOUR(255, 105, 255) : SCINTILLA_COLOUR(150, 0, 150);
-  sptr_t rouge = IsDarkTheme() ? SCINTILLA_COLOUR(255, 150, 150) : SCINTILLA_COLOUR(175, 70, 70);
-
-  // works for either dark or light
-  sptr_t green = SCINTILLA_COLOUR(0, 150, 0);
-  sptr_t teal = SCINTILLA_COLOUR(0, 150, 150);
-  sptr_t olive = SCINTILLA_COLOUR(150, 150, 0);
-
-  if(lexLang == SCLEX_CPP)
-  {
-    scintilla->setProperty("lexer.cpp.track.preprocessor", "0");
-    scintilla->setProperty("styling.within.preprocessor", "1");
-
-    scintilla->styleSetFore(SCE_C_COMMENT, green);
-    scintilla->styleSetFore(SCE_C_COMMENTDOC, green);
-    scintilla->styleSetFore(SCE_C_COMMENTLINE, green);
-    scintilla->styleSetFore(SCE_C_WORD, blue);
-    scintilla->styleSetFore(SCE_C_WORD2, blue);
-    scintilla->styleSetFore(SCE_C_PREPROCESSOR, blue);
-    scintilla->styleSetBold(SCE_C_PREPROCESSOR, true);
-
-    if(language == SCLEX_HLSL)
+    // default all lexer styles up to STYLE_DEFAULT as the same, then override per-colour below
+    for (sptr_t i = 0; i < STYLE_DEFAULT; i++)
     {
-      scintilla->setKeyWords(0, hlsl_keywords[0]);
-      scintilla->setKeyWords(1, hlsl_keywords[1]);
+        scintilla->styleSetBack(i, SC_COL(base));
+        scintilla->styleSetFore(i, SC_COL(text));
     }
-    else if(language == SCLEX_GLSL)
-    {
-      scintilla->setKeyWords(0, glsl_keywords[0]);
-      scintilla->setKeyWords(1, glsl_keywords[1]);
-    }
-    else if(language == SCLEX_BUFFER)
-    {
-      scintilla->setKeyWords(0, buffer_keywords[0]);
-      scintilla->setKeyWords(1, buffer_keywords[1]);
-    }
-  }
-  else if(language == SCLEX_PYTHON)
-  {
-    scintilla->setProperty("tab.timmy.whinge.level", "1");
-    scintilla->setProperty("fold", "1");
 
-    scintilla->setKeyWords(0, python_keywords);
+    // set highlight text colour
+    QColor      highlight       = scintilla->palette().color(QPalette::Highlight);
+    QColor      highlightedText = scintilla->palette().color(QPalette::HighlightedText);
+    scintilla->setSelBack(true, SC_COL(highlight));
+    scintilla->setSelFore(true, SC_COL(highlightedText));
 
-    scintilla->styleSetFore(SCE_P_COMMENTLINE, green);
-    scintilla->styleSetFore(SCE_P_COMMENTBLOCK, green);
-    scintilla->styleSetFore(SCE_P_NUMBER, teal);
-    scintilla->styleSetFore(SCE_P_STRING, magenta);
-    scintilla->styleSetFore(SCE_P_TRIPLE, rouge);
-    scintilla->styleSetFore(SCE_P_TRIPLEDOUBLE, rouge);
-    scintilla->styleSetFore(SCE_P_CHARACTER, magenta);
-    scintilla->styleSetFore(SCE_P_DEFNAME, olive);
-    scintilla->styleSetFore(SCE_P_CLASSNAME, magenta);
-    scintilla->styleSetFore(SCE_P_WORD, blue);
-    scintilla->styleSetFore(SCE_P_WORD2, blue);
-    scintilla->styleSetBold(SCE_P_WORD, true);
-    scintilla->styleSetBold(SCE_P_WORD2, true);
-  }
+    // set margin colours
+    QColor      window      = scintilla->palette().color(QPalette::Window);
+    QColor      windowText  = scintilla->palette().color(QPalette::WindowText);
+
+    for (sptr_t i = 0; i < 5; i++)
+        scintilla->setMarginBackN(i, SC_COL(window));
+
+    scintilla->styleSetBack(STYLE_LINENUMBER, SC_COL(window));
+    scintilla->styleSetFore(STYLE_LINENUMBER, SC_COL(windowText));
+
+    sptr_t      blue    = IsDarkTheme() ? SCINTILLA_COLOUR(105, 105, 255) : SCINTILLA_COLOUR(0, 0, 150);
+    sptr_t      magenta = IsDarkTheme() ? SCINTILLA_COLOUR(255, 105, 255) : SCINTILLA_COLOUR(150, 0, 150);
+    sptr_t      rouge   = IsDarkTheme() ? SCINTILLA_COLOUR(255, 150, 150) : SCINTILLA_COLOUR(175, 70, 70);
+
+    // works for either dark or light
+    sptr_t      green   = SCINTILLA_COLOUR(0, 150, 0);
+    sptr_t      teal    = SCINTILLA_COLOUR(0, 150, 150);
+    sptr_t      olive   = SCINTILLA_COLOUR(150, 150, 0);
+
+    if (lexLang == SCLEX_CPP)
+    {
+        scintilla->setProperty("lexer.cpp.track.preprocessor", "0");
+        scintilla->setProperty("styling.within.preprocessor", "1");
+
+        scintilla->styleSetFore(SCE_C_COMMENT, green);
+        scintilla->styleSetFore(SCE_C_COMMENTDOC, green);
+        scintilla->styleSetFore(SCE_C_COMMENTLINE, green);
+        scintilla->styleSetFore(SCE_C_WORD, blue);
+        scintilla->styleSetFore(SCE_C_WORD2, blue);
+        scintilla->styleSetFore(SCE_C_PREPROCESSOR, blue);
+        scintilla->styleSetBold(SCE_C_PREPROCESSOR, true);
+
+        if (language == SCLEX_HLSL)
+        {
+            scintilla->setKeyWords(0, hlsl_keywords[0]);
+            scintilla->setKeyWords(1, hlsl_keywords[1]);
+        }
+        else if (language == SCLEX_GLSL)
+        {
+            scintilla->setKeyWords(0, glsl_keywords[0]);
+            scintilla->setKeyWords(1, glsl_keywords[1]);
+        }
+        else if (language == SCLEX_BUFFER)
+        {
+            scintilla->setKeyWords(0, buffer_keywords[0]);
+            scintilla->setKeyWords(1, buffer_keywords[1]);
+        }
+    }
+    else if (language == SCLEX_PYTHON)
+    {
+        scintilla->setProperty("tab.timmy.whinge.level", "1");
+        scintilla->setProperty("fold", "1");
+
+        scintilla->setKeyWords(0, python_keywords);
+
+        scintilla->styleSetFore(SCE_P_COMMENTLINE, green);
+        scintilla->styleSetFore(SCE_P_COMMENTBLOCK, green);
+        scintilla->styleSetFore(SCE_P_NUMBER, teal);
+        scintilla->styleSetFore(SCE_P_STRING, magenta);
+        scintilla->styleSetFore(SCE_P_TRIPLE, rouge);
+        scintilla->styleSetFore(SCE_P_TRIPLEDOUBLE, rouge);
+        scintilla->styleSetFore(SCE_P_CHARACTER, magenta);
+        scintilla->styleSetFore(SCE_P_DEFNAME, olive);
+        scintilla->styleSetFore(SCE_P_CLASSNAME, magenta);
+        scintilla->styleSetFore(SCE_P_WORD, blue);
+        scintilla->styleSetFore(SCE_P_WORD2, blue);
+        scintilla->styleSetBold(SCE_P_WORD, true);
+        scintilla->styleSetBold(SCE_P_WORD2, true);
+    }
 }

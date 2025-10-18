@@ -84,17 +84,32 @@ public:
 
     bool operator==(const QMimeMagicRule &other) const;
 
-    Type type() const { return m_type; }
-    QByteArray value() const { return m_value; }
-    int startPos() const { return m_startPos; }
-    int endPos() const { return m_endPos; }
+    Type type() const
+    {
+        return m_type;
+    }
+    QByteArray value() const
+    {
+        return m_value;
+    }
+    int startPos() const
+    {
+        return m_startPos;
+    }
+    int endPos() const
+    {
+        return m_endPos;
+    }
     QByteArray mask() const;
 
-    bool isValid() const { return m_matchFunction != Q_NULLPTR; }
+    bool isValid() const
+    {
+        return m_matchFunction != Q_NULLPTR;
+    }
 
     bool matches(const QByteArray &data) const;
 
-    QList<QMimeMagicRule> m_subMatches;
+    QList<QMimeMagicRule>    m_subMatches;
 
     static Type type(const QByteArray &type);
     static QByteArray typeName(Type type);
@@ -102,28 +117,27 @@ public:
     static bool matchSubstring(const char *dataPtr, int dataSize, int rangeStart, int rangeLength, int valueLength, const char *valueData, const char *mask);
 
 private:
-    Type m_type;
-    QByteArray m_value;
-    int m_startPos;
-    int m_endPos;
-    QByteArray m_mask;
+    Type            m_type;
+    QByteArray      m_value;
+    int             m_startPos;
+    int             m_endPos;
+    QByteArray      m_mask;
 
-    QByteArray m_pattern;
-    quint32 m_number;
-    quint32 m_numberMask;
+    QByteArray      m_pattern;
+    quint32         m_number;
+    quint32         m_numberMask;
 
     typedef bool (QMimeMagicRule::*MatchFunction)(const QByteArray &data) const;
-    MatchFunction m_matchFunction;
+    MatchFunction    m_matchFunction;
 
 private:
     // match functions
     bool matchString(const QByteArray &data) const;
-    template <typename T>
+    template<typename T>
     bool matchNumber(const QByteArray &data) const;
 };
 Q_DECLARE_SHARED(QMimeMagicRule)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEMAGICRULE_H

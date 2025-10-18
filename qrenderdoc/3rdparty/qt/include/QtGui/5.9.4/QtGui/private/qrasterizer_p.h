@@ -64,7 +64,7 @@ class QRasterBuffer;
 class QRasterizerPrivate;
 
 class
-QRasterizer
+    QRasterizer
 {
 public:
     QRasterizer();
@@ -83,7 +83,7 @@ public:
     void rasterizeLine(const QPointF &a, const QPointF &b, qreal width, bool squareCap = false);
 
 private:
-    QRasterizerPrivate *d;
+    QRasterizerPrivate    *d;
 };
 
 QT_END_NAMESPACE

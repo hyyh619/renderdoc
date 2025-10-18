@@ -62,17 +62,19 @@ class QSslEllipticCurve;
 class QSslPreSharedKeyAuthenticator;
 
 class QSslSocketPrivate;
-class Q_NETWORK_EXPORT QSslSocket : public QTcpSocket
+class Q_NETWORK_EXPORT    QSslSocket : public QTcpSocket
 {
     Q_OBJECT
 public:
-    enum SslMode {
+    enum SslMode
+    {
         UnencryptedMode,
         SslClientMode,
         SslServerMode
     };
 
-    enum PeerVerifyMode {
+    enum PeerVerifyMode
+    {
         VerifyNone,
         QueryPeer,
         VerifyPeer,
@@ -229,11 +231,10 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_flushReadBuffer())
     Q_PRIVATE_SLOT(d_func(), void _q_resumeImplementation())
 #if defined(Q_OS_WIN) && !defined(Q_OS_WINRT)
-    Q_PRIVATE_SLOT(d_func(), void _q_caRootLoaded(QSslCertificate,QSslCertificate))
+    Q_PRIVATE_SLOT(d_func(), void _q_caRootLoaded(QSslCertificate, QSslCertificate))
 #endif
     friend class QSslSocketBackendPrivate;
 };
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE

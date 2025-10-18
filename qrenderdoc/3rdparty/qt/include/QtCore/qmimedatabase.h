@@ -55,7 +55,7 @@ class QIODevice;
 class QUrl;
 
 class QMimeDatabasePrivate;
-class Q_CORE_EXPORT QMimeDatabase
+class Q_CORE_EXPORT    QMimeDatabase
 {
     Q_DISABLE_COPY(QMimeDatabase)
 
@@ -65,10 +65,11 @@ public:
 
     QMimeType mimeTypeForName(const QString &nameOrAlias) const;
 
-    enum MatchMode {
-        MatchDefault = 0x0,
-        MatchExtension = 0x1,
-        MatchContent = 0x2
+    enum MatchMode
+    {
+        MatchDefault    = 0x0,
+        MatchExtension  = 0x1,
+        MatchContent    = 0x2
     };
 
     QMimeType mimeTypeForFile(const QString &fileName, MatchMode mode = MatchDefault) const;
@@ -87,10 +88,9 @@ public:
     QList<QMimeType> allMimeTypes() const;
 
 private:
-    QMimeDatabasePrivate *d;
+    QMimeDatabasePrivate    *d;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEDATABASE_H

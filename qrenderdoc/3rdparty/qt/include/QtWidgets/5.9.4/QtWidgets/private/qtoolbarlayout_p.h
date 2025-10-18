@@ -70,8 +70,8 @@ public:
     QToolBarItem(QWidget *widget);
     bool isEmpty() const Q_DECL_OVERRIDE;
 
-    QAction *action;
-    bool customWidget;
+    QAction     *action;
+    bool        customWidget;
 };
 
 class QToolBarLayout : public QLayout
@@ -83,8 +83,8 @@ public:
     ~QToolBarLayout();
 
     void addItem(QLayoutItem *item) Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int index) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int index) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
 
     bool isEmpty() const Q_DECL_OVERRIDE;
@@ -97,11 +97,14 @@ public:
 
     void insertAction(int index, QAction *action);
     int indexOf(QAction *action) const;
-    int indexOf(QWidget *widget) const Q_DECL_OVERRIDE { return QLayout::indexOf(widget); }
+    int indexOf(QWidget *widget) const Q_DECL_OVERRIDE
+    {
+        return QLayout::indexOf(widget);
+    }
 
     bool layoutActions(const QSize &size);
     QSize expandedSize(const QSize &size) const;
-    bool expanded, animating;
+    bool    expanded, animating;
 
     void setUsePopupMenu(bool set); // Yeah, there's no getter, but it's internal.
     void checkUsePopupMenu();
@@ -115,18 +118,17 @@ public Q_SLOTS:
     void setExpanded(bool b);
 
 private:
-    QList<QToolBarItem*> items;
-    QSize hint, minSize;
-    bool dirty, expanding, empty, expandFlag;
-    QVector<QLayoutStruct> geomArray;
-    QRect handRect;
-    QToolBarExtension *extension;
+    QList<QToolBarItem*>        items;
+    QSize                       hint, minSize;
+    bool                        dirty, expanding, empty, expandFlag;
+    QVector<QLayoutStruct>      geomArray;
+    QRect                       handRect;
+    QToolBarExtension           *extension;
 
     void updateGeomArray() const;
-    QToolBarItem *createItem(QAction *action);
-    QMenu *popupMenu;
+    QToolBarItem* createItem(QAction *action);
+    QMenu    *popupMenu;
 };
-
 #endif // QT_NO_TOOLBAR
 
 QT_END_NAMESPACE

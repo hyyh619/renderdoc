@@ -52,7 +52,7 @@ class QAbstractItemModel;
 class QModelIndex;
 class QDataWidgetMapperPrivate;
 
-class Q_WIDGETS_EXPORT QDataWidgetMapper: public QObject
+class Q_WIDGETS_EXPORT    QDataWidgetMapper : public QObject
 {
     Q_OBJECT
 
@@ -65,10 +65,10 @@ public:
     ~QDataWidgetMapper();
 
     void setModel(QAbstractItemModel *model);
-    QAbstractItemModel *model() const;
+    QAbstractItemModel* model() const;
 
     void setItemDelegate(QAbstractItemDelegate *delegate);
-    QAbstractItemDelegate *itemDelegate() const;
+    QAbstractItemDelegate* itemDelegate() const;
 
     void setRootIndex(const QModelIndex &index);
     QModelIndex rootIndex() const;
@@ -86,7 +86,7 @@ public:
     void removeMapping(QWidget *widget);
     int mappedSection(QWidget *widget) const;
     QByteArray mappedPropertyName(QWidget *widget) const;
-    QWidget *mappedWidgetAt(int section) const;
+    QWidget* mappedWidgetAt(int section) const;
     void clearMapping();
 
     int currentIndex() const;
@@ -109,8 +109,8 @@ private:
     Q_DECLARE_PRIVATE(QDataWidgetMapper)
     Q_DISABLE_COPY(QDataWidgetMapper)
     Q_PRIVATE_SLOT(d_func(), void _q_dataChanged(const QModelIndex &, const QModelIndex &, const QVector<int> &))
-    Q_PRIVATE_SLOT(d_func(), void _q_commitData(QWidget *))
-    Q_PRIVATE_SLOT(d_func(), void _q_closeEditor(QWidget *, QAbstractItemDelegate::EndEditHint))
+    Q_PRIVATE_SLOT(d_func(), void _q_commitData(QWidget*))
+    Q_PRIVATE_SLOT(d_func(), void _q_closeEditor(QWidget*, QAbstractItemDelegate::EndEditHint))
     Q_PRIVATE_SLOT(d_func(), void _q_modelDestroyed())
 };
 

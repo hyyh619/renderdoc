@@ -46,37 +46,48 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QPixmapCache
+class Q_GUI_EXPORT    QPixmapCache
 {
 public:
     class KeyData;
-    class Q_GUI_EXPORT Key
+    class Q_GUI_EXPORT    Key
     {
-    public:
+public:
         Key();
         Key(const Key &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-        Key(Key &&other) Q_DECL_NOTHROW : d(other.d) { other.d = Q_NULLPTR; }
-        Key &operator =(Key &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+        Key(Key &&other) Q_DECL_NOTHROW : d(other.d)
+        {
+            other.d = Q_NULLPTR;
+        }
+        Key&operator =(Key &&other) Q_DECL_NOTHROW
+        {
+            swap(other); return *this;
+        }
 #endif
         ~Key();
         bool operator ==(const Key &key) const;
         inline bool operator !=(const Key &key) const
-        { return !operator==(key); }
-        Key &operator =(const Key &other);
+        {
+            return !operator==(key);
+        }
+        Key&operator =(const Key &other);
 
-        void swap(Key &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+        void swap(Key &other) Q_DECL_NOTHROW
+        {
+            qSwap(d, other.d);
+        }
         bool isValid() const Q_DECL_NOTHROW;
 
-    private:
-        KeyData *d;
+private:
+        KeyData    *d;
         friend class QPMCache;
         friend class QPixmapCache;
     };
 
     static int cacheLimit();
     static void setCacheLimit(int);
-    static QPixmap *find(const QString &key);
+    static QPixmap* find(const QString &key);
     static bool find(const QString &key, QPixmap &pixmap);
     static bool find(const QString &key, QPixmap *pixmap);
     static bool find(const Key &key, QPixmap *pixmap);

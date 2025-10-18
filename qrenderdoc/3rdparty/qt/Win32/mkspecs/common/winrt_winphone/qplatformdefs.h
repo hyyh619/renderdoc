@@ -65,15 +65,15 @@
 #include <stdlib.h>
 
 #ifdef QT_LARGEFILE_SUPPORT
-#define QT_STATBUF          struct _stati64    // non-ANSI defs
-#define QT_STATBUF4TSTAT    struct _stati64    // non-ANSI defs
-#define QT_STAT             ::_stati64
-#define QT_FSTAT            ::_fstati64
+#define QT_STATBUF              struct _stati64 // non-ANSI defs
+#define QT_STATBUF4TSTAT        struct _stati64 // non-ANSI defs
+#define    QT_STAT              ::_stati64
+#define QT_FSTAT                ::_fstati64
 #else
-#define QT_STATBUF          struct _stat        // non-ANSI defs
-#define QT_STATBUF4TSTAT    struct _stat        // non-ANSI defs
-#define QT_STAT             ::_stat
-#define QT_FSTAT            ::_fstat
+#define QT_STATBUF              struct _stat    // non-ANSI defs
+#define QT_STATBUF4TSTAT        struct _stat    // non-ANSI defs
+#define    QT_STAT              ::_stat
+#define QT_FSTAT                ::_fstat
 #endif
 #define QT_STAT_REG         _S_IFREG
 #define QT_STAT_DIR         _S_IFDIR
@@ -125,7 +125,7 @@
 #define QT_SIGNAL_ARGS      int
 
 #define QT_VSNPRINTF(buffer, count, format, arg) \
-    vsnprintf_s(buffer, count, count-1, format, arg)
+    vsnprintf_s(buffer, count, count - 1, format, arg)
 
 #define QT_SNPRINTF         ::_snprintf
 

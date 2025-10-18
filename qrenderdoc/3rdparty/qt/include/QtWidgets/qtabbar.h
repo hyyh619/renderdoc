@@ -51,7 +51,7 @@ class QIcon;
 class QTabBarPrivate;
 class QStyleOptionTab;
 
-class Q_WIDGETS_EXPORT QTabBar: public QWidget
+class Q_WIDGETS_EXPORT    QTabBar : public QWidget
 {
     Q_OBJECT
 
@@ -75,16 +75,17 @@ public:
     ~QTabBar();
 
     enum Shape { RoundedNorth, RoundedSouth, RoundedWest, RoundedEast,
-                 TriangularNorth, TriangularSouth, TriangularWest, TriangularEast
-    };
+                 TriangularNorth, TriangularSouth, TriangularWest, TriangularEast};
     Q_ENUM(Shape)
 
-    enum ButtonPosition {
+    enum ButtonPosition
+    {
         LeftSide,
         RightSide
     };
 
-    enum SelectionBehavior {
+    enum SelectionBehavior
+    {
         SelectLeftTab,
         SelectRightTab,
         SelectPreviousTab
@@ -97,7 +98,7 @@ public:
     int addTab(const QIcon &icon, const QString &text);
 
     int insertTab(int index, const QString &text);
-    int insertTab(int index, const QIcon&icon, const QString &text);
+    int insertTab(int index, const QIcon &icon, const QString &text);
 
     void removeTab(int index);
     void moveTab(int from, int to);
@@ -152,7 +153,7 @@ public:
     void setTabsClosable(bool closable);
 
     void setTabButton(int index, ButtonPosition position, QWidget *widget);
-    QWidget *tabButton(int index, ButtonPosition position) const;
+    QWidget* tabButton(int index, ButtonPosition position) const;
 
     SelectionBehavior selectionBehaviorOnRemove() const;
     void setSelectionBehaviorOnRemove(SelectionBehavior behavior);
@@ -194,19 +195,19 @@ protected:
     virtual void tabRemoved(int index);
     virtual void tabLayoutChange();
 
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
-    void hideEvent(QHideEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent (QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent (QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent (QMouseEvent *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
+    void showEvent(QShowEvent*) Q_DECL_OVERRIDE;
+    void hideEvent(QHideEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
 #if QT_CONFIG(wheelevent)
     void wheelEvent(QWheelEvent *event) Q_DECL_OVERRIDE;
 #endif
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionTab *option, int tabIndex) const;
 

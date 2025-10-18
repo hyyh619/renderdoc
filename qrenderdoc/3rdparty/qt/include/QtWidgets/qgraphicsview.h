@@ -56,7 +56,7 @@ class QPolygonF;
 class QStyleOptionGraphicsItem;
 
 class QGraphicsViewPrivate;
-class Q_WIDGETS_EXPORT QGraphicsView : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QGraphicsView : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_FLAGS(QPainter::RenderHints CacheMode OptimizationFlags)
@@ -77,27 +77,31 @@ class Q_WIDGETS_EXPORT QGraphicsView : public QAbstractScrollArea
     Q_PROPERTY(OptimizationFlags optimizationFlags READ optimizationFlags WRITE setOptimizationFlags)
 
 public:
-    enum ViewportAnchor {
+    enum ViewportAnchor
+    {
         NoAnchor,
         AnchorViewCenter,
         AnchorUnderMouse
     };
     Q_ENUM(ViewportAnchor)
 
-    enum CacheModeFlag {
-        CacheNone = 0x0,
+    enum CacheModeFlag
+    {
+        CacheNone       = 0x0,
         CacheBackground = 0x1
     };
     Q_DECLARE_FLAGS(CacheMode, CacheModeFlag)
 
-    enum DragMode {
+    enum DragMode
+    {
         NoDrag,
         ScrollHandDrag,
         RubberBandDrag
     };
     Q_ENUM(DragMode)
 
-    enum ViewportUpdateMode {
+    enum ViewportUpdateMode
+    {
         FullViewportUpdate,
         MinimalViewportUpdate,
         SmartViewportUpdate,
@@ -106,11 +110,12 @@ public:
     };
     Q_ENUM(ViewportUpdateMode)
 
-    enum OptimizationFlag {
-        DontClipPainter = 0x1, // obsolete
-        DontSavePainterState = 0x2,
-        DontAdjustForAntialiasing = 0x4,
-        IndirectPainting = 0x8
+    enum OptimizationFlag
+    {
+        DontClipPainter             = 0x1, // obsolete
+        DontSavePainterState        = 0x2,
+        DontAdjustForAntialiasing   = 0x4,
+        IndirectPainting            = 0x8
     };
     Q_DECLARE_FLAGS(OptimizationFlags, OptimizationFlag)
 
@@ -156,7 +161,7 @@ public:
     bool isInteractive() const;
     void setInteractive(bool allowed);
 
-    QGraphicsScene *scene() const;
+    QGraphicsScene* scene() const;
     void setScene(QGraphicsScene *scene);
 
     QRectF sceneRect() const;
@@ -191,15 +196,15 @@ public:
     void render(QPainter *painter, const QRectF &target = QRectF(), const QRect &source = QRect(),
                 Qt::AspectRatioMode aspectRatioMode = Qt::KeepAspectRatio);
 
-    QList<QGraphicsItem *> items() const;
-    QList<QGraphicsItem *> items(const QPoint &pos) const;
-    inline QList<QGraphicsItem *> items(int x, int y) const;
-    QList<QGraphicsItem *> items(const QRect &rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
-    inline QList<QGraphicsItem *> items(int x, int y, int w, int h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
-    QList<QGraphicsItem *> items(const QPolygon &polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
-    QList<QGraphicsItem *> items(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
-    QGraphicsItem *itemAt(const QPoint &pos) const;
-    inline QGraphicsItem *itemAt(int x, int y) const;
+    QList<QGraphicsItem*> items() const;
+    QList<QGraphicsItem*> items(const QPoint &pos) const;
+    inline QList<QGraphicsItem*> items(int x, int y) const;
+    QList<QGraphicsItem*> items(const QRect &rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    inline QList<QGraphicsItem*> items(int x, int y, int w, int h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    QList<QGraphicsItem*> items(const QPolygon &polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    QList<QGraphicsItem*> items(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    QGraphicsItem* itemAt(const QPoint &pos) const;
+    inline QGraphicsItem* itemAt(int x, int y) const;
 
     QPointF mapToScene(const QPoint &point) const;
     QPolygonF mapToScene(const QRect &rect) const;
@@ -236,7 +241,7 @@ protected Q_SLOTS:
     void setupViewport(QWidget *widget) Q_DECL_OVERRIDE;
 
 protected:
-    QGraphicsView(QGraphicsViewPrivate &, QWidget *parent = Q_NULLPTR);
+    QGraphicsView(QGraphicsViewPrivate&, QWidget *parent = Q_NULLPTR);
     bool event(QEvent *event) Q_DECL_OVERRIDE;
     bool viewportEvent(QEvent *event) Q_DECL_OVERRIDE;
 
@@ -290,27 +295,49 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphicsView::CacheMode)
 Q_DECLARE_OPERATORS_FOR_FLAGS(QGraphicsView::OptimizationFlags)
 
 inline void QGraphicsView::setSceneRect(qreal ax, qreal ay, qreal aw, qreal ah)
-{ setSceneRect(QRectF(ax, ay, aw, ah)); }
+{
+    setSceneRect(QRectF(ax, ay, aw, ah));
+}
 inline void QGraphicsView::centerOn(qreal ax, qreal ay)
-{ centerOn(QPointF(ax, ay)); }
+{
+    centerOn(QPointF(ax, ay));
+}
 inline void QGraphicsView::ensureVisible(qreal ax, qreal ay, qreal aw, qreal ah, int xmargin, int ymargin)
-{ ensureVisible(QRectF(ax, ay, aw, ah), xmargin, ymargin); }
+{
+    ensureVisible(QRectF(ax, ay, aw, ah), xmargin, ymargin);
+}
 inline void QGraphicsView::fitInView(qreal ax, qreal ay, qreal w, qreal h, Qt::AspectRatioMode mode)
-{ fitInView(QRectF(ax, ay, w, h), mode); }
-inline QList<QGraphicsItem *> QGraphicsView::items(int ax, int ay) const
-{ return items(QPoint(ax, ay)); }
-inline QList<QGraphicsItem *> QGraphicsView::items(int ax, int ay, int w, int h, Qt::ItemSelectionMode mode) const
-{ return items(QRect(ax, ay, w, h), mode); }
-inline QGraphicsItem *QGraphicsView::itemAt(int ax, int ay) const
-{ return itemAt(QPoint(ax, ay)); }
+{
+    fitInView(QRectF(ax, ay, w, h), mode);
+}
+inline QList<QGraphicsItem*> QGraphicsView::items(int ax, int ay) const
+{
+    return items(QPoint(ax, ay));
+}
+inline QList<QGraphicsItem*> QGraphicsView::items(int ax, int ay, int w, int h, Qt::ItemSelectionMode mode) const
+{
+    return items(QRect(ax, ay, w, h), mode);
+}
+inline QGraphicsItem* QGraphicsView::itemAt(int ax, int ay) const
+{
+    return itemAt(QPoint(ax, ay));
+}
 inline QPointF QGraphicsView::mapToScene(int ax, int ay) const
-{ return mapToScene(QPoint(ax, ay)); }
+{
+    return mapToScene(QPoint(ax, ay));
+}
 inline QPolygonF QGraphicsView::mapToScene(int ax, int ay, int w, int h) const
-{ return mapToScene(QRect(ax, ay, w, h)); }
+{
+    return mapToScene(QRect(ax, ay, w, h));
+}
 inline QPoint QGraphicsView::mapFromScene(qreal ax, qreal ay) const
-{ return mapFromScene(QPointF(ax, ay)); }
+{
+    return mapFromScene(QPointF(ax, ay));
+}
 inline QPolygon QGraphicsView::mapFromScene(qreal ax, qreal ay, qreal w, qreal h) const
-{ return mapFromScene(QRectF(ax, ay, w, h)); }
+{
+    return mapFromScene(QRectF(ax, ay, w, h));
+}
 
 QT_END_NAMESPACE
 

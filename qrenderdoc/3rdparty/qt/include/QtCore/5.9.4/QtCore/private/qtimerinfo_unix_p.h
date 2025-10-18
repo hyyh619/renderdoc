@@ -62,47 +62,48 @@
 QT_BEGIN_NAMESPACE
 
 // internal timer info
-struct QTimerInfo {
-    int id;           // - timer identifier
-    int interval;     // - timer interval in milliseconds
-    Qt::TimerType timerType; // - timer type
-    timespec timeout;  // - when to actually fire
-    QObject *obj;     // - object to receive event
-    QTimerInfo **activateRef; // - ref from activateTimers
+struct QTimerInfo
+{
+    int             id; // - timer identifier
+    int             interval; // - timer interval in milliseconds
+    Qt::TimerType   timerType; // - timer type
+    timespec        timeout; // - when to actually fire
+    QObject         *obj; // - object to receive event
+    QTimerInfo      **activateRef; // - ref from activateTimers
 
 #ifdef QTIMERINFO_DEBUG
     timeval expected; // when timer is expected to fire
-    float cumulativeError;
-    uint count;
+    float   cumulativeError;
+    uint    count;
 #endif
 };
 
-class Q_CORE_EXPORT QTimerInfoList : public QList<QTimerInfo*>
+class Q_CORE_EXPORT    QTimerInfoList : public QList<QTimerInfo*>
 {
-#if ((_POSIX_MONOTONIC_CLOCK-0 <= 0) && !defined(Q_OS_MAC)) || defined(QT_BOOTSTRAPPED)
-    timespec previousTime;
-    clock_t previousTicks;
-    int ticksPerSecond;
-    int msPerTick;
+#if ((_POSIX_MONOTONIC_CLOCK - 0 <= 0) && !defined(Q_OS_MAC)) || defined(QT_BOOTSTRAPPED)
+    timespec    previousTime;
+    clock_t     previousTicks;
+    int         ticksPerSecond;
+    int         msPerTick;
 
     bool timeChanged(timespec *delta);
-    void timerRepair(const timespec &);
+    void timerRepair(const timespec&);
 #endif
 
     // state variables used by activateTimers()
-    QTimerInfo *firstTimerInfo;
+    QTimerInfo    *firstTimerInfo;
 
 public:
     QTimerInfoList();
 
-    timespec currentTime;
+    timespec    currentTime;
     timespec updateCurrentTime();
 
     // must call updateCurrentTime() first!
     void repairTimersIfNeeded();
 
-    bool timerWait(timespec &);
-    void timerInsert(QTimerInfo *);
+    bool timerWait(timespec&);
+    void timerInsert(QTimerInfo*);
 
     int timerRemainingTime(int timerId);
 

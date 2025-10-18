@@ -47,5 +47,5 @@
 
 // shut up syncqt
 QT_BEGIN_NAMESPACE
-QT_END_NAMESPACE
+    QT_END_NAMESPACE
 #endif // QISENUM_H

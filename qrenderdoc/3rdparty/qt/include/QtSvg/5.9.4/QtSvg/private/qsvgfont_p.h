@@ -59,19 +59,19 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_SVG_PRIVATE_EXPORT QSvgGlyph
+class Q_SVG_PRIVATE_EXPORT    QSvgGlyph
 {
 public:
     QSvgGlyph(QChar unicode, const QPainterPath &path, qreal horizAdvX);
     QSvgGlyph() : m_unicode(0), m_horizAdvX(0) {}
 
-    QChar m_unicode;
-    QPainterPath m_path;
-    qreal m_horizAdvX;
+    QChar           m_unicode;
+    QPainterPath    m_path;
+    qreal           m_horizAdvX;
 };
 
 
-class Q_SVG_PRIVATE_EXPORT QSvgFont : public QSvgRefCounted
+class Q_SVG_PRIVATE_EXPORT    QSvgFont : public QSvgRefCounted
 {
 public:
     QSvgFont(qreal horizAdvX);
@@ -85,12 +85,12 @@ public:
 
     void draw(QPainter *p, const QPointF &point, const QString &str, qreal pixelSize, Qt::Alignment alignment) const;
 public:
-    QString m_familyName;
-    qreal m_unitsPerEm;
-    qreal m_ascent;
-    qreal m_descent;
-    qreal m_horizAdvX;
-    QHash<QChar, QSvgGlyph> m_glyphs;
+    QString                     m_familyName;
+    qreal                       m_unitsPerEm;
+    qreal                       m_ascent;
+    qreal                       m_descent;
+    qreal                       m_horizAdvX;
+    QHash<QChar, QSvgGlyph>     m_glyphs;
 };
 
 QT_END_NAMESPACE

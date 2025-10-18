@@ -78,10 +78,9 @@ public:
     static bool canRead(QIODevice *device);
 
 private:
-    QPngHandlerPrivate *d;
+    QPngHandlerPrivate    *d;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_IMAGEFORMAT_PNG
 #endif // QPNGHANDLER_P_H

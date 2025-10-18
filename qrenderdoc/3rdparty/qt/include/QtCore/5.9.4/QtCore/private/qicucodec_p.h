@@ -56,7 +56,7 @@
 #include <QtCore/private/qglobal_p.h>
 
 extern "C" {
-    typedef struct UConverter UConverter;
+typedef struct UConverter UConverter;
 }
 
 QT_BEGIN_NAMESPACE
@@ -69,13 +69,13 @@ public:
     static QList<QByteArray> availableCodecs();
     static QList<int> availableMibs();
 
-    static QTextCodec *defaultCodecUnlocked();
+    static QTextCodec* defaultCodecUnlocked();
 
-    static QTextCodec *codecForNameUnlocked(const char *name);
-    static QTextCodec *codecForMibUnlocked(int mib);
+    static QTextCodec* codecForNameUnlocked(const char *name);
+    static QTextCodec* codecForMibUnlocked(int mib);
 
-    QString convertToUnicode(const char *, int, ConverterState *) const Q_DECL_OVERRIDE;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const Q_DECL_OVERRIDE;
+    QString convertToUnicode(const char*, int, ConverterState*) const Q_DECL_OVERRIDE;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const Q_DECL_OVERRIDE;
 
     QByteArray name() const Q_DECL_OVERRIDE;
     QList<QByteArray> aliases() const Q_DECL_OVERRIDE;
@@ -85,11 +85,10 @@ private:
     QIcuCodec(const char *name);
     ~QIcuCodec();
 
-    UConverter *getConverter(QTextCodec::ConverterState *state) const;
+    UConverter* getConverter(QTextCodec::ConverterState *state) const;
 
-    const char *m_name;
+    const char    *m_name;
 };
-
 #endif // QT_NO_TEXTCODEC
 
 QT_END_NAMESPACE

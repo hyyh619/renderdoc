@@ -67,12 +67,11 @@ public:
     void ensureBaseStyle() const;
 private:
     QProxyStylePrivate() :
-    QCommonStylePrivate(), baseStyle(0) {}
-    mutable QPointer <QStyle> baseStyle;
+        QCommonStylePrivate(), baseStyle(0) {}
+    mutable QPointer<QStyle>    baseStyle;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_STYLE_PROXY
 
-#endif //QPROXYSTYLE_P_H
+#endif // QPROXYSTYLE_P_H

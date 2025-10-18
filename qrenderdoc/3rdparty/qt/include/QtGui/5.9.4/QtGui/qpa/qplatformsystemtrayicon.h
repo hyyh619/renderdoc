@@ -53,11 +53,12 @@ class QIcon;
 class QString;
 class QRect;
 
-class Q_GUI_EXPORT QPlatformSystemTrayIcon : public QObject
+class Q_GUI_EXPORT    QPlatformSystemTrayIcon : public QObject
 {
     Q_OBJECT
 public:
-    enum ActivationReason {
+    enum ActivationReason
+    {
         Unknown,
         Context,
         DoubleClick,
@@ -72,19 +73,19 @@ public:
     QPlatformSystemTrayIcon();
     ~QPlatformSystemTrayIcon();
 
-    virtual void init() = 0;
-    virtual void cleanup() = 0;
-    virtual void updateIcon(const QIcon &icon) = 0;
-    virtual void updateToolTip(const QString &tooltip) = 0;
-    virtual void updateMenu(QPlatformMenu *menu) = 0;
-    virtual QRect geometry() const = 0;
+    virtual void init()                                 = 0;
+    virtual void cleanup()                              = 0;
+    virtual void updateIcon(const QIcon &icon)          = 0;
+    virtual void updateToolTip(const QString &tooltip)  = 0;
+    virtual void updateMenu(QPlatformMenu *menu)        = 0;
+    virtual QRect geometry() const                      = 0;
     virtual void showMessage(const QString &title, const QString &msg,
                              const QIcon &icon, MessageIcon iconType, int msecs) = 0;
 
-    virtual bool isSystemTrayAvailable() const = 0;
-    virtual bool supportsMessages() const = 0;
+    virtual bool isSystemTrayAvailable() const  = 0;
+    virtual bool supportsMessages() const       = 0;
 
-    virtual QPlatformMenu *createMenu() const;
+    virtual QPlatformMenu* createMenu() const;
 
 Q_SIGNALS:
     void activated(QPlatformSystemTrayIcon::ActivationReason reason);
@@ -92,7 +93,6 @@ Q_SIGNALS:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_SYSTEMTRAYICON
 
 #endif // QSYSTEMTRAYICON_P_H

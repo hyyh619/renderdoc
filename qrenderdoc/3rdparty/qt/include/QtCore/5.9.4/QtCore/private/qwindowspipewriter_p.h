@@ -59,12 +59,11 @@
 
 QT_BEGIN_NAMESPACE
 
-#define SLEEPMIN 10
-#define SLEEPMAX 500
+#define SLEEPMIN    10
+#define SLEEPMAX    500
 
 class QIncrementalSleepTimer
 {
-
 public:
     QIncrementalSleepTimer(int msecs)
         : totalTimeOut(msecs)
@@ -72,12 +71,14 @@ public:
     {
         if (totalTimeOut == -1)
             nextSleep = SLEEPMIN;
+
         timer.start();
     }
 
     int nextSleepTime()
     {
-        int tmp = nextSleep;
+        int    tmp = nextSleep;
+
         nextSleep = qMin(nextSleep * 2, qMin(SLEEPMAX, timeLeft()));
         return tmp;
     }
@@ -86,6 +87,7 @@ public:
     {
         if (totalTimeOut == -1)
             return SLEEPMAX;
+
         return qMax(int(totalTimeOut - timer.elapsed()), 0);
     }
 
@@ -93,6 +95,7 @@ public:
     {
         if (totalTimeOut == -1)
             return false;
+
         return timer.elapsed() >= totalTimeOut;
     }
 
@@ -102,12 +105,12 @@ public:
     }
 
 private:
-    QElapsedTimer timer;
-    int totalTimeOut;
-    int nextSleep;
+    QElapsedTimer       timer;
+    int                 totalTimeOut;
+    int                 nextSleep;
 };
 
-class Q_CORE_EXPORT QWindowsPipeWriter : public QObject
+class Q_CORE_EXPORT    QWindowsPipeWriter : public QObject
 {
     Q_OBJECT
 public:
@@ -117,13 +120,16 @@ public:
     bool write(const QByteArray &ba);
     void stop();
     bool waitForWrite(int msecs);
-    bool isWriteOperationActive() const { return writeSequenceStarted; }
+    bool isWriteOperationActive() const
+    {
+        return writeSequenceStarted;
+    }
     qint64 bytesToWrite() const;
 
 Q_SIGNALS:
     void canWrite();
     void bytesWritten(qint64 bytes);
-    void _q_queueBytesWritten(QPrivateSignal);
+    void    _q_queueBytesWritten(QPrivateSignal);
 
 private:
     static void CALLBACK writeFileCompleted(DWORD errorCode, DWORD numberOfBytesTransfered,
@@ -135,23 +141,23 @@ private:
     class Overlapped : public OVERLAPPED
     {
         Q_DISABLE_COPY(Overlapped)
-    public:
+public:
         explicit Overlapped(QWindowsPipeWriter *pipeWriter);
         void clear();
 
-        QWindowsPipeWriter *pipeWriter;
+        QWindowsPipeWriter    *pipeWriter;
     };
 
-    HANDLE handle;
-    Overlapped *overlapped;
-    QByteArray buffer;
-    qint64 numberOfBytesToWrite;
-    qint64 pendingBytesWrittenValue;
-    bool stopped;
-    bool writeSequenceStarted;
-    bool notifiedCalled;
-    bool bytesWrittenPending;
-    bool inBytesWritten;
+    HANDLE          handle;
+    Overlapped      *overlapped;
+    QByteArray      buffer;
+    qint64          numberOfBytesToWrite;
+    qint64          pendingBytesWrittenValue;
+    bool            stopped;
+    bool            writeSequenceStarted;
+    bool            notifiedCalled;
+    bool            bytesWrittenPending;
+    bool            inBytesWritten;
 };
 
 QT_END_NAMESPACE

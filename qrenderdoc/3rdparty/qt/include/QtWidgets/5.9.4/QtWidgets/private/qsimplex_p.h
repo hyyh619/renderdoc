@@ -64,46 +64,50 @@ struct QSimplexVariable
 {
     QSimplexVariable() : result(0), index(0) {}
 
-    qreal result;
-    int index;
+    qreal   result;
+    int     index;
 };
 
 
 /*!
-  \internal
+   \internal
 
-  Representation of a LP constraint like:
+   Representation of a LP constraint like:
 
     (c1 * X1) + (c2 * X2) + ...  =  K
                              or <=  K
                              or >=  K
 
     Where (ci, Xi) are the pairs in "variables" and K the real "constant".
-*/
+ */
 struct QSimplexConstraint
 {
     QSimplexConstraint() : constant(0), ratio(Equal), artificial(0) {}
 
-    enum Ratio {
+    enum Ratio
+    {
         LessOrEqual = 0,
         Equal,
         MoreOrEqual
     };
 
-    QHash<QSimplexVariable *, qreal> variables;
-    qreal constant;
-    Ratio ratio;
+    QHash<QSimplexVariable*, qreal> variables;
+    qreal                           constant;
+    Ratio                           ratio;
 
-    QPair<QSimplexVariable *, qreal> helper;
-    QSimplexVariable * artificial;
+    QPair<QSimplexVariable*, qreal> helper;
+    QSimplexVariable                *artificial;
 
     void invert();
 
-    bool isSatisfied() {
-        qreal leftHandSide(0);
+    bool isSatisfied()
+    {
+        qreal    leftHandSide(0);
 
-        QHash<QSimplexVariable *, qreal>::const_iterator iter;
-        for (iter = variables.constBegin(); iter != variables.constEnd(); ++iter) {
+        QHash<QSimplexVariable*, qreal>::const_iterator    iter;
+
+        for (iter = variables.constBegin(); iter != variables.constEnd(); ++iter)
+        {
             leftHandSide += iter.value() * iter.key()->result;
         }
 
@@ -112,35 +116,45 @@ struct QSimplexConstraint
         if ((leftHandSide == constant) || qAbs(leftHandSide - constant) < 0.0000001)
             return true;
 
-        switch (ratio) {
-        case LessOrEqual:
-            return leftHandSide < constant;
-        case MoreOrEqual:
-            return leftHandSide > constant;
-        default:
-            return false;
+        switch (ratio)
+        {
+            case LessOrEqual:
+                return leftHandSide < constant;
+
+            case MoreOrEqual:
+                return leftHandSide > constant;
+
+            default:
+                return false;
         }
     }
 
 #ifdef QT_DEBUG
-    QString toString() {
-        QString result;
+    QString toString()
+    {
+        QString    result;
+
         result += QString::fromLatin1("-- QSimplexConstraint %1 --").arg(quintptr(this), 0, 16);
 
-        QHash<QSimplexVariable *, qreal>::const_iterator iter;
-        for (iter = variables.constBegin(); iter != variables.constEnd(); ++iter) {
+        QHash<QSimplexVariable*, qreal>::const_iterator    iter;
+
+        for (iter = variables.constBegin(); iter != variables.constEnd(); ++iter)
+        {
             result += QString::fromLatin1("  %1 x %2").arg(iter.value()).arg(quintptr(iter.key()), 0, 16);
         }
 
-        switch (ratio) {
-        case LessOrEqual:
-            result += QString::fromLatin1("  (less) <= %1").arg(constant);
-            break;
-        case MoreOrEqual:
-            result += QString::fromLatin1("  (more) >= %1").arg(constant);
-            break;
-        default:
-            result += QString::fromLatin1("  (eqal) == %1").arg(constant);
+        switch (ratio)
+        {
+            case LessOrEqual:
+                result += QString::fromLatin1("  (less) <= %1").arg(constant);
+                break;
+
+            case MoreOrEqual:
+                result += QString::fromLatin1("  (more) >= %1").arg(constant);
+                break;
+
+            default:
+                result += QString::fromLatin1("  (eqal) == %1").arg(constant);
         }
 
         return result;
@@ -158,7 +172,7 @@ public:
     qreal solveMin();
     qreal solveMax();
 
-    bool setConstraints(const QList<QSimplexConstraint *> &constraints);
+    bool setConstraints(const QList<QSimplexConstraint*> &constraints);
     void setObjective(QSimplexConstraint *objective);
 
     void dumpMatrix();
@@ -172,7 +186,7 @@ private:
     void combineRows(int toIndex, int fromIndex, qreal factor);
 
     // Simplex
-    bool simplifyConstraints(QList<QSimplexConstraint *> *constraints);
+    bool simplifyConstraints(QList<QSimplexConstraint*> *constraints);
     int findPivotColumn();
     int pivotRowForColumn(int column);
     void reducedRowEchelon();
@@ -185,15 +199,15 @@ private:
     qreal solver(SolverFactor factor);
     void collectResults();
 
-    QList<QSimplexConstraint *> constraints;
-    QList<QSimplexVariable *> variables;
-    QSimplexConstraint *objective;
+    QList<QSimplexConstraint*>      constraints;
+    QList<QSimplexVariable*>        variables;
+    QSimplexConstraint              *objective;
 
-    int rows;
-    int columns;
-    int firstArtificial;
+    int     rows;
+    int     columns;
+    int     firstArtificial;
 
-    qreal *matrix;
+    qreal    *matrix;
 };
 
 inline qreal QSimplex::valueAt(int rowIndex, int columnIndex)

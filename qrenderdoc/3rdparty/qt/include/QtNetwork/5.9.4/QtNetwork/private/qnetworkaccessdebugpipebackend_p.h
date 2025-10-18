@@ -61,7 +61,7 @@ QT_BEGIN_NAMESPACE
 
 #ifdef QT_BUILD_INTERNAL
 
-class QNetworkAccessDebugPipeBackend: public QNetworkAccessBackend
+class QNetworkAccessDebugPipeBackend : public QNetworkAccessBackend
 {
     Q_OBJECT
 public:
@@ -77,7 +77,7 @@ protected:
     void pushFromSocketToDownstream();
     void pushFromUpstreamToSocket();
     void possiblyFinish();
-    QNonContiguousByteDevice *uploadByteDevice;
+    QNonContiguousByteDevice    *uploadByteDevice;
 
 private slots:
     void uploadReadyReadSlot();
@@ -88,24 +88,23 @@ private slots:
     void socketConnected();
 
 private:
-    QTcpSocket socket;
-    bool bareProtocol;
-    bool hasUploadFinished;
-    bool hasDownloadFinished;
-    bool hasEverythingFinished;
+    QTcpSocket      socket;
+    bool            bareProtocol;
+    bool            hasUploadFinished;
+    bool            hasDownloadFinished;
+    bool            hasEverythingFinished;
 
-    qint64 bytesDownloaded;
-    qint64 bytesUploaded;
+    qint64      bytesDownloaded;
+    qint64      bytesUploaded;
 };
 
-class QNetworkAccessDebugPipeBackendFactory: public QNetworkAccessBackendFactory
+class QNetworkAccessDebugPipeBackendFactory : public QNetworkAccessBackendFactory
 {
 public:
     virtual QStringList supportedSchemes() const Q_DECL_OVERRIDE;
-    virtual QNetworkAccessBackend *create(QNetworkAccessManager::Operation op,
+    virtual QNetworkAccessBackend* create(QNetworkAccessManager::Operation op,
                                           const QNetworkRequest &request) const Q_DECL_OVERRIDE;
 };
-
 #endif  // QT_BUILD_INTERNAL
 
 QT_END_NAMESPACE

@@ -58,50 +58,49 @@ QT_BEGIN_NAMESPACE
 
 struct QCharAttributes
 {
-    uchar graphemeBoundary : 1;
-    uchar wordBreak        : 1;
-    uchar sentenceBoundary : 1;
-    uchar lineBreak        : 1;
-    uchar whiteSpace       : 1;
-    uchar wordStart        : 1;
-    uchar wordEnd          : 1;
-    uchar mandatoryBreak   : 1;
+    uchar   graphemeBoundary : 1;
+    uchar   wordBreak        : 1;
+    uchar   sentenceBoundary : 1;
+    uchar   lineBreak        : 1;
+    uchar   whiteSpace       : 1;
+    uchar   wordStart        : 1;
+    uchar   wordEnd          : 1;
+    uchar   mandatoryBreak   : 1;
 };
 Q_DECLARE_TYPEINFO(QCharAttributes, Q_PRIMITIVE_TYPE);
 
-namespace QUnicodeTools {
-
-// ### temporary
-struct ScriptItem
+namespace QUnicodeTools
 {
-    int position;
-    int script;
-};
-
+// ### temporary
+    struct ScriptItem
+    {
+        int position;
+        int script;
+    };
 } // namespace QUnicodeTools
 Q_DECLARE_TYPEINFO(QUnicodeTools::ScriptItem, Q_PRIMITIVE_TYPE);
-namespace QUnicodeTools {
+namespace QUnicodeTools
+{
+    enum CharAttributeOption
+    {
+        GraphemeBreaks          = 0x01,
+        WordBreaks              = 0x02,
+        SentenceBreaks          = 0x04,
+        LineBreaks              = 0x08,
+        WhiteSpaces             = 0x10,
+        DefaultOptionsCompat    = GraphemeBreaks | LineBreaks | WhiteSpaces, // ### remove
 
-enum CharAttributeOption {
-    GraphemeBreaks = 0x01,
-    WordBreaks = 0x02,
-    SentenceBreaks = 0x04,
-    LineBreaks = 0x08,
-    WhiteSpaces = 0x10,
-    DefaultOptionsCompat = GraphemeBreaks | LineBreaks | WhiteSpaces, // ### remove
-
-    DontClearAttributes = 0x1000
-};
-Q_DECLARE_FLAGS(CharAttributeOptions, CharAttributeOption)
+        DontClearAttributes = 0x1000
+    };
+    Q_DECLARE_FLAGS(CharAttributeOptions, CharAttributeOption)
 
 // attributes buffer has to have a length of string length + 1
-Q_CORE_EXPORT void initCharAttributes(const ushort *string, int length,
-                                      const ScriptItem *items, int numItems,
-                                      QCharAttributes *attributes, CharAttributeOptions options = DefaultOptionsCompat);
+    Q_CORE_EXPORT void initCharAttributes(const ushort *string, int length,
+                                          const ScriptItem *items, int numItems,
+                                          QCharAttributes *attributes, CharAttributeOptions options = DefaultOptionsCompat);
 
 
-Q_CORE_EXPORT void initScripts(const ushort *string, int length, uchar *scripts);
-
+    Q_CORE_EXPORT void initScripts(const ushort *string, int length, uchar *scripts);
 } // namespace QUnicodeTools
 
 QT_END_NAMESPACE

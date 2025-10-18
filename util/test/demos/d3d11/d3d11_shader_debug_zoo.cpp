@@ -1,42 +1,42 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d11_test.h"
 
 RD_TEST(D3D11_Shader_Debug_Zoo, D3D11GraphicsTest)
 {
-  static constexpr const char *Description = "Tests shader debugging in different edge cases";
+    static constexpr const char    *Description = "Tests shader debugging in different edge cases";
 
-  struct ConstsA2V
-  {
-    Vec3f pos;
-    float zero;
-    float one;
-    float negone;
-  };
+    struct ConstsA2V
+    {
+        Vec3f   pos;
+        float   zero;
+        float   one;
+        float   negone;
+    };
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 struct consts
 {
@@ -65,7 +65,7 @@ struct v2f
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 v2f main(consts IN, uint tri : SV_InstanceID)
 {
@@ -85,7 +85,7 @@ v2f main(consts IN, uint tri : SV_InstanceID)
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 // error X3556: integer divides may be much slower, try using uints if possible.
 // we want to do this on purpose
@@ -428,7 +428,7 @@ float4 main(v2f IN) : SV_Target0
     return float4(read.b.xyz, read.c);
   }
 )EOSHADER"
-                      R"EOSHADER(
+                           R"EOSHADER(
   if(IN.tri == 51)
   {
     // use this to ensure the compiler doesn't know we're using fixed locations
@@ -832,7 +832,7 @@ float4 main(v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string flowPixel = R"EOSHADER(
+    std::string    flowPixel = R"EOSHADER(
 
 float4 main(v2f IN) : SV_Target0 
 {
@@ -939,7 +939,7 @@ float4 main(v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string msaaPixel = R"EOSHADER(
+    std::string    msaaPixel = R"EOSHADER(
 
 struct v2f
 {
@@ -988,245 +988,252 @@ float4 main(v2f IN, uint samp : SV_SampleIndex) : SV_Target0
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    size_t lastTest = pixel.rfind("IN.tri == ");
-    lastTest += sizeof("IN.tri == ") - 1;
-
-    const uint32_t numTests = atoi(pixel.c_str() + lastTest) + 1;
-
-    std::string undefined_tests = "Undefined tests:";
-
-    size_t undef = pixel.find("undefined-test");
-    while(undef != std::string::npos)
+    int main()
     {
-      size_t testNumStart = pixel.rfind("IN.tri == ", undef);
-      testNumStart += sizeof("IN.tri == ") - 1;
-      size_t testNumEnd = pixel.find_first_not_of("0123456789", testNumStart);
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      undefined_tests += " ";
-      undefined_tests += pixel.substr(testNumStart, testNumEnd - testNumStart);
+        size_t    lastTest = pixel.rfind("IN.tri == ");
+        lastTest += sizeof("IN.tri == ") - 1;
 
-      undef = pixel.find("undefined-test", undef + 1);
+        const uint32_t    numTests = atoi(pixel.c_str() + lastTest) + 1;
+
+        std::string    undefined_tests = "Undefined tests:";
+
+        size_t    undef = pixel.find("undefined-test");
+
+        while (undef != std::string::npos)
+        {
+            size_t    testNumStart = pixel.rfind("IN.tri == ", undef);
+            testNumStart += sizeof("IN.tri == ") - 1;
+            size_t    testNumEnd = pixel.find_first_not_of("0123456789", testNumStart);
+
+            undefined_tests += " ";
+            undefined_tests += pixel.substr(testNumStart, testNumEnd - testNumStart);
+
+            undef = pixel.find("undefined-test", undef + 1);
+        }
+
+        if (opts2.TypedUAVLoadAdditionalFormats)
+            common += "\n#define TYPED_UAV_EXT 1\n";
+
+        ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_5_0");
+
+        D3D11_INPUT_ELEMENT_DESC    layoutdesc[] =
+        {
+            {
+                "POSITION",
+                0,
+                DXGI_FORMAT_R32G32B32_FLOAT,
+                0,
+                0,
+                D3D11_INPUT_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "ZERO",
+                0,
+                DXGI_FORMAT_R32_FLOAT,
+                0,
+                D3D11_APPEND_ALIGNED_ELEMENT,
+                D3D11_INPUT_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "ONE",
+                0,
+                DXGI_FORMAT_R32_FLOAT,
+                0,
+                D3D11_APPEND_ALIGNED_ELEMENT,
+                D3D11_INPUT_PER_VERTEX_DATA,
+                0,
+            },
+            {
+                "NEGONE",
+                0,
+                DXGI_FORMAT_R32_FLOAT,
+                0,
+                D3D11_APPEND_ALIGNED_ELEMENT,
+                D3D11_INPUT_PER_VERTEX_DATA,
+                0,
+            },
+        };
+
+        ID3D11InputLayoutPtr    layout;
+        CHECK_HR(dev->CreateInputLayout(layoutdesc, ARRAY_COUNT(layoutdesc), vsblob->GetBufferPointer(),
+                                        vsblob->GetBufferSize(), &layout));
+
+        ID3D11VertexShaderPtr       vs      = CreateVS(vsblob);
+        ID3D11PixelShaderPtr        ps      = CreatePS(Compile(common + pixel, "main", "ps_5_0", true));
+        ID3D11PixelShaderPtr        psopt   = CreatePS(Compile(common + pixel, "main", "ps_5_0", false));
+        ID3D11PixelShaderPtr        flowps  = CreatePS(Compile(common + flowPixel, "main", "ps_5_0"));
+
+        static const uint32_t    texDim = AlignUp(numTests, 64U) * 4;
+
+        ID3D11Texture2DPtr              fltTex  = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, texDim, 12).RTV();
+        ID3D11RenderTargetViewPtr       fltRT   = MakeRTV(fltTex);
+
+        float    triWidth = 8.0f / float(texDim);
+
+        ConstsA2V    triangle[] =
+        {
+            {Vec3f(-1.0f, -1.0f, triWidth), 0.0f, 1.0f, -1.0f},
+            {Vec3f(-1.0f, 1.0f, triWidth), 0.0f, 1.0f, -1.0f},
+            {Vec3f(-1.0f + triWidth, 1.0f, triWidth), 0.0f, 1.0f, -1.0f},
+        };
+
+        ID3D11BufferPtr    vb = MakeBuffer().Vertex().Data(triangle);
+
+        union
+        {
+            float       f;
+            uint32_t    u;
+        }    pun;
+
+        pun.u = 0xdead;
+
+        float    testdata[] =
+        {
+            1.0f,  2.0f,  3.0f,  4.0f,  1.234567f, pun.f, 7.0f,  8.0f,  9.0f,  10.0f,
+            11.0f, 12.0f, 13.0f, 14.0f, 15.0f,     16.0f, 17.0f, 18.0f, 19.0f, 20.0f,
+        };
+
+        ID3D11BufferPtr                 srvBuf  = MakeBuffer().SRV().Data(testdata);
+        ID3D11ShaderResourceViewPtr     srv     = MakeSRV(srvBuf).Format(DXGI_FORMAT_R32_FLOAT);
+
+        ID3D11Texture2DPtr              testTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 16, 16).Mips(3).SRV();
+        ID3D11ShaderResourceViewPtr     testSRV = MakeSRV(testTex);
+
+        ID3D11Texture2DPtr              msTex   = MakeTexture(DXGI_FORMAT_R32_FLOAT, 32, 32).Multisampled(4).RTV().SRV();
+        ID3D11ShaderResourceViewPtr     msSRV   = MakeSRV(msTex);
+
+        ID3D11BufferPtr                 rawBuf  = MakeBuffer().SRV().ByteAddressed().Data(testdata);
+        ID3D11ShaderResourceViewPtr     rawsrv  =
+            MakeSRV(rawBuf).Format(DXGI_FORMAT_R32_TYPELESS).FirstElement(4).NumElements(12);
+
+        ID3D11BufferPtr                 rawBuf2 = MakeBuffer().UAV().ByteAddressed().Size(1024);
+        ID3D11UnorderedAccessViewPtr    rawuav  =
+            MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).FirstElement(4).NumElements(24);
+
+        float    structdata[220];
+
+        for (int i = 0; i < 220; i++)
+            structdata[i] = float(i);
+
+        ID3D11BufferPtr                 rgbBuf  = MakeBuffer().SRV().Data(structdata);
+        ID3D11ShaderResourceViewPtr     rgbsrv  = MakeSRV(rgbBuf).Format(DXGI_FORMAT_R32G32B32_FLOAT);
+
+        ID3D11BufferPtr                 structBuf   = MakeBuffer().SRV().Structured(11 * sizeof(float)).Data(structdata);
+        ID3D11ShaderResourceViewPtr     structsrv   =
+            MakeSRV(structBuf).Format(DXGI_FORMAT_UNKNOWN).FirstElement(3).NumElements(5);
+
+        ID3D11BufferPtr                 structBuf2  = MakeBuffer().UAV().Structured(11 * sizeof(float)).Size(880);
+        ID3D11UnorderedAccessViewPtr    structuav   =
+            MakeUAV(structBuf2).Format(DXGI_FORMAT_UNKNOWN).FirstElement(3).NumElements(6);
+
+        ID3D11BufferPtr                 rgbuavBuf   = MakeBuffer().UAV().Data(structdata);
+        ID3D11UnorderedAccessViewPtr    typeuav     = MakeUAV(rgbuavBuf).Format(DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+        Texture    rgba8;
+        LoadXPM(SmileyTexture, rgba8);
+
+        ID3D11Texture2DPtr    smiley =
+            MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, rgba8.width, rgba8.height).SRV();
+        ID3D11ShaderResourceViewPtr     smileysrv       = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UNORM);
+        ID3D11ShaderResourceViewPtr     smileyintsrv    = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_SINT);
+        ID3D11ShaderResourceViewPtr     smileyuintsrv   = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UINT);
+
+        ctx->UpdateSubresource(smiley, 0, NULL, rgba8.data.data(), rgba8.width * sizeof(uint32_t), 0);
+
+        ID3D11ShaderResourceView    *srvs[] =
+        {
+            srv, rawsrv, structsrv, testSRV, msSRV, smileysrv, smileyintsrv, smileyuintsrv,
+        };
+
+        ctx->PSSetShaderResources(0, ARRAY_COUNT(srvs), srvs);
+
+        ctx->PSSetShaderResources(102, 1, &rgbsrv.GetInterfacePtr());
+
+        float    packed_consts[12];
+
+        for (int i = 0; i < 12; i++)
+            packed_consts[i] = (float)i;
+
+        ID3D11BufferPtr    cb = MakeBuffer().Constant().Data(packed_consts);
+        ctx->PSSetConstantBuffers(1, 1, &cb.GetInterfacePtr());
+
+        // Create resources for MSAA draw
+        ID3DBlobPtr     vsmsaablob  = Compile(D3DDefaultVertex, "main", "vs_5_0");
+        ID3DBlobPtr     psmsaablob  = Compile(msaaPixel, "main", "ps_5_0");
+
+        CreateDefaultInputLayout(vsmsaablob);
+
+        ID3D11SamplerStatePtr    linearclamp = MakeSampler();
+        ctx->PSSetSamplers(0, 1, &linearclamp.GetInterfacePtr());
+        ID3D11SamplerStatePtr    linearwrap = MakeSampler();
+        ctx->PSSetSamplers(1, 1, &linearwrap.GetInterfacePtr());
+
+        ID3D11VertexShaderPtr       vsmsaa  = CreateVS(vsmsaablob);
+        ID3D11PixelShaderPtr        psmsaa  = CreatePS(psmsaablob);
+
+        ID3D11BufferPtr    vbmsaa = MakeBuffer().Vertex().Data(DefaultTri);
+
+        ID3D11Texture2DPtr    msaaTex =
+            MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 8, 8).Multisampled(4).RTV();
+        ID3D11RenderTargetViewPtr    msaaRT = MakeRTV(msaaTex);
+
+        while (Running())
+        {
+            ClearRenderTargetView(fltRT, {0.2f, 0.2f, 0.2f, 1.0f});
+            ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            IASetVertexBuffer(vb, sizeof(ConstsA2V), 0);
+            ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            ctx->IASetInputLayout(layout);
+
+            ctx->VSSetShader(vs, NULL, 0);
+            ctx->PSSetShader(ps, NULL, 0);
+
+            RSSetViewport({0.0f, 0.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
+
+            UINT    zero[4] = {};
+            ctx->ClearUnorderedAccessViewUint(rawuav, zero);
+            ctx->ClearUnorderedAccessViewUint(structuav, zero);
+            ID3D11UnorderedAccessView    *uavs[] = {rawuav, structuav, typeuav};
+            ctx->OMSetRenderTargetsAndUnorderedAccessViews(1, &fltRT.GetInterfacePtr(), NULL, 1, 3, uavs,
+                                                           NULL);
+
+            setMarker(undefined_tests);
+
+            setMarker("Main Test");
+            ctx->DrawInstanced(3, numTests, 0, 0);
+
+            RSSetViewport({0.0f, 4.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
+            ctx->PSSetShader(psopt, NULL, 0);
+            setMarker("Optimised Test");
+            ctx->DrawInstanced(3, numTests, 0, 0);
+
+            RSSetViewport({0.0f, 8.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
+            ctx->PSSetShader(flowps, NULL, 0);
+            setMarker("Flow Test");
+            ctx->DrawInstanced(3, 1, 0, 0);
+
+            ctx->OMSetRenderTargets(1, &msaaRT.GetInterfacePtr(), NULL);
+
+            RSSetViewport({0.0f, 0.0f, 8.0f, 8.0f, 0.0f, 1.0f});
+            IASetVertexBuffer(vbmsaa, sizeof(DefaultA2V), 0);
+            ctx->IASetInputLayout(defaultLayout);
+            ctx->VSSetShader(vsmsaa, NULL, 0);
+            ctx->PSSetShader(psmsaa, NULL, 0);
+            setMarker("MSAA Test");
+            ctx->Draw(3, 0);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    if(opts2.TypedUAVLoadAdditionalFormats)
-      common += "\n#define TYPED_UAV_EXT 1\n";
-
-    ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_5_0");
-
-    D3D11_INPUT_ELEMENT_DESC layoutdesc[] = {
-        {
-            "POSITION",
-            0,
-            DXGI_FORMAT_R32G32B32_FLOAT,
-            0,
-            0,
-            D3D11_INPUT_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "ZERO",
-            0,
-            DXGI_FORMAT_R32_FLOAT,
-            0,
-            D3D11_APPEND_ALIGNED_ELEMENT,
-            D3D11_INPUT_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "ONE",
-            0,
-            DXGI_FORMAT_R32_FLOAT,
-            0,
-            D3D11_APPEND_ALIGNED_ELEMENT,
-            D3D11_INPUT_PER_VERTEX_DATA,
-            0,
-        },
-        {
-            "NEGONE",
-            0,
-            DXGI_FORMAT_R32_FLOAT,
-            0,
-            D3D11_APPEND_ALIGNED_ELEMENT,
-            D3D11_INPUT_PER_VERTEX_DATA,
-            0,
-        },
-    };
-
-    ID3D11InputLayoutPtr layout;
-    CHECK_HR(dev->CreateInputLayout(layoutdesc, ARRAY_COUNT(layoutdesc), vsblob->GetBufferPointer(),
-                                    vsblob->GetBufferSize(), &layout));
-
-    ID3D11VertexShaderPtr vs = CreateVS(vsblob);
-    ID3D11PixelShaderPtr ps = CreatePS(Compile(common + pixel, "main", "ps_5_0", true));
-    ID3D11PixelShaderPtr psopt = CreatePS(Compile(common + pixel, "main", "ps_5_0", false));
-    ID3D11PixelShaderPtr flowps = CreatePS(Compile(common + flowPixel, "main", "ps_5_0"));
-
-    static const uint32_t texDim = AlignUp(numTests, 64U) * 4;
-
-    ID3D11Texture2DPtr fltTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, texDim, 12).RTV();
-    ID3D11RenderTargetViewPtr fltRT = MakeRTV(fltTex);
-
-    float triWidth = 8.0f / float(texDim);
-
-    ConstsA2V triangle[] = {
-        {Vec3f(-1.0f, -1.0f, triWidth), 0.0f, 1.0f, -1.0f},
-        {Vec3f(-1.0f, 1.0f, triWidth), 0.0f, 1.0f, -1.0f},
-        {Vec3f(-1.0f + triWidth, 1.0f, triWidth), 0.0f, 1.0f, -1.0f},
-    };
-
-    ID3D11BufferPtr vb = MakeBuffer().Vertex().Data(triangle);
-
-    union
-    {
-      float f;
-      uint32_t u;
-    } pun;
-
-    pun.u = 0xdead;
-
-    float testdata[] = {
-        1.0f,  2.0f,  3.0f,  4.0f,  1.234567f, pun.f, 7.0f,  8.0f,  9.0f,  10.0f,
-        11.0f, 12.0f, 13.0f, 14.0f, 15.0f,     16.0f, 17.0f, 18.0f, 19.0f, 20.0f,
-    };
-
-    ID3D11BufferPtr srvBuf = MakeBuffer().SRV().Data(testdata);
-    ID3D11ShaderResourceViewPtr srv = MakeSRV(srvBuf).Format(DXGI_FORMAT_R32_FLOAT);
-
-    ID3D11Texture2DPtr testTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 16, 16).Mips(3).SRV();
-    ID3D11ShaderResourceViewPtr testSRV = MakeSRV(testTex);
-
-    ID3D11Texture2DPtr msTex = MakeTexture(DXGI_FORMAT_R32_FLOAT, 32, 32).Multisampled(4).RTV().SRV();
-    ID3D11ShaderResourceViewPtr msSRV = MakeSRV(msTex);
-
-    ID3D11BufferPtr rawBuf = MakeBuffer().SRV().ByteAddressed().Data(testdata);
-    ID3D11ShaderResourceViewPtr rawsrv =
-        MakeSRV(rawBuf).Format(DXGI_FORMAT_R32_TYPELESS).FirstElement(4).NumElements(12);
-
-    ID3D11BufferPtr rawBuf2 = MakeBuffer().UAV().ByteAddressed().Size(1024);
-    ID3D11UnorderedAccessViewPtr rawuav =
-        MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).FirstElement(4).NumElements(24);
-
-    float structdata[220];
-    for(int i = 0; i < 220; i++)
-      structdata[i] = float(i);
-
-    ID3D11BufferPtr rgbBuf = MakeBuffer().SRV().Data(structdata);
-    ID3D11ShaderResourceViewPtr rgbsrv = MakeSRV(rgbBuf).Format(DXGI_FORMAT_R32G32B32_FLOAT);
-
-    ID3D11BufferPtr structBuf = MakeBuffer().SRV().Structured(11 * sizeof(float)).Data(structdata);
-    ID3D11ShaderResourceViewPtr structsrv =
-        MakeSRV(structBuf).Format(DXGI_FORMAT_UNKNOWN).FirstElement(3).NumElements(5);
-
-    ID3D11BufferPtr structBuf2 = MakeBuffer().UAV().Structured(11 * sizeof(float)).Size(880);
-    ID3D11UnorderedAccessViewPtr structuav =
-        MakeUAV(structBuf2).Format(DXGI_FORMAT_UNKNOWN).FirstElement(3).NumElements(6);
-
-    ID3D11BufferPtr rgbuavBuf = MakeBuffer().UAV().Data(structdata);
-    ID3D11UnorderedAccessViewPtr typeuav = MakeUAV(rgbuavBuf).Format(DXGI_FORMAT_R32G32B32A32_FLOAT);
-
-    Texture rgba8;
-    LoadXPM(SmileyTexture, rgba8);
-
-    ID3D11Texture2DPtr smiley =
-        MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, rgba8.width, rgba8.height).SRV();
-    ID3D11ShaderResourceViewPtr smileysrv = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UNORM);
-    ID3D11ShaderResourceViewPtr smileyintsrv = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_SINT);
-    ID3D11ShaderResourceViewPtr smileyuintsrv = MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UINT);
-
-    ctx->UpdateSubresource(smiley, 0, NULL, rgba8.data.data(), rgba8.width * sizeof(uint32_t), 0);
-
-    ID3D11ShaderResourceView *srvs[] = {
-        srv, rawsrv, structsrv, testSRV, msSRV, smileysrv, smileyintsrv, smileyuintsrv,
-    };
-
-    ctx->PSSetShaderResources(0, ARRAY_COUNT(srvs), srvs);
-
-    ctx->PSSetShaderResources(102, 1, &rgbsrv.GetInterfacePtr());
-
-    float packed_consts[12];
-    for(int i = 0; i < 12; i++)
-      packed_consts[i] = (float)i;
-
-    ID3D11BufferPtr cb = MakeBuffer().Constant().Data(packed_consts);
-    ctx->PSSetConstantBuffers(1, 1, &cb.GetInterfacePtr());
-
-    // Create resources for MSAA draw
-    ID3DBlobPtr vsmsaablob = Compile(D3DDefaultVertex, "main", "vs_5_0");
-    ID3DBlobPtr psmsaablob = Compile(msaaPixel, "main", "ps_5_0");
-
-    CreateDefaultInputLayout(vsmsaablob);
-
-    ID3D11SamplerStatePtr linearclamp = MakeSampler();
-    ctx->PSSetSamplers(0, 1, &linearclamp.GetInterfacePtr());
-    ID3D11SamplerStatePtr linearwrap = MakeSampler();
-    ctx->PSSetSamplers(1, 1, &linearwrap.GetInterfacePtr());
-
-    ID3D11VertexShaderPtr vsmsaa = CreateVS(vsmsaablob);
-    ID3D11PixelShaderPtr psmsaa = CreatePS(psmsaablob);
-
-    ID3D11BufferPtr vbmsaa = MakeBuffer().Vertex().Data(DefaultTri);
-
-    ID3D11Texture2DPtr msaaTex =
-        MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 8, 8).Multisampled(4).RTV();
-    ID3D11RenderTargetViewPtr msaaRT = MakeRTV(msaaTex);
-
-    while(Running())
-    {
-      ClearRenderTargetView(fltRT, {0.2f, 0.2f, 0.2f, 1.0f});
-      ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
-
-      IASetVertexBuffer(vb, sizeof(ConstsA2V), 0);
-      ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-      ctx->IASetInputLayout(layout);
-
-      ctx->VSSetShader(vs, NULL, 0);
-      ctx->PSSetShader(ps, NULL, 0);
-
-      RSSetViewport({0.0f, 0.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
-
-      UINT zero[4] = {};
-      ctx->ClearUnorderedAccessViewUint(rawuav, zero);
-      ctx->ClearUnorderedAccessViewUint(structuav, zero);
-      ID3D11UnorderedAccessView *uavs[] = {rawuav, structuav, typeuav};
-      ctx->OMSetRenderTargetsAndUnorderedAccessViews(1, &fltRT.GetInterfacePtr(), NULL, 1, 3, uavs,
-                                                     NULL);
-
-      setMarker(undefined_tests);
-
-      setMarker("Main Test");
-      ctx->DrawInstanced(3, numTests, 0, 0);
-
-      RSSetViewport({0.0f, 4.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
-      ctx->PSSetShader(psopt, NULL, 0);
-      setMarker("Optimised Test");
-      ctx->DrawInstanced(3, numTests, 0, 0);
-
-      RSSetViewport({0.0f, 8.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
-      ctx->PSSetShader(flowps, NULL, 0);
-      setMarker("Flow Test");
-      ctx->DrawInstanced(3, 1, 0, 0);
-
-      ctx->OMSetRenderTargets(1, &msaaRT.GetInterfacePtr(), NULL);
-
-      RSSetViewport({0.0f, 0.0f, 8.0f, 8.0f, 0.0f, 1.0f});
-      IASetVertexBuffer(vbmsaa, sizeof(DefaultA2V), 0);
-      ctx->IASetInputLayout(defaultLayout);
-      ctx->VSSetShader(vsmsaa, NULL, 0);
-      ctx->PSSetShader(psmsaa, NULL, 0);
-      setMarker("MSAA Test");
-      ctx->Draw(3, 0);
-
-      Present();
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

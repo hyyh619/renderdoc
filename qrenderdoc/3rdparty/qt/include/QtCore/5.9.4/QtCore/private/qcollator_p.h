@@ -66,7 +66,7 @@
 QT_BEGIN_NAMESPACE
 
 #if QT_CONFIG(icu)
-typedef UCollator *CollatorType;
+typedef UCollator*CollatorType;
 typedef QByteArray CollatorKeyType;
 
 #elif defined(Q_OS_OSX)
@@ -80,7 +80,7 @@ typedef int CollatorType;
 #    define USE_COMPARESTRINGEX
 #  endif
 
-#else //posix
+#else // posix
 typedef QVector<wchar_t> CollatorKeyType;
 typedef int CollatorType;
 #endif
@@ -88,23 +88,24 @@ typedef int CollatorType;
 class QCollatorPrivate
 {
 public:
-    QAtomicInt ref;
-    QLocale locale;
+    QAtomicInt      ref;
+    QLocale         locale;
 #if defined(Q_OS_WIN) && !QT_CONFIG(icu)
 #ifdef USE_COMPARESTRINGEX
-    QString localeName;
+    QString    localeName;
 #else
-    LCID localeID;
+    LCID    localeID;
 #endif
 #endif
-    Qt::CaseSensitivity caseSensitivity;
-    bool numericMode;
-    bool ignorePunctuation;
-    bool dirty;
+    Qt::CaseSensitivity     caseSensitivity;
+    bool                    numericMode;
+    bool                    ignorePunctuation;
+    bool                    dirty;
 
-    CollatorType collator;
+    CollatorType    collator;
 
-    void clear() {
+    void clear()
+    {
         cleanup();
         collator = 0;
     }
@@ -114,14 +115,19 @@ public:
 
     QCollatorPrivate()
         : ref(1),
-          caseSensitivity(Qt::CaseSensitive),
-          numericMode(false),
-          ignorePunctuation(false),
-          dirty(true),
-          collator(0)
-    { cleanup(); }
+        caseSensitivity(Qt::CaseSensitive),
+        numericMode(false),
+        ignorePunctuation(false),
+        dirty(true),
+        collator(0)
+    {
+        cleanup();
+    }
 
-    ~QCollatorPrivate() { cleanup(); }
+    ~QCollatorPrivate()
+    {
+        cleanup();
+    }
 
 private:
     Q_DISABLE_COPY(QCollatorPrivate)
@@ -131,14 +137,13 @@ class QCollatorSortKeyPrivate : public QSharedData
 {
     friend class QCollator;
 public:
-    template <typename...T>
-    explicit QCollatorSortKeyPrivate(T &&...args)
+    template<typename ... T>
+    explicit QCollatorSortKeyPrivate(T&& ... args)
         : QSharedData()
-        , m_key(std::forward<T>(args)...)
-    {
-    }
+        , m_key(std::forward<T>(args) ...)
+    {}
 
-    CollatorKeyType m_key;
+    CollatorKeyType    m_key;
 
 private:
     Q_DISABLE_COPY(QCollatorSortKeyPrivate)

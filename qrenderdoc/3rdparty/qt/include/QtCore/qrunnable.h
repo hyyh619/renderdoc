@@ -44,9 +44,9 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QRunnable
+class Q_CORE_EXPORT    QRunnable
 {
-    int ref;
+    int    ref;
 
     friend class QThreadPool;
     friend class QThreadPoolPrivate;
@@ -60,8 +60,14 @@ public:
     QRunnable() : ref(0) { }
     virtual ~QRunnable();
 
-    bool autoDelete() const { return ref != -1; }
-    void setAutoDelete(bool _autoDelete) { ref = _autoDelete ? 0 : -1; }
+    bool autoDelete() const
+    {
+        return ref != -1;
+    }
+    void setAutoDelete(bool _autoDelete)
+    {
+        ref = _autoDelete ? 0 : -1;
+    }
 };
 
 QT_END_NAMESPACE

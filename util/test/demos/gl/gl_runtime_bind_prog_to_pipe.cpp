@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "gl_test.h"
 
 RD_TEST(GL_Runtime_Bind_Prog_To_Pipe, OpenGLGraphicsTest)
 {
-  static constexpr const char *Description =
-      "Creates a single program pipeline and binds different programs to it mid-frame";
+    static constexpr const char    *Description =
+        "Creates a single program pipeline and binds different programs to it mid-frame";
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 #version 420 core
 
@@ -42,7 +42,7 @@ RD_TEST(GL_Runtime_Bind_Prog_To_Pipe, OpenGLGraphicsTest)
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 layout(location = 0) in vec3 Position;
 layout(location = 1) in vec4 Color;
@@ -71,7 +71,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 in v2f vertIn;
 
@@ -84,61 +84,61 @@ void main()
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    GLuint vao = MakeVAO();
-    glBindVertexArray(vao);
-
-    GLuint vb = MakeBuffer();
-    glBindBuffer(GL_ARRAY_BUFFER, vb);
-    glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
-
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(0));
-    glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void *)(sizeof(Vec3f)));
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
-                          (void *)(sizeof(Vec3f) + sizeof(Vec4f)));
-
-    glEnableVertexAttribArray(0);
-    glEnableVertexAttribArray(1);
-    glEnableVertexAttribArray(2);
-
-    GLuint pipeline = MakePipeline();
-
-    GLuint vsprog1 = MakeProgram(common + "\n#define VARIANT 1\n" + vertex, "");
-    GLuint vsprog2 = MakeProgram(common + "\n#define VARIANT 2\n" + vertex, "");
-    GLuint fsprog = MakeProgram("", common + pixel);
-
-    while(Running())
+    int main()
     {
-      float col[] = {0.2f, 0.2f, 0.2f, 1.0f};
-      glClearBufferfv(GL_COLOR, 0, col);
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
 
-      glBindVertexArray(vao);
+        GLuint    vao = MakeVAO();
+        glBindVertexArray(vao);
 
-      glUseProgram(0);
-      glBindProgramPipeline(pipeline);
+        GLuint    vb = MakeBuffer();
+        glBindBuffer(GL_ARRAY_BUFFER, vb);
+        glBufferStorage(GL_ARRAY_BUFFER, sizeof(DefaultTri), DefaultTri, 0);
 
-      glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(0));
+        glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V), (void*)(sizeof(Vec3f)));
+        glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(DefaultA2V),
+                              (void*)(sizeof(Vec3f) + sizeof(Vec4f)));
 
-      glUseProgramStages(pipeline, GL_VERTEX_SHADER_BIT, vsprog1);
-      glUseProgramStages(pipeline, GL_FRAGMENT_SHADER_BIT, fsprog);
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+        glEnableVertexAttribArray(2);
 
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+        GLuint    pipeline = MakePipeline();
 
-      glUseProgramStages(pipeline, GL_VERTEX_SHADER_BIT, vsprog2);
-      glUseProgramStages(pipeline, GL_FRAGMENT_SHADER_BIT, fsprog);
+        GLuint      vsprog1 = MakeProgram(common + "\n#define VARIANT 1\n" + vertex, "");
+        GLuint      vsprog2 = MakeProgram(common + "\n#define VARIANT 2\n" + vertex, "");
+        GLuint      fsprog  = MakeProgram("", common + pixel);
 
-      glDrawArrays(GL_TRIANGLES, 0, 3);
+        while (Running())
+        {
+            float    col[] = {0.2f, 0.2f, 0.2f, 1.0f};
+            glClearBufferfv(GL_COLOR, 0, col);
 
-      Present();
+            glBindVertexArray(vao);
+
+            glUseProgram(0);
+            glBindProgramPipeline(pipeline);
+
+            glViewport(0, 0, GLsizei(screenWidth), GLsizei(screenHeight));
+
+            glUseProgramStages(pipeline, GL_VERTEX_SHADER_BIT, vsprog1);
+            glUseProgramStages(pipeline, GL_FRAGMENT_SHADER_BIT, fsprog);
+
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            glUseProgramStages(pipeline, GL_VERTEX_SHADER_BIT, vsprog2);
+            glUseProgramStages(pipeline, GL_FRAGMENT_SHADER_BIT, fsprog);
+
+            glDrawArrays(GL_TRIANGLES, 0, 3);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

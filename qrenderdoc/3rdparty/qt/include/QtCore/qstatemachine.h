@@ -54,7 +54,7 @@ QT_BEGIN_NAMESPACE
 
 class QStateMachinePrivate;
 class QAbstractAnimation;
-class Q_CORE_EXPORT QStateMachine : public QState
+class Q_CORE_EXPORT    QStateMachine : public QState
 {
     Q_OBJECT
     Q_PROPERTY(QString errorString READ errorString)
@@ -64,45 +64,62 @@ class Q_CORE_EXPORT QStateMachine : public QState
     Q_PROPERTY(bool animated READ isAnimated WRITE setAnimated)
 #endif
 public:
-    class Q_CORE_EXPORT SignalEvent : public QEvent
+    class Q_CORE_EXPORT    SignalEvent : public QEvent
     {
-    public:
+public:
         SignalEvent(QObject *sender, int signalIndex,
-                     const QList<QVariant> &arguments);
+                    const QList<QVariant> &arguments);
         ~SignalEvent();
 
-        inline QObject *sender() const { return m_sender; }
-        inline int signalIndex() const { return m_signalIndex; }
-        inline QList<QVariant> arguments() const { return m_arguments; }
+        inline QObject* sender() const
+        {
+            return m_sender;
+        }
+        inline int signalIndex() const
+        {
+            return m_signalIndex;
+        }
+        inline QList<QVariant> arguments() const
+        {
+            return m_arguments;
+        }
 
-    private:
-        QObject *m_sender;
-        int m_signalIndex;
-        QList<QVariant> m_arguments;
+private:
+        QObject             *m_sender;
+        int                 m_signalIndex;
+        QList<QVariant>     m_arguments;
 
         friend class QSignalTransitionPrivate;
     };
 
-    class Q_CORE_EXPORT WrappedEvent : public QEvent
+    class Q_CORE_EXPORT    WrappedEvent : public QEvent
     {
-    public:
+public:
         WrappedEvent(QObject *object, QEvent *event);
         ~WrappedEvent();
 
-        inline QObject *object() const { return m_object; }
-        inline QEvent *event() const { return m_event; }
+        inline QObject* object() const
+        {
+            return m_object;
+        }
+        inline QEvent* event() const
+        {
+            return m_event;
+        }
 
-    private:
-        QObject *m_object;
-        QEvent *m_event;
+private:
+        QObject     *m_object;
+        QEvent      *m_event;
     };
 
-    enum EventPriority {
+    enum EventPriority
+    {
         NormalPriority,
         HighPriority
     };
 
-    enum Error {
+    enum Error
+    {
         NoError,
         NoInitialStateError,
         NoDefaultStateInHistoryStateError,
@@ -127,7 +144,7 @@ public:
     void setAnimated(bool enabled);
 
     void addDefaultAnimation(QAbstractAnimation *animation);
-    QList<QAbstractAnimation *> defaultAnimations() const;
+    QList<QAbstractAnimation*> defaultAnimations() const;
     void removeDefaultAnimation(QAbstractAnimation *animation);
 #endif // QT_NO_ANIMATION
 
@@ -150,8 +167,8 @@ public Q_SLOTS:
     void setRunning(bool running);
 
 Q_SIGNALS:
-    void started(QPrivateSignal);
-    void stopped(QPrivateSignal);
+    void    started(QPrivateSignal);
+    void    stopped(QPrivateSignal);
     void runningChanged(bool running);
 
 

@@ -57,7 +57,8 @@
 
 #include <qt_windows.h>
 
-namespace std { template <typename T> class function; }
+namespace std
+{ template<typename T> class function; }
 
 QT_BEGIN_NAMESPACE
 
@@ -65,7 +66,7 @@ quint64 qt_msectime();
 
 class QEventDispatcherWinRTPrivate;
 
-class Q_CORE_EXPORT QEventDispatcherWinRT : public QAbstractEventDispatcher
+class Q_CORE_EXPORT    QEventDispatcherWinRT : public QAbstractEventDispatcher
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QEventDispatcherWinRT)
@@ -103,7 +104,7 @@ protected:
     QEventDispatcherWinRT(QEventDispatcherWinRTPrivate &dd, QObject *parent = 0);
 
     virtual bool sendPostedEvents(QEventLoop::ProcessEventsFlags flags);
-    bool event(QEvent *);
+    bool event(QEvent*);
     int activateTimers();
 };
 

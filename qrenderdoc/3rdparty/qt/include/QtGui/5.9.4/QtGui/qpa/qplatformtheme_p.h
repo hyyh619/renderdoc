@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
 
 class QPalette;
 
-class Q_GUI_EXPORT QPlatformThemePrivate
+class Q_GUI_EXPORT    QPlatformThemePrivate
 {
 public:
     QPlatformThemePrivate();
@@ -68,13 +68,13 @@ public:
     void initializeSystemPalette();
 
 #ifndef QT_NO_SHORTCUT
-    static const QKeyBinding keyBindings[];
-    static const uint numberOfKeyBindings;
+    static const QKeyBinding    keyBindings[];
+    static const uint           numberOfKeyBindings;
 #endif
 
     static unsigned currentKeyPlatforms();
 
-    QPalette *systemPalette;
+    QPalette    *systemPalette;
 };
 
 QT_END_NAMESPACE

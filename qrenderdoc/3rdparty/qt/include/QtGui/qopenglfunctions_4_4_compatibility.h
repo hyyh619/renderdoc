@@ -59,7 +59,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QOpenGLFunctions_4_4_Compatibility : public QAbstractOpenGLFunctions
+class Q_GUI_EXPORT    QOpenGLFunctions_4_4_Compatibility : public QAbstractOpenGLFunctions
 {
 public:
     QOpenGLFunctions_4_4_Compatibility();
@@ -76,7 +76,7 @@ public:
     void glGetTexParameteriv(GLenum target, GLenum pname, GLint *params);
     void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
     void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, void *pixels);
-    const GLubyte * glGetString(GLenum name);
+    const GLubyte* glGetString(GLenum name);
     void glGetIntegerv(GLenum pname, GLint *data);
     void glGetFloatv(GLenum pname, GLfloat *data);
     GLenum glGetError();
@@ -156,15 +156,15 @@ public:
     void glPointParameteri(GLenum pname, GLint param);
     void glPointParameterfv(GLenum pname, const GLfloat *params);
     void glPointParameterf(GLenum pname, GLfloat param);
-    void glMultiDrawElements(GLenum mode, const GLsizei *count, GLenum type, const void *const *indices, GLsizei drawcount);
+    void glMultiDrawElements(GLenum mode, const GLsizei *count, GLenum type, const void* const *indices, GLsizei drawcount);
     void glMultiDrawArrays(GLenum mode, const GLint *first, const GLsizei *count, GLsizei drawcount);
     void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
 
     // OpenGL 1.5 core functions
-    void glGetBufferPointerv(GLenum target, GLenum pname, void * *params);
+    void glGetBufferPointerv(GLenum target, GLenum pname, void **params);
     void glGetBufferParameteriv(GLenum target, GLenum pname, GLint *params);
     GLboolean glUnmapBuffer(GLenum target);
-    void * glMapBuffer(GLenum target, GLenum access);
+    void* glMapBuffer(GLenum target, GLenum access);
     void glGetBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, void *data);
     void glBufferSubData(GLenum target, GLintptr offset, GLsizeiptr size, const void *data);
     void glBufferData(GLenum target, GLsizeiptr size, const void *data, GLenum usage);
@@ -244,7 +244,7 @@ public:
     void glLinkProgram(GLuint program);
     GLboolean glIsShader(GLuint shader);
     GLboolean glIsProgram(GLuint program);
-    void glGetVertexAttribPointerv(GLuint index, GLenum pname, void * *pointer);
+    void glGetVertexAttribPointerv(GLuint index, GLenum pname, void **pointer);
     void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params);
     void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params);
     void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params);
@@ -290,7 +290,7 @@ public:
     void glDeleteVertexArrays(GLsizei n, const GLuint *arrays);
     void glBindVertexArray(GLuint array);
     void glFlushMappedBufferRange(GLenum target, GLintptr offset, GLsizeiptr length);
-    void * glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
+    void* glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access);
     void glFramebufferTextureLayer(GLenum target, GLenum attachment, GLuint texture, GLint level, GLint layer);
     void glRenderbufferStorageMultisample(GLenum target, GLsizei samples, GLenum internalformat, GLsizei width, GLsizei height);
     void glBlitFramebuffer(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
@@ -311,7 +311,7 @@ public:
     void glDeleteRenderbuffers(GLsizei n, const GLuint *renderbuffers);
     void glBindRenderbuffer(GLenum target, GLuint renderbuffer);
     GLboolean glIsRenderbuffer(GLuint renderbuffer);
-    const GLubyte * glGetStringi(GLenum name, GLuint index);
+    const GLubyte* glGetStringi(GLenum name, GLuint index);
     void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
     void glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat *value);
     void glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint *value);
@@ -377,7 +377,7 @@ public:
     GLuint glGetUniformBlockIndex(GLuint program, const GLchar *uniformBlockName);
     void glGetActiveUniformName(GLuint program, GLuint uniformIndex, GLsizei bufSize, GLsizei *length, GLchar *uniformName);
     void glGetActiveUniformsiv(GLuint program, GLsizei uniformCount, const GLuint *uniformIndices, GLenum pname, GLint *params);
-    void glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar *const *uniformNames, GLuint *uniformIndices);
+    void glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar* const *uniformNames, GLuint *uniformIndices);
     void glCopyBufferSubData(GLenum readTarget, GLenum writeTarget, GLintptr readOffset, GLintptr writeOffset, GLsizeiptr size);
     void glPrimitiveRestartIndex(GLuint index);
     void glTexBuffer(GLenum target, GLenum internalformat, GLuint buffer);
@@ -400,7 +400,7 @@ public:
     GLboolean glIsSync(GLsync sync);
     GLsync glFenceSync(GLenum condition, GLbitfield flags);
     void glProvokingVertex(GLenum mode);
-    void glMultiDrawElementsBaseVertex(GLenum mode, const GLsizei *count, GLenum type, const void *const *indices, GLsizei drawcount, const GLint *basevertex);
+    void glMultiDrawElementsBaseVertex(GLenum mode, const GLsizei *count, GLenum type, const void* const *indices, GLsizei drawcount, const GLint *basevertex);
     void glDrawElementsInstancedBaseVertex(GLenum mode, GLsizei count, GLenum type, const void *indices, GLsizei instancecount, GLint basevertex);
     void glDrawRangeElementsBaseVertex(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const void *indices, GLint basevertex);
     void glDrawElementsBaseVertex(GLenum mode, GLsizei count, GLenum type, const void *indices, GLint basevertex);
@@ -914,7 +914,7 @@ public:
     void glTexCoordPointer(GLint size, GLenum type, GLsizei stride, const void *pointer);
     void glNormalPointer(GLenum type, GLsizei stride, const void *pointer);
     void glInterleavedArrays(GLenum format, GLsizei stride, const void *pointer);
-    void glGetPointerv(GLenum pname, void * *params);
+    void glGetPointerv(GLenum pname, void **params);
     void glIndexPointer(GLenum type, GLsizei stride, const void *pointer);
     void glEnableClientState(GLenum array);
     void glEdgeFlagPointer(GLsizei stride, const void *pointer);
@@ -1095,29 +1095,29 @@ private:
     static bool isContextCompatible(QOpenGLContext *context);
     static QOpenGLVersionProfile versionProfile();
 
-    QOpenGLFunctions_1_0_CoreBackend* d_1_0_Core;
-    QOpenGLFunctions_1_1_CoreBackend* d_1_1_Core;
-    QOpenGLFunctions_1_2_CoreBackend* d_1_2_Core;
-    QOpenGLFunctions_1_3_CoreBackend* d_1_3_Core;
-    QOpenGLFunctions_1_4_CoreBackend* d_1_4_Core;
-    QOpenGLFunctions_1_5_CoreBackend* d_1_5_Core;
-    QOpenGLFunctions_2_0_CoreBackend* d_2_0_Core;
-    QOpenGLFunctions_2_1_CoreBackend* d_2_1_Core;
-    QOpenGLFunctions_3_0_CoreBackend* d_3_0_Core;
-    QOpenGLFunctions_3_1_CoreBackend* d_3_1_Core;
-    QOpenGLFunctions_3_2_CoreBackend* d_3_2_Core;
-    QOpenGLFunctions_3_3_CoreBackend* d_3_3_Core;
-    QOpenGLFunctions_4_0_CoreBackend* d_4_0_Core;
-    QOpenGLFunctions_4_1_CoreBackend* d_4_1_Core;
-    QOpenGLFunctions_4_2_CoreBackend* d_4_2_Core;
-    QOpenGLFunctions_4_3_CoreBackend* d_4_3_Core;
-    QOpenGLFunctions_4_4_CoreBackend* d_4_4_Core;
-    QOpenGLFunctions_1_0_DeprecatedBackend* d_1_0_Deprecated;
-    QOpenGLFunctions_1_1_DeprecatedBackend* d_1_1_Deprecated;
-    QOpenGLFunctions_1_2_DeprecatedBackend* d_1_2_Deprecated;
-    QOpenGLFunctions_1_3_DeprecatedBackend* d_1_3_Deprecated;
-    QOpenGLFunctions_1_4_DeprecatedBackend* d_1_4_Deprecated;
-    QOpenGLFunctions_3_3_DeprecatedBackend* d_3_3_Deprecated;
+    QOpenGLFunctions_1_0_CoreBackend            *d_1_0_Core;
+    QOpenGLFunctions_1_1_CoreBackend            *d_1_1_Core;
+    QOpenGLFunctions_1_2_CoreBackend            *d_1_2_Core;
+    QOpenGLFunctions_1_3_CoreBackend            *d_1_3_Core;
+    QOpenGLFunctions_1_4_CoreBackend            *d_1_4_Core;
+    QOpenGLFunctions_1_5_CoreBackend            *d_1_5_Core;
+    QOpenGLFunctions_2_0_CoreBackend            *d_2_0_Core;
+    QOpenGLFunctions_2_1_CoreBackend            *d_2_1_Core;
+    QOpenGLFunctions_3_0_CoreBackend            *d_3_0_Core;
+    QOpenGLFunctions_3_1_CoreBackend            *d_3_1_Core;
+    QOpenGLFunctions_3_2_CoreBackend            *d_3_2_Core;
+    QOpenGLFunctions_3_3_CoreBackend            *d_3_3_Core;
+    QOpenGLFunctions_4_0_CoreBackend            *d_4_0_Core;
+    QOpenGLFunctions_4_1_CoreBackend            *d_4_1_Core;
+    QOpenGLFunctions_4_2_CoreBackend            *d_4_2_Core;
+    QOpenGLFunctions_4_3_CoreBackend            *d_4_3_Core;
+    QOpenGLFunctions_4_4_CoreBackend            *d_4_4_Core;
+    QOpenGLFunctions_1_0_DeprecatedBackend      *d_1_0_Deprecated;
+    QOpenGLFunctions_1_1_DeprecatedBackend      *d_1_1_Deprecated;
+    QOpenGLFunctions_1_2_DeprecatedBackend      *d_1_2_Deprecated;
+    QOpenGLFunctions_1_3_DeprecatedBackend      *d_1_3_Deprecated;
+    QOpenGLFunctions_1_4_DeprecatedBackend      *d_1_4_Deprecated;
+    QOpenGLFunctions_3_3_DeprecatedBackend      *d_3_3_Deprecated;
 };
 
 // OpenGL 1.0 core functions
@@ -1161,7 +1161,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glGetTexImage(GLenum target, GLi
     d_1_0_Core->f.GetTexImage(target, level, format, type, pixels);
 }
 
-inline const GLubyte * QOpenGLFunctions_4_4_Compatibility::glGetString(GLenum name)
+inline const GLubyte* QOpenGLFunctions_4_4_Compatibility::glGetString(GLenum name)
 {
     return d_1_0_Core->f.GetString(name);
 }
@@ -1529,7 +1529,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glPointParameterf(GLenum pname, 
     d_1_4_Core->f.PointParameterf(pname, param);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glMultiDrawElements(GLenum mode, const GLsizei *count, GLenum type, const void *const *indices, GLsizei drawcount)
+inline void QOpenGLFunctions_4_4_Compatibility::glMultiDrawElements(GLenum mode, const GLsizei *count, GLenum type, const void* const *indices, GLsizei drawcount)
 {
     d_1_4_Core->f.MultiDrawElements(mode, count, type, indices, drawcount);
 }
@@ -1546,7 +1546,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glBlendFuncSeparate(GLenum sfact
 
 
 // OpenGL 1.5 core functions
-inline void QOpenGLFunctions_4_4_Compatibility::glGetBufferPointerv(GLenum target, GLenum pname, void * *params)
+inline void QOpenGLFunctions_4_4_Compatibility::glGetBufferPointerv(GLenum target, GLenum pname, void **params)
 {
     d_1_5_Core->f.GetBufferPointerv(target, pname, params);
 }
@@ -1561,7 +1561,7 @@ inline GLboolean QOpenGLFunctions_4_4_Compatibility::glUnmapBuffer(GLenum target
     return d_1_5_Core->f.UnmapBuffer(target);
 }
 
-inline void * QOpenGLFunctions_4_4_Compatibility::glMapBuffer(GLenum target, GLenum access)
+inline void* QOpenGLFunctions_4_4_Compatibility::glMapBuffer(GLenum target, GLenum access)
 {
     return d_1_5_Core->f.MapBuffer(target, access);
 }
@@ -1933,7 +1933,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glUseProgram(GLuint program)
     d_2_0_Core->f.UseProgram(program);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glShaderSource(GLuint shader, GLsizei count, const GLchar *const *string, const GLint *length)
+inline void QOpenGLFunctions_4_4_Compatibility::glShaderSource(GLuint shader, GLsizei count, const GLchar* const *string, const GLint *length)
 {
     d_2_0_Core->f.ShaderSource(shader, count, string, length);
 }
@@ -1953,7 +1953,7 @@ inline GLboolean QOpenGLFunctions_4_4_Compatibility::glIsProgram(GLuint program)
     return d_2_0_Core->f.IsProgram(program);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glGetVertexAttribPointerv(GLuint index, GLenum pname, void * *pointer)
+inline void QOpenGLFunctions_4_4_Compatibility::glGetVertexAttribPointerv(GLuint index, GLenum pname, void **pointer)
 {
     d_2_0_Core->f.GetVertexAttribPointerv(index, pname, pointer);
 }
@@ -2167,7 +2167,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glFlushMappedBufferRange(GLenum 
     d_3_0_Core->f.FlushMappedBufferRange(target, offset, length);
 }
 
-inline void * QOpenGLFunctions_4_4_Compatibility::glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access)
+inline void* QOpenGLFunctions_4_4_Compatibility::glMapBufferRange(GLenum target, GLintptr offset, GLsizeiptr length, GLbitfield access)
 {
     return d_3_0_Core->f.MapBufferRange(target, offset, length, access);
 }
@@ -2272,7 +2272,7 @@ inline GLboolean QOpenGLFunctions_4_4_Compatibility::glIsRenderbuffer(GLuint ren
     return d_3_0_Core->f.IsRenderbuffer(renderbuffer);
 }
 
-inline const GLubyte * QOpenGLFunctions_4_4_Compatibility::glGetStringi(GLenum name, GLuint index)
+inline const GLubyte* QOpenGLFunctions_4_4_Compatibility::glGetStringi(GLenum name, GLuint index)
 {
     return d_3_0_Core->f.GetStringi(name, index);
 }
@@ -2507,7 +2507,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glGetTransformFeedbackVarying(GL
     d_3_0_Core->f.GetTransformFeedbackVarying(program, index, bufSize, length, size, type, name);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glTransformFeedbackVaryings(GLuint program, GLsizei count, const GLchar *const *varyings, GLenum bufferMode)
+inline void QOpenGLFunctions_4_4_Compatibility::glTransformFeedbackVaryings(GLuint program, GLsizei count, const GLchar* const *varyings, GLenum bufferMode)
 {
     d_3_0_Core->f.TransformFeedbackVaryings(program, count, varyings, bufferMode);
 }
@@ -2594,7 +2594,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glGetActiveUniformsiv(GLuint pro
     d_3_1_Core->f.GetActiveUniformsiv(program, uniformCount, uniformIndices, pname, params);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar *const *uniformNames, GLuint *uniformIndices)
+inline void QOpenGLFunctions_4_4_Compatibility::glGetUniformIndices(GLuint program, GLsizei uniformCount, const GLchar* const *uniformNames, GLuint *uniformIndices)
 {
     d_3_1_Core->f.GetUniformIndices(program, uniformCount, uniformNames, uniformIndices);
 }
@@ -2701,7 +2701,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glProvokingVertex(GLenum mode)
     d_3_2_Core->f.ProvokingVertex(mode);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glMultiDrawElementsBaseVertex(GLenum mode, const GLsizei *count, GLenum type, const void *const *indices, GLsizei drawcount, const GLint *basevertex)
+inline void QOpenGLFunctions_4_4_Compatibility::glMultiDrawElementsBaseVertex(GLenum mode, const GLsizei *count, GLenum type, const void* const *indices, GLsizei drawcount, const GLint *basevertex)
 {
     d_3_2_Core->f.MultiDrawElementsBaseVertex(mode, count, type, indices, drawcount, basevertex);
 }
@@ -3482,7 +3482,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glBindProgramPipeline(GLuint pip
     d_4_1_Core->f.BindProgramPipeline(pipeline);
 }
 
-inline GLuint QOpenGLFunctions_4_4_Compatibility::glCreateShaderProgramv(GLenum type, GLsizei count, const GLchar *const *strings)
+inline GLuint QOpenGLFunctions_4_4_Compatibility::glCreateShaderProgramv(GLenum type, GLsizei count, const GLchar* const *strings)
 {
     return d_4_1_Core->f.CreateShaderProgramv(type, count, strings);
 }
@@ -5207,7 +5207,7 @@ inline void QOpenGLFunctions_4_4_Compatibility::glInterleavedArrays(GLenum forma
     d_1_1_Deprecated->f.InterleavedArrays(format, stride, pointer);
 }
 
-inline void QOpenGLFunctions_4_4_Compatibility::glGetPointerv(GLenum pname, void * *params)
+inline void QOpenGLFunctions_4_4_Compatibility::glGetPointerv(GLenum pname, void **params)
 {
     d_1_1_Deprecated->f.GetPointerv(pname, params);
 }
@@ -5960,7 +5960,6 @@ inline void QOpenGLFunctions_4_4_Compatibility::glVertexP2ui(GLenum type, GLuint
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL && !QT_OPENGL_ES_2
 
 #endif

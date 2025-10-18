@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLTimerQueryPrivate;
 
-class Q_GUI_EXPORT QOpenGLTimerQuery : public QObject
+class Q_GUI_EXPORT    QOpenGLTimerQuery : public QObject
 {
     Q_OBJECT
 
@@ -79,7 +79,7 @@ private:
 
 class QOpenGLTimeMonitorPrivate;
 
-class Q_GUI_EXPORT QOpenGLTimeMonitor : public QObject
+class Q_GUI_EXPORT    QOpenGLTimeMonitor : public QObject
 {
     Q_OBJECT
 
@@ -110,7 +110,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLTIMERQUERY_H

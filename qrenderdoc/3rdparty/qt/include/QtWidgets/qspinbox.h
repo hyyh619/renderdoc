@@ -48,7 +48,7 @@ QT_REQUIRE_CONFIG(spinbox);
 QT_BEGIN_NAMESPACE
 
 class QSpinBoxPrivate;
-class Q_WIDGETS_EXPORT QSpinBox : public QAbstractSpinBox
+class Q_WIDGETS_EXPORT    QSpinBox : public QAbstractSpinBox
 {
     Q_OBJECT
 
@@ -102,7 +102,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void valueChanged(int);
-    void valueChanged(const QString &);
+    void valueChanged(const QString&);
 
 private:
     Q_DISABLE_COPY(QSpinBox)
@@ -110,7 +110,7 @@ private:
 };
 
 class QDoubleSpinBoxPrivate;
-class Q_WIDGETS_EXPORT QDoubleSpinBox : public QAbstractSpinBox
+class Q_WIDGETS_EXPORT    QDoubleSpinBox : public QAbstractSpinBox
 {
     Q_OBJECT
 
@@ -160,7 +160,7 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void valueChanged(double);
-    void valueChanged(const QString &);
+    void valueChanged(const QString&);
 
 private:
     Q_DISABLE_COPY(QDoubleSpinBox)

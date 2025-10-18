@@ -69,7 +69,7 @@ public:
     Q_INVOKABLE void disconnectSocketFromHost();
 
 private:
-    QSslSocketBackendPrivate *d;
+    QSslSocketBackendPrivate    *d;
 };
 
 class QSslSocketBackendPrivate : public QSslSocketPrivate
@@ -97,12 +97,12 @@ public:
                              const QByteArray &passPhrase);
 
 private:
-    HRESULT onSslUpgrade(ABI::Windows::Foundation::IAsyncAction *,
-                         ABI::Windows::Foundation::AsyncStatus);
+    HRESULT    onSslUpgrade(ABI::Windows::Foundation::IAsyncAction*,
+                            ABI::Windows::Foundation::AsyncStatus);
 
-    QScopedPointer<QSslSocketConnectionHelper> connectionHelper;
-    ABI::Windows::Networking::Sockets::SocketProtectionLevel protectionLevel;
-    QSet<QSslCertificate> previousCaCertificates;
+    QScopedPointer<QSslSocketConnectionHelper>                  connectionHelper;
+    ABI::Windows::Networking::Sockets::SocketProtectionLevel    protectionLevel;
+    QSet<QSslCertificate>                                       previousCaCertificates;
 };
 
 QT_END_NAMESPACE

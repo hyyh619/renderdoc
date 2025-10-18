@@ -35,59 +35,58 @@
 
 namespace hwcpipe
 {
-struct Measurements
-{
-	const CpuMeasurements *cpu {nullptr};
-	const GpuMeasurements *gpu {nullptr};
-};
+    struct Measurements
+    {
+        const CpuMeasurements   *cpu {nullptr};
+        const GpuMeasurements   *gpu {nullptr};
+    };
 
 /** A class that collects CPU/GPU performance data. */
-class HWCPipe
-{
+    class HWCPipe
+    {
 public:
 #ifndef HWCPIPE_NO_JSON
-	// Initializes HWCPipe via a JSON configuration string
-	explicit HWCPipe(const char *json_string);
+        // Initializes HWCPipe via a JSON configuration string
+        explicit HWCPipe(const char *json_string);
 #endif
 
-	// Initializes HWCPipe with the specified counters
-	HWCPipe(CpuCounterSet enabled_cpu_counters, GpuCounterSet enabled_gpu_counters);
+        // Initializes HWCPipe with the specified counters
+        HWCPipe(CpuCounterSet enabled_cpu_counters, GpuCounterSet enabled_gpu_counters);
 
-	// Initializes HWCPipe with a default set of counters
-	HWCPipe();
+        // Initializes HWCPipe with a default set of counters
+        HWCPipe();
 
-	// Sets the enabled counters for the CPU profiler
-	void set_enabled_cpu_counters(CpuCounterSet counters);
+        // Sets the enabled counters for the CPU profiler
+        void set_enabled_cpu_counters(CpuCounterSet counters);
 
-	// Sets the enabled counters for the GPU profiler
-	void set_enabled_gpu_counters(GpuCounterSet counters);
+        // Sets the enabled counters for the GPU profiler
+        void set_enabled_gpu_counters(GpuCounterSet counters);
 
-	// Starts a profiling session
-	void run();
+        // Starts a profiling session
+        void run();
 
-	// Sample the counters. The function returns pointers to the CPU and GPU
-	// measurements maps, if the corresponding profiler is enabled.
-	// The entries in the maps are the counters that are both available and enabled.
-	// A profiling session must be running when sampling the counters.
-	Measurements sample();
+        // Sample the counters. The function returns pointers to the CPU and GPU
+        // measurements maps, if the corresponding profiler is enabled.
+        // The entries in the maps are the counters that are both available and enabled.
+        // A profiling session must be running when sampling the counters.
+        Measurements sample();
 
-	// Stops the active profiling session
-	void stop();
+        // Stops the active profiling session
+        void stop();
 
-	const CpuProfiler *cpu_profiler()
-	{
-		return cpu_profiler_.get();
-	}
-	const GpuProfiler *gpu_profiler()
-	{
-		return gpu_profiler_.get();
-	}
+        const CpuProfiler* cpu_profiler()
+        {
+            return cpu_profiler_.get();
+        }
+        const GpuProfiler* gpu_profiler()
+        {
+            return gpu_profiler_.get();
+        }
 
 private:
-	std::unique_ptr<CpuProfiler> cpu_profiler_ {};
-	std::unique_ptr<GpuProfiler> gpu_profiler_ {};
+        std::unique_ptr<CpuProfiler>    cpu_profiler_ {};
+        std::unique_ptr<GpuProfiler>    gpu_profiler_ {};
 
-	void create_profilers(CpuCounterSet enabled_cpu_counters, GpuCounterSet enabled_gpu_counters);
-};
-
+        void create_profilers(CpuCounterSet enabled_cpu_counters, GpuCounterSet enabled_gpu_counters);
+    };
 }        // namespace hwcpipe

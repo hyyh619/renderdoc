@@ -69,16 +69,15 @@ class QGesturePrivate : public QObjectPrivate
 public:
     QGesturePrivate()
         : gestureType(Qt::CustomGesture), state(Qt::NoGesture),
-          isHotSpotSet(false), gestureCancelPolicy(0)
-    {
-    }
+        isHotSpotSet(false), gestureCancelPolicy(0)
+    {}
 
-    Qt::GestureType gestureType;
-    Qt::GestureState state;
-    QPointF hotSpot;
-    QPointF sceneHotSpot;
-    uint isHotSpotSet : 1;
-    uint gestureCancelPolicy : 2;
+    Qt::GestureType     gestureType;
+    Qt::GestureState    state;
+    QPointF             hotSpot;
+    QPointF             sceneHotSpot;
+    uint                isHotSpotSet : 1;
+    uint                gestureCancelPolicy : 2;
 };
 
 class QPanGesturePrivate : public QGesturePrivate
@@ -88,21 +87,32 @@ class QPanGesturePrivate : public QGesturePrivate
 public:
     QPanGesturePrivate()
         : acceleration(0), xVelocity(0), yVelocity(0), pointCount(2)
+    {}
+
+    qreal horizontalVelocity() const
     {
+        return xVelocity;
+    }
+    void setHorizontalVelocity(qreal value)
+    {
+        xVelocity = value;
+    }
+    qreal verticalVelocity() const
+    {
+        return yVelocity;
+    }
+    void setVerticalVelocity(qreal value)
+    {
+        yVelocity = value;
     }
 
-    qreal horizontalVelocity() const { return xVelocity; }
-    void setHorizontalVelocity(qreal value) { xVelocity = value; }
-    qreal verticalVelocity() const { return yVelocity; }
-    void setVerticalVelocity(qreal value) { yVelocity = value; }
-
-    QPointF lastOffset;
-    QPointF offset;
-    QPoint startPosition;
-    qreal acceleration;
-    qreal xVelocity;
-    qreal yVelocity;
-    int pointCount; // ### fixme Qt 5.5: Add accessor to QPanGesture.
+    QPointF     lastOffset;
+    QPointF     offset;
+    QPoint      startPosition;
+    qreal       acceleration;
+    qreal       xVelocity;
+    qreal       yVelocity;
+    int         pointCount; // ### fixme Qt 5.5: Add accessor to QPanGesture.
 };
 
 class QPinchGesturePrivate : public QGesturePrivate
@@ -112,29 +122,28 @@ class QPinchGesturePrivate : public QGesturePrivate
 public:
     QPinchGesturePrivate()
         : totalChangeFlags(0), changeFlags(0),
-          totalScaleFactor(1), lastScaleFactor(1), scaleFactor(1),
-          totalRotationAngle(0), lastRotationAngle(0), rotationAngle(0),
-          isNewSequence(true)
-    {
-    }
+        totalScaleFactor(1), lastScaleFactor(1), scaleFactor(1),
+        totalRotationAngle(0), lastRotationAngle(0), rotationAngle(0),
+        isNewSequence(true)
+    {}
 
-    QPinchGesture::ChangeFlags totalChangeFlags;
-    QPinchGesture::ChangeFlags changeFlags;
+    QPinchGesture::ChangeFlags      totalChangeFlags;
+    QPinchGesture::ChangeFlags      changeFlags;
 
-    QPointF startCenterPoint;
-    QPointF lastCenterPoint;
-    QPointF centerPoint;
+    QPointF     startCenterPoint;
+    QPointF     lastCenterPoint;
+    QPointF     centerPoint;
 
-    qreal totalScaleFactor;
-    qreal lastScaleFactor;
-    qreal scaleFactor;
+    qreal       totalScaleFactor;
+    qreal       lastScaleFactor;
+    qreal       scaleFactor;
 
-    qreal totalRotationAngle;
-    qreal lastRotationAngle;
-    qreal rotationAngle;
+    qreal       totalRotationAngle;
+    qreal       lastRotationAngle;
+    qreal       rotationAngle;
 
-    bool isNewSequence;
-    QPointF startPosition[2];
+    bool        isNewSequence;
+    QPointF     startPosition[2];
 };
 
 class QSwipeGesturePrivate : public QGesturePrivate
@@ -142,7 +151,8 @@ class QSwipeGesturePrivate : public QGesturePrivate
     Q_DECLARE_PUBLIC(QSwipeGesture)
 
 public:
-    enum State {
+    enum State
+    {
         NoGesture,
         Started,
         ThreePointsReached
@@ -150,23 +160,28 @@ public:
 
     QSwipeGesturePrivate()
         : horizontalDirection(QSwipeGesture::NoDirection),
-          verticalDirection(QSwipeGesture::NoDirection),
-          swipeAngle(0),
-          state(NoGesture), velocityValue(0)
+        verticalDirection(QSwipeGesture::NoDirection),
+        swipeAngle(0),
+        state(NoGesture), velocityValue(0)
+    {}
+
+    qreal velocity() const
     {
+        return velocityValue;
+    }
+    void setVelocity(qreal value)
+    {
+        velocityValue = value;
     }
 
-    qreal velocity() const { return velocityValue; }
-    void setVelocity(qreal value) { velocityValue = value; }
+    QSwipeGesture::SwipeDirection       horizontalDirection;
+    QSwipeGesture::SwipeDirection       verticalDirection;
+    qreal                               swipeAngle;
 
-    QSwipeGesture::SwipeDirection horizontalDirection;
-    QSwipeGesture::SwipeDirection verticalDirection;
-    qreal swipeAngle;
-
-    QPoint lastPositions[3];
-    State state;
-    qreal velocityValue;
-    QElapsedTimer time;
+    QPoint              lastPositions[3];
+    State               state;
+    qreal               velocityValue;
+    QElapsedTimer       time;
 };
 
 class QTapGesturePrivate : public QGesturePrivate
@@ -175,10 +190,9 @@ class QTapGesturePrivate : public QGesturePrivate
 
 public:
     QTapGesturePrivate()
-    {
-    }
+    {}
 
-    QPointF position;
+    QPointF    position;
 };
 
 class QTapAndHoldGesturePrivate : public QGesturePrivate
@@ -188,16 +202,14 @@ class QTapAndHoldGesturePrivate : public QGesturePrivate
 public:
     QTapAndHoldGesturePrivate()
         : timerId(0)
-    {
-    }
+    {}
 
-    QPointF position;
-    int timerId;
-    static int Timeout;
+    QPointF         position;
+    int             timerId;
+    static int      Timeout;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_GESTURES
 
 #endif // QGESTURE_P_H

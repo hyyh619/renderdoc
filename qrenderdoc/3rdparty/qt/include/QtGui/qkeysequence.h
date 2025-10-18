@@ -52,11 +52,11 @@ QT_BEGIN_NAMESPACE
 class QKeySequence;
 
 /*****************************************************************************
-  QKeySequence stream functions
- *****************************************************************************/
+   QKeySequence stream functions
+*****************************************************************************/
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &in, const QKeySequence &ks);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &out, QKeySequence &ks);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream &in, const QKeySequence &ks);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream &out, QKeySequence &ks);
 #endif
 
 #ifdef Q_QDOC
@@ -68,12 +68,13 @@ class QKeySequencePrivate;
 
 Q_GUI_EXPORT Q_DECL_PURE_FUNCTION uint qHash(const QKeySequence &key, uint seed = 0) Q_DECL_NOTHROW;
 
-class Q_GUI_EXPORT QKeySequence
+class Q_GUI_EXPORT    QKeySequence
 {
     Q_GADGET
 
 public:
-    enum StandardKey {
+    enum StandardKey
+    {
         UnknownKey,
         HelpContents,
         WhatsThis,
@@ -145,10 +146,11 @@ public:
         DeleteCompleteLine,
         Backspace,
         Cancel
-     };
-     Q_ENUM(StandardKey)
+    };
+    Q_ENUM(StandardKey)
 
-    enum SequenceFormat {
+    enum SequenceFormat
+    {
         NativeText,
         PortableText
     };
@@ -163,7 +165,8 @@ public:
     int count() const;
     bool isEmpty() const;
 
-    enum SequenceMatch {
+    enum SequenceMatch
+    {
         NoMatch,
         PartialMatch,
         ExactMatch
@@ -180,27 +183,50 @@ public:
     static QList<QKeySequence> keyBindings(StandardKey key);
 
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED operator QString() const { return toString(QKeySequence::NativeText); }
-    QT_DEPRECATED operator int() const { if (1 <= count()) return operator [](0); return 0; }
+    QT_DEPRECATED operator QString() const
+    {
+        return toString(QKeySequence::NativeText);
+    }
+    QT_DEPRECATED operator int() const
+    {
+        if (1 <= count())
+            return operator [](0);
+
+        return 0;
+    }
 #endif
     operator QVariant() const;
     int operator[](uint i) const;
-    QKeySequence &operator=(const QKeySequence &other);
+    QKeySequence&operator=(const QKeySequence &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QKeySequence &operator=(QKeySequence &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QKeySequence&operator=(QKeySequence &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    void swap(QKeySequence &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QKeySequence &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QKeySequence &other) const;
-    inline bool operator!= (const QKeySequence &other) const
-    { return !(*this == other); }
-    bool operator< (const QKeySequence &ks) const;
-    inline bool operator> (const QKeySequence &other) const
-    { return other < *this; }
-    inline bool operator<= (const QKeySequence &other) const
-    { return !(other < *this); }
-    inline bool operator>= (const QKeySequence &other) const
-    { return !(*this < other); }
+    inline bool operator!=(const QKeySequence &other) const
+    {
+        return !(*this == other);
+    }
+    bool operator<(const QKeySequence &ks) const;
+    inline bool operator>(const QKeySequence &other) const
+    {
+        return other < *this;
+    }
+    inline bool operator<=(const QKeySequence &other) const
+    {
+        return !(other < *this);
+    }
+    inline bool operator>=(const QKeySequence &other) const
+    {
+        return !(*this < other);
+    }
 
     bool isDetached() const;
 private:
@@ -210,34 +236,36 @@ private:
     int assign(const QString &str, SequenceFormat format);
     void setKey(int key, int index);
 
-    QKeySequencePrivate *d;
+    QKeySequencePrivate    *d;
 
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &in, const QKeySequence &ks);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &in, QKeySequence &ks);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream &in, const QKeySequence &ks);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream &in, QKeySequence &ks);
     friend Q_GUI_EXPORT uint qHash(const QKeySequence &key, uint seed) Q_DECL_NOTHROW;
     friend class QShortcutMap;
     friend class QShortcut;
 
 public:
-    typedef QKeySequencePrivate * DataPtr;
-    inline DataPtr &data_ptr() { return d; }
+    typedef QKeySequencePrivate*DataPtr;
+    inline DataPtr    &data_ptr()
+    {
+        return d;
+    }
 };
 
 Q_DECLARE_SHARED(QKeySequence)
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QKeySequence &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QKeySequence&);
 #endif
 
 #else
 
-class Q_GUI_EXPORT QKeySequence
+class Q_GUI_EXPORT    QKeySequence
 {
 public:
     QKeySequence() {}
     QKeySequence(int) {}
 };
-
 #endif // QT_NO_SHORTCUT
 
 QT_END_NAMESPACE

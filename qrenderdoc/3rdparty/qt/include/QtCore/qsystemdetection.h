@@ -89,7 +89,7 @@
               - only Q_OS_LINUX is defined if building for other Linux systems
      FREEBSD  - Q_OS_FREEBSD is defined only when building for FreeBSD with a BSD userland
               - Q_OS_FREEBSD_KERNEL is always defined on FreeBSD, even if the userland is from GNU
-*/
+ */
 
 #if defined(__APPLE__) && (defined(__GNUC__) || defined(__xlC__) || defined(__xlc__))
 #  include <TargetConditionals.h>
@@ -118,7 +118,7 @@
 #      define Q_OS_MACOS
 #    endif
 #  else
-#    error "Qt has not been ported to this Apple platform - see http://www.qt.io/developers"
+#    error "Qt has not been ported to this Apple platform - see http:// www.qt.io/developers"
 #  endif
 #elif defined(__ANDROID__) || defined(ANDROID)
 #  define Q_OS_ANDROID
@@ -203,7 +203,7 @@
 #  define Q_OS_HAIKU
 #elif defined(__MAKEDEPEND__)
 #else
-#  error "Qt has not been ported to this OS - see http://www.qt-project.org/"
+#  error "Qt has not been ported to this OS - see http:// www.qt-project.org/"
 #endif
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_WIN64) || defined(Q_OS_WINRT)
@@ -365,5 +365,4 @@
 #  define QT_LINUXBASE
 #endif
 #endif
-
 #endif // QSYSTEMDETECTION_H

@@ -59,16 +59,15 @@ QT_BEGIN_NAMESPACE
 
 class QPlatformInputContext;
 
-class Q_GUI_EXPORT QPlatformInputContextFactory
+class Q_GUI_EXPORT    QPlatformInputContextFactory
 {
 public:
     static QStringList keys();
     static QString requested();
-    static QPlatformInputContext *create(const QString &key);
-    static QPlatformInputContext *create();
+    static QPlatformInputContext* create(const QString &key);
+    static QPlatformInputContext* create();
 };
 
 QT_END_NAMESPACE
 
 #endif // QPLATFORMINPUTCONTEXTFACTORY_H
-

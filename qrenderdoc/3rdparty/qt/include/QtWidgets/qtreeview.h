@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QTreeViewPrivate;
 class QHeaderView;
 
-class Q_WIDGETS_EXPORT QTreeView : public QAbstractItemView
+class Q_WIDGETS_EXPORT    QTreeView : public QAbstractItemView
 {
     Q_OBJECT
     Q_PROPERTY(int autoExpandDelay READ autoExpandDelay WRITE setAutoExpandDelay)
@@ -75,7 +75,7 @@ public:
     void setRootIndex(const QModelIndex &index) Q_DECL_OVERRIDE;
     void setSelectionModel(QItemSelectionModel *selectionModel) Q_DECL_OVERRIDE;
 
-    QHeaderView *header() const;
+    QHeaderView* header() const;
     void setHeader(QHeaderView *header);
 
     int autoExpandDelay() const;
@@ -231,7 +231,7 @@ private:
     Q_DISABLE_COPY(QTreeView)
 #ifndef QT_NO_ANIMATION
     Q_PRIVATE_SLOT(d_func(), void _q_endAnimatedOperation())
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
     Q_PRIVATE_SLOT(d_func(), void _q_modelAboutToBeReset())
     Q_PRIVATE_SLOT(d_func(), void _q_sortIndicatorChanged(int column, Qt::SortOrder order))
 };

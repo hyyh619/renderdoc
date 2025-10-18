@@ -48,11 +48,11 @@ QT_BEGIN_NAMESPACE
 
 class QStyle;
 
-class Q_WIDGETS_EXPORT QStyleFactory
+class Q_WIDGETS_EXPORT    QStyleFactory
 {
 public:
     static QStringList keys();
-    static QStyle *create(const QString&);
+    static QStyle* create(const QString&);
 };
 
 QT_END_NAMESPACE

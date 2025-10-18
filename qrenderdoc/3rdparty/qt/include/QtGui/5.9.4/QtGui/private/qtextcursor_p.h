@@ -60,14 +60,17 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QTextCursorPrivate : public QSharedData
+class Q_GUI_EXPORT    QTextCursorPrivate : public QSharedData
 {
 public:
     QTextCursorPrivate(QTextDocumentPrivate *p);
     QTextCursorPrivate(const QTextCursorPrivate &rhs);
     ~QTextCursorPrivate();
 
-    static inline QTextCursorPrivate *getPrivate(QTextCursor *c) { return c->d; }
+    static inline QTextCursorPrivate* getPrivate(QTextCursor *c)
+    {
+        return c->d;
+    }
 
     enum AdjustResult { CursorMoved, CursorUnchanged };
     AdjustResult adjustPosition(int positionOfChange, int charsAddedOrRemoved, QTextUndoCommand::Operation op);
@@ -76,13 +79,16 @@ public:
 
     void remove();
     void clearCells(QTextTable *table, int startRow, int startCol, int numRows, int numCols, QTextUndoCommand::Operation op);
-    inline bool setPosition(int newPosition) {
+    inline bool setPosition(int newPosition)
+    {
         Q_ASSERT(newPosition >= 0 && newPosition < priv->length());
-        bool moved = position != newPosition;
-        if (moved) {
-            position = newPosition;
-            currentCharFormat = -1;
+        bool    moved = position != newPosition;
+        if (moved)
+        {
+            position            = newPosition;
+            currentCharFormat   = -1;
         }
+
         return moved;
     }
     void setX();
@@ -92,13 +98,17 @@ public:
     bool movePosition(QTextCursor::MoveOperation op, QTextCursor::MoveMode mode = QTextCursor::MoveAnchor);
 
     inline QTextBlock block() const
-        { return QTextBlock(priv, priv->blockMap().findNode(position)); }
+    {
+        return QTextBlock(priv, priv->blockMap().findNode(position));
+    }
     inline QTextBlockFormat blockFormat() const
-        { return block().blockFormat(); }
+    {
+        return block().blockFormat();
+    }
 
-    QTextLayout *blockLayout(QTextBlock &block) const;
+    QTextLayout* blockLayout(QTextBlock &block) const;
 
-    QTextTable *complexSelectionTable() const;
+    QTextTable* complexSelectionTable() const;
     void selectedTableCells(int *firstRow, int *numRows, int *firstColumn, int *numColumns) const;
 
     void setBlockCharFormat(const QTextCharFormat &format, QTextDocumentPrivate::FormatChangeMode changeMode);
@@ -108,17 +118,19 @@ public:
     void aboutToRemoveCell(int from, int to);
 
     static QTextCursor fromPosition(QTextDocumentPrivate *d, int pos)
-    { return QTextCursor(d, pos); }
+    {
+        return QTextCursor(d, pos);
+    }
 
-    QTextDocumentPrivate *priv;
-    qreal x;
-    int position;
-    int anchor;
-    int adjusted_anchor;
-    int currentCharFormat;
-    uint visualNavigation : 1;
-    uint keepPositionOnInsert : 1;
-    uint changed : 1;
+    QTextDocumentPrivate    *priv;
+    qreal                   x;
+    int                     position;
+    int                     anchor;
+    int                     adjusted_anchor;
+    int                     currentCharFormat;
+    uint                    visualNavigation : 1;
+    uint                    keepPositionOnInsert : 1;
+    uint                    changed : 1;
 };
 
 QT_END_NAMESPACE

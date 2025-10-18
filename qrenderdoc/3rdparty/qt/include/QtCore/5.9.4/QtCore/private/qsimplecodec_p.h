@@ -58,27 +58,26 @@ QT_BEGIN_NAMESPACE
 
 #ifndef QT_NO_TEXTCODEC
 
-template <typename T> class QAtomicPointer;
+template<typename T> class QAtomicPointer;
 
-class QSimpleTextCodec: public QTextCodec
+class QSimpleTextCodec : public QTextCodec
 {
 public:
     enum { numSimpleCodecs = 30 };
     explicit QSimpleTextCodec(int);
     ~QSimpleTextCodec();
 
-    QString convertToUnicode(const char *, int, ConverterState *) const override;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const override;
+    QString convertToUnicode(const char*, int, ConverterState*) const override;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const override;
 
     QByteArray name() const override;
     QList<QByteArray> aliases() const override;
     int mibEnum() const override;
 
 private:
-    int forwardIndex;
-    mutable QAtomicPointer<QByteArray> reverseMap;
+    int                                     forwardIndex;
+    mutable QAtomicPointer<QByteArray>      reverseMap;
 };
-
 #endif // QT_NO_TEXTCODEC
 
 QT_END_NAMESPACE

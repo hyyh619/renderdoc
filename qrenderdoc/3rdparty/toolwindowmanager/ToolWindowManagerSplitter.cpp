@@ -27,53 +27,51 @@
 #include <QDebug>
 
 ToolWindowManagerSplitter::ToolWindowManagerSplitter(QWidget *parent) : QSplitter(parent)
-{
-}
+{}
 
 ToolWindowManagerSplitter::~ToolWindowManagerSplitter()
-{
-}
+{}
 
 void ToolWindowManagerSplitter::childEvent(QChildEvent *event)
 {
-  QList<int> s = sizes();
+    QList<int>    s = sizes();
 
-  QWidget *w = qobject_cast<QWidget *>(event->child());
-  int idx = -1;
-  if(w)
-    idx = indexOf(w);
+    QWidget     *w  = qobject_cast<QWidget*>(event->child());
+    int         idx = -1;
+    if (w)
+        idx = indexOf(w);
 
-  QSplitter::childEvent(event);
+    QSplitter::childEvent(event);
 
-  if(event->type() == QEvent::ChildRemoved && idx >= 0 && idx < s.count())
-  {
-    int removedSize = s[idx];
-
-    s.removeAt(idx);
-
-    // if we removed an item at one extreme or another, the new end should get all the space
-    // (unless the list is now empty)
-    if(idx == 0)
+    if (event->type() == QEvent::ChildRemoved && idx >= 0 && idx < s.count())
     {
-      if(!s.isEmpty())
-        s[0] += removedSize;
-    }
-    else if(idx == s.count())
-    {
-      if(!s.isEmpty())
-        s[s.count() - 1] += removedSize;
-    }
-    else
-    {
-      // we removed an item in the middle, share the space between its previous neighbours, now in
-      // [idx-1] and [idx], and we know they're valid since if there were only two elements before
-      // the removal one or the other case above would have matched. So there are at least two
-      // elements now and idx > 0
+        int    removedSize = s[idx];
 
-      s[idx - 1] += removedSize / 2;
-      s[idx] += removedSize / 2;
-    }
+        s.removeAt(idx);
 
-    setSizes(s);
-  }
+        // if we removed an item at one extreme or another, the new end should get all the space
+        // (unless the list is now empty)
+        if (idx == 0)
+        {
+            if (!s.isEmpty())
+                s[0] += removedSize;
+        }
+        else if (idx == s.count())
+        {
+            if (!s.isEmpty())
+                s[s.count() - 1] += removedSize;
+        }
+        else
+        {
+            // we removed an item in the middle, share the space between its previous neighbours, now in
+            // [idx-1] and [idx], and we know they're valid since if there were only two elements before
+            // the removal one or the other case above would have matched. So there are at least two
+            // elements now and idx > 0
+
+            s[idx - 1]  += removedSize / 2;
+            s[idx]      += removedSize / 2;
+        }
+
+        setSizes(s);
+    }
 }

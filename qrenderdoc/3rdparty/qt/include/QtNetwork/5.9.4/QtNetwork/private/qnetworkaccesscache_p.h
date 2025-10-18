@@ -66,7 +66,7 @@ class QUrl;
 // this class is not about caching files but about
 // caching objects used by QNetworkAccessManager, e.g. existing TCP connections
 // or credentials.
-class QNetworkAccessCache: public QObject
+class QNetworkAccessCache : public QObject
 {
     Q_OBJECT
 public:
@@ -76,16 +76,19 @@ public:
     class CacheableObject
     {
         friend class QNetworkAccessCache;
-        QByteArray key;
-        bool expires;
-        bool shareable;
-    public:
+        QByteArray      key;
+        bool            expires;
+        bool            shareable;
+public:
         CacheableObject();
         virtual ~CacheableObject();
         virtual void dispose() = 0;
-        inline QByteArray cacheKey() const { return key; }
+        inline QByteArray cacheKey() const
+        {
+            return key;
+        }
 
-    protected:
+protected:
         void setExpires(bool enable);
         void setShareable(bool enable);
     };
@@ -98,23 +101,23 @@ public:
     void addEntry(const QByteArray &key, CacheableObject *entry);
     bool hasEntry(const QByteArray &key) const;
     bool requestEntry(const QByteArray &key, QObject *target, const char *member);
-    CacheableObject *requestEntryNow(const QByteArray &key);
+    CacheableObject* requestEntryNow(const QByteArray &key);
     void releaseEntry(const QByteArray &key);
     void removeEntry(const QByteArray &key);
 
 signals:
-    void entryReady(QNetworkAccessCache::CacheableObject *);
+    void entryReady(QNetworkAccessCache::CacheableObject*);
 
 protected:
-    void timerEvent(QTimerEvent *) Q_DECL_OVERRIDE;
+    void timerEvent(QTimerEvent*) Q_DECL_OVERRIDE;
 
 private:
     // idea copied from qcache.h
-    NodeHash hash;
-    Node *oldest;
-    Node *newest;
+    NodeHash    hash;
+    Node        *oldest;
+    Node        *newest;
 
-    QBasicTimer timer;
+    QBasicTimer    timer;
 
     void linkEntry(const QByteArray &key);
     bool unlinkEntry(const QByteArray &key);

@@ -76,13 +76,13 @@ struct QSvgCssAttribute
     QXmlStreamStringRef name;
     QXmlStreamStringRef value;
 };
-
 #endif
 
-class Q_SVG_PRIVATE_EXPORT QSvgHandler
+class Q_SVG_PRIVATE_EXPORT    QSvgHandler
 {
 public:
-    enum LengthType {
+    enum LengthType
+    {
         LT_PERCENT,
         LT_PX,
         LT_PC,
@@ -96,17 +96,24 @@ public:
 public:
     QSvgHandler(QIODevice *device);
     QSvgHandler(const QByteArray &data);
-    QSvgHandler(QXmlStreamReader *const data);
+    QSvgHandler(QXmlStreamReader* const data);
     ~QSvgHandler();
 
-    QSvgTinyDocument *document() const;
+    QSvgTinyDocument* document() const;
 
-    inline bool ok() const {
+    inline bool ok() const
+    {
         return document() != 0 && !xml->hasError();
     }
 
-    inline QString errorString() const { return xml->errorString(); }
-    inline int lineNumber() const { return xml->lineNumber(); }
+    inline QString errorString() const
+    {
+        return xml->errorString();
+    }
+    inline int lineNumber() const
+    {
+        return xml->lineNumber();
+    }
 
     void setDefaultCoordinateSystem(LengthType type);
     LengthType defaultCoordinateSystem() const;
@@ -120,7 +127,7 @@ public:
     void setInStyle(bool b);
     bool inStyle() const;
 
-    QSvgStyleSelector *selector() const;
+    QSvgStyleSelector* selector() const;
 #endif
 
     void setAnimPeriod(int start, int end);
@@ -131,7 +138,9 @@ public:
 #endif
 
     inline QPen defaultPen() const
-    { return m_defaultPen; }
+    {
+        return m_defaultPen;
+    }
 
 public:
     bool startElement(const QString &localName, const QXmlStreamAttributes &attributes);
@@ -142,10 +151,10 @@ public:
 private:
     void init();
 
-    QSvgTinyDocument *m_doc;
-    QStack<QSvgNode*> m_nodes;
+    QSvgTinyDocument        *m_doc;
+    QStack<QSvgNode*>       m_nodes;
 
-    QList<QSvgNode*>  m_resolveNodes;
+    QList<QSvgNode*>    m_resolveNodes;
 
     enum CurrentNode
     {
@@ -153,38 +162,38 @@ private:
         Graphics,
         Style
     };
-    QStack<CurrentNode> m_skipNodes;
+    QStack<CurrentNode>    m_skipNodes;
 
     /*!
         Follows the depths of elements. The top is current xml:space
         value that applies for a given element.
      */
-    QStack<QSvgText::WhitespaceMode> m_whitespaceMode;
+    QStack<QSvgText::WhitespaceMode>    m_whitespaceMode;
 
-    QSvgRefCounter<QSvgStyleProperty> m_style;
+    QSvgRefCounter<QSvgStyleProperty>    m_style;
 
-    LengthType m_defaultCoords;
+    LengthType    m_defaultCoords;
 
-    QStack<QColor> m_colorStack;
-    QStack<int>    m_colorTagCount;
+    QStack<QColor>      m_colorStack;
+    QStack<int>         m_colorTagCount;
 
-    int m_animEnd;
+    int    m_animEnd;
 
-    QXmlStreamReader *const xml;
+    QXmlStreamReader* const    xml;
 #ifndef QT_NO_CSSPARSER
-    bool m_inStyle;
-    QSvgStyleSelector *m_selector;
-    QCss::Parser m_cssParser;
+    bool                    m_inStyle;
+    QSvgStyleSelector       *m_selector;
+    QCss::Parser            m_cssParser;
 #endif
     void parse();
     void resolveGradients(QSvgNode *node);
 
-    QPen m_defaultPen;
+    QPen    m_defaultPen;
     /**
      * Whether we own the variable xml, and hence whether
      * we need to delete it.
      */
-    const bool m_ownsReader;
+    const bool    m_ownsReader;
 };
 
 Q_DECLARE_LOGGING_CATEGORY(lcSvgHandler)

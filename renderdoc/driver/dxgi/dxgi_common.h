@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -82,28 +82,30 @@ void ChooseBestMatchingAdapter(GraphicsAPI api, IDXGIFactory *factory,
 struct EmbeddedD3DIncluder : public ID3DInclude
 {
 private:
-  rdcarray<rdcpair<rdcstr, rdcstr>> m_FixedFiles;
-  rdcarray<rdcstr> m_IncludeDirs;
+    rdcarray<rdcpair<rdcstr, rdcstr> >  m_FixedFiles;
+    rdcarray<rdcstr>                    m_IncludeDirs;
 
-  rdcarray<rdcstr *> m_FileStrings;
-  // use flatmap here to avoid pulling in the <map> header in such a high-profile place
-  rdcflatmap<const void *, rdcstr> m_StringPaths;
+    rdcarray<rdcstr*> m_FileStrings;
+    // use flatmap here to avoid pulling in the <map> header in such a high-profile place
+    rdcflatmap<const void*, rdcstr> m_StringPaths;
 
 public:
-  EmbeddedD3DIncluder(const rdcarray<rdcstr> &includeDirs,
-                      const rdcarray<rdcpair<rdcstr, rdcstr>> &fixed_files)
-      : m_IncludeDirs(includeDirs), m_FixedFiles(fixed_files)
-  {
-  }
-  ~EmbeddedD3DIncluder()
-  {
-    for(rdcstr *s : m_FileStrings)
-      delete s;
-  }
-  virtual HRESULT STDMETHODCALLTYPE Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName,
-                                         LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) override;
-  // we just 'leak' all handles we don't track open/close at fine-grained detail.
-  virtual HRESULT STDMETHODCALLTYPE Close(LPCVOID pData) override { return S_OK; }
+    EmbeddedD3DIncluder(const rdcarray<rdcstr> &includeDirs,
+                        const rdcarray<rdcpair<rdcstr, rdcstr> > &fixed_files)
+        : m_IncludeDirs(includeDirs), m_FixedFiles(fixed_files)
+    {}
+    ~EmbeddedD3DIncluder()
+    {
+        for (rdcstr *s : m_FileStrings)
+            delete s;
+    }
+    virtual HRESULT STDMETHODCALLTYPE Open(D3D_INCLUDE_TYPE IncludeType, LPCSTR pFileName,
+                                           LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) override;
+    // we just 'leak' all handles we don't track open/close at fine-grained detail.
+    virtual HRESULT STDMETHODCALLTYPE Close(LPCVOID pData) override
+    {
+        return S_OK;
+    }
 };
 
 DECLARE_REFLECTION_STRUCT(DXGI_SAMPLE_DESC);

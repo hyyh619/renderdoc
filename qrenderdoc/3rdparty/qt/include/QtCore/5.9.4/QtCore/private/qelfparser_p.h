@@ -63,8 +63,8 @@ QT_BEGIN_NAMESPACE
 class QString;
 class QLibraryPrivate;
 
-typedef quint16  qelfhalf_t;
-typedef quint32  qelfword_t;
+typedef quint16 qelfhalf_t;
+typedef quint32 qelfword_t;
 typedef quintptr qelfoff_t;
 typedef quintptr qelfaddr_t;
 
@@ -76,17 +76,17 @@ public:
 
     struct ElfSectionHeader
     {
-        qelfword_t name;
-        qelfword_t type;
-        qelfoff_t  offset;
-        qelfoff_t  size;
+        qelfword_t  name;
+        qelfword_t  type;
+        qelfoff_t   offset;
+        qelfoff_t   size;
     };
 
-    int m_endian;
-    int m_bits;
-    int m_stringTableFileOffset;
+    int     m_endian;
+    int     m_bits;
+    int     m_stringTableFileOffset;
 
-    template <typename T>
+    template<typename T>
     T read(const char *s)
     {
         if (m_endian == ElfBigEndian)
@@ -95,12 +95,11 @@ public:
             return qFromLittleEndian<T>(s);
     }
 
-    const char *parseSectionHeader(const char* s, ElfSectionHeader *sh);
+    const char* parseSectionHeader(const char *s, ElfSectionHeader *sh);
     int parse(const char *m_s, ulong fdlen, const QString &library, QLibraryPrivate *lib, long *pos, ulong *sectionlen);
 };
 
 QT_END_NAMESPACE
-
 #endif // defined(Q_OF_ELF) && defined(Q_CC_GNU)
 
 #endif // QELFPARSER_P_H

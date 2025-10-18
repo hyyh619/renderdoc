@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_SHORTCUT
 
 class QShortcutPrivate;
-class Q_WIDGETS_EXPORT QShortcut : public QObject
+class Q_WIDGETS_EXPORT    QShortcut : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QShortcut)
@@ -61,12 +61,12 @@ class Q_WIDGETS_EXPORT QShortcut : public QObject
     Q_PROPERTY(Qt::ShortcutContext context READ context WRITE setContext)
 public:
     explicit QShortcut(QWidget *parent);
-    QShortcut(const QKeySequence& key, QWidget *parent,
+    QShortcut(const QKeySequence &key, QWidget *parent,
               const char *member = Q_NULLPTR, const char *ambiguousMember = Q_NULLPTR,
               Qt::ShortcutContext context = Qt::WindowShortcut);
     ~QShortcut();
 
-    void setKey(const QKeySequence& key);
+    void setKey(const QKeySequence &key);
     QKeySequence key() const;
 
     void setEnabled(bool enable);
@@ -83,8 +83,10 @@ public:
 
     int id() const;
 
-    inline QWidget *parentWidget() const
-    { return static_cast<QWidget *>(QObject::parent()); }
+    inline QWidget* parentWidget() const
+    {
+        return static_cast<QWidget*>(QObject::parent());
+    }
 
 Q_SIGNALS:
     void activated();
@@ -93,7 +95,6 @@ Q_SIGNALS:
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_SHORTCUT
 
 QT_END_NAMESPACE

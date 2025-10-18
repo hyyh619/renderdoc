@@ -56,7 +56,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_CORE_EXPORT QSystemError
+class Q_CORE_EXPORT    QSystemError
 {
 public:
     enum ErrorScope
@@ -79,22 +79,18 @@ public:
     static QString windowsString(int errorCode = -1);
 #endif
 
-    //data members
-    int errorCode;
-    ErrorScope errorScope;
+    // data members
+    int             errorCode;
+    ErrorScope      errorScope;
 };
 
 QSystemError::QSystemError(int error, QSystemError::ErrorScope scope)
-: errorCode(error), errorScope(scope)
-{
-
-}
+    : errorCode(error), errorScope(scope)
+{}
 
 QSystemError::QSystemError()
-: errorCode(0), errorScope(NoError)
-{
-
-}
+    : errorCode(0), errorScope(NoError)
+{}
 
 QString QSystemError::toString() const
 {

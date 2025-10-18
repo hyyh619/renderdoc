@@ -77,21 +77,21 @@ public:
 
 private:
     bool readHeader();
-    enum State {
+    enum State
+    {
         Ready,
         ReadHeader,
         Error
     };
-    State state;
-    char type;
-    int width;
-    int height;
-    int mcc;
-    mutable QByteArray subType;
+    State                   state;
+    char                    type;
+    int                     width;
+    int                     height;
+    int                     mcc;
+    mutable QByteArray      subType;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_IMAGEFORMAT_PPM
 
 #endif // QPPMHANDLER_P_H

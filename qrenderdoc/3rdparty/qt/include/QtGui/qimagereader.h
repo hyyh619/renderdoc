@@ -56,11 +56,12 @@ class QSize;
 class QStringList;
 
 class QImageReaderPrivate;
-class Q_GUI_EXPORT QImageReader
+class Q_GUI_EXPORT    QImageReader
 {
     Q_DECLARE_TR_FUNCTIONS(QImageReader)
 public:
-    enum ImageReaderError {
+    enum ImageReaderError
+    {
         UnknownError,
         FileNotFoundError,
         DeviceError,
@@ -83,7 +84,7 @@ public:
     bool decideFormatFromContent() const;
 
     void setDevice(QIODevice *device);
-    QIODevice *device() const;
+    QIODevice* device() const;
 
     void setFileName(const QString &fileName);
     QString fileName() const;
@@ -147,7 +148,7 @@ public:
 
 private:
     Q_DISABLE_COPY(QImageReader)
-    QImageReaderPrivate *d;
+    QImageReaderPrivate * d;
 };
 
 QT_END_NAMESPACE

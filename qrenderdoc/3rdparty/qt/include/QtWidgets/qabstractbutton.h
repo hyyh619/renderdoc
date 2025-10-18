@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QButtonGroup;
 class QAbstractButtonPrivate;
 
-class Q_WIDGETS_EXPORT QAbstractButton : public QWidget
+class Q_WIDGETS_EXPORT    QAbstractButton : public QWidget
 {
     Q_OBJECT
 
@@ -109,7 +109,7 @@ public:
     bool autoExclusive() const;
 
 #if QT_CONFIG(buttongroup)
-    QButtonGroup *group() const;
+    QButtonGroup* group() const;
 #endif
 
 public Q_SLOTS:
@@ -144,7 +144,7 @@ protected:
 
 
 protected:
-    QAbstractButton(QAbstractButtonPrivate &dd, QWidget* parent = Q_NULLPTR);
+    QAbstractButton(QAbstractButtonPrivate &dd, QWidget *parent = Q_NULLPTR);
 
 private:
     Q_DECLARE_PRIVATE(QAbstractButton)

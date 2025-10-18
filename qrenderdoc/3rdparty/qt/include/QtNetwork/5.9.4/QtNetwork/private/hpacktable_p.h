@@ -64,36 +64,33 @@ QT_BEGIN_NAMESPACE
 
 namespace HPack
 {
-
-struct Q_AUTOTEST_EXPORT HeaderField
-{
-    HeaderField()
+    struct Q_AUTOTEST_EXPORT    HeaderField
     {
-    }
+        HeaderField()
+        {}
 
-    HeaderField(const QByteArray &n, const QByteArray &v)
-        : name(n),
-          value(v)
+        HeaderField(const QByteArray &n, const QByteArray &v)
+            : name(n),
+            value(v)
+        {}
+
+        bool operator ==(const HeaderField &rhs) const
+        {
+            return name == rhs.name && value == rhs.value;
+        }
+
+        QByteArray  name;
+        QByteArray  value;
+    };
+
+    using HeaderSize = QPair<bool, quint32>;
+
+    HeaderSize entry_size(const QByteArray &name, const QByteArray &value);
+
+    inline HeaderSize entry_size(const HeaderField &entry)
     {
+        return entry_size(entry.name, entry.value);
     }
-
-    bool operator == (const HeaderField &rhs) const
-    {
-        return name == rhs.name && value == rhs.value;
-    }
-
-    QByteArray name;
-    QByteArray value;
-};
-
-using HeaderSize = QPair<bool, quint32>;
-
-HeaderSize entry_size(const QByteArray &name, const QByteArray &value);
-
-inline HeaderSize entry_size(const HeaderField &entry)
-{
-    return entry_size(entry.name, entry.value);
-}
 
 /*
     Lookup table consists of two parts (HPACK, 2.3):
@@ -141,95 +138,94 @@ inline HeaderSize entry_size(const HeaderField &entry)
     by name|value pairs first, and then by chunk index/offset
     (so that NewSearchEntryKey < OldSearchEntry even if strings
     are equal).
-*/
+ */
 
-class Q_AUTOTEST_EXPORT FieldLookupTable
-{
-public:
-    enum
+    class Q_AUTOTEST_EXPORT    FieldLookupTable
     {
-        ChunkSize = 16,
-        DefaultSize = 4096 // Recommended by HTTP2.
-    };
+public:
+        enum
+        {
+            ChunkSize   = 16,
+            DefaultSize = 4096 // Recommended by HTTP2.
+        };
 
-    FieldLookupTable(quint32 maxTableSize, bool useIndex);
+        FieldLookupTable(quint32 maxTableSize, bool useIndex);
 
-    bool prependField(const QByteArray &name, const QByteArray &value);
-    void evictEntry();
+        bool prependField(const QByteArray &name, const QByteArray &value);
+        void evictEntry();
 
-    quint32 numberOfEntries() const;
-    quint32 numberOfStaticEntries() const;
-    quint32 numberOfDynamicEntries() const;
-    quint32 dynamicDataSize() const;
-    void clearDynamicTable();
+        quint32 numberOfEntries() const;
+        quint32 numberOfStaticEntries() const;
+        quint32 numberOfDynamicEntries() const;
+        quint32 dynamicDataSize() const;
+        void clearDynamicTable();
 
-    bool indexIsValid(quint32 index) const;
-    quint32 indexOf(const QByteArray &name, const QByteArray &value) const;
-    quint32 indexOf(const QByteArray &name) const;
-    bool field(quint32 index, QByteArray *name, QByteArray *value) const;
-    bool fieldName(quint32 index, QByteArray *dst) const;
-    bool fieldValue(quint32 index, QByteArray *dst) const;
+        bool indexIsValid(quint32 index) const;
+        quint32 indexOf(const QByteArray &name, const QByteArray &value) const;
+        quint32 indexOf(const QByteArray &name) const;
+        bool field(quint32 index, QByteArray *name, QByteArray *value) const;
+        bool fieldName(quint32 index, QByteArray *dst) const;
+        bool fieldValue(quint32 index, QByteArray *dst) const;
 
-    bool updateDynamicTableSize(quint32 size);
-    void setMaxDynamicTableSize(quint32 size);
+        bool updateDynamicTableSize(quint32 size);
+        void setMaxDynamicTableSize(quint32 size);
 
 private:
-    // Table's maximum size is controlled
-    // by SETTINGS_HEADER_TABLE_SIZE (HTTP/2, 6.5.2).
-    quint32 maxTableSize;
-    // The tableCapacity is how many bytes the table
-    // can currently hold. It cannot exceed maxTableSize.
-    // It can be modified by a special message in
-    // the HPACK bit stream (HPACK, 6.3).
-    quint32 tableCapacity;
+        // Table's maximum size is controlled
+        // by SETTINGS_HEADER_TABLE_SIZE (HTTP/2, 6.5.2).
+        quint32    maxTableSize;
+        // The tableCapacity is how many bytes the table
+        // can currently hold. It cannot exceed maxTableSize.
+        // It can be modified by a special message in
+        // the HPACK bit stream (HPACK, 6.3).
+        quint32    tableCapacity;
 
-    using Chunk = std::vector<HeaderField>;
-    using ChunkPtr = std::unique_ptr<Chunk>;
-    std::deque<ChunkPtr> chunks;
-    using size_type = std::deque<ChunkPtr>::size_type;
+        using Chunk     = std::vector<HeaderField>;
+        using ChunkPtr  = std::unique_ptr<Chunk>;
+        std::deque<ChunkPtr>    chunks;
+        using size_type = std::deque<ChunkPtr>::size_type;
 
-    struct SearchEntry;
-    friend struct SearchEntry;
+        struct SearchEntry;
+        friend struct SearchEntry;
 
-    struct SearchEntry
-    {
-        SearchEntry();
-        SearchEntry(const HeaderField *f, const Chunk *c,
-                    quint32 o, const FieldLookupTable *t);
+        struct SearchEntry
+        {
+            SearchEntry();
+            SearchEntry(const HeaderField *f, const Chunk *c,
+                        quint32 o, const FieldLookupTable *t);
 
-        const HeaderField *field;
-        const Chunk *chunk;
-        const quint32 offset;
-        const FieldLookupTable *table;
+            const HeaderField       *field;
+            const Chunk             *chunk;
+            const quint32           offset;
+            const FieldLookupTable  *table;
 
-        bool operator < (const SearchEntry &rhs) const;
+            bool operator <(const SearchEntry &rhs) const;
+        };
+
+        bool                        useIndex;
+        std::set<SearchEntry>       searchIndex;
+
+        SearchEntry frontKey() const;
+        SearchEntry backKey() const;
+
+        bool fieldAt(quint32 index, HeaderField *field) const;
+
+        const HeaderField       &front() const;
+        HeaderField             &front();
+        const HeaderField       &back() const;
+
+        quint32     nDynamic;
+        quint32     begin;
+        quint32     end;
+        quint32     dataSize;
+
+        quint32 indexOfChunk(const Chunk *chunk) const;
+        quint32 keyToIndex(const SearchEntry &key) const;
+
+        mutable QByteArray    dummyDst;
+
+        Q_DISABLE_COPY(FieldLookupTable);
     };
-
-    bool useIndex;
-    std::set<SearchEntry> searchIndex;
-
-    SearchEntry frontKey() const;
-    SearchEntry backKey() const;
-
-    bool fieldAt(quint32 index, HeaderField *field) const;
-
-    const HeaderField &front() const;
-    HeaderField &front();
-    const HeaderField &back() const;
-
-    quint32 nDynamic;
-    quint32 begin;
-    quint32 end;
-    quint32 dataSize;
-
-    quint32 indexOfChunk(const Chunk *chunk) const;
-    quint32 keyToIndex(const SearchEntry &key) const;
-
-    mutable QByteArray dummyDst;
-
-    Q_DISABLE_COPY(FieldLookupTable);
-};
-
 }
 
 QT_END_NAMESPACE

@@ -73,16 +73,15 @@ public:
     bool canReadNotification() Q_DECL_OVERRIDE;
     bool writeToSocket() Q_DECL_OVERRIDE;
 
-    QByteArray incomingDatagram;
-    int maximumChannelCount;
+    QByteArray      incomingDatagram;
+    int             maximumChannelCount;
 
     typedef std::deque<QIpPacketHeader> IpHeaderList;
-    QVector<IpHeaderList> readHeaders;
-    QVector<IpHeaderList> writeHeaders;
+    QVector<IpHeaderList>       readHeaders;
+    QVector<IpHeaderList>       writeHeaders;
 
     void configureCreatedSocket() Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_SCTP
 
 QT_END_NAMESPACE

@@ -1,9 +1,9 @@
-//==============================================================================
+// ==============================================================================
 // Copyright (c) 2012-2024 Advanced Micro Devices, Inc. All rights reserved.
 /// @author AMD Developer Tools Team
 /// @file
 /// @brief Interface to access to the available counters in GPUPerfAPI.
-//==============================================================================
+// ==============================================================================
 
 #ifndef GPU_PERF_API_GPU_PERF_API_COUNTERS_H_
 #define GPU_PERF_API_GPU_PERF_API_COUNTERS_H_
@@ -25,7 +25,7 @@
 #else
 #define GPU_PERF_API_COUNTERS_DECL __declspec(dllimport)
 #endif
-#else  //_LINUX
+#else  // _LINUX
 #define GPU_PERF_API_COUNTERS_DECL extern
 #endif
 #endif
@@ -135,20 +135,19 @@ typedef enum
 /// GPA Hardware attribute.
 typedef struct _GpaHardwareAttribute
 {
-    GpaHardwareAttributeType gpa_hardware_attribute_type;   ///< GPA hardware attribute type.
-    GpaUInt32                gpa_hardware_attribute_value;  ///< GPA hardware attribute value.
+    GpaHardwareAttributeType    gpa_hardware_attribute_type; ///< GPA hardware attribute type.
+    GpaUInt32                   gpa_hardware_attribute_value; ///< GPA hardware attribute value.
 } GpaHardwareAttribute;
 
 /// GPA counter context hardware info.
 typedef struct _GpaCounterContextHardwareInfo
 {
-    GpaUInt32 vendor_id;    ///< Vendor Id.
-    GpaUInt32 device_id;    ///< Device Id.
-    GpaUInt32 revision_id;  ///< Revision Id.
+    GpaUInt32   vendor_id;  ///< Vendor Id.
+    GpaUInt32   device_id;  ///< Device Id.
+    GpaUInt32   revision_id; ///< Revision Id.
 
-    GpaHardwareAttribute* gpa_hardware_attributes;       ///< Pointer to array of hardware attributes.
-    GpaUInt32             gpa_hardware_attribute_count;  ///< Number of hardware attributes.
-
+    GpaHardwareAttribute    *gpa_hardware_attributes;    ///< Pointer to array of hardware attributes.
+    GpaUInt32               gpa_hardware_attribute_count; ///< Number of hardware attributes.
 } GpaCounterContextHardwareInfo;
 
 /// Hardware counter info.
@@ -159,32 +158,30 @@ typedef struct _GpaHwCounter
     {
         union
         {
-            GpaUInt32 gpu_time_bottom_to_bottom_duration;  ///< Index of gpu_time_bottom_to_bottom_duration counter.
-            GpaUInt32 gpu_time_bottom_to_bottom_start;     ///< Index of gpu_time_bottom_to_bottom_duration counter.
-            GpaUInt32 gpu_time_bottom_to_bottom_end;       ///< Index of gpu_time_bottom_to_bottom_duration counter.
-            GpaUInt32 gpu_time_top_to_bottom_duration;     ///< Index of gpu_time_top_to_bottom_duration counter.
-            GpaUInt32 gpu_time_top_to_bottom_start;        ///< Index of gpu_time_top_to_bottom_start counter.
-            GpaUInt32 gpu_time_top_to_bottom_end;          ///< Index of gpu_time_top_to_bottom_end counter.
+            GpaUInt32   gpu_time_bottom_to_bottom_duration; ///< Index of gpu_time_bottom_to_bottom_duration counter.
+            GpaUInt32   gpu_time_bottom_to_bottom_start;   ///< Index of gpu_time_bottom_to_bottom_duration counter.
+            GpaUInt32   gpu_time_bottom_to_bottom_end;     ///< Index of gpu_time_bottom_to_bottom_duration counter.
+            GpaUInt32   gpu_time_top_to_bottom_duration;   ///< Index of gpu_time_top_to_bottom_duration counter.
+            GpaUInt32   gpu_time_top_to_bottom_start;      ///< Index of gpu_time_top_to_bottom_start counter.
+            GpaUInt32   gpu_time_top_to_bottom_end;        ///< Index of gpu_time_top_to_bottom_end counter.
         };
 
         struct
         {
-            GpaHwBlock    gpa_hw_block;           ///< GPA hardware block.
-            GpaUInt32     gpa_hw_block_instance;  ///< GPA hardware block 0-based instance index.
-            GpaUInt32     gpa_hw_block_event_id;  ///< GPA hardware block 0-based event id.
-            GpaShaderMask gpa_shader_mask;        ///< GPA shader mask, only used if SQ block is queried.
+            GpaHwBlock      gpa_hw_block;         ///< GPA hardware block.
+            GpaUInt32       gpa_hw_block_instance; ///< GPA hardware block 0-based instance index.
+            GpaUInt32       gpa_hw_block_event_id; ///< GPA hardware block 0-based event id.
+            GpaShaderMask   gpa_shader_mask;      ///< GPA shader mask, only used if SQ block is queried.
         };
     };
-
 } GpaHwCounter;
 
 /// GPA derived counter info.
 typedef struct _GpaDerivedCounterInfo
 {
-    GpaHwCounter* gpa_hw_counters;       ///< Hardware counters.
-    GpaUInt32     gpa_hw_counter_count;  ///< Number of hardware counter.
-    GpaUsageType  counter_usage_type;    ///< Usage of the derived counter.
-
+    GpaHwCounter    *gpa_hw_counters;    ///< Hardware counters.
+    GpaUInt32       gpa_hw_counter_count; ///< Number of hardware counter.
+    GpaUsageType    counter_usage_type;  ///< Usage of the derived counter.
 } GpaDerivedCounterInfo;
 
 /// GPA counter info -- can be a derived counter or a hardware counter.
@@ -193,8 +190,8 @@ typedef struct _GpaCounterInfo
     bool is_derived_counter;  ///< Flag indicating this is a derived counter.
     union
     {
-        GpaDerivedCounterInfo* gpa_derived_counter;  ///< Derived counter.
-        GpaHwCounter*          gpa_hw_counter;       ///< Hardware counter.
+        GpaDerivedCounterInfo   *gpa_derived_counter; ///< Derived counter.
+        GpaHwCounter            *gpa_hw_counter;     ///< Hardware counter.
     };
 } GpaCounterInfo;
 
@@ -204,17 +201,17 @@ typedef struct _GpaCounterParam
     bool is_derived_counter;  ///< Flag indicating derived counter.
     union
     {
-        const char*  derived_counter_name;  ///< Derived counter name.
-        GpaHwCounter gpa_hw_counter;        ///< Hardware counter.
+        const char      *derived_counter_name; ///< Derived counter name.
+        GpaHwCounter    gpa_hw_counter;     ///< Hardware counter.
     };
 } GpaCounterParam;
 
 /// GPA counters in a pass.
 typedef struct _GpaPassCounter
 {
-    GpaUInt32  pass_index;       ///< Pass index.
-    GpaUInt32  counter_count;    ///< Number of counters.
-    GpaUInt32* counter_indices;  ///< Indices of the counters.
+    GpaUInt32   pass_index;      ///< Pass index.
+    GpaUInt32   counter_count;   ///< Number of counters.
+    GpaUInt32   *counter_indices; ///< Indices of the counters.
 } GpaPassCounter;
 
 /// @brief Gets the GPA Counter lib version.
@@ -225,10 +222,10 @@ typedef struct _GpaPassCounter
 /// @param [out] update_version The value that will hold the update version of GPA upon successful execution.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetVersion(GpaUInt32* major_version,
-                                                             GpaUInt32* minor_version,
-                                                             GpaUInt32* build_number,
-                                                             GpaUInt32* update_version);
+GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetVersion(GpaUInt32 *major_version,
+                                                             GpaUInt32 *minor_version,
+                                                             GpaUInt32 *build_number,
+                                                             GpaUInt32 *update_version);
 
 /// Typedef for GpaCounterLibGetVersion function pointer.
 typedef GpaStatus (*GpaCounterLibGetVersionPtrType)(GpaUInt32*, GpaUInt32*, GpaUInt32*, GpaUInt32*);
@@ -238,7 +235,7 @@ typedef GpaStatus (*GpaCounterLibGetVersionPtrType)(GpaUInt32*, GpaUInt32*, GpaU
 /// @param [out] gpa_counter_lib_function_table pointer to the GPA counter library function table.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetFuncTable(void* gpa_counter_lib_function_table);
+GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetFuncTable(void *gpa_counter_lib_function_table);
 
 /// Typedef for GpaCounterLibGetFuncTable function pointer.
 typedef GpaStatus (*GpaCounterLibGetFuncTablePtrType)(void*);
@@ -255,15 +252,15 @@ typedef GpaStatus (*GpaCounterLibGetFuncTablePtrType)(void*);
 /// @retval kGpaStatusErrorNullPointer If the supplied gpa_virtual_context is a nullptr.
 /// @retval kGpaStatusErrorInvalidParameter If any value other than 1 (true) is passed in for generate_asic_specific_counters_deprecated,
 ///         or if the context_flags specified would result in zero counters being exposed.
-GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibOpenCounterContext(GpaApiType                    api,
-                                                                     GpaSessionSampleType          sample_type,
+GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibOpenCounterContext(GpaApiType api,
+                                                                     GpaSessionSampleType sample_type,
                                                                      GpaCounterContextHardwareInfo gpa_counter_context_hardware_info,
-                                                                     GpaOpenContextFlags           context_flags,
-                                                                     GpaCounterContext*            gpa_virtual_context);
+                                                                     GpaOpenContextFlags context_flags,
+                                                                     GpaCounterContext *gpa_virtual_context);
 
 /// typedef for GpaCounterLibOpenCounterContext function pointer.
 typedef GpaStatus (
-    *GpaCounterLibOpenCounterContextPtrType)(GpaApiType, GpaSessionSampleType, GpaCounterContextHardwareInfo, GpaOpenContextFlags, GpaCounterContext*);
+*GpaCounterLibOpenCounterContextPtrType)(GpaApiType, GpaSessionSampleType, GpaCounterContextHardwareInfo, GpaOpenContextFlags, GpaCounterContext*);
 
 /// @brief Closes the specified context, which ends access to GPU performance counters.
 ///
@@ -283,7 +280,7 @@ typedef GpaStatus (*GpaCounterLibCloseCounterContextPtrType)(const GpaCounterCon
 /// @param [out] gpa_counter_count The value which will hold the count upon successful execution.
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
-GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetNumCounters(const GpaCounterContext gpa_virtual_context, GpaUInt32* gpa_counter_count);
+GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetNumCounters(const GpaCounterContext gpa_virtual_context, GpaUInt32 *gpa_counter_count);
 
 /// Typedef for GpaCounterLibGetNumCountersPtr function pointer.
 typedef GpaStatus (*GpaCounterLibGetNumCountersPtrType)(const GpaCounterContext, GpaUInt32*);
@@ -296,8 +293,8 @@ typedef GpaStatus (*GpaCounterLibGetNumCountersPtrType)(const GpaCounterContext,
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterName(const GpaCounterContext gpa_virtual_context,
-                                                                 GpaUInt32               gpa_counter_index,
-                                                                 const char**            gpa_counter_name);
+                                                                 GpaUInt32 gpa_counter_index,
+                                                                 const char **gpa_counter_name);
 
 /// Typedef for GpaCounterLibGetCounterName function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterNamePtrType)(const GpaCounterContext, GpaUInt32, const char**);
@@ -312,8 +309,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterNamePtrType)(const GpaCounterContext,
 /// @retval kGpaStatusErrorNullPointer if the gpa_counter_info or gpa_counter_index is null, or if the gpa_counter_info
 ///         indicates that it is a derived counter, but the derived counter name is null.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterIndex(const GpaCounterContext gpa_virtual_context,
-                                                                  const GpaCounterParam*  gpa_counter_info,
-                                                                  GpaUInt32*              gpa_counter_index);
+                                                                  const GpaCounterParam *gpa_counter_info,
+                                                                  GpaUInt32 *gpa_counter_index);
 
 /// Typedef for GpaCounterLibGetCounterIndex function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterIndexPtrType)(const GpaCounterContext, const GpaCounterParam*, GpaUInt32*);
@@ -326,8 +323,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterIndexPtrType)(const GpaCounterContext
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterGroup(const GpaCounterContext gpa_virtual_context,
-                                                                  GpaUInt32               gpa_counter_index,
-                                                                  const char**            gpa_counter_group);
+                                                                  GpaUInt32 gpa_counter_index,
+                                                                  const char **gpa_counter_group);
 
 /// Typedef for GpaCounterLibGetCounterGroup function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterGroupPtrType)(const GpaCounterContext, GpaUInt32, const char**);
@@ -340,8 +337,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterGroupPtrType)(const GpaCounterContext
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterDescription(const GpaCounterContext gpa_virtual_context,
-                                                                        GpaUInt32               gpa_counter_index,
-                                                                        const char**            gpa_counter_description);
+                                                                        GpaUInt32 gpa_counter_index,
+                                                                        const char **gpa_counter_description);
 
 /// Typedef for GpaCounterLibGetCounterDescription function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterDescriptionPtrType)(const GpaCounterContext, GpaUInt32, const char**);
@@ -354,8 +351,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterDescriptionPtrType)(const GpaCounterC
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterDataType(const GpaCounterContext gpa_virtual_context,
-                                                                     GpaUInt32               gpa_counter_index,
-                                                                     GpaDataType*            gpa_counter_data_type);
+                                                                     GpaUInt32 gpa_counter_index,
+                                                                     GpaDataType *gpa_counter_data_type);
 
 /// Typedef for GpaCounterLibGetCounterDataType function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterDataTypePtrType)(const GpaCounterContext, GpaUInt32, GpaDataType*);
@@ -368,8 +365,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterDataTypePtrType)(const GpaCounterCont
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterUsageType(const GpaCounterContext gpa_virtual_context,
-                                                                      GpaUInt32               gpa_counter_index,
-                                                                      GpaUsageType*           gpa_counter_usage_type);
+                                                                      GpaUInt32 gpa_counter_index,
+                                                                      GpaUsageType *gpa_counter_usage_type);
 
 /// Typedef for GpaCounterLibGetCounterUsageType function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterUsageTypePtrType)(const GpaCounterContext, GpaUInt32, GpaUsageType*);
@@ -382,8 +379,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterUsageTypePtrType)(const GpaCounterCon
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterUuid(const GpaCounterContext gpa_virtual_context,
-                                                                 GpaUInt32               gpa_counter_index,
-                                                                 GpaUuid*                gpa_counter_uuid);
+                                                                 GpaUInt32 gpa_counter_index,
+                                                                 GpaUuid *gpa_counter_uuid);
 
 /// Typedef for GpaCounterLibGetCounterUuid function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterUuidPtrType)(const GpaCounterContext, GpaUInt32, GpaUuid*);
@@ -397,8 +394,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterUuidPtrType)(const GpaCounterContext,
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterSampleType(const GpaCounterContext gpa_virtual_context,
-                                                                       GpaUInt32               gpa_counter_index,
-                                                                       GpaCounterSampleType*   gpa_counter_sample_type);
+                                                                       GpaUInt32 gpa_counter_index,
+                                                                       GpaCounterSampleType *gpa_counter_sample_type);
 
 /// Typedef for GpaCounterLibGetCounterSampleType function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterSampleTypePtrType)(const GpaCounterContext, GpaUInt32, GpaCounterSampleType*);
@@ -413,8 +410,8 @@ typedef GpaStatus (*GpaCounterLibGetCounterSampleTypePtrType)(const GpaCounterCo
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful. GPA_STATUS_ERROR_FAILED is returned if whitelist/hardware counter index is passed.
 
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCounterInfo(const GpaCounterContext gpa_virtual_context,
-                                                                 GpaUInt32               gpa_counter_index,
-                                                                 const GpaCounterInfo**  gpa_counter_info);
+                                                                 GpaUInt32 gpa_counter_index,
+                                                                 const GpaCounterInfo **gpa_counter_info);
 
 /// Typedef for GpaCounterLibGetCounterInfo function pointer.
 typedef GpaStatus (*GpaCounterLibGetCounterInfoPtrType)(const GpaCounterContext, GpaUInt32, const GpaCounterInfo**);
@@ -430,10 +427,10 @@ typedef GpaStatus (*GpaCounterLibGetCounterInfoPtrType)(const GpaCounterContext,
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful. GPA_STATUS_ERROR_FAILED is returned if whitelist/hardware counter index is passed.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibComputeDerivedCounterResult(const GpaCounterContext gpa_virtual_context,
-                                                                              GpaUInt32               gpa_derived_counter_index,
-                                                                              const GpaUInt64*        gpa_hw_counter_result,
-                                                                              GpaUInt32               gpa_hw_counter_result_count,
-                                                                              GpaFloat64*             gpa_derived_counter_result);
+                                                                              GpaUInt32 gpa_derived_counter_index,
+                                                                              const GpaUInt64 *gpa_hw_counter_result,
+                                                                              GpaUInt32 gpa_hw_counter_result_count,
+                                                                              GpaFloat64 *gpa_derived_counter_result);
 
 /// Typedef for GpaCounterLibComputeDerivedCounterResult function pointer.
 typedef GpaStatus (*GpaCounterLibComputeDerivedCounterResultPtrType)(const GpaCounterContext, GpaUInt32, const GpaUInt64*, GpaUInt32, GpaFloat64*);
@@ -447,9 +444,9 @@ typedef GpaStatus (*GpaCounterLibComputeDerivedCounterResultPtrType)(const GpaCo
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetPassCount(const GpaCounterContext gpa_virtual_context,
-                                                               const GpaUInt32*        gpa_counter_indices,
-                                                               GpaUInt32               gpa_counter_count,
-                                                               GpaUInt32*              number_of_pass_req);
+                                                               const GpaUInt32 *gpa_counter_indices,
+                                                               GpaUInt32 gpa_counter_count,
+                                                               GpaUInt32 *number_of_pass_req);
 
 /// Typedef for GpaCounterLibGetPassCount function pointer.
 typedef GpaStatus (*GpaCounterLibGetPassCountPtrType)(const GpaCounterContext, const GpaUInt32*, GpaUInt32, GpaUInt32*);
@@ -465,11 +462,11 @@ typedef GpaStatus (*GpaCounterLibGetPassCountPtrType)(const GpaCounterContext, c
 ///
 /// @return The GPA result status of the operation. kGpaStatusOk is returned if the operation is successful.
 GPU_PERF_API_COUNTERS_DECL GpaStatus GpaCounterLibGetCountersByPass(const GpaCounterContext gpa_virtual_context,
-                                                                    GpaUInt32               gpa_counter_count,
-                                                                    const GpaUInt32*        gpa_counter_indices,
-                                                                    GpaUInt32*              pass_count,
-                                                                    GpaUInt32*              counter_by_pass_list,
-                                                                    GpaPassCounter*         gpa_pass_counters);
+                                                                    GpaUInt32 gpa_counter_count,
+                                                                    const GpaUInt32 *gpa_counter_indices,
+                                                                    GpaUInt32 *pass_count,
+                                                                    GpaUInt32 *counter_by_pass_list,
+                                                                    GpaPassCounter *gpa_pass_counters);
 
 /// Typedef for GpaCounterLibGetPassCount function pointer.
 typedef GpaStatus (*GpaCounterLibGetCountersByPassPtrType)(const GpaCounterContext, GpaUInt32, const GpaUInt32*, GpaUInt32*, GpaUInt32*, GpaPassCounter*);
@@ -496,8 +493,8 @@ typedef GpaStatus (*GpaCounterLibGetCountersByPassPtrType)(const GpaCounterConte
 /// GPA counter library function table.
 typedef struct _GpaCounterLibFuncTable
 {
-    GpaUInt32 gpa_counter_lib_major_version;
-    GpaUInt32 gpa_counter_lib_minor_version;
+    GpaUInt32   gpa_counter_lib_major_version;
+    GpaUInt32   gpa_counter_lib_minor_version;
 #define GPA_COUNTER_LIB_DECLARE_FUNC_PTR(func) func##PtrType func;
 
     GPA_COUNTER_LIB_FUNC(GPA_COUNTER_LIB_DECLARE_FUNC_PTR)
@@ -505,8 +502,8 @@ typedef struct _GpaCounterLibFuncTable
 #ifdef __cplusplus
     _GpaCounterLibFuncTable()
     {
-        gpa_counter_lib_major_version = GPA_COUNTER_LIB_FUNC_TABLE_MAJOR_VERSION;
-        gpa_counter_lib_minor_version = GPA_COUNTER_LIB_FUNC_TABLE_MINOR_VERSION;
+        gpa_counter_lib_major_version   = GPA_COUNTER_LIB_FUNC_TABLE_MAJOR_VERSION;
+        gpa_counter_lib_minor_version   = GPA_COUNTER_LIB_FUNC_TABLE_MINOR_VERSION;
 
 #define GPA_COUNTER_LIB_ASSIGN_NULL(func) func = nullptr;
         GPA_COUNTER_LIB_FUNC(GPA_COUNTER_LIB_ASSIGN_NULL)
@@ -514,14 +511,14 @@ typedef struct _GpaCounterLibFuncTable
 
     bool IsInit() const
     {
-        bool is_init = true;
+        bool    is_init = true;
 
 #define GPA_COUNTER_LIB_FUNC_IS_NULL(func) is_init &= nullptr != (func);
+
         GPA_COUNTER_LIB_FUNC(GPA_COUNTER_LIB_FUNC_IS_NULL)
         return is_init;
     }
 #endif
-
 } GpaCounterLibFuncTable;
 
 #ifdef _WIN32

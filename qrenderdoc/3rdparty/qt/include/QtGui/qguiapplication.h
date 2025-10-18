@@ -62,14 +62,14 @@ class QStyleHints;
 #if defined(qApp)
 #undef qApp
 #endif
-#define qApp (static_cast<QGuiApplication *>(QCoreApplication::instance()))
+#define qApp (static_cast<QGuiApplication*>(QCoreApplication::instance()))
 
 #if defined(qGuiApp)
 #undef qGuiApp
 #endif
-#define qGuiApp (static_cast<QGuiApplication *>(QCoreApplication::instance()))
+#define qGuiApp (static_cast<QGuiApplication*>(QCoreApplication::instance()))
 
-class Q_GUI_EXPORT QGuiApplication : public QCoreApplication
+class Q_GUI_EXPORT    QGuiApplication : public QCoreApplication
 {
     Q_OBJECT
     Q_PROPERTY(QIcon windowIcon READ windowIcon WRITE setWindowIcon)
@@ -77,8 +77,8 @@ class Q_GUI_EXPORT QGuiApplication : public QCoreApplication
     Q_PROPERTY(QString desktopFileName READ desktopFileName WRITE setDesktopFileName)
     Q_PROPERTY(Qt::LayoutDirection layoutDirection READ layoutDirection WRITE setLayoutDirection NOTIFY layoutDirectionChanged)
     Q_PROPERTY(QString platformName READ platformName STORED false)
-    Q_PROPERTY(bool quitOnLastWindowClosed  READ quitOnLastWindowClosed WRITE setQuitOnLastWindowClosed)
-    Q_PROPERTY(QScreen *primaryScreen READ primaryScreen NOTIFY primaryScreenChanged STORED false)
+    Q_PROPERTY(bool quitOnLastWindowClosed READ quitOnLastWindowClosed WRITE setQuitOnLastWindowClosed)
+    Q_PROPERTY(QScreen * primaryScreen READ primaryScreen NOTIFY primaryScreenChanged STORED false)
 
 public:
 #ifdef Q_QDOC
@@ -96,34 +96,34 @@ public:
 
     static QWindowList allWindows();
     static QWindowList topLevelWindows();
-    static QWindow *topLevelAt(const QPoint &pos);
+    static QWindow* topLevelAt(const QPoint &pos);
 
     static void setWindowIcon(const QIcon &icon);
     static QIcon windowIcon();
 
     static QString platformName();
 
-    static QWindow *modalWindow();
+    static QWindow* modalWindow();
 
-    static QWindow *focusWindow();
-    static QObject *focusObject();
+    static QWindow* focusWindow();
+    static QObject* focusObject();
 
-    static QScreen *primaryScreen();
-    static QList<QScreen *> screens();
+    static QScreen* primaryScreen();
+    static QList<QScreen*> screens();
     qreal devicePixelRatio() const;
 
 #ifndef QT_NO_CURSOR
-    static QCursor *overrideCursor();
-    static void setOverrideCursor(const QCursor &);
-    static void changeOverrideCursor(const QCursor &);
+    static QCursor* overrideCursor();
+    static void setOverrideCursor(const QCursor&);
+    static void changeOverrideCursor(const QCursor&);
     static void restoreOverrideCursor();
 #endif
 
     static QFont font();
-    static void setFont(const QFont &);
+    static void setFont(const QFont&);
 
 #ifndef QT_NO_CLIPBOARD
-    static QClipboard *clipboard();
+    static QClipboard* clipboard();
 #endif
 
     static QPalette palette();
@@ -136,16 +136,22 @@ public:
     static void setLayoutDirection(Qt::LayoutDirection direction);
     static Qt::LayoutDirection layoutDirection();
 
-    static inline bool isRightToLeft() { return layoutDirection() == Qt::RightToLeft; }
-    static inline bool isLeftToRight() { return layoutDirection() == Qt::LeftToRight; }
+    static inline bool isRightToLeft()
+    {
+        return layoutDirection() == Qt::RightToLeft;
+    }
+    static inline bool isLeftToRight()
+    {
+        return layoutDirection() == Qt::LeftToRight;
+    }
 
-    static QStyleHints *styleHints();
+    static QStyleHints* styleHints();
     static void setDesktopSettingsAware(bool on);
     static bool desktopSettingsAware();
 
-    static QInputMethod *inputMethod();
+    static QInputMethod* inputMethod();
 
-    static QPlatformNativeInterface *platformNativeInterface();
+    static QPlatformNativeInterface* platformNativeInterface();
 
     static QFunctionPointer platformFunction(const QByteArray &function);
 
@@ -155,7 +161,7 @@ public:
     static Qt::ApplicationState applicationState();
 
     static int exec();
-    bool notify(QObject *, QEvent *) Q_DECL_OVERRIDE;
+    bool notify(QObject*, QEvent*) Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_SESSIONMANAGER
     // session management
@@ -187,8 +193,8 @@ Q_SIGNALS:
     void applicationDisplayNameChanged();
 
 protected:
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    bool compressEvent(QEvent *, QObject *receiver, QPostEventList *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    bool compressEvent(QEvent*, QObject *receiver, QPostEventList*) Q_DECL_OVERRIDE;
 
     QGuiApplication(QGuiApplicationPrivate &p);
 
@@ -196,7 +202,7 @@ private:
     Q_DISABLE_COPY(QGuiApplication)
     Q_DECLARE_PRIVATE(QGuiApplication)
 
-    Q_PRIVATE_SLOT(d_func(), void _q_updateFocusObject(QObject *object))
+    Q_PRIVATE_SLOT(d_func(), void _q_updateFocusObject(QObject * object))
 
 #ifndef QT_NO_GESTURES
     friend class QGestureManager;

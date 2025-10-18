@@ -64,18 +64,17 @@ QT_BEGIN_NAMESPACE
 
 #define QBearerEngineFactoryInterface_iid "org.qt-project.Qt.QBearerEngineFactoryInterface"
 
-class Q_NETWORK_EXPORT QBearerEnginePlugin : public QObject
+class Q_NETWORK_EXPORT    QBearerEnginePlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QBearerEnginePlugin(QObject *parent = 0);
     virtual ~QBearerEnginePlugin();
 
-    virtual QBearerEngine *create(const QString &key) const = 0;
+    virtual QBearerEngine* create(const QString &key) const = 0;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_BEARERMANAGEMENT
 
 #endif // QBEARERPLUGIN_P_H

@@ -64,7 +64,7 @@ public:
     QTextTablePrivate(QTextDocument *document) : QTextFramePrivate(document), grid(0), nRows(0), nCols(0), dirty(true), blockFragmentUpdates(false) {}
     ~QTextTablePrivate();
 
-    static QTextTable *createTable(QTextDocumentPrivate *, int pos, int rows, int cols, const QTextTableFormat &tableFormat);
+    static QTextTable* createTable(QTextDocumentPrivate*, int pos, int rows, int cols, const QTextTableFormat &tableFormat);
     void fragmentAdded(QChar type, uint fragment) Q_DECL_OVERRIDE;
     void fragmentRemoved(QChar type, uint fragment) Q_DECL_OVERRIDE;
 
@@ -72,15 +72,15 @@ public:
 
     int findCellIndex(int fragment) const;
 
-    QVector<int> cells;
+    QVector<int>    cells;
     // symmetric to cells array and maps to indecs in grid,
     // used for fast-lookup for row/column by fragment
-    mutable QVector<int> cellIndices;
-    mutable int *grid;
-    mutable int nRows;
-    mutable int nCols;
-    mutable bool dirty;
-    bool blockFragmentUpdates;
+    mutable QVector<int>    cellIndices;
+    mutable int             *grid;
+    mutable int             nRows;
+    mutable int             nCols;
+    mutable bool            dirty;
+    bool                    blockFragmentUpdates;
 };
 
 QT_END_NAMESPACE

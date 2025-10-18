@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
 
 /* based on sutherland-hodgman line-by-line clipping, as described in
    Computer Graphics and Principles */
-template <typename InType, typename OutType, typename CastType> class QPolygonClipper
+template<typename InType, typename OutType, typename CastType> class QPolygonClipper
 {
 public:
     QPolygonClipper() :
@@ -68,15 +68,14 @@ public:
     }
 
     ~QPolygonClipper()
-    {
-    }
+    {}
 
     void setBoundingRect(const QRect bounds)
     {
-        x1 = bounds.x();
-        x2 = bounds.x() + bounds.width();
-        y1 = bounds.y();
-        y2 = bounds.y() + bounds.height();
+        x1  = bounds.x();
+        x2  = bounds.x() + bounds.width();
+        y1  = bounds.y();
+        y2  = bounds.y() + bounds.height();
     }
 
     QRect boundingRect()
@@ -86,8 +85,9 @@ public:
 
     inline OutType intersectLeft(const OutType &p1, const OutType &p2)
     {
-        OutType t;
-        qreal dy = (p1.y - p2.y) / qreal(p1.x - p2.x);
+        OutType     t;
+        qreal       dy = (p1.y - p2.y) / qreal(p1.x - p2.x);
+
         t.x = x1;
         t.y = static_cast<CastType>(p2.y + (x1 - p2.x) * dy);
         return t;
@@ -96,8 +96,9 @@ public:
 
     inline OutType intersectRight(const OutType &p1, const OutType &p2)
     {
-        OutType t;
-        qreal dy = (p1.y - p2.y) / qreal(p1.x - p2.x);
+        OutType     t;
+        qreal       dy = (p1.y - p2.y) / qreal(p1.x - p2.x);
+
         t.x = x2;
         t.y = static_cast<CastType>(p2.y + (x2 - p2.x) * dy);
         return t;
@@ -106,8 +107,9 @@ public:
 
     inline OutType intersectTop(const OutType &p1, const OutType &p2)
     {
-        OutType t;
-        qreal dx = (p1.x - p2.x) / qreal(p1.y - p2.y);
+        OutType     t;
+        qreal       dx = (p1.x - p2.x) / qreal(p1.y - p2.y);
+
         t.x = static_cast<CastType>(p2.x + (y1 - p2.y) * dx);
         t.y = y1;
         return t;
@@ -116,8 +118,9 @@ public:
 
     inline OutType intersectBottom(const OutType &p1, const OutType &p2)
     {
-        OutType t;
-        qreal dx = (p1.x - p2.x) / qreal(p1.y - p2.y);
+        OutType     t;
+        qreal       dx = (p1.x - p2.x) / qreal(p1.y - p2.y);
+
         t.x = static_cast<CastType>(p2.x + (y2 - p2.y) * dx);
         t.y = y2;
         return t;
@@ -130,7 +133,8 @@ public:
         Q_ASSERT(outPoints);
         Q_ASSERT(outCount);
 
-        if (inCount < 2) {
+        if (inCount < 2)
+        {
             *outCount = 0;
             return;
         }
@@ -138,13 +142,15 @@ public:
         buffer1.reset();
         buffer2.reset();
 
-        QDataBuffer<OutType> *source = &buffer1;
-        QDataBuffer<OutType> *clipped = &buffer2;
+        QDataBuffer<OutType>    *source     = &buffer1;
+        QDataBuffer<OutType>    *clipped    = &buffer2;
 
         // Gather some info since we are iterating through the points anyway..
-        bool doLeft = false, doRight = false, doTop = false, doBottom = false;
-        OutType ot;
-        for (int i=0; i<inCount; ++i) {
+        bool        doLeft = false, doRight = false, doTop = false, doBottom = false;
+        OutType     ot;
+
+        for (int i= 0; i<inCount; ++i)
+        {
             ot = inPoints[i];
             clipped->add(ot);
 
@@ -152,107 +158,144 @@ public:
                 doLeft = true;
             else if (ot.x > x2)
                 doRight = true;
+
             if (ot.y < y1)
                 doTop = true;
             else if (ot.y > y2)
                 doBottom = true;
         }
 
-        if (doLeft && clipped->size() > 1) {
-            QDataBuffer<OutType> *tmp = source;
-            source = clipped;
+        if (doLeft && clipped->size() > 1)
+        {
+            QDataBuffer<OutType>    *tmp = source;
+            source  = clipped;
             clipped = tmp;
             clipped->reset();
-            int lastPos, start;
-            if (closePolygon) {
+            int    lastPos, start;
+            if (closePolygon)
+            {
                 lastPos = source->size() - 1;
-                start = 0;
-            } else {
+                start   = 0;
+            }
+            else
+            {
                 lastPos = 0;
-                start = 1;
+                start   = 1;
                 if (source->at(0).x >= x1)
                     clipped->add(source->at(0));
             }
-            for (int i=start; i<inCount; ++i) {
-                const OutType &cpt = source->at(i);
-                const OutType &ppt = source->at(lastPos);
 
-                if (cpt.x >= x1) {
-                    if (ppt.x >= x1) {
+            for (int i= start; i<inCount; ++i)
+            {
+                const OutType       &cpt    = source->at(i);
+                const OutType       &ppt    = source->at(lastPos);
+
+                if (cpt.x >= x1)
+                {
+                    if (ppt.x >= x1)
+                    {
                         clipped->add(cpt);
-                    } else {
+                    }
+                    else
+                    {
                         clipped->add(intersectLeft(cpt, ppt));
                         clipped->add(cpt);
                     }
-                } else if (ppt.x >= x1) {
+                }
+                else if (ppt.x >= x1)
+                {
                     clipped->add(intersectLeft(cpt, ppt));
                 }
+
                 lastPos = i;
             }
         }
 
-        if (doRight && clipped->size() > 1) {
-            QDataBuffer<OutType> *tmp = source;
-            source = clipped;
+        if (doRight && clipped->size() > 1)
+        {
+            QDataBuffer<OutType>    *tmp = source;
+            source  = clipped;
             clipped = tmp;
             clipped->reset();
-            int lastPos, start;
-            if (closePolygon) {
+            int    lastPos, start;
+            if (closePolygon)
+            {
                 lastPos = source->size() - 1;
-                start = 0;
-            } else {
+                start   = 0;
+            }
+            else
+            {
                 lastPos = 0;
-                start = 1;
+                start   = 1;
                 if (source->at(0).x <= x2)
                     clipped->add(source->at(0));
             }
-            for (int i=start; i<source->size(); ++i) {
-                const OutType &cpt = source->at(i);
-                const OutType &ppt = source->at(lastPos);
 
-                if (cpt.x <= x2) {
-                    if (ppt.x <= x2) {
+            for (int i= start; i<source->size(); ++i)
+            {
+                const OutType       &cpt    = source->at(i);
+                const OutType       &ppt    = source->at(lastPos);
+
+                if (cpt.x <= x2)
+                {
+                    if (ppt.x <= x2)
+                    {
                         clipped->add(cpt);
-                    } else {
+                    }
+                    else
+                    {
                         clipped->add(intersectRight(cpt, ppt));
                         clipped->add(cpt);
                     }
-                } else if (ppt.x <= x2) {
+                }
+                else if (ppt.x <= x2)
+                {
                     clipped->add(intersectRight(cpt, ppt));
                 }
 
                 lastPos = i;
             }
-
         }
 
-        if (doTop && clipped->size() > 1) {
-            QDataBuffer<OutType> *tmp = source;
-            source = clipped;
+        if (doTop && clipped->size() > 1)
+        {
+            QDataBuffer<OutType>    *tmp = source;
+            source  = clipped;
             clipped = tmp;
             clipped->reset();
-            int lastPos, start;
-            if (closePolygon) {
+            int    lastPos, start;
+            if (closePolygon)
+            {
                 lastPos = source->size() - 1;
-                start = 0;
-            } else {
+                start   = 0;
+            }
+            else
+            {
                 lastPos = 0;
-                start = 1;
+                start   = 1;
                 if (source->at(0).y >= y1)
                     clipped->add(source->at(0));
             }
-            for (int i=start; i<source->size(); ++i) {
-                const OutType &cpt = source->at(i);
-                const OutType &ppt = source->at(lastPos);
 
-                if (cpt.y >= y1) {
-                    if (ppt.y >= y1) {
+            for (int i= start; i<source->size(); ++i)
+            {
+                const OutType       &cpt    = source->at(i);
+                const OutType       &ppt    = source->at(lastPos);
+
+                if (cpt.y >= y1)
+                {
+                    if (ppt.y >= y1)
+                    {
                         clipped->add(cpt);
-                    } else {
+                    }
+                    else
+                    {
                         clipped->add(intersectTop(cpt, ppt));
                         clipped->add(cpt);
                     }
-                } else if (ppt.y >= y1) {
+                }
+                else if (ppt.y >= y1)
+                {
                     clipped->add(intersectTop(cpt, ppt));
                 }
 
@@ -260,55 +303,71 @@ public:
             }
         }
 
-        if (doBottom && clipped->size() > 1) {
-            QDataBuffer<OutType> *tmp = source;
-            source = clipped;
+        if (doBottom && clipped->size() > 1)
+        {
+            QDataBuffer<OutType>    *tmp = source;
+            source  = clipped;
             clipped = tmp;
             clipped->reset();
-            int lastPos, start;
-            if (closePolygon) {
+            int    lastPos, start;
+            if (closePolygon)
+            {
                 lastPos = source->size() - 1;
-                start = 0;
-            } else {
+                start   = 0;
+            }
+            else
+            {
                 lastPos = 0;
-                start = 1;
+                start   = 1;
                 if (source->at(0).y <= y2)
                     clipped->add(source->at(0));
             }
-            for (int i=start; i<source->size(); ++i) {
-                const OutType &cpt = source->at(i);
-                const OutType &ppt = source->at(lastPos);
 
-                if (cpt.y <= y2) {
-                    if (ppt.y <= y2) {
+            for (int i= start; i<source->size(); ++i)
+            {
+                const OutType       &cpt    = source->at(i);
+                const OutType       &ppt    = source->at(lastPos);
+
+                if (cpt.y <= y2)
+                {
+                    if (ppt.y <= y2)
+                    {
                         clipped->add(cpt);
-                    } else {
+                    }
+                    else
+                    {
                         clipped->add(intersectBottom(cpt, ppt));
                         clipped->add(cpt);
                     }
-                } else if (ppt.y <= y2) {
+                }
+                else if (ppt.y <= y2)
+                {
                     clipped->add(intersectBottom(cpt, ppt));
                 }
+
                 lastPos = i;
             }
         }
 
-        if (closePolygon && clipped->size() > 0) {
+        if (closePolygon && clipped->size() > 0)
+        {
             // close clipped polygon
-            if (clipped->at(0).x != clipped->at(clipped->size()-1).x ||
-                clipped->at(0).y != clipped->at(clipped->size()-1).y) {
-                OutType ot = clipped->at(0);
+            if (clipped->at(0).x != clipped->at(clipped->size() - 1).x ||
+                clipped->at(0).y != clipped->at(clipped->size() - 1).y)
+            {
+                OutType    ot = clipped->at(0);
                 clipped->add(ot);
             }
         }
-        *outCount = clipped->size();
-        *outPoints = clipped->data();
+
+        *outCount   = clipped->size();
+        *outPoints  = clipped->data();
     }
 
 private:
-    int x1, x2, y1, y2;
-    QDataBuffer<OutType> buffer1;
-    QDataBuffer<OutType> buffer2;
+    int                     x1, x2, y1, y2;
+    QDataBuffer<OutType>    buffer1;
+    QDataBuffer<OutType>    buffer2;
 };
 
 QT_END_NAMESPACE

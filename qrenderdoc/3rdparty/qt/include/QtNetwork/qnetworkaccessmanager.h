@@ -70,7 +70,7 @@ class QHttpMultiPart;
 
 class QNetworkReplyImplPrivate;
 class QNetworkAccessManagerPrivate;
-class Q_NETWORK_EXPORT QNetworkAccessManager: public QObject
+class Q_NETWORK_EXPORT    QNetworkAccessManager : public QObject
 {
     Q_OBJECT
 
@@ -79,7 +79,8 @@ class Q_NETWORK_EXPORT QNetworkAccessManager: public QObject
 #endif
 
 public:
-    enum Operation {
+    enum Operation
+    {
         HeadOperation = 1,
         GetOperation,
         PutOperation,
@@ -91,10 +92,11 @@ public:
     };
 
 #ifndef QT_NO_BEARERMANAGEMENT
-    enum NetworkAccessibility {
-        UnknownAccessibility = -1,
-        NotAccessible = 0,
-        Accessible = 1
+    enum NetworkAccessibility
+    {
+        UnknownAccessibility    = -1,
+        NotAccessible           = 0,
+        Accessible              = 1
     };
     Q_ENUM(NetworkAccessibility)
 #endif
@@ -112,14 +114,14 @@ public:
 #ifndef QT_NO_NETWORKPROXY
     QNetworkProxy proxy() const;
     void setProxy(const QNetworkProxy &proxy);
-    QNetworkProxyFactory *proxyFactory() const;
+    QNetworkProxyFactory* proxyFactory() const;
     void setProxyFactory(QNetworkProxyFactory *factory);
 #endif
 
-    QAbstractNetworkCache *cache() const;
+    QAbstractNetworkCache* cache() const;
     void setCache(QAbstractNetworkCache *cache);
 
-    QNetworkCookieJar *cookieJar() const;
+    QNetworkCookieJar* cookieJar() const;
     void setCookieJar(QNetworkCookieJar *cookieJar);
 
     void setStrictTransportSecurityEnabled(bool enabled);
@@ -127,18 +129,18 @@ public:
     void addStrictTransportSecurityHosts(const QVector<QHstsPolicy> &knownHosts);
     QVector<QHstsPolicy> strictTransportSecurityHosts() const;
 
-    QNetworkReply *head(const QNetworkRequest &request);
-    QNetworkReply *get(const QNetworkRequest &request);
-    QNetworkReply *post(const QNetworkRequest &request, QIODevice *data);
-    QNetworkReply *post(const QNetworkRequest &request, const QByteArray &data);
-    QNetworkReply *post(const QNetworkRequest &request, QHttpMultiPart *multiPart);
-    QNetworkReply *put(const QNetworkRequest &request, QIODevice *data);
-    QNetworkReply *put(const QNetworkRequest &request, const QByteArray &data);
-    QNetworkReply *put(const QNetworkRequest &request, QHttpMultiPart *multiPart);
-    QNetworkReply *deleteResource(const QNetworkRequest &request);
-    QNetworkReply *sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, QIODevice *data = Q_NULLPTR);
-    QNetworkReply *sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, const QByteArray &data);
-    QNetworkReply *sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, QHttpMultiPart *multiPart);
+    QNetworkReply* head(const QNetworkRequest &request);
+    QNetworkReply* get(const QNetworkRequest &request);
+    QNetworkReply* post(const QNetworkRequest &request, QIODevice *data);
+    QNetworkReply* post(const QNetworkRequest &request, const QByteArray &data);
+    QNetworkReply* post(const QNetworkRequest &request, QHttpMultiPart *multiPart);
+    QNetworkReply* put(const QNetworkRequest &request, QIODevice *data);
+    QNetworkReply* put(const QNetworkRequest &request, const QByteArray &data);
+    QNetworkReply* put(const QNetworkRequest &request, QHttpMultiPart *multiPart);
+    QNetworkReply* deleteResource(const QNetworkRequest &request);
+    QNetworkReply* sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, QIODevice *data = Q_NULLPTR);
+    QNetworkReply* sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, const QByteArray &data);
+    QNetworkReply* sendCustomRequest(const QNetworkRequest &request, const QByteArray &verb, QHttpMultiPart *multiPart);
 
 #ifndef QT_NO_BEARERMANAGEMENT
     void setConfiguration(const QNetworkConfiguration &config);
@@ -177,7 +179,7 @@ Q_SIGNALS:
 #endif
 
 protected:
-    virtual QNetworkReply *createRequest(Operation op, const QNetworkRequest &request,
+    virtual QNetworkReply* createRequest(Operation op, const QNetworkRequest &request,
                                          QIODevice *outgoingData = Q_NULLPTR);
 
 protected Q_SLOTS:
@@ -192,7 +194,7 @@ private:
     Q_DECLARE_PRIVATE(QNetworkAccessManager)
     Q_PRIVATE_SLOT(d_func(), void _q_replyFinished())
     Q_PRIVATE_SLOT(d_func(), void _q_replyEncrypted())
-    Q_PRIVATE_SLOT(d_func(), void _q_replySslErrors(QList<QSslError>))
+    Q_PRIVATE_SLOT(d_func(), void _q_replySslErrors(QList<QSslError> ))
     Q_PRIVATE_SLOT(d_func(), void _q_replyPreSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*))
 #ifndef QT_NO_BEARERMANAGEMENT
     Q_PRIVATE_SLOT(d_func(), void _q_networkSessionClosed())

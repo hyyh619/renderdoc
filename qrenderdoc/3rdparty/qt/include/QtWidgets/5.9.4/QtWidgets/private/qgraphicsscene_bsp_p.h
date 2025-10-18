@@ -74,9 +74,10 @@ public:
     struct Node
     {
         enum Type { Horizontal, Vertical, Leaf };
-        union {
-            qreal offset;
-            int leafIndex;
+        union
+        {
+            qreal   offset;
+            int     leafIndex;
         };
         Type type;
     };
@@ -89,16 +90,20 @@ public:
 
     void insertItem(QGraphicsItem *item, const QRectF &rect);
     void removeItem(QGraphicsItem *item, const QRectF &rect);
-    void removeItems(const QSet<QGraphicsItem *> &items);
+    void removeItems(const QSet<QGraphicsItem*> &items);
 
-    QList<QGraphicsItem *> items(const QRectF &rect, bool onlyTopLevelItems = false) const;
+    QList<QGraphicsItem*> items(const QRectF &rect, bool onlyTopLevelItems = false) const;
     int leafCount() const;
 
     inline int firstChildIndex(int index) const
-    { return index * 2 + 1; }
+    {
+        return index * 2 + 1;
+    }
 
     inline int parentIndex(int index) const
-    { return index > 0 ? ((index & 1) ? ((index - 1) / 2) : ((index - 2) / 2)) : -1; }
+    {
+        return index > 0 ? ((index & 1) ? ((index - 1) / 2) : ((index - 2) / 2)) : -1;
+    }
 
     QString debug(int index) const;
 
@@ -107,21 +112,21 @@ private:
     void climbTree(QGraphicsSceneBspTreeVisitor *visitor, const QRectF &rect, int index = 0) const;
     QRectF rectForIndex(int index) const;
 
-    QVector<Node> nodes;
-    QVector<QList<QGraphicsItem *> > leaves;
-    int leafCnt;
-    QRectF rect;
+    QVector<Node>                       nodes;
+    QVector<QList<QGraphicsItem*> >     leaves;
+    int                                 leafCnt;
+    QRectF                              rect;
 
-    QGraphicsSceneInsertItemBspTreeVisitor *insertVisitor;
-    QGraphicsSceneRemoveItemBspTreeVisitor *removeVisitor;
-    QGraphicsSceneFindItemBspTreeVisitor *findVisitor;
+    QGraphicsSceneInsertItemBspTreeVisitor      *insertVisitor;
+    QGraphicsSceneRemoveItemBspTreeVisitor      *removeVisitor;
+    QGraphicsSceneFindItemBspTreeVisitor        *findVisitor;
 };
 
 class QGraphicsSceneBspTreeVisitor
 {
 public:
     virtual ~QGraphicsSceneBspTreeVisitor() { }
-    virtual void visit(QList<QGraphicsItem *> *items) = 0;
+    virtual void visit(QList<QGraphicsItem*> *items) = 0;
 };
 
 QT_END_NAMESPACE

@@ -69,9 +69,9 @@ class QCommonStylePrivate : public QStylePrivate
 public:
     inline QCommonStylePrivate() :
 #if QT_CONFIG(itemviews)
-    cachedOption(0),
+        cachedOption(0),
 #endif
-    animationFps(30)
+        animationFps(30)
     { }
 
     ~QCommonStylePrivate()
@@ -90,31 +90,32 @@ public:
                         QRect *pixmapRect, QRect *textRect, bool sizehint) const;
     QSize viewItemSize(const QStyleOptionViewItem *option, int role) const;
 
-    mutable QRect decorationRect, displayRect, checkRect;
-    mutable QStyleOptionViewItem *cachedOption;
-    bool isViewItemCached(const QStyleOptionViewItem &option) const {
+    mutable QRect                   decorationRect, displayRect, checkRect;
+    mutable QStyleOptionViewItem    *cachedOption;
+    bool isViewItemCached(const QStyleOptionViewItem &option) const
+    {
         return cachedOption && (option.widget == cachedOption->widget
-               && option.index == cachedOption->index
-               && option.state == cachedOption->state
-               && option.rect == cachedOption->rect
-               && option.text == cachedOption->text
-               && option.direction == cachedOption->direction
-               && option.displayAlignment == cachedOption->displayAlignment
-               && option.decorationAlignment == cachedOption->decorationAlignment
-               && option.decorationPosition == cachedOption->decorationPosition
-               && option.decorationSize == cachedOption->decorationSize
-               && option.features == cachedOption->features
-               && option.icon.isNull() == cachedOption->icon.isNull()
-               && option.font == cachedOption->font
-               && option.viewItemPosition == cachedOption->viewItemPosition);
+                                && option.index == cachedOption->index
+                                && option.state == cachedOption->state
+                                && option.rect == cachedOption->rect
+                                && option.text == cachedOption->text
+                                && option.direction == cachedOption->direction
+                                && option.displayAlignment == cachedOption->displayAlignment
+                                && option.decorationAlignment == cachedOption->decorationAlignment
+                                && option.decorationPosition == cachedOption->decorationPosition
+                                && option.decorationSize == cachedOption->decorationSize
+                                && option.features == cachedOption->features
+                                && option.icon.isNull() == cachedOption->icon.isNull()
+                                && option.font == cachedOption->font
+                                && option.viewItemPosition == cachedOption->viewItemPosition);
     }
 #endif
-    mutable QIcon tabBarcloseButtonIcon;
+    mutable QIcon    tabBarcloseButtonIcon;
 #if QT_CONFIG(tabbar)
     void tabLayout(const QStyleOptionTab *opt, const QWidget *widget, QRect *textRect, QRect *pixmapRect) const;
 #endif
 
-    int animationFps;
+    int    animationFps;
 #ifndef QT_NO_ANIMATION
     void _q_removeAnimation();
 
@@ -124,10 +125,10 @@ public:
     void stopAnimation(const QObject *target) const;
 
 private:
-    mutable QHash<const QObject*, QStyleAnimation*> animations;
+    mutable QHash<const QObject*, QStyleAnimation*>    animations;
 #endif // QT_NO_ANIMATION
 };
 
 QT_END_NAMESPACE
 
-#endif //QCOMMONSTYLE_P_H
+#endif // QCOMMONSTYLE_P_H

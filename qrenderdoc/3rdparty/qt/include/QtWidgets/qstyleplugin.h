@@ -51,14 +51,14 @@ class QStyle;
 
 #define QStyleFactoryInterface_iid "org.qt-project.Qt.QStyleFactoryInterface"
 
-class Q_WIDGETS_EXPORT QStylePlugin : public QObject
+class Q_WIDGETS_EXPORT    QStylePlugin : public QObject
 {
     Q_OBJECT
 public:
     explicit QStylePlugin(QObject *parent = Q_NULLPTR);
     ~QStylePlugin();
 
-    virtual QStyle *create(const QString &key) = 0;
+    virtual QStyle* create(const QString &key) = 0;
 };
 
 QT_END_NAMESPACE

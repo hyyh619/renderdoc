@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "3rdparty/fmt/core.h"
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_Workgroup_Zoo, D3D12GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test of behaviour around workgroup operations in shaders.";
+    static constexpr const char    *Description =
+        "Test of behaviour around workgroup operations in shaders.";
 
-  const std::string common = R"EOSHADER(
+    const std::string    common = R"EOSHADER(
 
 cbuffer rootconsts : register(b0)
 {
@@ -44,7 +44,7 @@ uint GetTest() { return root_test; }
 
 )EOSHADER";
 
-  const std::string compCommon = common + R"EOSHADER(
+    const std::string    compCommon = common + R"EOSHADER(
 
 RWStructuredBuffer<float4> outbuf : register(u0);
 
@@ -68,7 +68,7 @@ void Init(float4 val)
 
 )EOSHADER";
 
-  const std::string testShader = compCommon + R"EOSHADER(
+    const std::string    testShader = compCommon + R"EOSHADER(
 
 float4 funcD(uint id)
 {
@@ -261,7 +261,7 @@ void main(uint3 inTid : SV_GroupThreadID)
 
 )EOSHADER";
 
-  const std::string perfShader = compCommon + R"EOSHADER(
+    const std::string    perfShader = compCommon + R"EOSHADER(
 
 [numthreads(GROUP_SIZE_X, GROUP_SIZE_Y, GROUP_SIZE_Z)]
 void main(uint3 inTid : SV_DispatchThreadID)
@@ -323,172 +323,178 @@ void main(uint3 inTid : SV_DispatchThreadID)
 
 )EOSHADER";
 
-  void Prepare(int argc, char **argv)
-  {
-    D3D12GraphicsTest::Prepare(argc, argv);
-
-    if(opts1.WaveLaneCountMax < 16)
-      Avail = "Subgroup size is less than 16";
-
-    bool supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
-    if(!supportSM60)
-      Avail = "SM 6.0 not supported";
-  }
-
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3D12RootSignaturePtr sig = MakeSig({constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0, 2),
-                                          uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0)});
-
-    int32_t numCompTests = 0;
-    size_t pos = 0;
-    while(pos != std::string::npos)
+    void Prepare(int argc, char **argv)
     {
-      pos = testShader.find("IsTest(", pos);
-      if(pos == std::string::npos)
-        break;
-      pos += sizeof("IsTest(") - 1;
-      numCompTests = std::max(numCompTests, atoi(testShader.c_str() + pos) + 1);
+        D3D12GraphicsTest::Prepare(argc, argv);
+
+        if (opts1.WaveLaneCountMax < 16)
+            Avail = "Subgroup size is less than 16";
+
+        bool    supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
+        if (!supportSM60)
+            Avail = "SM 6.0 not supported";
     }
 
-    const int32_t countPerfTests = 8;
-
-    struct CompSize
+    int main()
     {
-      int x, y, z;
-    };
-    CompSize compsizes[] = {
-        {70, 1, 1},
-    };
-    std::string comppipe_name[ARRAY_COUNT(compsizes)];
-    ID3D12PipelineStatePtr testPipes[ARRAY_COUNT(compsizes)];
-    ID3D12PipelineStatePtr perfPipes[ARRAY_COUNT(compsizes)];
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-    std::string defines;
+        ID3D12RootSignaturePtr    sig = MakeSig({constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0, 2),
+                                                 uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0)});
 
-    for(int i = 0; i < ARRAY_COUNT(compsizes); i++)
-    {
-      std::string sizedefine;
-      sizedefine =
-          fmt::format("#define GROUP_SIZE_X {}\n#define GROUP_SIZE_Y {}\n#define GROUP_SIZE_Z {}",
-                      compsizes[i].x, compsizes[i].y, compsizes[i].z);
-      comppipe_name[i] = fmt::format("{}x{}x{}", compsizes[i].x, compsizes[i].y, compsizes[i].z);
+        int32_t     numCompTests    = 0;
+        size_t      pos             = 0;
 
-      testPipes[i] =
-          MakePSO().RootSig(sig).CS(Compile(defines + sizedefine + testShader, "main", "cs_6_0"));
-      testPipes[i]->SetName(UTF82Wide(comppipe_name[i]).c_str());
-      perfPipes[i] =
-          MakePSO().RootSig(sig).CS(Compile(defines + sizedefine + perfShader, "main", "cs_6_0"));
-      perfPipes[i]->SetName(UTF82Wide(comppipe_name[i]).c_str());
-    }
-
-    ID3D12ResourcePtr bufOut = MakeBuffer().Size(sizeof(Vec4f) * 1024 * numCompTests).UAV();
-    D3D12ViewCreator uavView =
-        MakeUAV(bufOut).Format(DXGI_FORMAT_R32_UINT).NumElements(4 * 1024 * numCompTests);
-    D3D12_CPU_DESCRIPTOR_HANDLE uavcpu = uavView.CreateClearCPU(10);
-    D3D12_GPU_DESCRIPTOR_HANDLE uavgpu = uavView.CreateGPU(10);
-
-    bufOut->SetName(L"bufOut");
-
-    while(Running())
-    {
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
-
-      Reset(cmd);
-
-      cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      ClearRenderTargetView(cmd, BBRTV, {0.2f, 0.2f, 0.2f, 1.0f});
-
-      pushMarker(cmd, "Compute Tests");
-
-      for(size_t p = 0; p < ARRAY_COUNT(testPipes); p++)
-      {
-        ResourceBarrier(cmd);
-
-        UINT zero[4] = {};
-        cmd->ClearUnorderedAccessViewUint(uavgpu, uavcpu, bufOut, zero, 0, NULL);
-
-        ResourceBarrier(cmd);
-        pushMarker(cmd, comppipe_name[p]);
-
-        cmd->SetPipelineState(testPipes[p]);
-        cmd->SetComputeRootSignature(sig);
-        cmd->SetComputeRootUnorderedAccessView(1, bufOut->GetGPUVirtualAddress());
-
-        for(int i = 0; i < numCompTests; i++)
+        while (pos != std::string::npos)
         {
-          cmd->SetComputeRoot32BitConstant(0, i, 0);
-          cmd->SetComputeRoot32BitConstant(0, i + 1, 1);
-          cmd->Dispatch(2, 1, 1);
+            pos = testShader.find("IsTest(", pos);
+            if (pos == std::string::npos)
+                break;
+
+            pos             += sizeof("IsTest(") - 1;
+            numCompTests    = std::max(numCompTests, atoi(testShader.c_str() + pos) + 1);
         }
 
-        popMarker(cmd);
-      }
+        const int32_t    countPerfTests = 8;
 
-      popMarker(cmd);
-
-      pushMarker(cmd, "Perf Tests");
-
-      for(size_t p = 0; p < ARRAY_COUNT(testPipes); p++)
-      {
-        ResourceBarrier(cmd);
-
-        UINT zero[4] = {};
-        cmd->ClearUnorderedAccessViewUint(uavgpu, uavcpu, bufOut, zero, 0, NULL);
-
-        ResourceBarrier(cmd);
-        pushMarker(cmd, comppipe_name[p]);
-
-        cmd->SetPipelineState(perfPipes[p]);
-        cmd->SetComputeRootSignature(sig);
-        cmd->SetComputeRootUnorderedAccessView(1, bufOut->GetGPUVirtualAddress());
-
-        for(int i = 0; i < countPerfTests; ++i)
+        struct CompSize
         {
-          bool useCpu = (i & 0x1);
-          int count = 0;
-          {
-            int temp = i >> 1;
-            if(temp == 0)
-              count = 100U;
-            if(temp == 1)
-              count = 200U;
-            if(temp == 2)
-              count = 400U;
-            if(temp == 3)
-              count = 5000U;
-          }
-          std::string perfTestName =
-              fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
-          pushMarker(cmd, perfTestName);
-          int two = 2;
-          cmd->SetComputeRoot32BitConstant(0, i, 0);
-          cmd->SetComputeRoot32BitConstant(0, two, 1);
-          cmd->Dispatch(2, 1, 1);
-          popMarker(cmd);
+            int x, y, z;
+        };
+        CompSize    compsizes[] =
+        {
+            {70, 1, 1},
+        };
+        std::string                 comppipe_name[ARRAY_COUNT(compsizes)];
+        ID3D12PipelineStatePtr      testPipes[ARRAY_COUNT(compsizes)];
+        ID3D12PipelineStatePtr      perfPipes[ARRAY_COUNT(compsizes)];
+
+        std::string    defines;
+
+        for (int i = 0; i < ARRAY_COUNT(compsizes); i++)
+        {
+            std::string    sizedefine;
+            sizedefine =
+                fmt::format("#define GROUP_SIZE_X {}\n#define GROUP_SIZE_Y {}\n#define GROUP_SIZE_Z {}",
+                            compsizes[i].x, compsizes[i].y, compsizes[i].z);
+            comppipe_name[i] = fmt::format("{}x{}x{}", compsizes[i].x, compsizes[i].y, compsizes[i].z);
+
+            testPipes[i] =
+                MakePSO().RootSig(sig).CS(Compile(defines + sizedefine + testShader, "main", "cs_6_0"));
+            testPipes[i]->SetName(UTF82Wide(comppipe_name[i]).c_str());
+            perfPipes[i] =
+                MakePSO().RootSig(sig).CS(Compile(defines + sizedefine + perfShader, "main", "cs_6_0"));
+            perfPipes[i]->SetName(UTF82Wide(comppipe_name[i]).c_str());
         }
 
-        popMarker(cmd);
-      }
+        ID3D12ResourcePtr       bufOut  = MakeBuffer().Size(sizeof(Vec4f) * 1024 * numCompTests).UAV();
+        D3D12ViewCreator        uavView =
+            MakeUAV(bufOut).Format(DXGI_FORMAT_R32_UINT).NumElements(4 * 1024 * numCompTests);
+        D3D12_CPU_DESCRIPTOR_HANDLE     uavcpu  = uavView.CreateClearCPU(10);
+        D3D12_GPU_DESCRIPTOR_HANDLE     uavgpu  = uavView.CreateGPU(10);
 
-      popMarker(cmd);
+        bufOut->SetName(L"bufOut");
 
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+        while (Running())
+        {
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
 
-      cmd->Close();
+            Reset(cmd);
 
-      SubmitAndPresent({cmd});
+            cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            ClearRenderTargetView(cmd, BBRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            pushMarker(cmd, "Compute Tests");
+
+            for (size_t p = 0; p < ARRAY_COUNT(testPipes); p++)
+            {
+                ResourceBarrier(cmd);
+
+                UINT    zero[4] = {};
+                cmd->ClearUnorderedAccessViewUint(uavgpu, uavcpu, bufOut, zero, 0, NULL);
+
+                ResourceBarrier(cmd);
+                pushMarker(cmd, comppipe_name[p]);
+
+                cmd->SetPipelineState(testPipes[p]);
+                cmd->SetComputeRootSignature(sig);
+                cmd->SetComputeRootUnorderedAccessView(1, bufOut->GetGPUVirtualAddress());
+
+                for (int i = 0; i < numCompTests; i++)
+                {
+                    cmd->SetComputeRoot32BitConstant(0, i, 0);
+                    cmd->SetComputeRoot32BitConstant(0, i + 1, 1);
+                    cmd->Dispatch(2, 1, 1);
+                }
+
+                popMarker(cmd);
+            }
+
+            popMarker(cmd);
+
+            pushMarker(cmd, "Perf Tests");
+
+            for (size_t p = 0; p < ARRAY_COUNT(testPipes); p++)
+            {
+                ResourceBarrier(cmd);
+
+                UINT    zero[4] = {};
+                cmd->ClearUnorderedAccessViewUint(uavgpu, uavcpu, bufOut, zero, 0, NULL);
+
+                ResourceBarrier(cmd);
+                pushMarker(cmd, comppipe_name[p]);
+
+                cmd->SetPipelineState(perfPipes[p]);
+                cmd->SetComputeRootSignature(sig);
+                cmd->SetComputeRootUnorderedAccessView(1, bufOut->GetGPUVirtualAddress());
+
+                for (int i = 0; i < countPerfTests; ++i)
+                {
+                    bool    useCpu  = (i & 0x1);
+                    int     count   = 0;
+                    {
+                        int    temp = i >> 1;
+                        if (temp == 0)
+                            count = 100U;
+
+                        if (temp == 1)
+                            count = 200U;
+
+                        if (temp == 2)
+                            count = 400U;
+
+                        if (temp == 3)
+                            count = 5000U;
+                    }
+                    std::string    perfTestName =
+                        fmt::format("{} Iterations {} Math", count, useCpu ? "CPU" : "GPU");
+                    pushMarker(cmd, perfTestName);
+                    int    two = 2;
+                    cmd->SetComputeRoot32BitConstant(0, i, 0);
+                    cmd->SetComputeRoot32BitConstant(0, two, 1);
+                    cmd->Dispatch(2, 1, 1);
+                    popMarker(cmd);
+                }
+
+                popMarker(cmd);
+            }
+
+            popMarker(cmd);
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            cmd->Close();
+
+            SubmitAndPresent({cmd});
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

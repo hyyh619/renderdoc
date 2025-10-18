@@ -65,7 +65,7 @@ protected:
     QFileDevicePrivate();
     ~QFileDevicePrivate();
 
-    virtual QAbstractFileEngine *engine() const;
+    virtual QAbstractFileEngine* engine() const;
 
     inline bool ensureFlushed() const;
 
@@ -75,24 +75,26 @@ protected:
     void setError(QFileDevice::FileError err, const QString &errorString);
     void setError(QFileDevice::FileError err, int errNum);
 
-    mutable QAbstractFileEngine *fileEngine;
-    mutable qint64 cachedSize;
+    mutable QAbstractFileEngine     *fileEngine;
+    mutable qint64                  cachedSize;
 
-    QFileDevice::FileHandleFlags handleFlags;
-    QFileDevice::FileError error;
+    QFileDevice::FileHandleFlags    handleFlags;
+    QFileDevice::FileError          error;
 
-    bool lastWasWrite;
+    bool    lastWasWrite;
 };
 
 inline bool QFileDevicePrivate::ensureFlushed() const
 {
     // This function ensures that the write buffer has been flushed (const
     // because certain const functions need to call it.
-    if (lastWasWrite) {
-        const_cast<QFileDevicePrivate *>(this)->lastWasWrite = false;
-        if (!const_cast<QFileDevice *>(q_func())->flush())
+    if (lastWasWrite)
+    {
+        const_cast<QFileDevicePrivate*>(this)->lastWasWrite = false;
+        if (!const_cast<QFileDevice*>(q_func())->flush())
             return false;
     }
+
     return true;
 }
 

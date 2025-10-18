@@ -65,45 +65,52 @@ class QHttpResponseHeader;
 class QNtlmWindowsHandles;
 #endif
 
-class Q_AUTOTEST_EXPORT QAuthenticatorPrivate
+class Q_AUTOTEST_EXPORT    QAuthenticatorPrivate
 {
 public:
     enum Method { None, Basic, Plain, Login, Ntlm, CramMd5, DigestMd5 };
     QAuthenticatorPrivate();
     ~QAuthenticatorPrivate();
 
-    QString user;
-    QString extractedUser;
-    QString password;
-    QVariantHash options;
-    Method method;
-    QString realm;
-    QByteArray challenge;
+    QString         user;
+    QString         extractedUser;
+    QString         password;
+    QVariantHash    options;
+    Method          method;
+    QString         realm;
+    QByteArray      challenge;
 #ifdef Q_OS_WIN
-    QNtlmWindowsHandles *ntlmWindowsHandles;
+    QNtlmWindowsHandles    *ntlmWindowsHandles;
 #endif
-    bool hasFailed; //credentials have been tried but rejected by server.
+    bool    hasFailed; // credentials have been tried but rejected by server.
 
-    enum Phase {
+    enum Phase
+    {
         Start,
         Phase2,
         Done,
         Invalid
     };
-    Phase phase;
+    Phase    phase;
 
     // digest specific
-    QByteArray cnonce;
-    int nonceCount;
+    QByteArray      cnonce;
+    int             nonceCount;
 
     // ntlm specific
-    QString workstation;
-    QString userDomain;
+    QString     workstation;
+    QString     userDomain;
 
     QByteArray calculateResponse(const QByteArray &method, const QByteArray &path);
 
-    inline static QAuthenticatorPrivate *getPrivate(QAuthenticator &auth) { return auth.d; }
-    inline static const QAuthenticatorPrivate *getPrivate(const QAuthenticator &auth) { return auth.d; }
+    inline static QAuthenticatorPrivate* getPrivate(QAuthenticator &auth)
+    {
+        return auth.d;
+    }
+    inline static const QAuthenticatorPrivate* getPrivate(const QAuthenticator &auth)
+    {
+        return auth.d;
+    }
 
     QByteArray digestMd5Response(const QByteArray &challenge, const QByteArray &method, const QByteArray &path);
     static QHash<QByteArray, QByteArray> parseDigestAuthenticationChallenge(const QByteArray &challenge);

@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d11_test.h"
 
 RD_TEST(D3D11_Structured_Buffer_Nested, D3D11GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Test reading from structured buffers with nested structs";
+    static constexpr const char    *Description =
+        "Test reading from structured buffers with nested structs";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 struct supernest
 {
@@ -75,66 +75,66 @@ float4 main() : SV_Target0
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3DBlobPtr vsblob = Compile(D3DDefaultVertex, "main", "vs_5_0");
-    ID3DBlobPtr psblob = Compile(pixel, "main", "ps_5_0");
-
-    CreateDefaultInputLayout(vsblob);
-
-    ID3D11VertexShaderPtr vs = CreateVS(vsblob);
-    ID3D11PixelShaderPtr ps = CreatePS(psblob);
-
-    ID3D11BufferPtr vb = MakeBuffer().Vertex().Data(DefaultTri);
-
-    float data[16 * 100];
-
-    for(int i = 0; i < 16 * 100; i++)
-      data[i] = float(i);
-
-    ID3D11BufferPtr structbuf = MakeBuffer().Structured(25 * sizeof(float)).Data(data).SRV();
-    ID3D11ShaderResourceViewPtr structbufSRV = MakeSRV(structbuf);
-
-    ID3D11BufferPtr typedbuf = MakeBuffer().Data(data).SRV();
-    ID3D11ShaderResourceViewPtr typedbufSRV = MakeSRV(typedbuf).Format(DXGI_FORMAT_R32G32B32_FLOAT);
-
-    ID3D11BufferPtr outbuf = MakeBuffer().Structured(4 * sizeof(float)).Size(1024).UAV();
-    ID3D11UnorderedAccessViewPtr outbufUAV = MakeUAV(outbuf);
-
-    while(Running())
+    int main()
     {
-      ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      IASetVertexBuffer(vb, sizeof(DefaultA2V), 0);
-      ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-      ctx->IASetInputLayout(defaultLayout);
+        ID3DBlobPtr     vsblob  = Compile(D3DDefaultVertex, "main", "vs_5_0");
+        ID3DBlobPtr     psblob  = Compile(pixel, "main", "ps_5_0");
 
-      ctx->VSSetShader(vs, NULL, 0);
-      ctx->PSSetShader(ps, NULL, 0);
+        CreateDefaultInputLayout(vsblob);
 
-      ID3D11ShaderResourceView *srvs[] = {structbufSRV, typedbufSRV};
+        ID3D11VertexShaderPtr       vs  = CreateVS(vsblob);
+        ID3D11PixelShaderPtr        ps  = CreatePS(psblob);
 
-      ctx->PSSetShaderResources(0, 2, srvs);
+        ID3D11BufferPtr    vb = MakeBuffer().Vertex().Data(DefaultTri);
 
-      RSSetViewport({0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+        float    data[16 * 100];
 
-      float zeros[4] = {};
-      ctx->ClearUnorderedAccessViewFloat(outbufUAV, zeros);
+        for (int i = 0; i < 16 * 100; i++)
+            data[i] = float(i);
 
-      ctx->OMSetRenderTargetsAndUnorderedAccessViews(1, &bbRTV.GetInterfacePtr(), NULL, 1, 1,
-                                                     &outbufUAV.GetInterfacePtr(), NULL);
+        ID3D11BufferPtr                 structbuf       = MakeBuffer().Structured(25 * sizeof(float)).Data(data).SRV();
+        ID3D11ShaderResourceViewPtr     structbufSRV    = MakeSRV(structbuf);
 
-      ctx->Draw(3, 0);
+        ID3D11BufferPtr                 typedbuf    = MakeBuffer().Data(data).SRV();
+        ID3D11ShaderResourceViewPtr     typedbufSRV = MakeSRV(typedbuf).Format(DXGI_FORMAT_R32G32B32_FLOAT);
 
-      Present();
+        ID3D11BufferPtr                 outbuf      = MakeBuffer().Structured(4 * sizeof(float)).Size(1024).UAV();
+        ID3D11UnorderedAccessViewPtr    outbufUAV   = MakeUAV(outbuf);
+
+        while (Running())
+        {
+            ClearRenderTargetView(bbRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            IASetVertexBuffer(vb, sizeof(DefaultA2V), 0);
+            ctx->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            ctx->IASetInputLayout(defaultLayout);
+
+            ctx->VSSetShader(vs, NULL, 0);
+            ctx->PSSetShader(ps, NULL, 0);
+
+            ID3D11ShaderResourceView    *srvs[] = {structbufSRV, typedbufSRV};
+
+            ctx->PSSetShaderResources(0, 2, srvs);
+
+            RSSetViewport({0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+
+            float    zeros[4] = {};
+            ctx->ClearUnorderedAccessViewFloat(outbufUAV, zeros);
+
+            ctx->OMSetRenderTargetsAndUnorderedAccessViews(1, &bbRTV.GetInterfacePtr(), NULL, 1, 1,
+                                                           &outbufUAV.GetInterfacePtr(), NULL);
+
+            ctx->Draw(3, 0);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

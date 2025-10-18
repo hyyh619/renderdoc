@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QGraphicsLinearLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsLinearLayout : public QGraphicsLayout
+class Q_WIDGETS_EXPORT    QGraphicsLinearLayout : public QGraphicsLayout
 {
 public:
     QGraphicsLinearLayout(QGraphicsLayoutItem *parent = Q_NULLPTR);
@@ -60,8 +60,14 @@ public:
     void setOrientation(Qt::Orientation orientation);
     Qt::Orientation orientation() const;
 
-    inline void addItem(QGraphicsLayoutItem *item) { insertItem(-1, item); }
-    inline void addStretch(int stretch = 1) { insertStretch(-1, stretch); }
+    inline void addItem(QGraphicsLayoutItem *item)
+    {
+        insertItem(-1, item);
+    }
+    inline void addStretch(int stretch = 1)
+    {
+        insertStretch(-1, stretch);
+    }
 
     void insertItem(int index, QGraphicsLayoutItem *item);
     void insertStretch(int index, int stretch = 1);
@@ -83,7 +89,7 @@ public:
     void setGeometry(const QRectF &rect) Q_DECL_OVERRIDE;
 
     int count() const Q_DECL_OVERRIDE;
-    QGraphicsLayoutItem *itemAt(int index) const Q_DECL_OVERRIDE;
+    QGraphicsLayoutItem* itemAt(int index) const Q_DECL_OVERRIDE;
 
     void invalidate() Q_DECL_OVERRIDE;
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraint = QSizeF()) const Q_DECL_OVERRIDE;

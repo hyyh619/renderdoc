@@ -54,7 +54,7 @@ class QPoint;
 class QDragManager;
 
 
-class Q_GUI_EXPORT QDrag : public QObject
+class Q_GUI_EXPORT    QDrag : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QDrag)
@@ -63,16 +63,16 @@ public:
     ~QDrag();
 
     void setMimeData(QMimeData *data);
-    QMimeData *mimeData() const;
+    QMimeData* mimeData() const;
 
-    void setPixmap(const QPixmap &);
+    void setPixmap(const QPixmap&);
     QPixmap pixmap() const;
 
     void setHotSpot(const QPoint &hotspot);
     QPoint hotSpot() const;
 
-    QObject *source() const;
-    QObject *target() const;
+    QObject* source() const;
+    QObject* target() const;
 
     Qt::DropAction start(Qt::DropActions supportedActions = Qt::CopyAction);
     Qt::DropAction exec(Qt::DropActions supportedActions = Qt::MoveAction);
@@ -94,7 +94,6 @@ private:
     friend class QDragManager;
     Q_DISABLE_COPY(QDrag)
 };
-
 #endif // QT_NO_DRAGANDDROP
 
 QT_END_NAMESPACE

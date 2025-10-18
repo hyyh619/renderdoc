@@ -76,35 +76,37 @@ public:
 #ifdef Q_OS_WIN
     HINSTANCE
 #else
-    void *
+    void*
 #endif
     pHnd;
 
     enum UnloadFlag { UnloadSys, NoUnloadSys };
 
-    QString fileName, qualifiedFileName;
-    QString fullVersion;
+    QString     fileName, qualifiedFileName;
+    QString     fullVersion;
 
     bool load();
     bool loadPlugin(); // loads and resolves instance
     bool unload(UnloadFlag flag = UnloadSys);
     void release();
-    QFunctionPointer resolve(const char *);
+    QFunctionPointer resolve(const char*);
 
     QLibrary::LoadHints loadHints() const
-    { return QLibrary::LoadHints(loadHintsInt.load()); }
+    {
+        return QLibrary::LoadHints(loadHintsInt.load());
+    }
     void setLoadHints(QLibrary::LoadHints lh);
 
-    static QLibraryPrivate *findOrCreate(const QString &fileName, const QString &version = QString(),
+    static QLibraryPrivate* findOrCreate(const QString &fileName, const QString &version = QString(),
                                          QLibrary::LoadHints loadHints = 0);
     static QStringList suffixes_sys(const QString &fullVersion);
     static QStringList prefixes_sys();
 
-    QPointer<QObject> inst;
-    QtPluginInstanceFunction instance;
-    QJsonObject metaData;
+    QPointer<QObject>           inst;
+    QtPluginInstanceFunction    instance;
+    QJsonObject                 metaData;
 
-    QString errorString;
+    QString    errorString;
 
     void updatePluginState();
     bool isPlugin();
@@ -116,16 +118,16 @@ private:
 
     bool load_sys();
     bool unload_sys();
-    QFunctionPointer resolve_sys(const char *);
+    QFunctionPointer resolve_sys(const char*);
 
-    QAtomicInt loadHintsInt;
+    QAtomicInt    loadHintsInt;
 
     /// counts how many QLibrary or QPluginLoader are attached to us, plus 1 if it's loaded
-    QAtomicInt libraryRefCount;
+    QAtomicInt    libraryRefCount;
     /// counts how many times load() or loadPlugin() were called
-    QAtomicInt libraryUnloadCount;
+    QAtomicInt    libraryUnloadCount;
 
-    enum { IsAPlugin, IsNotAPlugin, MightBeAPlugin } pluginState;
+    enum { IsAPlugin, IsNotAPlugin, MightBeAPlugin }    pluginState;
     friend class QLibraryStore;
 };
 

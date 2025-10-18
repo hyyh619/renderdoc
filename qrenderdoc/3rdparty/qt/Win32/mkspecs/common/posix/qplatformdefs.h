@@ -79,9 +79,9 @@
 
 #define QT_STATBUF              struct stat
 
-#define QT_STAT                 ::stat
-#define QT_LSTAT                ::lstat
-#define QT_TRUNCATE             ::truncate
+#define    QT_STAT                  ::stat
+#define QT_LSTAT                    ::lstat
+#define QT_TRUNCATE                 ::truncate
 
 // File I/O
 #define QT_OPEN                 ::open
@@ -102,7 +102,6 @@
 #endif
 
 #define QT_MMAP                 ::mmap
-
 #endif // !defined (QT_USE_XOPEN_LFS_EXTENSIONS) || !defined(QT_LARGEFILE_SUPPORT)
 
 #define QT_STAT_MASK            S_IFMT
@@ -138,16 +137,16 @@
 #define QT_OPENDIR              ::opendir
 #define QT_CLOSEDIR             ::closedir
 
-#if defined(QT_LARGEFILE_SUPPORT) \
-        && defined(QT_USE_XOPEN_LFS_EXTENSIONS) \
-        && !defined(QT_NO_READDIR64)
-#define QT_DIRENT               struct dirent64
-#define QT_READDIR              ::readdir64
-#define QT_READDIR_R            ::readdir64_r
+#if defined(QT_LARGEFILE_SUPPORT)           \
+    && defined(QT_USE_XOPEN_LFS_EXTENSIONS) \
+    && !defined(QT_NO_READDIR64)
+#define QT_DIRENT                   struct dirent64
+#define    QT_READDIR               ::readdir64
+#define QT_READDIR_R                ::readdir64_r
 #else
-#define QT_DIRENT               struct dirent
-#define QT_READDIR              ::readdir
-#define QT_READDIR_R            ::readdir_r
+#define QT_DIRENT                   struct dirent
+#define    QT_READDIR               ::readdir
+#define QT_READDIR_R                ::readdir_r
 #endif
 
 #define QT_SOCKLEN_T            socklen_t

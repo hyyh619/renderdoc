@@ -52,7 +52,7 @@ class QMimeData;
 class QImage;
 class QPixmap;
 
-class Q_GUI_EXPORT QClipboard : public QObject
+class Q_GUI_EXPORT    QClipboard : public QObject
 {
     Q_OBJECT
 private:
@@ -72,16 +72,16 @@ public:
     bool ownsFindBuffer() const;
 
     QString text(Mode mode = Clipboard) const;
-    QString text(QString& subtype, Mode mode = Clipboard) const;
-    void setText(const QString &, Mode mode = Clipboard);
+    QString text(QString &subtype, Mode mode = Clipboard) const;
+    void setText(const QString&, Mode mode = Clipboard);
 
-    const QMimeData *mimeData(Mode mode = Clipboard ) const;
+    const QMimeData* mimeData(Mode mode = Clipboard) const;
     void setMimeData(QMimeData *data, Mode mode = Clipboard);
 
     QImage image(Mode mode = Clipboard) const;
     QPixmap pixmap(Mode mode = Clipboard) const;
-    void setImage(const QImage &, Mode mode  = Clipboard);
-    void setPixmap(const QPixmap &, Mode mode  = Clipboard);
+    void setImage(const QImage&, Mode mode  = Clipboard);
+    void setPixmap(const QPixmap&, Mode mode  = Clipboard);
 
 Q_SIGNALS:
     void changed(QClipboard::Mode mode);
@@ -104,7 +104,6 @@ private:
     bool ownsMode(Mode mode) const;
     void emitChanged(Mode mode);
 };
-
 #endif // QT_NO_CLIPBOARD
 
 QT_END_NAMESPACE

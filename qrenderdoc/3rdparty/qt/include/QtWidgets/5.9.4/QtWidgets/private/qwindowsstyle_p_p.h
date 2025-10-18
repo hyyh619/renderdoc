@@ -72,27 +72,33 @@ public:
     static int pixelMetricFromSystemDp(QStyle::PixelMetric pm, const QStyleOption *option = 0, const QWidget *widget = 0);
     static int fixedPixelMetric(QStyle::PixelMetric pm);
     static qreal devicePixelRatio(const QWidget *widget = 0)
-        { return widget ? widget->devicePixelRatioF() : QWindowsStylePrivate::appDevicePixelRatio(); }
+    {
+        return widget ? widget->devicePixelRatioF() : QWindowsStylePrivate::appDevicePixelRatio();
+    }
     static qreal nativeMetricScaleFactor(const QWidget *widget = Q_NULLPTR);
 
     bool hasSeenAlt(const QWidget *widget) const;
-    bool altDown() const { return alt_down; }
-    bool alt_down;
-    QList<const QWidget *> seenAlt;
-    int menuBarTimer;
+    bool altDown() const
+    {
+        return alt_down;
+    }
+    bool                        alt_down;
+    QList<const QWidget*>       seenAlt;
+    int                         menuBarTimer;
 
-    QColor inactiveCaptionText;
-    QColor activeCaptionColor;
-    QColor activeGradientCaptionColor;
-    QColor inactiveCaptionColor;
-    QColor inactiveGradientCaptionColor;
+    QColor      inactiveCaptionText;
+    QColor      activeCaptionColor;
+    QColor      activeGradientCaptionColor;
+    QColor      inactiveCaptionColor;
+    QColor      inactiveGradientCaptionColor;
 
-    enum {
-        windowsItemFrame        =  2, // menu item frame width
-        windowsSepHeight        =  9, // separator item height
-        windowsItemHMargin      =  3, // menu item hor text margin
-        windowsItemVMargin      =  2, // menu item ver text margin
-        windowsArrowHMargin     =  6, // arrow horizontal margin
+    enum
+    {
+        windowsItemFrame        = 2,  // menu item frame width
+        windowsSepHeight        = 9,  // separator item height
+        windowsItemHMargin      = 3,  // menu item hor text margin
+        windowsItemVMargin      = 2,  // menu item ver text margin
+        windowsArrowHMargin     = 6,  // arrow horizontal margin
         windowsRightBorder      = 15, // right border on windows
         windowsCheckMarkWidth   = 12  // checkmarks width on windows
     };
@@ -102,8 +108,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // style_windows
-
-#endif //QWINDOWSSTYLE_P_P_H
+#endif // QWINDOWSSTYLE_P_P_H
 ;

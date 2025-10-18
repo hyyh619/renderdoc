@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QColorDialogPrivate;
 
-class Q_WIDGETS_EXPORT QColorDialog : public QDialog
+class Q_WIDGETS_EXPORT    QColorDialog : public QDialog
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QColorDialog)
@@ -59,7 +59,8 @@ class Q_WIDGETS_EXPORT QColorDialog : public QDialog
     Q_PROPERTY(ColorDialogOptions options READ options WRITE setOptions)
 
 public:
-    enum ColorDialogOption {
+    enum ColorDialogOption
+    {
         ShowAlphaChannel    = 0x00000001,
         NoButtons           = 0x00000002,
         DontUseNativeDialog = 0x00000004

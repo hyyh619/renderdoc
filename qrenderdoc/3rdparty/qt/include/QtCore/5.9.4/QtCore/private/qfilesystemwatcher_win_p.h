@@ -84,31 +84,32 @@ public:
 
     class Handle
     {
-    public:
-        Qt::HANDLE handle;
-        uint flags;
+public:
+        Qt::HANDLE      handle;
+        uint            flags;
 
         Handle();
     };
 
-    class PathInfo {
-    public:
-        QString absolutePath;
-        QString path;
-        bool isDir;
+    class PathInfo
+    {
+public:
+        QString     absolutePath;
+        QString     path;
+        bool        isDir;
 
         // fileinfo bits
-        uint ownerId;
-        uint groupId;
-        QFile::Permissions permissions;
-        QDateTime lastModified;
+        uint                    ownerId;
+        uint                    groupId;
+        QFile::Permissions      permissions;
+        QDateTime               lastModified;
 
-        PathInfo &operator=(const QFileInfo &fileInfo)
-                           {
-            ownerId = fileInfo.ownerId();
-            groupId = fileInfo.groupId();
-            permissions = fileInfo.permissions();
-            lastModified = fileInfo.lastModified();
+        PathInfo&operator=(const QFileInfo &fileInfo)
+        {
+            ownerId         = fileInfo.ownerId();
+            groupId         = fileInfo.groupId();
+            permissions     = fileInfo.permissions();
+            lastModified    = fileInfo.lastModified();
             return *this;
         }
 
@@ -122,14 +123,14 @@ public:
     };
 
 signals:
-    void driveLockForRemoval(const QString &);
-    void driveLockForRemovalFailed(const QString &);
-    void driveRemoved(const QString &);
+    void driveLockForRemoval(const QString&);
+    void driveLockForRemovalFailed(const QString&);
+    void driveRemoved(const QString&);
 
 private:
-    QList<QWindowsFileSystemWatcherEngineThread *> threads;
+    QList<QWindowsFileSystemWatcherEngineThread*>    threads;
 #ifndef Q_OS_WINRT
-    QWindowsRemovableDriveListener *m_driveListener = nullptr;
+    QWindowsRemovableDriveListener    *m_driveListener = nullptr;
 #endif
 };
 
@@ -139,12 +140,18 @@ public:
     QFileSystemWatcherPathKey() {}
     explicit QFileSystemWatcherPathKey(const QString &other) : QString(other) {}
     QFileSystemWatcherPathKey(const QFileSystemWatcherPathKey &other) : QString(other) {}
-    bool operator==(const QFileSystemWatcherPathKey &other) const { return !compare(other, Qt::CaseInsensitive); }
+    bool operator==(const QFileSystemWatcherPathKey &other) const
+    {
+        return !compare(other, Qt::CaseInsensitive);
+    }
 };
 
 Q_DECLARE_TYPEINFO(QFileSystemWatcherPathKey, Q_MOVABLE_TYPE);
 
-inline uint qHash(const QFileSystemWatcherPathKey &key) { return qHash(key.toCaseFolded()); }
+inline uint qHash(const QFileSystemWatcherPathKey &key)
+{
+    return qHash(key.toCaseFolded());
+}
 
 class QWindowsFileSystemWatcherEngineThread : public QThread
 {
@@ -160,13 +167,13 @@ public:
     void stop();
     void wakeup();
 
-    QMutex mutex;
-    QVector<Qt::HANDLE> handles;
-    int msg;
+    QMutex                  mutex;
+    QVector<Qt::HANDLE>     handles;
+    int                     msg;
 
-    HandleForDirHash handleForDir;
+    HandleForDirHash    handleForDir;
 
-    QHash<Qt::HANDLE, PathInfoHash> pathInfoForHandle;
+    QHash<Qt::HANDLE, PathInfoHash>    pathInfoForHandle;
 
 Q_SIGNALS:
     void fileChanged(const QString &path, bool removed);
@@ -174,7 +181,6 @@ Q_SIGNALS:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_FILESYSTEMWATCHER
 
 #endif // QFILESYSTEMWATCHER_WIN_P_H

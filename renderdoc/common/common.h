@@ -1,27 +1,27 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- * Copyright (c) 2014 Crytek
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+* Copyright (c) 2014 Crytek
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -50,16 +50,15 @@
 
 #elif ENABLED(RDOC_LINUX) && (defined(__i386__) || defined(__x86_64__))
 
-#define OS_DEBUG_BREAK()           \
-  do                               \
-  {                                \
-    __asm__ volatile("int $0x03"); \
-  } while((void)0, 0)
+#define OS_DEBUG_BREAK()                \
+    do                                  \
+    {                                   \
+        __asm__ volatile ("int $0x03"); \
+    } while ((void)0, 0)
 
 #else
 
 #define OS_DEBUG_BREAK() raise(SIGTRAP)
-
 #endif
 
 #if defined(__clang__)
@@ -70,245 +69,243 @@
 
 // works on GCC 7.0 and up. Before then there was no warning, so we're fine
 #define DELIBERATE_FALLTHROUGH() __attribute__((fallthrough))
-
 #endif
-
 #endif
 
 // pre-declare some OS-specific functions we need to reference in the header here.
 
 namespace OSUtility
 {
-void ForceCrash();
-bool DebuggerPresent();
+    void ForceCrash();
+    bool DebuggerPresent();
 };
 
 /////////////////////////////////////////////////
 // Utility macros
 
 #ifndef SAFE_DELETE
-#define SAFE_DELETE(p) \
-  do                   \
-  {                    \
-    if(p)              \
-    {                  \
-      delete(p);       \
-      (p) = NULL;      \
-    }                  \
-  } while((void)0, 0)
+#define SAFE_DELETE(p)  \
+    do                  \
+    {                   \
+        if (p)          \
+        {               \
+            delete(p);  \
+            (p) = NULL; \
+        }               \
+    } while ((void)0, 0)
 #endif
 
 #ifndef SAFE_DELETE_ARRAY
 #define SAFE_DELETE_ARRAY(p) \
-  do                         \
-  {                          \
-    if(p)                    \
+    do                       \
     {                        \
-      delete[](p);           \
-      (p) = NULL;            \
-    }                        \
-  } while((void)0, 0)
+        if (p)               \
+        {                    \
+            delete[](p);     \
+            (p) = NULL;      \
+        }                    \
+    } while ((void)0, 0)
 #endif
 
 #ifndef SAFE_ADDREF
-#define SAFE_ADDREF(p) \
-  do                   \
-  {                    \
-    if(p)              \
-    {                  \
-      (p)->AddRef();   \
-    }                  \
-  } while((void)0, 0)
+#define SAFE_ADDREF(p)     \
+    do                     \
+    {                      \
+        if (p)             \
+        {                  \
+            (p)->AddRef(); \
+        }                  \
+    } while ((void)0, 0)
 #endif
 
 #ifndef SAFE_RELEASE
-#define SAFE_RELEASE(p) \
-  do                    \
-  {                     \
-    if(p)               \
-    {                   \
-      (p)->Release();   \
-      (p) = NULL;       \
-    }                   \
-  } while((void)0, 0)
+#define SAFE_RELEASE(p)     \
+    do                      \
+    {                       \
+        if (p)              \
+        {                   \
+            (p)->Release(); \
+            (p) = NULL;     \
+        }                   \
+    } while ((void)0, 0)
 #define SAFE_RELEASE_NOCLEAR(p) \
-  do                            \
-  {                             \
-    if(p)                       \
+    do                          \
     {                           \
-      (p)->Release();           \
-    }                           \
-  } while((void)0, 0)
+        if (p)                  \
+        {                       \
+            (p)->Release();     \
+        }                       \
+    } while ((void)0, 0)
 #endif
 
 #ifndef ARRAY_COUNT
 #define ARRAY_COUNT(arr) (sizeof(arr) / sizeof(arr[0]))
 #endif
 
-#define STRINGIZE2(a) #a
-#define STRINGIZE(a) STRINGIZE2(a)
+#define STRINGIZE2(a)   #a
+#define STRINGIZE(a)    STRINGIZE2(a)
 
-#define CONCAT2(a, b) a##b
-#define CONCAT(a, b) CONCAT2(a, b)
+#define CONCAT2(a, b)   a##b
+#define CONCAT(a, b)    CONCAT2(a, b)
 
-#define RDCEraseMem(a, b) memset(a, 0, b)
-#define RDCEraseEl(a) memset((void *)&a, 0, sizeof(a))
+#define RDCEraseMem(a, b)   memset(a, 0, b)
+#define RDCEraseEl(a)       memset((void*)&a, 0, sizeof(a))
 
-template <typename T>
+template<typename T>
 T RDCCLAMP(const T &val, const T &mn, const T &mx)
 {
-  return val < mn ? mn : (val > mx ? mx : val);
+    return val < mn ? mn : (val > mx ? mx : val);
 }
 
-template <typename T>
+template<typename T>
 T RDCMIN(const T &a, const T &b)
 {
-  return a < b ? a : b;
+    return a < b ? a : b;
 }
 
-template <typename T>
+template<typename T>
 T RDCMAX(const T &a, const T &b)
 {
-  return a > b ? a : b;
+    return a > b ? a : b;
 }
 
-template <typename T>
+template<typename T>
 T RDCLERP(const T &a, const T &b, const T &step)
 {
-  return (1.0f - step) * a + step * b;
+    return (1.0f - step) * a + step * b;
 }
 
 inline bool RDCISNAN(float input)
 {
-  union
-  {
-    uint32_t u;
-    float f;
-  } x;
+    union
+    {
+        uint32_t    u;
+        float       f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  // ignore sign bit (0x80000000)
-  //     check that exponent (0x7f800000) is fully set
-  // AND that mantissa (0x007fffff) is greater than 0 (if it's 0 then this is an inf)
-  return (x.u & 0x7fffffffU) > 0x7f800000U;
+    // ignore sign bit (0x80000000)
+    //     check that exponent (0x7f800000) is fully set
+    // AND that mantissa (0x007fffff) is greater than 0 (if it's 0 then this is an inf)
+    return (x.u & 0x7fffffffU) > 0x7f800000U;
 }
 
 inline bool RDCISINF(float input)
 {
-  union
-  {
-    uint32_t u;
-    float f;
-  } x;
+    union
+    {
+        uint32_t    u;
+        float       f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  // ignore sign bit (0x80000000)
-  //     check that exponent (0x7f800000) is fully set
-  // AND that mantissa (0x007fffff) is exactly than 0 (if it's non-0 then this is an nan)
-  return (x.u & 0x7fffffffU) == 0x7f800000U;
+    // ignore sign bit (0x80000000)
+    //     check that exponent (0x7f800000) is fully set
+    // AND that mantissa (0x007fffff) is exactly than 0 (if it's non-0 then this is an nan)
+    return (x.u & 0x7fffffffU) == 0x7f800000U;
 }
 
 inline bool RDCISFINITE(float input)
 {
-  union
-  {
-    uint32_t u;
-    float f;
-  } x;
+    union
+    {
+        uint32_t    u;
+        float       f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  // ignore sign bit (0x80000000)
-  //     check that exponent (0x7f800000) is not fully set (if it's fully set then this is a
-  //     nan/inf)
-  return (x.u & 0x7f800000U) != 0x7f800000U;
+    // ignore sign bit (0x80000000)
+    //     check that exponent (0x7f800000) is not fully set (if it's fully set then this is a
+    //     nan/inf)
+    return (x.u & 0x7f800000U) != 0x7f800000U;
 }
 
 // double variants
 
 inline bool RDCISNAN(double input)
 {
-  union
-  {
-    uint64_t u;
-    double f;
-  } x;
+    union
+    {
+        uint64_t    u;
+        double      f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  // ignore sign bit (0x80000000)
-  //     check that exponent (0x7f800000) is fully set
-  // AND that mantissa (0x007fffff) is greater than 0 (if it's 0 then this is an inf)
-  return (x.u & 0x7fffffffffffffffULL) > 0x7ff0000000000000ULL;
+    // ignore sign bit (0x80000000)
+    //     check that exponent (0x7f800000) is fully set
+    // AND that mantissa (0x007fffff) is greater than 0 (if it's 0 then this is an inf)
+    return (x.u & 0x7fffffffffffffffULL) > 0x7ff0000000000000ULL;
 }
 
 inline bool RDCISINF(double input)
 {
-  union
-  {
-    uint64_t u;
-    double f;
-  } x;
+    union
+    {
+        uint64_t    u;
+        double      f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  return (x.u & 0x7fffffffffffffffULL) == 0x7ff0000000000000ULL;
+    return (x.u & 0x7fffffffffffffffULL) == 0x7ff0000000000000ULL;
 }
 
 inline bool RDCISFINITE(double input)
 {
-  union
-  {
-    uint64_t u;
-    double f;
-  } x;
+    union
+    {
+        uint64_t    u;
+        double      f;
+    }    x;
 
-  x.f = input;
+    x.f = input;
 
-  return (x.u & 0x7ff0000000000000ULL) != 0x7ff0000000000000ULL;
+    return (x.u & 0x7ff0000000000000ULL) != 0x7ff0000000000000ULL;
 }
 
-template <typename T>
+template<typename T>
 inline T AlignUp4(T x)
 {
-  return (x + 0x3) & (~0x3);
+    return (x + 0x3) & (~0x3);
 }
 
-template <typename T>
+template<typename T>
 inline T AlignUp16(T x)
 {
-  return (x + 0xf) & (~0xf);
+    return (x + 0xf) & (~0xf);
 }
 
-template <typename T>
+template<typename T>
 inline T AlignUp(T x, T a)
 {
-  return (x + (a - 1)) & (~(a - 1));
+    return (x + (a - 1)) & (~(a - 1));
 }
 
-template <typename T, typename A>
+template<typename T, typename A>
 inline T AlignUpPtr(T x, A a)
 {
-  return (T)AlignUp<uintptr_t>((uintptr_t)x, (uintptr_t)a);
+    return (T)AlignUp<uintptr_t>((uintptr_t)x, (uintptr_t)a);
 }
 
-template <typename T>
+template<typename T>
 T AlignToMultiple(T value, T multiple)
 {
-  return ((value + multiple - 1) / multiple) * multiple | 0;
+    return ((value + multiple - 1) / multiple) * multiple | 0;
 }
 
 #define MAKE_FOURCC(a, b, c, d) \
-  (((uint32_t)(d) << 24) | ((uint32_t)(c) << 16) | ((uint32_t)(b) << 8) | (uint32_t)(a))
+    (((uint32_t)(d) << 24) | ((uint32_t)(c) << 16) | ((uint32_t)(b) << 8) | (uint32_t)(a))
 
 bool FindDiffRange(void *a, void *b, size_t bufSize, size_t &diffStart, size_t &diffEnd);
 uint32_t CalcNumMips(int Width, int Height, int Depth);
 
 typedef uint8_t byte;
 
-byte *AllocAlignedBuffer(uint64_t size, uint64_t alignment = 64);
+byte* AllocAlignedBuffer(uint64_t size, uint64_t alignment = 64);
 void FreeAlignedBuffer(byte *buf);
 
 uint32_t Log2Floor(uint32_t value);
@@ -323,18 +320,18 @@ uint64_t Log2Ceil(uint64_t value);
 inline size_t Log2Floor(size_t value)
 {
 #if ENABLED(RDOC_X64)
-  return (size_t)Log2Floor((uint64_t)value);
+    return (size_t)Log2Floor((uint64_t)value);
 #else
-  return (size_t)Log2Floor((uint32_t)value);
+    return (size_t)Log2Floor((uint32_t)value);
 #endif
 }
 
 inline size_t Log2Ceil(size_t value)
 {
 #if ENABLED(RDOC_X64)
-  return (size_t)Log2Ceil((uint64_t)value);
+    return (size_t)Log2Ceil((uint64_t)value);
 #else
-  return (size_t)Log2Ceil((uint32_t)value);
+    return (size_t)Log2Ceil((uint32_t)value);
 #endif
 }
 #endif
@@ -344,37 +341,37 @@ inline size_t Log2Ceil(size_t value)
 
 #if !defined(DELIBERATE_FALLTHROUGH)
 #define DELIBERATE_FALLTHROUGH() \
-  do                             \
-  {                              \
-  } while(0)
+    do                           \
+    {                            \
+    } while (0)
 #endif
 
-#define RDCDUMP()            \
-  do                         \
-  {                          \
-    OSUtility::ForceCrash(); \
-  } while((void)0, 0)
+#define RDCDUMP()                \
+    do                           \
+    {                            \
+        OSUtility::ForceCrash(); \
+    } while ((void)0, 0)
 
 #if ENABLED(RDOC_DEVEL) || ENABLED(FORCE_DEBUGBREAK)
-#define RDCBREAK()                   \
-  do                                 \
-  {                                  \
-    if(OSUtility::DebuggerPresent()) \
-      OS_DEBUG_BREAK();              \
-  } while((void)0, 0)
+#define RDCBREAK()                        \
+    do                                    \
+    {                                     \
+        if (OSUtility::DebuggerPresent()) \
+            OS_DEBUG_BREAK();             \
+    } while ((void)0, 0)
 #else
 #define RDCBREAK() \
-  do               \
-  {                \
-  } while((void)0, 0)
+    do             \
+    {              \
+    } while ((void)0, 0)
 #endif
 
-#define RDCUNIMPLEMENTED(...)                                \
-  do                                                         \
-  {                                                          \
-    rdclog(LogType::Warning, "Unimplemented: " __VA_ARGS__); \
-    RDCBREAK();                                              \
-  } while((void)0, 0)
+#define RDCUNIMPLEMENTED(...)                                    \
+    do                                                           \
+    {                                                            \
+        rdclog(LogType::Warning, "Unimplemented: " __VA_ARGS__); \
+        RDCBREAK();                                              \
+    } while ((void)0, 0)
 
 //
 // Logging
@@ -382,42 +379,42 @@ inline size_t Log2Ceil(size_t value)
 
 #if ENABLED(STRIP_LOG)
 #define RDCLOGFILE(fn) \
-  do                   \
-  {                    \
-  } while((void)0, 0)
+    do                 \
+    {                  \
+    } while ((void)0, 0)
 #define RDCLOGDELETE() \
-  do                   \
-  {                    \
-  } while((void)0, 0)
+    do                 \
+    {                  \
+    } while ((void)0, 0)
 
 #define RDCDEBUG(...) \
-  do                  \
-  {                   \
-  } while((void)0, 0)
+    do                \
+    {                 \
+    } while ((void)0, 0)
 #define RDCLOG(...) \
-  do                \
-  {                 \
-  } while((void)0, 0)
+    do              \
+    {               \
+    } while ((void)0, 0)
 #define RDCWARN(...) \
-  do                 \
-  {                  \
-  } while((void)0, 0)
+    do               \
+    {                \
+    } while ((void)0, 0)
 #define RDCERR(...) \
-  do                \
-  {                 \
-  } while((void)0, 0)
+    do              \
+    {               \
+    } while ((void)0, 0)
 #define RDCFATAL(...) \
-  do                  \
-  {                   \
-    RDCDUMP();        \
-    exit(0);          \
-  } while((void)0, 0)
+    do                \
+    {                 \
+        RDCDUMP();    \
+        exit(0);      \
+    } while ((void)0, 0)
 #define RDCDUMPMSG(message) \
-  do                        \
-  {                         \
-    RDCDUMP();              \
-    exit(0);                \
-  } while((void)0, 0)
+    do                      \
+    {                       \
+        RDCDUMP();          \
+        exit(0);            \
+    } while ((void)0, 0)
 #else
 // perform any operations necessary to flush the log
 void rdclog_flush();
@@ -437,19 +434,18 @@ void rdclog_flush();
 #else
 
 #define LOGTYPE_ENUM_NAME LogType__Internal
-
 #endif
 
 // must match the definition in replay_enums.h
 enum class LOGTYPE_ENUM_NAME : uint32_t
 {
-  Debug,
-  First = Debug,
-  Comment,
-  Warning,
-  Error,
-  Fatal,
-  Count,
+    Debug,
+    First = Debug,
+    Comment,
+    Warning,
+    Error,
+    Fatal,
+    Count,
 };
 
 // actual low-level print to log output streams defined (useful for if we need to print
@@ -466,61 +462,61 @@ void rdclog_direct(time_t utcTime, uint32_t pid, LogType type, const char *proje
 
 #define FILL_AUTO_VALUE 0x10203040
 
-#define rdclog(type, ...)                                                                 \
-  rdclog_direct(time_t(FILL_AUTO_VALUE), FILL_AUTO_VALUE, type, RDCLOG_PROJECT, __FILE__, \
-                __LINE__, __VA_ARGS__)
+#define rdclog(type, ...)                                                                   \
+    rdclog_direct(time_t(FILL_AUTO_VALUE), FILL_AUTO_VALUE, type, RDCLOG_PROJECT, __FILE__, \
+                  __LINE__, __VA_ARGS__)
 
-const char *rdclog_getfilename();
+const char* rdclog_getfilename();
 void rdclog_filename(const char *filename);
 void rdclog_enableoutput();
 void rdclog_closelog();
 
-#define RDCLOGFILE(fn) rdclog_filename(fn)
+#define RDCLOGFILE(fn)  rdclog_filename(fn)
 #define RDCGETLOGFILE() rdclog_getfilename()
 
-#define RDCLOGOUTPUT() rdclog_enableoutput()
-#define RDCSTOPLOGGING() rdclog_closelog()
+#define RDCLOGOUTPUT()      rdclog_enableoutput()
+#define RDCSTOPLOGGING()    rdclog_closelog()
 
-#if(ENABLED(RDOC_DEVEL) || ENABLED(FORCE_DEBUG_LOGS)) && DISABLED(STRIP_DEBUG_LOGS)
+#if (ENABLED(RDOC_DEVEL) || ENABLED(FORCE_DEBUG_LOGS)) && DISABLED(STRIP_DEBUG_LOGS)
 #define RDCDEBUG(...) rdclog(LogType::Debug, __VA_ARGS__)
 #else
 #define RDCDEBUG(...) \
-  do                  \
-  {                   \
-  } while((void)0, 0)
+    do                \
+    {                 \
+    } while ((void)0, 0)
 #endif
 
-#define RDCLOG(...) rdclog(LogType::Comment, __VA_ARGS__)
-#define RDCWARN(...) rdclog(LogType::Warning, __VA_ARGS__)
+#define RDCLOG(...)     rdclog(LogType::Comment, __VA_ARGS__)
+#define RDCWARN(...)    rdclog(LogType::Warning, __VA_ARGS__)
 
 #if ENABLED(DEBUGBREAK_ON_ERROR_LOG)
-#define RDCERR(...)                      \
-  do                                     \
-  {                                      \
-    rdclog(LogType::Error, __VA_ARGS__); \
-    rdclog_flush();                      \
-    RDCBREAK();                          \
-  } while((void)0, 0)
+#define RDCERR(...)                          \
+    do                                       \
+    {                                        \
+        rdclog(LogType::Error, __VA_ARGS__); \
+        rdclog_flush();                      \
+        RDCBREAK();                          \
+    } while ((void)0, 0)
 #else
 #define RDCERR(...) rdclog(LogType::Error, __VA_ARGS__)
 #endif
 
-#define RDCFATAL(...)                    \
-  do                                     \
-  {                                      \
-    rdclog(LogType::Fatal, __VA_ARGS__); \
-    rdclog_flush();                      \
-    RDCDUMP();                           \
-    exit(0);                             \
-  } while((void)0, 0)
-#define RDCDUMPMSG(message)                            \
-  do                                                   \
-  {                                                    \
-    rdclogprint_int(LogType::Fatal, message, message); \
-    rdclog_flush();                                    \
-    RDCDUMP();                                         \
-    exit(0);                                           \
-  } while((void)0, 0)
+#define RDCFATAL(...)                        \
+    do                                       \
+    {                                        \
+        rdclog(LogType::Fatal, __VA_ARGS__); \
+        rdclog_flush();                      \
+        RDCDUMP();                           \
+        exit(0);                             \
+    } while ((void)0, 0)
+#define RDCDUMPMSG(message)                                \
+    do                                                     \
+    {                                                      \
+        rdclogprint_int(LogType::Fatal, message, message); \
+        rdclog_flush();                                    \
+        RDCDUMP();                                         \
+        exit(0);                                           \
+    } while ((void)0, 0)
 #endif
 
 //
@@ -537,15 +533,15 @@ void rdcassert(const char *msg, const char *file, unsigned int line, const char 
 #include "custom_assert.h"
 
 #else
-#define RDCASSERTMSG(...) \
-  do                      \
-  {                       \
-    (void)(__VA_ARGS__);  \
-  } while((void)0, 0)
+#define RDCASSERTMSG(...)    \
+    do                       \
+    {                        \
+        (void)(__VA_ARGS__); \
+    } while ((void)0, 0)
 #endif
 
-#define RDCASSERT(...) RDCASSERTMSG("", __VA_ARGS__)
-#define RDCASSERTEQUAL(a, b) RDCASSERTMSG("", (a) == (b), a, b)
+#define RDCASSERT(...)          RDCASSERTMSG("", __VA_ARGS__)
+#define RDCASSERTEQUAL(a, b)    RDCASSERTMSG("", (a) == (b), a, b)
 #define RDCASSERTNOTEQUAL(a, b) RDCASSERTMSG("", (a) != (b), a, b)
 
 //
@@ -554,9 +550,9 @@ void rdcassert(const char *msg, const char *file, unsigned int line, const char 
 
 #if ENABLED(STRIP_COMPILE_ASSERTS)
 #define RDCCOMPILE_ASSERT(condition, message) \
-  do                                          \
-  {                                           \
-  } while((void)0, 0)
+    do                                        \
+    {                                         \
+    } while ((void)0, 0)
 #else
 #define RDCCOMPILE_ASSERT(condition, message) static_assert(condition, message)
 #endif

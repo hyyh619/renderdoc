@@ -74,7 +74,9 @@ public:
     }
 
     inline ~QSslKeyPrivate()
-    { clear(); }
+    {
+        clear();
+    }
 
     void clear(bool deep = true);
 
@@ -93,11 +95,12 @@ public:
     QByteArray toPem(const QByteArray &passPhrase) const;
     Qt::HANDLE handle() const;
 
-    bool isNull;
-    QSsl::KeyType type;
-    QSsl::KeyAlgorithm algorithm;
+    bool                    isNull;
+    QSsl::KeyType           type;
+    QSsl::KeyAlgorithm      algorithm;
 
-    enum Cipher {
+    enum Cipher
+    {
         DesCbc,
         DesEde3Cbc,
         Rc2Cbc
@@ -107,21 +110,22 @@ public:
     Q_AUTOTEST_EXPORT static QByteArray encrypt(Cipher cipher, const QByteArray &data, const QByteArray &key, const QByteArray &iv);
 
 #ifndef QT_NO_OPENSSL
-    union {
-        EVP_PKEY *opaque;
-        RSA *rsa;
-        DSA *dsa;
+    union
+    {
+        EVP_PKEY    *opaque;
+        RSA         *rsa;
+        DSA         *dsa;
 #ifndef OPENSSL_NO_EC
         EC_KEY *ec;
 #endif
     };
 #else
-    Qt::HANDLE opaque;
-    QByteArray derData;
-    int keyLength;
+    Qt::HANDLE      opaque;
+    QByteArray      derData;
+    int             keyLength;
 #endif
 
-    QAtomicInt ref;
+    QAtomicInt    ref;
 
 private:
     Q_DISABLE_COPY(QSslKeyPrivate)

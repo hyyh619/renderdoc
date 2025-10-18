@@ -72,13 +72,16 @@ class QOpenGLContext;
 class QOpenGLFramebufferObject;
 class QOpenGLMultiGroupSharedResource;
 
-class Q_GUI_EXPORT QOpenGLSharedResource
+class Q_GUI_EXPORT    QOpenGLSharedResource
 {
 public:
     QOpenGLSharedResource(QOpenGLContextGroup *group);
     virtual ~QOpenGLSharedResource() = 0;
 
-    QOpenGLContextGroup *group() const { return m_group; }
+    QOpenGLContextGroup* group() const
+    {
+        return m_group;
+    }
 
     // schedule the resource for deletion at an appropriate time
     void free();
@@ -91,7 +94,7 @@ protected:
     virtual void freeResource(QOpenGLContext *context) = 0;
 
 private:
-    QOpenGLContextGroup *m_group;
+    QOpenGLContextGroup    *m_group;
 
     friend class QOpenGLContextGroup;
     friend class QOpenGLContextGroupPrivate;
@@ -100,7 +103,7 @@ private:
     Q_DISABLE_COPY(QOpenGLSharedResource)
 };
 
-class Q_GUI_EXPORT QOpenGLSharedResourceGuard : public QOpenGLSharedResource
+class Q_GUI_EXPORT    QOpenGLSharedResourceGuard : public QOpenGLSharedResource
 {
 public:
     typedef void (*FreeResourceFunc)(QOpenGLFunctions *functions, GLuint id);
@@ -108,10 +111,12 @@ public:
         : QOpenGLSharedResource(context->shareGroup())
         , m_id(id)
         , m_func(func)
-    {
-    }
+    {}
 
-    GLuint id() const { return m_id; }
+    GLuint id() const
+    {
+        return m_id;
+    }
 
 protected:
     void invalidateResource() Q_DECL_OVERRIDE
@@ -122,11 +127,11 @@ protected:
     void freeResource(QOpenGLContext *context) Q_DECL_OVERRIDE;
 
 private:
-    GLuint m_id;
-    FreeResourceFunc m_func;
+    GLuint              m_id;
+    FreeResourceFunc    m_func;
 };
 
-class Q_GUI_EXPORT QOpenGLContextGroupPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QOpenGLContextGroupPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QOpenGLContextGroup)
 public:
@@ -134,8 +139,7 @@ public:
         : m_context(0)
         , m_mutex(QMutex::Recursive)
         , m_refs(0)
-    {
-    }
+    {}
 
     void addContext(QOpenGLContext *ctx);
     void removeContext(QOpenGLContext *ctx);
@@ -144,19 +148,19 @@ public:
 
     void deletePendingResources(QOpenGLContext *ctx);
 
-    QOpenGLContext *m_context;
+    QOpenGLContext    *m_context;
 
-    QList<QOpenGLContext *> m_shares;
-    QMutex m_mutex;
+    QList<QOpenGLContext*>      m_shares;
+    QMutex                      m_mutex;
 
-    QHash<QOpenGLMultiGroupSharedResource *, QOpenGLSharedResource *> m_resources;
-    QAtomicInt m_refs;
+    QHash<QOpenGLMultiGroupSharedResource*, QOpenGLSharedResource*>     m_resources;
+    QAtomicInt                                                          m_refs;
 
-    QList<QOpenGLSharedResource *> m_sharedResources;
-    QList<QOpenGLSharedResource *> m_pendingDeletion;
+    QList<QOpenGLSharedResource*>       m_sharedResources;
+    QList<QOpenGLSharedResource*>       m_pendingDeletion;
 };
 
-class Q_GUI_EXPORT QOpenGLMultiGroupSharedResource
+class Q_GUI_EXPORT    QOpenGLMultiGroupSharedResource
 {
 public:
     QOpenGLMultiGroupSharedResource();
@@ -165,35 +169,39 @@ public:
     void insert(QOpenGLContext *context, QOpenGLSharedResource *value);
     void cleanup(QOpenGLContextGroup *group, QOpenGLSharedResource *value);
 
-    QOpenGLSharedResource *value(QOpenGLContext *context);
+    QOpenGLSharedResource* value(QOpenGLContext *context);
 
-    QList<QOpenGLSharedResource *> resources() const;
+    QList<QOpenGLSharedResource*> resources() const;
 
-    template <typename T>
-    T *value(QOpenGLContext *context) {
-        QOpenGLContextGroup *group = context->shareGroup();
+    template<typename T>
+    T* value(QOpenGLContext *context)
+    {
+        QOpenGLContextGroup    *group = context->shareGroup();
         // Have to use our own mutex here, not the group's, since
         // m_groups has to be protected too against any concurrent access.
-        QMutexLocker locker(&m_mutex);
-        T *resource = static_cast<T *>(group->d_func()->m_resources.value(this, 0));
-        if (!resource) {
+        QMutexLocker    locker(&m_mutex);
+        T               *resource = static_cast<T*>(group->d_func()->m_resources.value(this, 0));
+
+        if (!resource)
+        {
             resource = new T(context);
             insert(context, resource);
         }
+
         return resource;
     }
 
 private:
-    QAtomicInt active;
-    QList<QOpenGLContextGroup *> m_groups;
-    QMutex m_mutex;
+    QAtomicInt                      active;
+    QList<QOpenGLContextGroup*>     m_groups;
+    QMutex                          m_mutex;
 };
 
 class QPaintEngineEx;
 class QOpenGLFunctions;
 class QOpenGLTextureHelper;
 
-class Q_GUI_EXPORT QOpenGLContextPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QOpenGLContextPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QOpenGLContext)
 public:
@@ -221,50 +229,50 @@ public:
 
     virtual ~QOpenGLContextPrivate()
     {
-        //do not delete the QOpenGLContext handle here as it is deleted in
-        //QWidgetPrivate::deleteTLSysExtra()
+        // do not delete the QOpenGLContext handle here as it is deleted in
+        // QWidgetPrivate::deleteTLSysExtra()
     }
 
-    mutable QHash<QOpenGLVersionProfile, QAbstractOpenGLFunctions *> versionFunctions;
-    mutable QOpenGLVersionFunctionsStorage versionFunctionsStorage;
-    mutable QSet<QAbstractOpenGLFunctions *> externalVersionFunctions;
+    mutable QHash<QOpenGLVersionProfile, QAbstractOpenGLFunctions*>     versionFunctions;
+    mutable QOpenGLVersionFunctionsStorage                              versionFunctionsStorage;
+    mutable QSet<QAbstractOpenGLFunctions*>                             externalVersionFunctions;
 
-    void *qGLContextHandle;
-    void (*qGLContextDeleteFunction)(void *handle);
+    void    *qGLContextHandle;
+    void    (*qGLContextDeleteFunction)(void *handle);
 
-    QSurfaceFormat requestedFormat;
-    QPlatformOpenGLContext *platformGLContext;
-    QOpenGLContext *shareContext;
-    QOpenGLContextGroup *shareGroup;
-    QScreen *screen;
-    QSurface *surface;
-    QOpenGLFunctions *functions;
-    mutable QSet<QByteArray> extensionNames;
-    QOpenGLTextureHelper* textureFunctions;
+    QSurfaceFormat              requestedFormat;
+    QPlatformOpenGLContext      *platformGLContext;
+    QOpenGLContext              *shareContext;
+    QOpenGLContextGroup         *shareGroup;
+    QScreen                     *screen;
+    QSurface                    *surface;
+    QOpenGLFunctions            *functions;
+    mutable QSet<QByteArray>    extensionNames;
+    QOpenGLTextureHelper        *textureFunctions;
 
-    GLint max_texture_size;
+    GLint    max_texture_size;
 
-    bool workaround_brokenFBOReadBack;
-    bool workaround_brokenTexSubImage;
-    bool workaround_missingPrecisionQualifiers;
+    bool    workaround_brokenFBOReadBack;
+    bool    workaround_brokenTexSubImage;
+    bool    workaround_missingPrecisionQualifiers;
 
-    QPaintEngineEx *active_engine;
+    QPaintEngineEx    *active_engine;
 
-    bool qgl_current_fbo_invalid;
+    bool    qgl_current_fbo_invalid;
 
     // Set and unset in QOpenGLFramebufferObject::bind()/unbind().
     // (Only meaningful for QOGLFBO since an FBO might be bound by other means)
     // Saves us from querying the driver for the current FBO in most paths.
-    QOpenGLFramebufferObject *qgl_current_fbo;
+    QOpenGLFramebufferObject    *qgl_current_fbo;
 
-    QVariant nativeHandle;
-    GLuint defaultFboRedirect;
+    QVariant    nativeHandle;
+    GLuint      defaultFboRedirect;
 
-    static QOpenGLContext *setCurrentContext(QOpenGLContext *context);
+    static QOpenGLContext* setCurrentContext(QOpenGLContext *context);
 
     int maxTextureSize();
 
-    static QOpenGLContextPrivate *get(QOpenGLContext *context)
+    static QOpenGLContextPrivate* get(QOpenGLContext *context)
     {
         return context ? context->d_func() : Q_NULLPTR;
     }
@@ -272,27 +280,28 @@ public:
 #if !defined(QT_NO_DEBUG)
     static bool toggleMakeCurrentTracker(QOpenGLContext *context, bool value)
     {
-        QMutexLocker locker(&makeCurrentTrackerMutex);
-        bool old = makeCurrentTracker.value(context, false);
+        QMutexLocker    locker(&makeCurrentTrackerMutex);
+        bool            old = makeCurrentTracker.value(context, false);
+
         makeCurrentTracker.insert(context, value);
         return old;
     }
     static void cleanMakeCurrentTracker(QOpenGLContext *context)
     {
-        QMutexLocker locker(&makeCurrentTrackerMutex);
+        QMutexLocker    locker(&makeCurrentTrackerMutex);
+
         makeCurrentTracker.remove(context);
     }
-    static QHash<QOpenGLContext *, bool> makeCurrentTracker;
-    static QMutex makeCurrentTrackerMutex;
+    static QHash<QOpenGLContext*, bool>     makeCurrentTracker;
+    static QMutex                           makeCurrentTrackerMutex;
 #endif
 
     void _q_screenDestroyed(QObject *object);
 };
 
 Q_GUI_EXPORT void qt_gl_set_global_share_context(QOpenGLContext *context);
-Q_GUI_EXPORT QOpenGLContext *qt_gl_global_share_context();
+Q_GUI_EXPORT QOpenGLContext* qt_gl_global_share_context();
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 #endif // QOPENGLCONTEXT_P_H

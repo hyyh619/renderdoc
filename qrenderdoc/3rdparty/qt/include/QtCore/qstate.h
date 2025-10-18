@@ -52,20 +52,22 @@ class QAbstractTransition;
 class QSignalTransition;
 
 class QStatePrivate;
-class Q_CORE_EXPORT QState : public QAbstractState
+class Q_CORE_EXPORT    QState : public QAbstractState
 {
     Q_OBJECT
-    Q_PROPERTY(QAbstractState* initialState READ initialState WRITE setInitialState NOTIFY initialStateChanged)
-    Q_PROPERTY(QAbstractState* errorState READ errorState WRITE setErrorState NOTIFY errorStateChanged)
+    Q_PROPERTY(QAbstractState*initialState READ initialState WRITE setInitialState NOTIFY initialStateChanged)
+    Q_PROPERTY(QAbstractState * errorState READ errorState WRITE setErrorState NOTIFY errorStateChanged)
     Q_PROPERTY(ChildMode childMode READ childMode WRITE setChildMode NOTIFY childModeChanged)
 public:
-    enum ChildMode {
+    enum ChildMode
+    {
         ExclusiveStates,
         ParallelStates
     };
     Q_ENUM(ChildMode)
 
-    enum RestorePolicy {
+    enum RestorePolicy
+    {
         DontRestoreProperties,
         RestoreProperties
     };
@@ -75,29 +77,30 @@ public:
     QState(ChildMode childMode, QState *parent = Q_NULLPTR);
     ~QState();
 
-    QAbstractState *errorState() const;
+    QAbstractState* errorState() const;
     void setErrorState(QAbstractState *state);
 
     void addTransition(QAbstractTransition *transition);
-    QSignalTransition *addTransition(const QObject *sender, const char *signal, QAbstractState *target);
+    QSignalTransition* addTransition(const QObject *sender, const char *signal, QAbstractState *target);
 #ifdef Q_QDOC
     template<typename PointerToMemberFunction>
-    QSignalTransition *addTransition(const QObject *sender, PointerToMemberFunction signal,
-                       QAbstractState *target);
+    QSignalTransition* addTransition(const QObject *sender, PointerToMemberFunction signal,
+                                     QAbstractState *target);
 #else
-    template <typename Func>
-    QSignalTransition *addTransition(const typename QtPrivate::FunctionPointer<Func>::Object *obj,
-                      Func signal, QAbstractState *target)
+    template<typename Func>
+    QSignalTransition* addTransition(const typename QtPrivate::FunctionPointer<Func>::Object *obj,
+                                     Func signal, QAbstractState *target)
     {
-        const QMetaMethod signalMetaMethod = QMetaMethod::fromSignal(signal);
+        const QMetaMethod    signalMetaMethod = QMetaMethod::fromSignal(signal);
+
         return addTransition(obj, signalMetaMethod.methodSignature().constData(), target);
     }
 #endif // Q_QDOC
-    QAbstractTransition *addTransition(QAbstractState *target);
+    QAbstractTransition* addTransition(QAbstractState *target);
     void removeTransition(QAbstractTransition *transition);
     QList<QAbstractTransition*> transitions() const;
 
-    QAbstractState *initialState() const;
+    QAbstractState* initialState() const;
     void setInitialState(QAbstractState *state);
 
     ChildMode childMode() const;
@@ -109,11 +112,11 @@ public:
 #endif
 
 Q_SIGNALS:
-    void finished(QPrivateSignal);
-    void propertiesAssigned(QPrivateSignal);
-    void childModeChanged(QPrivateSignal);
-    void initialStateChanged(QPrivateSignal);
-    void errorStateChanged(QPrivateSignal);
+    void    finished(QPrivateSignal);
+    void    propertiesAssigned(QPrivateSignal);
+    void    childModeChanged(QPrivateSignal);
+    void    initialStateChanged(QPrivateSignal);
+    void    errorStateChanged(QPrivateSignal);
 
 protected:
     void onEntry(QEvent *event) Q_DECL_OVERRIDE;

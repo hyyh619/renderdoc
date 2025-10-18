@@ -52,7 +52,7 @@ class QDate;
 class QTextCharFormat;
 class QCalendarWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QCalendarWidget : public QWidget
+class Q_WIDGETS_EXPORT    QCalendarWidget : public QWidget
 {
     Q_OBJECT
     Q_ENUMS(Qt::DayOfWeek)
@@ -69,7 +69,8 @@ class Q_WIDGETS_EXPORT QCalendarWidget : public QWidget
     Q_PROPERTY(int dateEditAcceptDelay READ dateEditAcceptDelay WRITE setDateEditAcceptDelay)
 
 public:
-    enum HorizontalHeaderFormat {
+    enum HorizontalHeaderFormat
+    {
         NoHorizontalHeader,
         SingleLetterDayNames,
         ShortDayNames,
@@ -77,13 +78,15 @@ public:
     };
     Q_ENUM(HorizontalHeaderFormat)
 
-    enum VerticalHeaderFormat {
+    enum VerticalHeaderFormat
+    {
         NoVerticalHeader,
         ISOWeekNumbers
     };
     Q_ENUM(VerticalHeaderFormat)
 
-    enum SelectionMode {
+    enum SelectionMode
+    {
         NoSelection,
         SingleSelection
     };
@@ -141,8 +144,8 @@ protected:
     bool event(QEvent *event) Q_DECL_OVERRIDE;
     bool eventFilter(QObject *watched, QEvent *event) Q_DECL_OVERRIDE;
     void mousePressEvent(QMouseEvent *event) Q_DECL_OVERRIDE;
-    void resizeEvent(QResizeEvent * event) Q_DECL_OVERRIDE;
-    void keyPressEvent(QKeyEvent * event) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent *event) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent *event) Q_DECL_OVERRIDE;
 
     virtual void paintCell(QPainter *painter, const QRect &rect, const QDate &date) const;
     void updateCell(const QDate &date);
@@ -179,8 +182,7 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_nextMonthClicked())
     Q_PRIVATE_SLOT(d_func(), void _q_yearEditingFinished())
     Q_PRIVATE_SLOT(d_func(), void _q_yearClicked())
-    Q_PRIVATE_SLOT(d_func(), void _q_monthChanged(QAction *act))
-
+    Q_PRIVATE_SLOT(d_func(), void _q_monthChanged(QAction * act))
 };
 
 QT_END_NAMESPACE

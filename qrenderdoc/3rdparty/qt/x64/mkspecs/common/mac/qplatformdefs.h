@@ -84,7 +84,7 @@
 
 #define QT_SOCKLEN_T            socklen_t
 
-#define QT_SIGNAL_IGNORE        (void (*)(int))1
+#define QT_SIGNAL_IGNORE        (void (*)(int)) 1
 
 #define QT_SNPRINTF             ::snprintf
 #define QT_VSNPRINTF            ::vsnprintf

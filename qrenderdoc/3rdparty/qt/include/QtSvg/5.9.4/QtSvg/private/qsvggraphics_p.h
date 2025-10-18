@@ -64,14 +64,14 @@ QT_BEGIN_NAMESPACE
 
 class QTextCharFormat;
 
-class Q_SVG_PRIVATE_EXPORT QSvgAnimation : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgAnimation : public QSvgNode
 {
 public:
     void draw(QPainter *p, QSvgExtraStates &states) override;
     Type type() const override;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgArc : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgArc : public QSvgNode
 {
 public:
     QSvgArc(QSvgNode *parent, const QPainterPath &path);
@@ -79,10 +79,10 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QPainterPath m_path;
+    QPainterPath    m_path;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgEllipse : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgEllipse : public QSvgNode
 {
 public:
     QSvgEllipse(QSvgNode *parent, const QRectF &rect);
@@ -90,17 +90,17 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QRectF m_bounds;
+    QRectF    m_bounds;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgCircle : public QSvgEllipse
+class Q_SVG_PRIVATE_EXPORT    QSvgCircle : public QSvgEllipse
 {
 public:
     QSvgCircle(QSvgNode *parent, const QRectF &rect) : QSvgEllipse(parent, rect) { }
     Type type() const override;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgImage : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgImage : public QSvgNode
 {
 public:
     QSvgImage(QSvgNode *parent, const QImage &image,
@@ -109,11 +109,11 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QImage m_image;
-    QRect  m_bounds;
+    QImage      m_image;
+    QRect       m_bounds;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgLine : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgLine : public QSvgNode
 {
 public:
     QSvgLine(QSvgNode *parent, const QLineF &line);
@@ -121,10 +121,10 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QLineF m_line;
+    QLineF    m_line;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgPath : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgPath : public QSvgNode
 {
 public:
     QSvgPath(QSvgNode *parent, const QPainterPath &qpath);
@@ -132,14 +132,15 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 
-    QPainterPath *qpath() {
+    QPainterPath* qpath()
+    {
         return &m_path;
     }
 private:
-    QPainterPath m_path;
+    QPainterPath    m_path;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgPolygon : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgPolygon : public QSvgNode
 {
 public:
     QSvgPolygon(QSvgNode *parent, const QPolygonF &poly);
@@ -147,10 +148,10 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QPolygonF m_poly;
+    QPolygonF    m_poly;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgPolyline : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgPolyline : public QSvgNode
 {
 public:
     QSvgPolyline(QSvgNode *parent, const QPolygonF &poly);
@@ -158,24 +159,24 @@ public:
     Type type() const override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QPolygonF m_poly;
+    QPolygonF    m_poly;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgRect : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgRect : public QSvgNode
 {
 public:
-    QSvgRect(QSvgNode *paren, const QRectF &rect, int rx=0, int ry=0);
+    QSvgRect(QSvgNode *paren, const QRectF &rect, int rx= 0, int ry= 0);
     Type type() const override;
     void draw(QPainter *p, QSvgExtraStates &states) override;
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    QRectF m_rect;
-    int m_rx, m_ry;
+    QRectF      m_rect;
+    int         m_rx, m_ry;
 };
 
-class  QSvgTspan;
+class QSvgTspan;
 
-class Q_SVG_PRIVATE_EXPORT QSvgText : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgText : public QSvgNode
 {
 public:
     enum WhitespaceMode
@@ -191,46 +192,75 @@ public:
     void draw(QPainter *p, QSvgExtraStates &states) override;
     Type type() const override;
 
-    void addTspan(QSvgTspan *tspan) {m_tspans.append(tspan);}
+    void addTspan(QSvgTspan *tspan)
+    {
+        m_tspans.append(tspan);
+    }
     void addText(const QString &text);
-    void addLineBreak() {m_tspans.append(LINEBREAK);}
-    void setWhitespaceMode(WhitespaceMode mode) {m_mode = mode;}
+    void addLineBreak()
+    {
+        m_tspans.append(LINEBREAK);
+    }
+    void setWhitespaceMode(WhitespaceMode mode)
+    {
+        m_mode = mode;
+    }
 
-    //QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
+    // QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 private:
-    static QSvgTspan * const LINEBREAK;
+    static QSvgTspan* const    LINEBREAK;
 
-    QPointF m_coord;
+    QPointF    m_coord;
 
     // 'm_tspans' is also used to store characters outside tspans and line breaks.
     // If a 'm_tspan' item is null, it indicates a line break.
-    QVector<QSvgTspan *> m_tspans;
+    QVector<QSvgTspan*>    m_tspans;
 
-    Type m_type;
-    QSizeF m_size;
-    WhitespaceMode m_mode;
+    Type                m_type;
+    QSizeF              m_size;
+    WhitespaceMode      m_mode;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgTspan : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgTspan : public QSvgNode
 {
 public:
     // tspans are also used to store normal text, so the 'isProperTspan' is used to separate text from tspan.
     QSvgTspan(QSvgNode *parent, bool isProperTspan = true)
         : QSvgNode(parent), m_mode(QSvgText::Default), m_isTspan(isProperTspan)
-    {
-    }
+    {}
     ~QSvgTspan() { };
-    Type type() const override { return TSPAN; }
-    void draw(QPainter *, QSvgExtraStates &) override { Q_ASSERT(!"Tspans should be drawn through QSvgText::draw()."); }
-    void addText(const QString &text) {m_text += text;}
-    const QString &text() const {return m_text;}
-    bool isTspan() const {return m_isTspan;}
-    void setWhitespaceMode(QSvgText::WhitespaceMode mode) {m_mode = mode;}
-    QSvgText::WhitespaceMode whitespaceMode() const {return m_mode;}
+    Type type() const override
+    {
+        return TSPAN;
+    }
+    void draw(QPainter*, QSvgExtraStates&) override
+    {
+        Q_ASSERT(!"Tspans should be drawn through QSvgText::draw().");
+    }
+    void addText(const QString &text)
+    {
+        m_text += text;
+    }
+    const QString    &text() const
+    {
+        return m_text;
+    }
+    bool isTspan() const
+    {
+        return m_isTspan;
+    }
+    void setWhitespaceMode(QSvgText::WhitespaceMode mode)
+    {
+        m_mode = mode;
+    }
+    QSvgText::WhitespaceMode whitespaceMode() const
+    {
+        return m_mode;
+    }
 private:
-    QString m_text;
-    QSvgText::WhitespaceMode m_mode;
-    bool m_isTspan;
+    QString                     m_text;
+    QSvgText::WhitespaceMode    m_mode;
+    bool                        m_isTspan;
 };
 
 class QSvgUse : public QSvgNode
@@ -242,8 +272,8 @@ public:
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
 
 private:
-    QSvgNode *m_link;
-    QPointF   m_start;
+    QSvgNode    *m_link;
+    QPointF     m_start;
 };
 
 class QSvgVideo : public QSvgNode

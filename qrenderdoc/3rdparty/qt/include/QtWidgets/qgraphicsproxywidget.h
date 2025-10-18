@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QGraphicsProxyWidgetPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsProxyWidget : public QGraphicsWidget
+class Q_WIDGETS_EXPORT    QGraphicsProxyWidget : public QGraphicsWidget
 {
     Q_OBJECT
 public:
@@ -57,7 +57,7 @@ public:
     ~QGraphicsProxyWidget();
 
     void setWidget(QWidget *widget);
-    QWidget *widget() const;
+    QWidget* widget() const;
 
     QRectF subWidgetRect(const QWidget *widget) const;
 
@@ -65,12 +65,13 @@ public:
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) Q_DECL_OVERRIDE;
 
-    enum {
+    enum
+    {
         Type = 12
     };
     int type() const Q_DECL_OVERRIDE;
 
-    QGraphicsProxyWidget *createProxyForChildWidget(QWidget *child);
+    QGraphicsProxyWidget* createProxyForChildWidget(QWidget *child);
 
 protected:
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) Q_DECL_OVERRIDE;
@@ -120,7 +121,7 @@ protected:
     void resizeEvent(QGraphicsSceneResizeEvent *event) Q_DECL_OVERRIDE;
 
 protected Q_SLOTS:
-    QGraphicsProxyWidget *newProxyWidget(const QWidget *);
+    QGraphicsProxyWidget* newProxyWidget(const QWidget*);
 
 private:
     Q_DISABLE_COPY(QGraphicsProxyWidget)

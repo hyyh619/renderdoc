@@ -57,7 +57,8 @@ FlowLayout::FlowLayout(int margin, int hSpacing, int vSpacing)
 
 FlowLayout::~FlowLayout()
 {
-    QLayoutItem *item;
+    QLayoutItem    *item;
+
     while ((item = takeAt(0)))
         delete item;
 }
@@ -69,30 +70,36 @@ void FlowLayout::addItem(QLayoutItem *item)
 
 int FlowLayout::horizontalSpacing() const
 {
-    if (m_hSpace >= 0) {
+    if (m_hSpace >= 0)
+    {
         return m_hSpace;
-    } else {
+    }
+    else
+    {
         return smartSpacing(QStyle::PM_LayoutHorizontalSpacing);
     }
 }
 
 int FlowLayout::verticalSpacing() const
 {
-    if (m_vSpace >= 0) {
+    if (m_vSpace >= 0)
+    {
         return m_vSpace;
-    } else {
+    }
+    else
+    {
         return smartSpacing(QStyle::PM_LayoutVerticalSpacing);
     }
 }
 
 bool FlowLayout::fixedGrid() const
 {
-  return m_fixedGrid;
+    return m_fixedGrid;
 }
 
 void FlowLayout::setFixedGrid(bool fixedgrid)
 {
-  m_fixedGrid = fixedgrid;
+    m_fixedGrid = fixedgrid;
 }
 
 int FlowLayout::count() const
@@ -100,12 +107,12 @@ int FlowLayout::count() const
     return itemList.size();
 }
 
-QLayoutItem *FlowLayout::itemAt(int index) const
+QLayoutItem* FlowLayout::itemAt(int index) const
 {
     return itemList.value(index);
 }
 
-QLayoutItem *FlowLayout::takeAt(int index)
+QLayoutItem* FlowLayout::takeAt(int index)
 {
     if (index >= 0 && index < itemList.size())
         return itemList.takeAt(index);
@@ -125,20 +132,22 @@ bool FlowLayout::hasHeightForWidth() const
 
 int FlowLayout::heightForWidth(int width) const
 {
-    if(m_prevRect.isEmpty())
+    if (m_prevRect.isEmpty())
         return minimumSize().height();
-    int height = doLayout(QRect(0, 0, width, 0), true);
+
+    int    height = doLayout(QRect(0, 0, width, 0), true);
     return height;
 }
 
 void FlowLayout::setGeometry(const QRect &rect)
 {
-    bool needUpdate = (rect != m_prevRect);
+    bool    needUpdate = (rect != m_prevRect);
 
     QLayout::setGeometry(rect);
+
     doLayout(rect, false);
 
-    if(needUpdate)
+    if (needUpdate)
         update();
 
     m_prevRect = rect;
@@ -146,23 +155,25 @@ void FlowLayout::setGeometry(const QRect &rect)
 
 QSize FlowLayout::sizeHint() const
 {
-    if(m_prevRect.isEmpty())
+    if (m_prevRect.isEmpty())
         return minimumSize();
-    QSize size = geometry().size();
+
+    QSize    size = geometry().size();
     size.setHeight(doLayout(geometry().adjusted(0, 0, -10, 0), true));
     return size;
 }
 
 QSize FlowLayout::minimumSize() const
 {
-    QSize size;
-    QLayoutItem *item;
+    QSize           size;
+    QLayoutItem     *item;
+
     foreach (item, itemList)
-        size = size.expandedTo(item->minimumSize());
+    size = size.expandedTo(item->minimumSize());
 
-    size += QSize(2*margin(), 2*margin());
+    size += QSize(2 * margin(), 2 * margin());
 
-    if(!m_prevRect.isEmpty())
+    if (!m_prevRect.isEmpty())
     {
         // we use the previous height as a hint for the minimum size otherwise we'll never request
         // enough height for multiple rows
@@ -179,45 +190,53 @@ QSize FlowLayout::minimumSize() const
 
 int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
 {
-    int left, top, right, bottom;
+    int    left, top, right, bottom;
+
     getContentsMargins(&left, &top, &right, &bottom);
-    QRect effectiveRect = rect.adjusted(+left, +top, -right, -bottom);
-    int x = effectiveRect.x();
-    int y = effectiveRect.y();
-    int lineHeight = 0;
-    QSize fixedSize;
-    
-    QLayoutItem *item;
-    if(m_fixedGrid) {
-      foreach (item, itemList) {
-          fixedSize = fixedSize.expandedTo(item->sizeHint());
-      }
+    QRect       effectiveRect   = rect.adjusted(+left, +top, -right, -bottom);
+    int         x               = effectiveRect.x();
+    int         y               = effectiveRect.y();
+    int         lineHeight      = 0;
+    QSize       fixedSize;
+
+    QLayoutItem    *item;
+    if (m_fixedGrid)
+    {
+        foreach (item, itemList)
+        {
+            fixedSize = fixedSize.expandedTo(item->sizeHint());
+        }
     }
 
-    QList<QPair<QLayoutItem *, QRect>> line;
+    QList<QPair<QLayoutItem*, QRect> >    line;
 
-    foreach (item, itemList) {
-        QWidget *wid = item->widget();
+    foreach (item, itemList)
+    {
+        QWidget    *wid = item->widget();
 
-        QSize size = m_fixedGrid ? fixedSize : item->sizeHint();
+        QSize    size = m_fixedGrid ? fixedSize : item->sizeHint();
 
-        int spaceX = horizontalSpacing();
+        int    spaceX = horizontalSpacing();
+
         if (spaceX == -1)
             spaceX = wid->style()->layoutSpacing(
                 QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Horizontal);
-        int spaceY = verticalSpacing();
+
+        int    spaceY = verticalSpacing();
         if (spaceY == -1)
             spaceY = wid->style()->layoutSpacing(
                 QSizePolicy::PushButton, QSizePolicy::PushButton, Qt::Vertical);
-        int nextX = x + size.width() + spaceX;
-        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0) {
+
+        int    nextX = x + size.width() + spaceX;
+        if (nextX - spaceX > effectiveRect.right() && lineHeight > 0)
+        {
             setLineGeometry(line, lineHeight);
             line.clear();
 
-            x = effectiveRect.x();
-            y = y + lineHeight + spaceY;
-            nextX = x + size.width() + spaceX;
-            lineHeight = 0;
+            x           = effectiveRect.x();
+            y           = y + lineHeight + spaceY;
+            nextX       = x + size.width() + spaceX;
+            lineHeight  = 0;
         }
 
         if (!testOnly)
@@ -225,8 +244,8 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
             line.push_back({item, QRect(QPoint(x, y), item->sizeHint())});
         }
 
-        x = nextX;
-        lineHeight = qMax(lineHeight, size.height());
+        x           = nextX;
+        lineHeight  = qMax(lineHeight, size.height());
     }
 
     setLineGeometry(line, lineHeight);
@@ -234,13 +253,13 @@ int FlowLayout::doLayout(const QRect &rect, bool testOnly) const
     return y + lineHeight - rect.y() + bottom;
 }
 
-void FlowLayout::setLineGeometry(const QList<QPair<QLayoutItem *, QRect>> &line, int lineHeight) const
+void FlowLayout::setLineGeometry(const QList<QPair<QLayoutItem*, QRect> > &line, int lineHeight) const
 {
-    for (const QPair<QLayoutItem *, QRect> &item : line)
+    for (const QPair<QLayoutItem*, QRect> &item : line)
     {
-        QRect g = item.second;
+        QRect    g = item.second;
 
-        QWidget *wid = item.first->widget();
+        QWidget    *wid = item.first->widget();
         if (wid && wid->sizePolicy().verticalPolicy() & QSizePolicy::ExpandFlag)
             g.setHeight(qMax(g.height(), lineHeight));
 
@@ -250,13 +269,19 @@ void FlowLayout::setLineGeometry(const QList<QPair<QLayoutItem *, QRect>> &line,
 
 int FlowLayout::smartSpacing(QStyle::PixelMetric pm) const
 {
-    QObject *parent = this->parent();
-    if (!parent) {
+    QObject    *parent = this->parent();
+
+    if (!parent)
+    {
         return -1;
-    } else if (parent->isWidgetType()) {
-        QWidget *pw = static_cast<QWidget *>(parent);
+    }
+    else if (parent->isWidgetType())
+    {
+        QWidget    *pw = static_cast<QWidget*>(parent);
         return pw->style()->pixelMetric(pm, 0, pw);
-    } else {
-        return static_cast<QLayout *>(parent)->spacing();
+    }
+    else
+    {
+        return static_cast<QLayout*>(parent)->spacing();
     }
 }

@@ -63,35 +63,37 @@ class QTouchEventTouchPointPrivate
 public:
     inline QTouchEventTouchPointPrivate(int id)
         : ref(1),
-          id(id),
-          state(Qt::TouchPointReleased),
-          pressure(-1),
-          rotation(0),
-          ellipseDiameters(0, 0)
+        id(id),
+        state(Qt::TouchPointReleased),
+        pressure(-1),
+        rotation(0),
+        ellipseDiameters(0, 0)
     { }
 
-    inline QTouchEventTouchPointPrivate *detach()
+    inline QTouchEventTouchPointPrivate* detach()
     {
-        QTouchEventTouchPointPrivate *d = new QTouchEventTouchPointPrivate(*this);
+        QTouchEventTouchPointPrivate    *d = new QTouchEventTouchPointPrivate(*this);
+
         d->ref.store(1);
         if (!this->ref.deref())
             delete this;
+
         return d;
     }
 
-    QAtomicInt ref;
-    int id;
-    QPointingDeviceUniqueId uniqueId;
-    Qt::TouchPointStates state;
-    QPointF pos, scenePos, screenPos, normalizedPos,
-            startPos, startScenePos, startScreenPos, startNormalizedPos,
-            lastPos, lastScenePos, lastScreenPos, lastNormalizedPos;
-    qreal pressure;
-    qreal rotation;
-    QSizeF ellipseDiameters;
-    QVector2D velocity;
-    QTouchEvent::TouchPoint::InfoFlags flags;
-    QVector<QPointF> rawScreenPositions;
+    QAtomicInt                  ref;
+    int                         id;
+    QPointingDeviceUniqueId     uniqueId;
+    Qt::TouchPointStates        state;
+    QPointF                     pos, scenePos, screenPos, normalizedPos,
+                                startPos, startScenePos, startScreenPos, startNormalizedPos,
+                                lastPos, lastScenePos, lastScreenPos, lastNormalizedPos;
+    qreal                                   pressure;
+    qreal                                   rotation;
+    QSizeF                                  ellipseDiameters;
+    QVector2D                               velocity;
+    QTouchEvent::TouchPoint::InfoFlags      flags;
+    QVector<QPointF>                        rawScreenPositions;
 };
 
 #if QT_CONFIG(tabletevent)
@@ -100,11 +102,11 @@ class QTabletEventPrivate
 public:
     inline QTabletEventPrivate(Qt::MouseButton button, Qt::MouseButtons buttons)
         : b(button),
-          buttonState(buttons)
+        buttonState(buttons)
     { }
 
-    Qt::MouseButton b;
-    Qt::MouseButtons buttonState;
+    Qt::MouseButton     b;
+    Qt::MouseButtons    buttonState;
 };
 #endif // QT_CONFIG(tabletevent)
 

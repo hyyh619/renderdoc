@@ -1,36 +1,36 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_CBuffer_Zoo, D3D12GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Tests every kind of constant that can be in a cbuffer to make sure it's decoded "
-      "correctly";
+    static constexpr const char    *Description =
+        "Tests every kind of constant that can be in a cbuffer to make sure it's decoded "
+        "correctly";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 struct float3_1 { float3 a; float b; };
 
@@ -320,205 +320,208 @@ float4 main() : SV_Target0
 
 )EOSHADER";
 
-  struct float3_1
-  {
-    float a[3];
-    float b;
-  };
-
-  struct RootData
-  {
-    float root_zero[4];
-    float root_a[4];
-    float root_b[2], root_c[2];
-    float3_1 root_d;
-  };
-
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3DBlobPtr vs5blob = Compile(D3DDefaultVertex, "main", "vs_5_0");
-    ID3DBlobPtr ps5blob = Compile(pixel, "main", "ps_5_1");
-
-    bool supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
-    bool supportSM66 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_6) && m_DXILSupport;
-
-    ID3DBlobPtr vs6blob = supportSM60 ? Compile(D3DDefaultVertex, "main", "vs_6_0") : NULL;
-    ID3DBlobPtr ps6blob = supportSM60 ? Compile(pixel, "main", "ps_6_0") : NULL;
-    ID3DBlobPtr vs66blob = supportSM66 ? Compile(D3DDefaultVertex, "main", "vs_6_6") : NULL;
-    ID3DBlobPtr ps66blob = supportSM66 ? Compile(pixel, "main", "ps_6_6") : NULL;
-
-    const size_t bindOffset = 16;
-
-    Vec4f cbufferdata[bindOffset + 512];
-
-    for(int i = 0; i < bindOffset; i++)
-      cbufferdata[i] = Vec4f(-99.9f, -88.8f, -77.7f, -66.6f);
-
-    for(int i = 0; i < 512; i++)
-      cbufferdata[bindOffset + i] =
-          Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
-
-    float packed_consts[12];
-    for(int i = 0; i < 12; i++)
-      packed_consts[i] = (float)i;
-
-    struct AlignedCB
+    struct float3_1
     {
-      Vec4f col;
-      Vec4f padding[15];
+        float   a[3];
+        float   b;
     };
-    static_assert(sizeof(AlignedCB) == 256, "Invalid alignment for CB data");
 
-    AlignedCB array_consts[2];
-    for(uint32_t i = 0; i < 2; ++i)
-      array_consts[i].col = Vec4f(i / 1.0f, i + 1 / 1.0f, 0.5f, 0.5f);
-
-    RootData rootData = {};
-
-    rootData.root_a[0] = 10.0f;
-    rootData.root_a[1] = 20.0f;
-    rootData.root_a[2] = 30.0f;
-    rootData.root_a[3] = 40.0f;
-
-    rootData.root_b[0] = 50.0f;
-    rootData.root_b[1] = 60.0f;
-
-    rootData.root_c[0] = 70.0f;
-    rootData.root_c[1] = 80.0f;
-
-    rootData.root_d.a[0] = 90.0f;
-    rootData.root_d.a[1] = 100.0f;
-    rootData.root_d.a[2] = 110.0f;
-    rootData.root_d.b = 120.0f;
-
-    RootData emptyRoot = {};
-
-    static_assert(sizeof(rootData) == 64, "Root data is mis-sized");
-
-    ID3D12ResourcePtr vb = MakeBuffer().Data(DefaultTri);
-    ID3D12ResourcePtr cb = MakeBuffer().Data(cbufferdata);
-    ID3D12ResourcePtr cbPacked = MakeBuffer().Data(packed_consts);
-    ID3D12ResourcePtr cbArray = MakeBuffer().Data(array_consts).Size(sizeof(AlignedCB) * 2);
-    for(uint32_t i = 0; i < 2; ++i)
-      MakeCBV(cbArray).SizeBytes(256).Offset(i * sizeof(AlignedCB)).CreateGPU(i);
-
-    ID3D12RootSignaturePtr sig = MakeSig({
-        cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 7),
-        constParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
-        constParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
-        constParam(D3D12_SHADER_VISIBILITY_GEOMETRY, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
-        cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 2),
-        tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0, 3, 2, 0),
-        cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 999999999, 0),
-    });
-
-    ID3D12PipelineStatePtr dxbcpso =
-        MakePSO().RootSig(sig).InputLayout().VS(vs5blob).PS(ps5blob).RTVs(
-            {DXGI_FORMAT_R32G32B32A32_FLOAT});
-
-    ID3D12PipelineStatePtr dxilpso = NULL;
-
-    if(vs6blob && ps6blob)
-      dxilpso = MakePSO().RootSig(sig).InputLayout().VS(vs6blob).PS(ps6blob).RTVs(
-          {DXGI_FORMAT_R32G32B32A32_FLOAT});
-
-    ID3D12PipelineStatePtr sm6_6pso = NULL;
-
-    if(vs66blob && ps66blob)
-      sm6_6pso = MakePSO().RootSig(sig).InputLayout().VS(vs66blob).PS(ps66blob).RTVs(
-          {DXGI_FORMAT_R32G32B32A32_FLOAT});
-
-    ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-    ResourceBarrier(cb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-    ResourceBarrier(cbPacked, D3D12_RESOURCE_STATE_COMMON,
-                    D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-    ResourceBarrier(cbArray, D3D12_RESOURCE_STATE_COMMON,
-                    D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-
-    ID3D12ResourcePtr rtvtex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, screenWidth, screenHeight)
-                                   .RTV()
-                                   .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-    while(Running())
+    struct RootData
     {
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
+        float       root_zero[4];
+        float       root_a[4];
+        float       root_b[2], root_c[2];
+        float3_1    root_d;
+    };
 
-      Reset(cmd);
+    int main()
+    {
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+        ID3DBlobPtr     vs5blob = Compile(D3DDefaultVertex, "main", "vs_5_0");
+        ID3DBlobPtr     ps5blob = Compile(pixel, "main", "ps_5_1");
 
-      D3D12_CPU_DESCRIPTOR_HANDLE bbrtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+        bool    supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
+        bool    supportSM66 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_6) && m_DXILSupport;
 
-      ClearRenderTargetView(cmd, bbrtv, {0.2f, 0.2f, 0.2f, 1.0f});
+        ID3DBlobPtr     vs6blob     = supportSM60 ? Compile(D3DDefaultVertex, "main", "vs_6_0") : NULL;
+        ID3DBlobPtr     ps6blob     = supportSM60 ? Compile(pixel, "main", "ps_6_0") : NULL;
+        ID3DBlobPtr     vs66blob    = supportSM66 ? Compile(D3DDefaultVertex, "main", "vs_6_6") : NULL;
+        ID3DBlobPtr     ps66blob    = supportSM66 ? Compile(pixel, "main", "ps_6_6") : NULL;
 
-      D3D12_CPU_DESCRIPTOR_HANDLE offrtv = MakeRTV(rtvtex).CreateCPU(0);
+        const size_t    bindOffset = 16;
 
-      ClearRenderTargetView(cmd, offrtv, {0.2f, 0.2f, 0.2f, 1.0f});
+        Vec4f    cbufferdata[bindOffset + 512];
 
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        for (int i = 0; i < bindOffset; i++)
+            cbufferdata[i] = Vec4f(-99.9f, -88.8f, -77.7f, -66.6f);
 
-      IASetVertexBuffer(cmd, vb, sizeof(DefaultA2V), 0);
-      cmd->SetPipelineState(dxbcpso);
-      cmd->SetGraphicsRootSignature(sig);
-      cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-      cmd->SetGraphicsRootConstantBufferView(
-          0, cb->GetGPUVirtualAddress() + bindOffset * sizeof(Vec4f));
-      cmd->SetGraphicsRoot32BitConstants(1, sizeof(emptyRoot) / sizeof(uint32_t), &emptyRoot, 0);
-      cmd->SetGraphicsRoot32BitConstants(2, sizeof(rootData) / sizeof(uint32_t), &rootData, 0);
-      cmd->SetGraphicsRoot32BitConstants(3, sizeof(emptyRoot) / sizeof(uint32_t), &emptyRoot, 0);
-      cmd->SetGraphicsRootConstantBufferView(4, cbPacked->GetGPUVirtualAddress());
-      cmd->SetGraphicsRootDescriptorTable(5, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-      cmd->SetGraphicsRootConstantBufferView(
-          6, cb->GetGPUVirtualAddress() + bindOffset * sizeof(Vec4f) + 256);
+        for (int i = 0; i < 512; i++)
+            cbufferdata[bindOffset + i] =
+                Vec4f(float(i * 4 + 0), float(i * 4 + 1), float(i * 4 + 2), float(i * 4 + 3));
 
-      RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+        float    packed_consts[12];
 
-      OMSetRenderTargets(cmd, {offrtv}, {});
+        for (int i = 0; i < 12; i++)
+            packed_consts[i] = (float)i;
 
-      setMarker(cmd, "DXBC Draw");
-      cmd->DrawInstanced(3, 1, 0, 0);
+        struct AlignedCB
+        {
+            Vec4f   col;
+            Vec4f   padding[15];
+        };
+        static_assert(sizeof(AlignedCB) == 256, "Invalid alignment for CB data");
 
-      if(dxilpso)
-      {
-        cmd->SetPipelineState(dxilpso);
+        AlignedCB    array_consts[2];
 
-        setMarker(cmd, "SM6.0");
-        cmd->DrawInstanced(3, 1, 0, 0);
-      }
+        for (uint32_t i = 0; i < 2; ++i)
+            array_consts[i].col = Vec4f(i / 1.0f, i + 1 / 1.0f, 0.5f, 0.5f);
 
-      if(sm6_6pso)
-      {
-        cmd->SetPipelineState(sm6_6pso);
+        RootData    rootData = {};
 
-        setMarker(cmd, "SM6.6");
-        cmd->DrawInstanced(3, 1, 0, 0);
-      }
+        rootData.root_a[0]  = 10.0f;
+        rootData.root_a[1]  = 20.0f;
+        rootData.root_a[2]  = 30.0f;
+        rootData.root_a[3]  = 40.0f;
 
-      ResourceBarrier(cmd, rtvtex, D3D12_RESOURCE_STATE_RENDER_TARGET,
-                      D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+        rootData.root_b[0]  = 50.0f;
+        rootData.root_b[1]  = 60.0f;
 
-      blitToSwap(cmd, rtvtex, bb);
+        rootData.root_c[0]  = 70.0f;
+        rootData.root_c[1]  = 80.0f;
 
-      ResourceBarrier(cmd, rtvtex, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-                      D3D12_RESOURCE_STATE_RENDER_TARGET);
+        rootData.root_d.a[0]    = 90.0f;
+        rootData.root_d.a[1]    = 100.0f;
+        rootData.root_d.a[2]    = 110.0f;
+        rootData.root_d.b       = 120.0f;
 
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+        RootData    emptyRoot = {};
 
-      cmd->Close();
+        static_assert(sizeof(rootData) == 64, "Root data is mis-sized");
 
-      Submit({cmd});
+        ID3D12ResourcePtr       vb          = MakeBuffer().Data(DefaultTri);
+        ID3D12ResourcePtr       cb          = MakeBuffer().Data(cbufferdata);
+        ID3D12ResourcePtr       cbPacked    = MakeBuffer().Data(packed_consts);
+        ID3D12ResourcePtr       cbArray     = MakeBuffer().Data(array_consts).Size(sizeof(AlignedCB) * 2);
 
-      Present();
+        for (uint32_t i = 0; i < 2; ++i)
+            MakeCBV(cbArray).SizeBytes(256).Offset(i * sizeof(AlignedCB)).CreateGPU(i);
+
+        ID3D12RootSignaturePtr    sig = MakeSig({
+            cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 7),
+            constParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
+            constParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
+            constParam(D3D12_SHADER_VISIBILITY_GEOMETRY, 0, 1, sizeof(rootData) / sizeof(uint32_t)),
+            cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 2),
+            tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0, 3, 2, 0),
+            cbvParam(D3D12_SHADER_VISIBILITY_PIXEL, 999999999, 0),
+        });
+
+        ID3D12PipelineStatePtr    dxbcpso =
+            MakePSO().RootSig(sig).InputLayout().VS(vs5blob).PS(ps5blob).RTVs(
+                {DXGI_FORMAT_R32G32B32A32_FLOAT});
+
+        ID3D12PipelineStatePtr    dxilpso = NULL;
+
+        if (vs6blob && ps6blob)
+            dxilpso = MakePSO().RootSig(sig).InputLayout().VS(vs6blob).PS(ps6blob).RTVs(
+                {DXGI_FORMAT_R32G32B32A32_FLOAT});
+
+        ID3D12PipelineStatePtr    sm6_6pso = NULL;
+
+        if (vs66blob && ps66blob)
+            sm6_6pso = MakePSO().RootSig(sig).InputLayout().VS(vs66blob).PS(ps66blob).RTVs(
+                {DXGI_FORMAT_R32G32B32A32_FLOAT});
+
+        ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+        ResourceBarrier(cb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+        ResourceBarrier(cbPacked, D3D12_RESOURCE_STATE_COMMON,
+                        D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+        ResourceBarrier(cbArray, D3D12_RESOURCE_STATE_COMMON,
+                        D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+
+        ID3D12ResourcePtr    rtvtex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, screenWidth, screenHeight)
+                                      .RTV()
+                                      .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+        while (Running())
+        {
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
+
+            Reset(cmd);
+
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            D3D12_CPU_DESCRIPTOR_HANDLE    bbrtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+
+            ClearRenderTargetView(cmd, bbrtv, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            D3D12_CPU_DESCRIPTOR_HANDLE    offrtv = MakeRTV(rtvtex).CreateCPU(0);
+
+            ClearRenderTargetView(cmd, offrtv, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            IASetVertexBuffer(cmd, vb, sizeof(DefaultA2V), 0);
+            cmd->SetPipelineState(dxbcpso);
+            cmd->SetGraphicsRootSignature(sig);
+            cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+            cmd->SetGraphicsRootConstantBufferView(
+                0, cb->GetGPUVirtualAddress() + bindOffset * sizeof(Vec4f));
+            cmd->SetGraphicsRoot32BitConstants(1, sizeof(emptyRoot) / sizeof(uint32_t), &emptyRoot, 0);
+            cmd->SetGraphicsRoot32BitConstants(2, sizeof(rootData) / sizeof(uint32_t), &rootData, 0);
+            cmd->SetGraphicsRoot32BitConstants(3, sizeof(emptyRoot) / sizeof(uint32_t), &emptyRoot, 0);
+            cmd->SetGraphicsRootConstantBufferView(4, cbPacked->GetGPUVirtualAddress());
+            cmd->SetGraphicsRootDescriptorTable(5, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+            cmd->SetGraphicsRootConstantBufferView(
+                6, cb->GetGPUVirtualAddress() + bindOffset * sizeof(Vec4f) + 256);
+
+            RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+            OMSetRenderTargets(cmd, {offrtv}, {});
+
+            setMarker(cmd, "DXBC Draw");
+            cmd->DrawInstanced(3, 1, 0, 0);
+
+            if (dxilpso)
+            {
+                cmd->SetPipelineState(dxilpso);
+
+                setMarker(cmd, "SM6.0");
+                cmd->DrawInstanced(3, 1, 0, 0);
+            }
+
+            if (sm6_6pso)
+            {
+                cmd->SetPipelineState(sm6_6pso);
+
+                setMarker(cmd, "SM6.6");
+                cmd->DrawInstanced(3, 1, 0, 0);
+            }
+
+            ResourceBarrier(cmd, rtvtex, D3D12_RESOURCE_STATE_RENDER_TARGET,
+                            D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+            blitToSwap(cmd, rtvtex, bb);
+
+            ResourceBarrier(cmd, rtvtex, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+                            D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            cmd->Close();
+
+            Submit({cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -67,17 +67,16 @@ protected:
     QSaveFilePrivate();
     ~QSaveFilePrivate();
 
-    QString fileName;
-    QString finalFileName; // fileName with symbolic links resolved
+    QString     fileName;
+    QString     finalFileName; // fileName with symbolic links resolved
 
-    QFileDevice::FileError writeError;
+    QFileDevice::FileError    writeError;
 
-    bool useTemporaryFile;
-    bool directWriteFallback;
+    bool    useTemporaryFile;
+    bool    directWriteFallback;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEMPORARYFILE
 
 #endif // QSAVEFILE_P_H

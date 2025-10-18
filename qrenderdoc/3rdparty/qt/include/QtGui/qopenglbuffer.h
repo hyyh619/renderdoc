@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QOpenGLBufferPrivate;
 
-class Q_GUI_EXPORT QOpenGLBuffer
+class Q_GUI_EXPORT    QOpenGLBuffer
 {
 public:
     enum Type
@@ -68,36 +68,36 @@ public:
     QOpenGLBuffer(const QOpenGLBuffer &other);
     ~QOpenGLBuffer();
 
-    QOpenGLBuffer &operator=(const QOpenGLBuffer &other);
+    QOpenGLBuffer&operator=(const QOpenGLBuffer &other);
 
     enum UsagePattern
     {
-        StreamDraw          = 0x88E0, // GL_STREAM_DRAW
-        StreamRead          = 0x88E1, // GL_STREAM_READ
-        StreamCopy          = 0x88E2, // GL_STREAM_COPY
-        StaticDraw          = 0x88E4, // GL_STATIC_DRAW
-        StaticRead          = 0x88E5, // GL_STATIC_READ
-        StaticCopy          = 0x88E6, // GL_STATIC_COPY
-        DynamicDraw         = 0x88E8, // GL_DYNAMIC_DRAW
-        DynamicRead         = 0x88E9, // GL_DYNAMIC_READ
-        DynamicCopy         = 0x88EA  // GL_DYNAMIC_COPY
+        StreamDraw  = 0x88E0,         // GL_STREAM_DRAW
+        StreamRead  = 0x88E1,         // GL_STREAM_READ
+        StreamCopy  = 0x88E2,         // GL_STREAM_COPY
+        StaticDraw  = 0x88E4,         // GL_STATIC_DRAW
+        StaticRead  = 0x88E5,         // GL_STATIC_READ
+        StaticCopy  = 0x88E6,         // GL_STATIC_COPY
+        DynamicDraw = 0x88E8,         // GL_DYNAMIC_DRAW
+        DynamicRead = 0x88E9,         // GL_DYNAMIC_READ
+        DynamicCopy = 0x88EA          // GL_DYNAMIC_COPY
     };
 
     enum Access
     {
-        ReadOnly            = 0x88B8, // GL_READ_ONLY
-        WriteOnly           = 0x88B9, // GL_WRITE_ONLY
-        ReadWrite           = 0x88BA  // GL_READ_WRITE
+        ReadOnly    = 0x88B8,         // GL_READ_ONLY
+        WriteOnly   = 0x88B9,         // GL_WRITE_ONLY
+        ReadWrite   = 0x88BA          // GL_READ_WRITE
     };
 
     enum RangeAccessFlag
     {
-        RangeRead             = 0x0001, // GL_MAP_READ_BIT
-        RangeWrite            = 0x0002, // GL_MAP_WRITE_BIT
-        RangeInvalidate       = 0x0004, // GL_MAP_INVALIDATE_RANGE_BIT
-        RangeInvalidateBuffer = 0x0008, // GL_MAP_INVALIDATE_BUFFER_BIT
-        RangeFlushExplicit    = 0x0010, // GL_MAP_FLUSH_EXPLICIT_BIT
-        RangeUnsynchronized   = 0x0020  // GL_MAP_UNSYNCHRONIZED_BIT
+        RangeRead               = 0x0001, // GL_MAP_READ_BIT
+        RangeWrite              = 0x0002, // GL_MAP_WRITE_BIT
+        RangeInvalidate         = 0x0004, // GL_MAP_INVALIDATE_RANGE_BIT
+        RangeInvalidateBuffer   = 0x0008, // GL_MAP_INVALIDATE_BUFFER_BIT
+        RangeFlushExplicit      = 0x0010, // GL_MAP_FLUSH_EXPLICIT_BIT
+        RangeUnsynchronized     = 0x0020 // GL_MAP_UNSYNCHRONIZED_BIT
     };
     Q_DECLARE_FLAGS(RangeAccessFlags, RangeAccessFlag)
 
@@ -124,14 +124,17 @@ public:
     void write(int offset, const void *data, int count);
 
     void allocate(const void *data, int count);
-    inline void allocate(int count) { allocate(Q_NULLPTR, count); }
+    inline void allocate(int count)
+    {
+        allocate(Q_NULLPTR, count);
+    }
 
-    void *map(QOpenGLBuffer::Access access);
-    void *mapRange(int offset, int count, QOpenGLBuffer::RangeAccessFlags access);
+    void* map(QOpenGLBuffer::Access access);
+    void* mapRange(int offset, int count, QOpenGLBuffer::RangeAccessFlags access);
     bool unmap();
 
 private:
-    QOpenGLBufferPrivate *d_ptr;
+    QOpenGLBufferPrivate    *d_ptr;
 
     Q_DECLARE_PRIVATE(QOpenGLBuffer)
 };
@@ -139,7 +142,6 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(QOpenGLBuffer::RangeAccessFlags)
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif

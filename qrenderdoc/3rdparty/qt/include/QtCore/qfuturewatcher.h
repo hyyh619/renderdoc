@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QEvent;
 
 class QFutureWatcherBasePrivate;
-class Q_CORE_EXPORT QFutureWatcherBase : public QObject
+class Q_CORE_EXPORT    QFutureWatcherBase : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QFutureWatcherBase)
@@ -98,8 +98,8 @@ public Q_SLOTS:
     void togglePaused();
 
 protected:
-    void connectNotify (const QMetaMethod &signal) Q_DECL_OVERRIDE;
-    void disconnectNotify (const QMetaMethod &signal) Q_DECL_OVERRIDE;
+    void connectNotify(const QMetaMethod &signal) Q_DECL_OVERRIDE;
+    void disconnectNotify(const QMetaMethod &signal) Q_DECL_OVERRIDE;
 
     // called from setFuture() implemented in template sub-classes
     void connectOutputInterface();
@@ -107,11 +107,11 @@ protected:
 
 private:
     // implemented in the template sub-classes
-    virtual const QFutureInterfaceBase &futureInterface() const = 0;
-    virtual QFutureInterfaceBase &futureInterface() = 0;
+    virtual const QFutureInterfaceBase      &futureInterface() const    = 0;
+    virtual QFutureInterfaceBase            &futureInterface()          = 0;
 };
 
-template <typename T>
+template<typename T>
 class QFutureWatcher : public QFutureWatcherBase
 {
 public:
@@ -119,14 +119,24 @@ public:
         : QFutureWatcherBase(_parent)
     { }
     ~QFutureWatcher()
-    { disconnectOutputInterface(); }
+    {
+        disconnectOutputInterface();
+    }
 
     void setFuture(const QFuture<T> &future);
     QFuture<T> future() const
-    { return m_future; }
+    {
+        return m_future;
+    }
 
-    T result() const { return m_future.result(); }
-    T resultAt(int index) const { return m_future.resultAt(index); }
+    T result() const
+    {
+        return m_future.result();
+    }
+    T resultAt(int index) const
+    {
+        return m_future.resultAt(index);
+    }
 
 #ifdef Q_QDOC
     int progressValue() const;
@@ -165,12 +175,18 @@ public Q_SLOTS:
 #endif
 
 private:
-    QFuture<T> m_future;
-    const QFutureInterfaceBase &futureInterface() const Q_DECL_OVERRIDE { return m_future.d; }
-    QFutureInterfaceBase &futureInterface() Q_DECL_OVERRIDE { return m_future.d; }
+    QFuture<T>                      m_future;
+    const QFutureInterfaceBase      &futureInterface() const Q_DECL_OVERRIDE
+    {
+        return m_future.d;
+    }
+    QFutureInterfaceBase&futureInterface() Q_DECL_OVERRIDE
+    {
+        return m_future.d;
+    }
 };
 
-template <typename T>
+template<typename T>
 Q_INLINE_TEMPLATE void QFutureWatcher<T>::setFuture(const QFuture<T> &_future)
 {
     if (_future == m_future)
@@ -181,7 +197,7 @@ Q_INLINE_TEMPLATE void QFutureWatcher<T>::setFuture(const QFuture<T> &_future)
     connectOutputInterface();
 }
 
-template <>
+template<>
 class QFutureWatcher<void> : public QFutureWatcherBase
 {
 public:
@@ -189,16 +205,26 @@ public:
         : QFutureWatcherBase(_parent)
     { }
     ~QFutureWatcher()
-    { disconnectOutputInterface(); }
+    {
+        disconnectOutputInterface();
+    }
 
     void setFuture(const QFuture<void> &future);
     QFuture<void> future() const
-    { return m_future; }
+    {
+        return m_future;
+    }
 
 private:
-    QFuture<void> m_future;
-    const QFutureInterfaceBase &futureInterface() const Q_DECL_OVERRIDE { return m_future.d; }
-    QFutureInterfaceBase &futureInterface() Q_DECL_OVERRIDE { return m_future.d; }
+    QFuture<void>                   m_future;
+    const QFutureInterfaceBase      &futureInterface() const Q_DECL_OVERRIDE
+    {
+        return m_future.d;
+    }
+    QFutureInterfaceBase&futureInterface() Q_DECL_OVERRIDE
+    {
+        return m_future.d;
+    }
 };
 
 Q_INLINE_TEMPLATE void QFutureWatcher<void>::setFuture(const QFuture<void> &_future)

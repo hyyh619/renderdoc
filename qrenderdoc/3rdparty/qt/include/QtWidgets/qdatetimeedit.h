@@ -53,7 +53,7 @@ class QDateTimeEditPrivate;
 class QStyleOptionSpinBox;
 class QCalendarWidget;
 
-class Q_WIDGETS_EXPORT QDateTimeEdit : public QAbstractSpinBox
+class Q_WIDGETS_EXPORT    QDateTimeEdit : public QAbstractSpinBox
 {
     Q_OBJECT
 
@@ -74,19 +74,18 @@ class Q_WIDGETS_EXPORT QDateTimeEdit : public QAbstractSpinBox
     Q_PROPERTY(int sectionCount READ sectionCount)
     Q_PROPERTY(Qt::TimeSpec timeSpec READ timeSpec WRITE setTimeSpec)
 public:
-    enum Section { // a sub-type of QDateTimeParser's like-named enum.
-        NoSection = 0x0000,
-        AmPmSection = 0x0001,
-        MSecSection = 0x0002,
-        SecondSection = 0x0004,
-        MinuteSection = 0x0008,
-        HourSection   = 0x0010,
-        DaySection    = 0x0100,
-        MonthSection  = 0x0200,
-        YearSection   = 0x0400,
-        TimeSections_Mask = AmPmSection|MSecSection|SecondSection|MinuteSection|HourSection,
-        DateSections_Mask = DaySection|MonthSection|YearSection
-    };
+    enum Section   // a sub-type of QDateTimeParser's like-named enum.
+    {NoSection                                                                                      = 0x0000,
+     AmPmSection                                                                                    = 0x0001,
+     MSecSection                                                                                    = 0x0002,
+     SecondSection                                                                                  = 0x0004,
+     MinuteSection                                                                                  = 0x0008,
+     HourSection                                                                                    = 0x0010,
+     DaySection                                                                                     = 0x0100,
+     MonthSection                                                                                   = 0x0200,
+     YearSection                                                                                    = 0x0400,
+     TimeSections_Mask                                                                              = AmPmSection | MSecSection | SecondSection | MinuteSection | HourSection,
+     DateSections_Mask                                                                              = DaySection | MonthSection | YearSection};
     Q_ENUM(Section)
 
     Q_DECLARE_FLAGS(Sections, Section)
@@ -140,7 +139,7 @@ public:
     int currentSectionIndex() const;
     void setCurrentSectionIndex(int index);
 
-    QCalendarWidget *calendarWidget() const;
+    QCalendarWidget* calendarWidget() const;
     void setCalendarWidget(QCalendarWidget *calendarWidget);
 
     int sectionCount() const;
@@ -199,7 +198,7 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_resetButton())
 };
 
-class Q_WIDGETS_EXPORT QTimeEdit : public QDateTimeEdit
+class Q_WIDGETS_EXPORT    QTimeEdit : public QDateTimeEdit
 {
     Q_OBJECT
     Q_PROPERTY(QTime time READ time WRITE setTime NOTIFY userTimeChanged USER true)
@@ -212,7 +211,7 @@ Q_SIGNALS:
     void userTimeChanged(const QTime &time);
 };
 
-class Q_WIDGETS_EXPORT QDateEdit : public QDateTimeEdit
+class Q_WIDGETS_EXPORT    QDateEdit : public QDateTimeEdit
 {
     Q_OBJECT
     Q_PROPERTY(QDate date READ date WRITE setDate NOTIFY userDateChanged USER true)

@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -36,46 +36,45 @@
 
 #if ENABLED(RDOC_X64)
 
-#define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T *object;
+#define VK_DEFINE_NON_DISPATCHABLE_HANDLE(object) typedef struct object##_T*object;
 
 #else
 
 // make handles typed even on 32-bit, by relying on C++
-#define VK_DEFINE_NON_DISPATCHABLE_HANDLE(obj) \
-  struct obj                                   \
-  {                                            \
-    obj() : handle(0)                          \
-    {                                          \
-    }                                          \
-    obj(uint64_t x) : handle(x)                \
-    {                                          \
-    }                                          \
-    bool operator==(const obj &other) const    \
-    {                                          \
-      return handle == other.handle;           \
-    }                                          \
-    bool operator<(const obj &other) const     \
-    {                                          \
-      return handle < other.handle;            \
-    }                                          \
-    bool operator!=(const obj &other) const    \
-    {                                          \
-      return handle != other.handle;           \
-    }                                          \
-    uint64_t handle;                           \
-  };
+#define VK_DEFINE_NON_DISPATCHABLE_HANDLE(obj)  \
+    struct obj                                  \
+    {                                           \
+        obj() : handle(0)                       \
+        {                                       \
+        }                                       \
+        obj(uint64_t x) : handle(x)             \
+        {                                       \
+        }                                       \
+        bool operator==(const obj &other) const \
+        {                                       \
+            return handle == other.handle;      \
+        }                                       \
+        bool operator<(const obj &other) const  \
+        {                                       \
+            return handle < other.handle;       \
+        }                                       \
+        bool operator!=(const obj &other) const \
+        {                                       \
+            return handle != other.handle;      \
+        }                                       \
+        uint64_t handle;                        \
+    };
 #define VK_NON_DISPATCHABLE_WRAPPER_STRUCT
-
 #endif
 
 // set up these defines so that vulkan_core.h doesn't trash the enum names we want to define as real
 // 64-bit enums
-#define VkAccessFlagBits2 VkAccessFlagBits2_VkFlags64_typedef
-#define VkAccessFlagBits3KHR VkAccessFlagBits3KHR_VkFlags64_typedef
-#define VkPipelineStageFlagBits2 VkPipelineStageFlagBits2_VkFlags64_typedef
-#define VkFormatFeatureFlagBits2 VkFormatFeatureFlagBits2_VkFlags64_typedef
-#define VkBufferUsageFlagBits2 VkBufferUsageFlagBits2_VkFlags64_typedef
-#define VkPipelineCreateFlagBits2 VkPipelineCreateFlagBits2_VkFlags64_typedef
+#define VkAccessFlagBits2           VkAccessFlagBits2_VkFlags64_typedef
+#define VkAccessFlagBits3KHR        VkAccessFlagBits3KHR_VkFlags64_typedef
+#define VkPipelineStageFlagBits2    VkPipelineStageFlagBits2_VkFlags64_typedef
+#define VkFormatFeatureFlagBits2    VkFormatFeatureFlagBits2_VkFlags64_typedef
+#define VkBufferUsageFlagBits2      VkBufferUsageFlagBits2_VkFlags64_typedef
+#define VkPipelineCreateFlagBits2   VkPipelineCreateFlagBits2_VkFlags64_typedef
 
 #include "core/core.h"
 #include "core/resource_manager.h"
@@ -140,58 +139,66 @@ int StageIndex(VkShaderStageFlagBits stageFlag);
 VkShaderStageFlags ShaderMaskFromIndex(size_t index);
 
 // Generic getter/setter helpers to handle optional 64 flag structs in the pNext chain
-template <typename ParentStruct>
+template<typename ParentStruct>
 uint64_t GetBufferUsageFlags(const ParentStruct *info)
 {
-  const VkBufferUsageFlags2CreateInfo *usage2 = (const VkBufferUsageFlags2CreateInfo *)FindNextStruct(
-      info, VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO);
-  if(usage2)
-    return usage2->usage;
-  return info->usage;
+    const VkBufferUsageFlags2CreateInfo    *usage2 = (const VkBufferUsageFlags2CreateInfo*)FindNextStruct(
+        info, VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO);
+
+    if (usage2)
+        return usage2->usage;
+
+    return info->usage;
 }
 
-template <typename ParentStruct>
+template<typename ParentStruct>
 void SetBufferUsageFlags(ParentStruct *info, uint64_t usage)
 {
-  VkBufferUsageFlags2CreateInfo *usage2 = (VkBufferUsageFlags2CreateInfo *)FindNextStruct(
-      info, VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO);
-  if(usage2)
-  {
-    usage2->usage = usage;
-    return;
-  }
-  info->usage = (VkBufferUsageFlags)usage;
+    VkBufferUsageFlags2CreateInfo    *usage2 = (VkBufferUsageFlags2CreateInfo*)FindNextStruct(
+        info, VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO);
+
+    if (usage2)
+    {
+        usage2->usage = usage;
+        return;
+    }
+
+    info->usage = (VkBufferUsageFlags)usage;
 }
 
-template <typename ParentStruct>
+template<typename ParentStruct>
 uint64_t GetPipelineCreateFlags(const ParentStruct *info)
 {
-  const VkPipelineCreateFlags2CreateInfo *flags2 =
-      (const VkPipelineCreateFlags2CreateInfo *)FindNextStruct(
-          info, VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO);
-  if(flags2)
-    return flags2->flags;
-  return info->flags;
+    const VkPipelineCreateFlags2CreateInfo    *flags2 =
+        (const VkPipelineCreateFlags2CreateInfo*)FindNextStruct(
+            info, VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO);
+
+    if (flags2)
+        return flags2->flags;
+
+    return info->flags;
 }
 
-template <typename ParentStruct>
+template<typename ParentStruct>
 void SetPipelineCreateFlags(ParentStruct *info, uint64_t flags)
 {
-  VkPipelineCreateFlags2CreateInfo *flags2 = (VkPipelineCreateFlags2CreateInfo *)FindNextStruct(
-      info, VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO);
-  if(flags2)
-  {
-    flags2->flags = flags;
-    return;
-  }
-  info->flags = (VkPipelineCreateFlags)flags;
+    VkPipelineCreateFlags2CreateInfo    *flags2 = (VkPipelineCreateFlags2CreateInfo*)FindNextStruct(
+        info, VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO);
+
+    if (flags2)
+    {
+        flags2->flags = flags;
+        return;
+    }
+
+    info->flags = (VkPipelineCreateFlags)flags;
 }
 
 struct PackedWindowHandle
 {
-  PackedWindowHandle(WindowingSystem s, void *h) : system(s), handle(h) {}
-  WindowingSystem system;
-  void *handle;
+    PackedWindowHandle(WindowingSystem s, void *h) : system(s), handle(h) {}
+    WindowingSystem system;
+    void            *handle;
 };
 
 struct VkResourceRecord;
@@ -200,28 +207,64 @@ class WrappedVulkan;
 
 struct VkPackedVersion
 {
-  VkPackedVersion(uint32_t v = 0) : version(v) {}
-  uint32_t version;
+    VkPackedVersion(uint32_t v = 0) : version(v) {}
+    uint32_t version;
 
-  bool operator<(uint32_t v) const { return version < v; }
-  bool operator>(uint32_t v) const { return version > v; }
-  bool operator<=(uint32_t v) const { return version <= v; }
-  bool operator>=(uint32_t v) const { return version >= v; }
-  bool operator==(uint32_t v) const { return version == v; }
-  bool operator!=(uint32_t v) const { return version != v; }
-  // int overloads because VK_MAKE_VERSION is type int...
-  bool operator<(int v) const { return version < (uint32_t)v; }
-  bool operator>(int v) const { return version > (uint32_t)v; }
-  bool operator<=(int v) const { return version <= (uint32_t)v; }
-  bool operator>=(int v) const { return version >= (uint32_t)v; }
-  bool operator==(int v) const { return version == (uint32_t)v; }
-  bool operator!=(int v) const { return version != (uint32_t)v; }
-  operator uint32_t() const { return version; }
-  VkPackedVersion &operator=(uint32_t v)
-  {
-    version = v;
-    return *this;
-  }
+    bool operator<(uint32_t v) const
+    {
+        return version < v;
+    }
+    bool operator>(uint32_t v) const
+    {
+        return version > v;
+    }
+    bool operator<=(uint32_t v) const
+    {
+        return version <= v;
+    }
+    bool operator>=(uint32_t v) const
+    {
+        return version >= v;
+    }
+    bool operator==(uint32_t v) const
+    {
+        return version == v;
+    }
+    bool operator!=(uint32_t v) const
+    {
+        return version != v;
+    }
+    // int overloads because VK_MAKE_VERSION is type int...
+    bool operator<(int v) const
+    {
+        return version < (uint32_t)v;
+    }
+    bool operator>(int v) const
+    {
+        return version > (uint32_t)v;
+    }
+    bool operator<=(int v) const
+    {
+        return version <= (uint32_t)v;
+    }
+    bool operator>=(int v) const
+    {
+        return version >= (uint32_t)v;
+    }
+    bool operator==(int v) const
+    {
+        return version == (uint32_t)v;
+    }
+    bool operator!=(int v) const
+    {
+        return version != (uint32_t)v;
+    }
+    operator uint32_t() const { return version; }
+    VkPackedVersion&operator=(uint32_t v)
+    {
+        version = v;
+        return *this;
+    }
 };
 
 DECLARE_REFLECTION_STRUCT(VkPackedVersion);
@@ -235,86 +278,101 @@ DECLARE_REFLECTION_STRUCT(VkPackedVersion);
 // If VK_EXT_debug_marker isn't supported, will silently do nothing
 struct VkMarkerRegion
 {
-  VkMarkerRegion(VkCommandBuffer cmd, const rdcstr &marker);
-  VkMarkerRegion(VkQueue q, const rdcstr &marker);
-  VkMarkerRegion(const rdcstr &marker) : VkMarkerRegion(VkQueue(VK_NULL_HANDLE), marker) {}
-  ~VkMarkerRegion();
+    VkMarkerRegion(VkCommandBuffer cmd, const rdcstr &marker);
+    VkMarkerRegion(VkQueue q, const rdcstr &marker);
+    VkMarkerRegion(const rdcstr &marker) : VkMarkerRegion(VkQueue(VK_NULL_HANDLE), marker) {}
+    ~VkMarkerRegion();
 
-  static void Begin(const rdcstr &marker, VkCommandBuffer cmd);
-  static void Set(const rdcstr &marker, VkCommandBuffer cmd);
-  static void End(VkCommandBuffer cmd);
+    static void Begin(const rdcstr &marker, VkCommandBuffer cmd);
+    static void Set(const rdcstr &marker, VkCommandBuffer cmd);
+    static void End(VkCommandBuffer cmd);
 
-  static void Begin(const rdcstr &marker, VkQueue q = VK_NULL_HANDLE);
-  static void Set(const rdcstr &marker, VkQueue q = VK_NULL_HANDLE);
-  static void End(VkQueue q = VK_NULL_HANDLE);
+    static void Begin(const rdcstr &marker, VkQueue q = VK_NULL_HANDLE);
+    static void Set(const rdcstr &marker, VkQueue q = VK_NULL_HANDLE);
+    static void End(VkQueue q = VK_NULL_HANDLE);
 
-  static VkDevice GetDev();
+    static VkDevice GetDev();
 
-  VkCommandBuffer cmdbuf = VK_NULL_HANDLE;
-  VkQueue queue = VK_NULL_HANDLE;
+    VkCommandBuffer cmdbuf  = VK_NULL_HANDLE;
+    VkQueue         queue   = VK_NULL_HANDLE;
 
-  static WrappedVulkan *vk;
+    static WrappedVulkan *vk;
 };
 
 struct GPUBuffer
 {
-  enum CreateFlags
-  {
-    eGPUBufferReadback = 0x1,
-    eGPUBufferVBuffer = 0x2,
-    eGPUBufferIBuffer = 0x4,
-    eGPUBufferSSBO = 0x8,
-    eGPUBufferGPULocal = 0x10,
-    eGPUBufferIndirectBuffer = 0x20,
-    eGPUBufferAddressable = 0x40,
-  };
+    enum CreateFlags
+    {
+        eGPUBufferReadback          = 0x1,
+        eGPUBufferVBuffer           = 0x2,
+        eGPUBufferIBuffer           = 0x4,
+        eGPUBufferSSBO              = 0x8,
+        eGPUBufferGPULocal          = 0x10,
+        eGPUBufferIndirectBuffer    = 0x20,
+        eGPUBufferAddressable       = 0x40,
+    };
 
-  void Create(WrappedVulkan *driver, VkDevice dev, VkDeviceSize size, uint32_t ringSize,
-              uint32_t flags);
-  void Destroy();
-  void Name(const rdcstr &str);
+    void Create(WrappedVulkan *driver, VkDevice dev, VkDeviceSize size, uint32_t ringSize,
+                uint32_t flags);
+    void    Destroy();
+    void    Name(const rdcstr &str);
 
-  // return by const reference so we can pass in &UnwrappedBuffer() into bind calls
-  const VkBuffer &UnwrappedBuffer() const { return buf; }
-  const VkDeviceMemory &UnwrappedMemory() const { return mem; }
+    // return by const reference so we can pass in &UnwrappedBuffer() into bind calls
+    const VkBuffer&UnwrappedBuffer() const
+    {
+        return buf;
+    }
+    const VkDeviceMemory&UnwrappedMemory() const
+    {
+        return mem;
+    }
 
-  void FillDescriptor(VkDescriptorBufferInfo &desc);
-  void WriteDescriptor(VkDescriptorSet unwrappedDescSet, uint32_t destBinding,
-                       uint32_t destArrayElement);
+    void    FillDescriptor(VkDescriptorBufferInfo &desc);
+    void    WriteDescriptor(VkDescriptorSet unwrappedDescSet, uint32_t destBinding,
+                            uint32_t destArrayElement);
 
-  VkDeviceAddress Address() const { return addr; }
+    VkDeviceAddress Address() const
+    {
+        return addr;
+    }
 
-  size_t GetRingCount() { return size_t(ringCount); }
-  void *Map(VkDeviceSize &bindoffset, VkDeviceSize usedsize = 0);
-  void *Map(uint32_t *bindoffset = NULL, VkDeviceSize usedsize = 0);
-  void Unmap();
+    size_t GetRingCount()
+    {
+        return size_t(ringCount);
+    }
+    void    * Map(VkDeviceSize &bindoffset, VkDeviceSize usedsize = 0);
+    void    * Map(uint32_t *bindoffset = NULL, VkDeviceSize usedsize = 0);
+    void    Unmap();
 
-  VkDeviceSize TotalSize() const { return totalsize; }
+    VkDeviceSize TotalSize() const
+    {
+        return totalsize;
+    }
 
 private:
-  VkDeviceSize sz = 0;
-  VkBuffer buf = VK_NULL_HANDLE;
-  VkDeviceMemory mem = VK_NULL_HANDLE;
+    VkDeviceSize    sz  = 0;
+    VkBuffer        buf = VK_NULL_HANDLE;
+    VkDeviceMemory  mem = VK_NULL_HANDLE;
 
-  VkDeviceAddress addr = 0;
+    VkDeviceAddress addr = 0;
 
-  // uniform buffer alignment requirement
-  VkDeviceSize align = 0;
+    // uniform buffer alignment requirement
+    VkDeviceSize align = 0;
 
-  // for handling ring allocations
-  VkDeviceSize totalsize = 0;
-  VkDeviceSize curoffset = 0;
-  VkDeviceSize mapoffset = 0;
+    // for handling ring allocations
+    VkDeviceSize    totalsize   = 0;
+    VkDeviceSize    curoffset   = 0;
+    VkDeviceSize    mapoffset   = 0;
 
-  uint32_t ringCount = 0;
+    uint32_t ringCount = 0;
 
-  WrappedVulkan *m_pDriver = NULL;
-  VkDevice device = VK_NULL_HANDLE;
-  uint32_t createFlags = 0;
+    WrappedVulkan   *m_pDriver  = NULL;
+    VkDevice        device      = VK_NULL_HANDLE;
+    uint32_t        createFlags = 0;
 };
 
 // in vk_<platform>.cpp
-extern void *LoadVulkanLibrary();
+extern void* LoadVulkanLibrary();
 
 void GetPhysicalDeviceDriverProperties(VkInstDispatchTable *instDispatchTable,
                                        VkPhysicalDevice unwrappedPhysicalDevice,
@@ -323,136 +381,190 @@ void GetPhysicalDeviceDriverProperties(VkInstDispatchTable *instDispatchTable,
 class VkDriverInfo
 {
 public:
-  GPUVendor Vendor() const { return m_Vendor; }
-  uint32_t Major() const { return m_Major; }
-  uint32_t Minor() const { return m_Minor; }
-  uint32_t Patch() const { return m_Patch; }
-  VkDriverInfo(bool){};
-  VkDriverInfo(const VkPhysicalDeviceProperties &physProps,
-               const VkPhysicalDeviceDriverProperties &driverProps, bool active = false);
+    GPUVendor Vendor() const
+    {
+        return m_Vendor;
+    }
+    uint32_t Major() const
+    {
+        return m_Major;
+    }
+    uint32_t Minor() const
+    {
+        return m_Minor;
+    }
+    uint32_t Patch() const
+    {
+        return m_Patch;
+    }
+    VkDriverInfo(bool){};
+    VkDriverInfo(const VkPhysicalDeviceProperties &physProps,
+                 const VkPhysicalDeviceDriverProperties &driverProps, bool active = false);
 
-  bool operator==(const VkDriverInfo &o) const
-  {
-    return m_Vendor == o.m_Vendor && m_Major == o.m_Major && m_Minor == o.m_Minor &&
-           m_Patch == o.m_Patch;
-  }
+    bool operator==(const VkDriverInfo &o) const
+    {
+        return m_Vendor == o.m_Vendor && m_Major == o.m_Major && m_Minor == o.m_Minor &&
+               m_Patch == o.m_Patch;
+    }
 
-  // checks for when we're running on metal and some non-queryable things aren't supported
-  bool RunningOnMetal() const { return metalBackend; }
-  // A workaround for a couple of bugs, removing texelFetch use from shaders.
-  // It means broken functionality but at least no instant crashes
-  bool TexelFetchBrokenDriver() const { return texelFetchBrokenDriver; }
-  // Many drivers have issues with KHR_buffer_device_address :(
-  bool BufferDeviceAddressBrokenDriver() const { return bdaBrokenDriver; }
-  // Older AMD driver versions could sometimes cause image memory requirements to vary randomly
-  // between identical images. This means the memory required at capture could be less than at
-  // replay. To counteract this, on drivers with this issue we pad out the memory requirements
-  // enough to account for the change
-  bool AMDUnreliableImageMemoryRequirements() const { return amdUnreliableImgMemReqs; }
-  // another workaround, on some AMD driver versions creating an MSAA image with STORAGE_BIT
-  // causes graphical corruption trying to sample from it. We workaround it by preventing the
-  // MSAA <-> Array pipelines from creating, which removes the STORAGE_BIT and skips the copies.
-  // It means initial contents of MSAA images are missing but that's less important than being
-  // able to inspect MSAA images properly.
-  bool AMDStorageMSAABrokenDriver() const { return amdStorageMSAABrokenDriver; }
-  // On Qualcomm it seems like binding a descriptor set with a dynamic offset will 'leak' and affect
-  // rendering on other descriptor sets that don't use offsets at all.
-  bool QualcommLeakingUBOOffsets() const { return qualcommLeakingUBOOffsets; }
-  // On Qualcomm emitting an image sample operation with DRef and explicit lod will crash on non-2D
-  // textures. Since 2D is the common/expected case, we avoid compiling that case entirely.
-  bool QualcommDrefNon2DCompileCrash() const { return qualcommDrefNon2DCompileCrash; }
-  // On Qualcomm calling vkCmdSetLineWidth() before binding and dispatching a compute shader will
-  // crash in vkCmdDispatch. This works around the problem by avoiding setting that dynamic state
-  // unless there's a graphics pipeline when doing a partial replay, and it's unlikely the user will
-  // hit the case where it's necessary (doing 'whole pass' partial replay of a subsection of a
-  // command buffer where we need to apply dynamic state from earlier in the command buffer).
-  bool QualcommLineWidthDynamicStateCrash() const { return qualcommLineWidthCrash; }
-  // on Intel, occlusion queries are broken unless the shader has some effects. When we don't want
-  // it to have visible effects during pixel history we have to insert some manual side-effects
-  bool IntelBrokenOcclusionQueries() const { return intelBrokenOcclusionQueries; }
-  // on NV binding a static pipeline does not re-set static state which may have been perturbed by
-  // dynamic state setting, if the previous bound pipeline was identical.
-  // to work around this, whenever we are setting state and we do not have a pipeline to bind, we
-  // bind a dummy pipeline to ensure the pipeline always changes when we are setting dynamic state.
-  // If we do have a pipeline to bind, we should never be perturbing dynamic state in between static
-  // pipeline binds.
-  bool NVStaticPipelineRebindStates() const { return nvidiaStaticPipelineRebindStates; }
-  // On Mali there are some known issues regarding acceleration structure serialisation to device
-  // memory, for the affected driver versions we switch to the host command variants
-  bool MaliBrokenASDeviceSerialisation() const { return maliBrokenASDeviceSerialisation; }
-  // on NV BDA capture/replay can sometimes fail for memory on certain windows versions. Although
-  // this is believed to be a windows bug currently, it only manifests on NV and a workaround will
-  // be arriving in later NV drivers, so for now we treat this as a driver bug.
-  bool NVUnalignedBDAIssue() const { return nvidiaUnalignedBDAIssue; }
-  // on NV there is an issue with descriptor buffer bindings where if a descriptor set being set as
-  // an offset has no bindings for compute whatsoever but is bound to the compute pipeline, it will
-  // break other descriptor sets. As a workaround we make the first binding of all descriptor
-  // set layouts have all-stages visibility
-  bool NVDescriptorBufferExtraBinding() const { return nvidiaDescriptorBufferExtraBinding; }
+    // checks for when we're running on metal and some non-queryable things aren't supported
+    bool RunningOnMetal() const
+    {
+        return metalBackend;
+    }
+    // A workaround for a couple of bugs, removing texelFetch use from shaders.
+    // It means broken functionality but at least no instant crashes
+    bool TexelFetchBrokenDriver() const
+    {
+        return texelFetchBrokenDriver;
+    }
+    // Many drivers have issues with KHR_buffer_device_address :(
+    bool BufferDeviceAddressBrokenDriver() const
+    {
+        return bdaBrokenDriver;
+    }
+    // Older AMD driver versions could sometimes cause image memory requirements to vary randomly
+    // between identical images. This means the memory required at capture could be less than at
+    // replay. To counteract this, on drivers with this issue we pad out the memory requirements
+    // enough to account for the change
+    bool AMDUnreliableImageMemoryRequirements() const
+    {
+        return amdUnreliableImgMemReqs;
+    }
+    // another workaround, on some AMD driver versions creating an MSAA image with STORAGE_BIT
+    // causes graphical corruption trying to sample from it. We workaround it by preventing the
+    // MSAA <-> Array pipelines from creating, which removes the STORAGE_BIT and skips the copies.
+    // It means initial contents of MSAA images are missing but that's less important than being
+    // able to inspect MSAA images properly.
+    bool AMDStorageMSAABrokenDriver() const
+    {
+        return amdStorageMSAABrokenDriver;
+    }
+    // On Qualcomm it seems like binding a descriptor set with a dynamic offset will 'leak' and affect
+    // rendering on other descriptor sets that don't use offsets at all.
+    bool QualcommLeakingUBOOffsets() const
+    {
+        return qualcommLeakingUBOOffsets;
+    }
+    // On Qualcomm emitting an image sample operation with DRef and explicit lod will crash on non-2D
+    // textures. Since 2D is the common/expected case, we avoid compiling that case entirely.
+    bool QualcommDrefNon2DCompileCrash() const
+    {
+        return qualcommDrefNon2DCompileCrash;
+    }
+    // On Qualcomm calling vkCmdSetLineWidth() before binding and dispatching a compute shader will
+    // crash in vkCmdDispatch. This works around the problem by avoiding setting that dynamic state
+    // unless there's a graphics pipeline when doing a partial replay, and it's unlikely the user will
+    // hit the case where it's necessary (doing 'whole pass' partial replay of a subsection of a
+    // command buffer where we need to apply dynamic state from earlier in the command buffer).
+    bool QualcommLineWidthDynamicStateCrash() const
+    {
+        return qualcommLineWidthCrash;
+    }
+    // on Intel, occlusion queries are broken unless the shader has some effects. When we don't want
+    // it to have visible effects during pixel history we have to insert some manual side-effects
+    bool IntelBrokenOcclusionQueries() const
+    {
+        return intelBrokenOcclusionQueries;
+    }
+    // on NV binding a static pipeline does not re-set static state which may have been perturbed by
+    // dynamic state setting, if the previous bound pipeline was identical.
+    // to work around this, whenever we are setting state and we do not have a pipeline to bind, we
+    // bind a dummy pipeline to ensure the pipeline always changes when we are setting dynamic state.
+    // If we do have a pipeline to bind, we should never be perturbing dynamic state in between static
+    // pipeline binds.
+    bool NVStaticPipelineRebindStates() const
+    {
+        return nvidiaStaticPipelineRebindStates;
+    }
+    // On Mali there are some known issues regarding acceleration structure serialisation to device
+    // memory, for the affected driver versions we switch to the host command variants
+    bool MaliBrokenASDeviceSerialisation() const
+    {
+        return maliBrokenASDeviceSerialisation;
+    }
+    // on NV BDA capture/replay can sometimes fail for memory on certain windows versions. Although
+    // this is believed to be a windows bug currently, it only manifests on NV and a workaround will
+    // be arriving in later NV drivers, so for now we treat this as a driver bug.
+    bool NVUnalignedBDAIssue() const
+    {
+        return nvidiaUnalignedBDAIssue;
+    }
+    // on NV there is an issue with descriptor buffer bindings where if a descriptor set being set as
+    // an offset has no bindings for compute whatsoever but is bound to the compute pipeline, it will
+    // break other descriptor sets. As a workaround we make the first binding of all descriptor
+    // set layouts have all-stages visibility
+    bool NVDescriptorBufferExtraBinding() const
+    {
+        return nvidiaDescriptorBufferExtraBinding;
+    }
 private:
-  GPUVendor m_Vendor;
+    GPUVendor    m_Vendor;
 
-  uint32_t m_Major, m_Minor, m_Patch;
+    uint32_t    m_Major, m_Minor, m_Patch;
 
-  bool metalBackend = false;
-  bool texelFetchBrokenDriver = false;
-  bool bdaBrokenDriver = false;
-  bool amdUnreliableImgMemReqs = false;
-  bool amdStorageMSAABrokenDriver = false;
-  bool qualcommLeakingUBOOffsets = false;
-  bool qualcommDrefNon2DCompileCrash = false;
-  bool qualcommLineWidthCrash = false;
-  bool intelBrokenOcclusionQueries = false;
-  bool nvidiaStaticPipelineRebindStates = false;
-  bool maliBrokenASDeviceSerialisation = false;
-  bool nvidiaUnalignedBDAIssue = false;
-  bool nvidiaDescriptorBufferExtraBinding = false;
+    bool    metalBackend                        = false;
+    bool    texelFetchBrokenDriver              = false;
+    bool    bdaBrokenDriver                     = false;
+    bool    amdUnreliableImgMemReqs             = false;
+    bool    amdStorageMSAABrokenDriver          = false;
+    bool    qualcommLeakingUBOOffsets           = false;
+    bool    qualcommDrefNon2DCompileCrash       = false;
+    bool    qualcommLineWidthCrash              = false;
+    bool    intelBrokenOcclusionQueries         = false;
+    bool    nvidiaStaticPipelineRebindStates    = false;
+    bool    maliBrokenASDeviceSerialisation     = false;
+    bool    nvidiaUnalignedBDAIssue             = false;
+    bool    nvidiaDescriptorBufferExtraBinding  = false;
 };
 
 struct DynamicRenderingLocalRead
 {
-  void Init(const VkBaseInStructure *infoStruct);
+    void Init(const VkBaseInStructure *infoStruct);
 
-  void UpdateLocations(const VkRenderingAttachmentLocationInfo &attachmentLocationInfo);
-  void UpdateInputIndices(const VkRenderingInputAttachmentIndexInfo &inputAttachmentIndexInfo);
+    void    UpdateLocations(const VkRenderingAttachmentLocationInfo &attachmentLocationInfo);
+    void    UpdateInputIndices(const VkRenderingInputAttachmentIndexInfo &inputAttachmentIndexInfo);
 
-  void CopyLocations(const DynamicRenderingLocalRead &from);
-  void CopyInputIndices(const DynamicRenderingLocalRead &from);
+    void    CopyLocations(const DynamicRenderingLocalRead &from);
+    void    CopyInputIndices(const DynamicRenderingLocalRead &from);
 
-  bool AreLocationsNonDefault() { return !colorAttachmentLocations.isEmpty(); }
-  bool AreInputIndicesNonDefault()
-  {
-    return !colorAttachmentInputIndices.isEmpty() || !isDepthInputAttachmentIndexImplicit ||
-           !isStencilInputAttachmentIndexImplicit;
-  }
+    bool AreLocationsNonDefault()
+    {
+        return !colorAttachmentLocations.isEmpty();
+    }
+    bool AreInputIndicesNonDefault()
+    {
+        return !colorAttachmentInputIndices.isEmpty() || !isDepthInputAttachmentIndexImplicit ||
+               !isStencilInputAttachmentIndexImplicit;
+    }
 
-  void SetLocations(VkCommandBuffer cmd);
-  void SetInputIndices(VkCommandBuffer cmd);
+    void    SetLocations(VkCommandBuffer cmd);
+    void    SetInputIndices(VkCommandBuffer cmd);
 
-  // VkRenderingAttachmentLocationInfo
-  // Notes:
-  // - If the array is empty, it indicates an identity mapping.
-  // - If an element is VK_ATTACHMENT_UNUSED, writes to it are disabled (as if the color
-  //   attachment is masked)
-  rdcarray<uint32_t> colorAttachmentLocations;
+    // VkRenderingAttachmentLocationInfo
+    // Notes:
+    // - If the array is empty, it indicates an identity mapping.
+    // - If an element is VK_ATTACHMENT_UNUSED, writes to it are disabled (as if the color
+    //   attachment is masked)
+    rdcarray<uint32_t> colorAttachmentLocations;
 
-  // VkRenderingInputAttachmentIndexInfo
-  // Notes:
-  // - The depth/stencil indices are only set if the is..Implicit flag is false.  By default, the
-  //   depth/stencil indices are assumed to be implicit (no input_attachment_index decoration
-  //   needed in the shader).
-  // - If an element is VK_ATTACHMENT_UNUSED, it won't be used as input attachment.
-  rdcarray<uint32_t> colorAttachmentInputIndices;
-  bool isDepthInputAttachmentIndexImplicit = true;
-  bool isStencilInputAttachmentIndexImplicit = true;
-  uint32_t depthInputAttachmentIndex = ~0U;
-  uint32_t stencilInputAttachmentIndex = ~0U;
+    // VkRenderingInputAttachmentIndexInfo
+    // Notes:
+    // - The depth/stencil indices are only set if the is..Implicit flag is false.  By default, the
+    //   depth/stencil indices are assumed to be implicit (no input_attachment_index decoration
+    //   needed in the shader).
+    // - If an element is VK_ATTACHMENT_UNUSED, it won't be used as input attachment.
+    rdcarray<uint32_t>  colorAttachmentInputIndices;
+    bool                isDepthInputAttachmentIndexImplicit     = true;
+    bool                isStencilInputAttachmentIndexImplicit   = true;
+    uint32_t            depthInputAttachmentIndex               = ~0U;
+    uint32_t            stencilInputAttachmentIndex             = ~0U;
 };
 
 enum
 {
-  VkCheckLayer_unique_objects,
-  VkCheckLayer_Max,
+    VkCheckLayer_unique_objects,
+    VkCheckLayer_Max,
 };
 
 DECLARE_REFLECTION_STRUCT(VkBaseInStructure);
@@ -463,156 +575,160 @@ DECLARE_REFLECTION_STRUCT(VkBaseInStructure);
 // the given flags field doesn't have any bits defined
 enum VkFlagWithNoBits
 {
-  FlagWithNoBits_Dummy_Bit = 1,
+    FlagWithNoBits_Dummy_Bit = 1,
 };
 
 // global per-chain flags to use in a double-pass processing
 struct NextChainFlags
 {
-  // VkPipelineRenderingCreateInfoKHR provides a list of formats which is normally valid except if
-  // we're creating a pipeline library without the fragment output interface. We need to detect that
-  // first before processing it
-  bool dynRenderingFormatsValid = true;
+    // VkPipelineRenderingCreateInfoKHR provides a list of formats which is normally valid except if
+    // we're creating a pipeline library without the fragment output interface. We need to detect that
+    // first before processing it
+    bool dynRenderingFormatsValid = true;
 };
 
 size_t GetNextPatchSize(const void *next);
 void PreprocessNextChain(const VkBaseInStructure *nextInput, NextChainFlags &nextChainFlags);
-void UnwrapNextChain(CaptureState state, const char *structName, byte *&tempMem,
+void UnwrapNextChain(CaptureState state, const char *structName, byte* &tempMem,
                      VkBaseInStructure *infoStruct);
-void CopyNextChainForPatching(const char *structName, byte *&tempMem, VkBaseInStructure *infoStruct);
+void CopyNextChainForPatching(const char *structName, byte* &tempMem, VkBaseInStructure *infoStruct);
 
-template <typename VkStruct>
-VkStruct *UnwrapStructAndChain(CaptureState state, byte *&tempMem, const VkStruct *base)
+template<typename VkStruct>
+VkStruct* UnwrapStructAndChain(CaptureState state, byte* &tempMem, const VkStruct *base)
 {
-  VkBaseInStructure dummy = {};
-  dummy.pNext = (const VkBaseInStructure *)base;
+    VkBaseInStructure    dummy = {};
 
-  UnwrapNextChain(state, TypeName<VkStruct>().c_str(), tempMem, &dummy);
+    dummy.pNext = (const VkBaseInStructure*)base;
 
-  return (VkStruct *)dummy.pNext;
+    UnwrapNextChain(state, TypeName<VkStruct>().c_str(), tempMem, &dummy);
+
+    return (VkStruct*)dummy.pNext;
 }
 
-template <typename VkStruct>
+template<typename VkStruct>
 void AppendNextStruct(VkStruct &base, void *newStruct)
 {
-  VkBaseOutStructure *next = (VkBaseOutStructure *)&base;
+    VkBaseOutStructure    *next = (VkBaseOutStructure*)&base;
 
-  while(next->pNext)
-    next = next->pNext;
+    while (next->pNext)
+        next = next->pNext;
 
-  next->pNext = (VkBaseOutStructure *)newStruct;
+    next->pNext = (VkBaseOutStructure*)newStruct;
 }
 
-template <typename VkStruct>
-const VkBaseInStructure *FindNextStruct(const VkStruct *haystack, VkStructureType needle)
+template<typename VkStruct>
+const VkBaseInStructure* FindNextStruct(const VkStruct *haystack, VkStructureType needle)
 {
-  if(!haystack)
-    return NULL;
+    if (!haystack)
+        return NULL;
 
-  const VkBaseInStructure *next = (const VkBaseInStructure *)haystack->pNext;
-  while(next)
-  {
-    if(next->sType == needle)
-      return next;
+    const VkBaseInStructure    *next = (const VkBaseInStructure*)haystack->pNext;
 
-    next = next->pNext;
-  }
-
-  return NULL;
-}
-
-template <typename VkStruct>
-VkBaseInStructure *FindNextStruct(VkStruct *haystack, VkStructureType needle)
-{
-  if(!haystack)
-    return NULL;
-
-  VkBaseInStructure *next = (VkBaseInStructure *)haystack->pNext;
-  while(next)
-  {
-    if(next->sType == needle)
-      return next;
-
-    // assume non-const pNext in the original struct
-    next = (VkBaseInStructure *)next->pNext;
-  }
-
-  return NULL;
-}
-
-template <typename VkStruct>
-bool RemoveNextStruct(VkStruct *haystack, VkStructureType needle)
-{
-  bool ret = false;
-
-  // start from the haystack, and iterate
-  VkBaseInStructure *root = (VkBaseInStructure *)haystack;
-  while(root && root->pNext)
-  {
-    // at each point, if the *next* struct is the needle, then point our next pointer at whatever
-    // its was - either the next in the chain or NULL if it was at the end. Then we can return true
-    // because we removed the struct. We keep going to handle duplicates, but we continue and skip
-    // the list iterate as we now have a new root->pNext.
-    // Note that this can't remove the first struct in the chain but that's expected, we only want
-    // to remove extension structs.
-    if(root->pNext->sType == needle)
+    while (next)
     {
-      root->pNext = root->pNext->pNext;
-      ret = true;
-      continue;
+        if (next->sType == needle)
+            return next;
+
+        next = next->pNext;
     }
 
-    // move to the next struct
-    root = (VkBaseInStructure *)root->pNext;
-  }
+    return NULL;
+}
 
-  return ret;
+template<typename VkStruct>
+VkBaseInStructure* FindNextStruct(VkStruct *haystack, VkStructureType needle)
+{
+    if (!haystack)
+        return NULL;
+
+    VkBaseInStructure    *next = (VkBaseInStructure*)haystack->pNext;
+
+    while (next)
+    {
+        if (next->sType == needle)
+            return next;
+
+        // assume non-const pNext in the original struct
+        next = (VkBaseInStructure*)next->pNext;
+    }
+
+    return NULL;
+}
+
+template<typename VkStruct>
+bool RemoveNextStruct(VkStruct *haystack, VkStructureType needle)
+{
+    bool    ret = false;
+
+    // start from the haystack, and iterate
+    VkBaseInStructure    *root = (VkBaseInStructure*)haystack;
+
+    while (root && root->pNext)
+    {
+        // at each point, if the *next* struct is the needle, then point our next pointer at whatever
+        // its was - either the next in the chain or NULL if it was at the end. Then we can return true
+        // because we removed the struct. We keep going to handle duplicates, but we continue and skip
+        // the list iterate as we now have a new root->pNext.
+        // Note that this can't remove the first struct in the chain but that's expected, we only want
+        // to remove extension structs.
+        if (root->pNext->sType == needle)
+        {
+            root->pNext = root->pNext->pNext;
+            ret         = true;
+            continue;
+        }
+
+        // move to the next struct
+        root = (VkBaseInStructure*)root->pNext;
+    }
+
+    return ret;
 }
 
 enum class MemoryScope : uint8_t
 {
-  InitialContents,
-  First = InitialContents,
-  // On replay, initial contents memory is never freed, so any immutable replay memory can be
-  // allocated the same way
-  ImmutableReplayDebug = InitialContents,
-  IndirectReadback,
-  // Same as initial contents but freed after first Serialise/Apply cycle
-  InitialContentsFirstApplyOnly,
-  Count,
+    InitialContents,
+    First = InitialContents,
+    // On replay, initial contents memory is never freed, so any immutable replay memory can be
+    // allocated the same way
+    ImmutableReplayDebug = InitialContents,
+    IndirectReadback,
+    // Same as initial contents but freed after first Serialise/Apply cycle
+    InitialContentsFirstApplyOnly,
+    Count,
 };
 
 ITERABLE_OPERATORS(MemoryScope);
 
 enum class MemoryType : uint8_t
 {
-  Upload,
-  GPULocal,
-  Readback,
+    Upload,
+    GPULocal,
+    Readback,
 };
 
 struct MemoryAllocation
 {
-  VkDeviceMemory mem = VK_NULL_HANDLE;
-  VkDeviceSize offs = 0;
-  VkDeviceSize size = 0;
+    VkDeviceMemory  mem     = VK_NULL_HANDLE;
+    VkDeviceSize    offs    = 0;
+    VkDeviceSize    size    = 0;
 
-  // not strictly necessary but useful for reflection/readback - what scope/type were used, what was
-  // the actual memory type index selected, and was a buffer or image allocated.
-  MemoryScope scope = MemoryScope::InitialContents;
-  MemoryType type = MemoryType::GPULocal;
-  uint32_t memoryTypeIndex = 0;
-  bool buffer = false;
+    // not strictly necessary but useful for reflection/readback - what scope/type were used, what was
+    // the actual memory type index selected, and was a buffer or image allocated.
+    MemoryScope scope           = MemoryScope::InitialContents;
+    MemoryType  type            = MemoryType::GPULocal;
+    uint32_t    memoryTypeIndex = 0;
+    bool        buffer          = false;
 };
 
 #define IMPLEMENT_FUNCTION_SERIALISED(ret, func, ...) \
-  ret func(__VA_ARGS__);                              \
-  template <typename SerialiserType>                  \
-  bool CONCAT(Serialise_, func(SerialiserType &ser, __VA_ARGS__));
+    ret func(__VA_ARGS__);                            \
+    template<typename SerialiserType>                 \
+    bool CONCAT(Serialise_, func(SerialiserType & ser, __VA_ARGS__));
 
-#define INSTANTIATE_FUNCTION_SERIALISED(ret, func, ...)                                    \
-  template bool WrappedVulkan::CONCAT(Serialise_, func(ReadSerialiser &ser, __VA_ARGS__)); \
-  template bool WrappedVulkan::CONCAT(Serialise_, func(WriteSerialiser &ser, __VA_ARGS__));
+#define INSTANTIATE_FUNCTION_SERIALISED(ret, func, ...)                                       \
+    template bool WrappedVulkan::CONCAT(Serialise_, func(ReadSerialiser & ser, __VA_ARGS__)); \
+    template bool WrappedVulkan::CONCAT(Serialise_, func(WriteSerialiser & ser, __VA_ARGS__));
 
 // A handy macros to say "is the serialiser reading and we're doing replay-mode stuff?"
 // The reason we check both is that checking the first allows the compiler to eliminate the other
@@ -630,181 +746,180 @@ class VulkanResourceManager;
 
 #if defined(__GNUC__) && (__GNUC__ < 10)
 
-#define EnumBaseType uint8_t
-#define GCC_WORKAROUND 1
+#define EnumBaseType    uint8_t
+#define GCC_WORKAROUND  1
 
 #else
 
-#define EnumBaseType uint64_t
-#define GCC_WORKAROUND 0
-
+#define EnumBaseType    uint64_t
+#define GCC_WORKAROUND  0
 #endif
 
 // we inherit from uint64_t to make this more bitfield-able but we intend for this to fit in uint8_t
 enum class DescriptorSlotType : EnumBaseType
 {
-  // we want an unwritten type as 0 so that zero-initialised descriptors that haven't been written
-  // don't look like samplers, so these unfortunately don't match VkDescriptorType in value.
-  Unwritten = 0,
-  Sampler,
-  CombinedImageSampler,
-  SampledImage,
-  StorageImage,
-  UniformTexelBuffer,
-  StorageTexelBuffer,
-  UniformBuffer,
-  StorageBuffer,
-  UniformBufferDynamic,
-  StorageBufferDynamic,
-  InputAttachment,
-  InlineBlock,
-  AccelerationStructure,
-  Count,
+    // we want an unwritten type as 0 so that zero-initialised descriptors that haven't been written
+    // don't look like samplers, so these unfortunately don't match VkDescriptorType in value.
+    Unwritten = 0,
+    Sampler,
+    CombinedImageSampler,
+    SampledImage,
+    StorageImage,
+    UniformTexelBuffer,
+    StorageTexelBuffer,
+    UniformBuffer,
+    StorageBuffer,
+    UniformBufferDynamic,
+    StorageBufferDynamic,
+    InputAttachment,
+    InlineBlock,
+    AccelerationStructure,
+    Count,
 };
 
 FrameRefType GetRefType(DescriptorSlotType descType);
 
 constexpr VkDescriptorType convert(DescriptorSlotType type)
 {
-  return type == DescriptorSlotType::Unwritten ? VK_DESCRIPTOR_TYPE_MAX_ENUM
-         : type == DescriptorSlotType::Sampler ? VK_DESCRIPTOR_TYPE_SAMPLER
-         : type == DescriptorSlotType::CombinedImageSampler
-             ? VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER
-         : type == DescriptorSlotType::SampledImage       ? VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE
-         : type == DescriptorSlotType::StorageImage       ? VK_DESCRIPTOR_TYPE_STORAGE_IMAGE
-         : type == DescriptorSlotType::UniformTexelBuffer ? VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER
-         : type == DescriptorSlotType::StorageTexelBuffer ? VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER
-         : type == DescriptorSlotType::UniformBuffer      ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER
-         : type == DescriptorSlotType::StorageBuffer      ? VK_DESCRIPTOR_TYPE_STORAGE_BUFFER
-         : type == DescriptorSlotType::UniformBufferDynamic
-             ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC
-         : type == DescriptorSlotType::StorageBufferDynamic
-             ? VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC
-         : type == DescriptorSlotType::InputAttachment ? VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT
-         : type == DescriptorSlotType::InlineBlock     ? VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK
-         : type == DescriptorSlotType::AccelerationStructure
-             ? VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
-             : VK_DESCRIPTOR_TYPE_MAX_ENUM;
+    return type == DescriptorSlotType::Unwritten ? VK_DESCRIPTOR_TYPE_MAX_ENUM
+           : type == DescriptorSlotType::Sampler ? VK_DESCRIPTOR_TYPE_SAMPLER
+           : type == DescriptorSlotType::CombinedImageSampler
+           ? VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER
+           : type == DescriptorSlotType::SampledImage       ? VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE
+           : type == DescriptorSlotType::StorageImage       ? VK_DESCRIPTOR_TYPE_STORAGE_IMAGE
+           : type == DescriptorSlotType::UniformTexelBuffer ? VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER
+           : type == DescriptorSlotType::StorageTexelBuffer ? VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER
+           : type == DescriptorSlotType::UniformBuffer      ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER
+           : type == DescriptorSlotType::StorageBuffer      ? VK_DESCRIPTOR_TYPE_STORAGE_BUFFER
+           : type == DescriptorSlotType::UniformBufferDynamic
+           ? VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC
+           : type == DescriptorSlotType::StorageBufferDynamic
+           ? VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC
+           : type == DescriptorSlotType::InputAttachment ? VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT
+           : type == DescriptorSlotType::InlineBlock     ? VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK
+           : type == DescriptorSlotType::AccelerationStructure
+           ? VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
+           : VK_DESCRIPTOR_TYPE_MAX_ENUM;
 }
 
 constexpr DescriptorSlotType convert(VkDescriptorType type)
 {
-  return type == VK_DESCRIPTOR_TYPE_SAMPLER ? DescriptorSlotType::Sampler
-         : type == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER
-             ? DescriptorSlotType::CombinedImageSampler
-         : type == VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE        ? DescriptorSlotType::SampledImage
-         : type == VK_DESCRIPTOR_TYPE_STORAGE_IMAGE        ? DescriptorSlotType::StorageImage
-         : type == VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER ? DescriptorSlotType::UniformTexelBuffer
-         : type == VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER ? DescriptorSlotType::StorageTexelBuffer
-         : type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER       ? DescriptorSlotType::UniformBuffer
-         : type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER       ? DescriptorSlotType::StorageBuffer
-         : type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC
-             ? DescriptorSlotType::UniformBufferDynamic
-         : type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC
-             ? DescriptorSlotType::StorageBufferDynamic
-         : type == VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT     ? DescriptorSlotType::InputAttachment
-         : type == VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK ? DescriptorSlotType::InlineBlock
-         : type == VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
-             ? DescriptorSlotType::AccelerationStructure
-             : DescriptorSlotType::Unwritten;
+    return type == VK_DESCRIPTOR_TYPE_SAMPLER ? DescriptorSlotType::Sampler
+           : type == VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER
+           ? DescriptorSlotType::CombinedImageSampler
+           : type == VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE        ? DescriptorSlotType::SampledImage
+           : type == VK_DESCRIPTOR_TYPE_STORAGE_IMAGE        ? DescriptorSlotType::StorageImage
+           : type == VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER ? DescriptorSlotType::UniformTexelBuffer
+           : type == VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER ? DescriptorSlotType::StorageTexelBuffer
+           : type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER       ? DescriptorSlotType::UniformBuffer
+           : type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER       ? DescriptorSlotType::StorageBuffer
+           : type == VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC
+           ? DescriptorSlotType::UniformBufferDynamic
+           : type == VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC
+           ? DescriptorSlotType::StorageBufferDynamic
+           : type == VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT     ? DescriptorSlotType::InputAttachment
+           : type == VK_DESCRIPTOR_TYPE_INLINE_UNIFORM_BLOCK ? DescriptorSlotType::InlineBlock
+           : type == VK_DESCRIPTOR_TYPE_ACCELERATION_STRUCTURE_KHR
+           ? DescriptorSlotType::AccelerationStructure
+           : DescriptorSlotType::Unwritten;
 }
 
 enum class DescriptorSlotImageLayout : EnumBaseType
 {
-  // these match the core types
-  Undefined = 0,
-  General = 1,
-  ColorAttach = 2,
-  DepthStencilAttach = 3,
-  DepthStencilRead = 4,
-  ShaderRead = 5,
-  TransferSrc = 6,
-  TransferDst = 7,
-  Preinit = 8,
-  // these are extensions
-  DepthReadStencilAttach,
-  DepthAttachStencilRead,
-  DepthAttach,
-  DepthRead,
-  StencilAttach,
-  StencilRead,
-  Read,
-  Attach,
-  Present,
-  SharedPresent,
-  FragmentDensity,
-  FragmentShadingRate,
-  FeedbackLoop,
-  DynamicLocalRead,
-  ZeroInitialized,
+    // these match the core types
+    Undefined           = 0,
+    General             = 1,
+    ColorAttach         = 2,
+    DepthStencilAttach  = 3,
+    DepthStencilRead    = 4,
+    ShaderRead          = 5,
+    TransferSrc         = 6,
+    TransferDst         = 7,
+    Preinit             = 8,
+    // these are extensions
+    DepthReadStencilAttach,
+    DepthAttachStencilRead,
+    DepthAttach,
+    DepthRead,
+    StencilAttach,
+    StencilRead,
+    Read,
+    Attach,
+    Present,
+    SharedPresent,
+    FragmentDensity,
+    FragmentShadingRate,
+    FeedbackLoop,
+    DynamicLocalRead,
+    ZeroInitialized,
 
-  Count,
+    Count,
 };
 
 constexpr VkImageLayout convert(DescriptorSlotImageLayout layout)
 {
-  // temporarily disable clang-format to make this more readable.
-  // Ideally we'd use a simple switch() but VS2015 doesn't support that :(.
-  // clang-format off
-  return layout == DescriptorSlotImageLayout::Undefined              ? VK_IMAGE_LAYOUT_UNDEFINED
-       : layout == DescriptorSlotImageLayout::General                ? VK_IMAGE_LAYOUT_GENERAL
-       : layout == DescriptorSlotImageLayout::ColorAttach            ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::DepthStencilAttach     ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::DepthStencilRead       ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::ShaderRead             ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::TransferSrc            ? VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL
-       : layout == DescriptorSlotImageLayout::TransferDst            ? VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL
-       : layout == DescriptorSlotImageLayout::Preinit                ? VK_IMAGE_LAYOUT_PREINITIALIZED
-       : layout == DescriptorSlotImageLayout::DepthReadStencilAttach ? VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::DepthAttachStencilRead ? VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::DepthAttach            ? VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::DepthRead              ? VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::StencilAttach          ? VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::StencilRead            ? VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::Read                   ? VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
-       : layout == DescriptorSlotImageLayout::Attach                 ? VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL
-       : layout == DescriptorSlotImageLayout::Present                ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
-       : layout == DescriptorSlotImageLayout::SharedPresent          ? VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR
-       : layout == DescriptorSlotImageLayout::FragmentDensity        ? VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT
-       : layout == DescriptorSlotImageLayout::FragmentShadingRate    ? VK_IMAGE_LAYOUT_FRAGMENT_SHADING_RATE_ATTACHMENT_OPTIMAL_KHR
-       : layout == DescriptorSlotImageLayout::FeedbackLoop           ? VK_IMAGE_LAYOUT_ATTACHMENT_FEEDBACK_LOOP_OPTIMAL_EXT
-       : layout == DescriptorSlotImageLayout::DynamicLocalRead       ? VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ
-       : layout == DescriptorSlotImageLayout::ZeroInitialized        ? VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT
-       : VK_IMAGE_LAYOUT_MAX_ENUM;
-  // clang-format on
+    // temporarily disable clang-format to make this more readable.
+    // Ideally we'd use a simple switch() but VS2015 doesn't support that :(.
+    // clang-format off
+    return layout == DescriptorSlotImageLayout::Undefined              ? VK_IMAGE_LAYOUT_UNDEFINED
+           : layout == DescriptorSlotImageLayout::General                ? VK_IMAGE_LAYOUT_GENERAL
+           : layout == DescriptorSlotImageLayout::ColorAttach            ? VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::DepthStencilAttach     ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::DepthStencilRead       ? VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::ShaderRead             ? VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::TransferSrc            ? VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL
+           : layout == DescriptorSlotImageLayout::TransferDst            ? VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL
+           : layout == DescriptorSlotImageLayout::Preinit                ? VK_IMAGE_LAYOUT_PREINITIALIZED
+           : layout == DescriptorSlotImageLayout::DepthReadStencilAttach ? VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::DepthAttachStencilRead ? VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::DepthAttach            ? VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::DepthRead              ? VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::StencilAttach          ? VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::StencilRead            ? VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::Read                   ? VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL
+           : layout == DescriptorSlotImageLayout::Attach                 ? VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL
+           : layout == DescriptorSlotImageLayout::Present                ? VK_IMAGE_LAYOUT_PRESENT_SRC_KHR
+           : layout == DescriptorSlotImageLayout::SharedPresent          ? VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR
+           : layout == DescriptorSlotImageLayout::FragmentDensity        ? VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT
+           : layout == DescriptorSlotImageLayout::FragmentShadingRate    ? VK_IMAGE_LAYOUT_FRAGMENT_SHADING_RATE_ATTACHMENT_OPTIMAL_KHR
+           : layout == DescriptorSlotImageLayout::FeedbackLoop           ? VK_IMAGE_LAYOUT_ATTACHMENT_FEEDBACK_LOOP_OPTIMAL_EXT
+           : layout == DescriptorSlotImageLayout::DynamicLocalRead       ? VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ
+           : layout == DescriptorSlotImageLayout::ZeroInitialized        ? VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT
+           : VK_IMAGE_LAYOUT_MAX_ENUM;
+    // clang-format on
 }
 
 constexpr DescriptorSlotImageLayout convert(VkImageLayout layout)
 {
-  // temporarily disable clang-format to make this more readable.
-  // Ideally we'd use a simple switch() but VS2015 doesn't support that :(.
-  // clang-format off
-  return layout == VK_IMAGE_LAYOUT_UNDEFINED                                    ? DescriptorSlotImageLayout::Undefined
-       : layout == VK_IMAGE_LAYOUT_GENERAL                                      ? DescriptorSlotImageLayout::General
-       : layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL                     ? DescriptorSlotImageLayout::ColorAttach
-       : layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL             ? DescriptorSlotImageLayout::DepthStencilAttach
-       : layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL              ? DescriptorSlotImageLayout::DepthStencilRead
-       : layout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL                     ? DescriptorSlotImageLayout::ShaderRead
-       : layout == VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL                         ? DescriptorSlotImageLayout::TransferSrc
-       : layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL                         ? DescriptorSlotImageLayout::TransferDst
-       : layout == VK_IMAGE_LAYOUT_PREINITIALIZED                               ? DescriptorSlotImageLayout::Preinit
-       : layout == VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL   ? DescriptorSlotImageLayout::DepthReadStencilAttach
-       : layout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL   ? DescriptorSlotImageLayout::DepthAttachStencilRead
-       : layout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL                     ? DescriptorSlotImageLayout::DepthAttach
-       : layout == VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL                      ? DescriptorSlotImageLayout::DepthRead
-       : layout == VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL                   ? DescriptorSlotImageLayout::StencilAttach
-       : layout == VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL                    ? DescriptorSlotImageLayout::StencilRead
-       : layout == VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL                            ? DescriptorSlotImageLayout::Read
-       : layout == VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL                           ? DescriptorSlotImageLayout::Attach
-       : layout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR                              ? DescriptorSlotImageLayout::Present
-       : layout == VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR                           ? DescriptorSlotImageLayout::SharedPresent
-       : layout == VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT             ? DescriptorSlotImageLayout::FragmentDensity
-       : layout == VK_IMAGE_LAYOUT_FRAGMENT_SHADING_RATE_ATTACHMENT_OPTIMAL_KHR ? DescriptorSlotImageLayout::FragmentShadingRate
-       : layout == VK_IMAGE_LAYOUT_ATTACHMENT_FEEDBACK_LOOP_OPTIMAL_EXT         ? DescriptorSlotImageLayout::FeedbackLoop
-       : layout == VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ                         ? DescriptorSlotImageLayout::DynamicLocalRead
-       : layout == VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT                         ? DescriptorSlotImageLayout::ZeroInitialized
-       : DescriptorSlotImageLayout::Count;
-  // clang-format on
+    // temporarily disable clang-format to make this more readable.
+    // Ideally we'd use a simple switch() but VS2015 doesn't support that :(.
+    // clang-format off
+    return layout == VK_IMAGE_LAYOUT_UNDEFINED                                    ? DescriptorSlotImageLayout::Undefined
+           : layout == VK_IMAGE_LAYOUT_GENERAL                                      ? DescriptorSlotImageLayout::General
+           : layout == VK_IMAGE_LAYOUT_COLOR_ATTACHMENT_OPTIMAL                     ? DescriptorSlotImageLayout::ColorAttach
+           : layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL             ? DescriptorSlotImageLayout::DepthStencilAttach
+           : layout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL              ? DescriptorSlotImageLayout::DepthStencilRead
+           : layout == VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL                     ? DescriptorSlotImageLayout::ShaderRead
+           : layout == VK_IMAGE_LAYOUT_TRANSFER_SRC_OPTIMAL                         ? DescriptorSlotImageLayout::TransferSrc
+           : layout == VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL                         ? DescriptorSlotImageLayout::TransferDst
+           : layout == VK_IMAGE_LAYOUT_PREINITIALIZED                               ? DescriptorSlotImageLayout::Preinit
+           : layout == VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_STENCIL_ATTACHMENT_OPTIMAL   ? DescriptorSlotImageLayout::DepthReadStencilAttach
+           : layout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_STENCIL_READ_ONLY_OPTIMAL   ? DescriptorSlotImageLayout::DepthAttachStencilRead
+           : layout == VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL                     ? DescriptorSlotImageLayout::DepthAttach
+           : layout == VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL                      ? DescriptorSlotImageLayout::DepthRead
+           : layout == VK_IMAGE_LAYOUT_STENCIL_ATTACHMENT_OPTIMAL                   ? DescriptorSlotImageLayout::StencilAttach
+           : layout == VK_IMAGE_LAYOUT_STENCIL_READ_ONLY_OPTIMAL                    ? DescriptorSlotImageLayout::StencilRead
+           : layout == VK_IMAGE_LAYOUT_READ_ONLY_OPTIMAL                            ? DescriptorSlotImageLayout::Read
+           : layout == VK_IMAGE_LAYOUT_ATTACHMENT_OPTIMAL                           ? DescriptorSlotImageLayout::Attach
+           : layout == VK_IMAGE_LAYOUT_PRESENT_SRC_KHR                              ? DescriptorSlotImageLayout::Present
+           : layout == VK_IMAGE_LAYOUT_SHARED_PRESENT_KHR                           ? DescriptorSlotImageLayout::SharedPresent
+           : layout == VK_IMAGE_LAYOUT_FRAGMENT_DENSITY_MAP_OPTIMAL_EXT             ? DescriptorSlotImageLayout::FragmentDensity
+           : layout == VK_IMAGE_LAYOUT_FRAGMENT_SHADING_RATE_ATTACHMENT_OPTIMAL_KHR ? DescriptorSlotImageLayout::FragmentShadingRate
+           : layout == VK_IMAGE_LAYOUT_ATTACHMENT_FEEDBACK_LOOP_OPTIMAL_EXT         ? DescriptorSlotImageLayout::FeedbackLoop
+           : layout == VK_IMAGE_LAYOUT_RENDERING_LOCAL_READ                         ? DescriptorSlotImageLayout::DynamicLocalRead
+           : layout == VK_IMAGE_LAYOUT_ZERO_INITIALIZED_EXT                         ? DescriptorSlotImageLayout::ZeroInitialized
+           : DescriptorSlotImageLayout::Count;
+    // clang-format on
 }
 
 struct DescriptorBindRefs;
@@ -816,147 +931,156 @@ struct DescriptorBindRefs;
 // tracking when applications allocate many many millions of descriptors
 struct DescriptorSetSlot
 {
-  void AccumulateBindRefs(DescriptorBindRefs &refs, VulkanResourceManager *rm) const;
+    void AccumulateBindRefs(DescriptorBindRefs &refs, VulkanResourceManager *rm) const;
 
-  void SetBuffer(VkDescriptorType writeType, const VkDescriptorBufferInfo &bufInfo);
-  void SetImage(VkDescriptorType writeType, const VkDescriptorImageInfo &imInfo, bool useSampler);
-  void SetTexelBuffer(VkDescriptorType writeType, ResourceId id);
-  void SetAccelerationStructure(VkDescriptorType writeType,
-                                VkAccelerationStructureKHR accelerationStructure);
+    void    SetBuffer(VkDescriptorType writeType, const VkDescriptorBufferInfo &bufInfo);
+    void    SetImage(VkDescriptorType writeType, const VkDescriptorImageInfo &imInfo, bool useSampler);
+    void    SetTexelBuffer(VkDescriptorType writeType, ResourceId id);
+    void    SetAccelerationStructure(VkDescriptorType writeType,
+                                     VkAccelerationStructureKHR accelerationStructure);
 
-  void SetDescriptor(WrappedVulkan *driver, const VkDescriptorGetInfoEXT &desc);
-  void SetSampler(ResourceId samplerId);
-  void SetImageSampler(VkDescriptorType descType, ResourceId imageView, ResourceId samplerId,
-                       VkImageLayout layout);
-  void SetBuffer(VkDescriptorType descType, ResourceId buffer, uint64_t startOffset, uint64_t size,
-                 VkFormat format);
+    void    SetDescriptor(WrappedVulkan *driver, const VkDescriptorGetInfoEXT &desc);
+    void    SetSampler(ResourceId samplerId);
+    void    SetImageSampler(VkDescriptorType descType, ResourceId imageView, ResourceId samplerId,
+                            VkImageLayout layout);
+    void SetBuffer(VkDescriptorType descType, ResourceId buffer, uint64_t startOffset, uint64_t size,
+                   VkFormat format);
 
-  // 48-bit truncated VK_WHOLE_SIZE
-  static const VkDeviceSize WholeSizeRange = 0xFFFFFFFFFFFF;
-  VkDeviceSize GetRange() const { return range == WholeSizeRange ? VK_WHOLE_SIZE : range; }
+    // 48-bit truncated VK_WHOLE_SIZE
+    static const VkDeviceSize   WholeSizeRange = 0xFFFFFFFFFFFF;
+    VkDeviceSize                GetRange() const
+    {
+        return range == WholeSizeRange ? VK_WHOLE_SIZE : range;
+    }
 #if GCC_WORKAROUND
 #pragma pack(push, 1)
 #endif
 
-  // used for buffers, we assume the max buffer size is less than 1<<48.
-  // this is placed first to allow writes to just mask the top bits on read or write and remain
-  // aligned, then the type/layout below can be accessed directly as bytes.
-  VkDeviceSize range : 48;
-  // mutable type - for simplicity we treat all descriptors as mutable. It penalises all
-  // applications for mutable descriptors, but there's little point in having a separate path for
-  // normal descriptors.
-  DescriptorSlotType type : 8;
-  // used for images, the image layout
-  // aliased with format for descriptor-based texel buffers - to preserve bitfield packing we use
-  // the more useful enum of the image layout and will do a direct cast for formats
-  DescriptorSlotImageLayout imageLayoutOrFormat : 8;
+    // used for buffers, we assume the max buffer size is less than 1<<48.
+    // this is placed first to allow writes to just mask the top bits on read or write and remain
+    // aligned, then the type/layout below can be accessed directly as bytes.
+    VkDeviceSize range : 48;
+    // mutable type - for simplicity we treat all descriptors as mutable. It penalises all
+    // applications for mutable descriptors, but there's little point in having a separate path for
+    // normal descriptors.
+    DescriptorSlotType type : 8;
+    // used for images, the image layout
+    // aliased with format for descriptor-based texel buffers - to preserve bitfield packing we use
+    // the more useful enum of the image layout and will do a direct cast for formats
+    DescriptorSlotImageLayout imageLayoutOrFormat : 8;
 
 #if GCC_WORKAROUND
 #pragma pack(pop)
 #endif
 
-  // used for buffers and inline blocks. We could steal some bits here if we needed them since 48
-  // bits would be plenty for a long time.
-  //
-  // Immutable samplers set this to 1 to indicate for replay purposes that the sampler came from an
-  // immutable binding when looking purely at the descriptor without knowing its layout
-  VkDeviceSize offset;
+    // used for buffers and inline blocks. We could steal some bits here if we needed them since 48
+    // bits would be plenty for a long time.
+    //
+    // Immutable samplers set this to 1 to indicate for replay purposes that the sampler came from an
+    // immutable binding when looking purely at the descriptor without knowing its layout
+    VkDeviceSize offset;
 
-  // resource IDs are kept separate rather than overlapping/union'ing with other types. This
-  // prevents a potential problem where a descriptor has a resource ID written in, then is re-used
-  // as a different type and the resource ID is partly trampled. Since these are disjoint we know
-  // that even if they're stale they're valid IDs.
+    // resource IDs are kept separate rather than overlapping/union'ing with other types. This
+    // prevents a potential problem where a descriptor has a resource ID written in, then is re-used
+    // as a different type and the resource ID is partly trampled. Since these are disjoint we know
+    // that even if they're stale they're valid IDs.
 
-  // main contents: buffer, image, texel buffer view, or acceleration structure. NOT the sampler for
-  // sampler-only descriptors, just to avoid confusion
-  ResourceId resource;
-  // sampler for sampler-only descriptors, or sampler for combined image-sampler descriptors
-  ResourceId sampler;
+    // main contents: buffer, image, texel buffer view, or acceleration structure. NOT the sampler for
+    // sampler-only descriptors, just to avoid confusion
+    ResourceId resource;
+    // sampler for sampler-only descriptors, or sampler for combined image-sampler descriptors
+    ResourceId sampler;
 };
 
 struct BindingStorage
 {
-  BindingStorage() = default;
-  // disallow copy
-  BindingStorage(const BindingStorage &) = delete;
-  BindingStorage &operator=(const BindingStorage &) = delete;
+    BindingStorage() = default;
+    // disallow copy
+    BindingStorage(const BindingStorage&)           = delete;
+    BindingStorage&operator=(const BindingStorage&) = delete;
 
-  ~BindingStorage() { clear(); }
-  bytebuf inlineBytes;
-  rdcarray<DescriptorSetSlot *> binds;
-  uint32_t variableDescriptorCount;
+    ~BindingStorage()
+    {
+        clear();
+    }
+    bytebuf                         inlineBytes;
+    rdcarray<DescriptorSetSlot*>    binds;
+    uint32_t                        variableDescriptorCount;
 
-  size_t totalDescriptorCount() const { return elems.size(); }
+    size_t totalDescriptorCount() const
+    {
+        return elems.size();
+    }
 
-  void clear()
-  {
-    inlineBytes.clear();
-    binds.clear();
-    elems.clear();
-    variableDescriptorCount = 0;
-  }
+    void clear()
+    {
+        inlineBytes.clear();
+        binds.clear();
+        elems.clear();
+        variableDescriptorCount = 0;
+    }
 
-  void reset()
-  {
-    memset(inlineBytes.data(), 0, inlineBytes.size());
-    memset(elems.data(), 0, elems.byteSize());
-  }
+    void reset()
+    {
+        memset(inlineBytes.data(), 0, inlineBytes.size());
+        memset(elems.data(), 0, elems.byteSize());
+    }
 
-  void copy(DescriptorSetSlot *&slots, uint32_t &slotCount, byte *&inlineData, size_t &inlineSize)
-  {
-    slotCount = elems.count();
+    void copy(DescriptorSetSlot* &slots, uint32_t &slotCount, byte* &inlineData, size_t &inlineSize)
+    {
+        slotCount = elems.count();
 
-    slots = new DescriptorSetSlot[slotCount];
-    memcpy(slots, elems.data(), sizeof(DescriptorSetSlot) * slotCount);
+        slots = new DescriptorSetSlot[slotCount];
+        memcpy(slots, elems.data(), sizeof(DescriptorSetSlot) * slotCount);
 
-    inlineSize = inlineBytes.size();
-    inlineData = AllocAlignedBuffer(inlineSize);
-    memcpy(inlineData, inlineBytes.data(), inlineSize);
-  }
+        inlineSize  = inlineBytes.size();
+        inlineData  = AllocAlignedBuffer(inlineSize);
+        memcpy(inlineData, inlineBytes.data(), inlineSize);
+    }
 
 private:
-  rdcarray<DescriptorSetSlot> elems;
-  friend struct DescSetLayout;
+    rdcarray<DescriptorSetSlot> elems;
+    friend struct DescSetLayout;
 };
 
 DECLARE_REFLECTION_STRUCT(DescriptorSetSlot);
 
-constexpr uint64_t FixedOpaqueDescriptorCaptureSize = 16;
-constexpr uint64_t MaxDescriptorSize = 256;
+constexpr uint64_t      FixedOpaqueDescriptorCaptureSize    = 16;
+constexpr uint64_t      MaxDescriptorSize                   = 256;
 // used for calculating how much address space to reserve if it's small and we're worried about
 // expanding descriptor buffers
-constexpr uint32_t ExpectedMaxNumDescriptorBuffers = 100;
+constexpr uint32_t    ExpectedMaxNumDescriptorBuffers = 100;
 
 uint32_t DescriptorDataSize(const VkPhysicalDeviceDescriptorBufferPropertiesEXT &descSizes,
                             VkDescriptorType type);
 
 struct OpaqueDataForSerialising : VkOpaqueCaptureDescriptorDataCreateInfoEXT
 {
-  OpaqueDataForSerialising()
-  {
-    sType = VK_STRUCTURE_TYPE_OPAQUE_CAPTURE_DESCRIPTOR_DATA_CREATE_INFO_EXT;
-    pNext = NULL;
-    opaqueCaptureDescriptorData = data;
-  }
+    OpaqueDataForSerialising()
+    {
+        sType                       = VK_STRUCTURE_TYPE_OPAQUE_CAPTURE_DESCRIPTOR_DATA_CREATE_INFO_EXT;
+        pNext                       = NULL;
+        opaqueCaptureDescriptorData = data;
+    }
 
-  void fill(VkDevice wrappedDevice, VkSampler wrappedSampler,
-            VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
-  void fill(VkDevice wrappedDevice, VkBuffer wrappedBuffer,
-            VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
-  void fill(VkDevice wrappedDevice, VkImage wrappedImage,
-            VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
-  void fill(VkDevice wrappedDevice, VkImageView wrappedView,
-            VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
-  void fill(VkDevice wrappedDevice, VkAccelerationStructureKHR wrappedAS,
-            VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fill(VkDevice wrappedDevice, VkSampler wrappedSampler,
+              VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fill(VkDevice wrappedDevice, VkBuffer wrappedBuffer,
+              VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fill(VkDevice wrappedDevice, VkImage wrappedImage,
+              VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fill(VkDevice wrappedDevice, VkImageView wrappedView,
+              VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fill(VkDevice wrappedDevice, VkAccelerationStructureKHR wrappedAS,
+              VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
 
-  void fillUnwrapped(VkDevice wrappedDevice, VkImage unwrappedImage,
-                     VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
+    void fillUnwrapped(VkDevice wrappedDevice, VkImage unwrappedImage,
+                       VkPhysicalDeviceDescriptorBufferPropertiesEXT &props);
 
-  void addForSerialising(VkBaseInStructure *serialisedCreateInfo);
+    void addForSerialising(VkBaseInStructure *serialisedCreateInfo);
 
-  byte data[FixedOpaqueDescriptorCaptureSize] = {};
-  size_t sz = 0;
+    byte    data[FixedOpaqueDescriptorCaptureSize] = {};
+    size_t  sz = 0;
 };
 
 // pointers are considered to be 48-bit only, as some descriptors only store those and no-one
@@ -972,76 +1096,76 @@ struct OpaqueDataForSerialising : VkOpaqueCaptureDescriptorDataCreateInfoEXT
 // bits unspecified but many have implementation-defined bits, we are only using this for lookup.
 enum class BufferDescriptorFormat
 {
-  UnknownBufferDescriptor = 0,
+    UnknownBufferDescriptor = 0,
 
-  // 8 bytes:
-  //    uint64[0] = pointer
-  Pointer_8,
+    // 8 bytes:
+    //    uint64[0] = pointer
+    Pointer_8,
 
-  // 8 bytes:
-  //    bottom 45 = pointer>>4
-  //    top_19 = byteSize16>>4
-  Packed_4519_Aligned16_8,
+    // 8 bytes:
+    //    bottom 45 = pointer>>4
+    //    top_19 = byteSize16>>4
+    Packed_4519_Aligned16_8,
 
-  // 8 bytes:
-  //    bottom 45 = pointer>>4
-  //    top_19 = byteSize256>>4
-  Packed_4519_Aligned256_8,
+    // 8 bytes:
+    //    bottom 45 = pointer>>4
+    //    top_19 = byteSize256>>4
+    Packed_4519_Aligned256_8,
 
-  // 16 bytes:
-  //    uint64[0] = pointer
-  //    uint64[1] = elemSize
-  Pointer_ElemSize_16,
+    // 16 bytes:
+    //    uint64[0] = pointer
+    //    uint64[1] = elemSize
+    Pointer_ElemSize_16,
 
-  // 16 bytes:
-  //    uint64[0] = pointer/texelSize - special handling for NPOT texelSize (12 bytes)
-  //    uint64[1] = elemSize
-  PointerDivided_ElemSize_16,
+    // 16 bytes:
+    //    uint64[0] = pointer/texelSize - special handling for NPOT texelSize (12 bytes)
+    //    uint64[1] = elemSize
+    PointerDivided_ElemSize_16,
 
-  // 16 bytes:
-  //    uint64[0] = pointer
-  Pointer0_16,
+    // 16 bytes:
+    //    uint64[0] = pointer
+    Pointer0_16,
 
-  // 32 bytes:
-  //    uint64[0] = byteSize<<32
-  //    uint64[1] = pointer
-  ByteSize0_Pointer1_32,
+    // 32 bytes:
+    //    uint64[0] = byteSize<<32
+    //    uint64[1] = pointer
+    ByteSize0_Pointer1_32,
 
-  // 32 bytes:
-  //    uint64[1] = pointer
-  Pointer1_32,
+    // 32 bytes:
+    //    uint64[1] = pointer
+    Pointer1_32,
 
-  // 64 bytes:
-  //    uint64[4] = pointer
-  //    uint64[5] = byteSize << 32
-  Pointer4_ByteSize5_Unaligned_64,
+    // 64 bytes:
+    //    uint64[4] = pointer
+    //    uint64[5] = byteSize << 32
+    Pointer4_ByteSize5_Unaligned_64,
 
-  // 64 bytes:
-  //    uint64[4] = pointer
-  //    uint64[5] = byteSize64 << 32
-  Pointer4_ByteSize5_Aligned_64,
+    // 64 bytes:
+    //    uint64[4] = pointer
+    //    uint64[5] = byteSize64 << 32
+    Pointer4_ByteSize5_Aligned_64,
 
-  // 64 bytes:
-  //    uint64[1] = bitScattered(elemSize-1) - complex bit scattering and masking
-  //    uint64[4] = pointer
-  ElemSizeScattered1_Pointer4_64,
+    // 64 bytes:
+    //    uint64[1] = bitScattered(elemSize-1) - complex bit scattering and masking
+    //    uint64[4] = pointer
+    ElemSizeScattered1_Pointer4_64,
 
-  // 64*n bytes: for n=1 or n=2 repeated with different strides (4, 2, 4+2, 2+4, 2+1, 1+2)
-  //    uint64[0] = (byteSize >> stride) << 32
-  //    uint64[1] = ((pointer&0x3f) >> stride) << 16
-  //    uint64[2] = pointer64
-  Strided4_MultiDescriptor_64,
-  Strided2_MultiDescriptor_64,
-  Strided1_MultiDescriptor_64,
+    // 64*n bytes: for n=1 or n=2 repeated with different strides (4, 2, 4+2, 2+4, 2+1, 1+2)
+    //    uint64[0] = (byteSize >> stride) << 32
+    //    uint64[1] = ((pointer&0x3f) >> stride) << 16
+    //    uint64[2] = pointer64
+    Strided4_MultiDescriptor_64,
+    Strided2_MultiDescriptor_64,
+    Strided1_MultiDescriptor_64,
 
-  // 64 bytes:
-  //    uint64[0] = elemSize << 32
-  //    uint64[2] = pointer
-  ElemSize0_Pointer2_64,
+    // 64 bytes:
+    //    uint64[0] = elemSize << 32
+    //    uint64[2] = pointer
+    ElemSize0_Pointer2_64,
 
-  // 64 bytes:
-  //    uint64[2] = pointer
-  Pointer2_64,
+    // 64 bytes:
+    //    uint64[2] = pointer
+    Pointer2_64,
 };
 
 DECLARE_STRINGISE_TYPE(BufferDescriptorFormat);
@@ -1049,360 +1173,360 @@ DECLARE_STRINGISE_TYPE(BufferDescriptorFormat);
 //
 enum class ImageDescriptorFormat
 {
-  UnknownImageDescriptor = 0,
+    UnknownImageDescriptor = 0,
 
-  // 4 bytes:
-  //   bottom 20 bits = imageViewIndex (stored in opaque capture data, sampled/storage/input), 0
-  //   if absent top 12 bits = samplerIndex (stored in opaque capture data), 0 if absent
-  Indexed2012,
+    // 4 bytes:
+    //   bottom 20 bits = imageViewIndex (stored in opaque capture data, sampled/storage/input), 0
+    //   if absent top 12 bits = samplerIndex (stored in opaque capture data), 0 if absent
+    Indexed2012,
 
-  // 32 bytes:
-  //    uint64[0] = pointer>>8
-  PointerShifted_32,
+    // 32 bytes:
+    //    uint64[0] = pointer>>8
+    PointerShifted_32,
 
-  // 64 bytes:
-  //    uint64[0] = pointer>>8
-  PointerShifted_64,
+    // 64 bytes:
+    //    uint64[0] = pointer>>8
+    PointerShifted_64,
 
-  // 64 bytes:
-  //    uint64[2] = pointer
-  Pointer2_64,
+    // 64 bytes:
+    //    uint64[2] = pointer
+    Pointer2_64,
 
-  // 64 bytes:
-  //    uint64[4] = pointer
-  Pointer4_64,
+    // 64 bytes:
+    //    uint64[4] = pointer
+    Pointer4_64,
 };
 
 DECLARE_STRINGISE_TYPE(ImageDescriptorFormat);
 
 #define NUM_VK_IMAGE_ASPECTS 4
-#define VK_ACCESS_ALL_READ_BITS                                                        \
-  (VK_ACCESS_INDIRECT_COMMAND_READ_BIT | VK_ACCESS_INDEX_READ_BIT |                    \
-   VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT | VK_ACCESS_UNIFORM_READ_BIT |                  \
-   VK_ACCESS_INPUT_ATTACHMENT_READ_BIT | VK_ACCESS_SHADER_READ_BIT |                   \
-   VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | \
-   VK_ACCESS_TRANSFER_READ_BIT | VK_ACCESS_HOST_READ_BIT | VK_ACCESS_MEMORY_READ_BIT)
-#define VK_ACCESS_ALL_WRITE_BITS                                                 \
-  (VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |           \
-   VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT | \
-   VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_MEMORY_WRITE_BIT)
+#define VK_ACCESS_ALL_READ_BITS                                                          \
+    (VK_ACCESS_INDIRECT_COMMAND_READ_BIT | VK_ACCESS_INDEX_READ_BIT |                    \
+     VK_ACCESS_VERTEX_ATTRIBUTE_READ_BIT | VK_ACCESS_UNIFORM_READ_BIT |                  \
+     VK_ACCESS_INPUT_ATTACHMENT_READ_BIT | VK_ACCESS_SHADER_READ_BIT |                   \
+     VK_ACCESS_COLOR_ATTACHMENT_READ_BIT | VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_READ_BIT | \
+     VK_ACCESS_TRANSFER_READ_BIT | VK_ACCESS_HOST_READ_BIT | VK_ACCESS_MEMORY_READ_BIT)
+#define VK_ACCESS_ALL_WRITE_BITS                                                   \
+    (VK_ACCESS_SHADER_WRITE_BIT | VK_ACCESS_COLOR_ATTACHMENT_WRITE_BIT |           \
+     VK_ACCESS_DEPTH_STENCIL_ATTACHMENT_WRITE_BIT | VK_ACCESS_TRANSFER_WRITE_BIT | \
+     VK_ACCESS_HOST_WRITE_BIT | VK_ACCESS_MEMORY_WRITE_BIT)
 
 // linearised version of VkDynamicState
 enum VulkanDynamicStateIndex
 {
-  VkDynamicViewport,
-  VkDynamicScissor,
-  VkDynamicLineWidth,
-  VkDynamicDepthBias,
-  VkDynamicBlendConstants,
-  VkDynamicDepthBounds,
-  VkDynamicStencilCompareMask,
-  VkDynamicStencilWriteMask,
-  VkDynamicStencilReference,
-  VkDynamicViewportWScalingNV,
-  VkDynamicDiscardRectangleEXT,
-  VkDynamicDiscardRectangleEnableEXT,
-  VkDynamicDiscardRectangleModeEXT,
-  VkDynamicSampleLocationsEXT,
-  VkDynamicViewportShadingRatePaletteNV,
-  VkDynamicViewportCoarseSampleOrderNV,
-  VkDynamicExclusiveScissorNV,
-  VkDynamicExclusiveScissorEnableNV,
-  VkDynamicShadingRateKHR,
-  VkDynamicLineStipple,
-  VkDynamicCullMode,
-  VkDynamicFrontFace,
-  VkDynamicPrimitiveTopology,
-  VkDynamicViewportCount,
-  VkDynamicScissorCount,
-  VkDynamicVertexInputBindingStride,
-  VkDynamicDepthTestEnable,
-  VkDynamicDepthWriteEnable,
-  VkDynamicDepthCompareOp,
-  VkDynamicDepthBoundsTestEnable,
-  VkDynamicStencilTestEnable,
-  VkDynamicStencilOp,
-  VkDynamicRayTracingStackSizeKHR,
-  VkDynamicVertexInputEXT,
-  VkDynamicControlPointsEXT,
-  VkDynamicRastDiscard,
-  VkDynamicDepthBiasEnable,
-  VkDynamicLogicOpEXT,
-  VkDynamicPrimRestart,
-  VkDynamicColorWriteEXT,
-  VkDynamicTessDomainOriginEXT,
-  VkDynamicDepthClampEnableEXT,
-  VkDynamicPolygonModeEXT,
-  VkDynamicRasterizationSamplesEXT,
-  VkDynamicSampleMaskEXT,
-  VkDynamicAlphaToCoverageEXT,
-  VkDynamicAlphaToOneEXT,
-  VkDynamicLogicOpEnableEXT,
-  VkDynamicColorBlendEnableEXT,
-  VkDynamicColorBlendEquationEXT,
-  VkDynamicColorWriteMaskEXT,
-  VkDynamicRasterizationStreamEXT,
-  VkDynamicConservativeRastModeEXT,
-  VkDynamicOverstimationSizeEXT,
-  VkDynamicDepthClipEnableEXT,
-  VkDynamicSampleLocationsEnableEXT,
-  VkDynamicStateColorBlendAdvancedEXT,
-  VkDynamicProvokingVertexModeEXT,
-  VkDynamicLineRastModeEXT,
-  VkDynamicLineStippleEnableEXT,
-  VkDynamicDepthClipNegativeOneEXT,
-  VkDynamicViewportWScalingEXT,
-  VkDynamicViewportSwizzleEXT,
-  VkDynamicCoverageToColorEnableEXT,
-  VkDynamicCoverageToColorLocationEXT,
-  VkDynamicCoverageModulationModeEXT,
-  VkDynamicCoverageModulationTableEnableEXT,
-  VkDynamicCoverageModulationTableEXT,
-  VkDynamicShadingRateImageEnableEXT,
-  VkDynamicRepresentativeFragTestEXT,
-  VkDynamicCoverageReductionModeEXT,
-  VkDynamicAttachmentFeedbackLoopEnableEXT,
-  VkDynamicAttachmentDepthClampRangeEXT,
-  VkDynamicCount,
+    VkDynamicViewport,
+    VkDynamicScissor,
+    VkDynamicLineWidth,
+    VkDynamicDepthBias,
+    VkDynamicBlendConstants,
+    VkDynamicDepthBounds,
+    VkDynamicStencilCompareMask,
+    VkDynamicStencilWriteMask,
+    VkDynamicStencilReference,
+    VkDynamicViewportWScalingNV,
+    VkDynamicDiscardRectangleEXT,
+    VkDynamicDiscardRectangleEnableEXT,
+    VkDynamicDiscardRectangleModeEXT,
+    VkDynamicSampleLocationsEXT,
+    VkDynamicViewportShadingRatePaletteNV,
+    VkDynamicViewportCoarseSampleOrderNV,
+    VkDynamicExclusiveScissorNV,
+    VkDynamicExclusiveScissorEnableNV,
+    VkDynamicShadingRateKHR,
+    VkDynamicLineStipple,
+    VkDynamicCullMode,
+    VkDynamicFrontFace,
+    VkDynamicPrimitiveTopology,
+    VkDynamicViewportCount,
+    VkDynamicScissorCount,
+    VkDynamicVertexInputBindingStride,
+    VkDynamicDepthTestEnable,
+    VkDynamicDepthWriteEnable,
+    VkDynamicDepthCompareOp,
+    VkDynamicDepthBoundsTestEnable,
+    VkDynamicStencilTestEnable,
+    VkDynamicStencilOp,
+    VkDynamicRayTracingStackSizeKHR,
+    VkDynamicVertexInputEXT,
+    VkDynamicControlPointsEXT,
+    VkDynamicRastDiscard,
+    VkDynamicDepthBiasEnable,
+    VkDynamicLogicOpEXT,
+    VkDynamicPrimRestart,
+    VkDynamicColorWriteEXT,
+    VkDynamicTessDomainOriginEXT,
+    VkDynamicDepthClampEnableEXT,
+    VkDynamicPolygonModeEXT,
+    VkDynamicRasterizationSamplesEXT,
+    VkDynamicSampleMaskEXT,
+    VkDynamicAlphaToCoverageEXT,
+    VkDynamicAlphaToOneEXT,
+    VkDynamicLogicOpEnableEXT,
+    VkDynamicColorBlendEnableEXT,
+    VkDynamicColorBlendEquationEXT,
+    VkDynamicColorWriteMaskEXT,
+    VkDynamicRasterizationStreamEXT,
+    VkDynamicConservativeRastModeEXT,
+    VkDynamicOverstimationSizeEXT,
+    VkDynamicDepthClipEnableEXT,
+    VkDynamicSampleLocationsEnableEXT,
+    VkDynamicStateColorBlendAdvancedEXT,
+    VkDynamicProvokingVertexModeEXT,
+    VkDynamicLineRastModeEXT,
+    VkDynamicLineStippleEnableEXT,
+    VkDynamicDepthClipNegativeOneEXT,
+    VkDynamicViewportWScalingEXT,
+    VkDynamicViewportSwizzleEXT,
+    VkDynamicCoverageToColorEnableEXT,
+    VkDynamicCoverageToColorLocationEXT,
+    VkDynamicCoverageModulationModeEXT,
+    VkDynamicCoverageModulationTableEnableEXT,
+    VkDynamicCoverageModulationTableEXT,
+    VkDynamicShadingRateImageEnableEXT,
+    VkDynamicRepresentativeFragTestEXT,
+    VkDynamicCoverageReductionModeEXT,
+    VkDynamicAttachmentFeedbackLoopEnableEXT,
+    VkDynamicAttachmentDepthClampRangeEXT,
+    VkDynamicCount,
 };
 
 enum class VulkanChunk : uint32_t
 {
-  vkEnumeratePhysicalDevices = (uint32_t)SystemChunk::FirstDriverChunk,
-  vkCreateDevice,
-  vkGetDeviceQueue,
-  vkAllocateMemory,
-  vkUnmapMemory,
-  vkFlushMappedMemoryRanges,
-  vkCreateCommandPool,
-  vkResetCommandPool,
-  vkAllocateCommandBuffers,
-  vkCreateFramebuffer,
-  vkCreateRenderPass,
-  vkCreateDescriptorPool,
-  vkCreateDescriptorSetLayout,
-  vkCreateBuffer,
-  vkCreateBufferView,
-  vkCreateImage,
-  vkCreateImageView,
-  vkCreateDepthTargetView,
-  vkCreateSampler,
-  vkCreateShaderModule,
-  vkCreatePipelineLayout,
-  vkCreatePipelineCache,
-  vkCreateGraphicsPipelines,
-  vkCreateComputePipelines,
-  vkGetSwapchainImagesKHR,
-  vkCreateSemaphore,
-  vkCreateFence,
-  vkGetFenceStatus,
-  vkResetFences,
-  vkWaitForFences,
-  vkCreateEvent,
-  vkGetEventStatus,
-  vkSetEvent,
-  vkResetEvent,
-  vkCreateQueryPool,
-  vkAllocateDescriptorSets,
-  vkUpdateDescriptorSets,
-  vkBeginCommandBuffer,
-  vkEndCommandBuffer,
-  vkQueueWaitIdle,
-  vkDeviceWaitIdle,
-  vkQueueSubmit,
-  vkBindBufferMemory,
-  vkBindImageMemory,
-  vkQueueBindSparse,
-  vkCmdBeginRenderPass,
-  vkCmdNextSubpass,
-  vkCmdExecuteCommands,
-  vkCmdEndRenderPass,
-  vkCmdBindPipeline,
-  vkCmdSetViewport,
-  vkCmdSetScissor,
-  vkCmdSetLineWidth,
-  vkCmdSetDepthBias,
-  vkCmdSetBlendConstants,
-  vkCmdSetDepthBounds,
-  vkCmdSetStencilCompareMask,
-  vkCmdSetStencilWriteMask,
-  vkCmdSetStencilReference,
-  vkCmdBindDescriptorSets,
-  vkCmdBindVertexBuffers,
-  vkCmdBindIndexBuffer,
-  vkCmdCopyBufferToImage,
-  vkCmdCopyImageToBuffer,
-  vkCmdCopyBuffer,
-  vkCmdCopyImage,
-  vkCmdBlitImage,
-  vkCmdResolveImage,
-  vkCmdUpdateBuffer,
-  vkCmdFillBuffer,
-  vkCmdPushConstants,
-  vkCmdClearColorImage,
-  vkCmdClearDepthStencilImage,
-  vkCmdClearAttachments,
-  vkCmdPipelineBarrier,
-  vkCmdWriteTimestamp,
-  vkCmdCopyQueryPoolResults,
-  vkCmdBeginQuery,
-  vkCmdEndQuery,
-  vkCmdResetQueryPool,
-  vkCmdSetEvent,
-  vkCmdResetEvent,
-  vkCmdWaitEvents,
-  vkCmdDraw,
-  vkCmdDrawIndirect,
-  vkCmdDrawIndexed,
-  vkCmdDrawIndexedIndirect,
-  vkCmdDispatch,
-  vkCmdDispatchIndirect,
-  vkCmdDebugMarkerBeginEXT,
-  vkCmdDebugMarkerInsertEXT,
-  vkCmdDebugMarkerEndEXT,
-  vkDebugMarkerSetObjectNameEXT,
-  vkCreateSwapchainKHR,
-  SetShaderDebugPath,
-  vkRegisterDeviceEventEXT,
-  vkRegisterDisplayEventEXT,
-  vkCmdIndirectSubCommand,
-  vkCmdPushDescriptorSet,
-  vkCmdPushDescriptorSetWithTemplate,
-  vkCreateDescriptorUpdateTemplate,
-  vkUpdateDescriptorSetWithTemplate,
-  vkBindBufferMemory2,
-  vkBindImageMemory2,
-  vkCmdWriteBufferMarkerAMD,
-  vkSetDebugUtilsObjectNameEXT,
-  vkQueueBeginDebugUtilsLabelEXT,
-  vkQueueEndDebugUtilsLabelEXT,
-  vkQueueInsertDebugUtilsLabelEXT,
-  vkCmdBeginDebugUtilsLabelEXT,
-  vkCmdEndDebugUtilsLabelEXT,
-  vkCmdInsertDebugUtilsLabelEXT,
-  vkCreateSamplerYcbcrConversion,
-  vkCmdSetDeviceMask,
-  vkCmdDispatchBase,
-  vkGetDeviceQueue2,
-  vkCmdDrawIndirectCount,
-  vkCmdDrawIndexedIndirectCount,
-  vkCreateRenderPass2,
-  vkCmdBeginRenderPass2,
-  vkCmdNextSubpass2,
-  vkCmdEndRenderPass2,
-  vkCmdBindTransformFeedbackBuffersEXT,
-  vkCmdBeginTransformFeedbackEXT,
-  vkCmdEndTransformFeedbackEXT,
-  vkCmdBeginQueryIndexedEXT,
-  vkCmdEndQueryIndexedEXT,
-  vkCmdDrawIndirectByteCountEXT,
-  vkCmdBeginConditionalRenderingEXT,
-  vkCmdEndConditionalRenderingEXT,
-  vkCmdSetSampleLocationsEXT,
-  vkCmdSetDiscardRectangleEXT,
-  DeviceMemoryRefs,
-  vkResetQueryPool,
-  ImageRefs,
-  vkCmdSetLineStipple,
-  vkGetSemaphoreCounterValue,
-  vkWaitSemaphores,
-  vkSignalSemaphore,
-  vkQueuePresentKHR,
-  vkCmdSetCullMode,
-  vkCmdSetFrontFace,
-  vkCmdSetPrimitiveTopology,
-  vkCmdSetViewportWithCount,
-  vkCmdSetScissorWithCount,
-  vkCmdBindVertexBuffers2,
-  vkCmdSetDepthTestEnable,
-  vkCmdSetDepthWriteEnable,
-  vkCmdSetDepthCompareOp,
-  vkCmdSetDepthBoundsTestEnable,
-  vkCmdSetStencilTestEnable,
-  vkCmdSetStencilOp,
-  CoherentMapWrite,
-  vkCmdCopyBuffer2,
-  vkCmdCopyImage2,
-  vkCmdCopyBufferToImage2,
-  vkCmdCopyImageToBuffer2,
-  vkCmdBlitImage2,
-  vkCmdResolveImage2,
-  vkCmdSetEvent2,
-  vkCmdResetEvent2,
-  vkCmdWaitEvents2,
-  vkCmdPipelineBarrier2,
-  vkCmdWriteTimestamp2,
-  vkQueueSubmit2,
-  vkCmdWriteBufferMarker2AMD,
-  vkCmdSetColorWriteEnableEXT,
-  vkCmdSetDepthBiasEnable,
-  vkCmdSetLogicOpEXT,
-  vkCmdSetPatchControlPointsEXT,
-  vkCmdSetPrimitiveRestartEnable,
-  vkCmdSetRasterizerDiscardEnable,
-  vkCmdSetVertexInputEXT,
-  vkCmdBeginRendering,
-  vkCmdEndRendering,
-  vkCmdSetFragmentShadingRateKHR,
-  vkSetDeviceMemoryPriorityEXT,
-  vkCmdSetAttachmentFeedbackLoopEnableEXT,
-  vkCmdSetAlphaToCoverageEnableEXT,
-  vkCmdSetAlphaToOneEnableEXT,
-  vkCmdSetColorBlendEnableEXT,
-  vkCmdSetColorBlendEquationEXT,
-  vkCmdSetColorWriteMaskEXT,
-  vkCmdSetConservativeRasterizationModeEXT,
-  vkCmdSetDepthClampEnableEXT,
-  vkCmdSetDepthClipEnableEXT,
-  vkCmdSetDepthClipNegativeOneToOneEXT,
-  vkCmdSetExtraPrimitiveOverestimationSizeEXT,
-  vkCmdSetLineRasterizationModeEXT,
-  vkCmdSetLineStippleEnableEXT,
-  vkCmdSetLogicOpEnableEXT,
-  vkCmdSetPolygonModeEXT,
-  vkCmdSetProvokingVertexModeEXT,
-  vkCmdSetRasterizationSamplesEXT,
-  vkCmdSetRasterizationStreamEXT,
-  vkCmdSetSampleLocationsEnableEXT,
-  vkCmdSetSampleMaskEXT,
-  vkCmdSetTessellationDomainOriginEXT,
-  vkCmdDrawMeshTasksEXT,
-  vkCmdDrawMeshTasksIndirectEXT,
-  vkCmdDrawMeshTasksIndirectCountEXT,
-  vkCmdBuildAccelerationStructuresIndirectKHR,
-  vkCmdBuildAccelerationStructuresKHR,
-  vkCmdCopyAccelerationStructureKHR,
-  vkCmdCopyAccelerationStructureToMemoryKHR,
-  vkCmdCopyMemoryToAccelerationStructureKHR,
-  vkCreateAccelerationStructureKHR,
-  vkCmdBindShadersEXT,
-  vkCreateShadersEXT,
-  vkCmdSetRayTracingPipelineStackSizeKHR,
-  vkCmdTraceRaysIndirectKHR,
-  vkCmdTraceRaysKHR,
-  vkCreateRayTracingPipelinesKHR,
-  vkCmdSetRenderingAttachmentLocations,
-  vkCmdSetRenderingInputAttachmentIndices,
-  vkCmdTraceRaysIndirect2KHR,
-  vkCmdWriteAccelerationStructuresPropertiesKHR,
-  vkCmdBindIndexBuffer2,
-  vkGetDescriptorEXT,
-  vkCmdBindDescriptorBuffersEXT,
-  vkCmdSetDescriptorBufferOffsetsEXT,
-  vkCmdBindDescriptorBufferEmbeddedSamplersEXT,
-  vkCopyImageToImage,
-  vkCopyImageToMemory,
-  vkCopyMemoryToImage,
-  vkTransitionImageLayout,
-  vkUnmapMemory2,
-  vkCmdBindDescriptorSets2,
-  vkCmdPushConstants2,
-  vkCmdBindDescriptorBufferEmbeddedSamplers2EXT,
-  vkCmdSetDescriptorBufferOffsets2EXT,
-  vkCmdPushDescriptorSet2,
-  vkCmdPushDescriptorSetWithTemplate2,
-  vkCmdEndRendering2EXT,
-  Max,
+    vkEnumeratePhysicalDevices = (uint32_t)SystemChunk::FirstDriverChunk,
+    vkCreateDevice,
+    vkGetDeviceQueue,
+    vkAllocateMemory,
+    vkUnmapMemory,
+    vkFlushMappedMemoryRanges,
+    vkCreateCommandPool,
+    vkResetCommandPool,
+    vkAllocateCommandBuffers,
+    vkCreateFramebuffer,
+    vkCreateRenderPass,
+    vkCreateDescriptorPool,
+    vkCreateDescriptorSetLayout,
+    vkCreateBuffer,
+    vkCreateBufferView,
+    vkCreateImage,
+    vkCreateImageView,
+    vkCreateDepthTargetView,
+    vkCreateSampler,
+    vkCreateShaderModule,
+    vkCreatePipelineLayout,
+    vkCreatePipelineCache,
+    vkCreateGraphicsPipelines,
+    vkCreateComputePipelines,
+    vkGetSwapchainImagesKHR,
+    vkCreateSemaphore,
+    vkCreateFence,
+    vkGetFenceStatus,
+    vkResetFences,
+    vkWaitForFences,
+    vkCreateEvent,
+    vkGetEventStatus,
+    vkSetEvent,
+    vkResetEvent,
+    vkCreateQueryPool,
+    vkAllocateDescriptorSets,
+    vkUpdateDescriptorSets,
+    vkBeginCommandBuffer,
+    vkEndCommandBuffer,
+    vkQueueWaitIdle,
+    vkDeviceWaitIdle,
+    vkQueueSubmit,
+    vkBindBufferMemory,
+    vkBindImageMemory,
+    vkQueueBindSparse,
+    vkCmdBeginRenderPass,
+    vkCmdNextSubpass,
+    vkCmdExecuteCommands,
+    vkCmdEndRenderPass,
+    vkCmdBindPipeline,
+    vkCmdSetViewport,
+    vkCmdSetScissor,
+    vkCmdSetLineWidth,
+    vkCmdSetDepthBias,
+    vkCmdSetBlendConstants,
+    vkCmdSetDepthBounds,
+    vkCmdSetStencilCompareMask,
+    vkCmdSetStencilWriteMask,
+    vkCmdSetStencilReference,
+    vkCmdBindDescriptorSets,
+    vkCmdBindVertexBuffers,
+    vkCmdBindIndexBuffer,
+    vkCmdCopyBufferToImage,
+    vkCmdCopyImageToBuffer,
+    vkCmdCopyBuffer,
+    vkCmdCopyImage,
+    vkCmdBlitImage,
+    vkCmdResolveImage,
+    vkCmdUpdateBuffer,
+    vkCmdFillBuffer,
+    vkCmdPushConstants,
+    vkCmdClearColorImage,
+    vkCmdClearDepthStencilImage,
+    vkCmdClearAttachments,
+    vkCmdPipelineBarrier,
+    vkCmdWriteTimestamp,
+    vkCmdCopyQueryPoolResults,
+    vkCmdBeginQuery,
+    vkCmdEndQuery,
+    vkCmdResetQueryPool,
+    vkCmdSetEvent,
+    vkCmdResetEvent,
+    vkCmdWaitEvents,
+    vkCmdDraw,
+    vkCmdDrawIndirect,
+    vkCmdDrawIndexed,
+    vkCmdDrawIndexedIndirect,
+    vkCmdDispatch,
+    vkCmdDispatchIndirect,
+    vkCmdDebugMarkerBeginEXT,
+    vkCmdDebugMarkerInsertEXT,
+    vkCmdDebugMarkerEndEXT,
+    vkDebugMarkerSetObjectNameEXT,
+    vkCreateSwapchainKHR,
+    SetShaderDebugPath,
+    vkRegisterDeviceEventEXT,
+    vkRegisterDisplayEventEXT,
+    vkCmdIndirectSubCommand,
+    vkCmdPushDescriptorSet,
+    vkCmdPushDescriptorSetWithTemplate,
+    vkCreateDescriptorUpdateTemplate,
+    vkUpdateDescriptorSetWithTemplate,
+    vkBindBufferMemory2,
+    vkBindImageMemory2,
+    vkCmdWriteBufferMarkerAMD,
+    vkSetDebugUtilsObjectNameEXT,
+    vkQueueBeginDebugUtilsLabelEXT,
+    vkQueueEndDebugUtilsLabelEXT,
+    vkQueueInsertDebugUtilsLabelEXT,
+    vkCmdBeginDebugUtilsLabelEXT,
+    vkCmdEndDebugUtilsLabelEXT,
+    vkCmdInsertDebugUtilsLabelEXT,
+    vkCreateSamplerYcbcrConversion,
+    vkCmdSetDeviceMask,
+    vkCmdDispatchBase,
+    vkGetDeviceQueue2,
+    vkCmdDrawIndirectCount,
+    vkCmdDrawIndexedIndirectCount,
+    vkCreateRenderPass2,
+    vkCmdBeginRenderPass2,
+    vkCmdNextSubpass2,
+    vkCmdEndRenderPass2,
+    vkCmdBindTransformFeedbackBuffersEXT,
+    vkCmdBeginTransformFeedbackEXT,
+    vkCmdEndTransformFeedbackEXT,
+    vkCmdBeginQueryIndexedEXT,
+    vkCmdEndQueryIndexedEXT,
+    vkCmdDrawIndirectByteCountEXT,
+    vkCmdBeginConditionalRenderingEXT,
+    vkCmdEndConditionalRenderingEXT,
+    vkCmdSetSampleLocationsEXT,
+    vkCmdSetDiscardRectangleEXT,
+    DeviceMemoryRefs,
+    vkResetQueryPool,
+    ImageRefs,
+    vkCmdSetLineStipple,
+    vkGetSemaphoreCounterValue,
+    vkWaitSemaphores,
+    vkSignalSemaphore,
+    vkQueuePresentKHR,
+    vkCmdSetCullMode,
+    vkCmdSetFrontFace,
+    vkCmdSetPrimitiveTopology,
+    vkCmdSetViewportWithCount,
+    vkCmdSetScissorWithCount,
+    vkCmdBindVertexBuffers2,
+    vkCmdSetDepthTestEnable,
+    vkCmdSetDepthWriteEnable,
+    vkCmdSetDepthCompareOp,
+    vkCmdSetDepthBoundsTestEnable,
+    vkCmdSetStencilTestEnable,
+    vkCmdSetStencilOp,
+    CoherentMapWrite,
+    vkCmdCopyBuffer2,
+    vkCmdCopyImage2,
+    vkCmdCopyBufferToImage2,
+    vkCmdCopyImageToBuffer2,
+    vkCmdBlitImage2,
+    vkCmdResolveImage2,
+    vkCmdSetEvent2,
+    vkCmdResetEvent2,
+    vkCmdWaitEvents2,
+    vkCmdPipelineBarrier2,
+    vkCmdWriteTimestamp2,
+    vkQueueSubmit2,
+    vkCmdWriteBufferMarker2AMD,
+    vkCmdSetColorWriteEnableEXT,
+    vkCmdSetDepthBiasEnable,
+    vkCmdSetLogicOpEXT,
+    vkCmdSetPatchControlPointsEXT,
+    vkCmdSetPrimitiveRestartEnable,
+    vkCmdSetRasterizerDiscardEnable,
+    vkCmdSetVertexInputEXT,
+    vkCmdBeginRendering,
+    vkCmdEndRendering,
+    vkCmdSetFragmentShadingRateKHR,
+    vkSetDeviceMemoryPriorityEXT,
+    vkCmdSetAttachmentFeedbackLoopEnableEXT,
+    vkCmdSetAlphaToCoverageEnableEXT,
+    vkCmdSetAlphaToOneEnableEXT,
+    vkCmdSetColorBlendEnableEXT,
+    vkCmdSetColorBlendEquationEXT,
+    vkCmdSetColorWriteMaskEXT,
+    vkCmdSetConservativeRasterizationModeEXT,
+    vkCmdSetDepthClampEnableEXT,
+    vkCmdSetDepthClipEnableEXT,
+    vkCmdSetDepthClipNegativeOneToOneEXT,
+    vkCmdSetExtraPrimitiveOverestimationSizeEXT,
+    vkCmdSetLineRasterizationModeEXT,
+    vkCmdSetLineStippleEnableEXT,
+    vkCmdSetLogicOpEnableEXT,
+    vkCmdSetPolygonModeEXT,
+    vkCmdSetProvokingVertexModeEXT,
+    vkCmdSetRasterizationSamplesEXT,
+    vkCmdSetRasterizationStreamEXT,
+    vkCmdSetSampleLocationsEnableEXT,
+    vkCmdSetSampleMaskEXT,
+    vkCmdSetTessellationDomainOriginEXT,
+    vkCmdDrawMeshTasksEXT,
+    vkCmdDrawMeshTasksIndirectEXT,
+    vkCmdDrawMeshTasksIndirectCountEXT,
+    vkCmdBuildAccelerationStructuresIndirectKHR,
+    vkCmdBuildAccelerationStructuresKHR,
+    vkCmdCopyAccelerationStructureKHR,
+    vkCmdCopyAccelerationStructureToMemoryKHR,
+    vkCmdCopyMemoryToAccelerationStructureKHR,
+    vkCreateAccelerationStructureKHR,
+    vkCmdBindShadersEXT,
+    vkCreateShadersEXT,
+    vkCmdSetRayTracingPipelineStackSizeKHR,
+    vkCmdTraceRaysIndirectKHR,
+    vkCmdTraceRaysKHR,
+    vkCreateRayTracingPipelinesKHR,
+    vkCmdSetRenderingAttachmentLocations,
+    vkCmdSetRenderingInputAttachmentIndices,
+    vkCmdTraceRaysIndirect2KHR,
+    vkCmdWriteAccelerationStructuresPropertiesKHR,
+    vkCmdBindIndexBuffer2,
+    vkGetDescriptorEXT,
+    vkCmdBindDescriptorBuffersEXT,
+    vkCmdSetDescriptorBufferOffsetsEXT,
+    vkCmdBindDescriptorBufferEmbeddedSamplersEXT,
+    vkCopyImageToImage,
+    vkCopyImageToMemory,
+    vkCopyMemoryToImage,
+    vkTransitionImageLayout,
+    vkUnmapMemory2,
+    vkCmdBindDescriptorSets2,
+    vkCmdPushConstants2,
+    vkCmdBindDescriptorBufferEmbeddedSamplers2EXT,
+    vkCmdSetDescriptorBufferOffsets2EXT,
+    vkCmdPushDescriptorSet2,
+    vkCmdPushDescriptorSetWithTemplate2,
+    vkCmdEndRendering2EXT,
+    Max,
 };
 
 DECLARE_REFLECTION_ENUM(VulkanChunk);
@@ -1411,38 +1535,38 @@ DECLARE_REFLECTION_ENUM(VulkanChunk);
 // directly as-if it were the original type, then on replay load up the resource if available.
 // Really this is only one type of serialisation, but we declare a couple of overloads to account
 // for resources being accessed through different interfaces in different functions
-#define SERIALISE_VK_HANDLES()                 \
-  SERIALISE_HANDLE(VkInstance)                 \
-  SERIALISE_HANDLE(VkPhysicalDevice)           \
-  SERIALISE_HANDLE(VkDevice)                   \
-  SERIALISE_HANDLE(VkQueue)                    \
-  SERIALISE_HANDLE(VkCommandBuffer)            \
-  SERIALISE_HANDLE(VkFence)                    \
-  SERIALISE_HANDLE(VkDeviceMemory)             \
-  SERIALISE_HANDLE(VkBuffer)                   \
-  SERIALISE_HANDLE(VkImage)                    \
-  SERIALISE_HANDLE(VkSemaphore)                \
-  SERIALISE_HANDLE(VkEvent)                    \
-  SERIALISE_HANDLE(VkQueryPool)                \
-  SERIALISE_HANDLE(VkBufferView)               \
-  SERIALISE_HANDLE(VkImageView)                \
-  SERIALISE_HANDLE(VkShaderModule)             \
-  SERIALISE_HANDLE(VkPipelineCache)            \
-  SERIALISE_HANDLE(VkPipelineLayout)           \
-  SERIALISE_HANDLE(VkRenderPass)               \
-  SERIALISE_HANDLE(VkPipeline)                 \
-  SERIALISE_HANDLE(VkDescriptorSetLayout)      \
-  SERIALISE_HANDLE(VkSampler)                  \
-  SERIALISE_HANDLE(VkDescriptorPool)           \
-  SERIALISE_HANDLE(VkDescriptorSet)            \
-  SERIALISE_HANDLE(VkFramebuffer)              \
-  SERIALISE_HANDLE(VkCommandPool)              \
-  SERIALISE_HANDLE(VkSwapchainKHR)             \
-  SERIALISE_HANDLE(VkSurfaceKHR)               \
-  SERIALISE_HANDLE(VkDescriptorUpdateTemplate) \
-  SERIALISE_HANDLE(VkSamplerYcbcrConversion)   \
-  SERIALISE_HANDLE(VkAccelerationStructureKHR) \
-  SERIALISE_HANDLE(VkShaderEXT)
+#define SERIALISE_VK_HANDLES()                   \
+    SERIALISE_HANDLE(VkInstance)                 \
+    SERIALISE_HANDLE(VkPhysicalDevice)           \
+    SERIALISE_HANDLE(VkDevice)                   \
+    SERIALISE_HANDLE(VkQueue)                    \
+    SERIALISE_HANDLE(VkCommandBuffer)            \
+    SERIALISE_HANDLE(VkFence)                    \
+    SERIALISE_HANDLE(VkDeviceMemory)             \
+    SERIALISE_HANDLE(VkBuffer)                   \
+    SERIALISE_HANDLE(VkImage)                    \
+    SERIALISE_HANDLE(VkSemaphore)                \
+    SERIALISE_HANDLE(VkEvent)                    \
+    SERIALISE_HANDLE(VkQueryPool)                \
+    SERIALISE_HANDLE(VkBufferView)               \
+    SERIALISE_HANDLE(VkImageView)                \
+    SERIALISE_HANDLE(VkShaderModule)             \
+    SERIALISE_HANDLE(VkPipelineCache)            \
+    SERIALISE_HANDLE(VkPipelineLayout)           \
+    SERIALISE_HANDLE(VkRenderPass)               \
+    SERIALISE_HANDLE(VkPipeline)                 \
+    SERIALISE_HANDLE(VkDescriptorSetLayout)      \
+    SERIALISE_HANDLE(VkSampler)                  \
+    SERIALISE_HANDLE(VkDescriptorPool)           \
+    SERIALISE_HANDLE(VkDescriptorSet)            \
+    SERIALISE_HANDLE(VkFramebuffer)              \
+    SERIALISE_HANDLE(VkCommandPool)              \
+    SERIALISE_HANDLE(VkSwapchainKHR)             \
+    SERIALISE_HANDLE(VkSurfaceKHR)               \
+    SERIALISE_HANDLE(VkDescriptorUpdateTemplate) \
+    SERIALISE_HANDLE(VkSamplerYcbcrConversion)   \
+    SERIALISE_HANDLE(VkAccelerationStructureKHR) \
+    SERIALISE_HANDLE(VkShaderEXT)
 
 #define SERIALISE_HANDLE(type) DECLARE_REFLECTION_STRUCT(type)
 
@@ -2603,7 +2727,7 @@ DECLARE_REFLECTION_STRUCT(VkViewport);
 DECLARE_REFLECTION_STRUCT(VkXYColorEXT);
 
 // rdcarray serialisation is generic but the stringification is not
-DECLARE_STRINGISE_TYPE(rdcarray<VkAccelerationStructureBuildRangeInfoKHR>);
+DECLARE_STRINGISE_TYPE(rdcarray<VkAccelerationStructureBuildRangeInfoKHR> );
 
 DECLARE_DESERIALISE_TYPE(VkDescriptorSetLayoutBinding);
 DECLARE_DESERIALISE_TYPE(VkPresentRegionKHR);
@@ -2680,28 +2804,22 @@ DECLARE_DESERIALISE_TYPE(VkAndroidHardwareBufferFormatProperties2ANDROID);
 // vulkan_core.h from defining 'typedef VkFlags64 VkAccessFlagBits2' has failed. We try to make
 // it use a different non-clashing name so that this name can be clear for a proper separate type.
 enum VkAccessFlagBits2 : uint64_t
-{
-};
+{};
 
 enum VkAccessFlagBits3KHR : uint64_t
-{
-};
+{};
 
 enum VkPipelineStageFlagBits2 : uint64_t
-{
-};
+{};
 
 enum VkFormatFeatureFlagBits2 : uint64_t
-{
-};
+{};
 
 enum VkBufferUsageFlagBits2 : uint64_t
-{
-};
+{};
 
 enum VkPipelineCreateFlagBits2 : uint64_t
-{
-};
+{};
 
 // enums
 

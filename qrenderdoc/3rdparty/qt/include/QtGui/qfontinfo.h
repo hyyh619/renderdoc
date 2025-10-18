@@ -47,16 +47,19 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QFontInfo
+class Q_GUI_EXPORT    QFontInfo
 {
 public:
-    QFontInfo(const QFont &);
-    QFontInfo(const QFontInfo &);
+    QFontInfo(const QFont&);
+    QFontInfo(const QFontInfo&);
     ~QFontInfo();
 
-    QFontInfo &operator=(const QFontInfo &);
+    QFontInfo&operator=(const QFontInfo&);
 
-    void swap(QFontInfo &other) { qSwap(d, other.d); }
+    void swap(QFontInfo &other)
+    {
+        qSwap(d, other.d);
+    }
 
     QString family() const;
     QString styleName() const;
@@ -66,7 +69,10 @@ public:
     bool italic() const;
     QFont::Style style() const;
     int weight() const;
-    inline bool bold() const { return weight() > QFont::Normal; }
+    inline bool bold() const
+    {
+        return weight() > QFont::Normal;
+    }
     bool underline() const;
     bool overline() const;
     bool strikeOut() const;
@@ -79,7 +85,7 @@ public:
     bool exactMatch() const;
 
 private:
-    QExplicitlySharedDataPointer<QFontPrivate> d;
+    QExplicitlySharedDataPointer<QFontPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QFontInfo)

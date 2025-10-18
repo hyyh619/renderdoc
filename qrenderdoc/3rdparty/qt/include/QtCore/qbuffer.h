@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QObject;
 class QBufferPrivate;
 
-class Q_CORE_EXPORT QBuffer : public QIODevice
+class Q_CORE_EXPORT    QBuffer : public QIODevice
 {
 #ifndef QT_NO_QOBJECT
     Q_OBJECT
@@ -57,21 +57,21 @@ class Q_CORE_EXPORT QBuffer : public QIODevice
 
 public:
 #ifndef QT_NO_QOBJECT
-     explicit QBuffer(QObject *parent = Q_NULLPTR);
-     QBuffer(QByteArray *buf, QObject *parent = Q_NULLPTR);
+    explicit QBuffer(QObject *parent = Q_NULLPTR);
+    QBuffer(QByteArray *buf, QObject *parent = Q_NULLPTR);
 #else
-     QBuffer();
-     explicit QBuffer(QByteArray *buf);
+    QBuffer();
+    explicit QBuffer(QByteArray *buf);
 #endif
     ~QBuffer();
 
-    QByteArray &buffer();
-    const QByteArray &buffer() const;
+    QByteArray          &buffer();
+    const QByteArray    &buffer() const;
     void setBuffer(QByteArray *a);
 
     void setData(const QByteArray &data);
     inline void setData(const char *data, int len);
-    const QByteArray &data() const;
+    const QByteArray    &data() const;
 
     bool open(OpenMode openMode) Q_DECL_OVERRIDE;
 
@@ -84,8 +84,8 @@ public:
 
 protected:
 #ifndef QT_NO_QOBJECT
-    void connectNotify(const QMetaMethod &) Q_DECL_OVERRIDE;
-    void disconnectNotify(const QMetaMethod &) Q_DECL_OVERRIDE;
+    void connectNotify(const QMetaMethod&) Q_DECL_OVERRIDE;
+    void disconnectNotify(const QMetaMethod&) Q_DECL_OVERRIDE;
 #endif
     qint64 readData(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
     qint64 writeData(const char *data, qint64 len) Q_DECL_OVERRIDE;
@@ -98,7 +98,9 @@ private:
 };
 
 inline void QBuffer::setData(const char *adata, int alen)
-{ setData(QByteArray(adata, alen)); }
+{
+    setData(QByteArray(adata, alen));
+}
 
 QT_END_NAMESPACE
 

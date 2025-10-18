@@ -60,13 +60,13 @@ class QGradient;
 class QVariant;
 struct QBrushDataPointerDeleter;
 
-class Q_GUI_EXPORT QBrush
+class Q_GUI_EXPORT    QBrush
 {
 public:
     QBrush();
     QBrush(Qt::BrushStyle bs);
-    QBrush(const QColor &color, Qt::BrushStyle bs=Qt::SolidPattern);
-    QBrush(Qt::GlobalColor color, Qt::BrushStyle bs=Qt::SolidPattern);
+    QBrush(const QColor &color, Qt::BrushStyle bs= Qt::SolidPattern);
+    QBrush(Qt::GlobalColor color, Qt::BrushStyle bs= Qt::SolidPattern);
 
     QBrush(const QColor &color, const QPixmap &pixmap);
     QBrush(Qt::GlobalColor color, const QPixmap &pixmap);
@@ -78,24 +78,28 @@ public:
     QBrush(const QGradient &gradient);
 
     ~QBrush();
-    QBrush &operator=(const QBrush &brush);
+    QBrush&operator=(const QBrush &brush);
 #ifdef Q_COMPILER_RVALUE_REFS
-    inline QBrush &operator=(QBrush &&other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); return *this; }
+    inline QBrush&operator=(QBrush &&other) Q_DECL_NOEXCEPT
+    {
+        qSwap(d, other.d); return *this;
+    }
 #endif
     inline void swap(QBrush &other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     operator QVariant() const;
 
     inline Qt::BrushStyle style() const;
     void setStyle(Qt::BrushStyle);
 
-    inline const QMatrix &matrix() const;
+    inline const QMatrix    &matrix() const;
     void setMatrix(const QMatrix &mat);
 
     inline QTransform transform() const;
-    void setTransform(const QTransform &);
+    void setTransform(const QTransform&);
 
     QPixmap texture() const;
     void setTexture(const QPixmap &pixmap);
@@ -103,65 +107,88 @@ public:
     QImage textureImage() const;
     void setTextureImage(const QImage &image);
 
-    inline const QColor &color() const;
+    inline const QColor    &color() const;
     void setColor(const QColor &color);
     inline void setColor(Qt::GlobalColor color);
 
-    const QGradient *gradient() const;
+    const QGradient* gradient() const;
 
     bool isOpaque() const;
 
     bool operator==(const QBrush &b) const;
-    inline bool operator!=(const QBrush &b) const { return !(operator==(b)); }
+    inline bool operator!=(const QBrush &b) const
+    {
+        return !(operator==(b));
+    }
 
 private:
     friend class QRasterPaintEngine;
     friend class QRasterPaintEnginePrivate;
     friend struct QSpanData;
     friend class QPainter;
-    friend bool Q_GUI_EXPORT qHasPixmapTexture(const QBrush& brush);
+    friend bool Q_GUI_EXPORT qHasPixmapTexture(const QBrush &brush);
     void detach(Qt::BrushStyle newStyle);
     void init(const QColor &color, Qt::BrushStyle bs);
-    QScopedPointer<QBrushData, QBrushDataPointerDeleter> d;
+    QScopedPointer<QBrushData, QBrushDataPointerDeleter>    d;
     void cleanUp(QBrushData *x);
 
 public:
     inline bool isDetached() const;
     typedef QScopedPointer<QBrushData, QBrushDataPointerDeleter> DataPtr;
-    inline DataPtr &data_ptr() { return d; }
+    inline DataPtr    &data_ptr()
+    {
+        return d;
+    }
 };
 
 inline void QBrush::setColor(Qt::GlobalColor acolor)
-{ setColor(QColor(acolor)); }
+{
+    setColor(QColor(acolor));
+}
 
 Q_DECLARE_SHARED(QBrush)
 
 /*****************************************************************************
-  QBrush stream functions
- *****************************************************************************/
+   QBrush stream functions
+*****************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QBrush &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QBrush &);
+Q_GUI_EXPORT QDataStream & operator<<(QDataStream &, const QBrush    &);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QBrush&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QBrush &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QBrush&);
 #endif
 
 struct QBrushData
 {
-    QAtomicInt ref;
-    Qt::BrushStyle style;
-    QColor color;
-    QTransform transform;
+    QAtomicInt      ref;
+    Qt::BrushStyle  style;
+    QColor          color;
+    QTransform      transform;
 };
 
-inline Qt::BrushStyle QBrush::style() const { return d->style; }
-inline const QColor &QBrush::color() const { return d->color; }
-inline const QMatrix &QBrush::matrix() const { return d->transform.toAffine(); }
-inline QTransform QBrush::transform() const { return d->transform; }
-inline bool QBrush::isDetached() const { return d->ref.load() == 1; }
+inline Qt::BrushStyle QBrush::style() const
+{
+    return d->style;
+}
+inline const QColor    &QBrush::color() const
+{
+    return d->color;
+}
+inline const QMatrix    &QBrush::matrix() const
+{
+    return d->transform.toAffine();
+}
+inline QTransform QBrush::transform() const
+{
+    return d->transform;
+}
+inline bool QBrush::isDetached() const
+{
+    return d->ref.load() == 1;
+}
 
 
 /*******************************************************************************
@@ -172,11 +199,12 @@ class QGradientPrivate;
 typedef QPair<qreal, QColor> QGradientStop;
 typedef QVector<QGradientStop> QGradientStops;
 
-class Q_GUI_EXPORT QGradient
+class Q_GUI_EXPORT    QGradient
 {
     Q_GADGET
 public:
-    enum Type {
+    enum Type
+    {
         LinearGradient,
         RadialGradient,
         ConicalGradient,
@@ -184,31 +212,40 @@ public:
     };
     Q_ENUM(Type)
 
-    enum Spread {
+    enum Spread
+    {
         PadSpread,
         ReflectSpread,
         RepeatSpread
     };
     Q_ENUM(Spread)
 
-    enum CoordinateMode {
+    enum CoordinateMode
+    {
         LogicalMode,
         StretchToDeviceMode,
         ObjectBoundingMode
     };
     Q_ENUM(CoordinateMode)
 
-    enum InterpolationMode {
+    enum InterpolationMode
+    {
         ColorInterpolation,
         ComponentInterpolation
     };
 
     QGradient();
 
-    Type type() const { return m_type; }
+    Type type() const
+    {
+        return m_type;
+    }
 
     inline void setSpread(Spread spread);
-    Spread spread() const { return m_spread; }
+    Spread spread() const
+    {
+        return m_spread;
+    }
 
     void setColorAt(qreal pos, const QColor &color);
 
@@ -223,7 +260,9 @@ public:
 
     bool operator==(const QGradient &gradient) const;
     inline bool operator!=(const QGradient &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
 private:
     friend class QLinearGradient;
@@ -231,27 +270,33 @@ private:
     friend class QConicalGradient;
     friend class QBrush;
 
-    Type m_type;
-    Spread m_spread;
-    QGradientStops m_stops;
-    union {
-        struct {
+    Type                m_type;
+    Spread              m_spread;
+    QGradientStops      m_stops;
+    union
+    {
+        struct
+        {
             qreal x1, y1, x2, y2;
         } linear;
-        struct {
+        struct
+        {
             qreal cx, cy, fx, fy, cradius;
         } radial;
-        struct {
+        struct
+        {
             qreal cx, cy, angle;
         } conical;
-    } m_data;
-    void *dummy; // ### Qt 6: replace with actual content (CoordinateMode, InterpolationMode, ...)
+    }       m_data;
+    void    *dummy; // ### Qt 6: replace with actual content (CoordinateMode, InterpolationMode, ...)
 };
 
 inline void QGradient::setSpread(Spread aspread)
-{ m_spread = aspread; }
+{
+    m_spread = aspread;
+}
 
-class Q_GUI_EXPORT QLinearGradient : public QGradient
+class Q_GUI_EXPORT    QLinearGradient : public QGradient
 {
 public:
     QLinearGradient();
@@ -260,15 +305,21 @@ public:
 
     QPointF start() const;
     void setStart(const QPointF &start);
-    inline void setStart(qreal x, qreal y) { setStart(QPointF(x, y)); }
+    inline void setStart(qreal x, qreal y)
+    {
+        setStart(QPointF(x, y));
+    }
 
     QPointF finalStop() const;
     void setFinalStop(const QPointF &stop);
-    inline void setFinalStop(qreal x, qreal y) { setFinalStop(QPointF(x, y)); }
+    inline void setFinalStop(qreal x, qreal y)
+    {
+        setFinalStop(QPointF(x, y));
+    }
 };
 
 
-class Q_GUI_EXPORT QRadialGradient : public QGradient
+class Q_GUI_EXPORT    QRadialGradient : public QGradient
 {
 public:
     QRadialGradient();
@@ -283,11 +334,17 @@ public:
 
     QPointF center() const;
     void setCenter(const QPointF &center);
-    inline void setCenter(qreal x, qreal y) { setCenter(QPointF(x, y)); }
+    inline void setCenter(qreal x, qreal y)
+    {
+        setCenter(QPointF(x, y));
+    }
 
     QPointF focalPoint() const;
     void setFocalPoint(const QPointF &focalPoint);
-    inline void setFocalPoint(qreal x, qreal y) { setFocalPoint(QPointF(x, y)); }
+    inline void setFocalPoint(qreal x, qreal y)
+    {
+        setFocalPoint(QPointF(x, y));
+    }
 
     qreal radius() const;
     void setRadius(qreal radius);
@@ -300,7 +357,7 @@ public:
 };
 
 
-class Q_GUI_EXPORT QConicalGradient : public QGradient
+class Q_GUI_EXPORT    QConicalGradient : public QGradient
 {
 public:
     QConicalGradient();
@@ -309,7 +366,10 @@ public:
 
     QPointF center() const;
     void setCenter(const QPointF &center);
-    inline void setCenter(qreal x, qreal y) { setCenter(QPointF(x, y)); }
+    inline void setCenter(qreal x, qreal y)
+    {
+        setCenter(QPointF(x, y));
+    }
 
     qreal angle() const;
     void setAngle(qreal angle);

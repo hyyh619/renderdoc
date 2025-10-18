@@ -63,32 +63,31 @@ class QOpenGLFramebufferObjectFormatPrivate
 public:
     QOpenGLFramebufferObjectFormatPrivate()
         : ref(1),
-          samples(0),
-          attachment(QOpenGLFramebufferObject::NoAttachment),
-          target(GL_TEXTURE_2D),
-          mipmap(false)
+        samples(0),
+        attachment(QOpenGLFramebufferObject::NoAttachment),
+        target(GL_TEXTURE_2D),
+        mipmap(false)
     {
 #ifndef QT_OPENGL_ES_2
         // There is nothing that says QOpenGLFramebufferObjectFormat needs a current
         // context, so we need a fallback just to be safe, even though in pratice there
         // will usually be a context current.
-        QOpenGLContext *ctx = QOpenGLContext::currentContext();
-        const bool isES = ctx ? ctx->isOpenGLES() : QOpenGLContext::openGLModuleType() != QOpenGLContext::LibGL;
+        QOpenGLContext      *ctx    = QOpenGLContext::currentContext();
+        const bool          isES    = ctx ? ctx->isOpenGLES() : QOpenGLContext::openGLModuleType() != QOpenGLContext::LibGL;
         internal_format = isES ? GL_RGBA : GL_RGBA8;
 #else
         internal_format = GL_RGBA;
 #endif
     }
     QOpenGLFramebufferObjectFormatPrivate
-            (const QOpenGLFramebufferObjectFormatPrivate *other)
+        (const QOpenGLFramebufferObjectFormatPrivate *other)
         : ref(1),
-          samples(other->samples),
-          attachment(other->attachment),
-          target(other->target),
-          internal_format(other->internal_format),
-          mipmap(other->mipmap)
-    {
-    }
+        samples(other->samples),
+        attachment(other->attachment),
+        target(other->target),
+        internal_format(other->internal_format),
+        mipmap(other->mipmap)
+    {}
     bool equals(const QOpenGLFramebufferObjectFormatPrivate *other)
     {
         return samples == other->samples &&
@@ -98,20 +97,20 @@ public:
                mipmap == other->mipmap;
     }
 
-    QAtomicInt ref;
-    int samples;
-    QOpenGLFramebufferObject::Attachment attachment;
-    GLenum target;
-    GLenum internal_format;
-    uint mipmap : 1;
+    QAtomicInt                              ref;
+    int                                     samples;
+    QOpenGLFramebufferObject::Attachment    attachment;
+    GLenum                                  target;
+    GLenum                                  internal_format;
+    uint                                    mipmap : 1;
 };
 
 class QOpenGLFramebufferObjectPrivate
 {
 public:
     QOpenGLFramebufferObjectPrivate() : fbo_guard(0), depth_buffer_guard(0)
-                                  , stencil_buffer_guard(0)
-                                  , valid(false) {}
+        , stencil_buffer_guard(0)
+        , valid(false) {}
     ~QOpenGLFramebufferObjectPrivate() {}
 
     void init(QOpenGLFramebufferObject *q, const QSize &size,
@@ -123,28 +122,32 @@ public:
     void initDepthStencilAttachments(QOpenGLContext *ctx, QOpenGLFramebufferObject::Attachment attachment);
 
     bool checkFramebufferStatus(QOpenGLContext *ctx) const;
-    QOpenGLSharedResourceGuard *fbo_guard;
-    QOpenGLSharedResourceGuard *depth_buffer_guard;
-    QOpenGLSharedResourceGuard *stencil_buffer_guard;
-    GLenum target;
-    QSize dsSize;
-    QOpenGLFramebufferObjectFormat format;
-    int requestedSamples;
-    uint valid : 1;
-    QOpenGLFramebufferObject::Attachment fbo_attachment;
-    QOpenGLExtensions funcs;
+    QOpenGLSharedResourceGuard              *fbo_guard;
+    QOpenGLSharedResourceGuard              *depth_buffer_guard;
+    QOpenGLSharedResourceGuard              *stencil_buffer_guard;
+    GLenum                                  target;
+    QSize                                   dsSize;
+    QOpenGLFramebufferObjectFormat          format;
+    int                                     requestedSamples;
+    uint                                    valid : 1;
+    QOpenGLFramebufferObject::Attachment    fbo_attachment;
+    QOpenGLExtensions                       funcs;
 
-    struct ColorAttachment {
+    struct ColorAttachment
+    {
         ColorAttachment() : internalFormat(0), guard(0) { }
         ColorAttachment(const QSize &size, GLenum internalFormat)
             : size(size), internalFormat(internalFormat), guard(0) { }
-        QSize size;
-        GLenum internalFormat;
-        QOpenGLSharedResourceGuard *guard;
+        QSize                       size;
+        GLenum                      internalFormat;
+        QOpenGLSharedResourceGuard  *guard;
     };
-    QVector<ColorAttachment> colorAttachments;
+    QVector<ColorAttachment>    colorAttachments;
 
-    inline GLuint fbo() const { return fbo_guard ? fbo_guard->id() : 0; }
+    inline GLuint fbo() const
+    {
+        return fbo_guard ? fbo_guard->id() : 0;
+    }
 };
 
 

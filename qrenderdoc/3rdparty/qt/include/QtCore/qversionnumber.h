@@ -54,8 +54,8 @@ class QVersionNumber;
 Q_CORE_EXPORT uint qHash(const QVersionNumber &key, uint seed = 0);
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream& operator<<(QDataStream &out, const QVersionNumber &version);
-Q_CORE_EXPORT QDataStream& operator>>(QDataStream &in, QVersionNumber &version);
+Q_CORE_EXPORT QDataStream&operator<<(QDataStream &out, const QVersionNumber &version);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream &in, QVersionNumber &version);
 #endif
 
 class QVersionNumber
@@ -67,23 +67,26 @@ class QVersionNumber
      * The constants below help us deal with the permutations for 32- and 64-bit,
      * little- and big-endian architectures.
      */
-    enum {
+    enum
+    {
         // in little-endian, inline_segments[0] is shared with the pointer's LSB, while
         // in big-endian, it's inline_segments[7]
-        InlineSegmentMarker = Q_BYTE_ORDER == Q_LITTLE_ENDIAN ? 0 : sizeof(void*) - 1,
-        InlineSegmentStartIdx = !InlineSegmentMarker, // 0 for BE, 1 for LE
-        InlineSegmentCount = sizeof(void*) - 1
+        InlineSegmentMarker     = Q_BYTE_ORDER == Q_LITTLE_ENDIAN ? 0 : sizeof(void*) - 1,
+        InlineSegmentStartIdx   = !InlineSegmentMarker, // 0 for BE, 1 for LE
+        InlineSegmentCount      = sizeof(void*) - 1
     };
     Q_STATIC_ASSERT(InlineSegmentCount >= 3);   // at least major, minor, micro
 
-    struct SegmentStorage {
+    struct SegmentStorage
+    {
         // Note: we alias the use of dummy and inline_segments in the use of the
         // union below. This is undefined behavior in C++98, but most compilers implement
         // the C++11 behavior. The one known exception is older versions of Sun Studio.
-        union {
-            quintptr dummy;
-            qint8 inline_segments[sizeof(void*)];
-            QVector<int> *pointer_segments;
+        union
+        {
+            quintptr        dummy;
+            qint8           inline_segments[sizeof(void*)];
+            QVector<int>    *pointer_segments;
         };
 
         // set the InlineSegmentMarker and set length to zero
@@ -105,17 +108,24 @@ class QVersionNumber
                 dummy = other.dummy;
         }
 
-        SegmentStorage &operator=(const SegmentStorage &other)
+        SegmentStorage&operator=(const SegmentStorage &other)
         {
-            if (isUsingPointer() && other.isUsingPointer()) {
+            if (isUsingPointer() && other.isUsingPointer())
+            {
                 *pointer_segments = *other.pointer_segments;
-            } else if (other.isUsingPointer()) {
+            }
+            else if (other.isUsingPointer())
+            {
                 pointer_segments = new QVector<int>(*other.pointer_segments);
-            } else {
+            }
+            else
+            {
                 if (isUsingPointer())
                     delete pointer_segments;
+
                 dummy = other.dummy;
             }
+
             return *this;
         }
 
@@ -126,7 +136,7 @@ class QVersionNumber
             other.dummy = 1;
         }
 
-        SegmentStorage &operator=(SegmentStorage &&other) Q_DECL_NOTHROW
+        SegmentStorage&operator=(SegmentStorage &&other) Q_DECL_NOTHROW
         {
             qSwap(dummy, other.dummy);
             return *this;
@@ -143,24 +153,37 @@ class QVersionNumber
 #ifdef Q_COMPILER_INITIALIZER_LISTS
         SegmentStorage(std::initializer_list<int> args)
         {
-            if (dataFitsInline(args.begin(), int(args.size()))) {
+            if (dataFitsInline(args.begin(), int(args.size())))
+            {
                 setInlineData(args.begin(), int(args.size()));
-            } else {
+            }
+            else
+            {
                 pointer_segments = new QVector<int>(args);
             }
         }
 #endif
 
-        ~SegmentStorage() { if (isUsingPointer()) delete pointer_segments; }
+        ~SegmentStorage()
+        {
+            if (isUsingPointer())
+                delete pointer_segments;
+        }
 
         bool isUsingPointer() const Q_DECL_NOTHROW
-        { return (inline_segments[InlineSegmentMarker] & 1) == 0; }
+        {
+            return (inline_segments[InlineSegmentMarker] & 1) == 0;
+        }
 
         int size() const Q_DECL_NOTHROW
-        { return isUsingPointer() ? pointer_segments->size() : (inline_segments[InlineSegmentMarker] >> 1); }
+        {
+            return isUsingPointer() ? pointer_segments->size() : (inline_segments[InlineSegmentMarker] >> 1);
+        }
 
         void setInlineSize(int len)
-        { inline_segments[InlineSegmentMarker] = 1 + 2 * len; }
+        {
+            inline_segments[InlineSegmentMarker] = 1 + 2 * len;
+        }
 
         void resize(int len)
         {
@@ -173,28 +196,33 @@ class QVersionNumber
         int at(int index) const
         {
             return isUsingPointer() ?
-                        pointer_segments->at(index) :
-                        inline_segments[InlineSegmentStartIdx + index];
+                   pointer_segments->at(index) :
+                   inline_segments[InlineSegmentStartIdx + index];
         }
 
         void setSegments(int len, int maj, int min = 0, int mic = 0)
         {
-            if (maj == qint8(maj) && min == qint8(min) && mic == qint8(mic)) {
-                int data[] = { maj, min, mic };
+            if (maj == qint8(maj) && min == qint8(min) && mic == qint8(mic))
+            {
+                int    data[] = { maj, min, mic };
                 setInlineData(data, len);
-            } else {
+            }
+            else
+            {
                 setVector(len, maj, min, mic);
             }
         }
 
-    private:
+private:
         static bool dataFitsInline(const int *data, int len)
         {
             if (len > InlineSegmentCount)
                 return false;
+
             for (int i = 0; i < len; ++i)
                 if (data[i] != qint8(data[i]))
                     return false;
+
             return true;
         }
         void setInlineData(const int *data, int len)
@@ -203,19 +231,22 @@ class QVersionNumber
 #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
             for (int i = 0; i < len; ++i)
                 dummy |= quintptr(data[i] & 0xFF) << (8 * (i + 1));
+
 #elif Q_BYTE_ORDER == Q_BIG_ENDIAN
             for (int i = 0; i < len; ++i)
-                dummy |= quintptr(data[i] & 0xFF) << (8 * (sizeof(void *) - i - 1));
+                dummy |= quintptr(data[i] & 0xFF) << (8 * (sizeof(void*) - i - 1));
+
 #else
             // the code above is equivalent to:
             setInlineSize(len);
+
             for (int i = 0; i < len; ++i)
                 inline_segments[InlineSegmentStartIdx + i] = data[i] & 0xFF;
 #endif
         }
 
         Q_CORE_EXPORT void setVector(int len, int maj, int min, int mic);
-    } m_segments;
+    }    m_segments;
 
 public:
     inline QVersionNumber() Q_DECL_NOTHROW
@@ -240,38 +271,58 @@ public:
 #endif
 
     inline explicit QVersionNumber(int maj)
-    { m_segments.setSegments(1, maj); }
+    {
+        m_segments.setSegments(1, maj);
+    }
 
     inline explicit QVersionNumber(int maj, int min)
-    { m_segments.setSegments(2, maj, min); }
+    {
+        m_segments.setSegments(2, maj, min);
+    }
 
     inline explicit QVersionNumber(int maj, int min, int mic)
-    { m_segments.setSegments(3, maj, min, mic); }
+    {
+        m_segments.setSegments(3, maj, min, mic);
+    }
 
     Q_REQUIRED_RESULT inline bool isNull() const Q_DECL_NOTHROW
-    { return segmentCount() == 0; }
+    {
+        return segmentCount() == 0;
+    }
 
     Q_REQUIRED_RESULT inline bool isNormalized() const Q_DECL_NOTHROW
-    { return isNull() || segmentAt(segmentCount() - 1) != 0; }
+    {
+        return isNull() || segmentAt(segmentCount() - 1) != 0;
+    }
 
     Q_REQUIRED_RESULT inline int majorVersion() const Q_DECL_NOTHROW
-    { return segmentAt(0); }
+    {
+        return segmentAt(0);
+    }
 
     Q_REQUIRED_RESULT inline int minorVersion() const Q_DECL_NOTHROW
-    { return segmentAt(1); }
+    {
+        return segmentAt(1);
+    }
 
     Q_REQUIRED_RESULT inline int microVersion() const Q_DECL_NOTHROW
-    { return segmentAt(2); }
+    {
+        return segmentAt(2);
+    }
 
     Q_REQUIRED_RESULT Q_CORE_EXPORT QVersionNumber normalized() const;
 
     Q_REQUIRED_RESULT Q_CORE_EXPORT QVector<int> segments() const;
 
     Q_REQUIRED_RESULT inline int segmentAt(int index) const Q_DECL_NOTHROW
-    { return (m_segments.size() > index) ? m_segments.at(index) : 0; }
+    {
+        return (m_segments.size() > index) ? m_segments.at(index) : 0;
+    }
 
     Q_REQUIRED_RESULT inline int segmentCount() const Q_DECL_NOTHROW
-    { return m_segments.size(); }
+    {
+        return m_segments.size();
+    }
 
     Q_REQUIRED_RESULT Q_CORE_EXPORT bool isPrefixOf(const QVersionNumber &other) const Q_DECL_NOTHROW;
 
@@ -284,7 +335,7 @@ public:
 
 private:
 #ifndef QT_NO_DATASTREAM
-    friend Q_CORE_EXPORT QDataStream& operator>>(QDataStream &in, QVersionNumber &version);
+    friend Q_CORE_EXPORT QDataStream&operator>>(QDataStream &in, QVersionNumber &version);
 #endif
     friend Q_CORE_EXPORT uint qHash(const QVersionNumber &key, uint seed);
 };
@@ -295,26 +346,38 @@ Q_DECLARE_TYPEINFO(QVersionNumber, Q_MOVABLE_TYPE);
 Q_CORE_EXPORT QDebug operator<<(QDebug, const QVersionNumber &version);
 #endif
 
-Q_REQUIRED_RESULT inline bool operator> (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) > 0; }
+Q_REQUIRED_RESULT inline bool operator>(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+{
+    return QVersionNumber::compare(lhs, rhs) > 0;
+}
 
 Q_REQUIRED_RESULT inline bool operator>=(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) >= 0; }
+{
+    return QVersionNumber::compare(lhs, rhs) >= 0;
+}
 
-Q_REQUIRED_RESULT inline bool operator< (const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) < 0; }
+Q_REQUIRED_RESULT inline bool operator<(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
+{
+    return QVersionNumber::compare(lhs, rhs) < 0;
+}
 
 Q_REQUIRED_RESULT inline bool operator<=(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) <= 0; }
+{
+    return QVersionNumber::compare(lhs, rhs) <= 0;
+}
 
 Q_REQUIRED_RESULT inline bool operator==(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) == 0; }
+{
+    return QVersionNumber::compare(lhs, rhs) == 0;
+}
 
 Q_REQUIRED_RESULT inline bool operator!=(const QVersionNumber &lhs, const QVersionNumber &rhs) Q_DECL_NOTHROW
-{ return QVersionNumber::compare(lhs, rhs) != 0; }
+{
+    return QVersionNumber::compare(lhs, rhs) != 0;
+}
 
 QT_END_NAMESPACE
 
 Q_DECLARE_METATYPE(QVersionNumber)
 
-#endif //QVERSIONNUMBER_H
+#endif // QVERSIONNUMBER_H

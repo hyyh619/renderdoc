@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 class QScrollBarPrivate;
 class QStyleOptionSlider;
 
-class Q_WIDGETS_EXPORT QScrollBar : public QAbstractSlider
+class Q_WIDGETS_EXPORT    QScrollBar : public QAbstractSlider
 {
     Q_OBJECT
 public:
@@ -65,16 +65,16 @@ public:
 
 protected:
 #if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent*) Q_DECL_OVERRIDE;
 #endif
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
     void hideEvent(QHideEvent*) Q_DECL_OVERRIDE;
     void sliderChange(SliderChange change) Q_DECL_OVERRIDE;
 #ifndef QT_NO_CONTEXTMENU
-    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent*) Q_DECL_OVERRIDE;
 #endif
     void initStyleOption(QStyleOptionSlider *option) const;
 

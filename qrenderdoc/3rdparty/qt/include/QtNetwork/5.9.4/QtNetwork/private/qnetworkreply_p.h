@@ -61,10 +61,11 @@
 
 QT_BEGIN_NAMESPACE
 
-class QNetworkReplyPrivate: public QIODevicePrivate, public QNetworkHeadersPrivate
+class QNetworkReplyPrivate : public QIODevicePrivate, public QNetworkHeadersPrivate
 {
 public:
-    enum State {
+    enum State
+    {
         Idle,               // The reply is idle.
         Buffering,          // The reply is buffering outgoing data.
         Working,            // The reply is uploading/downloading data.
@@ -75,21 +76,23 @@ public:
     };
 
     QNetworkReplyPrivate();
-    QNetworkRequest request;
-    QNetworkRequest originalRequest;
-    QUrl url;
-    QPointer<QNetworkAccessManager> manager;
-    qint64 readBufferMaxSize;
-    QElapsedTimer downloadProgressSignalChoke;
-    QElapsedTimer uploadProgressSignalChoke;
-    bool emitAllUploadProgressSignals;
-    const static int progressSignalInterval;
-    QNetworkAccessManager::Operation operation;
-    QNetworkReply::NetworkError errorCode;
-    bool isFinished;
+    QNetworkRequest                     request;
+    QNetworkRequest                     originalRequest;
+    QUrl                                url;
+    QPointer<QNetworkAccessManager>     manager;
+    qint64                              readBufferMaxSize;
+    QElapsedTimer                       downloadProgressSignalChoke;
+    QElapsedTimer                       uploadProgressSignalChoke;
+    bool                                emitAllUploadProgressSignals;
+    const static int                    progressSignalInterval;
+    QNetworkAccessManager::Operation    operation;
+    QNetworkReply::NetworkError         errorCode;
+    bool                                isFinished;
 
     static inline void setManager(QNetworkReply *reply, QNetworkAccessManager *manager)
-    { reply->d_func()->manager = manager; }
+    {
+        reply->d_func()->manager = manager;
+    }
 
     Q_DECLARE_PUBLIC(QNetworkReply)
 };

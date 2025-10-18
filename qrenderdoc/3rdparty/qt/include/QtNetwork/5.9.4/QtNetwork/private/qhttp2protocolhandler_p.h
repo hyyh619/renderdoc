@@ -85,14 +85,14 @@ public:
     QHttp2ProtocolHandler(QHttpNetworkConnectionChannel *channel);
 
     QHttp2ProtocolHandler(const QHttp2ProtocolHandler &rhs) = delete;
-    QHttp2ProtocolHandler(QHttp2ProtocolHandler &&rhs) = delete;
+    QHttp2ProtocolHandler(QHttp2ProtocolHandler &&rhs)      = delete;
 
-    QHttp2ProtocolHandler &operator = (const QHttp2ProtocolHandler &rhs) = delete;
-    QHttp2ProtocolHandler &operator = (QHttp2ProtocolHandler &&rhs) = delete;
+    QHttp2ProtocolHandler&operator =(const QHttp2ProtocolHandler &rhs)  = delete;
+    QHttp2ProtocolHandler&operator =(QHttp2ProtocolHandler &&rhs)       = delete;
 
 private slots:
     void _q_uploadDataReadyRead();
-    void _q_replyDestroyed(QObject* reply);
+    void _q_replyDestroyed(QObject *reply);
 
 private:
     using Stream = Http2::Stream;
@@ -144,62 +144,62 @@ private:
     void deleteActiveStream(quint32 streamID);
     bool streamWasReset(quint32 streamID) const;
 
-    bool prefaceSent = false;
+    bool    prefaceSent = false;
     // In the current implementation we send
     // SETTINGS only once, immediately after
     // the client's preface 24-byte message.
-    bool waitingForSettingsACK = false;
+    bool    waitingForSettingsACK = false;
 
-    static const quint32 maxAcceptableTableSize = 16 * HPack::FieldLookupTable::DefaultSize;
+    static const quint32    maxAcceptableTableSize = 16 * HPack::FieldLookupTable::DefaultSize;
     // HTTP/2 4.3: Header compression is stateful. One compression context and
     // one decompression context are used for the entire connection.
-    HPack::Decoder decoder;
-    HPack::Encoder encoder;
+    HPack::Decoder      decoder;
+    HPack::Encoder      encoder;
 
-    QHash<quint32, Stream> activeStreams;
-    std::deque<quint32> suspendedStreams[3]; // 3 for priorities: High, Normal, Low.
-    static const std::deque<quint32>::size_type maxRecycledStreams;
-    std::deque<quint32> recycledStreams;
+    QHash<quint32, Stream>                          activeStreams;
+    std::deque<quint32>                             suspendedStreams[3]; // 3 for priorities: High, Normal, Low.
+    static const std::deque<quint32>::size_type     maxRecycledStreams;
+    std::deque<quint32>                             recycledStreams;
 
     // Peer's max frame size.
-    quint32 maxFrameSize = Http2::maxFrameSize;
+    quint32    maxFrameSize = Http2::maxFrameSize;
 
-    Http2::FrameReader frameReader;
-    Http2::Frame inboundFrame;
-    Http2::FrameWriter frameWriter;
+    Http2::FrameReader      frameReader;
+    Http2::Frame            inboundFrame;
+    Http2::FrameWriter      frameWriter;
     // Temporary storage to assemble HEADERS' block
     // from several CONTINUATION frames ...
-    bool continuationExpected = false;
-    std::vector<Http2::Frame> continuedFrames;
+    bool                            continuationExpected = false;
+    std::vector<Http2::Frame>       continuedFrames;
 
     // Peer's max number of streams ...
-    quint32 maxConcurrentStreams = Http2::maxConcurrentStreams;
+    quint32    maxConcurrentStreams = Http2::maxConcurrentStreams;
 
     // Control flow:
-    static const qint32 sessionMaxRecvWindowSize = Http2::defaultSessionWindowSize * 10;
+    static const qint32    sessionMaxRecvWindowSize = Http2::defaultSessionWindowSize * 10;
     // Signed integer, it can become negative (it's still a valid window size):
-    qint32 sessionRecvWindowSize = sessionMaxRecvWindowSize;
+    qint32    sessionRecvWindowSize = sessionMaxRecvWindowSize;
 
     // We do not negotiate this window size
     // We have to send WINDOW_UPDATE frames to our peer also.
-    static const qint32 streamInitialRecvWindowSize = Http2::defaultSessionWindowSize;
+    static const qint32    streamInitialRecvWindowSize = Http2::defaultSessionWindowSize;
 
     // Updated by SETTINGS and WINDOW_UPDATE.
-    qint32 sessionSendWindowSize = Http2::defaultSessionWindowSize;
-    qint32 streamInitialSendWindowSize = Http2::defaultSessionWindowSize;
+    qint32      sessionSendWindowSize       = Http2::defaultSessionWindowSize;
+    qint32      streamInitialSendWindowSize = Http2::defaultSessionWindowSize;
 
     // It's unlimited by default, but can be changed via SETTINGS.
-    quint32 maxHeaderListSize = (std::numeric_limits<quint32>::max)();
+    quint32    maxHeaderListSize = (std::numeric_limits<quint32>::max)();
 
     Q_INVOKABLE void resumeSuspendedStreams();
     // Our stream IDs (all odd), the first valid will be 1.
-    quint32 nextID = 1;
+    quint32    nextID = 1;
     quint32 allocateStreamID();
     bool validPeerStreamID() const;
-    bool goingAway = false;
-    bool pushPromiseEnabled = false;
-    quint32 lastPromisedID = Http2::connectionStreamID;
-    QHash<QString, Http2::PushPromise> promisedData;
+    bool                                    goingAway           = false;
+    bool                                    pushPromiseEnabled  = false;
+    quint32                                 lastPromisedID      = Http2::connectionStreamID;
+    QHash<QString, Http2::PushPromise>      promisedData;
     bool tryReserveStream(const Http2::Frame &pushPromiseFrame,
                           const HPack::HttpHeader &requestHeader);
     void resetPromisedStream(const Http2::Frame &pushPromiseFrame,
@@ -213,7 +213,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // !defined(QT_NO_HTTP)
 
 #endif

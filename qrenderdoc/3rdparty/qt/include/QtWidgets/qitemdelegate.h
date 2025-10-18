@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QItemDelegatePrivate;
 class QItemEditorFactory;
 
-class Q_WIDGETS_EXPORT QItemDelegate : public QAbstractItemDelegate
+class Q_WIDGETS_EXPORT    QItemDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
     Q_PROPERTY(bool clipping READ hasClipping WRITE setClipping)
@@ -73,7 +73,7 @@ public:
                    const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     // editing
-    QWidget *createEditor(QWidget *parent,
+    QWidget* createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const Q_DECL_OVERRIDE;
 
@@ -85,7 +85,7 @@ public:
                               const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     // editor factory
-    QItemEditorFactory *itemEditorFactory() const;
+    QItemEditorFactory* itemEditorFactory() const;
     void setItemEditorFactory(QItemEditorFactory *factory);
 
 protected:
@@ -113,10 +113,10 @@ protected:
                                     const QStyleOptionViewItem &option) const;
 
     QPixmap decoration(const QStyleOptionViewItem &option, const QVariant &variant) const;
-    QPixmap *selected(const QPixmap &pixmap, const QPalette &palette, bool enabled) const;
+    QPixmap* selected(const QPixmap &pixmap, const QPalette &palette, bool enabled) const;
 
     QRect doCheck(const QStyleOptionViewItem &option, const QRect &bounding,
-                const QVariant &variant) const;
+                  const QVariant &variant) const;
     QRect textRectangle(QPainter *painter, const QRect &rect,
                         const QFont &font, const QString &text) const;
 

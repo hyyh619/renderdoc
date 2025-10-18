@@ -89,7 +89,10 @@ public:
     QProcEnvKey() {}
     explicit QProcEnvKey(const QString &other) : QString(other) {}
     QProcEnvKey(const QProcEnvKey &other) : QString(other) {}
-    bool operator==(const QProcEnvKey &other) const { return !compare(other, Qt::CaseInsensitive); }
+    bool operator==(const QProcEnvKey &other) const
+    {
+        return !compare(other, Qt::CaseInsensitive);
+    }
 };
 
 inline bool operator<(const QProcEnvKey &a, const QProcEnvKey &b)
@@ -109,67 +112,95 @@ class QProcEnvValue
 {
 public:
     QProcEnvValue() {}
-    QProcEnvValue(const QProcEnvValue &other) { *this = other; }
+    QProcEnvValue(const QProcEnvValue &other)
+    {
+        *this = other;
+    }
     explicit QProcEnvValue(const QString &value) : stringValue(value) {}
     explicit QProcEnvValue(const QByteArray &value) : byteValue(value) {}
     bool operator==(const QProcEnvValue &other) const
     {
         return byteValue.isEmpty() && other.byteValue.isEmpty()
-                ? stringValue == other.stringValue
-                : bytes() == other.bytes();
+               ? stringValue == other.stringValue
+               : bytes() == other.bytes();
     }
     QByteArray bytes() const
     {
         if (byteValue.isEmpty() && !stringValue.isEmpty())
             byteValue = stringValue.toLocal8Bit();
+
         return byteValue;
     }
     QString string() const
     {
         if (stringValue.isEmpty() && !byteValue.isEmpty())
             stringValue = QString::fromLocal8Bit(byteValue);
+
         return stringValue;
     }
 
-    mutable QByteArray byteValue;
-    mutable QString stringValue;
+    mutable QByteArray      byteValue;
+    mutable QString         stringValue;
 };
 Q_DECLARE_TYPEINFO(QProcEnvValue, Q_MOVABLE_TYPE);
 #endif
 
-class QProcessEnvironmentPrivate: public QSharedData
+class QProcessEnvironmentPrivate : public QSharedData
 {
 public:
     typedef QProcEnvKey Key;
     typedef QProcEnvValue Value;
 #ifdef Q_OS_WIN
-    inline Key prepareName(const QString &name) const { return Key(name); }
-    inline QString nameToString(const Key &name) const { return name; }
-    inline Value prepareValue(const QString &value) const { return value; }
-    inline QString valueToString(const Value &value) const { return value; }
-    struct MutexLocker {
-        MutexLocker(const QProcessEnvironmentPrivate *) {}
+    inline Key prepareName(const QString &name) const
+    {
+        return Key(name);
+    }
+    inline QString nameToString(const Key &name) const
+    {
+        return name;
+    }
+    inline Value prepareValue(const QString &value) const
+    {
+        return value;
+    }
+    inline QString valueToString(const Value &value) const
+    {
+        return value;
+    }
+    struct MutexLocker
+    {
+        MutexLocker(const QProcessEnvironmentPrivate*) {}
     };
-    struct OrderedMutexLocker {
-        OrderedMutexLocker(const QProcessEnvironmentPrivate *,
-                           const QProcessEnvironmentPrivate *) {}
+    struct OrderedMutexLocker
+    {
+        OrderedMutexLocker(const QProcessEnvironmentPrivate*,
+                           const QProcessEnvironmentPrivate*) {}
     };
 #else
     inline Key prepareName(const QString &name) const
     {
-        Key &ent = nameMap[name];
+        Key    &ent = nameMap[name];
+
         if (ent.isEmpty())
             ent = name.toLocal8Bit();
+
         return ent;
     }
     inline QString nameToString(const Key &name) const
     {
-        const QString sname = QString::fromLocal8Bit(name);
+        const QString    sname = QString::fromLocal8Bit(name);
+
         nameMap[sname] = name;
         return sname;
     }
-    inline Value prepareValue(const QString &value) const { return Value(value); }
-    inline QString valueToString(const Value &value) const { return value.string(); }
+    inline Value prepareValue(const QString &value) const
+    {
+        return Value(value);
+    }
+    inline QString valueToString(const Value &value) const
+    {
+        return value.string();
+    }
 
     struct MutexLocker : public QMutexLocker
     {
@@ -193,8 +224,9 @@ public:
         // consequently not shared. For the same reason, non-const methods
         // do not need a lock, as they detach objects (however, we need to
         // ensure that they really detach before using prepareName()).
-        MutexLocker locker(&other);
-        vars = other.vars;
+        MutexLocker    locker(&other);
+
+        vars    = other.vars;
         nameMap = other.nameMap;
         // We need to detach our members, so that our mutex can protect them.
         // As we are being detached, they likely would be detached a moment later anyway.
@@ -204,13 +236,13 @@ public:
 #endif
 
     using Map = QMap<Key, Value>;
-    Map vars;
+    Map    vars;
 
 #ifdef Q_OS_UNIX
     typedef QHash<QString, Key> NameHash;
-    mutable NameHash nameMap;
+    mutable NameHash    nameMap;
 
-    mutable QMutex mutex;
+    mutable QMutex    mutex;
 #endif
 
     static QProcessEnvironment fromList(const QStringList &list);
@@ -223,11 +255,13 @@ template<> Q_INLINE_TEMPLATE void QSharedDataPointer<QProcessEnvironmentPrivate>
 {
     if (d && d->ref.load() == 1)
         return;
-    QProcessEnvironmentPrivate *x = (d ? new QProcessEnvironmentPrivate(*d)
-                                     : new QProcessEnvironmentPrivate);
+
+    QProcessEnvironmentPrivate    *x = (d ? new QProcessEnvironmentPrivate(*d)
+                                        : new QProcessEnvironmentPrivate);
     x->ref.ref();
     if (d && !d->ref.deref())
         delete d;
+
     d = x;
 }
 
@@ -238,13 +272,15 @@ class QProcessPrivate : public QIODevicePrivate
 public:
     Q_DECLARE_PUBLIC(QProcess)
 
-    struct Channel {
-        enum ProcessChannelType {
-            Normal = 0,
-            PipeSource = 1,
-            PipeSink = 2,
-            Redirect = 3
-            // if you add "= 4" here, increase the number of bits below
+    struct Channel
+    {
+        enum ProcessChannelType
+        {
+            Normal      = 0,
+            PipeSource  = 1,
+            PipeSink    = 2,
+            Redirect    = 3
+                          // if you add "= 4" here, increase the number of bits below
         };
 
         Channel() : process(0), notifier(0), type(Normal), closed(false), append(false)
@@ -258,11 +294,11 @@ public:
 
         void clear();
 
-        Channel &operator=(const QString &fileName)
+        Channel&operator=(const QString &fileName)
         {
             clear();
-            file = fileName;
-            type = fileName.isEmpty() ? Normal : Redirect;
+            file    = fileName;
+            type    = fileName.isEmpty() ? Normal : Redirect;
             return *this;
         }
 
@@ -270,30 +306,31 @@ public:
         {
             clear();
             process = other;
-            type = PipeSource;
+            type    = PipeSource;
         }
 
         void pipeFrom(QProcessPrivate *other)
         {
             clear();
             process = other;
-            type = PipeSink;
+            type    = PipeSink;
         }
 
-        QString file;
+        QString         file;
         QProcessPrivate *process;
         QSocketNotifier *notifier;
 #ifdef Q_OS_WIN
-        union {
-            QWindowsPipeReader *reader;
-            QWindowsPipeWriter *writer;
+        union
+        {
+            QWindowsPipeReader  *reader;
+            QWindowsPipeWriter  *writer;
         };
 #endif
         Q_PIPE pipe[2];
 
-        unsigned type : 2;
-        bool closed : 1;
-        bool append : 1;
+        unsigned    type : 2;
+        bool        closed : 1;
+        bool        append : 1;
     };
 
     QProcessPrivate();
@@ -306,45 +343,45 @@ public:
     bool _q_startupNotification();
     bool _q_processDied();
 
-    QProcess::ProcessChannelMode processChannelMode;
-    QProcess::InputChannelMode inputChannelMode;
-    QProcess::ProcessError processError;
-    QProcess::ProcessState processState;
-    QString workingDirectory;
-    Q_PID pid;
-    int sequenceNumber;
+    QProcess::ProcessChannelMode    processChannelMode;
+    QProcess::InputChannelMode      inputChannelMode;
+    QProcess::ProcessError          processError;
+    QProcess::ProcessState          processState;
+    QString                         workingDirectory;
+    Q_PID                           pid;
+    int                             sequenceNumber;
 
-    bool dying;
-    bool emittedReadyRead;
-    bool emittedBytesWritten;
+    bool    dying;
+    bool    emittedReadyRead;
+    bool    emittedBytesWritten;
 
-    Channel stdinChannel;
-    Channel stdoutChannel;
-    Channel stderrChannel;
+    Channel     stdinChannel;
+    Channel     stdoutChannel;
+    Channel     stderrChannel;
     bool openChannel(Channel &channel);
     void closeChannel(Channel *channel);
     void closeWriteChannel();
     bool tryReadFromChannel(Channel *channel); // obviously, only stdout and stderr
 
-    QString program;
-    QStringList arguments;
+    QString         program;
+    QStringList     arguments;
 #if defined(Q_OS_WIN)
-    QString nativeArguments;
-    QProcess::CreateProcessArgumentModifier modifyCreateProcessArgs;
+    QString                                     nativeArguments;
+    QProcess::CreateProcessArgumentModifier     modifyCreateProcessArgs;
 #endif
-    QProcessEnvironment environment;
+    QProcessEnvironment    environment;
 
-    Q_PIPE childStartedPipe[2];
-    void destroyPipe(Q_PIPE pipe[2]);
+    Q_PIPE      childStartedPipe[2];
+    void        destroyPipe(Q_PIPE pipe[2]);
 
-    QSocketNotifier *startupSocketNotifier;
-    QSocketNotifier *deathNotifier;
+    QSocketNotifier     *startupSocketNotifier;
+    QSocketNotifier     *deathNotifier;
 
-    int forkfd;
+    int    forkfd;
 
 #ifdef Q_OS_WIN
-    QTimer *stdinWriteTrigger;
-    QWinEventNotifier *processFinishedNotifier;
+    QTimer                  *stdinWriteTrigger;
+    QWinEventNotifier       *processFinishedNotifier;
 #endif
 
     void start(QIODevice::OpenMode mode);
@@ -368,9 +405,9 @@ public:
     static bool startDetached(const QString &program, const QStringList &arguments, const QString &workingDirectory = QString(),
                               qint64 *pid = 0);
 
-    int exitCode;
-    QProcess::ExitStatus exitStatus;
-    bool crashed;
+    int                     exitCode;
+    QProcess::ExitStatus    exitStatus;
+    bool                    crashed;
 
     bool waitForStarted(int msecs = 30000);
     bool waitForReadyRead(int msecs = 30000);
@@ -385,7 +422,6 @@ public:
     void setError(QProcess::ProcessError error, const QString &description = QString());
     void setErrorAndEmit(QProcess::ProcessError error, const QString &description = QString());
 };
-
 #endif // QT_CONFIG(process)
 
 QT_END_NAMESPACE

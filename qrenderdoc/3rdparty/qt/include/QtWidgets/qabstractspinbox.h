@@ -53,7 +53,7 @@ class QLineEdit;
 class QAbstractSpinBoxPrivate;
 class QStyleOptionSpinBox;
 
-class Q_WIDGETS_EXPORT QAbstractSpinBox : public QWidget
+class Q_WIDGETS_EXPORT    QAbstractSpinBox : public QWidget
 {
     Q_OBJECT
 
@@ -73,8 +73,8 @@ public:
     explicit QAbstractSpinBox(QWidget *parent = Q_NULLPTR);
     ~QAbstractSpinBox();
 
-    enum StepEnabledFlag { StepNone = 0x00, StepUpEnabled = 0x01,
-                           StepDownEnabled = 0x02 };
+    enum StepEnabledFlag { StepNone         = 0x00, StepUpEnabled = 0x01,
+                           StepDownEnabled  = 0x02 };
     Q_DECLARE_FLAGS(StepEnabled, StepEnabledFlag)
 
     enum ButtonSymbols { UpDownArrows, PlusMinus, NoButtons };
@@ -83,7 +83,7 @@ public:
     ButtonSymbols buttonSymbols() const;
     void setButtonSymbols(ButtonSymbols bs);
 
-    enum CorrectionMode  { CorrectToPreviousValue, CorrectToNearestValue };
+    enum CorrectionMode { CorrectToPreviousValue, CorrectToNearestValue };
     Q_ENUM(CorrectionMode)
 
     void setCorrectionMode(CorrectionMode cm);
@@ -155,7 +155,7 @@ protected:
     void showEvent(QShowEvent *event) override;
     void initStyleOption(QStyleOptionSpinBox *option) const;
 
-    QLineEdit *lineEdit() const;
+    QLineEdit* lineEdit() const;
     void setLineEdit(QLineEdit *edit);
 
     virtual StepEnabled stepEnabled() const;

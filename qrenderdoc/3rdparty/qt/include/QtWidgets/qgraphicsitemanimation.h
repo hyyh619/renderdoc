@@ -51,20 +51,20 @@ class QGraphicsItem;
 class QMatrix;
 class QPointF;
 class QTimeLine;
-template <class T1, class T2> struct QPair;
+template<class T1, class T2> struct QPair;
 
 class QGraphicsItemAnimationPrivate;
-class Q_WIDGETS_EXPORT QGraphicsItemAnimation : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsItemAnimation : public QObject
 {
     Q_OBJECT
 public:
     QGraphicsItemAnimation(QObject *parent = Q_NULLPTR);
     virtual ~QGraphicsItemAnimation();
 
-    QGraphicsItem *item() const;
+    QGraphicsItem* item() const;
     void setItem(QGraphicsItem *item);
 
-    QTimeLine *timeLine() const;
+    QTimeLine* timeLine() const;
     void setTimeLine(QTimeLine *timeLine);
 
     QPointF posAt(qreal step) const;
@@ -104,7 +104,7 @@ protected:
 
 private:
     Q_DISABLE_COPY(QGraphicsItemAnimation)
-    QGraphicsItemAnimationPrivate *d;
+    QGraphicsItemAnimationPrivate * d;
 };
 
 QT_END_NAMESPACE

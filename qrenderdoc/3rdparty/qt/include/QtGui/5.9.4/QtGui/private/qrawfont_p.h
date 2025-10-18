@@ -62,8 +62,9 @@
 
 QT_BEGIN_NAMESPACE
 
-namespace { class CustomFontFileLoader; }
-class Q_GUI_EXPORT QRawFontPrivate
+namespace
+{ class CustomFontFileLoader; }
+class Q_GUI_EXPORT    QRawFontPrivate
 {
 public:
     QRawFontPrivate()
@@ -114,9 +115,11 @@ public:
         if (fontEngine == engine)
             return;
 
-        if (fontEngine != 0) {
+        if (fontEngine != 0)
+        {
             if (!fontEngine->ref.deref())
                 delete fontEngine;
+
 #ifndef QT_NO_DEBUG
             thread = 0;
 #endif
@@ -124,7 +127,8 @@ public:
 
         fontEngine = engine;
 
-        if (fontEngine != 0) {
+        if (fontEngine != 0)
+        {
             fontEngine->ref.ref();
 #ifndef QT_NO_DEBUG
             thread = QThread::currentThread();
@@ -134,21 +138,23 @@ public:
     }
 
     void loadFromData(const QByteArray &fontData,
-                              qreal pixelSize,
-                              QFont::HintingPreference hintingPreference);
+                      qreal pixelSize,
+                      QFont::HintingPreference hintingPreference);
 
-    static QRawFontPrivate *get(const QRawFont &font) { return font.d.data(); }
+    static QRawFontPrivate* get(const QRawFont &font)
+    {
+        return font.d.data();
+    }
 
-    QFontEngine *fontEngine;
-    QFont::HintingPreference hintingPreference;
-    QAtomicInt ref;
+    QFontEngine                 *fontEngine;
+    QFont::HintingPreference    hintingPreference;
+    QAtomicInt                  ref;
 
 private:
-    QThread *thread;
+    QThread    *thread;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_RAWFONT
 
 #endif // QRAWFONTPRIVATE_P_H

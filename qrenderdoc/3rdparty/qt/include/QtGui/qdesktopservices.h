@@ -53,7 +53,7 @@ class QStringList;
 class QUrl;
 class QObject;
 
-class Q_GUI_EXPORT QDesktopServices
+class Q_GUI_EXPORT    QDesktopServices
 {
 public:
     static bool openUrl(const QUrl &url);
@@ -61,8 +61,9 @@ public:
     static void unsetUrlHandler(const QString &scheme);
 
 #if QT_DEPRECATED_SINCE(5, 0)
-    //Must match QStandardPaths::StandardLocation
-    enum StandardLocation {
+    // Must match QStandardPaths::StandardLocation
+    enum StandardLocation
+    {
         DesktopLocation,
         DocumentsLocation,
         FontsLocation,
@@ -76,20 +77,20 @@ public:
         CacheLocation
     };
 
-    QT_DEPRECATED static QString storageLocation(StandardLocation type) {
+    QT_DEPRECATED static QString storageLocation(StandardLocation type)
+    {
         return storageLocationImpl(static_cast<QStandardPaths::StandardLocation>(type));
     }
-    QT_DEPRECATED static QString displayName(StandardLocation type) {
+    QT_DEPRECATED static QString displayName(StandardLocation type)
+    {
         return QStandardPaths::displayName(static_cast<QStandardPaths::StandardLocation>(type));
     }
 #endif
 private:
     static QString storageLocationImpl(QStandardPaths::StandardLocation type);
 };
-
 #endif // QT_NO_DESKTOPSERVICES
 
 QT_END_NAMESPACE
 
 #endif // QDESKTOPSERVICES_H
-

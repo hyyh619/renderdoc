@@ -85,7 +85,9 @@ public:
     void _q_repaintContents(const QRectF &contentsRect);
 
     inline QPoint mapToContents(const QPoint &point) const
-    { return QPoint(point.x() + horizontalOffset(), point.y() + verticalOffset()); }
+    {
+        return QPoint(point.x() + horizontalOffset(), point.y() + verticalOffset());
+    }
 
     void _q_adjustScrollbars();
     void _q_ensureVisible(const QRectF &rect);
@@ -95,12 +97,18 @@ public:
     void pageUpDown(QTextCursor::MoveOperation op, QTextCursor::MoveMode moveMode);
 
     inline int horizontalOffset() const
-    { return q_func()->isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value(); }
+    {
+        return q_func()->isRightToLeft() ? (hbar->maximum() - hbar->value()) : hbar->value();
+    }
     inline int verticalOffset() const
-    { return vbar->value(); }
+    {
+        return vbar->value();
+    }
 
     inline void sendControlEvent(QEvent *e)
-    { control->processEvent(e, QPointF(horizontalOffset(), verticalOffset()), viewport); }
+    {
+        control->processEvent(e, QPointF(horizontalOffset(), verticalOffset()), viewport);
+    }
 
     void _q_currentCharFormatChanged(const QTextCharFormat &format);
     void _q_cursorPositionChanged();
@@ -109,35 +117,37 @@ public:
 
     // re-implemented by QTextBrowser, called by QTextDocument::loadResource
     virtual QUrl resolveUrl(const QUrl &url) const
-    { return url; }
+    {
+        return url;
+    }
 
-    QWidgetTextControl *control;
+    QWidgetTextControl    *control;
 
-    QTextEdit::AutoFormatting autoFormatting;
-    bool tabChangesFocus;
+    QTextEdit::AutoFormatting       autoFormatting;
+    bool                            tabChangesFocus;
 
-    QBasicTimer autoScrollTimer;
-    QPoint autoScrollDragPos;
+    QBasicTimer     autoScrollTimer;
+    QPoint          autoScrollDragPos;
 
-    QTextEdit::LineWrapMode lineWrap;
-    int lineWrapColumnOrWidth;
-    QTextOption::WrapMode wordWrap;
+    QTextEdit::LineWrapMode     lineWrap;
+    int                         lineWrapColumnOrWidth;
+    QTextOption::WrapMode       wordWrap;
 
-    uint ignoreAutomaticScrollbarAdjustment : 1;
-    uint preferRichText : 1;
-    uint showCursorOnInitialShow : 1;
-    uint inDrag : 1;
-    uint clickCausedFocus : 1;
+    uint    ignoreAutomaticScrollbarAdjustment : 1;
+    uint    preferRichText : 1;
+    uint    showCursorOnInitialShow : 1;
+    uint    inDrag : 1;
+    uint    clickCausedFocus : 1;
 
     // Qt3 COMPAT only, for setText
-    Qt::TextFormat textFormat;
+    Qt::TextFormat    textFormat;
 
-    QString anchorToScrollToWhenVisible;
+    QString    anchorToScrollToWhenVisible;
 
-    QString placeholderText;
+    QString    placeholderText;
 
 #ifdef QT_KEYPAD_NAVIGATION
-    QBasicTimer deleteAllTimer;
+    QBasicTimer    deleteAllTimer;
 #endif
 };
 

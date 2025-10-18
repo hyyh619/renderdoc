@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QStyledItemDelegatePrivate;
 class QItemEditorFactory;
 
-class Q_WIDGETS_EXPORT QStyledItemDelegate : public QAbstractItemDelegate
+class Q_WIDGETS_EXPORT    QStyledItemDelegate : public QAbstractItemDelegate
 {
     Q_OBJECT
 
@@ -68,7 +68,7 @@ public:
                    const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     // editing
-    QWidget *createEditor(QWidget *parent,
+    QWidget* createEditor(QWidget *parent,
                           const QStyleOptionViewItem &option,
                           const QModelIndex &index) const Q_DECL_OVERRIDE;
 
@@ -82,14 +82,14 @@ public:
                               const QModelIndex &index) const Q_DECL_OVERRIDE;
 
     // editor factory
-    QItemEditorFactory *itemEditorFactory() const;
+    QItemEditorFactory* itemEditorFactory() const;
     void setItemEditorFactory(QItemEditorFactory *factory);
 
     virtual QString displayText(const QVariant &value, const QLocale &locale) const;
 
 protected:
     virtual void initStyleOption(QStyleOptionViewItem *option,
-                                const QModelIndex &index) const;
+                                 const QModelIndex &index) const;
 
     bool eventFilter(QObject *object, QEvent *event) Q_DECL_OVERRIDE;
     bool editorEvent(QEvent *event, QAbstractItemModel *model,

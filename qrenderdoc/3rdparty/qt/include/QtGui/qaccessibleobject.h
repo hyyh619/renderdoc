@@ -51,48 +51,47 @@ QT_BEGIN_NAMESPACE
 class QAccessibleObjectPrivate;
 class QObject;
 
-class Q_GUI_EXPORT QAccessibleObject : public QAccessibleInterface
+class Q_GUI_EXPORT    QAccessibleObject : public QAccessibleInterface
 {
 public:
     explicit QAccessibleObject(QObject *object);
 
     bool isValid() const Q_DECL_OVERRIDE;
-    QObject *object() const Q_DECL_OVERRIDE;
+    QObject* object() const Q_DECL_OVERRIDE;
 
     // properties
     QRect rect() const Q_DECL_OVERRIDE;
     void setText(QAccessible::Text t, const QString &text) Q_DECL_OVERRIDE;
-    QAccessibleInterface *childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
 
 protected:
     virtual ~QAccessibleObject();
 
 private:
-    QAccessibleObjectPrivate *d;
+    QAccessibleObjectPrivate    *d;
     Q_DISABLE_COPY(QAccessibleObject)
 };
 
-class Q_GUI_EXPORT QAccessibleApplication : public QAccessibleObject
+class Q_GUI_EXPORT    QAccessibleApplication : public QAccessibleObject
 {
 public:
     QAccessibleApplication();
 
-    QWindow *window() const Q_DECL_OVERRIDE;
+    QWindow* window() const Q_DECL_OVERRIDE;
     // relations
     int childCount() const Q_DECL_OVERRIDE;
     int indexOfChild(const QAccessibleInterface*) const Q_DECL_OVERRIDE;
-    QAccessibleInterface *focusChild() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* focusChild() const Q_DECL_OVERRIDE;
 
     // navigation
-    QAccessibleInterface *parent() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* parent() const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
 
     // properties and state
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
     QAccessible::Role role() const Q_DECL_OVERRIDE;
     QAccessible::State state() const Q_DECL_OVERRIDE;
 };
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

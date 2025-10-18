@@ -1,12 +1,12 @@
 #ifndef PYMACCONFIG_H
 #define PYMACCONFIG_H
-     /*
-      * This file moves some of the autoconf magic to compile-time
-      * when building on MacOSX. This is needed for building 4-way
-      * universal binaries and for 64-bit universal binaries because
-      * the values redefined below aren't configure-time constant but
-      * only compile-time constant in these scenarios.
-      */
+/*
+ * This file moves some of the autoconf magic to compile-time
+ * when building on MacOSX. This is needed for building 4-way
+ * universal binaries and for 64-bit universal binaries because
+ * the values redefined below aren't configure-time constant but
+ * only compile-time constant in these scenarios.
+ */
 
 #if defined(__APPLE__)
 
@@ -61,16 +61,15 @@
 #    endif
 
 #    if defined(__LP64__)
-     /* MacOSX 10.4 (the first release to support 64-bit code
-      * at all) only supports 64-bit in the UNIX layer.
-      * Therefore suppress the toolbox-glue in 64-bit mode.
-      */
+/* MacOSX 10.4 (the first release to support 64-bit code
+ * at all) only supports 64-bit in the UNIX layer.
+ * Therefore suppress the toolbox-glue in 64-bit mode.
+ */
 
-    /* In 64-bit mode setpgrp always has no arguments, in 32-bit
-     * mode that depends on the compilation environment
-     */
+/* In 64-bit mode setpgrp always has no arguments, in 32-bit
+ * mode that depends on the compilation environment
+ */
 #       undef SETPGRP_HAVE_ARG
-
 #    endif
 
 #ifdef __BIG_ENDIAN__
@@ -84,19 +83,17 @@
 # define HAVE_GCC_ASM_FOR_X87
 #endif
 
-    /*
-     * The definition in pyconfig.h is only valid on the OS release
-     * where configure ran on and not necessarily for all systems where
-     * the executable can be used on.
-     *
-     * Specifically: OSX 10.4 has limited supported for '%zd', while
-     * 10.5 has full support for '%zd'. A binary built on 10.5 won't
-     * work properly on 10.4 unless we suppress the definition
-     * of PY_FORMAT_SIZE_T
-     */
+/*
+ * The definition in pyconfig.h is only valid on the OS release
+ * where configure ran on and not necessarily for all systems where
+ * the executable can be used on.
+ *
+ * Specifically: OSX 10.4 has limited supported for '%zd', while
+ * 10.5 has full support for '%zd'. A binary built on 10.5 won't
+ * work properly on 10.4 unless we suppress the definition
+ * of PY_FORMAT_SIZE_T
+ */
 #undef  PY_FORMAT_SIZE_T
-
-
 #endif /* defined(_APPLE__) */
 
 #endif /* PYMACCONFIG_H */

@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QGraphicsItem;
 class QGraphicsTransformPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsTransform : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsTransform : public QObject
 {
     Q_OBJECT
 public:
@@ -76,7 +76,7 @@ private:
 
 class QGraphicsScalePrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsScale : public QGraphicsTransform
+class Q_WIDGETS_EXPORT    QGraphicsScale : public QGraphicsTransform
 {
     Q_OBJECT
 
@@ -92,13 +92,13 @@ public:
     void setOrigin(const QVector3D &point);
 
     qreal xScale() const;
-    void setXScale(qreal);
+    void    setXScale(qreal);
 
     qreal yScale() const;
-    void setYScale(qreal);
+    void    setYScale(qreal);
 
     qreal zScale() const;
-    void setZScale(qreal);
+    void    setZScale(qreal);
 
     void applyTo(QMatrix4x4 *matrix) const Q_DECL_OVERRIDE;
 
@@ -115,7 +115,7 @@ private:
 
 class QGraphicsRotationPrivate;
 
-class Q_WIDGETS_EXPORT QGraphicsRotation : public QGraphicsTransform
+class Q_WIDGETS_EXPORT    QGraphicsRotation : public QGraphicsTransform
 {
     Q_OBJECT
 
@@ -130,7 +130,7 @@ public:
     void setOrigin(const QVector3D &point);
 
     qreal angle() const;
-    void setAngle(qreal);
+    void    setAngle(qreal);
 
     QVector3D axis() const;
     void setAxis(const QVector3D &axis);

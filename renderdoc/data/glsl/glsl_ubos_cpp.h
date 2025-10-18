@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -33,14 +33,14 @@
 
 #define uniform struct
 
-#define vec2 Vec2f
-#define vec3 Vec3f
-#define vec4 Vec4f
+#define vec2    Vec2f
+#define vec3    Vec3f
+#define vec4    Vec4f
 
 #define mat4 Matrix4f
 
-#define uint uint32_t
-#define uvec4 Vec4u
+#define uint    uint32_t
+#define uvec4   Vec4u
 
 #if !defined(VULKAN) && !defined(OPENGL)
 #error Must define VULKAN or OPENGL before including glsl_ubos.h
@@ -54,19 +54,19 @@
 
 struct RD_CustomShader_UBO_Type
 {
-  uvec4 TexDim;
-  uint SelectedMip;
-  uint TextureType;
-  uint SelectedSliceFace;
-  int SelectedSample;
-  uvec4 YUVDownsampleRate;
-  uvec4 YUVAChannels;
-  vec2 SelectedRange;
+    uvec4   TexDim;
+    uint    SelectedMip;
+    uint    TextureType;
+    uint    SelectedSliceFace;
+    int     SelectedSample;
+    uvec4   YUVDownsampleRate;
+    uvec4   YUVAChannels;
+    vec2    SelectedRange;
 };
 
 #if defined(VULKAN)
 
-const char HLSL_CUSTOM_PREFIX[] =
+const char    HLSL_CUSTOM_PREFIX[] =
     R"EOPREFIX(
 
 #define RD_FLOAT_1D_ARRAY_BINDING t6
@@ -217,7 +217,7 @@ float2 RD_SelectedRange()
 
 )EOPREFIX";
 
-const char GLSL_CUSTOM_PREFIX[] =
+const char    GLSL_CUSTOM_PREFIX[] =
     R"EOPREFIX(
 #ifdef GL_ES
 precision highp float;
@@ -374,7 +374,7 @@ vec2 RD_SelectedRange()
 
 #elif defined(OPENGL)
 
-const char GLSL_CUSTOM_PREFIX[] =
+const char    GLSL_CUSTOM_PREFIX[] =
     R"EOPREFIX(
 #ifdef GL_ES
 precision highp float;

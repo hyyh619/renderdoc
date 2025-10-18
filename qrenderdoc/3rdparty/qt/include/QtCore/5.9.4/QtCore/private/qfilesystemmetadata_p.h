@@ -68,96 +68,95 @@ QT_BEGIN_NAMESPACE
 
 class QFileSystemEngine;
 
-class Q_AUTOTEST_EXPORT QFileSystemMetaData
+class Q_AUTOTEST_EXPORT    QFileSystemMetaData
 {
 public:
     QFileSystemMetaData()
         : knownFlagsMask(0),
-          size_(-1)
-    {
-    }
+        size_(-1)
+    {}
 
-    enum MetaDataFlag {
+    enum MetaDataFlag
+    {
         // Permissions, overlaps with QFile::Permissions
         OtherReadPermission = 0x00000004,   OtherWritePermission = 0x00000002,  OtherExecutePermission = 0x00000001,
         GroupReadPermission = 0x00000040,   GroupWritePermission = 0x00000020,  GroupExecutePermission = 0x00000010,
-        UserReadPermission  = 0x00000400,   UserWritePermission  = 0x00000200,  UserExecutePermission  = 0x00000100,
+        UserReadPermission  = 0x00000400,   UserWritePermission = 0x00000200,  UserExecutePermission = 0x00000100,
         OwnerReadPermission = 0x00004000,   OwnerWritePermission = 0x00002000,  OwnerExecutePermission = 0x00001000,
 
         OtherPermissions    = OtherReadPermission | OtherWritePermission | OtherExecutePermission,
         GroupPermissions    = GroupReadPermission | GroupWritePermission | GroupExecutePermission,
-        UserPermissions     = UserReadPermission  | UserWritePermission  | UserExecutePermission,
+        UserPermissions     = UserReadPermission | UserWritePermission | UserExecutePermission,
         OwnerPermissions    = OwnerReadPermission | OwnerWritePermission | OwnerExecutePermission,
 
         ReadPermissions     = OtherReadPermission | GroupReadPermission | UserReadPermission | OwnerReadPermission,
         WritePermissions    = OtherWritePermission | GroupWritePermission | UserWritePermission | OwnerWritePermission,
         ExecutePermissions  = OtherExecutePermission | GroupExecutePermission | UserExecutePermission | OwnerExecutePermission,
 
-        Permissions         = OtherPermissions | GroupPermissions | UserPermissions | OwnerPermissions,
+        Permissions = OtherPermissions | GroupPermissions | UserPermissions | OwnerPermissions,
 
         // Type
-        LinkType            = 0x00010000,
-        FileType            = 0x00020000,
-        DirectoryType       = 0x00040000,
+        LinkType        = 0x00010000,
+        FileType        = 0x00020000,
+        DirectoryType   = 0x00040000,
 #if defined(Q_OS_DARWIN)
-        BundleType          = 0x00080000,
-        AliasType           = 0x08000000,
+        BundleType  = 0x00080000,
+        AliasType   = 0x08000000,
 #else
-        BundleType          =        0x0,
-        AliasType           =        0x0,
+        BundleType  = 0x0,
+        AliasType   = 0x0,
 #endif
 #if defined(Q_OS_WIN)
-        WinLnkType          = 0x08000000,   // Note: Uses the same position for AliasType on Mac
+        WinLnkType = 0x08000000,            // Note: Uses the same position for AliasType on Mac
 #else
-        WinLnkType          =        0x0,
+        WinLnkType = 0x0,
 #endif
-        SequentialType      = 0x00800000,   // Note: overlaps with QAbstractFileEngine::RootFlag
+        SequentialType = 0x00800000,        // Note: overlaps with QAbstractFileEngine::RootFlag
 
-        LegacyLinkType      = LinkType | AliasType | WinLnkType,
+        LegacyLinkType = LinkType | AliasType | WinLnkType,
 
-        Type                = LinkType | FileType | DirectoryType | BundleType | SequentialType | AliasType,
+        Type = LinkType | FileType | DirectoryType | BundleType | SequentialType | AliasType,
 
         // Attributes
-        HiddenAttribute     = 0x00100000,
-        SizeAttribute       = 0x00200000,   // Note: overlaps with QAbstractFileEngine::LocalDiskFlag
-        ExistsAttribute     = 0x00400000,
+        HiddenAttribute = 0x00100000,
+        SizeAttribute   = 0x00200000,       // Note: overlaps with QAbstractFileEngine::LocalDiskFlag
+        ExistsAttribute = 0x00400000,
 
-        Attributes          = HiddenAttribute | SizeAttribute | ExistsAttribute,
+        Attributes = HiddenAttribute | SizeAttribute | ExistsAttribute,
 
         // Times
         CreationTime        = 0x01000000,   // Note: overlaps with QAbstractFileEngine::Refresh
         ModificationTime    = 0x02000000,
         AccessTime          = 0x04000000,
 
-        Times               = CreationTime | ModificationTime | AccessTime,
+        Times = CreationTime | ModificationTime | AccessTime,
 
         // Owner IDs
-        UserId              = 0x10000000,
-        GroupId             = 0x20000000,
+        UserId  = 0x10000000,
+        GroupId = 0x20000000,
 
-        OwnerIds            = UserId | GroupId,
+        OwnerIds = UserId | GroupId,
 
-        PosixStatFlags      = QFileSystemMetaData::OtherPermissions
-                            | QFileSystemMetaData::GroupPermissions
-                            | QFileSystemMetaData::OwnerPermissions
-                            | QFileSystemMetaData::FileType
-                            | QFileSystemMetaData::DirectoryType
-                            | QFileSystemMetaData::SequentialType
-                            | QFileSystemMetaData::SizeAttribute
-                            | QFileSystemMetaData::Times
-                            | QFileSystemMetaData::OwnerIds,
+        PosixStatFlags = QFileSystemMetaData::OtherPermissions
+                         | QFileSystemMetaData::GroupPermissions
+                         | QFileSystemMetaData::OwnerPermissions
+                         | QFileSystemMetaData::FileType
+                         | QFileSystemMetaData::DirectoryType
+                         | QFileSystemMetaData::SequentialType
+                         | QFileSystemMetaData::SizeAttribute
+                         | QFileSystemMetaData::Times
+                         | QFileSystemMetaData::OwnerIds,
 
 #if defined(Q_OS_WIN)
-        WinStatFlags        = QFileSystemMetaData::FileType
-                            | QFileSystemMetaData::DirectoryType
-                            | QFileSystemMetaData::HiddenAttribute
-                            | QFileSystemMetaData::ExistsAttribute
-                            | QFileSystemMetaData::SizeAttribute
-                            | QFileSystemMetaData::Times,
+        WinStatFlags = QFileSystemMetaData::FileType
+                       | QFileSystemMetaData::DirectoryType
+                       | QFileSystemMetaData::HiddenAttribute
+                       | QFileSystemMetaData::ExistsAttribute
+                       | QFileSystemMetaData::SizeAttribute
+                       | QFileSystemMetaData::Times,
 #endif
 
-        AllMetaDataFlags    = 0xFFFFFFFF
-
+        AllMetaDataFlags = 0xFFFFFFFF
     };
     Q_DECLARE_FLAGS(MetaDataFlags, MetaDataFlag)
 
@@ -181,25 +180,58 @@ public:
         knownFlagsMask &= ~flags;
     }
 
-    bool exists() const                     { return (entryFlags & ExistsAttribute); }
+    bool exists() const
+    {
+        return (entryFlags & ExistsAttribute);
+    }
 
-    bool isLink() const                     { return  (entryFlags & LinkType); }
-    bool isFile() const                     { return (entryFlags & FileType); }
-    bool isDirectory() const                { return (entryFlags & DirectoryType); }
+    bool isLink() const
+    {
+        return  (entryFlags & LinkType);
+    }
+    bool isFile() const
+    {
+        return (entryFlags & FileType);
+    }
+    bool isDirectory() const
+    {
+        return (entryFlags & DirectoryType);
+    }
     bool isBundle() const;
     bool isAlias() const;
-    bool isLegacyLink() const               { return (entryFlags & LegacyLinkType); }
-    bool isSequential() const               { return (entryFlags & SequentialType); }
-    bool isHidden() const                   { return (entryFlags & HiddenAttribute); }
+    bool isLegacyLink() const
+    {
+        return (entryFlags & LegacyLinkType);
+    }
+    bool isSequential() const
+    {
+        return (entryFlags & SequentialType);
+    }
+    bool isHidden() const
+    {
+        return (entryFlags & HiddenAttribute);
+    }
 #if defined(Q_OS_WIN)
-    bool isLnkFile() const                  { return (entryFlags & WinLnkType); }
+    bool isLnkFile() const
+    {
+        return (entryFlags & WinLnkType);
+    }
 #else
-    bool isLnkFile() const                  { return false; }
+    bool isLnkFile() const
+    {
+        return false;
+    }
 #endif
 
-    qint64 size() const                     { return size_; }
+    qint64 size() const
+    {
+        return size_;
+    }
 
-    QFile::Permissions permissions() const  { return QFile::Permissions(Permissions & entryFlags); }
+    QFile::Permissions permissions() const
+    {
+        return QFile::Permissions(Permissions & entryFlags);
+    }
 
     QDateTime creationTime() const;
     QDateTime modificationTime() const;
@@ -225,51 +257,63 @@ public:
 private:
     friend class QFileSystemEngine;
 
-    MetaDataFlags knownFlagsMask;
-    MetaDataFlags entryFlags;
+    MetaDataFlags       knownFlagsMask;
+    MetaDataFlags       entryFlags;
 
-    qint64 size_;
+    qint64    size_;
 
     // Platform-specific data goes here:
 #if defined(Q_OS_WIN)
-    DWORD fileAttribute_;
-    FILETIME creationTime_;
-    FILETIME lastAccessTime_;
-    FILETIME lastWriteTime_;
+    DWORD       fileAttribute_;
+    FILETIME    creationTime_;
+    FILETIME    lastAccessTime_;
+    FILETIME    lastWriteTime_;
 #else
     // msec precision
-    qint64 creationTime_;
-    qint64 modificationTime_;
-    qint64 accessTime_;
+    qint64      creationTime_;
+    qint64      modificationTime_;
+    qint64      accessTime_;
 
-    uint userId_;
-    uint groupId_;
+    uint    userId_;
+    uint    groupId_;
 #endif
-
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QFileSystemMetaData::MetaDataFlags)
 
 #if defined(Q_OS_DARWIN)
-inline bool QFileSystemMetaData::isBundle() const                   { return (entryFlags & BundleType); }
-inline bool QFileSystemMetaData::isAlias() const                    { return (entryFlags & AliasType); }
+inline bool QFileSystemMetaData::isBundle() const
+{
+    return (entryFlags & BundleType);
+}
+inline bool QFileSystemMetaData::isAlias() const
+{
+    return (entryFlags & AliasType);
+}
 #else
-inline bool QFileSystemMetaData::isBundle() const                   { return false; }
-inline bool QFileSystemMetaData::isAlias() const                    { return false; }
+inline bool QFileSystemMetaData::isBundle() const
+{
+    return false;
+}
+inline bool QFileSystemMetaData::isAlias() const
+{
+    return false;
+}
 #endif
 
 #if defined(Q_OS_UNIX) || defined (Q_OS_WIN)
 inline QDateTime QFileSystemMetaData::fileTime(QAbstractFileEngine::FileTime time) const
 {
-    switch (time) {
-    case QAbstractFileEngine::ModificationTime:
-        return modificationTime();
+    switch (time)
+    {
+        case QAbstractFileEngine::ModificationTime:
+            return modificationTime();
 
-    case QAbstractFileEngine::AccessTime:
-        return accessTime();
+        case QAbstractFileEngine::AccessTime:
+            return accessTime();
 
-    case QAbstractFileEngine::CreationTime:
-        return creationTime();
+        case QAbstractFileEngine::CreationTime:
+            return creationTime();
     }
 
     return QDateTime();
@@ -277,12 +321,27 @@ inline QDateTime QFileSystemMetaData::fileTime(QAbstractFileEngine::FileTime tim
 #endif
 
 #if defined(Q_OS_UNIX)
-inline QDateTime QFileSystemMetaData::creationTime() const          { return QDateTime::fromMSecsSinceEpoch(creationTime_); }
-inline QDateTime QFileSystemMetaData::modificationTime() const      { return QDateTime::fromMSecsSinceEpoch(modificationTime_); }
-inline QDateTime QFileSystemMetaData::accessTime() const            { return QDateTime::fromMSecsSinceEpoch(accessTime_); }
+inline QDateTime QFileSystemMetaData::creationTime() const
+{
+    return QDateTime::fromMSecsSinceEpoch(creationTime_);
+}
+inline QDateTime QFileSystemMetaData::modificationTime() const
+{
+    return QDateTime::fromMSecsSinceEpoch(modificationTime_);
+}
+inline QDateTime QFileSystemMetaData::accessTime() const
+{
+    return QDateTime::fromMSecsSinceEpoch(accessTime_);
+}
 
-inline uint QFileSystemMetaData::userId() const                     { return userId_; }
-inline uint QFileSystemMetaData::groupId() const                    { return groupId_; }
+inline uint QFileSystemMetaData::userId() const
+{
+    return userId_;
+}
+inline uint QFileSystemMetaData::groupId() const
+{
+    return groupId_;
+}
 
 inline uint QFileSystemMetaData::ownerId(QAbstractFileEngine::FileOwner owner) const
 {
@@ -294,8 +353,14 @@ inline uint QFileSystemMetaData::ownerId(QAbstractFileEngine::FileOwner owner) c
 #endif
 
 #if defined(Q_OS_WIN)
-inline uint QFileSystemMetaData::userId() const                     { return (uint) -2; }
-inline uint QFileSystemMetaData::groupId() const                    { return (uint) -2; }
+inline uint QFileSystemMetaData::userId() const
+{
+    return (uint) - 2;
+}
+inline uint QFileSystemMetaData::groupId() const
+{
+    return (uint) - 2;
+}
 inline uint QFileSystemMetaData::ownerId(QAbstractFileEngine::FileOwner owner) const
 {
     if (owner == QAbstractFileEngine::OwnerUser)
@@ -304,36 +369,43 @@ inline uint QFileSystemMetaData::ownerId(QAbstractFileEngine::FileOwner owner) c
         return groupId();
 }
 
-inline void QFileSystemMetaData::fillFromFileAttribute(DWORD fileAttribute,bool isDriveRoot)
+inline void QFileSystemMetaData::fillFromFileAttribute(DWORD fileAttribute, bool isDriveRoot)
 {
     fileAttribute_ = fileAttribute;
     // Ignore the hidden attribute for drives.
     if (!isDriveRoot && (fileAttribute_ & FILE_ATTRIBUTE_HIDDEN))
         entryFlags |= HiddenAttribute;
-    entryFlags |= ((fileAttribute & FILE_ATTRIBUTE_DIRECTORY) ? DirectoryType: FileType);
-    entryFlags |= ExistsAttribute;
-    knownFlagsMask |= FileType | DirectoryType | HiddenAttribute | ExistsAttribute;
+
+    entryFlags      |= ((fileAttribute & FILE_ATTRIBUTE_DIRECTORY) ? DirectoryType : FileType);
+    entryFlags      |= ExistsAttribute;
+    knownFlagsMask  |= FileType | DirectoryType | HiddenAttribute | ExistsAttribute;
 }
 
 inline void QFileSystemMetaData::fillFromFindData(WIN32_FIND_DATA &findData, bool setLinkType, bool isDriveRoot)
 {
     fillFromFileAttribute(findData.dwFileAttributes, isDriveRoot);
-    creationTime_ = findData.ftCreationTime;
+    creationTime_   = findData.ftCreationTime;
     lastAccessTime_ = findData.ftLastAccessTime;
-    lastWriteTime_ = findData.ftLastWriteTime;
-    if (fileAttribute_ & FILE_ATTRIBUTE_DIRECTORY) {
+    lastWriteTime_  = findData.ftLastWriteTime;
+    if (fileAttribute_ & FILE_ATTRIBUTE_DIRECTORY)
+    {
         size_ = 0;
-    } else {
-        size_ = findData.nFileSizeHigh;
-        size_ <<= 32;
-        size_ += findData.nFileSizeLow;
     }
-    knownFlagsMask |=  Times | SizeAttribute;
-    if (setLinkType) {
-        knownFlagsMask |=  LinkType;
-        entryFlags &= ~LinkType;
+    else
+    {
+        size_   = findData.nFileSizeHigh;
+        size_   <<= 32;
+        size_   += findData.nFileSizeLow;
+    }
+
+    knownFlagsMask |= Times | SizeAttribute;
+    if (setLinkType)
+    {
+        knownFlagsMask  |= LinkType;
+        entryFlags      &= ~LinkType;
         if ((fileAttribute_ & FILE_ATTRIBUTE_REPARSE_POINT)
-            && (findData.dwReserved0 == IO_REPARSE_TAG_SYMLINK)) {
+            && (findData.dwReserved0 == IO_REPARSE_TAG_SYMLINK))
+        {
             entryFlags |= LinkType;
         }
     }
@@ -343,17 +415,21 @@ inline void QFileSystemMetaData::fillFromFindData(WIN32_FIND_DATA &findData, boo
 inline void QFileSystemMetaData::fillFromFindInfo(BY_HANDLE_FILE_INFORMATION &fileInfo)
 {
     fillFromFileAttribute(fileInfo.dwFileAttributes);
-    creationTime_ = fileInfo.ftCreationTime;
+    creationTime_   = fileInfo.ftCreationTime;
     lastAccessTime_ = fileInfo.ftLastAccessTime;
-    lastWriteTime_ = fileInfo.ftLastWriteTime;
-    if (fileAttribute_ & FILE_ATTRIBUTE_DIRECTORY) {
+    lastWriteTime_  = fileInfo.ftLastWriteTime;
+    if (fileAttribute_ & FILE_ATTRIBUTE_DIRECTORY)
+    {
         size_ = 0;
-    } else {
-        size_ = fileInfo.nFileSizeHigh;
-        size_ <<= 32;
-        size_ += fileInfo.nFileSizeLow;
     }
-    knownFlagsMask |=  Times | SizeAttribute;
+    else
+    {
+        size_   = fileInfo.nFileSizeHigh;
+        size_   <<= 32;
+        size_   += fileInfo.nFileSizeLow;
+    }
+
+    knownFlagsMask |= Times | SizeAttribute;
 }
 #endif // !Q_OS_WINRT
 #endif // Q_OS_WIN

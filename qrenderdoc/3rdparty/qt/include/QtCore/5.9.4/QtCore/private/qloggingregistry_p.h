@@ -63,25 +63,26 @@ class tst_QLoggingRegistry;
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QLoggingRule
+class Q_AUTOTEST_EXPORT    QLoggingRule
 {
 public:
     QLoggingRule();
     QLoggingRule(const QStringRef &pattern, bool enabled);
     int pass(const QString &categoryName, QtMsgType type) const;
 
-    enum PatternFlag {
-        FullText = 0x1,
-        LeftFilter = 0x2,
+    enum PatternFlag
+    {
+        FullText    = 0x1,
+        LeftFilter  = 0x2,
         RightFilter = 0x4,
-        MidFilter = LeftFilter |  RightFilter
+        MidFilter   = LeftFilter | RightFilter
     };
     Q_DECLARE_FLAGS(PatternFlags, PatternFlag)
 
     QString category;
-    int messageType;
-    PatternFlags flags;
-    bool enabled;
+    int             messageType;
+    PatternFlags    flags;
+    bool            enabled;
 
 private:
     void parse(const QStringRef &pattern);
@@ -90,25 +91,31 @@ private:
 Q_DECLARE_OPERATORS_FOR_FLAGS(QLoggingRule::PatternFlags)
 Q_DECLARE_TYPEINFO(QLoggingRule, Q_MOVABLE_TYPE);
 
-class Q_AUTOTEST_EXPORT QLoggingSettingsParser
+class Q_AUTOTEST_EXPORT    QLoggingSettingsParser
 {
 public:
-    void setImplicitRulesSection(bool inRulesSection) { m_inRulesSection = inRulesSection; }
+    void setImplicitRulesSection(bool inRulesSection)
+    {
+        m_inRulesSection = inRulesSection;
+    }
 
     void setContent(const QString &content);
     void setContent(QTextStream &stream);
 
-    QVector<QLoggingRule> rules() const { return _rules; }
+    QVector<QLoggingRule> rules() const
+    {
+        return _rules;
+    }
 
 private:
     void parseNextLine(QStringRef line);
 
 private:
-    bool m_inRulesSection = false;
-    QVector<QLoggingRule> _rules;
+    bool                        m_inRulesSection = false;
+    QVector<QLoggingRule>       _rules;
 };
 
-class Q_AUTOTEST_EXPORT QLoggingRegistry
+class Q_AUTOTEST_EXPORT    QLoggingRegistry
 {
 public:
     QLoggingRegistry();
@@ -123,14 +130,15 @@ public:
     QLoggingCategory::CategoryFilter
     installFilter(QLoggingCategory::CategoryFilter filter);
 
-    static QLoggingRegistry *instance();
+    static QLoggingRegistry* instance();
 
 private:
     void updateRules();
 
     static void defaultCategoryFilter(QLoggingCategory *category);
 
-    enum RuleSet {
+    enum RuleSet
+    {
         // sorted by order in which defaultCategoryFilter considers them:
         QtConfigRules,
         ConfigRules,
@@ -140,12 +148,12 @@ private:
         NumRuleSets
     };
 
-    QMutex registryMutex;
+    QMutex    registryMutex;
 
     // protected by mutex:
-    QVector<QLoggingRule> ruleSets[NumRuleSets];
-    QHash<QLoggingCategory*,QtMsgType> categories;
-    QLoggingCategory::CategoryFilter categoryFilter;
+    QVector<QLoggingRule>                   ruleSets[NumRuleSets];
+    QHash<QLoggingCategory*, QtMsgType>     categories;
+    QLoggingCategory::CategoryFilter        categoryFilter;
 
     friend class ::tst_QLoggingRegistry;
 };

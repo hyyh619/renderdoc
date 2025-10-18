@@ -75,7 +75,7 @@ class QDrag;
 #endif // QT_NO_DRAGANDDROP
 class QInputDeviceManager;
 
-class Q_GUI_EXPORT QGuiApplicationPrivate : public QCoreApplicationPrivate
+class Q_GUI_EXPORT    QGuiApplicationPrivate : public QCoreApplicationPrivate
 {
     Q_DECLARE_PUBLIC(QGuiApplication)
 public:
@@ -96,20 +96,24 @@ public:
     bool shouldQuitInternal(const QWindowList &processedWindows);
     virtual bool tryCloseAllWindows();
 
-    static Qt::KeyboardModifiers modifier_buttons;
-    static Qt::MouseButtons mouse_buttons;
+    static Qt::KeyboardModifiers    modifier_buttons;
+    static Qt::MouseButtons         mouse_buttons;
 
-    static QPlatformIntegration *platform_integration;
+    static QPlatformIntegration    *platform_integration;
 
-    static QPlatformIntegration *platformIntegration()
-    { return platform_integration; }
+    static QPlatformIntegration* platformIntegration()
+    {
+        return platform_integration;
+    }
 
-    static QPlatformTheme *platform_theme;
+    static QPlatformTheme    *platform_theme;
 
-    static QPlatformTheme *platformTheme()
-    { return platform_theme; }
+    static QPlatformTheme* platformTheme()
+    {
+        return platform_theme;
+    }
 
-    static QAbstractEventDispatcher *qt_qpa_core_dispatcher()
+    static QAbstractEventDispatcher* qt_qpa_core_dispatcher()
     {
         if (QCoreApplication::instance())
             return QCoreApplication::instance()->d_func()->threadData->eventDispatcher.load();
@@ -175,11 +179,15 @@ public:
     {
         if (!(alignment & Qt::AlignHorizontal_Mask))
             alignment |= Qt::AlignLeft;
-        if (!(alignment & Qt::AlignAbsolute) && (alignment & (Qt::AlignLeft | Qt::AlignRight))) {
+
+        if (!(alignment&Qt::AlignAbsolute) && (alignment & (Qt::AlignLeft | Qt::AlignRight)))
+        {
             if (direction == Qt::RightToLeft)
                 alignment ^= (Qt::AlignLeft | Qt::AlignRight);
+
             alignment |= Qt::AlignAbsolute;
         }
+
         return alignment;
     }
 
@@ -189,99 +197,109 @@ public:
 
     void _q_updateFocusObject(QObject *object);
 
-    static QGuiApplicationPrivate *instance() { return self; }
+    static QGuiApplicationPrivate* instance()
+    {
+        return self;
+    }
 
-    static QIcon *app_icon;
-    static QString *platform_name;
-    static QString *displayName;
-    static QString *desktopFileName;
+    static QIcon        *app_icon;
+    static QString      *platform_name;
+    static QString      *displayName;
+    static QString      *desktopFileName;
 
-    QWindowList modalWindowList;
+    QWindowList    modalWindowList;
     static void showModalWindow(QWindow *window);
     static void hideModalWindow(QWindow *window);
     static void updateBlockedStatus(QWindow *window);
     virtual bool isWindowBlocked(QWindow *window, QWindow **blockingWindow = 0) const;
-    virtual bool popupActive() { return false; }
+    virtual bool popupActive()
+    {
+        return false;
+    }
 
-    static Qt::MouseButtons buttons;
-    static ulong mousePressTime;
-    static Qt::MouseButton mousePressButton;
-    static int mousePressX;
-    static int mousePressY;
-    static int mouse_double_click_distance;
-    static QPointF lastCursorPosition;
-    static QWindow *currentMouseWindow;
-    static QWindow *currentMousePressWindow;
-    static Qt::ApplicationState applicationState;
-    static bool highDpiScalingUpdated;
+    static Qt::MouseButtons         buttons;
+    static ulong                    mousePressTime;
+    static Qt::MouseButton          mousePressButton;
+    static int                      mousePressX;
+    static int                      mousePressY;
+    static int                      mouse_double_click_distance;
+    static QPointF                  lastCursorPosition;
+    static QWindow                  *currentMouseWindow;
+    static QWindow                  *currentMousePressWindow;
+    static Qt::ApplicationState     applicationState;
+    static bool                     highDpiScalingUpdated;
 
-    struct TabletPointData {
+    struct TabletPointData
+    {
         TabletPointData(qint64 devId = 0) : deviceId(devId), state(Qt::NoButton), target(Q_NULLPTR) {}
-        qint64 deviceId;
-        Qt::MouseButtons state;
-        QWindow *target;
+        qint64              deviceId;
+        Qt::MouseButtons    state;
+        QWindow             *target;
     };
-    static QVector<TabletPointData> tabletDevicePoints;
-    static TabletPointData &tabletDevicePoint(qint64 deviceId);
+    static QVector<TabletPointData>     tabletDevicePoints;
+    static TabletPointData              &tabletDevicePoint(qint64 deviceId);
 
 #ifndef QT_NO_CLIPBOARD
-    static QClipboard *qt_clipboard;
+    static QClipboard    *qt_clipboard;
 #endif
 
-    static QPalette *app_pal;
+    static QPalette    *app_pal;
 
-    static QWindowList window_list;
-    static QWindow *focus_window;
+    static QWindowList      window_list;
+    static QWindow          *focus_window;
 
 #ifndef QT_NO_CURSOR
-    QList<QCursor> cursor_list;
+    QList<QCursor>    cursor_list;
 #endif
-    static QList<QScreen *> screen_list;
+    static QList<QScreen*>    screen_list;
 
-    static QFont *app_font;
+    static QFont    *app_font;
 
-    static QString styleOverride;
-    static QStyleHints *styleHints;
-    static bool obey_desktop_settings;
-    QInputMethod *inputMethod;
+    static QString          styleOverride;
+    static QStyleHints      *styleHints;
+    static bool             obey_desktop_settings;
+    QInputMethod            *inputMethod;
 
-    QString firstWindowTitle;
-    QIcon forcedWindowIcon;
+    QString     firstWindowTitle;
+    QIcon       forcedWindowIcon;
 
-    static QList<QObject *> generic_plugin_list;
+    static QList<QObject*>    generic_plugin_list;
 #ifndef QT_NO_SHORTCUT
-    QShortcutMap shortcutMap;
+    QShortcutMap    shortcutMap;
 #endif
 
 #ifndef QT_NO_SESSIONMANAGER
-    static bool is_fallback_session_management_enabled;
-    QSessionManager *session_manager;
-    bool is_session_restored;
-    bool is_saving_session;
+    static bool         is_fallback_session_management_enabled;
+    QSessionManager     *session_manager;
+    bool                is_session_restored;
+    bool                is_saving_session;
     void commitData();
     void saveState();
 #endif
 
-    struct ActiveTouchPointsKey {
+    struct ActiveTouchPointsKey
+    {
         ActiveTouchPointsKey(QTouchDevice *dev, int id) : device(dev), touchPointId(id) { }
-        QTouchDevice *device;
-        int touchPointId;
+        QTouchDevice    *device;
+        int             touchPointId;
     };
-    struct ActiveTouchPointsValue {
-        QPointer<QWindow> window;
-        QPointer<QObject> target;
+    struct ActiveTouchPointsValue
+    {
+        QPointer<QWindow>       window;
+        QPointer<QObject>       target;
         QTouchEvent::TouchPoint touchPoint;
     };
-    QHash<ActiveTouchPointsKey, ActiveTouchPointsValue> activeTouchPoints;
-    QEvent::Type lastTouchType;
-    struct SynthesizedMouseData {
+    QHash<ActiveTouchPointsKey, ActiveTouchPointsValue>     activeTouchPoints;
+    QEvent::Type                                            lastTouchType;
+    struct SynthesizedMouseData
+    {
         SynthesizedMouseData(const QPointF &p, const QPointF &sp, QWindow *w)
             : pos(p), screenPos(sp), window(w) { }
-        QPointF pos;
-        QPointF screenPos;
-        QPointer<QWindow> window;
+        QPointF             pos;
+        QPointF             screenPos;
+        QPointer<QWindow>   window;
     };
-    QHash<QWindow *, SynthesizedMouseData> synthesizedMousePoints;
+    QHash<QWindow*, SynthesizedMouseData>    synthesizedMousePoints;
 
     static int mouseEventCaps(QMouseEvent *event);
     static QVector2D mouseEventVelocity(QMouseEvent *event);
@@ -293,13 +311,16 @@ public:
     static Qt::MouseEventFlags mouseEventFlags(const QMouseEvent *event);
     static void setMouseEventFlags(QMouseEvent *event, Qt::MouseEventFlags flags);
 
-    static QInputDeviceManager *inputDeviceManager();
+    static QInputDeviceManager* inputDeviceManager();
 
-    const QColorProfile *colorProfileForA8Text();
-    const QColorProfile *colorProfileForA32Text();
+    const QColorProfile* colorProfileForA8Text();
+    const QColorProfile* colorProfileForA32Text();
 
     // hook reimplemented in QApplication to apply the QStyle function on the QIcon
-    virtual QPixmap applyQIconStyleHelper(QIcon::Mode, const QPixmap &basePixmap) const { return basePixmap; }
+    virtual QPixmap applyQIconStyleHelper(QIcon::Mode, const QPixmap &basePixmap) const
+    {
+        return basePixmap;
+    }
 
     virtual void notifyWindowIconChanged();
 
@@ -311,21 +332,21 @@ protected:
     virtual void notifyThemeChanged();
     bool tryCloseRemainingWindows(QWindowList processedWindows);
 #ifndef QT_NO_DRAGANDDROP
-    virtual void notifyDragStarted(const QDrag *);
+    virtual void notifyDragStarted(const QDrag*);
 #endif // QT_NO_DRAGANDDROP
 
 private:
     friend class QDragManager;
 
-    static QGuiApplicationPrivate *self;
-    static QTouchDevice *m_fakeTouchDevice;
-    static int m_fakeMouseSourcePointId;
-    QAtomicPointer<QColorProfile> m_a8ColorProfile;
-    QAtomicPointer<QColorProfile> m_a32ColorProfile;
+    static QGuiApplicationPrivate       *self;
+    static QTouchDevice                 *m_fakeTouchDevice;
+    static int                          m_fakeMouseSourcePointId;
+    QAtomicPointer<QColorProfile>       m_a8ColorProfile;
+    QAtomicPointer<QColorProfile>       m_a32ColorProfile;
 
-    bool ownGlobalShareContext;
+    bool    ownGlobalShareContext;
 
-    static QInputDeviceManager *m_inputDeviceManager;
+    static QInputDeviceManager    *m_inputDeviceManager;
 };
 
 Q_GUI_EXPORT uint qHash(const QGuiApplicationPrivate::ActiveTouchPointsKey &k);

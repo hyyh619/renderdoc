@@ -63,7 +63,7 @@ QT_BEGIN_NAMESPACE
 
 class QFSFileEnginePrivate;
 
-class Q_CORE_EXPORT QFSFileEngine : public QAbstractFileEngine
+class Q_CORE_EXPORT    QFSFileEngine : public QAbstractFileEngine
 {
     Q_DECLARE_PRIVATE(QFSFileEngine)
 public:
@@ -78,7 +78,7 @@ public:
     bool syncToDisk() Q_DECL_OVERRIDE;
     qint64 size() const Q_DECL_OVERRIDE;
     qint64 pos() const Q_DECL_OVERRIDE;
-    bool seek(qint64) Q_DECL_OVERRIDE;
+    bool    seek(qint64) Q_DECL_OVERRIDE;
     bool isSequential() const Q_DECL_OVERRIDE;
     bool remove() Q_DECL_OVERRIDE;
     bool copy(const QString &newName) Q_DECL_OVERRIDE;
@@ -95,15 +95,15 @@ public:
     bool setPermissions(uint perms) Q_DECL_OVERRIDE;
     QByteArray id() const override;
     QString fileName(FileName file) const Q_DECL_OVERRIDE;
-    uint ownerId(FileOwner) const Q_DECL_OVERRIDE;
-    QString owner(FileOwner) const Q_DECL_OVERRIDE;
+    uint        ownerId(FileOwner) const Q_DECL_OVERRIDE;
+    QString     owner(FileOwner) const Q_DECL_OVERRIDE;
     QDateTime fileTime(FileTime time) const Q_DECL_OVERRIDE;
     void setFileName(const QString &file) Q_DECL_OVERRIDE;
     int handle() const Q_DECL_OVERRIDE;
 
 #ifndef QT_NO_FILESYSTEMITERATOR
-    Iterator *beginEntryList(QDir::Filters filters, const QStringList &filterNames) Q_DECL_OVERRIDE;
-    Iterator *endEntryList() Q_DECL_OVERRIDE;
+    Iterator* beginEntryList(QDir::Filters filters, const QStringList &filterNames) Q_DECL_OVERRIDE;
+    Iterator* endEntryList() Q_DECL_OVERRIDE;
 #endif
 
     qint64 read(char *data, qint64 maxlen) Q_DECL_OVERRIDE;
@@ -113,7 +113,7 @@ public:
     bool extension(Extension extension, const ExtensionOption *option = 0, ExtensionReturn *output = 0) Q_DECL_OVERRIDE;
     bool supportsExtension(Extension extension) const Q_DECL_OVERRIDE;
 
-    //FS only!!
+    // FS only!!
     bool open(QIODevice::OpenMode flags, int fd);
     bool open(QIODevice::OpenMode flags, int fd, QFile::FileHandleFlags handleFlags);
     bool open(QIODevice::OpenMode flags, FILE *fh, QFile::FileHandleFlags handleFlags);
@@ -128,7 +128,7 @@ protected:
     QFSFileEngine(QFSFileEnginePrivate &dd);
 };
 
-class Q_AUTOTEST_EXPORT QFSFileEnginePrivate : public QAbstractFileEnginePrivate
+class Q_AUTOTEST_EXPORT    QFSFileEnginePrivate : public QAbstractFileEnginePrivate
 {
     Q_DECLARE_PUBLIC(QFSFileEngine)
 
@@ -138,7 +138,7 @@ public:
 #endif
 
     QFileSystemEntry fileEntry;
-    QIODevice::OpenMode openMode;
+    QIODevice::OpenMode    openMode;
 
     bool nativeOpen(QIODevice::OpenMode openMode);
     bool openFh(QIODevice::OpenMode flags, FILE *fh);
@@ -154,8 +154,8 @@ public:
 #endif
     qint64 nativePos() const;
     qint64 posFdFh() const;
-    bool nativeSeek(qint64);
-    bool seekFdFh(qint64);
+    bool    nativeSeek(qint64);
+    bool    seekFdFh(qint64);
     qint64 nativeRead(char *data, qint64 maxlen);
     qint64 readFdFh(char *data, qint64 maxlen);
     qint64 nativeReadLine(char *data, qint64 maxlen);
@@ -168,25 +168,25 @@ public:
     bool isSequentialFdFh() const;
 #endif
 
-    uchar *map(qint64 offset, qint64 size, QFile::MemoryMapFlags flags);
+    uchar* map(qint64 offset, qint64 size, QFile::MemoryMapFlags flags);
     bool unmap(uchar *ptr);
     void unmapAll();
 
-    mutable QFileSystemMetaData metaData;
+    mutable QFileSystemMetaData    metaData;
 
-    FILE *fh;
+    FILE    *fh;
 
 #ifdef Q_OS_WIN
-    HANDLE fileHandle;
-    HANDLE mapHandle;
-    QHash<uchar *, DWORD /* offset % AllocationGranularity */> maps;
+    HANDLE                                                          fileHandle;
+    HANDLE                                                          mapHandle;
+    QHash<uchar*, DWORD /* offset % AllocationGranularity */>       maps;
 
-    mutable int cachedFd;
-    mutable DWORD fileAttrib;
+    mutable int         cachedFd;
+    mutable DWORD       fileAttrib;
 #else
-    QHash<uchar *, QPair<int /*offset % PageSize*/, size_t /*length + offset % PageSize*/> > maps;
+    QHash<uchar*, QPair<int /*offset % PageSize*/, size_t /*length + offset % PageSize*/> >    maps;
 #endif
-    int fd;
+    int    fd;
 
     enum LastIOCommand
     {
@@ -194,14 +194,14 @@ public:
         IOReadCommand,
         IOWriteCommand
     };
-    LastIOCommand  lastIOCommand;
-    bool lastFlushFailed;
-    bool closeFileHandle;
+    LastIOCommand       lastIOCommand;
+    bool                lastFlushFailed;
+    bool                closeFileHandle;
 
-    mutable uint is_sequential : 2;
-    mutable uint tried_stat : 1;
-    mutable uint need_lstat : 1;
-    mutable uint is_link : 1;
+    mutable uint    is_sequential : 2;
+    mutable uint    tried_stat : 1;
+    mutable uint    need_lstat : 1;
+    mutable uint    is_link : 1;
 
 #if defined(Q_OS_WIN)
     bool doStat(QFileSystemMetaData::MetaDataFlags flags) const;
@@ -211,7 +211,7 @@ public:
     bool isSymlink() const;
 
 #if defined(Q_OS_WIN32)
-    int sysOpen(const QString &, int flags);
+    int sysOpen(const QString&, int flags);
 #endif
 
 protected:
@@ -223,7 +223,6 @@ protected:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_FSFILEENGINE
 
 #endif // QFSFILEENGINE_P_H

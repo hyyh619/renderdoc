@@ -63,7 +63,7 @@ class QTextTable;
 class QTextFrame;
 class QTextBlock;
 
-class Q_GUI_EXPORT QTextCursor
+class Q_GUI_EXPORT    QTextCursor
 {
 public:
     QTextCursor();
@@ -74,16 +74,23 @@ public:
     explicit QTextCursor(const QTextBlock &block);
     QTextCursor(const QTextCursor &cursor);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QTextCursor &operator=(QTextCursor &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QTextCursor&operator=(QTextCursor &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QTextCursor &operator=(const QTextCursor &other);
+    QTextCursor&operator=(const QTextCursor &other);
     ~QTextCursor();
 
-    void swap(QTextCursor &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QTextCursor &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool isNull() const;
 
-    enum MoveMode {
+    enum MoveMode
+    {
         MoveAnchor,
         KeepAnchor
     };
@@ -97,7 +104,8 @@ public:
     void insertText(const QString &text);
     void insertText(const QString &text, const QTextCharFormat &format);
 
-    enum MoveOperation {
+    enum MoveOperation
+    {
         NoMove,
 
         Start,
@@ -128,7 +136,7 @@ public:
         PreviousRow
     };
 
-    bool movePosition(MoveOperation op, MoveMode = MoveAnchor, int n = 1);
+    bool    movePosition(MoveOperation op, MoveMode = MoveAnchor, int n = 1);
 
     bool visualNavigation() const;
     void setVisualNavigation(bool b);
@@ -142,7 +150,8 @@ public:
     void deleteChar();
     void deletePreviousChar();
 
-    enum SelectionType {
+    enum SelectionType
+    {
         WordUnderCursor,
         LineUnderCursor,
         BlockUnderCursor,
@@ -184,19 +193,19 @@ public:
     void insertBlock(const QTextBlockFormat &format);
     void insertBlock(const QTextBlockFormat &format, const QTextCharFormat &charFormat);
 
-    QTextList *insertList(const QTextListFormat &format);
-    QTextList *insertList(QTextListFormat::Style style);
+    QTextList* insertList(const QTextListFormat &format);
+    QTextList* insertList(QTextListFormat::Style style);
 
-    QTextList *createList(const QTextListFormat &format);
-    QTextList *createList(QTextListFormat::Style style);
-    QTextList *currentList() const;
+    QTextList* createList(const QTextListFormat &format);
+    QTextList* createList(QTextListFormat::Style style);
+    QTextList* currentList() const;
 
-    QTextTable *insertTable(int rows, int cols, const QTextTableFormat &format);
-    QTextTable *insertTable(int rows, int cols);
-    QTextTable *currentTable() const;
+    QTextTable* insertTable(int rows, int cols, const QTextTableFormat &format);
+    QTextTable* insertTable(int rows, int cols);
+    QTextTable* currentTable() const;
 
-    QTextFrame *insertFrame(const QTextFrameFormat &format);
-    QTextFrame *currentFrame() const;
+    QTextFrame* insertFrame(const QTextFrameFormat &format);
+    QTextFrame* currentFrame() const;
 
     void insertFragment(const QTextDocumentFragment &fragment);
 
@@ -225,10 +234,10 @@ public:
     int blockNumber() const;
     int columnNumber() const;
 
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
 private:
-    QSharedDataPointer<QTextCursorPrivate> d;
+    QSharedDataPointer<QTextCursorPrivate>    d;
     friend class QTextCursorPrivate;
     friend class QTextDocumentPrivate;
     friend class QTextDocumentFragmentPrivate;

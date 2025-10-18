@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QEventLoopPrivate;
 
-class Q_CORE_EXPORT QEventLoop : public QObject
+class Q_CORE_EXPORT    QEventLoop : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QEventLoop)
@@ -56,14 +56,15 @@ public:
     explicit QEventLoop(QObject *parent = Q_NULLPTR);
     ~QEventLoop();
 
-    enum ProcessEventsFlag {
-        AllEvents = 0x00,
-        ExcludeUserInputEvents = 0x01,
-        ExcludeSocketNotifiers = 0x02,
-        WaitForMoreEvents = 0x04,
-        X11ExcludeTimers = 0x08,
-        EventLoopExec = 0x20,
-        DialogExec = 0x40
+    enum ProcessEventsFlag
+    {
+        AllEvents               = 0x00,
+        ExcludeUserInputEvents  = 0x01,
+        ExcludeSocketNotifiers  = 0x02,
+        WaitForMoreEvents       = 0x04,
+        X11ExcludeTimers        = 0x08,
+        EventLoopExec           = 0x20,
+        DialogExec              = 0x40
     };
     Q_DECLARE_FLAGS(ProcessEventsFlags, ProcessEventsFlag)
 
@@ -87,7 +88,7 @@ Q_DECLARE_OPERATORS_FOR_FLAGS(QEventLoop::ProcessEventsFlags)
 
 class QEventLoopLockerPrivate;
 
-class Q_CORE_EXPORT QEventLoopLocker
+class Q_CORE_EXPORT    QEventLoopLocker
 {
 public:
     QEventLoopLocker();
@@ -97,7 +98,7 @@ public:
 
 private:
     Q_DISABLE_COPY(QEventLoopLocker)
-    QEventLoopLockerPrivate *d_ptr;
+    QEventLoopLockerPrivate * d_ptr;
 };
 
 QT_END_NAMESPACE

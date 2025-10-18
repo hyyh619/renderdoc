@@ -51,16 +51,28 @@ QT_BEGIN_NAMESPACE
 class QAbstractItemModel;
 class QPersistentModelIndex;
 
-class Q_CORE_EXPORT QModelIndex
+class Q_CORE_EXPORT    QModelIndex
 {
     friend class QAbstractItemModel;
 public:
     Q_DECL_CONSTEXPR inline QModelIndex() Q_DECL_NOTHROW : r(-1), c(-1), i(0), m(Q_NULLPTR) {}
     // compiler-generated copy/move ctors/assignment operators are fine!
-    Q_DECL_CONSTEXPR inline int row() const Q_DECL_NOTHROW { return r; }
-    Q_DECL_CONSTEXPR inline int column() const Q_DECL_NOTHROW { return c; }
-    Q_DECL_CONSTEXPR inline quintptr internalId() const Q_DECL_NOTHROW { return i; }
-    inline void *internalPointer() const Q_DECL_NOTHROW { return reinterpret_cast<void*>(i); }
+    Q_DECL_CONSTEXPR inline int row() const Q_DECL_NOTHROW
+    {
+        return r;
+    }
+    Q_DECL_CONSTEXPR inline int column() const Q_DECL_NOTHROW
+    {
+        return c;
+    }
+    Q_DECL_CONSTEXPR inline quintptr internalId() const Q_DECL_NOTHROW
+    {
+        return i;
+    }
+    inline void* internalPointer() const Q_DECL_NOTHROW
+    {
+        return reinterpret_cast<void*>(i);
+    }
     inline QModelIndex parent() const;
     inline QModelIndex sibling(int row, int column) const;
 #if QT_DEPRECATED_SINCE(5, 8)
@@ -68,32 +80,42 @@ public:
 #endif
     inline QVariant data(int role = Qt::DisplayRole) const;
     inline Qt::ItemFlags flags() const;
-    Q_DECL_CONSTEXPR inline const QAbstractItemModel *model() const Q_DECL_NOTHROW { return m; }
-    Q_DECL_CONSTEXPR inline bool isValid() const Q_DECL_NOTHROW { return (r >= 0) && (c >= 0) && (m != Q_NULLPTR); }
+    Q_DECL_CONSTEXPR inline const QAbstractItemModel* model() const Q_DECL_NOTHROW
+    {
+        return m;
+    }
+    Q_DECL_CONSTEXPR inline bool isValid() const Q_DECL_NOTHROW
+    {
+        return (r >= 0) && (c >= 0) && (m != Q_NULLPTR);
+    }
     Q_DECL_CONSTEXPR inline bool operator==(const QModelIndex &other) const Q_DECL_NOTHROW
-        { return (other.r == r) && (other.i == i) && (other.c == c) && (other.m == m); }
+    {
+        return (other.r == r) && (other.i == i) && (other.c == c) && (other.m == m);
+    }
     Q_DECL_CONSTEXPR inline bool operator!=(const QModelIndex &other) const Q_DECL_NOTHROW
-        { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
     Q_DECL_CONSTEXPR inline bool operator<(const QModelIndex &other) const Q_DECL_NOTHROW
-        {
-            return  r <  other.r
-                || (r == other.r && (c <  other.c
-                                 || (c == other.c && (i <  other.i
-                                                  || (i == other.i && std::less<const QAbstractItemModel *>()(m, other.m))))));
-        }
+    {
+        return r <  other.r
+               || (r == other.r && (c <  other.c
+                                    || (c == other.c && (i <  other.i
+                                                         || (i == other.i && std::less<const QAbstractItemModel*>()(m, other.m))))));
+    }
 private:
     inline QModelIndex(int arow, int acolumn, void *ptr, const QAbstractItemModel *amodel) Q_DECL_NOTHROW
         : r(arow), c(acolumn), i(reinterpret_cast<quintptr>(ptr)), m(amodel) {}
     Q_DECL_CONSTEXPR inline QModelIndex(int arow, int acolumn, quintptr id, const QAbstractItemModel *amodel) Q_DECL_NOTHROW
         : r(arow), c(acolumn), i(id), m(amodel) {}
-    int r, c;
-    quintptr i;
-    const QAbstractItemModel *m;
+    int                         r, c;
+    quintptr                    i;
+    const QAbstractItemModel    *m;
 };
 Q_DECLARE_TYPEINFO(QModelIndex, Q_MOVABLE_TYPE);
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QModelIndex &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QModelIndex&);
 #endif
 
 class QPersistentModelIndexData;
@@ -101,7 +123,7 @@ class QPersistentModelIndexData;
 // qHash is a friend, but we can't use default arguments for friends (§8.3.6.4)
 uint qHash(const QPersistentModelIndex &index, uint seed = 0) Q_DECL_NOTHROW;
 
-class Q_CORE_EXPORT QPersistentModelIndex
+class Q_CORE_EXPORT    QPersistentModelIndex
 {
 public:
     QPersistentModelIndex();
@@ -111,22 +133,32 @@ public:
     bool operator<(const QPersistentModelIndex &other) const;
     bool operator==(const QPersistentModelIndex &other) const;
     inline bool operator!=(const QPersistentModelIndex &other) const
-    { return !operator==(other); }
-    QPersistentModelIndex &operator=(const QPersistentModelIndex &other);
+    {
+        return !operator==(other);
+    }
+    QPersistentModelIndex&operator=(const QPersistentModelIndex &other);
 #ifdef Q_COMPILER_RVALUE_REFS
     inline QPersistentModelIndex(QPersistentModelIndex &&other) Q_DECL_NOTHROW
-        : d(other.d) { other.d = Q_NULLPTR; }
-    inline QPersistentModelIndex &operator=(QPersistentModelIndex &&other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); return *this; }
+        : d(other.d)
+    {
+        other.d = Q_NULLPTR;
+    }
+    inline QPersistentModelIndex&operator=(QPersistentModelIndex &&other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d); return *this;
+    }
 #endif
-    inline void swap(QPersistentModelIndex &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    inline void swap(QPersistentModelIndex &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
     bool operator==(const QModelIndex &other) const;
     bool operator!=(const QModelIndex &other) const;
-    QPersistentModelIndex &operator=(const QModelIndex &other);
+    QPersistentModelIndex&operator=(const QModelIndex &other);
     operator const QModelIndex&() const;
     int row() const;
     int column() const;
-    void *internalPointer() const;
+    void* internalPointer() const;
     quintptr internalId() const;
     QModelIndex parent() const;
     QModelIndex sibling(int row, int column) const;
@@ -135,23 +167,25 @@ public:
 #endif
     QVariant data(int role = Qt::DisplayRole) const;
     Qt::ItemFlags flags() const;
-    const QAbstractItemModel *model() const;
+    const QAbstractItemModel* model() const;
     bool isValid() const;
 private:
-    QPersistentModelIndexData *d;
-    friend uint qHash(const QPersistentModelIndex &, uint seed) Q_DECL_NOTHROW;
+    QPersistentModelIndexData    *d;
+    friend uint qHash(const QPersistentModelIndex&, uint seed) Q_DECL_NOTHROW;
 #ifndef QT_NO_DEBUG_STREAM
-    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QPersistentModelIndex &);
+    friend Q_CORE_EXPORT QDebug operator<<(QDebug, const QPersistentModelIndex&);
 #endif
 };
 Q_DECLARE_SHARED(QPersistentModelIndex)
 
 inline uint qHash(const QPersistentModelIndex &index, uint seed) Q_DECL_NOTHROW
-{ return qHash(index.d, seed); }
+{
+    return qHash(index.d, seed);
+}
 
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_CORE_EXPORT QDebug operator<<(QDebug, const QPersistentModelIndex &);
+Q_CORE_EXPORT QDebug operator<<(QDebug, const QPersistentModelIndex&);
 #endif
 
 template<typename T> class QList;
@@ -159,10 +193,10 @@ typedef QList<QModelIndex> QModelIndexList;
 
 class QMimeData;
 class QAbstractItemModelPrivate;
-template <class Key, class T> class QMap;
+template<class Key, class T> class QMap;
 
 
-class Q_CORE_EXPORT QAbstractItemModel : public QObject
+class Q_CORE_EXPORT    QAbstractItemModel : public QObject
 {
     Q_OBJECT
 
@@ -176,19 +210,19 @@ public:
 
     Q_INVOKABLE bool hasIndex(int row, int column, const QModelIndex &parent = QModelIndex()) const;
     Q_INVOKABLE virtual QModelIndex index(int row, int column,
-                              const QModelIndex &parent = QModelIndex()) const = 0;
-    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex &child) const = 0;
+                                          const QModelIndex &parent = QModelIndex()) const  = 0;
+    Q_INVOKABLE virtual QModelIndex parent(const QModelIndex &child) const                  = 0;
 
     Q_INVOKABLE virtual QModelIndex sibling(int row, int column, const QModelIndex &idx) const;
-    Q_INVOKABLE virtual int rowCount(const QModelIndex &parent = QModelIndex()) const = 0;
-    Q_INVOKABLE virtual int columnCount(const QModelIndex &parent = QModelIndex()) const = 0;
+    Q_INVOKABLE virtual int rowCount(const QModelIndex &parent = QModelIndex()) const       = 0;
+    Q_INVOKABLE virtual int columnCount(const QModelIndex &parent = QModelIndex()) const    = 0;
     Q_INVOKABLE virtual bool hasChildren(const QModelIndex &parent = QModelIndex()) const;
 
     Q_INVOKABLE virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const = 0;
     Q_INVOKABLE virtual bool setData(const QModelIndex &index, const QVariant &value, int role = Qt::EditRole);
 
     Q_INVOKABLE virtual QVariant headerData(int section, Qt::Orientation orientation,
-                                int role = Qt::DisplayRole) const;
+                                            int role = Qt::DisplayRole) const;
     virtual bool setHeaderData(int section, Qt::Orientation orientation, const QVariant &value,
                                int role = Qt::EditRole);
 
@@ -196,7 +230,7 @@ public:
     virtual bool setItemData(const QModelIndex &index, const QMap<int, QVariant> &roles);
 
     virtual QStringList mimeTypes() const;
-    virtual QMimeData *mimeData(const QModelIndexList &indexes) const;
+    virtual QMimeData* mimeData(const QModelIndexList &indexes) const;
     virtual bool canDropMimeData(const QMimeData *data, Qt::DropAction action,
                                  int row, int column, const QModelIndex &parent) const;
     virtual bool dropMimeData(const QMimeData *data, Qt::DropAction action,
@@ -206,7 +240,9 @@ public:
     virtual Qt::DropActions supportedDragActions() const;
 #if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED void setSupportedDragActions(Qt::DropActions actions)
-    { doSetSupportedDragActions(actions); }
+    {
+        doSetSupportedDragActions(actions);
+    }
 #endif
 
     virtual bool insertRows(int row, int count, const QModelIndex &parent = QModelIndex());
@@ -235,10 +271,10 @@ public:
     Q_INVOKABLE virtual QModelIndexList match(const QModelIndex &start, int role,
                                               const QVariant &value, int hits = 1,
                                               Qt::MatchFlags flags =
-                                              Qt::MatchFlags(Qt::MatchStartsWith|Qt::MatchWrap)) const;
+                                                  Qt::MatchFlags(Qt::MatchStartsWith | Qt::MatchWrap)) const;
     virtual QSize span(const QModelIndex &index) const;
 
-    virtual QHash<int,QByteArray> roleNames() const;
+    virtual QHash<int, QByteArray> roleNames() const;
 
     using QObject::parent;
 
@@ -256,26 +292,26 @@ Q_SIGNALS:
     void layoutChanged(const QList<QPersistentModelIndex> &parents = QList<QPersistentModelIndex>(), QAbstractItemModel::LayoutChangeHint hint = QAbstractItemModel::NoLayoutChangeHint);
     void layoutAboutToBeChanged(const QList<QPersistentModelIndex> &parents = QList<QPersistentModelIndex>(), QAbstractItemModel::LayoutChangeHint hint = QAbstractItemModel::NoLayoutChangeHint);
 
-    void rowsAboutToBeInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
-    void rowsInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    rowsAboutToBeInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    rowsInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
 
-    void rowsAboutToBeRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
-    void rowsRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    rowsAboutToBeRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    rowsRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
 
-    void columnsAboutToBeInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
-    void columnsInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    columnsAboutToBeInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    columnsInserted(const QModelIndex &parent, int first, int last, QPrivateSignal);
 
-    void columnsAboutToBeRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
-    void columnsRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    columnsAboutToBeRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
+    void    columnsRemoved(const QModelIndex &parent, int first, int last, QPrivateSignal);
 
-    void modelAboutToBeReset(QPrivateSignal);
-    void modelReset(QPrivateSignal);
+    void    modelAboutToBeReset(QPrivateSignal);
+    void    modelReset(QPrivateSignal);
 
-    void rowsAboutToBeMoved( const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationRow, QPrivateSignal);
-    void rowsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
+    void    rowsAboutToBeMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationRow, QPrivateSignal);
+    void    rowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row, QPrivateSignal);
 
-    void columnsAboutToBeMoved( const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationColumn, QPrivateSignal);
-    void columnsMoved( const QModelIndex &parent, int start, int end, const QModelIndex &destination, int column, QPrivateSignal);
+    void    columnsAboutToBeMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd, const QModelIndex &destinationParent, int destinationColumn, QPrivateSignal);
+    void    columnsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int column, QPrivateSignal);
 
 public Q_SLOTS:
     virtual bool submit();
@@ -313,7 +349,7 @@ protected:
     void endMoveColumns();
 
 
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED void reset()
     {
         beginResetModel();
@@ -328,15 +364,15 @@ protected:
     void changePersistentIndexList(const QModelIndexList &from, const QModelIndexList &to);
     QModelIndexList persistentIndexList() const;
 
-#if QT_DEPRECATED_SINCE(5,0)
-    QT_DEPRECATED void setRoleNames(const QHash<int,QByteArray> &theRoleNames)
+#if QT_DEPRECATED_SINCE(5, 0)
+    QT_DEPRECATED void setRoleNames(const QHash<int, QByteArray> &theRoleNames)
     {
         doSetRoleNames(theRoleNames);
     }
 #endif
 
 private:
-    void doSetRoleNames(const QHash<int,QByteArray> &roleNames);
+    void doSetRoleNames(const QHash<int, QByteArray> &roleNames);
     void doSetSupportedDragActions(Qt::DropActions actions);
 
     Q_DECLARE_PRIVATE(QAbstractItemModel)
@@ -344,25 +380,41 @@ private:
 };
 
 inline bool QAbstractItemModel::insertRow(int arow, const QModelIndex &aparent)
-{ return insertRows(arow, 1, aparent); }
+{
+    return insertRows(arow, 1, aparent);
+}
 inline bool QAbstractItemModel::insertColumn(int acolumn, const QModelIndex &aparent)
-{ return insertColumns(acolumn, 1, aparent); }
+{
+    return insertColumns(acolumn, 1, aparent);
+}
 inline bool QAbstractItemModel::removeRow(int arow, const QModelIndex &aparent)
-{ return removeRows(arow, 1, aparent); }
+{
+    return removeRows(arow, 1, aparent);
+}
 inline bool QAbstractItemModel::removeColumn(int acolumn, const QModelIndex &aparent)
-{ return removeColumns(acolumn, 1, aparent); }
+{
+    return removeColumns(acolumn, 1, aparent);
+}
 inline bool QAbstractItemModel::moveRow(const QModelIndex &sourceParent, int sourceRow,
                                         const QModelIndex &destinationParent, int destinationChild)
-{ return moveRows(sourceParent, sourceRow, 1, destinationParent, destinationChild); }
+{
+    return moveRows(sourceParent, sourceRow, 1, destinationParent, destinationChild);
+}
 inline bool QAbstractItemModel::moveColumn(const QModelIndex &sourceParent, int sourceColumn,
                                            const QModelIndex &destinationParent, int destinationChild)
-{ return moveColumns(sourceParent, sourceColumn, 1, destinationParent, destinationChild); }
+{
+    return moveColumns(sourceParent, sourceColumn, 1, destinationParent, destinationChild);
+}
 inline QModelIndex QAbstractItemModel::createIndex(int arow, int acolumn, void *adata) const
-{ return QModelIndex(arow, acolumn, adata, this); }
+{
+    return QModelIndex(arow, acolumn, adata, this);
+}
 inline QModelIndex QAbstractItemModel::createIndex(int arow, int acolumn, quintptr aid) const
-{ return QModelIndex(arow, acolumn, aid, this); }
+{
+    return QModelIndex(arow, acolumn, aid, this);
+}
 
-class Q_CORE_EXPORT QAbstractTableModel : public QAbstractItemModel
+class Q_CORE_EXPORT    QAbstractTableModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -388,7 +440,7 @@ private:
     bool hasChildren(const QModelIndex &parent) const Q_DECL_OVERRIDE;
 };
 
-class Q_CORE_EXPORT QAbstractListModel : public QAbstractItemModel
+class Q_CORE_EXPORT    QAbstractListModel : public QAbstractItemModel
 {
     Q_OBJECT
 
@@ -418,24 +470,36 @@ private:
 // inline implementations
 
 inline QModelIndex QModelIndex::parent() const
-{ return m ? m->parent(*this) : QModelIndex(); }
+{
+    return m ? m->parent(*this) : QModelIndex();
+}
 
 inline QModelIndex QModelIndex::sibling(int arow, int acolumn) const
-{ return m ? (r == arow && c == acolumn) ? *this : m->sibling(arow, acolumn, *this) : QModelIndex(); }
+{
+    return m ? (r == arow && c == acolumn) ? *this : m->sibling(arow, acolumn, *this) : QModelIndex();
+}
 
 #if QT_DEPRECATED_SINCE(5, 8)
 inline QModelIndex QModelIndex::child(int arow, int acolumn) const
-{ return m ? m->index(arow, acolumn, *this) : QModelIndex(); }
+{
+    return m ? m->index(arow, acolumn, *this) : QModelIndex();
+}
 #endif
 
 inline QVariant QModelIndex::data(int arole) const
-{ return m ? m->data(*this, arole) : QVariant(); }
+{
+    return m ? m->data(*this, arole) : QVariant();
+}
 
 inline Qt::ItemFlags QModelIndex::flags() const
-{ return m ? m->flags(*this) : Qt::ItemFlags(); }
+{
+    return m ? m->flags(*this) : Qt::ItemFlags();
+}
 
 inline uint qHash(const QModelIndex &index) Q_DECL_NOTHROW
-{ return uint((uint(index.row()) << 4) + index.column() + index.internalId()); }
+{
+    return uint((uint(index.row()) << 4) + index.column() + index.internalId());
+}
 
 QT_END_NAMESPACE
 

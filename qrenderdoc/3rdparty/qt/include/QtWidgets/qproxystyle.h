@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 #if !defined(QT_NO_STYLE_PROXY)
 
 class QProxyStylePrivate;
-class Q_WIDGETS_EXPORT QProxyStyle : public QCommonStyle
+class Q_WIDGETS_EXPORT    QProxyStyle : public QCommonStyle
 {
     Q_OBJECT
 
@@ -58,7 +58,7 @@ public:
     QProxyStyle(const QString &key);
     ~QProxyStyle();
 
-    QStyle *baseStyle() const;
+    QStyle* baseStyle() const;
     void setBaseStyle(QStyle *style);
 
     void drawPrimitive(PrimitiveElement element, const QStyleOption *option, QPainter *painter, const QWidget *widget = Q_NULLPTR) const Q_DECL_OVERRIDE;
@@ -100,7 +100,6 @@ private:
     Q_DISABLE_COPY(QProxyStyle)
     Q_DECLARE_PRIVATE(QProxyStyle)
 };
-
 #endif // QT_NO_STYLE_PROXY
 
 QT_END_NAMESPACE

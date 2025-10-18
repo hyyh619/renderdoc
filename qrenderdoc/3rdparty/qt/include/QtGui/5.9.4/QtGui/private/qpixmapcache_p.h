@@ -66,12 +66,12 @@ class QPixmapCache::KeyData
 public:
     KeyData() : isValid(true), key(0), ref(1) {}
     KeyData(const KeyData &other)
-     : isValid(other.isValid), key(other.key), ref(1) {}
+        : isValid(other.isValid), key(other.key), ref(1) {}
     ~KeyData() {}
 
-    bool isValid;
-    int key;
-    int ref;
+    bool    isValid;
+    int     key;
+    int     ref;
 };
 
 // XXX: hw: is this a general concept we need to abstract?
@@ -80,9 +80,11 @@ class QPixmapCacheEntry : public QPixmap
 public:
     QPixmapCacheEntry(const QPixmapCache::Key &key, const QPixmap &pix) : QPixmap(pix), key(key)
     {
-        QPlatformPixmap *pd = handle();
-        if (pd && pd->classId() == QPlatformPixmap::RasterClass) {
-            QRasterPlatformPixmap *d = static_cast<QRasterPlatformPixmap*>(pd);
+        QPlatformPixmap    *pd = handle();
+
+        if (pd && pd->classId() == QPlatformPixmap::RasterClass)
+        {
+            QRasterPlatformPixmap    *d = static_cast<QRasterPlatformPixmap*>(pd);
             if (!d->image.isNull() && d->image.d->paintEngine
                 && !d->image.d->paintEngine->isActive())
             {
@@ -92,7 +94,7 @@ public:
         }
     }
     ~QPixmapCacheEntry();
-    QPixmapCache::Key key;
+    QPixmapCache::Key    key;
 };
 
 QT_END_NAMESPACE

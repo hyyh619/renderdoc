@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 
 
 class QThreadPoolPrivate;
-class Q_CORE_EXPORT QThreadPool : public QObject
+class Q_CORE_EXPORT    QThreadPool : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QThreadPool)
@@ -64,7 +64,7 @@ public:
     QThreadPool(QObject *parent = Q_NULLPTR);
     ~QThreadPool();
 
-    static QThreadPool *globalInstance();
+    static QThreadPool* globalInstance();
 
     void start(QRunnable *runnable, int priority = 0);
     bool tryStart(QRunnable *runnable);
@@ -92,7 +92,6 @@ public:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_THREAD
 
 #endif

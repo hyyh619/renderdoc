@@ -54,10 +54,11 @@ QT_BEGIN_NAMESPACE
 
 class QVariant;
 
-class Q_GUI_EXPORT QTransform
+class Q_GUI_EXPORT    QTransform
 {
 public:
-    enum TransformationType {
+    enum TransformationType
+    {
         TxNone      = 0x00,
         TxTranslate = 0x01,
         TxScale     = 0x02,
@@ -77,15 +78,21 @@ public:
 
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     // ### Qt 6: remove; the compiler-generated ones are fine!
-    QTransform &operator=(QTransform &&other) Q_DECL_NOTHROW // = default
-    { memcpy(this, &other, sizeof(QTransform)); return *this; }
-    QTransform &operator=(const QTransform &) Q_DECL_NOTHROW; // = default
+    QTransform&operator=(QTransform &&other) Q_DECL_NOTHROW  // = default
+    {
+        memcpy(this, &other, sizeof(QTransform)); return *this;
+    }
+    QTransform&operator=(const QTransform&) Q_DECL_NOTHROW;   // = default
     QTransform(QTransform &&other) Q_DECL_NOTHROW // = default
         : affine(Qt::Uninitialized)
-    { memcpy(this, &other, sizeof(QTransform)); }
+    {
+        memcpy(this, &other, sizeof(QTransform));
+    }
     QTransform(const QTransform &other) Q_DECL_NOTHROW // = default
         : affine(Qt::Uninitialized)
-    { memcpy(this, &other, sizeof(QTransform)); }
+    {
+        memcpy(this, &other, sizeof(QTransform));
+    }
 #endif
 
     bool isAffine() const;
@@ -120,11 +127,11 @@ public:
     Q_REQUIRED_RESULT QTransform adjoint() const;
     Q_REQUIRED_RESULT QTransform transposed() const;
 
-    QTransform &translate(qreal dx, qreal dy);
-    QTransform &scale(qreal sx, qreal sy);
-    QTransform &shear(qreal sh, qreal sv);
-    QTransform &rotate(qreal a, Qt::Axis axis = Qt::ZAxis);
-    QTransform &rotateRadians(qreal a, Qt::Axis axis = Qt::ZAxis);
+    QTransform&translate(qreal dx, qreal dy);
+    QTransform&scale(qreal sx, qreal sy);
+    QTransform&shear(qreal sh, qreal sv);
+    QTransform&rotate(qreal a, Qt::Axis axis = Qt::ZAxis);
+    QTransform&rotateRadians(qreal a, Qt::Axis axis = Qt::ZAxis);
 
     static bool squareToQuad(const QPolygonF &square, QTransform &result);
     static bool quadToSquare(const QPolygonF &quad, QTransform &result);
@@ -132,10 +139,10 @@ public:
                            const QPolygonF &two,
                            QTransform &result);
 
-    bool operator==(const QTransform &) const;
-    bool operator!=(const QTransform &) const;
+    bool operator==(const QTransform&) const;
+    bool operator!=(const QTransform&) const;
 
-    QTransform &operator*=(const QTransform &);
+    QTransform&operator*=(const QTransform&);
     QTransform operator*(const QTransform &o) const;
 
     operator QVariant() const;
@@ -150,17 +157,17 @@ public:
     QRegion      map(const QRegion &r) const;
     QPainterPath map(const QPainterPath &p) const;
     QPolygon     mapToPolygon(const QRect &r) const;
-    QRect mapRect(const QRect &) const;
-    QRectF mapRect(const QRectF &) const;
+    QRect mapRect(const QRect&) const;
+    QRectF mapRect(const QRectF&) const;
     void map(int x, int y, int *tx, int *ty) const;
     void map(qreal x, qreal y, qreal *tx, qreal *ty) const;
 
-    const QMatrix &toAffine() const;
+    const QMatrix    &toAffine() const;
 
-    QTransform &operator*=(qreal div);
-    QTransform &operator/=(qreal div);
-    QTransform &operator+=(qreal div);
-    QTransform &operator-=(qreal div);
+    QTransform&operator*=(qreal div);
+    QTransform&operator/=(qreal div);
+    QTransform&operator+=(qreal div);
+    QTransform&operator-=(qreal div);
 
     static QTransform fromTranslate(qreal dx, qreal dy);
     static QTransform fromScale(qreal dx, qreal dy);
@@ -174,27 +181,25 @@ private:
         , m_type(TxNone)
         , m_dirty(TxProject)
         , d(Q_NULLPTR)
-    {
-    }
+    {}
     inline QTransform(bool)
         : affine(true)
         , m_13(0), m_23(0), m_33(1)
         , m_type(TxNone)
         , m_dirty(TxNone)
         , d(Q_NULLPTR)
-    {
-    }
+    {}
     inline TransformationType inline_type() const;
-    QMatrix affine;
-    qreal   m_13;
-    qreal   m_23;
-    qreal   m_33;
+    QMatrix     affine;
+    qreal       m_13;
+    qreal       m_23;
+    qreal       m_33;
 
-    mutable uint m_type : 5;
-    mutable uint m_dirty : 5;
+    mutable uint    m_type : 5;
+    mutable uint    m_dirty : 5;
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     class Private;
-    Private *d;
+    Private    *d;
 #endif
 };
 Q_DECLARE_TYPEINFO(QTransform, Q_MOVABLE_TYPE);
@@ -206,6 +211,7 @@ inline QTransform::TransformationType QTransform::inline_type() const
 {
     if (m_dirty == TxNone)
         return static_cast<TransformationType>(m_type);
+
     return type();
 }
 
@@ -239,8 +245,8 @@ inline bool QTransform::isTranslating() const
 
 inline qreal QTransform::determinant() const
 {
-    return affine._m11*(m_33*affine._m22-affine._dy*m_23) -
-        affine._m21*(m_33*affine._m12-affine._dy*m_13)+affine._dx*(m_23*affine._m12-affine._m22*m_13);
+    return affine._m11 * (m_33 * affine._m22 - affine._dy * m_23) -
+           affine._m21 * (m_33 * affine._m12 - affine._dy * m_13) + affine._dx * (m_23 * affine._m12 - affine._m22 * m_13);
 }
 inline qreal QTransform::det() const
 {
@@ -295,10 +301,11 @@ QT_WARNING_PUSH
 QT_WARNING_DISABLE_CLANG("-Wfloat-equal")
 QT_WARNING_DISABLE_GCC("-Wfloat-equal")
 
-inline QTransform &QTransform::operator*=(qreal num)
+inline QTransform    &QTransform::operator*=(qreal num)
 {
     if (num == 1.)
         return *this;
+
     affine._m11 *= num;
     affine._m12 *= num;
     m_13        *= num;
@@ -310,19 +317,22 @@ inline QTransform &QTransform::operator*=(qreal num)
     m_33        *= num;
     if (m_dirty < TxScale)
         m_dirty = TxScale;
+
     return *this;
 }
-inline QTransform &QTransform::operator/=(qreal div)
+inline QTransform    &QTransform::operator/=(qreal div)
 {
     if (div == 0)
         return *this;
-    div = 1/div;
+
+    div = 1 / div;
     return operator*=(div);
 }
-inline QTransform &QTransform::operator+=(qreal num)
+inline QTransform    &QTransform::operator+=(qreal num)
 {
     if (num == 0)
         return *this;
+
     affine._m11 += num;
     affine._m12 += num;
     m_13        += num;
@@ -335,10 +345,11 @@ inline QTransform &QTransform::operator+=(qreal num)
     m_dirty     = TxProject;
     return *this;
 }
-inline QTransform &QTransform::operator-=(qreal num)
+inline QTransform    &QTransform::operator-=(qreal num)
 {
     if (num == 0)
         return *this;
+
     affine._m11 -= num;
     affine._m12 -= num;
     m_13        -= num;
@@ -354,57 +365,81 @@ inline QTransform &QTransform::operator-=(qreal num)
 
 QT_WARNING_POP
 
-inline bool qFuzzyCompare(const QTransform& t1, const QTransform& t2)
+inline bool qFuzzyCompare(const QTransform &t1, const QTransform &t2)
 {
     return qFuzzyCompare(t1.m11(), t2.m11())
-        && qFuzzyCompare(t1.m12(), t2.m12())
-        && qFuzzyCompare(t1.m13(), t2.m13())
-        && qFuzzyCompare(t1.m21(), t2.m21())
-        && qFuzzyCompare(t1.m22(), t2.m22())
-        && qFuzzyCompare(t1.m23(), t2.m23())
-        && qFuzzyCompare(t1.m31(), t2.m31())
-        && qFuzzyCompare(t1.m32(), t2.m32())
-        && qFuzzyCompare(t1.m33(), t2.m33());
+           && qFuzzyCompare(t1.m12(), t2.m12())
+           && qFuzzyCompare(t1.m13(), t2.m13())
+           && qFuzzyCompare(t1.m21(), t2.m21())
+           && qFuzzyCompare(t1.m22(), t2.m22())
+           && qFuzzyCompare(t1.m23(), t2.m23())
+           && qFuzzyCompare(t1.m31(), t2.m31())
+           && qFuzzyCompare(t1.m32(), t2.m32())
+           && qFuzzyCompare(t1.m33(), t2.m33());
 }
 
 
 /****** stream functions *******************/
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QTransform &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QTransform &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QTransform&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QTransform&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QTransform &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QTransform&);
 #endif
 /****** end stream functions *******************/
 
 // mathematical semantics
 inline QPoint operator*(const QPoint &p, const QTransform &m)
-{ return m.map(p); }
+{
+    return m.map(p);
+}
 inline QPointF operator*(const QPointF &p, const QTransform &m)
-{ return m.map(p); }
+{
+    return m.map(p);
+}
 inline QLineF operator*(const QLineF &l, const QTransform &m)
-{ return m.map(l); }
+{
+    return m.map(l);
+}
 inline QLine operator*(const QLine &l, const QTransform &m)
-{ return m.map(l); }
+{
+    return m.map(l);
+}
 inline QPolygon operator *(const QPolygon &a, const QTransform &m)
-{ return m.map(a); }
+{
+    return m.map(a);
+}
 inline QPolygonF operator *(const QPolygonF &a, const QTransform &m)
-{ return m.map(a); }
+{
+    return m.map(a);
+}
 inline QRegion operator *(const QRegion &r, const QTransform &m)
-{ return m.map(r); }
+{
+    return m.map(r);
+}
 inline QPainterPath operator *(const QPainterPath &p, const QTransform &m)
-{ return m.map(p); }
+{
+    return m.map(p);
+}
 
 inline QTransform operator *(const QTransform &a, qreal n)
-{ QTransform t(a); t *= n; return t; }
+{
+    QTransform    t(a); t *= n; return t;
+}
 inline QTransform operator /(const QTransform &a, qreal n)
-{ QTransform t(a); t /= n; return t; }
+{
+    QTransform    t(a); t /= n; return t;
+}
 inline QTransform operator +(const QTransform &a, qreal n)
-{ QTransform t(a); t += n; return t; }
+{
+    QTransform    t(a); t += n; return t;
+}
 inline QTransform operator -(const QTransform &a, qreal n)
-{ QTransform t(a); t -= n; return t; }
+{
+    QTransform    t(a); t -= n; return t;
+}
 
 QT_END_NAMESPACE
 

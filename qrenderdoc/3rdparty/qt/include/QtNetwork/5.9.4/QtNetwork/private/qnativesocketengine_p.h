@@ -68,52 +68,62 @@
 QT_BEGIN_NAMESPACE
 
 #ifdef Q_OS_WIN
-#  define QT_SOCKLEN_T int
-#  define QT_SOCKOPTLEN_T int
+#  define QT_SOCKLEN_T      int
+#  define QT_SOCKOPTLEN_T   int
 
 // The following definitions are copied from the MinGW header mswsock.h which
 // was placed in the public domain. The WSASendMsg and WSARecvMsg functions
 // were introduced with Windows Vista, so some Win32 headers are lacking them.
 // There are no known versions of Windows CE or Embedded that contain them.
 #  ifndef WSAID_WSARECVMSG
-typedef INT (WINAPI *LPFN_WSARECVMSG)(SOCKET s, LPWSAMSG lpMsg,
-                                      LPDWORD lpdwNumberOfBytesRecvd,
-                                      LPWSAOVERLAPPED lpOverlapped,
-                                      LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
-#    define WSAID_WSARECVMSG {0xf689d7c8,0x6f1f,0x436b,{0x8a,0x53,0xe5,0x4f,0xe3,0x51,0xc3,0x22}}
+typedef INT (WINAPI * LPFN_WSARECVMSG)(SOCKET s, LPWSAMSG lpMsg,
+                                       LPDWORD lpdwNumberOfBytesRecvd,
+                                       LPWSAOVERLAPPED lpOverlapped,
+                                       LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+#    define WSAID_WSARECVMSG {0xf689d7c8, 0x6f1f, 0x436b, {0x8a, 0x53, 0xe5, 0x4f, 0xe3, 0x51, 0xc3, 0x22} \
+}
 #  endif // !WSAID_WSARECVMSG
 #  ifndef WSAID_WSASENDMSG
-typedef struct {
-  LPWSAMSG lpMsg;
-  DWORD dwFlags;
-  LPDWORD lpNumberOfBytesSent;
-  LPWSAOVERLAPPED lpOverlapped;
-  LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine;
+typedef struct
+{
+    LPWSAMSG                            lpMsg;
+    DWORD                               dwFlags;
+    LPDWORD                             lpNumberOfBytesSent;
+    LPWSAOVERLAPPED                     lpOverlapped;
+    LPWSAOVERLAPPED_COMPLETION_ROUTINE  lpCompletionRoutine;
 } WSASENDMSG, *LPWSASENDMSG;
 
-typedef INT (WSAAPI *LPFN_WSASENDMSG)(SOCKET s, LPWSAMSG lpMsg, DWORD dwFlags,
-                                      LPDWORD lpNumberOfBytesSent,
-                                      LPWSAOVERLAPPED lpOverlapped,
-                                      LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
+typedef INT (WSAAPI * LPFN_WSASENDMSG)(SOCKET s, LPWSAMSG lpMsg, DWORD dwFlags,
+                                       LPDWORD lpNumberOfBytesSent,
+                                       LPWSAOVERLAPPED lpOverlapped,
+                                       LPWSAOVERLAPPED_COMPLETION_ROUTINE lpCompletionRoutine);
 
-#    define WSAID_WSASENDMSG {0xa441e712,0x754f,0x43ca,{0x84,0xa7,0x0d,0xee,0x44,0xcf,0x60,0x6d}}
+#    define WSAID_WSASENDMSG {0xa441e712, 0x754f, 0x43ca, {0x84, 0xa7, 0x0d, 0xee, 0x44, 0xcf, 0x60, 0x6d} \
+}
 #  endif // !WSAID_WSASENDMSG
 #endif // Q_OS_WIN
 
-union qt_sockaddr {
-    sockaddr a;
-    sockaddr_in a4;
-    sockaddr_in6 a6;
+union qt_sockaddr
+{
+    sockaddr        a;
+    sockaddr_in     a4;
+    sockaddr_in6    a6;
 };
 
-namespace {
-namespace SetSALen {
-    template <typename T> void set(T *sa, typename std::enable_if<(&T::sa_len, true), QT_SOCKLEN_T>::type len)
-    { sa->sa_len = len; }
-    template <typename T> void set(T *sin6, typename std::enable_if<(&T::sin6_len, true), QT_SOCKLEN_T>::type len)
-    { sin6->sin6_len = len; }
-    template <typename T> void set(T *, ...) {}
-}
+namespace
+{
+    namespace SetSALen
+    {
+        template<typename T> void set(T *sa, typename std::enable_if<(&T::sa_len, true), QT_SOCKLEN_T>::type len)
+        {
+            sa->sa_len = len;
+        }
+        template<typename T> void set(T *sin6, typename std::enable_if<(&T::sin6_len, true), QT_SOCKLEN_T>::type len)
+        {
+            sin6->sin6_len = len;
+        }
+        template<typename T> void set(T*, ...) {}
+    }
 }
 
 class QNativeSocketEnginePrivate;
@@ -121,7 +131,7 @@ class QNativeSocketEnginePrivate;
 class QNetworkInterface;
 #endif
 
-class Q_AUTOTEST_EXPORT QNativeSocketEngine : public QAbstractSocketEngine
+class Q_AUTOTEST_EXPORT    QNativeSocketEngine : public QAbstractSocketEngine
 {
     Q_OBJECT
 public:
@@ -161,9 +171,9 @@ public:
     qint64 pendingDatagramSize() const Q_DECL_OVERRIDE;
 #endif // QT_NO_UDPSOCKET
 
-    qint64 readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0,
-                        PacketHeaderOptions = WantNone) Q_DECL_OVERRIDE;
-    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader &) Q_DECL_OVERRIDE;
+    qint64    readDatagram(char *data, qint64 maxlen, QIpPacketHeader * = 0,
+                           PacketHeaderOptions = WantNone) Q_DECL_OVERRIDE;
+    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader&) Q_DECL_OVERRIDE;
     qint64 bytesToWrite() const Q_DECL_OVERRIDE;
 
     qint64 receiveBufferSize() const;
@@ -206,15 +216,16 @@ public:
     QNativeSocketEnginePrivate();
     ~QNativeSocketEnginePrivate();
 
-    qintptr socketDescriptor;
+    qintptr    socketDescriptor;
 
-    QSocketNotifier *readNotifier, *writeNotifier, *exceptNotifier;
+    QSocketNotifier    *readNotifier, *writeNotifier, *exceptNotifier;
 
 #if defined(Q_OS_WIN)
-    LPFN_WSASENDMSG sendmsg;
-    LPFN_WSARECVMSG recvmsg;
+    LPFN_WSASENDMSG     sendmsg;
+    LPFN_WSARECVMSG     recvmsg;
 #  endif
-    enum ErrorString {
+    enum ErrorString
+    {
         NonBlockingInitFailedErrorString,
         BroadcastingInitFailedErrorString,
         NoIpV6ErrorString,
@@ -288,7 +299,9 @@ public:
 
 #if QT_CONFIG(networkinterface)
     static uint scopeIdFromString(const QString &scopeid)
-    { return QNetworkInterface::interfaceIndexFromName(scopeid); }
+    {
+        return QNetworkInterface::interfaceIndexFromName(scopeid);
+    }
 #endif
 
     /*! \internal
@@ -300,27 +313,29 @@ public:
         if (address.protocol() == QAbstractSocket::IPv6Protocol
             || address.protocol() == QAbstractSocket::AnyIPProtocol
             || socketProtocol == QAbstractSocket::IPv6Protocol
-            || socketProtocol == QAbstractSocket::AnyIPProtocol) {
+            || socketProtocol == QAbstractSocket::AnyIPProtocol)
+        {
             memset(&aa->a6, 0, sizeof(sockaddr_in6));
             aa->a6.sin6_family = AF_INET6;
 #if QT_CONFIG(networkinterface)
             aa->a6.sin6_scope_id = scopeIdFromString(address.scopeId());
 #endif
             aa->a6.sin6_port = htons(port);
-            Q_IPV6ADDR tmp = address.toIPv6Address();
+            Q_IPV6ADDR    tmp = address.toIPv6Address();
             memcpy(&aa->a6.sin6_addr, &tmp, sizeof(tmp));
             *sockAddrSize = sizeof(sockaddr_in6);
             SetSALen::set(&aa->a, sizeof(sockaddr_in6));
-        } else {
+        }
+        else
+        {
             memset(&aa->a, 0, sizeof(sockaddr_in));
-            aa->a4.sin_family = AF_INET;
-            aa->a4.sin_port = htons(port);
-            aa->a4.sin_addr.s_addr = htonl(address.toIPv4Address());
-            *sockAddrSize = sizeof(sockaddr_in);
+            aa->a4.sin_family       = AF_INET;
+            aa->a4.sin_port         = htons(port);
+            aa->a4.sin_addr.s_addr  = htonl(address.toIPv4Address());
+            *sockAddrSize           = sizeof(sockaddr_in);
             SetSALen::set(&aa->a, sizeof(sockaddr_in));
         }
     }
-
 };
 
 QT_END_NAMESPACE

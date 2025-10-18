@@ -109,7 +109,7 @@
 #define QT_CLOSEDIR             ::closedir64
 #endif
 
-#if defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE-0 >= 500)
+#if defined(_XOPEN_SOURCE) && (_XOPEN_SOURCE - 0 >= 500)
 // AIX 4.3 and better
 #define QT_SNPRINTF             ::snprintf
 #define QT_VSNPRINTF            ::vsnprintf

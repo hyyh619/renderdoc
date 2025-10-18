@@ -69,8 +69,8 @@ public:
     void decodeDer(const QByteArray &der);
     void decodePem(const QByteArray &pem);
 
-    QSslDiffieHellmanParameters::Error error;
-    QByteArray derData;
+    QSslDiffieHellmanParameters::Error      error;
+    QByteArray                              derData;
 };
 
 QT_END_NAMESPACE

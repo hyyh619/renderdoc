@@ -65,11 +65,12 @@ class QTcpSocket;
 class QHttpNetworkReply;
 class QHttpSocketEnginePrivate;
 
-class Q_AUTOTEST_EXPORT QHttpSocketEngine : public QAbstractSocketEngine
+class Q_AUTOTEST_EXPORT    QHttpSocketEngine : public QAbstractSocketEngine
 {
     Q_OBJECT
 public:
-    enum HttpState {
+    enum HttpState
+    {
         None,
         ConnectSent,
         Connected,
@@ -116,9 +117,9 @@ public:
     qint64 pendingDatagramSize() const Q_DECL_OVERRIDE;
 #endif // QT_NO_UDPSOCKET
 
-    qint64 readDatagram(char *data, qint64 maxlen, QIpPacketHeader *,
-                        PacketHeaderOptions) Q_DECL_OVERRIDE;
-    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader &) Q_DECL_OVERRIDE;
+    qint64    readDatagram(char *data, qint64 maxlen, QIpPacketHeader*,
+                           PacketHeaderOptions) Q_DECL_OVERRIDE;
+    qint64 writeDatagram(const char *data, qint64 len, const QIpPacketHeader&) Q_DECL_OVERRIDE;
     qint64 bytesToWrite() const Q_DECL_OVERRIDE;
 
     int option(SocketOption option) const Q_DECL_OVERRIDE;
@@ -159,7 +160,6 @@ private:
 
     Q_DECLARE_PRIVATE(QHttpSocketEngine)
     Q_DISABLE_COPY(QHttpSocketEngine)
-
 };
 
 
@@ -170,28 +170,28 @@ public:
     QHttpSocketEnginePrivate();
     ~QHttpSocketEnginePrivate();
 
-    QNetworkProxy proxy;
-    QString peerName;
-    QTcpSocket *socket;
-    QHttpNetworkReply *reply; // only used for parsing the proxy response
-    QHttpSocketEngine::HttpState state;
-    QAuthenticator authenticator;
-    bool readNotificationEnabled;
-    bool writeNotificationEnabled;
-    bool exceptNotificationEnabled;
-    bool readNotificationPending;
-    bool writeNotificationPending;
-    bool connectionNotificationPending;
-    bool credentialsSent;
-    uint pendingResponseData;
+    QNetworkProxy                   proxy;
+    QString                         peerName;
+    QTcpSocket                      *socket;
+    QHttpNetworkReply               *reply; // only used for parsing the proxy response
+    QHttpSocketEngine::HttpState    state;
+    QAuthenticator                  authenticator;
+    bool                            readNotificationEnabled;
+    bool                            writeNotificationEnabled;
+    bool                            exceptNotificationEnabled;
+    bool                            readNotificationPending;
+    bool                            writeNotificationPending;
+    bool                            connectionNotificationPending;
+    bool                            credentialsSent;
+    uint                            pendingResponseData;
 };
 
-class Q_AUTOTEST_EXPORT QHttpSocketEngineHandler : public QSocketEngineHandler
+class Q_AUTOTEST_EXPORT    QHttpSocketEngineHandler : public QSocketEngineHandler
 {
 public:
-    virtual QAbstractSocketEngine *createSocketEngine(QAbstractSocket::SocketType socketType,
-                                                      const QNetworkProxy &, QObject *parent) Q_DECL_OVERRIDE;
-    virtual QAbstractSocketEngine *createSocketEngine(qintptr socketDescripter, QObject *parent) Q_DECL_OVERRIDE;
+    virtual QAbstractSocketEngine* createSocketEngine(QAbstractSocket::SocketType socketType,
+                                                      const QNetworkProxy&, QObject *parent) Q_DECL_OVERRIDE;
+    virtual QAbstractSocketEngine* createSocketEngine(qintptr socketDescripter, QObject *parent) Q_DECL_OVERRIDE;
 };
 #endif
 

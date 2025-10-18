@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 
 class QBoxLayoutPrivate;
 
-class Q_WIDGETS_EXPORT QBoxLayout : public QLayout
+class Q_WIDGETS_EXPORT    QBoxLayout : public QLayout
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QBoxLayout)
@@ -66,22 +66,22 @@ public:
     ~QBoxLayout();
 
     Direction direction() const;
-    void setDirection(Direction);
+    void    setDirection(Direction);
 
     void addSpacing(int size);
     void addStretch(int stretch = 0);
     void addSpacerItem(QSpacerItem *spacerItem);
-    void addWidget(QWidget *, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
+    void addWidget(QWidget*, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
     void addLayout(QLayout *layout, int stretch = 0);
     void addStrut(int);
-    void addItem(QLayoutItem *) Q_DECL_OVERRIDE;
+    void addItem(QLayoutItem*) Q_DECL_OVERRIDE;
 
     void insertSpacing(int index, int size);
     void insertStretch(int index, int stretch = 0);
     void insertSpacerItem(int index, QSpacerItem *spacerItem);
     void insertWidget(int index, QWidget *widget, int stretch = 0, Qt::Alignment alignment = Qt::Alignment());
     void insertLayout(int index, QLayout *layout, int stretch = 0);
-    void insertItem(int index, QLayoutItem *);
+    void insertItem(int index, QLayoutItem*);
 
     int spacing() const;
     void setSpacing(int spacing);
@@ -101,8 +101,8 @@ public:
 
     Qt::Orientations expandingDirections() const Q_DECL_OVERRIDE;
     void invalidate() Q_DECL_OVERRIDE;
-    QLayoutItem *itemAt(int) const Q_DECL_OVERRIDE;
-    QLayoutItem *takeAt(int) Q_DECL_OVERRIDE;
+    QLayoutItem* itemAt(int) const Q_DECL_OVERRIDE;
+    QLayoutItem* takeAt(int) Q_DECL_OVERRIDE;
     int count() const Q_DECL_OVERRIDE;
     void setGeometry(const QRect&) Q_DECL_OVERRIDE;
 
@@ -110,7 +110,7 @@ private:
     Q_DISABLE_COPY(QBoxLayout)
 };
 
-class Q_WIDGETS_EXPORT QHBoxLayout : public QBoxLayout
+class Q_WIDGETS_EXPORT    QHBoxLayout : public QBoxLayout
 {
     Q_OBJECT
 public:
@@ -123,7 +123,7 @@ private:
     Q_DISABLE_COPY(QHBoxLayout)
 };
 
-class Q_WIDGETS_EXPORT QVBoxLayout : public QBoxLayout
+class Q_WIDGETS_EXPORT    QVBoxLayout : public QBoxLayout
 {
     Q_OBJECT
 public:

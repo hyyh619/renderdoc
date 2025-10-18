@@ -59,7 +59,7 @@ QT_REQUIRE_CONFIG(qeventtransition);
 QT_BEGIN_NAMESPACE
 
 class QBasicKeyEventTransitionPrivate;
-class Q_AUTOTEST_EXPORT QBasicKeyEventTransition : public QAbstractTransition
+class Q_AUTOTEST_EXPORT    QBasicKeyEventTransition : public QAbstractTransition
 {
     Q_OBJECT
 public:
@@ -81,7 +81,7 @@ public:
 
 protected:
     bool eventTest(QEvent *event) Q_DECL_OVERRIDE;
-    void onTransition(QEvent *) Q_DECL_OVERRIDE;
+    void onTransition(QEvent*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QBasicKeyEventTransition)

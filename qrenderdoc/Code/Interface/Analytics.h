@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #pragma once
 
@@ -61,37 +61,39 @@
 
 struct AnalyticsAverage
 {
-  double Total = 0.0;
-  int Count = 0;
+    double  Total   = 0.0;
+    int     Count   = 0;
 
-  void Add(double Val)
-  {
-    Total += Val;
-    Count++;
-  }
-
-  AnalyticsAverage() = default;
-  AnalyticsAverage(QVariant v)
-  {
-    QVariantMap vmap = v.toMap();
-    Total = vmap[lit("Total")].toDouble();
-    Count = vmap[lit("Count")].toInt();
-  }
-
-  QVariant toVariant(bool reporting) const
-  {
-    if(reporting)
+    void Add(double Val)
     {
-      if(Count == 0)
-        return 0.0;
-      return Total / double(Count);
+        Total += Val;
+        Count++;
     }
 
-    QVariantMap ret;
-    ret[lit("Total")] = Total;
-    ret[lit("Count")] = Count;
-    return ret;
-  }
+    AnalyticsAverage() = default;
+    AnalyticsAverage(QVariant v)
+    {
+        QVariantMap    vmap = v.toMap();
+
+        Total   = vmap[lit("Total")].toDouble();
+        Count   = vmap[lit("Count")].toInt();
+    }
+
+    QVariant toVariant(bool reporting) const
+    {
+        if (reporting)
+        {
+            if (Count == 0)
+                return 0.0;
+
+            return Total / double(Count);
+        }
+
+        QVariantMap    ret;
+        ret[lit("Total")]   = Total;
+        ret[lit("Count")]   = Count;
+        return ret;
+    }
 };
 
 class PersistantConfig;
@@ -110,139 +112,139 @@ struct ICaptureContext;
 // AnalyticsDocumentation.
 struct Analytics
 {
-  // utility function - loads the analytics from disk and initialise the Analytics::db member.
-  static void Load();
-  // utility function - explicitly disables the analytics and sets it into a black-hole mode that
-  // does nothing.
-  static void Disable();
-  // utility function - performs any UI-level prompting, such as asking the user if they want to
-  // opt-out, or manually vetting a report for uploading.
-  static void Prompt(ICaptureContext &ctx, PersistantConfig &config);
-  // the singleton instance of analytics. May be NULL if analytics aren't initialised or have been
-  // opted-out from.
-  static Analytics *db;
+    // utility function - loads the analytics from disk and initialise the Analytics::db member.
+    static void Load();
+    // utility function - explicitly disables the analytics and sets it into a black-hole mode that
+    // does nothing.
+    static void Disable();
+    // utility function - performs any UI-level prompting, such as asking the user if they want to
+    // opt-out, or manually vetting a report for uploading.
+    static void Prompt(ICaptureContext &ctx, PersistantConfig &config);
+    // the singleton instance of analytics. May be NULL if analytics aren't initialised or have been
+    // opted-out from.
+    static Analytics *db;
 
-  // utility function - displays an annotated report documenting what each member means
-  static void DocumentReport();
+    // utility function - displays an annotated report documenting what each member means
+    static void DocumentReport();
 
-  // Function to save the analytics to disk, if it's been initialised. Every set macro below will
-  // call this after the data is set to flush it to disk.
-  void Save();
+    // Function to save the analytics to disk, if it's been initialised. Every set macro below will
+    // call this after the data is set to flush it to disk.
+    void Save();
 
-  // book-keeping: contains the year/month where this database was started. Thus if current date !=
-  // saved date, then we should try to submit the analytics report.
-  struct
-  {
-    int Year = 0;
-    int Month = 0;
-  } Date;
+    // book-keeping: contains the year/month where this database was started. Thus if current date !=
+    // saved date, then we should try to submit the analytics report.
+    struct
+    {
+        int Year    = 0;
+        int Month   = 0;
+    } Date;
 
-  // version number. Most data is opportunistically gathered, so if some data is missing then it
-  // just doesn't get included in the report so we can add new data, but we bump the version
-  // here if something more significant changes.
-  int Version = 1;
+    // version number. Most data is opportunistically gathered, so if some data is missing then it
+    // just doesn't get included in the report so we can add new data, but we bump the version
+    // here if something more significant changes.
+    int Version = 1;
 
-  struct
-  {
-    // The version string (MAJOR_MINOR_VERSION_STRING) of this build.
-    QString RenderDocVersion;
+    struct
+    {
+        // The version string (MAJOR_MINOR_VERSION_STRING) of this build.
+        QString RenderDocVersion;
 
-    // The distribution information (DISTRIBUTION_NAME) for this build.
-    QString DistributionVersion;
+        // The distribution information (DISTRIBUTION_NAME) for this build.
+        QString DistributionVersion;
 
-    // A human readable name of the operating system.
-    QString OSVersion;
+        // A human readable name of the operating system.
+        QString OSVersion;
 
-    // Either 32 or 64 indicating which bit-depth the UI is running as
-    int Bitness = 0;
+        // Either 32 or 64 indicating which bit-depth the UI is running as
+        int Bitness = 0;
 
-    // whether a development build has been run - either a nightly build or a local build.
-    bool DevelBuildRun = false;
+        // whether a development build has been run - either a nightly build or a local build.
+        bool DevelBuildRun = false;
 
-    // whether an official build has been run - whether distributed from the RenderDoc website or
-    // through a linux distribution
-    bool OfficialBuildRun = false;
+        // whether an official build has been run - whether distributed from the RenderDoc website or
+        // through a linux distribution
+        bool OfficialBuildRun = false;
 
-    // Counts which unique days in the last month the program was run
-    bool DaysUsed[32] = {0};
-  } Metadata;
+        // Counts which unique days in the last month the program was run
+        bool DaysUsed[32] = {0};
+    } Metadata;
 
-  struct
-  {
-    // how long do captures take to load, on average
-    AnalyticsAverage LoadTime;
-  } Performance;
+    struct
+    {
+        // how long do captures take to load, on average
+        AnalyticsAverage LoadTime;
+    } Performance;
 
-  // which APIs have been used
-  QStringList APIs;
+    // which APIs have been used
+    QStringList APIs;
 
-  // A list of which GPU vendors have been used for replay
-  QStringList GPUVendors;
+    // A list of which GPU vendors have been used for replay
+    QStringList GPUVendors;
 
-  // which UI features have been used, as a simple yes/no
-  struct
-  {
-    bool Bookmarks = false;
-    bool ResourceInspect = false;
-    bool ShaderEditing = false;
-    bool CallstackResolve = false;
-    bool PixelHistory = false;
-    bool DrawcallTimes = false;
-    bool PerformanceCounters = false;
-    bool PythonInterop = false;
-    bool CustomTextureVisualise = false;
-    bool ImageViewer = false;
-    bool CaptureComments = false;
-    bool AndroidRemoteReplay = false;
-    bool NonAndroidRemoteReplay = false;
-  } UIFeatures;
+    // which UI features have been used, as a simple yes/no
+    struct
+    {
+        bool    Bookmarks               = false;
+        bool    ResourceInspect         = false;
+        bool    ShaderEditing           = false;
+        bool    CallstackResolve        = false;
+        bool    PixelHistory            = false;
+        bool    DrawcallTimes           = false;
+        bool    PerformanceCounters     = false;
+        bool    PythonInterop           = false;
+        bool    CustomTextureVisualise  = false;
+        bool    ImageViewer             = false;
+        bool    CaptureComments         = false;
+        bool    AndroidRemoteReplay     = false;
+        bool    NonAndroidRemoteReplay  = false;
+    } UIFeatures;
 
-  struct
-  {
-    bool EventBrowser = false;
-    bool PipelineState = false;
-    bool MeshOutput = false;
-    bool RawBuffer = false;
-    bool Texture = false;
-    bool Shader = false;
-  } Export;
+    struct
+    {
+        bool    EventBrowser    = false;
+        bool    PipelineState   = false;
+        bool    MeshOutput      = false;
+        bool    RawBuffer       = false;
+        bool    Texture         = false;
+        bool    Shader          = false;
+    } Export;
 
-  struct
-  {
-    bool Vertex = false;
-    bool Pixel = false;
-    bool Compute = false;
-  } ShaderDebug;
+    struct
+    {
+        bool    Vertex  = false;
+        bool    Pixel   = false;
+        bool    Compute = false;
+    } ShaderDebug;
 
-  struct
-  {
-    bool Drawcall = false;
-    bool Wireframe = false;
-    bool Depth = false;
-    bool Stencil = false;
-    bool BackfaceCull = false;
-    bool ViewportScissor = false;
-    bool NaN = false;
-    bool Clipping = false;
-    bool ClearBeforePass = false;
-    bool ClearBeforeDraw = false;
-    bool QuadOverdrawPass = false;
-    bool QuadOverdrawDraw = false;
-    bool TriangleSizePass = false;
-    bool TriangleSizeDraw = false;
-  } TextureOverlays;
+    struct
+    {
+        bool    Drawcall            = false;
+        bool    Wireframe           = false;
+        bool    Depth               = false;
+        bool    Stencil             = false;
+        bool    BackfaceCull        = false;
+        bool    ViewportScissor     = false;
+        bool    NaN                 = false;
+        bool    Clipping            = false;
+        bool    ClearBeforePass     = false;
+        bool    ClearBeforeDraw     = false;
+        bool    QuadOverdrawPass    = false;
+        bool    QuadOverdrawDraw    = false;
+        bool    TriangleSizePass    = false;
+        bool    TriangleSizeDraw    = false;
+    } TextureOverlays;
 
-  // If some particular API specific features are seen in a capture, as a simple yes/no. See
-  // APIProperties
-  struct
-  {
-    bool ShaderLinkage = false;
-    bool YUVTextures = false;
-    bool SparseResources = false;
-    bool MultiGPU = false;
-    bool D3D12Bundle = false;
-    bool DXILShaders = false;
-  } CaptureFeatures;
+    // If some particular API specific features are seen in a capture, as a simple yes/no. See
+    // APIProperties
+    struct
+    {
+        bool    ShaderLinkage   = false;
+        bool    YUVTextures     = false;
+        bool    SparseResources = false;
+        bool    MultiGPU        = false;
+        bool    D3D12Bundle     = false;
+        bool    DXILShaders     = false;
+    } CaptureFeatures;
 };
 
 #if defined(_MSC_VER)
@@ -250,60 +252,60 @@ struct Analytics
 #endif
 
 // straightforward set of a value
-#define ANALYTIC_SET(name, val)        \
-  do                                   \
-  {                                    \
-    if(Analytics::db)                  \
-    {                                  \
-      auto value = val;                \
-      if(Analytics::db->name != value) \
-      {                                \
-        Analytics::db->name = value;   \
-        Analytics::db->Save();         \
-      }                                \
-    }                                  \
-  } while(0);
+#define ANALYTIC_SET(name, val)               \
+    do                                        \
+    {                                         \
+        if (Analytics::db)                    \
+        {                                     \
+            auto    value = val;              \
+            if (Analytics::db->name != value) \
+            {                                 \
+                Analytics::db->name = value;  \
+                Analytics::db->Save();        \
+            }                                 \
+        }                                     \
+    } while (0);
 
 // add a data point to an average
-#define ANALYTIC_ADDAVG(name, val)  \
-  do                                \
-  {                                 \
-    if(Analytics::db)               \
-    {                               \
-      Analytics::db->name.Add(val); \
-      Analytics::db->Save();        \
-    }                               \
-  } while(0);
+#define ANALYTIC_ADDAVG(name, val)        \
+    do                                    \
+    {                                     \
+        if (Analytics::db)                \
+        {                                 \
+            Analytics::db->name.Add(val); \
+            Analytics::db->Save();        \
+        }                                 \
+    } while (0);
 
 // add an element to an array, if it's not already present
-#define ANALYTIC_ADDUNIQ(name, val)         \
-  do                                        \
-  {                                         \
-    if(Analytics::db)                       \
-    {                                       \
-      bool found = false;                   \
-      for(auto &v : Analytics::db->name)    \
-      {                                     \
-        if(v == val)                        \
-        {                                   \
-          found = true;                     \
-          break;                            \
-        }                                   \
-      }                                     \
-                                            \
-      if(!found)                            \
-      {                                     \
-        Analytics::db->name.push_back(val); \
-        Analytics::db->Save();              \
-      }                                     \
-    }                                       \
-  } while(0);
+#define ANALYTIC_ADDUNIQ(name, val)                 \
+    do                                              \
+    {                                               \
+        if (Analytics::db)                          \
+        {                                           \
+            bool    found = false;                  \
+            for (auto &v : Analytics::db->name)     \
+            {                                       \
+                if (v == val)                       \
+                {                                   \
+                    found = true;                   \
+                    break;                          \
+                }                                   \
+            }                                       \
+                                                    \
+            if (!found)                             \
+            {                                       \
+                Analytics::db->name.push_back(val); \
+                Analytics::db->Save();              \
+            }                                       \
+        }                                           \
+    } while (0);
 
 #else
 
 // here we declare macro stubs that satisfy the use in the codebase.
-#define ANALYTIC_SET(name, val) (void)val
-#define ANALYTIC_ADDAVG(name, val) (void)val
+#define ANALYTIC_SET(name, val)     (void)val
+#define ANALYTIC_ADDAVG(name, val)  (void)val
 #define ANALYTIC_ADDUNIQ(name, val) (void)val
 
 class PersistantConfig;
@@ -311,12 +313,10 @@ struct ICaptureContext;
 
 namespace Analytics
 {
-void Disable();
-void Load();
-void Prompt(ICaptureContext &ctx, PersistantConfig &config);
-void DocumentReport();
+    void Disable();
+    void Load();
+    void Prompt(ICaptureContext &ctx, PersistantConfig &config);
+    void DocumentReport();
 };
-
 #endif
-
 #endif

@@ -59,11 +59,11 @@ QT_BEGIN_NAMESPACE
 
 class QPlatformTheme;
 
-class Q_GUI_EXPORT QPlatformThemeFactory
+class Q_GUI_EXPORT    QPlatformThemeFactory
 {
 public:
     static QStringList keys(const QString &platformPluginPath = QString());
-    static QPlatformTheme *create(const QString &key, const QString &platformPluginPath = QString());
+    static QPlatformTheme* create(const QString &key, const QString &platformPluginPath = QString());
 };
 
 QT_END_NAMESPACE

@@ -11,20 +11,21 @@ struct _frame;
 
 /* Traceback interface */
 #ifndef Py_LIMITED_API
-typedef struct _traceback {
+typedef struct _traceback
+{
     PyObject_HEAD
-    struct _traceback *tb_next;
-    struct _frame *tb_frame;
-    int tb_lasti;
-    int tb_lineno;
+    struct _traceback   *tb_next;
+    struct _frame       *tb_frame;
+    int                 tb_lasti;
+    int                 tb_lineno;
 } PyTracebackObject;
 #endif
 
-PyAPI_FUNC(int) PyTraceBack_Here(struct _frame *);
-PyAPI_FUNC(int) PyTraceBack_Print(PyObject *, PyObject *);
+PyAPI_FUNC(int) PyTraceBack_Here(struct _frame*);
+PyAPI_FUNC(int) PyTraceBack_Print(PyObject*, PyObject*);
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(int) _Py_DisplaySourceLine(PyObject *, PyObject *, int, int);
-PyAPI_FUNC(void) _PyTraceback_Add(const char *, const char *, int);
+PyAPI_FUNC(int) _Py_DisplaySourceLine(PyObject*, PyObject*, int, int);
+PyAPI_FUNC(void) _PyTraceback_Add(const char*, const char*, int);
 #endif
 
 /* Reveal traceback type so we can typecheck traceback objects */
@@ -51,7 +52,7 @@ PyAPI_DATA(PyTypeObject) PyTraceBack_Type;
 
 PyAPI_FUNC(void) _Py_DumpTraceback(
     int fd,
-    PyThreadState *tstate);
+    PyThreadState * tstate);
 
 /* Write the traceback of all threads into the file 'fd'. current_thread can be
    NULL.
@@ -78,8 +79,8 @@ PyAPI_FUNC(void) _Py_DumpTraceback(
 
 PyAPI_FUNC(const char*) _Py_DumpTracebackThreads(
     int fd,
-    PyInterpreterState *interp,
-    PyThreadState *current_tstate);
+    PyInterpreterState * interp,
+    PyThreadState * current_tstate);
 #endif /* !Py_LIMITED_API */
 
 #ifndef Py_LIMITED_API
@@ -91,7 +92,7 @@ PyAPI_FUNC(const char*) _Py_DumpTracebackThreads(
    string which is not ready (PyUnicode_WCHAR_KIND).
 
    This function is signal safe. */
-PyAPI_FUNC(void) _Py_DumpASCII(int fd, PyObject *text);
+PyAPI_FUNC(void) _Py_DumpASCII(int fd, PyObject * text);
 
 /* Format an integer as decimal into the file descriptor fd.
 
@@ -110,7 +111,6 @@ PyAPI_FUNC(void) _Py_DumpHexadecimal(
     int fd,
     unsigned long value,
     Py_ssize_t width);
-
 #endif   /* !Py_LIMITED_API */
 
 #ifdef __cplusplus

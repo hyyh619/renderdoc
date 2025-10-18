@@ -52,7 +52,7 @@ class QMargins;
 class QScrollBar;
 class QAbstractScrollAreaPrivate;
 
-class Q_WIDGETS_EXPORT QAbstractScrollArea : public QFrame
+class Q_WIDGETS_EXPORT    QAbstractScrollArea : public QFrame
 {
     Q_OBJECT
 
@@ -64,7 +64,8 @@ public:
     explicit QAbstractScrollArea(QWidget *parent = Q_NULLPTR);
     ~QAbstractScrollArea();
 
-    enum SizeAdjustPolicy {
+    enum SizeAdjustPolicy
+    {
         AdjustIgnored,
         AdjustToContentsOnFirstShow,
         AdjustToContents
@@ -73,21 +74,21 @@ public:
 
     Qt::ScrollBarPolicy verticalScrollBarPolicy() const;
     void setVerticalScrollBarPolicy(Qt::ScrollBarPolicy);
-    QScrollBar *verticalScrollBar() const;
+    QScrollBar* verticalScrollBar() const;
     void setVerticalScrollBar(QScrollBar *scrollbar);
 
     Qt::ScrollBarPolicy horizontalScrollBarPolicy() const;
     void setHorizontalScrollBarPolicy(Qt::ScrollBarPolicy);
-    QScrollBar *horizontalScrollBar() const;
+    QScrollBar* horizontalScrollBar() const;
     void setHorizontalScrollBar(QScrollBar *scrollbar);
 
-    QWidget *cornerWidget() const;
+    QWidget* cornerWidget() const;
     void setCornerWidget(QWidget *widget);
 
     void addScrollBarWidget(QWidget *widget, Qt::Alignment alignment);
     QWidgetList scrollBarWidgets(Qt::Alignment alignment);
 
-    QWidget *viewport() const;
+    QWidget* viewport() const;
     void setViewport(QWidget *widget);
     QSize maximumViewportSize() const;
 
@@ -106,30 +107,30 @@ protected:
     void setViewportMargins(const QMargins &margins);
     QMargins viewportMargins() const;
 
-    bool eventFilter(QObject *, QEvent *) Q_DECL_OVERRIDE;
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    virtual bool viewportEvent(QEvent *);
+    bool eventFilter(QObject*, QEvent*) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    virtual bool viewportEvent(QEvent*);
 
-    void resizeEvent(QResizeEvent *) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseReleaseEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseDoubleClickEvent(QMouseEvent *) Q_DECL_OVERRIDE;
-    void mouseMoveEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void resizeEvent(QResizeEvent*) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseReleaseEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseDoubleClickEvent(QMouseEvent*) Q_DECL_OVERRIDE;
+    void mouseMoveEvent(QMouseEvent*) Q_DECL_OVERRIDE;
 #if QT_CONFIG(wheelevent)
-    void wheelEvent(QWheelEvent *) Q_DECL_OVERRIDE;
+    void wheelEvent(QWheelEvent*) Q_DECL_OVERRIDE;
 #endif
 #ifndef QT_NO_CONTEXTMENU
-    void contextMenuEvent(QContextMenuEvent *) Q_DECL_OVERRIDE;
+    void contextMenuEvent(QContextMenuEvent*) Q_DECL_OVERRIDE;
 #endif
 #ifndef QT_NO_DRAGANDDROP
-    void dragEnterEvent(QDragEnterEvent *) Q_DECL_OVERRIDE;
-    void dragMoveEvent(QDragMoveEvent *) Q_DECL_OVERRIDE;
-    void dragLeaveEvent(QDragLeaveEvent *) Q_DECL_OVERRIDE;
-    void dropEvent(QDropEvent *) Q_DECL_OVERRIDE;
+    void dragEnterEvent(QDragEnterEvent*) Q_DECL_OVERRIDE;
+    void dragMoveEvent(QDragMoveEvent*) Q_DECL_OVERRIDE;
+    void dragLeaveEvent(QDragLeaveEvent*) Q_DECL_OVERRIDE;
+    void dropEvent(QDropEvent*) Q_DECL_OVERRIDE;
 #endif
 
-    void keyPressEvent(QKeyEvent *) Q_DECL_OVERRIDE;
+    void keyPressEvent(QKeyEvent*) Q_DECL_OVERRIDE;
 
     virtual void scrollContentsBy(int dx, int dy);
 
@@ -145,7 +146,6 @@ private:
     friend class QStyleSheetStyle;
     friend class QWidgetPrivate;
 };
-
 #endif // QT_CONFIG(scrollarea)
 
 QT_END_NAMESPACE

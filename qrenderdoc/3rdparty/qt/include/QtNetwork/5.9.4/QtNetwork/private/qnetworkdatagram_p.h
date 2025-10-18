@@ -61,28 +61,28 @@ class QIpPacketHeader
 public:
     QIpPacketHeader(const QHostAddress &dstAddr = QHostAddress(), quint16 port = 0)
         : destinationAddress(dstAddr), ifindex(0), hopLimit(-1), streamNumber(-1),
-          destinationPort(port), endOfRecord(false)
+        destinationPort(port), endOfRecord(false)
     {}
 
     void clear()
     {
         senderAddress.clear();
         destinationAddress.clear();
-        ifindex = 0;
-        hopLimit = -1;
-        streamNumber = -1;
-        endOfRecord = false;
+        ifindex         = 0;
+        hopLimit        = -1;
+        streamNumber    = -1;
+        endOfRecord     = false;
     }
 
-    QHostAddress senderAddress;
-    QHostAddress destinationAddress;
+    QHostAddress    senderAddress;
+    QHostAddress    destinationAddress;
 
-    uint ifindex;
-    int hopLimit;
-    int streamNumber;
-    quint16 senderPort;
-    quint16 destinationPort;
-    bool endOfRecord;
+    uint        ifindex;
+    int         hopLimit;
+    int         streamNumber;
+    quint16     senderPort;
+    quint16     destinationPort;
+    bool        endOfRecord;
 };
 
 class QNetworkDatagramPrivate
@@ -96,8 +96,8 @@ public:
         : data(data), header(header)
     {}
 
-    QByteArray data;
-    QIpPacketHeader header;
+    QByteArray          data;
+    QIpPacketHeader     header;
 };
 
 QT_END_NAMESPACE

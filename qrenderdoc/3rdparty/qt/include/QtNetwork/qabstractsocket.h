@@ -57,25 +57,28 @@ class QNetworkProxy;
 class QAbstractSocketPrivate;
 class QAuthenticator;
 
-class Q_NETWORK_EXPORT QAbstractSocket : public QIODevice
+class Q_NETWORK_EXPORT    QAbstractSocket : public QIODevice
 {
     Q_OBJECT
 public:
-    enum SocketType {
+    enum SocketType
+    {
         TcpSocket,
         UdpSocket,
         SctpSocket,
         UnknownSocketType = -1
     };
     Q_ENUM(SocketType)
-    enum NetworkLayerProtocol {
+    enum NetworkLayerProtocol
+    {
         IPv4Protocol,
         IPv6Protocol,
         AnyIPProtocol,
         UnknownNetworkLayerProtocol = -1
     };
     Q_ENUM(NetworkLayerProtocol)
-    enum SocketError {
+    enum SocketError
+    {
         ConnectionRefusedError,
         RemoteHostClosedError,
         HostNotFoundError,
@@ -103,7 +106,8 @@ public:
         UnknownSocketError = -1
     };
     Q_ENUM(SocketError)
-    enum SocketState {
+    enum SocketState
+    {
         UnconnectedState,
         HostLookupState,
         ConnectingState,
@@ -113,26 +117,29 @@ public:
         ClosingState
     };
     Q_ENUM(SocketState)
-    enum SocketOption {
+    enum SocketOption
+    {
         LowDelayOption, // TCP_NODELAY
         KeepAliveOption, // SO_KEEPALIVE
         MulticastTtlOption, // IP_MULTICAST_TTL
         MulticastLoopbackOption, // IP_MULTICAST_LOOPBACK
-        TypeOfServiceOption, //IP_TOS
-        SendBufferSizeSocketOption,    //SO_SNDBUF
-        ReceiveBufferSizeSocketOption  //SO_RCVBUF
+        TypeOfServiceOption, // IP_TOS
+        SendBufferSizeSocketOption,    // SO_SNDBUF
+        ReceiveBufferSizeSocketOption  // SO_RCVBUF
     };
     Q_ENUM(SocketOption)
-    enum BindFlag {
-        DefaultForPlatform = 0x0,
-        ShareAddress = 0x1,
-        DontShareAddress = 0x2,
-        ReuseAddressHint = 0x4
+    enum BindFlag
+    {
+        DefaultForPlatform  = 0x0,
+        ShareAddress        = 0x1,
+        DontShareAddress    = 0x2,
+        ReuseAddressHint    = 0x4
     };
     Q_DECLARE_FLAGS(BindMode, BindFlag)
-    enum PauseMode {
-        PauseNever = 0x0,
-        PauseOnSslErrors = 0x1
+    enum PauseMode
+    {
+        PauseNever          = 0x0,
+        PauseOnSslErrors    = 0x1
     };
     Q_DECLARE_FLAGS(PauseModes, PauseMode)
 
@@ -172,7 +179,7 @@ public:
 
     virtual qintptr socketDescriptor() const;
     virtual bool setSocketDescriptor(qintptr socketDescriptor, SocketState state = ConnectedState,
-                             OpenMode openMode = ReadWrite);
+                                     OpenMode openMode = ReadWrite);
 
     virtual void setSocketOption(QAbstractSocket::SocketOption option, const QVariant &value);
     virtual QVariant socketOption(QAbstractSocket::SocketOption option);

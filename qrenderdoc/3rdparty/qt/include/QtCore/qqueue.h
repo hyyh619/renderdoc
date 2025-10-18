@@ -45,21 +45,39 @@
 QT_BEGIN_NAMESPACE
 
 
-template <class T>
+template<class T>
 class QQueue : public QList<T>
 {
 public:
     // compiler-generated special member functions are fine!
-    inline void swap(QQueue<T> &other) Q_DECL_NOTHROW { QList<T>::swap(other); } // prevent QList<->QQueue swaps
+    inline void swap(QQueue<T> &other) Q_DECL_NOTHROW
+    {
+        QList<T>::swap(other);
+    }                                                                            // prevent QList<->QQueue swaps
 #ifndef Q_QDOC
     // bring in QList::swap(int, int). We cannot say using QList<T>::swap,
     // because we don't want to make swap(QList&) available.
-    inline void swap(int i, int j) { QList<T>::swap(i, j); }
+    inline void swap(int i, int j)
+    {
+        QList<T>::swap(i, j);
+    }
 #endif
-    inline void enqueue(const T &t) { QList<T>::append(t); }
-    inline T dequeue() { return QList<T>::takeFirst(); }
-    inline T &head() { return QList<T>::first(); }
-    inline const T &head() const { return QList<T>::first(); }
+    inline void enqueue(const T &t)
+    {
+        QList<T>::append(t);
+    }
+    inline T dequeue()
+    {
+        return QList<T>::takeFirst();
+    }
+    inline T    &head()
+    {
+        return QList<T>::first();
+    }
+    inline const T    &head() const
+    {
+        return QList<T>::first();
+    }
 };
 
 QT_END_NAMESPACE

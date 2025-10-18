@@ -59,7 +59,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QOpenGLFunctions_3_2_Core : public QAbstractOpenGLFunctions
+class Q_GUI_EXPORT    QOpenGLFunctions_3_2_Core : public QAbstractOpenGLFunctions
 {
 public:
     QOpenGLFunctions_3_2_Core();
@@ -76,7 +76,7 @@ public:
     void glGetTexParameteriv(GLenum target, GLenum pname, GLint *params);
     void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
     void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
-    const GLubyte * glGetString(GLenum name);
+    const GLubyte* glGetString(GLenum name);
     void glGetIntegerv(GLenum pname, GLint *params);
     void glGetFloatv(GLenum pname, GLfloat *params);
     GLenum glGetError();
@@ -131,7 +131,7 @@ public:
     void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
     void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
     void glPolygonOffset(GLfloat factor, GLfloat units);
-    void glGetPointerv(GLenum pname, GLvoid* *params);
+    void glGetPointerv(GLenum pname, GLvoid **params);
     void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
     void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 
@@ -164,7 +164,7 @@ public:
     void glBlendFuncSeparate(GLenum sfactorRGB, GLenum dfactorRGB, GLenum sfactorAlpha, GLenum dfactorAlpha);
 
     // OpenGL 1.5 core functions
-    void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid* *params);
+    void glGetBufferPointerv(GLenum target, GLenum pname, GLvoid **params);
     void glGetBufferParameteriv(GLenum target, GLenum pname, GLint *params);
     GLboolean glUnmapBuffer(GLenum target);
     GLvoid* glMapBuffer(GLenum target, GLenum access);
@@ -211,7 +211,7 @@ public:
     void glLinkProgram(GLuint program);
     GLboolean glIsShader(GLuint shader);
     GLboolean glIsProgram(GLuint program);
-    void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid* *pointer);
+    void glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointer);
     void glGetVertexAttribiv(GLuint index, GLenum pname, GLint *params);
     void glGetVertexAttribfv(GLuint index, GLenum pname, GLfloat *params);
     void glGetVertexAttribdv(GLuint index, GLenum pname, GLdouble *params);
@@ -278,7 +278,7 @@ public:
     void glDeleteRenderbuffers(GLsizei n, const GLuint *renderbuffers);
     void glBindRenderbuffer(GLenum target, GLuint renderbuffer);
     GLboolean glIsRenderbuffer(GLuint renderbuffer);
-    const GLubyte * glGetStringi(GLenum name, GLuint index);
+    const GLubyte* glGetStringi(GLenum name, GLuint index);
     void glClearBufferfi(GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
     void glClearBufferfv(GLenum buffer, GLint drawbuffer, const GLfloat *value);
     void glClearBufferuiv(GLenum buffer, GLint drawbuffer, const GLuint *value);
@@ -358,17 +358,17 @@ private:
     static bool isContextCompatible(QOpenGLContext *context);
     static QOpenGLVersionProfile versionProfile();
 
-    QOpenGLFunctions_1_0_CoreBackend* d_1_0_Core;
-    QOpenGLFunctions_1_1_CoreBackend* d_1_1_Core;
-    QOpenGLFunctions_1_2_CoreBackend* d_1_2_Core;
-    QOpenGLFunctions_1_3_CoreBackend* d_1_3_Core;
-    QOpenGLFunctions_1_4_CoreBackend* d_1_4_Core;
-    QOpenGLFunctions_1_5_CoreBackend* d_1_5_Core;
-    QOpenGLFunctions_2_0_CoreBackend* d_2_0_Core;
-    QOpenGLFunctions_2_1_CoreBackend* d_2_1_Core;
-    QOpenGLFunctions_3_0_CoreBackend* d_3_0_Core;
-    QOpenGLFunctions_3_1_CoreBackend* d_3_1_Core;
-    QOpenGLFunctions_3_2_CoreBackend* d_3_2_Core;
+    QOpenGLFunctions_1_0_CoreBackend    *d_1_0_Core;
+    QOpenGLFunctions_1_1_CoreBackend    *d_1_1_Core;
+    QOpenGLFunctions_1_2_CoreBackend    *d_1_2_Core;
+    QOpenGLFunctions_1_3_CoreBackend    *d_1_3_Core;
+    QOpenGLFunctions_1_4_CoreBackend    *d_1_4_Core;
+    QOpenGLFunctions_1_5_CoreBackend    *d_1_5_Core;
+    QOpenGLFunctions_2_0_CoreBackend    *d_2_0_Core;
+    QOpenGLFunctions_2_1_CoreBackend    *d_2_1_Core;
+    QOpenGLFunctions_3_0_CoreBackend    *d_3_0_Core;
+    QOpenGLFunctions_3_1_CoreBackend    *d_3_1_Core;
+    QOpenGLFunctions_3_2_CoreBackend    *d_3_2_Core;
 };
 
 // OpenGL 1.0 core functions
@@ -412,7 +412,7 @@ inline void QOpenGLFunctions_3_2_Core::glGetTexImage(GLenum target, GLint level,
     d_1_0_Core->f.GetTexImage(target, level, format, type, pixels);
 }
 
-inline const GLubyte * QOpenGLFunctions_3_2_Core::glGetString(GLenum name)
+inline const GLubyte* QOpenGLFunctions_3_2_Core::glGetString(GLenum name)
 {
     return d_1_0_Core->f.GetString(name);
 }
@@ -681,7 +681,7 @@ inline void QOpenGLFunctions_3_2_Core::glPolygonOffset(GLfloat factor, GLfloat u
     d_1_1_Core->f.PolygonOffset(factor, units);
 }
 
-inline void QOpenGLFunctions_3_2_Core::glGetPointerv(GLenum pname, GLvoid* *params)
+inline void QOpenGLFunctions_3_2_Core::glGetPointerv(GLenum pname, GLvoid **params)
 {
     Q_UNUSED(pname);
     Q_UNUSED(params);
@@ -816,7 +816,7 @@ inline void QOpenGLFunctions_3_2_Core::glBlendFuncSeparate(GLenum sfactorRGB, GL
 
 
 // OpenGL 1.5 core functions
-inline void QOpenGLFunctions_3_2_Core::glGetBufferPointerv(GLenum target, GLenum pname, GLvoid* *params)
+inline void QOpenGLFunctions_3_2_Core::glGetBufferPointerv(GLenum target, GLenum pname, GLvoid **params)
 {
     d_1_5_Core->f.GetBufferPointerv(target, pname, params);
 }
@@ -1043,7 +1043,7 @@ inline GLboolean QOpenGLFunctions_3_2_Core::glIsProgram(GLuint program)
     return d_2_0_Core->f.IsProgram(program);
 }
 
-inline void QOpenGLFunctions_3_2_Core::glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid* *pointer)
+inline void QOpenGLFunctions_3_2_Core::glGetVertexAttribPointerv(GLuint index, GLenum pname, GLvoid **pointer)
 {
     d_2_0_Core->f.GetVertexAttribPointerv(index, pname, pointer);
 }
@@ -1362,7 +1362,7 @@ inline GLboolean QOpenGLFunctions_3_2_Core::glIsRenderbuffer(GLuint renderbuffer
     return d_3_0_Core->f.IsRenderbuffer(renderbuffer);
 }
 
-inline const GLubyte * QOpenGLFunctions_3_2_Core::glGetStringi(GLenum name, GLuint index)
+inline const GLubyte* QOpenGLFunctions_3_2_Core::glGetStringi(GLenum name, GLuint index)
 {
     return d_3_0_Core->f.GetStringi(name, index);
 }
@@ -1714,7 +1714,6 @@ inline void QOpenGLFunctions_3_2_Core::glGetInteger64i_v(GLenum target, GLuint i
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL && !QT_OPENGL_ES_2
 
 #endif

@@ -61,7 +61,7 @@ class QPlainTextEditPrivate;
 class QMimeData;
 class QPagedPaintDevice;
 
-class Q_WIDGETS_EXPORT QPlainTextEdit : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QPlainTextEdit : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPlainTextEdit)
@@ -82,7 +82,8 @@ class Q_WIDGETS_EXPORT QPlainTextEdit : public QAbstractScrollArea
     Q_PROPERTY(bool centerOnScroll READ centerOnScroll WRITE setCenterOnScroll)
     Q_PROPERTY(QString placeholderText READ placeholderText WRITE setPlaceholderText)
 public:
-    enum LineWrapMode {
+    enum LineWrapMode
+    {
         NoWrap,
         WidgetWidth
     };
@@ -93,7 +94,7 @@ public:
     virtual ~QPlainTextEdit();
 
     void setDocument(QTextDocument *document);
-    QTextDocument *document() const;
+    QTextDocument* document() const;
 
     void setPlaceholderText(const QString &placeholderText);
     QString placeholderText() const;
@@ -115,19 +116,31 @@ public:
     void setTabChangesFocus(bool b);
 
     inline void setDocumentTitle(const QString &title)
-    { document()->setMetaInformation(QTextDocument::DocumentTitle, title); }
+    {
+        document()->setMetaInformation(QTextDocument::DocumentTitle, title);
+    }
     inline QString documentTitle() const
-    { return document()->metaInformation(QTextDocument::DocumentTitle); }
+    {
+        return document()->metaInformation(QTextDocument::DocumentTitle);
+    }
 
     inline bool isUndoRedoEnabled() const
-    { return document()->isUndoRedoEnabled(); }
+    {
+        return document()->isUndoRedoEnabled();
+    }
     inline void setUndoRedoEnabled(bool enable)
-    { document()->setUndoRedoEnabled(enable); }
+    {
+        document()->setUndoRedoEnabled(enable);
+    }
 
     inline void setMaximumBlockCount(int maximum)
-    { document()->setMaximumBlockCount(maximum); }
+    {
+        document()->setMaximumBlockCount(maximum);
+    }
     inline int maximumBlockCount() const
-    { return document()->maximumBlockCount(); }
+    {
+        return document()->maximumBlockCount();
+    }
 
 
     LineWrapMode lineWrapMode() const;
@@ -148,14 +161,16 @@ public:
 #endif
 
     inline QString toPlainText() const
-    { return document()->toPlainText(); }
+    {
+        return document()->toPlainText();
+    }
 
     void ensureCursorVisible();
 
     virtual QVariant loadResource(int type, const QUrl &name);
 #ifndef QT_NO_CONTEXTMENU
-    QMenu *createStandardContextMenu();
-    QMenu *createStandardContextMenu(const QPoint &position);
+    QMenu* createStandardContextMenu();
+    QMenu* createStandardContextMenu(const QPoint &position);
 #endif
 
     QTextCursor cursorForPosition(const QPoint &pos) const;
@@ -247,17 +262,17 @@ protected:
 #endif
     virtual void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
     virtual void focusOutEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
-    virtual void showEvent(QShowEvent *) Q_DECL_OVERRIDE;
+    virtual void showEvent(QShowEvent*) Q_DECL_OVERRIDE;
     virtual void changeEvent(QEvent *e) Q_DECL_OVERRIDE;
 #if QT_CONFIG(wheelevent)
     virtual void wheelEvent(QWheelEvent *e) Q_DECL_OVERRIDE;
 #endif
 
-    virtual QMimeData *createMimeDataFromSelection() const;
+    virtual QMimeData* createMimeDataFromSelection() const;
     virtual bool canInsertFromMimeData(const QMimeData *source) const;
     virtual void insertFromMimeData(const QMimeData *source);
 
-    virtual void inputMethodEvent(QInputMethodEvent *) Q_DECL_OVERRIDE;
+    virtual void inputMethodEvent(QInputMethodEvent*) Q_DECL_OVERRIDE;
 
     QPlainTextEdit(QPlainTextEditPrivate &dd, QWidget *parent);
 
@@ -284,7 +299,7 @@ private:
 
 
 class QPlainTextDocumentLayoutPrivate;
-class Q_WIDGETS_EXPORT QPlainTextDocumentLayout : public QAbstractTextDocumentLayout
+class Q_WIDGETS_EXPORT    QPlainTextDocumentLayout : public QAbstractTextDocumentLayout
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPlainTextDocumentLayout)
@@ -294,13 +309,13 @@ public:
     QPlainTextDocumentLayout(QTextDocument *document);
     ~QPlainTextDocumentLayout();
 
-    void draw(QPainter *, const PaintContext &) Q_DECL_OVERRIDE;
-    int hitTest(const QPointF &, Qt::HitTestAccuracy ) const Q_DECL_OVERRIDE;
+    void draw(QPainter*, const PaintContext&) Q_DECL_OVERRIDE;
+    int hitTest(const QPointF&, Qt::HitTestAccuracy) const Q_DECL_OVERRIDE;
 
     int pageCount() const Q_DECL_OVERRIDE;
     QSizeF documentSize() const Q_DECL_OVERRIDE;
 
-    QRectF frameBoundingRect(QTextFrame *) const Q_DECL_OVERRIDE;
+    QRectF frameBoundingRect(QTextFrame*) const Q_DECL_OVERRIDE;
     QRectF blockBoundingRect(const QTextBlock &block) const Q_DECL_OVERRIDE;
 
     void ensureBlockLayout(const QTextBlock &block) const;
@@ -320,7 +335,7 @@ private:
     void layoutBlock(const QTextBlock &block);
     qreal blockWidth(const QTextBlock &block);
 
-    QPlainTextDocumentLayoutPrivate *priv() const;
+    QPlainTextDocumentLayoutPrivate* priv() const;
 
     friend class QPlainTextEdit;
     friend class QPlainTextEditPrivate;

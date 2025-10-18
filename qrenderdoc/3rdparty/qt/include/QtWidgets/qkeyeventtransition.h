@@ -48,7 +48,7 @@ QT_REQUIRE_CONFIG(qeventtransition);
 QT_BEGIN_NAMESPACE
 
 class QKeyEventTransitionPrivate;
-class Q_WIDGETS_EXPORT QKeyEventTransition : public QEventTransition
+class Q_WIDGETS_EXPORT    QKeyEventTransition : public QEventTransition
 {
     Q_OBJECT
     Q_PROPERTY(int key READ key WRITE setKey)

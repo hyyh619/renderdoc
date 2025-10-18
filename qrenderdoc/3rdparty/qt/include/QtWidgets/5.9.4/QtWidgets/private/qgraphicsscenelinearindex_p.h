@@ -62,7 +62,7 @@ QT_REQUIRE_CONFIG(graphicsview);
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QGraphicsSceneLinearIndex : public QGraphicsSceneIndex
+class Q_AUTOTEST_EXPORT    QGraphicsSceneLinearIndex : public QGraphicsSceneIndex
 {
     Q_OBJECT
 
@@ -70,17 +70,19 @@ public:
     QGraphicsSceneLinearIndex(QGraphicsScene *scene = 0) : QGraphicsSceneIndex(scene), m_numSortedElements(0)
     { }
 
-    QList<QGraphicsItem *> items(Qt::SortOrder order = Qt::DescendingOrder) const Q_DECL_OVERRIDE
-    { Q_UNUSED(order); return m_items; }
+    QList<QGraphicsItem*> items(Qt::SortOrder order = Qt::DescendingOrder) const Q_DECL_OVERRIDE
+    {
+        Q_UNUSED(order); return m_items;
+    }
 
-    virtual QList<QGraphicsItem *> estimateItems(const QRectF &rect, Qt::SortOrder order) const Q_DECL_OVERRIDE
+    virtual QList<QGraphicsItem*> estimateItems(const QRectF &rect, Qt::SortOrder order) const Q_DECL_OVERRIDE
     {
         Q_UNUSED(rect);
         Q_UNUSED(order);
         return m_items;
     }
 
-protected :
+protected:
     virtual void clear() Q_DECL_OVERRIDE
     {
         m_items.clear();
@@ -88,19 +90,21 @@ protected :
     }
 
     virtual void addItem(QGraphicsItem *item) Q_DECL_OVERRIDE
-    { m_items << item; }
+    {
+        m_items << item;
+    }
 
     virtual void removeItem(QGraphicsItem *item) Q_DECL_OVERRIDE
     {
         // Sort m_items if needed
         if (m_numSortedElements < m_items.size())
         {
-            std::sort(m_items.begin() + m_numSortedElements, m_items.end() );
+            std::sort(m_items.begin() + m_numSortedElements, m_items.end());
             std::inplace_merge(m_items.begin(), m_items.begin() + m_numSortedElements, m_items.end());
             m_numSortedElements = m_items.size();
         }
 
-        QList<QGraphicsItem*>::iterator element = std::lower_bound(m_items.begin(), m_items.end(), item);
+        QList<QGraphicsItem*>::iterator    element = std::lower_bound(m_items.begin(), m_items.end(), item);
         if (element != m_items.end() && *element == item)
         {
             m_items.erase(element);
@@ -109,8 +113,8 @@ protected :
     }
 
 private:
-    QList<QGraphicsItem*> m_items;
-    int m_numSortedElements;
+    QList<QGraphicsItem*>       m_items;
+    int                         m_numSortedElements;
 };
 
 QT_END_NAMESPACE

@@ -47,7 +47,7 @@ Q_FORWARD_DECLARE_OBJC_CLASS(NSView);
 
 QT_BEGIN_NAMESPACE
 
-class Q_WIDGETS_EXPORT QMacNativeWidget : public QWidget
+class Q_WIDGETS_EXPORT    QMacNativeWidget : public QWidget
 {
     Q_OBJECT
 public:
@@ -55,7 +55,7 @@ public:
     ~QMacNativeWidget();
 
     QSize sizeHint() const override;
-    NSView *nativeView() const;
+    NSView* nativeView() const;
 
 protected:
     bool event(QEvent *ev) override;

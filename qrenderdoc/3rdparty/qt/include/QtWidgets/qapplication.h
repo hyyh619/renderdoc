@@ -58,7 +58,7 @@ class QDesktopWidget;
 class QStyle;
 class QEventLoop;
 class QIcon;
-template <typename T> class QList;
+template<typename T> class QList;
 class QLocale;
 class QPlatformNativeInterface;
 
@@ -67,21 +67,21 @@ class QApplicationPrivate;
 #if defined(qApp)
 #undef qApp
 #endif
-#define qApp (static_cast<QApplication *>(QCoreApplication::instance()))
+#define qApp (static_cast<QApplication*>(QCoreApplication::instance()))
 
-class Q_WIDGETS_EXPORT QApplication : public QGuiApplication
+class Q_WIDGETS_EXPORT    QApplication : public QGuiApplication
 {
     Q_OBJECT
     Q_PROPERTY(QIcon windowIcon READ windowIcon WRITE setWindowIcon)
     Q_PROPERTY(int cursorFlashTime READ cursorFlashTime WRITE setCursorFlashTime)
-    Q_PROPERTY(int doubleClickInterval  READ doubleClickInterval WRITE setDoubleClickInterval)
+    Q_PROPERTY(int doubleClickInterval READ doubleClickInterval WRITE setDoubleClickInterval)
     Q_PROPERTY(int keyboardInputInterval READ keyboardInputInterval WRITE setKeyboardInputInterval)
 #if QT_CONFIG(wheelevent)
-    Q_PROPERTY(int wheelScrollLines  READ wheelScrollLines WRITE setWheelScrollLines)
+    Q_PROPERTY(int wheelScrollLines READ wheelScrollLines WRITE setWheelScrollLines)
 #endif
     Q_PROPERTY(QSize globalStrut READ globalStrut WRITE setGlobalStrut)
-    Q_PROPERTY(int startDragTime  READ startDragTime WRITE setStartDragTime)
-    Q_PROPERTY(int startDragDistance  READ startDragDistance WRITE setStartDragDistance)
+    Q_PROPERTY(int startDragTime READ startDragTime WRITE setStartDragTime)
+    Q_PROPERTY(int startDragDistance READ startDragDistance WRITE setStartDragDistance)
 #ifndef QT_NO_STYLE_STYLESHEET
     Q_PROPERTY(QString styleSheet READ styleSheet WRITE setStyleSheet)
 #endif
@@ -95,26 +95,26 @@ public:
 #endif
     virtual ~QApplication();
 
-    static QStyle *style();
+    static QStyle* style();
     static void setStyle(QStyle*);
-    static QStyle *setStyle(const QString&);
-    enum ColorSpec { NormalColor=0, CustomColor=1, ManyColor=2 };
+    static QStyle* setStyle(const QString&);
+    enum ColorSpec { NormalColor = 0, CustomColor = 1, ManyColor = 2 };
 #if QT_DEPRECATED_SINCE(5, 8)
     QT_DEPRECATED static int colorSpec();
     QT_DEPRECATED static void setColorSpec(int);
 #endif // QT_DEPRECATED_SINCE(5, 8)
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED static inline void setGraphicsSystem(const QString &) {}
+    QT_DEPRECATED static inline void setGraphicsSystem(const QString&) {}
 #endif
 
     using QGuiApplication::palette;
-    static QPalette palette(const QWidget *);
+    static QPalette palette(const QWidget*);
     static QPalette palette(const char *className);
-    static void setPalette(const QPalette &, const char* className = Q_NULLPTR);
+    static void setPalette(const QPalette&, const char *className = Q_NULLPTR);
     static QFont font();
     static QFont font(const QWidget*);
     static QFont font(const char *className);
-    static void setFont(const QFont &, const char* className = Q_NULLPTR);
+    static void setFont(const QFont&, const char *className = Q_NULLPTR);
     static QFontMetrics fontMetrics();
 
 #if QT_VERSION < 0x060000 // remove these forwarders in Qt 6
@@ -125,19 +125,25 @@ public:
     static QWidgetList allWidgets();
     static QWidgetList topLevelWidgets();
 
-    static QDesktopWidget *desktop();
+    static QDesktopWidget* desktop();
 
-    static QWidget *activePopupWidget();
-    static QWidget *activeModalWidget();
-    static QWidget *focusWidget();
+    static QWidget* activePopupWidget();
+    static QWidget* activeModalWidget();
+    static QWidget* focusWidget();
 
-    static QWidget *activeWindow();
-    static void setActiveWindow(QWidget* act);
+    static QWidget* activeWindow();
+    static void setActiveWindow(QWidget *act);
 
-    static QWidget *widgetAt(const QPoint &p);
-    static inline QWidget *widgetAt(int x, int y) { return widgetAt(QPoint(x, y)); }
-    static QWidget *topLevelAt(const QPoint &p);
-    static inline QWidget *topLevelAt(int x, int y)  { return topLevelAt(QPoint(x, y)); }
+    static QWidget* widgetAt(const QPoint &p);
+    static inline QWidget* widgetAt(int x, int y)
+    {
+        return widgetAt(QPoint(x, y));
+    }
+    static QWidget* topLevelAt(const QPoint &p);
+    static inline QWidget* topLevelAt(int x, int y)
+    {
+        return topLevelAt(QPoint(x, y));
+    }
 
 #if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED static inline void syncX() {}
@@ -158,7 +164,7 @@ public:
     static void setWheelScrollLines(int);
     static int wheelScrollLines();
 #endif
-    static void setGlobalStrut(const QSize &);
+    static void setGlobalStrut(const QSize&);
     static QSize globalStrut();
 
     static void setStartDragTime(int ms);
@@ -171,13 +177,17 @@ public:
 
 #if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED static QLocale keyboardInputLocale()
-    { return qApp ? QGuiApplication::inputMethod()->locale() : QLocale::c(); }
+    {
+        return qApp ? QGuiApplication::inputMethod()->locale() : QLocale::c();
+    }
     QT_DEPRECATED static Qt::LayoutDirection keyboardInputDirection()
-    { return qApp ? QGuiApplication::inputMethod()->inputDirection() : Qt::LeftToRight; }
+    {
+        return qApp ? QGuiApplication::inputMethod()->inputDirection() : Qt::LeftToRight;
+    }
 #endif
 
     static int exec();
-    bool notify(QObject *, QEvent *) Q_DECL_OVERRIDE;
+    bool notify(QObject*, QEvent*) Q_DECL_OVERRIDE;
 
 #ifdef QT_KEYPAD_NAVIGATION
     static Q_DECL_DEPRECATED void setKeypadNavigationEnabled(bool);
@@ -193,7 +203,7 @@ public:
     QString styleSheet() const;
 public Q_SLOTS:
 #ifndef QT_NO_STYLE_STYLESHEET
-    void setStyleSheet(const QString& sheet);
+    void setStyleSheet(const QString &sheet);
 #endif
     void setAutoSipEnabled(const bool enabled);
     bool autoSipEnabled() const;
@@ -201,8 +211,8 @@ public Q_SLOTS:
     static void aboutQt();
 
 protected:
-    bool event(QEvent *) Q_DECL_OVERRIDE;
-    bool compressEvent(QEvent *, QObject *receiver, QPostEventList *) Q_DECL_OVERRIDE;
+    bool event(QEvent*) Q_DECL_OVERRIDE;
+    bool compressEvent(QEvent*, QObject *receiver, QPostEventList*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QApplication)

@@ -65,14 +65,15 @@ class QPlatformPixmap;
 
 class QPixmapFilterPrivate;
 
-class Q_WIDGETS_EXPORT QPixmapFilter : public QObject
+class Q_WIDGETS_EXPORT    QPixmapFilter : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPixmapFilter)
 public:
     virtual ~QPixmapFilter() = 0;
 
-    enum FilterType {
+    enum FilterType
+    {
         ConvolutionFilter,
         ColorizeFilter,
         DropShadowFilter,
@@ -94,7 +95,7 @@ protected:
 
 class QPixmapConvolutionFilterPrivate;
 
-class Q_WIDGETS_EXPORT QPixmapConvolutionFilter : public QPixmapFilter
+class Q_WIDGETS_EXPORT    QPixmapConvolutionFilter : public QPixmapFilter
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPixmapConvolutionFilter)
@@ -111,14 +112,14 @@ public:
 private:
     friend class QGLPixmapConvolutionFilter;
     friend class QVGPixmapConvolutionFilter;
-    const qreal *convolutionKernel() const;
+    const qreal* convolutionKernel() const;
     int rows() const;
     int columns() const;
 };
 
 class QPixmapBlurFilterPrivate;
 
-class Q_WIDGETS_EXPORT QPixmapBlurFilter : public QPixmapFilter
+class Q_WIDGETS_EXPORT    QPixmapBlurFilter : public QPixmapFilter
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPixmapBlurFilter)
@@ -142,7 +143,7 @@ private:
 
 class QPixmapColorizeFilterPrivate;
 
-class Q_WIDGETS_EXPORT QPixmapColorizeFilter : public QPixmapFilter
+class Q_WIDGETS_EXPORT    QPixmapColorizeFilter : public QPixmapFilter
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPixmapColorizeFilter)
@@ -151,7 +152,7 @@ public:
     QPixmapColorizeFilter(QObject *parent = 0);
     ~QPixmapColorizeFilter();
 
-    void setColor(const QColor& color);
+    void setColor(const QColor &color);
     QColor color() const;
 
     void setStrength(qreal strength);
@@ -162,7 +163,7 @@ public:
 
 class QPixmapDropShadowFilterPrivate;
 
-class Q_WIDGETS_EXPORT QPixmapDropShadowFilter : public QPixmapFilter
+class Q_WIDGETS_EXPORT    QPixmapDropShadowFilter : public QPixmapFilter
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPixmapDropShadowFilter)
@@ -182,7 +183,10 @@ public:
 
     QPointF offset() const;
     void setOffset(const QPointF &offset);
-    inline void setOffset(qreal dx, qreal dy) { setOffset(QPointF(dx, dy)); }
+    inline void setOffset(qreal dx, qreal dy)
+    {
+        setOffset(QPointF(dx, dy));
+    }
 };
 
 QT_END_NAMESPACE

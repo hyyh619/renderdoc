@@ -97,7 +97,10 @@ public:
                    Qt::ImageConversionFlags flags = Qt::AutoColor) Q_DECL_OVERRIDE;
     void drawTextItem(const QPointF &p, const QTextItem &ti) Q_DECL_OVERRIDE;
 
-    Type type() const Q_DECL_OVERRIDE { return Picture; }
+    Type type() const Q_DECL_OVERRIDE
+    {
+        return Picture;
+    }
 
 protected:
     QPicturePaintEngine(QPaintEnginePrivate &dptr);
@@ -109,7 +112,6 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_PICTURE
 
 #endif // QPAINTENGINE_PIC_P_H

@@ -67,7 +67,7 @@ QT_BEGIN_NAMESPACE
 
 class QSizeGrip;
 
-class Q_WIDGETS_EXPORT QDialogPrivate : public QWidgetPrivate
+class Q_WIDGETS_EXPORT    QDialogPrivate : public QWidgetPrivate
 {
     Q_DECLARE_PUBLIC(QDialog)
 public:
@@ -75,76 +75,93 @@ public:
     QDialogPrivate()
         :
 #if QT_CONFIG(pushbutton)
-          mainDef(0),
+        mainDef(0),
 #endif
-          orientation(Qt::Horizontal),extension(0), doShowExtension(false),
+        orientation(Qt::Horizontal), extension(0), doShowExtension(false),
 #if QT_CONFIG(sizegrip)
-          resizer(0),
-          sizeGripEnabled(false),
+        resizer(0),
+        sizeGripEnabled(false),
 #endif
-          rescode(0), resetModalityTo(-1), wasModalitySet(true), eventLoop(0),
-          nativeDialogInUse(false), m_platformHelper(0), m_platformHelperCreated(false)
-        {}
+        rescode(0), resetModalityTo(-1), wasModalitySet(true), eventLoop(0),
+        nativeDialogInUse(false), m_platformHelper(0), m_platformHelperCreated(false)
+    {}
     ~QDialogPrivate();
 
-    QWindow *parentWindow() const;
+    QWindow* parentWindow() const;
     bool setNativeDialogVisible(bool visible);
     QVariant styleHint(QPlatformDialogHelper::StyleHint hint) const;
     void deletePlatformHelper();
 
 #if QT_CONFIG(pushbutton)
-    QPointer<QPushButton> mainDef;
+    QPointer<QPushButton>    mainDef;
 #endif
-    Qt::Orientation orientation;
-    QWidget *extension;
-    bool doShowExtension;
-    QSize size, min, max;
+    Qt::Orientation     orientation;
+    QWidget             *extension;
+    bool                doShowExtension;
+    QSize               size, min, max;
 #if QT_CONFIG(sizegrip)
-    QSizeGrip *resizer;
-    bool sizeGripEnabled;
+    QSizeGrip       *resizer;
+    bool            sizeGripEnabled;
 #endif
-    QPoint lastRMBPress;
+    QPoint    lastRMBPress;
 
 #if QT_CONFIG(pushbutton)
-    void setDefault(QPushButton *);
-    void setMainDefault(QPushButton *);
+    void setDefault(QPushButton*);
+    void setMainDefault(QPushButton*);
     void hideDefault();
 #endif
     void resetModalitySetByOpen();
 
-    int rescode;
-    int resetModalityTo;
-    bool wasModalitySet;
+    int     rescode;
+    int     resetModalityTo;
+    bool    wasModalitySet;
 
-    QPointer<QEventLoop> eventLoop;
+    QPointer<QEventLoop>    eventLoop;
 
-    bool nativeDialogInUse;
-    QPlatformDialogHelper *platformHelper() const;
+    bool    nativeDialogInUse;
+    QPlatformDialogHelper* platformHelper() const;
     virtual bool canBeNativeDialog() const;
 
 private:
-    virtual void initHelper(QPlatformDialogHelper *) {}
-    virtual void helperPrepareShow(QPlatformDialogHelper *) {}
-    virtual void helperDone(QDialog::DialogCode, QPlatformDialogHelper *) {}
+    virtual void initHelper(QPlatformDialogHelper*) {}
+    virtual void helperPrepareShow(QPlatformDialogHelper*) {}
+    virtual void helperDone(QDialog::DialogCode, QPlatformDialogHelper*) {}
 
-    mutable QPlatformDialogHelper *m_platformHelper;
-    mutable bool m_platformHelperCreated;
+    mutable QPlatformDialogHelper       *m_platformHelper;
+    mutable bool                        m_platformHelperCreated;
 };
 
-template <typename T>
-class QAutoPointer {
-    QPointer<T> o;
-    struct internal { void func() {} };
+template<typename T>
+class QAutoPointer
+{
+    QPointer<T>    o;
+    struct internal { void func() {}
+    };
     typedef void (internal::*RestrictedBool)();
 public:
     explicit QAutoPointer(T *t) Q_DECL_NOTHROW : o(t) {}
-    ~QAutoPointer() { delete o; }
+    ~QAutoPointer()
+    {
+        delete o;
+    }
 
-    T *operator->() const Q_DECL_NOTHROW { return get(); }
-    T *get() const Q_DECL_NOTHROW { return o; }
-    T &operator*() const { return *get(); }
+    T* operator->() const Q_DECL_NOTHROW
+    {
+        return get();
+    }
+    T* get() const Q_DECL_NOTHROW
+    {
+        return o;
+    }
+    T&operator*() const
+    {
+        return *get();
+    }
     operator RestrictedBool() const Q_DECL_NOTHROW { return o ? &internal::func : Q_NULLPTR; }
-    bool operator!() const Q_DECL_NOTHROW { return !o; }
+    bool operator!() const Q_DECL_NOTHROW
+    {
+        return !o;
+    }
 private:
     Q_DISABLE_COPY(QAutoPointer);
 };

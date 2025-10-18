@@ -70,11 +70,11 @@ protected:
     explicit QTemporaryFilePrivate(const QString &templateNameIn);
     ~QTemporaryFilePrivate();
 
-    QAbstractFileEngine *engine() const override;
+    QAbstractFileEngine* engine() const override;
     void resetFileEngine() const;
 
-    bool autoRemove = true;
-    QString templateName = defaultTemplateName();
+    bool        autoRemove      = true;
+    QString     templateName    = defaultTemplateName();
 
     static QString defaultTemplateName();
 
@@ -89,9 +89,9 @@ public:
     {
         Q_D(QFSFileEngine);
         Q_ASSERT(!isReallyOpen());
-        fileMode = mode;
-        filePathIsTemplate = filePathWasTemplate = nameIsTemplate;
-        d->fileEntry = QFileSystemEntry(file);
+        fileMode            = mode;
+        filePathIsTemplate  = filePathWasTemplate = nameIsTemplate;
+        d->fileEntry        = QFileSystemEntry(file);
 
         if (!filePathIsTemplate)
             QFSFileEngine::setFileName(file);
@@ -108,14 +108,12 @@ public:
     bool renameOverwrite(const QString &newName) override;
     bool close() override;
 
-    quint32 fileMode;
-    bool filePathIsTemplate;
-    bool filePathWasTemplate;
+    quint32     fileMode;
+    bool        filePathIsTemplate;
+    bool        filePathWasTemplate;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_TEMPORARYFILE
 
 #endif /* QTEMPORARYFILE_P_H */
-

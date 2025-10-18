@@ -63,215 +63,237 @@ extern "C" {
 #ifndef NVPERF_NVPA_STATUS_DEFINED
 #define NVPERF_NVPA_STATUS_DEFINED
 
-    /// Error codes.
-    typedef enum NVPA_Status
-    {
-        /// Success
-        NVPA_STATUS_SUCCESS = 0,
-        /// Generic error.
-        NVPA_STATUS_ERROR = 1,
-        /// Internal error.  Please file a bug!
-        NVPA_STATUS_INTERNAL_ERROR = 2,
-        /// NVPW_InitializeTarget() or NVPW_InitializeHost() has not been called yet.
-        NVPA_STATUS_NOT_INITIALIZED = 3,
-        /// The NvPerf DLL/DSO could not be loaded during NVPW_Initialize*(). Please ensure they are placed in the
-        /// appropriate location that can be founder by a dynamic linker. And on Linux systems, confirm that the
-        /// LD_LIBRARY_PATH environment variable is set correctly. Alternatively, you may utilize
-        /// NVPW_SetLibraryLoadPaths() to define additional library search paths.
-        NVPA_STATUS_NOT_LOADED = 4,
-        /// The function was not found in this version of the NvPerf DLL/DSO. Or if you are directly calling
-        /// NVPA_GetProcAddress(), please ensure the function name is spelled correctly.
-        NVPA_STATUS_FUNCTION_NOT_FOUND = 5,
-        /// The request was intentionally not supported.
-        NVPA_STATUS_NOT_SUPPORTED = 6,
-        /// The request was not implemented by this version.
-        NVPA_STATUS_NOT_IMPLEMENTED = 7,
-        /// Invalid argument.
-        NVPA_STATUS_INVALID_ARGUMENT = 8,
-        /// UNUSED
-        NVPA_STATUS_INVALID_METRIC_ID = 9,
-        /// No driver has been loaded via NVPW_*_LoadDriver().
-        NVPA_STATUS_DRIVER_NOT_LOADED = 10,
-        /// Failed memory allocation.
-        NVPA_STATUS_OUT_OF_MEMORY = 11,
-        /// UNUSED
-        NVPA_STATUS_INVALID_THREAD_STATE = 12,
-        /// UNUSED
-        NVPA_STATUS_FAILED_CONTEXT_ALLOC = 13,
-        /// The specified GPU is not supported. It is recommended to call IsGpuSupported() for more information
-        NVPA_STATUS_UNSUPPORTED_GPU = 14,
-        /// The installed NVIDIA driver is too old.
-        NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION = 15,
-        /// UNUSED
-        NVPA_STATUS_OBJECT_NOT_REGISTERED = 16,
-        /// Profiling permission not granted; see https://developer.nvidia.com/nvidia-development-tools-solutions-
-        /// ERR_NVGPUCTRPERM-permission-issue-performance-counters
-        NVPA_STATUS_INSUFFICIENT_PRIVILEGE = 17,
-        /// UNUSED
-        NVPA_STATUS_INVALID_CONTEXT_STATE = 18,
-        /// UNUSED
-        NVPA_STATUS_INVALID_OBJECT_STATE = 19,
-        /// The request could not be fulfilled because a system resource is already in use.
-        NVPA_STATUS_RESOURCE_UNAVAILABLE = 20,
-        /// UNUSED
-        NVPA_STATUS_DRIVER_LOADED_TOO_LATE = 21,
-        /// The provided buffer is not large enough.
-        NVPA_STATUS_INSUFFICIENT_SPACE = 22,
-        /// UNUSED
-        NVPA_STATUS_OBJECT_MISMATCH = 23,
-        /// Virtualized GPU (vGPU) is not supported.
-        NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED = 24,
-        /// Profiling permission was not granted or the device was disabled.
-        NVPA_STATUS_PROFILING_NOT_ALLOWED = 25,
-        NVPA_STATUS__COUNT
-    } NVPA_Status;
+/// Error codes.
+typedef enum NVPA_Status
+{
+    /// Success
+    NVPA_STATUS_SUCCESS = 0,
+    /// Generic error.
+    NVPA_STATUS_ERROR = 1,
+    /// Internal error.  Please file a bug!
+    NVPA_STATUS_INTERNAL_ERROR = 2,
+    /// NVPW_InitializeTarget() or NVPW_InitializeHost() has not been called yet.
+    NVPA_STATUS_NOT_INITIALIZED = 3,
+    /// The NvPerf DLL/DSO could not be loaded during NVPW_Initialize*(). Please ensure they are placed in the
+    /// appropriate location that can be founder by a dynamic linker. And on Linux systems, confirm that the
+    /// LD_LIBRARY_PATH environment variable is set correctly. Alternatively, you may utilize
+    /// NVPW_SetLibraryLoadPaths() to define additional library search paths.
+    NVPA_STATUS_NOT_LOADED = 4,
+    /// The function was not found in this version of the NvPerf DLL/DSO. Or if you are directly calling
+    /// NVPA_GetProcAddress(), please ensure the function name is spelled correctly.
+    NVPA_STATUS_FUNCTION_NOT_FOUND = 5,
+    /// The request was intentionally not supported.
+    NVPA_STATUS_NOT_SUPPORTED = 6,
+    /// The request was not implemented by this version.
+    NVPA_STATUS_NOT_IMPLEMENTED = 7,
+    /// Invalid argument.
+    NVPA_STATUS_INVALID_ARGUMENT = 8,
+    /// UNUSED
+    NVPA_STATUS_INVALID_METRIC_ID = 9,
+    /// No driver has been loaded via NVPW_*_LoadDriver().
+    NVPA_STATUS_DRIVER_NOT_LOADED = 10,
+    /// Failed memory allocation.
+    NVPA_STATUS_OUT_OF_MEMORY = 11,
+    /// UNUSED
+    NVPA_STATUS_INVALID_THREAD_STATE = 12,
+    /// UNUSED
+    NVPA_STATUS_FAILED_CONTEXT_ALLOC = 13,
+    /// The specified GPU is not supported. It is recommended to call IsGpuSupported() for more information
+    NVPA_STATUS_UNSUPPORTED_GPU = 14,
+    /// The installed NVIDIA driver is too old.
+    NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION = 15,
+    /// UNUSED
+    NVPA_STATUS_OBJECT_NOT_REGISTERED = 16,
+    /// Profiling permission not granted; see https://developer.nvidia.com/nvidia-development-tools-solutions-
+    /// ERR_NVGPUCTRPERM-permission-issue-performance-counters
+    NVPA_STATUS_INSUFFICIENT_PRIVILEGE = 17,
+    /// UNUSED
+    NVPA_STATUS_INVALID_CONTEXT_STATE = 18,
+    /// UNUSED
+    NVPA_STATUS_INVALID_OBJECT_STATE = 19,
+    /// The request could not be fulfilled because a system resource is already in use.
+    NVPA_STATUS_RESOURCE_UNAVAILABLE = 20,
+    /// UNUSED
+    NVPA_STATUS_DRIVER_LOADED_TOO_LATE = 21,
+    /// The provided buffer is not large enough.
+    NVPA_STATUS_INSUFFICIENT_SPACE = 22,
+    /// UNUSED
+    NVPA_STATUS_OBJECT_MISMATCH = 23,
+    /// Virtualized GPU (vGPU) is not supported.
+    NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED = 24,
+    /// Profiling permission was not granted or the device was disabled.
+    NVPA_STATUS_PROFILING_NOT_ALLOWED = 25,
+    NVPA_STATUS__COUNT
+} NVPA_Status;
 
 
-    inline void NVPW_NVPAStatusToString(NVPA_Status status, const char** ppStatusStr, const char** ppCommentStr)
+inline void NVPW_NVPAStatusToString(NVPA_Status status, const char **ppStatusStr, const char **ppCommentStr)
+{
+    switch (status)
     {
-        switch (status)
-        {
-            case NVPA_STATUS_SUCCESS:
-                *ppStatusStr = "NVPA_STATUS_SUCCESS";
-                *ppCommentStr = "Success";
-                return;
-            case NVPA_STATUS_ERROR:
-                *ppStatusStr = "NVPA_STATUS_ERROR";
-                *ppCommentStr = "Generic error.";
-                return;
-            case NVPA_STATUS_INTERNAL_ERROR:
-                *ppStatusStr = "NVPA_STATUS_INTERNAL_ERROR";
-                *ppCommentStr = "Internal error.  Please file a bug!";
-                return;
-            case NVPA_STATUS_NOT_INITIALIZED:
-                *ppStatusStr = "NVPA_STATUS_NOT_INITIALIZED";
-                *ppCommentStr = "NVPW_InitializeTarget() or NVPW_InitializeHost() has not been called yet.";
-                return;
-            case NVPA_STATUS_NOT_LOADED:
-                *ppStatusStr = "NVPA_STATUS_NOT_LOADED";
-                *ppCommentStr = "The NvPerf DLL/DSO could not be loaded during NVPW_Initialize*(). Please ensure they are placed in the appropriate location that can be founder by a dynamic linker. And on Linux systems, confirm that the LD_LIBRARY_PATH environment variable is set correctly. Alternatively, you may utilize NVPW_SetLibraryLoadPaths() to define additional library search paths.";
-                return;
-            case NVPA_STATUS_FUNCTION_NOT_FOUND:
-                *ppStatusStr = "NVPA_STATUS_FUNCTION_NOT_FOUND";
-                *ppCommentStr = "The function was not found in this version of the NvPerf DLL/DSO. Or if you are directly calling NVPA_GetProcAddress(), please ensure the function name is spelled correctly.";
-                return;
-            case NVPA_STATUS_NOT_SUPPORTED:
-                *ppStatusStr = "NVPA_STATUS_NOT_SUPPORTED";
-                *ppCommentStr = "The request was intentionally not supported.";
-                return;
-            case NVPA_STATUS_NOT_IMPLEMENTED:
-                *ppStatusStr = "NVPA_STATUS_NOT_IMPLEMENTED";
-                *ppCommentStr = "The request was not implemented by this version.";
-                return;
-            case NVPA_STATUS_INVALID_ARGUMENT:
-                *ppStatusStr = "NVPA_STATUS_INVALID_ARGUMENT";
-                *ppCommentStr = "Invalid argument.";
-                return;
-            case NVPA_STATUS_INVALID_METRIC_ID:
-                *ppStatusStr = "NVPA_STATUS_INVALID_METRIC_ID";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_DRIVER_NOT_LOADED:
-                *ppStatusStr = "NVPA_STATUS_DRIVER_NOT_LOADED";
-                *ppCommentStr = "No driver has been loaded via NVPW_*_LoadDriver().";
-                return;
-            case NVPA_STATUS_OUT_OF_MEMORY:
-                *ppStatusStr = "NVPA_STATUS_OUT_OF_MEMORY";
-                *ppCommentStr = "Failed memory allocation.";
-                return;
-            case NVPA_STATUS_INVALID_THREAD_STATE:
-                *ppStatusStr = "NVPA_STATUS_INVALID_THREAD_STATE";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_FAILED_CONTEXT_ALLOC:
-                *ppStatusStr = "NVPA_STATUS_FAILED_CONTEXT_ALLOC";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_UNSUPPORTED_GPU:
-                *ppStatusStr = "NVPA_STATUS_UNSUPPORTED_GPU";
-                *ppCommentStr = "The specified GPU is not supported. It is recommended to call IsGpuSupported() for more information";
-                return;
-            case NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION:
-                *ppStatusStr = "NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION";
-                *ppCommentStr = "The installed NVIDIA driver is too old.";
-                return;
-            case NVPA_STATUS_OBJECT_NOT_REGISTERED:
-                *ppStatusStr = "NVPA_STATUS_OBJECT_NOT_REGISTERED";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_INSUFFICIENT_PRIVILEGE:
-                *ppStatusStr = "NVPA_STATUS_INSUFFICIENT_PRIVILEGE";
-                *ppCommentStr = "Profiling permission not granted; see https://developer.nvidia.com/nvidia-development-tools-solutions-ERR_NVGPUCTRPERM-permission-issue-performance-counters";
-                return;
-            case NVPA_STATUS_INVALID_CONTEXT_STATE:
-                *ppStatusStr = "NVPA_STATUS_INVALID_CONTEXT_STATE";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_INVALID_OBJECT_STATE:
-                *ppStatusStr = "NVPA_STATUS_INVALID_OBJECT_STATE";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_RESOURCE_UNAVAILABLE:
-                *ppStatusStr = "NVPA_STATUS_RESOURCE_UNAVAILABLE";
-                *ppCommentStr = "The request could not be fulfilled because a system resource is already in use.";
-                return;
-            case NVPA_STATUS_DRIVER_LOADED_TOO_LATE:
-                *ppStatusStr = "NVPA_STATUS_DRIVER_LOADED_TOO_LATE";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_INSUFFICIENT_SPACE:
-                *ppStatusStr = "NVPA_STATUS_INSUFFICIENT_SPACE";
-                *ppCommentStr = "The provided buffer is not large enough.";
-                return;
-            case NVPA_STATUS_OBJECT_MISMATCH:
-                *ppStatusStr = "NVPA_STATUS_OBJECT_MISMATCH";
-                *ppCommentStr = "UNUSED";
-                return;
-            case NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED:
-                *ppStatusStr = "NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED";
-                *ppCommentStr = "Virtualized GPU (vGPU) is not supported.";
-                return;
-            case NVPA_STATUS_PROFILING_NOT_ALLOWED:
-                *ppStatusStr = "NVPA_STATUS_PROFILING_NOT_ALLOWED";
-                *ppCommentStr = "Profiling permission was not granted or the device was disabled.";
-                return;
-            default:
-                *ppStatusStr = "Unrecognized status";
-                *ppCommentStr = "This status is unrecognized. Is it coming from a newer version of NvPerf library?";
-                return;
-        }
+        case NVPA_STATUS_SUCCESS:
+            *ppStatusStr    = "NVPA_STATUS_SUCCESS";
+            *ppCommentStr   = "Success";
+            return;
+
+        case NVPA_STATUS_ERROR:
+            *ppStatusStr    = "NVPA_STATUS_ERROR";
+            *ppCommentStr   = "Generic error.";
+            return;
+
+        case NVPA_STATUS_INTERNAL_ERROR:
+            *ppStatusStr    = "NVPA_STATUS_INTERNAL_ERROR";
+            *ppCommentStr   = "Internal error.  Please file a bug!";
+            return;
+
+        case NVPA_STATUS_NOT_INITIALIZED:
+            *ppStatusStr    = "NVPA_STATUS_NOT_INITIALIZED";
+            *ppCommentStr   = "NVPW_InitializeTarget() or NVPW_InitializeHost() has not been called yet.";
+            return;
+
+        case NVPA_STATUS_NOT_LOADED:
+            *ppStatusStr    = "NVPA_STATUS_NOT_LOADED";
+            *ppCommentStr   = "The NvPerf DLL/DSO could not be loaded during NVPW_Initialize*(). Please ensure they are placed in the appropriate location that can be founder by a dynamic linker. And on Linux systems, confirm that the LD_LIBRARY_PATH environment variable is set correctly. Alternatively, you may utilize NVPW_SetLibraryLoadPaths() to define additional library search paths.";
+            return;
+
+        case NVPA_STATUS_FUNCTION_NOT_FOUND:
+            *ppStatusStr    = "NVPA_STATUS_FUNCTION_NOT_FOUND";
+            *ppCommentStr   = "The function was not found in this version of the NvPerf DLL/DSO. Or if you are directly calling NVPA_GetProcAddress(), please ensure the function name is spelled correctly.";
+            return;
+
+        case NVPA_STATUS_NOT_SUPPORTED:
+            *ppStatusStr    = "NVPA_STATUS_NOT_SUPPORTED";
+            *ppCommentStr   = "The request was intentionally not supported.";
+            return;
+
+        case NVPA_STATUS_NOT_IMPLEMENTED:
+            *ppStatusStr    = "NVPA_STATUS_NOT_IMPLEMENTED";
+            *ppCommentStr   = "The request was not implemented by this version.";
+            return;
+
+        case NVPA_STATUS_INVALID_ARGUMENT:
+            *ppStatusStr    = "NVPA_STATUS_INVALID_ARGUMENT";
+            *ppCommentStr   = "Invalid argument.";
+            return;
+
+        case NVPA_STATUS_INVALID_METRIC_ID:
+            *ppStatusStr    = "NVPA_STATUS_INVALID_METRIC_ID";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_DRIVER_NOT_LOADED:
+            *ppStatusStr    = "NVPA_STATUS_DRIVER_NOT_LOADED";
+            *ppCommentStr   = "No driver has been loaded via NVPW_*_LoadDriver().";
+            return;
+
+        case NVPA_STATUS_OUT_OF_MEMORY:
+            *ppStatusStr    = "NVPA_STATUS_OUT_OF_MEMORY";
+            *ppCommentStr   = "Failed memory allocation.";
+            return;
+
+        case NVPA_STATUS_INVALID_THREAD_STATE:
+            *ppStatusStr    = "NVPA_STATUS_INVALID_THREAD_STATE";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_FAILED_CONTEXT_ALLOC:
+            *ppStatusStr    = "NVPA_STATUS_FAILED_CONTEXT_ALLOC";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_UNSUPPORTED_GPU:
+            *ppStatusStr    = "NVPA_STATUS_UNSUPPORTED_GPU";
+            *ppCommentStr   = "The specified GPU is not supported. It is recommended to call IsGpuSupported() for more information";
+            return;
+
+        case NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION:
+            *ppStatusStr    = "NVPA_STATUS_INSUFFICIENT_DRIVER_VERSION";
+            *ppCommentStr   = "The installed NVIDIA driver is too old.";
+            return;
+
+        case NVPA_STATUS_OBJECT_NOT_REGISTERED:
+            *ppStatusStr    = "NVPA_STATUS_OBJECT_NOT_REGISTERED";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_INSUFFICIENT_PRIVILEGE:
+            *ppStatusStr    = "NVPA_STATUS_INSUFFICIENT_PRIVILEGE";
+            *ppCommentStr   = "Profiling permission not granted; see https://developer.nvidia.com/nvidia-development-tools-solutions-ERR_NVGPUCTRPERM-permission-issue-performance-counters";
+            return;
+
+        case NVPA_STATUS_INVALID_CONTEXT_STATE:
+            *ppStatusStr    = "NVPA_STATUS_INVALID_CONTEXT_STATE";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_INVALID_OBJECT_STATE:
+            *ppStatusStr    = "NVPA_STATUS_INVALID_OBJECT_STATE";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_RESOURCE_UNAVAILABLE:
+            *ppStatusStr    = "NVPA_STATUS_RESOURCE_UNAVAILABLE";
+            *ppCommentStr   = "The request could not be fulfilled because a system resource is already in use.";
+            return;
+
+        case NVPA_STATUS_DRIVER_LOADED_TOO_LATE:
+            *ppStatusStr    = "NVPA_STATUS_DRIVER_LOADED_TOO_LATE";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_INSUFFICIENT_SPACE:
+            *ppStatusStr    = "NVPA_STATUS_INSUFFICIENT_SPACE";
+            *ppCommentStr   = "The provided buffer is not large enough.";
+            return;
+
+        case NVPA_STATUS_OBJECT_MISMATCH:
+            *ppStatusStr    = "NVPA_STATUS_OBJECT_MISMATCH";
+            *ppCommentStr   = "UNUSED";
+            return;
+
+        case NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED:
+            *ppStatusStr    = "NVPA_STATUS_VIRTUALIZED_DEVICE_NOT_SUPPORTED";
+            *ppCommentStr   = "Virtualized GPU (vGPU) is not supported.";
+            return;
+
+        case NVPA_STATUS_PROFILING_NOT_ALLOWED:
+            *ppStatusStr    = "NVPA_STATUS_PROFILING_NOT_ALLOWED";
+            *ppCommentStr   = "Profiling permission was not granted or the device was disabled.";
+            return;
+
+        default:
+            *ppStatusStr    = "Unrecognized status";
+            *ppCommentStr   = "This status is unrecognized. Is it coming from a newer version of NvPerf library?";
+            return;
     }
-
-
+}
 #endif // NVPERF_NVPA_STATUS_DEFINED
 
 
 #ifndef NVPERF_NVPA_ACTIVITY_KIND_DEFINED
 #define NVPERF_NVPA_ACTIVITY_KIND_DEFINED
 
-    /// The configuration's activity-kind dictates which types of data may be collected.
-    typedef enum NVPA_ActivityKind
-    {
-        /// Invalid value.
-        NVPA_ACTIVITY_KIND_INVALID = 0,
-        /// A workload-centric activity for serialized collection. The library introduces any synchronization required
-        /// to collect metrics.
-        NVPA_ACTIVITY_KIND_PROFILER,
-        /// A realtime activity for sampling counters from the CPU or GPU.
-        NVPA_ACTIVITY_KIND_REALTIME_SAMPLED,
-        /// A realtime activity for profiling counters from the CPU or GPU without CPU/GPU synchronizations.
-        NVPA_ACTIVITY_KIND_REALTIME_PROFILER,
-        NVPA_ACTIVITY_KIND__COUNT
-    } NVPA_ActivityKind;
-
-
+/// The configuration's activity-kind dictates which types of data may be collected.
+typedef enum NVPA_ActivityKind
+{
+    /// Invalid value.
+    NVPA_ACTIVITY_KIND_INVALID = 0,
+    /// A workload-centric activity for serialized collection. The library introduces any synchronization required
+    /// to collect metrics.
+    NVPA_ACTIVITY_KIND_PROFILER,
+    /// A realtime activity for sampling counters from the CPU or GPU.
+    NVPA_ACTIVITY_KIND_REALTIME_SAMPLED,
+    /// A realtime activity for profiling counters from the CPU or GPU without CPU/GPU synchronizations.
+    NVPA_ACTIVITY_KIND_REALTIME_PROFILER,
+    NVPA_ACTIVITY_KIND__COUNT
+} NVPA_ActivityKind;
 #endif // NVPERF_NVPA_ACTIVITY_KIND_DEFINED
 
 
 #ifndef NVPERF_NVPA_BOOL_DEFINED
 #define NVPERF_NVPA_BOOL_DEFINED
-    /// The type used for boolean values.
-    typedef uint8_t NVPA_Bool;
+/// The type used for boolean values.
+typedef uint8_t NVPA_Bool;
 #endif // NVPERF_NVPA_BOOL_DEFINED
 
 #ifndef NVPA_STRUCT_SIZE
@@ -290,92 +312,90 @@ extern "C" {
 typedef NVPA_Status (*NVPA_GenericFn)(void);
 
 
-    /// 
-    /// Gets the address of an NvPerf API function.
-    /// 
-    /// \return A function pointer to the function, or NULL if the function is not available.
-    /// 
-    /// \param pFunctionName [in] Name of the function to retrieve.
-    NVPA_GenericFn NVPA_GetProcAddress(const char* pFunctionName);
-
+///
+/// Gets the address of an NvPerf API function.
+///
+/// \return A function pointer to the function, or NULL if the function is not available.
+///
+/// \param pFunctionName [in] Name of the function to retrieve.
+NVPA_GenericFn NVPA_GetProcAddress(const char *pFunctionName);
 #endif
 
 #ifndef NVPERF_NVPW_SETLIBRARYLOADPATHS_DEFINED
 #define NVPERF_NVPW_SETLIBRARYLOADPATHS_DEFINED
 
 
-    typedef struct NVPW_SetLibraryLoadPaths_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] number of paths in ppPaths
-        size_t numPaths;
-        /// [in] array of null-terminated paths
-        const char** ppPaths;
-    } NVPW_SetLibraryLoadPaths_Params;
+typedef struct NVPW_SetLibraryLoadPaths_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] number of paths in ppPaths
+    size_t numPaths;
+    /// [in] array of null-terminated paths
+    const char **ppPaths;
+} NVPW_SetLibraryLoadPaths_Params;
 #define NVPW_SetLibraryLoadPaths_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_SetLibraryLoadPaths_Params, ppPaths)
 
-    /// Sets library search path for \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget().
-    /// \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget load the NvPerf DLL/DSO.  This function sets
-    /// ordered paths that will be searched with the LoadLibrary() or dlopen() call.
-    /// If load paths are set by this function, the default set of load paths
-    /// will not be attempted.
-    /// Each path must point at a directory (not a file name).
-    /// This function is not thread-safe.
-    /// Example Usage:
-    /// \code
-    ///     const char* paths[] = {
-    ///         "path1", "path2", etc
-    ///     };
-    ///     NVPW_SetLibraryLoadPaths_Params params{NVPW_SetLibraryLoadPaths_Params_STRUCT_SIZE};
-    ///     params.numPaths = sizeof(paths)/sizeof(paths[0]);
-    ///     params.ppPaths = paths;
-    ///     NVPW_SetLibraryLoadPaths(&params);
-    ///     NVPW_InitializeHost();
-    ///     params.numPaths = 0;
-    ///     params.ppPaths = NULL;
-    ///     NVPW_SetLibraryLoadPaths(&params);
-    /// \endcode
-    NVPA_Status NVPW_SetLibraryLoadPaths(NVPW_SetLibraryLoadPaths_Params* pParams);
+/// Sets library search path for \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget().
+/// \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget load the NvPerf DLL/DSO.  This function sets
+/// ordered paths that will be searched with the LoadLibrary() or dlopen() call.
+/// If load paths are set by this function, the default set of load paths
+/// will not be attempted.
+/// Each path must point at a directory (not a file name).
+/// This function is not thread-safe.
+/// Example Usage:
+/// \code
+///     const char* paths[] = {
+///         "path1", "path2", etc
+///     };
+///     NVPW_SetLibraryLoadPaths_Params params{NVPW_SetLibraryLoadPaths_Params_STRUCT_SIZE};
+///     params.numPaths = sizeof(paths)/sizeof(paths[0]);
+///     params.ppPaths = paths;
+///     NVPW_SetLibraryLoadPaths(&params);
+///     NVPW_InitializeHost();
+///     params.numPaths = 0;
+///     params.ppPaths = NULL;
+///     NVPW_SetLibraryLoadPaths(&params);
+/// \endcode
+NVPA_Status NVPW_SetLibraryLoadPaths(NVPW_SetLibraryLoadPaths_Params *pParams);
 
-    typedef struct NVPW_SetLibraryLoadPathsW_Params
-    {
-        /// [in]
-        size_t structSize;
-        /// [in] assign to NULL
-        void* pPriv;
-        /// [in] number of paths in ppwPaths
-        size_t numPaths;
-        /// [in] array of null-terminated paths
-        const wchar_t** ppwPaths;
-    } NVPW_SetLibraryLoadPathsW_Params;
+typedef struct NVPW_SetLibraryLoadPathsW_Params
+{
+    /// [in]
+    size_t structSize;
+    /// [in] assign to NULL
+    void *pPriv;
+    /// [in] number of paths in ppwPaths
+    size_t numPaths;
+    /// [in] array of null-terminated paths
+    const wchar_t **ppwPaths;
+} NVPW_SetLibraryLoadPathsW_Params;
 #define NVPW_SetLibraryLoadPathsW_Params_STRUCT_SIZE NVPA_STRUCT_SIZE(NVPW_SetLibraryLoadPathsW_Params, ppwPaths)
 
-    /// Sets library search path for \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget().
-    /// \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget load the NvPerf DLL/DSO.  This function sets
-    /// ordered paths that will be searched with the LoadLibrary() or dlopen() call.
-    /// If load paths are set by this function, the default set of load paths
-    /// will not be attempted.
-    /// Each path must point at a directory (not a file name).
-    /// This function is not thread-safe.
-    /// Example Usage:
-    /// \code
-    ///     const wchar_t* wpaths[] = {
-    ///         L"path1", L"path2", etc
-    ///     };
-    ///     NVPW_SetLibraryLoadPathsW_Params params{NVPW_SetLibraryLoadPathsW_Params_STRUCT_SIZE};
-    ///     params.numPaths = sizeof(wpaths)/sizeof(wpaths[0]);
-    ///     params.ppwPaths = wpaths;
-    ///     NVPW_SetLibraryLoadPathsW(&params);
-    ///     NVPW_InitializeHost();
-    ///     params.numPaths = 0;
-    ///     params.ppwPaths = NULL;
-    ///     NVPW_SetLibraryLoadPathsW(&params);
-    /// \endcode
-    NVPA_Status NVPW_SetLibraryLoadPathsW(NVPW_SetLibraryLoadPathsW_Params* pParams);
-
+/// Sets library search path for \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget().
+/// \ref NVPW_InitializeHost() and \ref NVPW_InitializeTarget load the NvPerf DLL/DSO.  This function sets
+/// ordered paths that will be searched with the LoadLibrary() or dlopen() call.
+/// If load paths are set by this function, the default set of load paths
+/// will not be attempted.
+/// Each path must point at a directory (not a file name).
+/// This function is not thread-safe.
+/// Example Usage:
+/// \code
+///     const wchar_t* wpaths[] = {
+///         L"path1", L"path2", etc
+///     };
+///     NVPW_SetLibraryLoadPathsW_Params params{NVPW_SetLibraryLoadPathsW_Params_STRUCT_SIZE};
+///     params.numPaths = sizeof(wpaths)/sizeof(wpaths[0]);
+///     params.ppwPaths = wpaths;
+///     NVPW_SetLibraryLoadPathsW(&params);
+///     NVPW_InitializeHost();
+///     params.numPaths = 0;
+///     params.ppwPaths = NULL;
+///     NVPW_SetLibraryLoadPathsW(&params);
+/// \endcode
+NVPA_Status NVPW_SetLibraryLoadPathsW(NVPW_SetLibraryLoadPathsW_Params *pParams);
 #endif
 
 

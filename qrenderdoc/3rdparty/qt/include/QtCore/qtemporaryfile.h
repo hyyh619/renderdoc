@@ -55,7 +55,7 @@ QT_BEGIN_NAMESPACE
 class QTemporaryFilePrivate;
 class QLockFilePrivate;
 
-class Q_CORE_EXPORT QTemporaryFile : public QFile
+class Q_CORE_EXPORT    QTemporaryFile : public QFile
 {
 #ifndef QT_NO_QOBJECT
     Q_OBJECT
@@ -75,20 +75,29 @@ public:
     void setAutoRemove(bool b);
 
     // ### Hides open(flags)
-    bool open() { return open(QIODevice::ReadWrite); }
+    bool open()
+    {
+        return open(QIODevice::ReadWrite);
+    }
 
     QString fileName() const Q_DECL_OVERRIDE;
     QString fileTemplate() const;
     void setFileTemplate(const QString &name);
-#if QT_DEPRECATED_SINCE(5,1)
-    QT_DEPRECATED inline static QTemporaryFile *createLocalFile(const QString &fileName)
-        { return createNativeFile(fileName); }
-    QT_DEPRECATED inline static QTemporaryFile *createLocalFile(QFile &file)
-        { return createNativeFile(file); }
+#if QT_DEPRECATED_SINCE(5, 1)
+    QT_DEPRECATED inline static QTemporaryFile* createLocalFile(const QString &fileName)
+    {
+        return createNativeFile(fileName);
+    }
+    QT_DEPRECATED inline static QTemporaryFile* createLocalFile(QFile &file)
+    {
+        return createNativeFile(file);
+    }
 #endif
-    inline static QTemporaryFile *createNativeFile(const QString &fileName)
-        { QFile file(fileName); return createNativeFile(file); }
-    static QTemporaryFile *createNativeFile(QFile &file);
+    inline static QTemporaryFile* createNativeFile(const QString &fileName)
+    {
+        QFile    file(fileName); return createNativeFile(file);
+    }
+    static QTemporaryFile* createNativeFile(QFile &file);
 
 protected:
     bool open(OpenMode flags) Q_DECL_OVERRIDE;
@@ -98,7 +107,6 @@ private:
     friend class QLockFilePrivate;
     Q_DISABLE_COPY(QTemporaryFile)
 };
-
 #endif // QT_NO_TEMPORARYFILE
 
 QT_END_NAMESPACE

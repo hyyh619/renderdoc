@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_SSL
 
 class QSslCipherPrivate;
-class Q_NETWORK_EXPORT QSslCipher
+class Q_NETWORK_EXPORT    QSslCipher
 {
 public:
     QSslCipher();
@@ -60,16 +60,24 @@ public:
     QSslCipher(const QString &name, QSsl::SslProtocol protocol);
     QSslCipher(const QSslCipher &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslCipher &operator=(QSslCipher &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslCipher&operator=(QSslCipher &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslCipher &operator=(const QSslCipher &other);
+    QSslCipher&operator=(const QSslCipher &other);
     ~QSslCipher();
 
     void swap(QSslCipher &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QSslCipher &other) const;
-    inline bool operator!=(const QSslCipher &other) const { return !operator==(other); }
+    inline bool operator!=(const QSslCipher &other) const
+    {
+        return !operator==(other);
+    }
 
     bool isNull() const;
     QString name() const;
@@ -83,7 +91,7 @@ public:
     QSsl::SslProtocol protocol() const;
 
 private:
-    QScopedPointer<QSslCipherPrivate> d;
+    QScopedPointer<QSslCipherPrivate>    d;
     friend class QSslSocketBackendPrivate;
 };
 
@@ -93,10 +101,8 @@ Q_DECLARE_SHARED(QSslCipher)
 class QDebug;
 Q_NETWORK_EXPORT QDebug operator<<(QDebug debug, const QSslCipher &cipher);
 #endif
-
 #endif // QT_NO_SSL
 
 QT_END_NAMESPACE
 
 #endif
-

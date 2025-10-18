@@ -1,34 +1,34 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "vk_test.h"
 
 RD_TEST(VK_Mesh_Shader, VulkanGraphicsTest)
 {
-  static constexpr const char *Description = "Draws geometry using mesh shader pipeline.";
+    static constexpr const char    *Description = "Draws geometry using mesh shader pipeline.";
 
-  std::string task = R"EOSHADER(
+    std::string    task = R"EOSHADER(
 
 #version 460
 #extension GL_EXT_mesh_shader : require
@@ -53,7 +53,7 @@ void main()
 
 )EOSHADER";
 
-  std::string task_mesh = R"EOSHADER(
+    std::string    task_mesh = R"EOSHADER(
 
 #version 460
 #extension GL_EXT_mesh_shader : require
@@ -98,7 +98,7 @@ void main()
 
 )EOSHADER";
 
-  std::string simple_mesh = R"EOSHADER(
+    std::string    simple_mesh = R"EOSHADER(
 
 #version 460
 #extension GL_EXT_mesh_shader : require
@@ -139,7 +139,7 @@ void main()
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 #version 460
 
@@ -153,130 +153,136 @@ void main()
 
 )EOSHADER";
 
-  void Prepare(int argc, char **argv)
-  {
-    devExts.push_back(VK_EXT_MESH_SHADER_EXTENSION_NAME);
-
-    VulkanGraphicsTest::Prepare(argc, argv);
-
-    if(!Avail.empty())
-      return;
-
-    if(devVersion < VK_API_VERSION_1_1)
+    void Prepare(int argc, char **argv)
     {
-      Avail = "Vulkan device version isn't 1.1";
-      return;
+        devExts.push_back(VK_EXT_MESH_SHADER_EXTENSION_NAME);
+
+        VulkanGraphicsTest::Prepare(argc, argv);
+
+        if (!Avail.empty())
+            return;
+
+        if (devVersion < VK_API_VERSION_1_1)
+        {
+            Avail = "Vulkan device version isn't 1.1";
+            return;
+        }
+
+        static VkPhysicalDeviceMeshShaderFeaturesEXT    meshShaderFeatures =
+        {
+            VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT
+        };
+
+        getPhysFeatures2(&meshShaderFeatures);
+
+        if (!meshShaderFeatures.meshShader)
+        {
+            Avail = "Mesh Shader feature 'meshShader' not available\n";
+            return;
+        }
+
+        if (!meshShaderFeatures.taskShader)
+        {
+            Avail = "Mesh Shader feature 'taskShader' not available";
+            return;
+        }
+
+        meshShaderFeatures.multiviewMeshShader                      = VK_FALSE;
+        meshShaderFeatures.primitiveFragmentShadingRateMeshShader   = VK_FALSE;
+        meshShaderFeatures.meshShaderQueries                        = VK_FALSE;
+
+        devInfoNext = &meshShaderFeatures;
     }
 
-    static VkPhysicalDeviceMeshShaderFeaturesEXT meshShaderFeatures = {
-        VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_EXT};
-
-    getPhysFeatures2(&meshShaderFeatures);
-
-    if(!meshShaderFeatures.meshShader)
+    int main()
     {
-      Avail = "Mesh Shader feature 'meshShader' not available\n";
-      return;
+        // initialise, create window, create context, etc
+        if (!Init())
+            return 3;
+
+        VkPipelineLayout    layout = createPipelineLayout(
+            vkh::PipelineLayoutCreateInfo({}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 8)}));
+
+        vkh::GraphicsPipelineCreateInfo     pipeCreateInfo;
+        VkGraphicsPipelineCreateInfo        *vkPipeCreateInfo = NULL;
+
+        pipeCreateInfo.layout       = layout;
+        pipeCreateInfo.renderPass   = mainWindow->rp;
+
+        VkPipeline      pipelines[2];
+        int             countTasks[2];
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(simple_mesh, ShaderLang::glsl, ShaderStage::mesh, "main", {},
+                                SPIRVTarget::vulkan12),
+            CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
+        };
+
+        vkPipeCreateInfo                        = pipeCreateInfo;
+        vkPipeCreateInfo->pVertexInputState     = NULL;
+        vkPipeCreateInfo->pInputAssemblyState   = NULL;
+
+        pipelines[0]    = createGraphicsPipeline(vkPipeCreateInfo);
+        countTasks[0]   = 2;
+
+        pipeCreateInfo.stages =
+        {
+            CompileShaderModule(task, ShaderLang::glsl, ShaderStage::task, "main", {},
+                                SPIRVTarget::vulkan12),
+            CompileShaderModule(task_mesh, ShaderLang::glsl, ShaderStage::mesh, "main", {},
+                                SPIRVTarget::vulkan12),
+            CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
+        };
+
+        vkPipeCreateInfo                        = pipeCreateInfo;
+        vkPipeCreateInfo->pVertexInputState     = NULL;
+        vkPipeCreateInfo->pInputAssemblyState   = NULL;
+
+        pipelines[1]    = createGraphicsPipeline(vkPipeCreateInfo);
+        countTasks[1]   = 1;
+
+        while (Running())
+        {
+            VkCommandBuffer    cmd = GetCommandBuffer();
+
+            vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
+
+            VkImage    swapimg =
+                StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
+                                 vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
+                                 vkh::ImageSubresourceRange());
+
+            vkCmdBeginRenderPass(
+                cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
+                VK_SUBPASS_CONTENTS_INLINE);
+
+            setMarker(cmd, "Mesh Shaders");
+
+            for (size_t i = 0; i < ARRAY_COUNT(pipelines); ++i)
+            {
+                vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines[i]);
+                vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
+                vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
+
+                vkCmdDrawMeshTasksEXT(cmd, countTasks[i], 1, 1);
+            }
+
+            vkCmdEndRenderPass(cmd);
+
+            FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
+
+            vkEndCommandBuffer(cmd);
+
+            Submit(0, 1, {cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    if(!meshShaderFeatures.taskShader)
-    {
-      Avail = "Mesh Shader feature 'taskShader' not available";
-      return;
-    }
-
-    meshShaderFeatures.multiviewMeshShader = VK_FALSE;
-    meshShaderFeatures.primitiveFragmentShadingRateMeshShader = VK_FALSE;
-    meshShaderFeatures.meshShaderQueries = VK_FALSE;
-
-    devInfoNext = &meshShaderFeatures;
-  }
-
-  int main()
-  {
-    // initialise, create window, create context, etc
-    if(!Init())
-      return 3;
-
-    VkPipelineLayout layout = createPipelineLayout(
-        vkh::PipelineLayoutCreateInfo({}, {vkh::PushConstantRange(VK_SHADER_STAGE_ALL, 0, 8)}));
-
-    vkh::GraphicsPipelineCreateInfo pipeCreateInfo;
-    VkGraphicsPipelineCreateInfo *vkPipeCreateInfo = NULL;
-
-    pipeCreateInfo.layout = layout;
-    pipeCreateInfo.renderPass = mainWindow->rp;
-
-    VkPipeline pipelines[2];
-    int countTasks[2];
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(simple_mesh, ShaderLang::glsl, ShaderStage::mesh, "main", {},
-                            SPIRVTarget::vulkan12),
-        CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
-    };
-
-    vkPipeCreateInfo = pipeCreateInfo;
-    vkPipeCreateInfo->pVertexInputState = NULL;
-    vkPipeCreateInfo->pInputAssemblyState = NULL;
-
-    pipelines[0] = createGraphicsPipeline(vkPipeCreateInfo);
-    countTasks[0] = 2;
-
-    pipeCreateInfo.stages = {
-        CompileShaderModule(task, ShaderLang::glsl, ShaderStage::task, "main", {},
-                            SPIRVTarget::vulkan12),
-        CompileShaderModule(task_mesh, ShaderLang::glsl, ShaderStage::mesh, "main", {},
-                            SPIRVTarget::vulkan12),
-        CompileShaderModule(pixel, ShaderLang::glsl, ShaderStage::frag, "main"),
-    };
-
-    vkPipeCreateInfo = pipeCreateInfo;
-    vkPipeCreateInfo->pVertexInputState = NULL;
-    vkPipeCreateInfo->pInputAssemblyState = NULL;
-
-    pipelines[1] = createGraphicsPipeline(vkPipeCreateInfo);
-    countTasks[1] = 1;
-
-    while(Running())
-    {
-      VkCommandBuffer cmd = GetCommandBuffer();
-
-      vkBeginCommandBuffer(cmd, vkh::CommandBufferBeginInfo());
-
-      VkImage swapimg =
-          StartUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkCmdClearColorImage(cmd, swapimg, VK_IMAGE_LAYOUT_GENERAL,
-                           vkh::ClearColorValue(0.2f, 0.2f, 0.2f, 1.0f), 1,
-                           vkh::ImageSubresourceRange());
-
-      vkCmdBeginRenderPass(
-          cmd, vkh::RenderPassBeginInfo(mainWindow->rp, mainWindow->GetFB(), mainWindow->scissor),
-          VK_SUBPASS_CONTENTS_INLINE);
-
-      setMarker(cmd, "Mesh Shaders");
-      for(size_t i = 0; i < ARRAY_COUNT(pipelines); ++i)
-      {
-        vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipelines[i]);
-        vkCmdSetViewport(cmd, 0, 1, &mainWindow->viewport);
-        vkCmdSetScissor(cmd, 0, 1, &mainWindow->scissor);
-
-        vkCmdDrawMeshTasksEXT(cmd, countTasks[i], 1, 1);
-      }
-
-      vkCmdEndRenderPass(cmd);
-
-      FinishUsingBackbuffer(cmd, VK_ACCESS_TRANSFER_WRITE_BIT, VK_IMAGE_LAYOUT_GENERAL);
-
-      vkEndCommandBuffer(cmd);
-
-      Submit(0, 1, {cmd});
-
-      Present();
-    }
-    return 0;
-  }
 };
 
 REGISTER_TEST();

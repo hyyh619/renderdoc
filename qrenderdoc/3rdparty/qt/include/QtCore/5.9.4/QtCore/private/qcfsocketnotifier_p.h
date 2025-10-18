@@ -59,17 +59,18 @@
 
 QT_BEGIN_NAMESPACE
 
-struct MacSocketInfo {
+struct MacSocketInfo
+{
     MacSocketInfo() : socket(0), runloop(0), readNotifier(0), writeNotifier(0),
         readEnabled(false), writeEnabled(false) {}
-    CFSocketRef socket;
-    CFRunLoopSourceRef runloop;
-    QObject *readNotifier;
-    QObject *writeNotifier;
-    bool readEnabled;
-    bool writeEnabled;
+    CFSocketRef         socket;
+    CFRunLoopSourceRef  runloop;
+    QObject             *readNotifier;
+    QObject             *writeNotifier;
+    bool                readEnabled;
+    bool                writeEnabled;
 };
-typedef QHash<int, MacSocketInfo *> MacSocketHash;
+typedef QHash<int, MacSocketInfo*> MacSocketHash;
 
 typedef void (*MaybeCancelWaitForMoreEventsFn)(QAbstractEventDispatcher *hostEventDispacher);
 
@@ -82,7 +83,7 @@ typedef void (*MaybeCancelWaitForMoreEventsFn)(QAbstractEventDispatcher *hostEve
 // setHostEventDispatcher() should be called at startup.
 // removeSocketNotifiers() should be called at shutdown.
 //
-class Q_CORE_EXPORT QCFSocketNotifier
+class Q_CORE_EXPORT    QCFSocketNotifier
 {
 public:
     QCFSocketNotifier();
@@ -99,12 +100,12 @@ private:
     static void unregisterSocketInfo(MacSocketInfo *socketInfo);
     static void enableSocketNotifiers(CFRunLoopObserverRef ref, CFRunLoopActivity activity, void *info);
 
-    MacSocketHash macSockets;
-    QAbstractEventDispatcher *eventDispatcher;
-    MaybeCancelWaitForMoreEventsFn maybeCancelWaitForMoreEvents;
-    CFRunLoopObserverRef enableNotifiersObserver;
+    MacSocketHash                       macSockets;
+    QAbstractEventDispatcher            *eventDispatcher;
+    MaybeCancelWaitForMoreEventsFn      maybeCancelWaitForMoreEvents;
+    CFRunLoopObserverRef                enableNotifiersObserver;
 
-    friend void qt_mac_socket_callback(CFSocketRef, CFSocketCallBackType, CFDataRef, const void *, void *);
+    friend void    qt_mac_socket_callback(CFSocketRef, CFSocketCallBackType, CFDataRef, const void*, void*);
 };
 
 QT_END_NAMESPACE

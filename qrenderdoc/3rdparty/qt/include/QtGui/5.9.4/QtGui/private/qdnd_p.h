@@ -70,7 +70,7 @@ class QPlatformDrag;
 
 #if !(defined(QT_NO_DRAGANDDROP) && defined(QT_NO_CLIPBOARD))
 
-class Q_GUI_EXPORT QInternalMimeData : public QMimeData
+class Q_GUI_EXPORT    QInternalMimeData : public QMimeData
 {
     Q_OBJECT
 public:
@@ -89,11 +89,10 @@ public:
 protected:
     QVariant retrieveData(const QString &mimeType, QVariant::Type type) const Q_DECL_OVERRIDE;
 
-    virtual bool hasFormat_sys(const QString &mimeType) const = 0;
-    virtual QStringList formats_sys() const = 0;
-    virtual QVariant retrieveData_sys(const QString &mimeType, QVariant::Type type) const = 0;
+    virtual bool hasFormat_sys(const QString &mimeType) const                               = 0;
+    virtual QStringList formats_sys() const                                                 = 0;
+    virtual QVariant retrieveData_sys(const QString &mimeType, QVariant::Type type) const   = 0;
 };
-
 #endif // !(defined(QT_NO_DRAGANDDROP) && defined(QT_NO_CLIPBOARD))
 
 #ifndef QT_NO_DRAGANDDROP
@@ -106,44 +105,46 @@ public:
         , target(0)
         , data(0)
     { }
-    QObject *source;
-    QObject *target;
-    QMimeData *data;
-    QPixmap pixmap;
-    QPoint hotspot;
-    Qt::DropAction executed_action;
-    Qt::DropActions supported_actions;
-    Qt::DropAction default_action;
-    QMap<Qt::DropAction, QPixmap> customCursors;
+    QObject                             *source;
+    QObject                             *target;
+    QMimeData                           *data;
+    QPixmap                             pixmap;
+    QPoint                              hotspot;
+    Qt::DropAction                      executed_action;
+    Qt::DropActions                     supported_actions;
+    Qt::DropAction                      default_action;
+    QMap<Qt::DropAction, QPixmap>       customCursors;
 };
 
-class Q_GUI_EXPORT QDragManager : public QObject {
+class Q_GUI_EXPORT    QDragManager : public QObject
+{
     Q_OBJECT
 
 public:
     QDragManager();
     ~QDragManager();
-    static QDragManager *self();
+    static QDragManager* self();
 
-    Qt::DropAction drag(QDrag *);
+    Qt::DropAction drag(QDrag*);
 
     void setCurrentTarget(QObject *target, bool dropped = false);
-    QObject *currentTarget() const;
+    QObject* currentTarget() const;
 
-    QDrag *object() const { return m_object; }
-    QObject *source() const;
+    QDrag* object() const
+    {
+        return m_object;
+    }
+    QObject* source() const;
 
 private:
-    QMimeData *m_platformDropData;
-    QObject *m_currentDropTarget;
-    QPlatformDrag *m_platformDrag;
-    QDrag *m_object;
+    QMimeData           *m_platformDropData;
+    QObject             *m_currentDropTarget;
+    QPlatformDrag       *m_platformDrag;
+    QDrag               *m_object;
 
-    static QDragManager *m_instance;
+    static QDragManager    *m_instance;
     Q_DISABLE_COPY(QDragManager)
 };
-
-
 #endif // !QT_NO_DRAGANDDROP
 
 

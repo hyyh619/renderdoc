@@ -57,9 +57,9 @@
 
 QT_BEGIN_NAMESPACE
 
-class QNetmaskAddress: public QHostAddress
+class QNetmaskAddress : public QHostAddress
 {
-    int length;
+    int    length;
 public:
     QNetmaskAddress() : QHostAddress(), length(-1) { }
 

@@ -86,66 +86,66 @@ public:
     ~QHttpThreadDelegate();
 
     // incoming
-    bool ssl;
+    bool    ssl;
 #ifndef QT_NO_SSL
-    QSslConfiguration incomingSslConfiguration;
+    QSslConfiguration    incomingSslConfiguration;
 #endif
-    QHttpNetworkRequest httpRequest;
-    qint64 downloadBufferMaximumSize;
-    qint64 readBufferMaxSize;
-    qint64 bytesEmitted;
+    QHttpNetworkRequest     httpRequest;
+    qint64                  downloadBufferMaximumSize;
+    qint64                  readBufferMaxSize;
+    qint64                  bytesEmitted;
     // From backend, modified by us for signal compression
-    QSharedPointer<QAtomicInt> pendingDownloadData;
-    QSharedPointer<QAtomicInt> pendingDownloadProgress;
+    QSharedPointer<QAtomicInt>      pendingDownloadData;
+    QSharedPointer<QAtomicInt>      pendingDownloadProgress;
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy cacheProxy;
-    QNetworkProxy transparentProxy;
+    QNetworkProxy       cacheProxy;
+    QNetworkProxy       transparentProxy;
 #endif
-    QSharedPointer<QNetworkAccessAuthenticationManager> authenticationManager;
-    bool synchronous;
+    QSharedPointer<QNetworkAccessAuthenticationManager>     authenticationManager;
+    bool                                                    synchronous;
 
     // outgoing, Retrieved in the synchronous HTTP case
-    QByteArray synchronousDownloadData;
-    QList<QPair<QByteArray,QByteArray> > incomingHeaders;
-    int incomingStatusCode;
-    QString incomingReasonPhrase;
-    bool isPipeliningUsed;
-    bool isSpdyUsed;
-    qint64 incomingContentLength;
-    qint64 removedContentLength;
-    QNetworkReply::NetworkError incomingErrorCode;
-    QString incomingErrorDetail;
+    QByteArray                                  synchronousDownloadData;
+    QList<QPair<QByteArray, QByteArray> >       incomingHeaders;
+    int                                         incomingStatusCode;
+    QString                                     incomingReasonPhrase;
+    bool                                        isPipeliningUsed;
+    bool                                        isSpdyUsed;
+    qint64                                      incomingContentLength;
+    qint64                                      removedContentLength;
+    QNetworkReply::NetworkError                 incomingErrorCode;
+    QString                                     incomingErrorDetail;
 #ifndef QT_NO_BEARERMANAGEMENT
-    QSharedPointer<QNetworkSession> networkSession;
+    QSharedPointer<QNetworkSession>    networkSession;
 #endif
 
 protected:
     // The zerocopy download buffer, if used:
-    QSharedPointer<char> downloadBuffer;
+    QSharedPointer<char>    downloadBuffer;
     // The QHttpNetworkConnection that is used
-    QNetworkAccessCachedHttpConnection *httpConnection;
-    QByteArray cacheKey;
-    QHttpNetworkReply *httpReply;
+    QNetworkAccessCachedHttpConnection      *httpConnection;
+    QByteArray                              cacheKey;
+    QHttpNetworkReply                       *httpReply;
 
     // Used for implementing the synchronous HTTP, see startRequestSynchronously()
-    QEventLoop *synchronousRequestLoop;
+    QEventLoop    *synchronousRequestLoop;
 
 signals:
-    void authenticationRequired(const QHttpNetworkRequest &request, QAuthenticator *);
+    void authenticationRequired(const QHttpNetworkRequest &request, QAuthenticator*);
 #ifndef QT_NO_NETWORKPROXY
-    void proxyAuthenticationRequired(const QNetworkProxy &, QAuthenticator *);
+    void proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*);
 #endif
 #ifndef QT_NO_SSL
     void encrypted();
-    void sslErrors(const QList<QSslError> &, bool *, QList<QSslError> *);
-    void sslConfigurationChanged(const QSslConfiguration &);
-    void preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *);
+    void sslErrors(const QList<QSslError>&, bool*, QList<QSslError>*);
+    void sslConfigurationChanged(const QSslConfiguration&);
+    void preSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator*);
 #endif
-    void downloadMetaData(const QList<QPair<QByteArray,QByteArray> > &, int, const QString &, bool,
-                          QSharedPointer<char>, qint64, qint64, bool);
-    void downloadProgress(qint64, qint64);
-    void downloadData(const QByteArray &);
-    void error(QNetworkReply::NetworkError, const QString &);
+    void    downloadMetaData(const QList<QPair<QByteArray, QByteArray> > &, int, const QString &, bool,
+                             QSharedPointer<char>, qint64, qint64, bool);
+    void    downloadProgress(qint64, qint64);
+    void downloadData(const QByteArray&);
+    void error(QNetworkReply::NetworkError, const QString&);
     void downloadFinished();
     void redirected(const QUrl &url, int httpStatus, int maxRedirectsRemainig);
 
@@ -175,16 +175,15 @@ protected slots:
     void preSharedKeyAuthenticationRequiredSlot(QSslPreSharedKeyAuthenticator *authenticator);
 #endif
 
-    void synchronousAuthenticationRequiredSlot(const QHttpNetworkRequest &request, QAuthenticator *);
+    void synchronousAuthenticationRequiredSlot(const QHttpNetworkRequest &request, QAuthenticator*);
 #ifndef QT_NO_NETWORKPROXY
-    void synchronousProxyAuthenticationRequiredSlot(const QNetworkProxy &, QAuthenticator *);
+    void synchronousProxyAuthenticationRequiredSlot(const QNetworkProxy&, QAuthenticator*);
 #endif
 
 protected:
     // Cache for all the QHttpNetworkConnection objects.
     // This is per thread.
-    static QThreadStorage<QNetworkAccessCache *> connections;
-
+    static QThreadStorage<QNetworkAccessCache*>    connections;
 };
 
 // This QNonContiguousByteDevice is connected to the QNetworkAccessHttpBackend
@@ -194,27 +193,25 @@ class QNonContiguousByteDeviceThreadForwardImpl : public QNonContiguousByteDevic
     Q_OBJECT
 protected:
     bool wantDataPending;
-    qint64 m_amount;
-    char *m_data;
-    QByteArray m_dataArray;
-    bool m_atEnd;
-    qint64 m_size;
-    qint64 m_pos; // to match calls of haveDataSlot with the expected position
+    qint64          m_amount;
+    char            *m_data;
+    QByteArray      m_dataArray;
+    bool            m_atEnd;
+    qint64          m_size;
+    qint64          m_pos; // to match calls of haveDataSlot with the expected position
 public:
     QNonContiguousByteDeviceThreadForwardImpl(bool aE, qint64 s)
         : QNonContiguousByteDevice(),
-          wantDataPending(false),
-          m_amount(0),
-          m_data(0),
-          m_atEnd(aE),
-          m_size(s),
-          m_pos(0)
-    {
-    }
+        wantDataPending(false),
+        m_amount(0),
+        m_data(0),
+        m_atEnd(aE),
+        m_size(s),
+        m_pos(0)
+    {}
 
     ~QNonContiguousByteDeviceThreadForwardImpl()
-    {
-    }
+    {}
 
     qint64 pos() const Q_DECL_OVERRIDE
     {
@@ -223,21 +220,28 @@ public:
 
     const char* readPointer(qint64 maximumLength, qint64 &len) Q_DECL_OVERRIDE
     {
-        if (m_amount > 0) {
+        if (m_amount > 0)
+        {
             len = m_amount;
             return m_data;
         }
 
-        if (m_atEnd) {
+        if (m_atEnd)
+        {
             len = -1;
-        } else if (!wantDataPending) {
-            len = 0;
+        }
+        else if (!wantDataPending)
+        {
+            len             = 0;
             wantDataPending = true;
-            emit wantData(maximumLength);
-        } else {
+            emit    wantData(maximumLength);
+        }
+        else
+        {
             // Do nothing, we already sent a wantData signal and wait for results
             len = 0;
         }
+
         return 0;
     }
 
@@ -246,12 +250,12 @@ public:
         if (m_data == 0)
             return false;
 
-        m_amount -= a;
-        m_data += a;
-        m_pos += a;
+        m_amount    -= a;
+        m_data      += a;
+        m_pos       += a;
 
         // To main thread to inform about our state. The m_pos will be sent as a sanity check.
-        emit processedData(m_pos, a);
+        emit    processedData(m_pos, a);
 
         return true;
     }
@@ -266,23 +270,26 @@ public:
 
     bool reset() Q_DECL_OVERRIDE
     {
-        m_amount = 0;
-        m_data = 0;
+        m_amount    = 0;
+        m_data      = 0;
         m_dataArray.clear();
 
-        if (wantDataPending) {
+        if (wantDataPending)
+        {
             // had requested the user thread to send some data (only 1 in-flight at any moment)
             wantDataPending = false;
         }
 
         // Communicate as BlockingQueuedConnection
-        bool b = false;
-        emit resetData(&b);
-        if (b) {
+        bool    b = false;
+        emit    resetData(&b);
+        if (b)
+        {
             // the reset succeeded, we're at pos 0 again
             m_pos = 0;
             // the HTTP code will anyway abort the request if !b.
         }
+
         return b;
     }
 
@@ -295,22 +302,24 @@ public slots:
     // From user thread:
     void haveDataSlot(qint64 pos, const QByteArray &dataArray, bool dataAtEnd, qint64 dataSize)
     {
-        if (pos != m_pos) {
+        if (pos != m_pos)
+        {
             // Sometimes when re-sending a request in the qhttpnetwork* layer there is a pending haveData from the
             // user thread on the way to us. We need to ignore it since it is the data for the wrong(later) chunk.
             return;
         }
+
         wantDataPending = false;
 
         m_dataArray = dataArray;
-        m_data = const_cast<char*>(m_dataArray.constData());
-        m_amount = dataArray.size();
+        m_data      = const_cast<char*>(m_dataArray.constData());
+        m_amount    = dataArray.size();
 
         m_atEnd = dataAtEnd;
-        m_size = dataSize;
+        m_size  = dataSize;
 
         // This will tell the HTTP code (QHttpNetworkConnectionChannel) that we have data available now
-        emit readyRead();
+        emit    readyRead();
     }
 
 signals:
@@ -318,13 +327,12 @@ signals:
     // void readProgress(qint64 current, qint64 total); happens in the main thread with the real bytedevice
 
     // to main thread:
-    void wantData(qint64);
+    void    wantData(qint64);
     void processedData(qint64 pos, qint64 amount);
     void resetData(bool *b);
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 #endif // QHTTPTHREADDELEGATE_H

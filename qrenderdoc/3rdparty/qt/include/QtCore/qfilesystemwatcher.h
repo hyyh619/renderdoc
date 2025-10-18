@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QFileSystemWatcherPrivate;
 
-class Q_CORE_EXPORT QFileSystemWatcher : public QObject
+class Q_CORE_EXPORT    QFileSystemWatcher : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QFileSystemWatcher)
@@ -68,8 +68,8 @@ public:
     QStringList directories() const;
 
 Q_SIGNALS:
-    void fileChanged(const QString &path, QPrivateSignal);
-    void directoryChanged(const QString &path, QPrivateSignal);
+    void    fileChanged(const QString &path, QPrivateSignal);
+    void    directoryChanged(const QString &path, QPrivateSignal);
 
 private:
     Q_PRIVATE_SLOT(d_func(), void _q_fileChanged(const QString &path, bool removed))
@@ -77,6 +77,5 @@ private:
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_FILESYSTEMWATCHER
 #endif // QFILESYSTEMWATCHER_H

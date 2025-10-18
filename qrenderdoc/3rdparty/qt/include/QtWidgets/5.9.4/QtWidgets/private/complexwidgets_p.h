@@ -76,7 +76,8 @@ class QAccessibleAbstractScrollArea : public QAccessibleWidget
 public:
     explicit QAccessibleAbstractScrollArea(QWidget *widget);
 
-    enum AbstractScrollAreaElement {
+    enum AbstractScrollAreaElement
+    {
         Self = 0,
         Viewport,
         HorizontalContainer,
@@ -85,14 +86,14 @@ public:
         Undefined
     };
 
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
     int childCount() const Q_DECL_OVERRIDE;
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
     bool isValid() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
 
-//protected:
-    QAbstractScrollArea *abstractScrollArea() const;
+// protected:
+    QAbstractScrollArea* abstractScrollArea() const;
 
 private:
     QWidgetList accessibleChildren() const;
@@ -121,8 +122,8 @@ public:
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
 
 protected:
-    QTabBar *tabBar() const;
-    mutable QHash<int, QAccessible::Id> m_childInterfaces;
+    QTabBar* tabBar() const;
+    mutable QHash<int, QAccessible::Id>    m_childInterfaces;
 };
 #endif // QT_CONFIG(tabbar)
 
@@ -133,7 +134,7 @@ public:
     explicit QAccessibleComboBox(QWidget *w);
 
     int childCount() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *childAt(int x, int y) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* childAt(int x, int y) const Q_DECL_OVERRIDE;
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
     QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
 
@@ -146,10 +147,9 @@ public:
     QStringList keyBindingsForAction(const QString &actionName) const Q_DECL_OVERRIDE;
 
 protected:
-    QComboBox *comboBox() const;
+    QComboBox* comboBox() const;
 };
 #endif // QT_CONFIG(combobox)
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

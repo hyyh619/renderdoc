@@ -86,11 +86,11 @@
 #endif
 #ifndef __out_ecount_part
     #define __nvapi_undef__out_ecount_part
-    #define __out_ecount_part(size,length)
+    #define __out_ecount_part(size, length)
 #endif
 #ifndef __out_bcount_part
     #define __nvapi_undef__out_bcount_part
-    #define __out_bcount_part(size,length)
+    #define __out_bcount_part(size, length)
 #endif
 #ifndef __out_ecount_full
     #define __nvapi_undef__out_ecount_full
@@ -118,11 +118,11 @@
 #endif
 #ifndef __out_ecount_part_z
     #define __nvapi_undef__out_ecount_part_z
-    #define __out_ecount_part_z(size,length)
+    #define __out_ecount_part_z(size, length)
 #endif
 #ifndef __out_bcount_part_z
     #define __nvapi_undef__out_bcount_part_z
-    #define __out_bcount_part_z(size,length)
+    #define __out_bcount_part_z(size, length)
 #endif
 #ifndef __out_ecount_full_z
     #define __nvapi_undef__out_ecount_full_z
@@ -162,11 +162,11 @@
 #endif
 #ifndef __inout_ecount_part
     #define __nvapi_undef__inout_ecount_part
-    #define __inout_ecount_part(size,length)
+    #define __inout_ecount_part(size, length)
 #endif
 #ifndef __inout_bcount_part
     #define __nvapi_undef__inout_bcount_part
-    #define __inout_bcount_part(size,length)
+    #define __inout_bcount_part(size, length)
 #endif
 #ifndef __inout_ecount_full
     #define __nvapi_undef__inout_ecount_full
@@ -258,11 +258,11 @@
 #endif
 #ifndef __out_ecount_part_opt
     #define __nvapi_undef__out_ecount_part_opt
-    #define __out_ecount_part_opt(size,length)
+    #define __out_ecount_part_opt(size, length)
 #endif
 #ifndef __out_bcount_part_opt
     #define __nvapi_undef__out_bcount_part_opt
-    #define __out_bcount_part_opt(size,length)
+    #define __out_bcount_part_opt(size, length)
 #endif
 #ifndef __out_ecount_full_opt
     #define __nvapi_undef__out_ecount_full_opt
@@ -282,11 +282,11 @@
 #endif
 #ifndef __out_ecount_part_z_opt
     #define __nvapi_undef__out_ecount_part_z_opt
-    #define __out_ecount_part_z_opt(size,length)
+    #define __out_ecount_part_z_opt(size, length)
 #endif
 #ifndef __out_bcount_part_z_opt
     #define __nvapi_undef__out_bcount_part_z_opt
-    #define __out_bcount_part_z_opt(size,length)
+    #define __out_bcount_part_z_opt(size, length)
 #endif
 #ifndef __out_ecount_full_z_opt
     #define __nvapi_undef__out_ecount_full_z_opt
@@ -318,11 +318,11 @@
 #endif
 #ifndef __inout_ecount_part_opt
     #define __nvapi_undef__inout_ecount_part_opt
-    #define __inout_ecount_part_opt(size,length)
+    #define __inout_ecount_part_opt(size, length)
 #endif
 #ifndef __inout_bcount_part_opt
     #define __nvapi_undef__inout_bcount_part_opt
-    #define __inout_bcount_part_opt(size,length)
+    #define __inout_bcount_part_opt(size, length)
 #endif
 #ifndef __inout_ecount_full_opt
     #define __nvapi_undef__inout_ecount_full_opt
@@ -382,11 +382,11 @@
 #endif
 #ifndef __deref_out_ecount_part
     #define __nvapi_undef__deref_out_ecount_part
-    #define __deref_out_ecount_part(size,length)
+    #define __deref_out_ecount_part(size, length)
 #endif
 #ifndef __deref_out_bcount_part
     #define __nvapi_undef__deref_out_bcount_part
-    #define __deref_out_bcount_part(size,length)
+    #define __deref_out_bcount_part(size, length)
 #endif
 #ifndef __deref_out_ecount_full
     #define __nvapi_undef__deref_out_ecount_full
@@ -438,11 +438,11 @@
 #endif
 #ifndef __deref_inout_ecount_part
     #define __nvapi_undef__deref_inout_ecount_part
-    #define __deref_inout_ecount_part(size,length)
+    #define __deref_inout_ecount_part(size, length)
 #endif
 #ifndef __deref_inout_bcount_part
     #define __nvapi_undef__deref_inout_bcount_part
-    #define __deref_inout_bcount_part(size,length)
+    #define __deref_inout_bcount_part(size, length)
 #endif
 #ifndef __deref_inout_ecount_full
     #define __nvapi_undef__deref_inout_ecount_full
@@ -498,11 +498,11 @@
 #endif
 #ifndef __deref_out_ecount_part_opt
     #define __nvapi_undef__deref_out_ecount_part_opt
-    #define __deref_out_ecount_part_opt(size,length)
+    #define __deref_out_ecount_part_opt(size, length)
 #endif
 #ifndef __deref_out_bcount_part_opt
     #define __nvapi_undef__deref_out_bcount_part_opt
-    #define __deref_out_bcount_part_opt(size,length)
+    #define __deref_out_bcount_part_opt(size, length)
 #endif
 #ifndef __deref_out_ecount_full_opt
     #define __nvapi_undef__deref_out_ecount_full_opt
@@ -550,11 +550,11 @@
 #endif
 #ifndef __deref_inout_ecount_part_opt
     #define __nvapi_undef__deref_inout_ecount_part_opt
-    #define __deref_inout_ecount_part_opt(size,length)
+    #define __deref_inout_ecount_part_opt(size, length)
 #endif
 #ifndef __deref_inout_bcount_part_opt
     #define __nvapi_undef__deref_inout_bcount_part_opt
-    #define __deref_inout_bcount_part_opt(size,length)
+    #define __deref_inout_bcount_part_opt(size, length)
 #endif
 #ifndef __deref_inout_ecount_full_opt
     #define __nvapi_undef__deref_inout_ecount_full_opt
@@ -614,11 +614,11 @@
 #endif
 #ifndef __deref_opt_out_ecount_part
     #define __nvapi_undef__deref_opt_out_ecount_part
-    #define __deref_opt_out_ecount_part(size,length)
+    #define __deref_opt_out_ecount_part(size, length)
 #endif
 #ifndef __deref_opt_out_bcount_part
     #define __nvapi_undef__deref_opt_out_bcount_part
-    #define __deref_opt_out_bcount_part(size,length)
+    #define __deref_opt_out_bcount_part(size, length)
 #endif
 #ifndef __deref_opt_out_ecount_full
     #define __nvapi_undef__deref_opt_out_ecount_full
@@ -642,11 +642,11 @@
 #endif
 #ifndef __deref_opt_inout_ecount_part
     #define __nvapi_undef__deref_opt_inout_ecount_part
-    #define __deref_opt_inout_ecount_part(size,length)
+    #define __deref_opt_inout_ecount_part(size, length)
 #endif
 #ifndef __deref_opt_inout_bcount_part
     #define __nvapi_undef__deref_opt_inout_bcount_part
-    #define __deref_opt_inout_bcount_part(size,length)
+    #define __deref_opt_inout_bcount_part(size, length)
 #endif
 #ifndef __deref_opt_inout_ecount_full
     #define __nvapi_undef__deref_opt_inout_ecount_full
@@ -702,11 +702,11 @@
 #endif
 #ifndef __deref_opt_out_ecount_part_opt
     #define __nvapi_undef__deref_opt_out_ecount_part_opt
-    #define __deref_opt_out_ecount_part_opt(size,length)
+    #define __deref_opt_out_ecount_part_opt(size, length)
 #endif
 #ifndef __deref_opt_out_bcount_part_opt
     #define __nvapi_undef__deref_opt_out_bcount_part_opt
-    #define __deref_opt_out_bcount_part_opt(size,length)
+    #define __deref_opt_out_bcount_part_opt(size, length)
 #endif
 #ifndef __deref_opt_out_ecount_full_opt
     #define __nvapi_undef__deref_opt_out_ecount_full_opt
@@ -754,11 +754,11 @@
 #endif
 #ifndef __deref_opt_inout_ecount_part_opt
     #define __nvapi_undef__deref_opt_inout_ecount_part_opt
-    #define __deref_opt_inout_ecount_part_opt(size,length)
+    #define __deref_opt_inout_ecount_part_opt(size, length)
 #endif
 #ifndef __deref_opt_inout_bcount_part_opt
     #define __nvapi_undef__deref_opt_inout_bcount_part_opt
-    #define __deref_opt_inout_bcount_part_opt(size,length)
+    #define __deref_opt_inout_bcount_part_opt(size, length)
 #endif
 #ifndef __deref_opt_inout_ecount_full_opt
     #define __nvapi_undef__deref_opt_inout_ecount_full_opt
@@ -804,9 +804,9 @@
     #define __nvapi__Post_writable_byte_size_
     #define _Post_writable_byte_size_(n)
 #endif
-#ifndef _Outptr_ 
-    #define __nvapi_Outptr_ 
-    #define _Outptr_ 
+#ifndef _Outptr_
+    #define __nvapi_Outptr_
+    #define _Outptr_
 #endif
 
 

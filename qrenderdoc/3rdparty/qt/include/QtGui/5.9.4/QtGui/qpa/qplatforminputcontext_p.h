@@ -56,7 +56,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class QPlatformInputContextPrivate: public QObjectPrivate
+class QPlatformInputContextPrivate : public QObjectPrivate
 {
 public:
     QPlatformInputContextPrivate() {}
@@ -65,7 +65,7 @@ public:
     static void setInputMethodAccepted(bool accepted);
     static bool inputMethodAccepted();
 
-    static bool s_inputMethodAccepted;
+    static bool    s_inputMethodAccepted;
 };
 
 QT_END_NAMESPACE

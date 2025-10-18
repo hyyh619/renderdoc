@@ -85,12 +85,13 @@ class QSslContext;
 #endif // !QT_NO_SSL
 
 class QHttpNetworkConnectionPrivate;
-class Q_AUTOTEST_EXPORT QHttpNetworkConnection : public QObject
+class Q_AUTOTEST_EXPORT    QHttpNetworkConnection : public QObject
 {
     Q_OBJECT
 public:
 
-    enum ConnectionType {
+    enum ConnectionType
+    {
         ConnectionTypeHTTP,
         ConnectionTypeSPDY,
         ConnectionTypeHTTP2
@@ -100,7 +101,7 @@ public:
     explicit QHttpNetworkConnection(const QString &hostName, quint16 port = 80, bool encrypt = false,
                                     ConnectionType connectionType = ConnectionTypeHTTP,
                                     QObject *parent = 0, QSharedPointer<QNetworkSession> networkSession
-                                    = QSharedPointer<QNetworkSession>());
+                                        = QSharedPointer<QNetworkSession>());
     QHttpNetworkConnection(quint16 channelCount, const QString &hostName, quint16 port = 80,
                            bool encrypt = false, QObject *parent = 0,
                            QSharedPointer<QNetworkSession> networkSession = QSharedPointer<QNetworkSession>(),
@@ -115,16 +116,16 @@ public:
 #endif
     ~QHttpNetworkConnection();
 
-    //The hostname to which this is connected to.
+    // The hostname to which this is connected to.
     QString hostName() const;
-    //The HTTP port in use.
+    // The HTTP port in use.
     quint16 port() const;
 
-    //add a new HTTP request through this connection
+    // add a new HTTP request through this connection
     QHttpNetworkReply* sendRequest(const QHttpNetworkRequest &request);
 
 #ifndef QT_NO_NETWORKPROXY
-    //set the proxy for this connection
+    // set the proxy for this connection
     void setCacheProxy(const QNetworkProxy &networkProxy);
     QNetworkProxy cacheProxy() const;
     void setTransparentProxy(const QNetworkProxy &networkProxy);
@@ -133,7 +134,7 @@ public:
 
     bool isSsl() const;
 
-    QHttpNetworkConnectionChannel *channels() const;
+    QHttpNetworkConnectionChannel* channels() const;
 
     ConnectionType connectionType();
     void setConnectionType(ConnectionType type);
@@ -173,16 +174,18 @@ class QHttpNetworkConnectionPrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QHttpNetworkConnection)
 public:
-    static const int defaultHttpChannelCount;
-    static const int defaultPipelineLength;
-    static const int defaultRePipelineLength;
+    static const int    defaultHttpChannelCount;
+    static const int    defaultPipelineLength;
+    static const int    defaultRePipelineLength;
 
-    enum ConnectionState {
-        RunningState = 0,
-        PausedState = 1
+    enum ConnectionState
+    {
+        RunningState    = 0,
+        PausedState     = 1
     };
 
-    enum NetworkLayerPreferenceState {
+    enum NetworkLayerPreferenceState
+    {
         Unknown,
         HostLookupPending,
         IPv4,
@@ -199,14 +202,14 @@ public:
 
     void pauseConnection();
     void resumeConnection();
-    ConnectionState state;
-    NetworkLayerPreferenceState networkLayerState;
+    ConnectionState                 state;
+    NetworkLayerPreferenceState     networkLayerState;
 
     enum { ChunkSize = 4096 };
 
     int indexOf(QAbstractSocket *socket) const;
 
-    QHttpNetworkReply *queueRequest(const QHttpNetworkRequest &request);
+    QHttpNetworkReply* queueRequest(const QHttpNetworkRequest &request);
     void requeueRequest(const HttpMessagePair &pair); // e.g. after pipeline broke
     bool dequeueRequest(QAbstractSocket *socket);
     void prepareRequest(HttpMessagePair &request);
@@ -238,17 +241,17 @@ public:
 
     void removeReply(QHttpNetworkReply *reply);
 
-    QString hostName;
-    quint16 port;
-    bool encrypt;
-    bool delayIpv4;
+    QString     hostName;
+    quint16     port;
+    bool        encrypt;
+    bool        delayIpv4;
 
     // Number of channels we are trying to use at the moment:
-    int activeChannelCount;
+    int    activeChannelCount;
     // The total number of channels we reserved:
-    const int channelCount;
-    QTimer delayedConnectionTimer;
-    QHttpNetworkConnectionChannel *channels; // parallel connections to the server
+    const int                           channelCount;
+    QTimer                              delayedConnectionTimer;
+    QHttpNetworkConnectionChannel       *channels; // parallel connections to the server
     bool shouldEmitChannelError(QAbstractSocket *socket);
 
     qint64 uncompressedBytesAvailable(const QHttpNetworkReply &reply) const;
@@ -260,24 +263,24 @@ public:
     QUrl parseRedirectResponse(QAbstractSocket *socket, QHttpNetworkReply *reply);
 
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy networkProxy;
-    void emitProxyAuthenticationRequired(const QHttpNetworkConnectionChannel *chan, const QNetworkProxy &proxy, QAuthenticator* auth);
+    QNetworkProxy    networkProxy;
+    void emitProxyAuthenticationRequired(const QHttpNetworkConnectionChannel *chan, const QNetworkProxy &proxy, QAuthenticator *auth);
 #endif
 
-    //The request queues
-    QList<HttpMessagePair> highPriorityQueue;
-    QList<HttpMessagePair> lowPriorityQueue;
+    // The request queues
+    QList<HttpMessagePair>      highPriorityQueue;
+    QList<HttpMessagePair>      lowPriorityQueue;
 
-    int preConnectRequests;
+    int    preConnectRequests;
 
-    QHttpNetworkConnection::ConnectionType connectionType;
+    QHttpNetworkConnection::ConnectionType    connectionType;
 
 #ifndef QT_NO_SSL
-    QSharedPointer<QSslContext> sslContext;
+    QSharedPointer<QSslContext>    sslContext;
 #endif
 
 #ifndef QT_NO_BEARERMANAGEMENT
-    QSharedPointer<QNetworkSession> networkSession;
+    QSharedPointer<QNetworkSession>    networkSession;
 #endif
 
     friend class QHttpNetworkConnectionChannel;
@@ -286,7 +289,6 @@ public:
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 #endif

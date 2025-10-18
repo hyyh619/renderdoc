@@ -82,7 +82,7 @@ public:
     QStringList keyBindingsForAction(const QString &actionName) const Q_DECL_OVERRIDE;
 
 protected:
-    QAbstractButton *button() const;
+    QAbstractButton* button() const;
 };
 #endif
 
@@ -96,14 +96,14 @@ public:
     QAccessible::Role role() const Q_DECL_OVERRIDE;
 
     int childCount() const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int index) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int index) const Q_DECL_OVERRIDE;
 
     // QAccessibleActionInterface
     QStringList actionNames() const Q_DECL_OVERRIDE;
     void doAction(const QString &actionName) Q_DECL_OVERRIDE;
 
 protected:
-    QToolButton *toolButton() const;
+    QToolButton* toolButton() const;
 
     bool isSplitButton() const;
 };
@@ -117,8 +117,8 @@ public:
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
     QAccessible::Role role() const Q_DECL_OVERRIDE;
 
-    QVector<QPair<QAccessibleInterface*, QAccessible::Relation> >relations(QAccessible::Relation match = QAccessible::AllRelations) const Q_DECL_OVERRIDE;
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    QVector<QPair<QAccessibleInterface*, QAccessible::Relation> > relations(QAccessible::Relation match = QAccessible::AllRelations) const Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleImageInterface
     QString imageDescription() const Q_DECL_OVERRIDE;
@@ -136,15 +136,15 @@ public:
     QAccessible::Role role() const Q_DECL_OVERRIDE;
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
 
-    QVector<QPair<QAccessibleInterface*, QAccessible::Relation> >relations(QAccessible::Relation match = QAccessible::AllRelations) const Q_DECL_OVERRIDE;
+    QVector<QPair<QAccessibleInterface*, QAccessible::Relation> > relations(QAccessible::Relation match = QAccessible::AllRelations) const Q_DECL_OVERRIDE;
 
-    //QAccessibleActionInterface
+    // QAccessibleActionInterface
     QStringList actionNames() const Q_DECL_OVERRIDE;
     void doAction(const QString &actionName) Q_DECL_OVERRIDE;
-    QStringList keyBindingsForAction(const QString &) const Q_DECL_OVERRIDE;
+    QStringList keyBindingsForAction(const QString&) const Q_DECL_OVERRIDE;
 
 private:
-    QGroupBox *groupBox() const;
+    QGroupBox* groupBox() const;
 };
 #endif
 
@@ -157,7 +157,7 @@ public:
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
     void setText(QAccessible::Text t, const QString &text) Q_DECL_OVERRIDE;
     QAccessible::State state() const Q_DECL_OVERRIDE;
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleTextInterface
     void addSelection(int startOffset, int endOffset) Q_DECL_OVERRIDE;
@@ -168,12 +168,12 @@ public:
     int offsetAtPoint(const QPoint &point) const Q_DECL_OVERRIDE;
     void selection(int selectionIndex, int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     QString text(int startOffset, int endOffset) const Q_DECL_OVERRIDE;
-    QString textBeforeOffset (int offset, QAccessible::TextBoundaryType boundaryType,
-            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
+    QString textBeforeOffset(int offset, QAccessible::TextBoundaryType boundaryType,
+                             int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     QString textAfterOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
+                            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     QString textAtOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
+                         int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     void removeSelection(int selectionIndex) Q_DECL_OVERRIDE;
     void setCursorPosition(int position) Q_DECL_OVERRIDE;
     void setSelection(int selectionIndex, int startOffset, int endOffset) Q_DECL_OVERRIDE;
@@ -185,7 +185,7 @@ public:
     void insertText(int offset, const QString &text) Q_DECL_OVERRIDE;
     void replaceText(int startOffset, int endOffset, const QString &text) Q_DECL_OVERRIDE;
 protected:
-    QLineEdit *lineEdit() const;
+    QLineEdit* lineEdit() const;
     friend class QAccessibleAbstractSpinBox;
 };
 #endif // QT_CONFIG(lineedit)
@@ -195,17 +195,17 @@ class QAccessibleProgressBar : public QAccessibleDisplay, public QAccessibleValu
 {
 public:
     explicit QAccessibleProgressBar(QWidget *o);
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleValueInterface
     QVariant currentValue() const Q_DECL_OVERRIDE;
     QVariant maximumValue() const Q_DECL_OVERRIDE;
     QVariant minimumValue() const Q_DECL_OVERRIDE;
     QVariant minimumStepSize() const Q_DECL_OVERRIDE;
-    void setCurrentValue(const QVariant &) Q_DECL_OVERRIDE {}
+    void setCurrentValue(const QVariant&) Q_DECL_OVERRIDE {}
 
 protected:
-    QProgressBar *progressBar() const;
+    QProgressBar* progressBar() const;
 };
 #endif
 
@@ -216,12 +216,11 @@ public:
     QAccessibleWindowContainer(QWidget *w);
     int childCount() const Q_DECL_OVERRIDE;
     int indexOfChild(const QAccessibleInterface *child) const Q_DECL_OVERRIDE;
-    QAccessibleInterface *child(int i) const Q_DECL_OVERRIDE;
+    QAccessibleInterface* child(int i) const Q_DECL_OVERRIDE;
 
 private:
-    QWindowContainer *container() const;
+    QWindowContainer* container() const;
 };
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

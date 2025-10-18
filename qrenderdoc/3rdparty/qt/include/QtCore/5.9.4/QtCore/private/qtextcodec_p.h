@@ -69,13 +69,15 @@ struct QTextCodecUnalignedPointer
 {
     static inline QTextCodecStateFreeFunction decode(const uint *src)
     {
-        quintptr data;
+        quintptr    data;
+
         memcpy(&data, src, sizeof(data));
         return reinterpret_cast<QTextCodecStateFreeFunction>(data);
     }
     static inline void encode(uint *dst, QTextCodecStateFreeFunction fn)
     {
-        quintptr data = reinterpret_cast<quintptr>(fn);
+        quintptr    data = reinterpret_cast<quintptr>(fn);
+
         memcpy(dst, &data, sizeof(data));
     }
 };
@@ -87,29 +89,33 @@ bool qTextCodecNameMatch(const char *a, const char *b);
 class QTextCodec
 {
 public:
-    enum ConversionFlag {
+    enum ConversionFlag
+    {
         DefaultConversion,
-        ConvertInvalidToNull = 0x80000000,
-        IgnoreHeader = 0x1,
-        FreeFunction = 0x2
+        ConvertInvalidToNull    = 0x80000000,
+        IgnoreHeader            = 0x1,
+        FreeFunction            = 0x2
     };
     Q_DECLARE_FLAGS(ConversionFlags, ConversionFlag)
 
-    struct ConverterState {
+    struct ConverterState
+    {
         ConverterState(ConversionFlags f = DefaultConversion)
-            : flags(f), remainingChars(0), invalidChars(0), d(0) { state_data[0] = state_data[1] = state_data[2] = 0; }
+            : flags(f), remainingChars(0), invalidChars(0), d(0)
+        {
+            state_data[0] = state_data[1] = state_data[2] = 0;
+        }
         ~ConverterState() { }
         ConversionFlags flags;
-        int remainingChars;
-        int invalidChars;
-        uint state_data[3];
-        void *d;
-    private:
+        int             remainingChars;
+        int             invalidChars;
+        uint            state_data[3];
+        void            *d;
+private:
         Q_DISABLE_COPY(ConverterState)
     };
 };
-
-#endif //QT_NO_TEXTCODEC
+#endif // QT_NO_TEXTCODEC
 
 QT_END_NAMESPACE
 

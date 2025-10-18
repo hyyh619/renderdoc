@@ -59,7 +59,7 @@ QT_BEGIN_NAMESPACE
 class QByteArray;
 class QIODevicePrivate;
 
-class Q_CORE_EXPORT QIODevice
+class Q_CORE_EXPORT    QIODevice
 #ifndef QT_NO_QOBJECT
     : public QObject
 #endif
@@ -68,15 +68,16 @@ class Q_CORE_EXPORT QIODevice
     Q_OBJECT
 #endif
 public:
-    enum OpenModeFlag {
-        NotOpen = 0x0000,
-        ReadOnly = 0x0001,
-        WriteOnly = 0x0002,
-        ReadWrite = ReadOnly | WriteOnly,
-        Append = 0x0004,
-        Truncate = 0x0008,
-        Text = 0x0010,
-        Unbuffered = 0x0020
+    enum OpenModeFlag
+    {
+        NotOpen     = 0x0000,
+        ReadOnly    = 0x0001,
+        WriteOnly   = 0x0002,
+        ReadWrite   = ReadOnly | WriteOnly,
+        Append      = 0x0004,
+        Truncate    = 0x0008,
+        Text        = 0x0010,
+        Unbuffered  = 0x0020
     };
     Q_DECLARE_FLAGS(OpenMode, OpenModeFlag)
 
@@ -132,7 +133,9 @@ public:
     qint64 write(const char *data, qint64 len);
     qint64 write(const char *data);
     inline qint64 write(const QByteArray &data)
-    { return write(data.constData(), data.size()); }
+    {
+        return write(data.constData(), data.size());
+    }
 
     qint64 peek(char *data, qint64 maxlen);
     QByteArray peek(qint64 maxlen);
@@ -171,7 +174,7 @@ protected:
     void setErrorString(const QString &errorString);
 
 #ifdef QT_NO_QOBJECT
-    QScopedPointer<QIODevicePrivate> d_ptr;
+    QScopedPointer<QIODevicePrivate>    d_ptr;
 #endif
 
 private:

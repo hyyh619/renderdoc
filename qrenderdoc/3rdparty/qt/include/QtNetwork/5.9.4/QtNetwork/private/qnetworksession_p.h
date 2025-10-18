@@ -60,7 +60,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_NETWORK_EXPORT QNetworkSessionPrivate : public QObject
+class Q_NETWORK_EXPORT    QNetworkSessionPrivate : public QObject
 {
     Q_OBJECT
 
@@ -73,39 +73,39 @@ public:
     virtual ~QNetworkSessionPrivate()
     {}
 
-    //called by QNetworkSession constructor and ensures
-    //that the state is immediately updated (w/o actually opening
-    //a session). Also this function should take care of
-    //notification hooks to discover future state changes.
+    // called by QNetworkSession constructor and ensures
+    // that the state is immediately updated (w/o actually opening
+    // a session). Also this function should take care of
+    // notification hooks to discover future state changes.
     virtual void syncStateWithInterface() = 0;
 
 #ifndef QT_NO_NETWORKINTERFACE
     virtual QNetworkInterface currentInterface() const = 0;
 #endif
-    virtual QVariant sessionProperty(const QString &key) const = 0;
-    virtual void setSessionProperty(const QString &key, const QVariant &value) = 0;
+    virtual QVariant sessionProperty(const QString &key) const                  = 0;
+    virtual void setSessionProperty(const QString &key, const QVariant &value)  = 0;
 
-    virtual void open() = 0;
-    virtual void close() = 0;
-    virtual void stop() = 0;
+    virtual void open()     = 0;
+    virtual void close()    = 0;
+    virtual void stop()     = 0;
 
     virtual void setALREnabled(bool /*enabled*/) {}
-    virtual void migrate() = 0;
-    virtual void accept() = 0;
-    virtual void ignore() = 0;
-    virtual void reject() = 0;
+    virtual void migrate()  = 0;
+    virtual void accept()   = 0;
+    virtual void ignore()   = 0;
+    virtual void reject()   = 0;
 
-    virtual QString errorString() const = 0; //must return translated string
+    virtual QString errorString() const                 = 0; // must return translated string
     virtual QNetworkSession::SessionError error() const = 0;
 
-    virtual quint64 bytesWritten() const = 0;
-    virtual quint64 bytesReceived() const = 0;
-    virtual quint64 activeTime() const = 0;
+    virtual quint64 bytesWritten() const    = 0;
+    virtual quint64 bytesReceived() const   = 0;
+    virtual quint64 activeTime() const      = 0;
 
-    virtual QNetworkSession::UsagePolicies usagePolicies() const = 0;
-    virtual void setUsagePolicies(QNetworkSession::UsagePolicies) = 0;
+    virtual QNetworkSession::UsagePolicies usagePolicies() const    = 0;
+    virtual void setUsagePolicies(QNetworkSession::UsagePolicies)   = 0;
 
-    static void setUsagePolicies(QNetworkSession&, QNetworkSession::UsagePolicies); //for unit testing
+    static void setUsagePolicies(QNetworkSession&, QNetworkSession::UsagePolicies); // for unit testing
 protected:
     inline QNetworkConfigurationPrivatePointer privateConfiguration(const QNetworkConfiguration &config) const
     {
@@ -119,7 +119,7 @@ protected:
     }
 
 Q_SIGNALS:
-    //releases any pending waitForOpened() calls
+    // releases any pending waitForOpened() calls
     void quitPendingWaitsForOpened();
 
     void error(QNetworkSession::SessionError error);
@@ -130,28 +130,27 @@ Q_SIGNALS:
     void usagePoliciesChanged(QNetworkSession::UsagePolicies);
 
 protected:
-    QNetworkSession *q;
+    QNetworkSession    *q;
 
     // The config set on QNetworkSession.
-    QNetworkConfiguration publicConfig;
+    QNetworkConfiguration    publicConfig;
 
     // If publicConfig is a ServiceNetwork this is a copy of publicConfig.
     // If publicConfig is an UserChoice that is resolved to a ServiceNetwork this is the actual
     // ServiceNetwork configuration.
-    QNetworkConfiguration serviceConfig;
+    QNetworkConfiguration    serviceConfig;
 
     // This is the actual active configuration currently in use by the session.
     // Either a copy of publicConfig or one of serviceConfig.children().
-    QNetworkConfiguration activeConfig;
+    QNetworkConfiguration    activeConfig;
 
-    QNetworkSession::State state;
-    bool isOpen;
+    QNetworkSession::State      state;
+    bool                        isOpen;
 
-    QMutex mutex;
+    QMutex    mutex;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_BEARERMANAGEMENT
 
 #endif // QNETWORKSESSIONPRIVATE_H

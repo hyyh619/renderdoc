@@ -56,28 +56,31 @@ QT_BEGIN_NAMESPACE
 
 class QTimeZonePrivate;
 
-class Q_CORE_EXPORT QTimeZone
+class Q_CORE_EXPORT    QTimeZone
 {
 public:
-    enum TimeType {
-        StandardTime = 0,
-        DaylightTime = 1,
-        GenericTime = 2
+    enum TimeType
+    {
+        StandardTime    = 0,
+        DaylightTime    = 1,
+        GenericTime     = 2
     };
 
-    enum NameType {
+    enum NameType
+    {
         DefaultName = 0,
-        LongName = 1,
-        ShortName = 2,
-        OffsetName = 3
+        LongName    = 1,
+        ShortName   = 2,
+        OffsetName  = 3
     };
 
-    struct OffsetData {
-        QString abbreviation;
-        QDateTime atUtc;
-        int offsetFromUtc;
-        int standardTimeOffset;
-        int daylightTimeOffset;
+    struct OffsetData
+    {
+        QString     abbreviation;
+        QDateTime   atUtc;
+        int         offsetFromUtc;
+        int         standardTimeOffset;
+        int         daylightTimeOffset;
     };
     typedef QVector<OffsetData> OffsetDataList;
 
@@ -85,18 +88,23 @@ public:
     explicit QTimeZone(const QByteArray &ianaId);
     explicit QTimeZone(int offsetSeconds);
     /*implicit*/ QTimeZone(const QByteArray &zoneId, int offsetSeconds, const QString &name,
-              const QString &abbreviation, QLocale::Country country = QLocale::AnyCountry,
-              const QString &comment = QString());
+                           const QString &abbreviation, QLocale::Country country = QLocale::AnyCountry,
+                           const QString &comment = QString());
     QTimeZone(const QTimeZone &other);
     ~QTimeZone();
 
-    QTimeZone &operator=(const QTimeZone &other);
+    QTimeZone&operator=(const QTimeZone &other);
  #ifdef Q_COMPILER_RVALUE_REFS
-    QTimeZone &operator=(QTimeZone &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QTimeZone&operator=(QTimeZone &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
     void swap(QTimeZone &other) Q_DECL_NOTHROW
-    { d.swap(other.d); }
+    {
+        d.swap(other.d);
+    }
 
     bool operator==(const QTimeZone &other) const;
     bool operator!=(const QTimeZone &other) const;
@@ -142,35 +150,35 @@ public:
     static QByteArray ianaIdToWindowsId(const QByteArray &ianaId);
     static QByteArray windowsIdToDefaultIanaId(const QByteArray &windowsId);
     static QByteArray windowsIdToDefaultIanaId(const QByteArray &windowsId,
-                                                QLocale::Country country);
+                                               QLocale::Country country);
     static QList<QByteArray> windowsIdToIanaIds(const QByteArray &windowsId);
     static QList<QByteArray> windowsIdToIanaIds(const QByteArray &windowsId,
-                                                 QLocale::Country country);
+                                                QLocale::Country country);
 
 #if (defined(Q_OS_DARWIN) || defined(Q_QDOC)) && !defined(QT_NO_SYSTEMLOCALE)
     static QTimeZone fromCFTimeZone(CFTimeZoneRef timeZone);
     CFTimeZoneRef toCFTimeZone() const Q_DECL_CF_RETURNS_RETAINED;
     static QTimeZone fromNSTimeZone(const NSTimeZone *timeZone);
-    NSTimeZone *toNSTimeZone() const Q_DECL_NS_RETURNS_AUTORELEASED;
+    NSTimeZone* toNSTimeZone() const Q_DECL_NS_RETURNS_AUTORELEASED;
 #endif
 
 private:
     QTimeZone(QTimeZonePrivate &dd);
 #ifndef QT_NO_DATASTREAM
-    friend Q_CORE_EXPORT QDataStream &operator<<(QDataStream &ds, const QTimeZone &tz);
+    friend Q_CORE_EXPORT QDataStream&operator<<(QDataStream &ds, const QTimeZone &tz);
 #endif
     friend class QTimeZonePrivate;
     friend class QDateTime;
     friend class QDateTimePrivate;
-    QSharedDataPointer<QTimeZonePrivate> d;
+    QSharedDataPointer<QTimeZonePrivate>    d;
 };
 
 Q_DECLARE_TYPEINFO(QTimeZone::OffsetData, Q_MOVABLE_TYPE);
 Q_DECLARE_SHARED(QTimeZone)
 
 #ifndef QT_NO_DATASTREAM
-Q_CORE_EXPORT QDataStream &operator<<(QDataStream &ds, const QTimeZone &tz);
-Q_CORE_EXPORT QDataStream &operator>>(QDataStream &ds, QTimeZone &tz);
+Q_CORE_EXPORT QDataStream & operator<<(QDataStream & ds, const QTimeZone &tz);
+Q_CORE_EXPORT QDataStream&operator>>(QDataStream &ds, QTimeZone &tz);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM

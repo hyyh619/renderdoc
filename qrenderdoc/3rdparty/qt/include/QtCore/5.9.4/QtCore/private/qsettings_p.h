@@ -82,10 +82,19 @@ class QSettingsKey : public QString
 {
 public:
     inline QSettingsKey(const QString &key, Qt::CaseSensitivity cs, int /* position */ = -1)
-        : QString(key) { Q_ASSERT(cs == Qt::CaseSensitive); Q_UNUSED(cs); }
+        : QString(key)
+    {
+        Q_ASSERT(cs == Qt::CaseSensitive); Q_UNUSED(cs);
+    }
 
-    inline QString originalCaseKey() const { return *this; }
-    inline int originalKeyPosition() const { return -1; }
+    inline QString originalCaseKey() const
+    {
+        return *this;
+    }
+    inline int originalKeyPosition() const
+    {
+        return -1;
+    }
 };
 #else
 static const Qt::CaseSensitivity IniCaseSensitivity = Qt::CaseInsensitive;
@@ -94,18 +103,24 @@ class QSettingsKey : public QString
 {
 public:
     inline QSettingsKey(const QString &key, Qt::CaseSensitivity cs, int position = -1)
-         : QString(key), theOriginalKey(key), theOriginalKeyPosition(position)
+        : QString(key), theOriginalKey(key), theOriginalKeyPosition(position)
     {
         if (cs == Qt::CaseInsensitive)
             QString::operator=(toLower());
     }
 
-    inline QString originalCaseKey() const { return theOriginalKey; }
-    inline int originalKeyPosition() const { return theOriginalKeyPosition; }
+    inline QString originalCaseKey() const
+    {
+        return theOriginalKey;
+    }
+    inline int originalKeyPosition() const
+    {
+        return theOriginalKeyPosition;
+    }
 
 private:
-    QString theOriginalKey;
-    int theOriginalKeyPosition;
+    QString     theOriginalKey;
+    int         theOriginalKeyPosition;
 };
 #endif
 
@@ -122,31 +137,46 @@ public:
     inline QSettingsGroup(const QString &s, bool guessArraySize)
         : str(s), num(0), maxNum(guessArraySize ? 0 : -1) {}
 
-    inline QString name() const { return str; }
+    inline QString name() const
+    {
+        return str;
+    }
     inline QString toString() const;
-    inline bool isArray() const { return num != -1; }
-    inline int arraySizeGuess() const { return maxNum; }
+    inline bool isArray() const
+    {
+        return num != -1;
+    }
+    inline int arraySizeGuess() const
+    {
+        return maxNum;
+    }
     inline void setArrayIndex(int i)
-    { num = i + 1; if (maxNum != -1 && num > maxNum) maxNum = num; }
+    {
+        num = i + 1; if (maxNum != -1 && num > maxNum)
+            maxNum = num;
+    }
 
-    QString str;
-    int num;
-    int maxNum;
+    QString     str;
+    int         num;
+    int         maxNum;
 };
 Q_DECLARE_TYPEINFO(QSettingsGroup, Q_MOVABLE_TYPE);
 
 inline QString QSettingsGroup::toString() const
 {
-    QString result;
+    QString    result;
+
     result = str;
-    if (num > 0) {
-        result += QLatin1Char('/');
-        result += QString::number(num);
+    if (num > 0)
+    {
+        result  += QLatin1Char('/');
+        result  += QString::number(num);
     }
+
     return result;
 }
 
-class Q_AUTOTEST_EXPORT QConfFile
+class Q_AUTOTEST_EXPORT    QConfFile
 {
 public:
     ~QConfFile();
@@ -154,37 +184,37 @@ public:
     ParsedSettingsMap mergedKeyMap() const;
     bool isWritable() const;
 
-    static QConfFile *fromName(const QString &name, bool _userPerms);
+    static QConfFile* fromName(const QString &name, bool _userPerms);
     static void clearCache();
 
-    QString name;
-    QDateTime timeStamp;
-    qint64 size;
-    UnparsedSettingsMap unparsedIniSections;
-    ParsedSettingsMap originalKeys;
-    ParsedSettingsMap addedKeys;
-    ParsedSettingsMap removedKeys;
-    QAtomicInt ref;
-    QMutex mutex;
-    bool userPerms;
+    QString                 name;
+    QDateTime               timeStamp;
+    qint64                  size;
+    UnparsedSettingsMap     unparsedIniSections;
+    ParsedSettingsMap       originalKeys;
+    ParsedSettingsMap       addedKeys;
+    ParsedSettingsMap       removedKeys;
+    QAtomicInt              ref;
+    QMutex                  mutex;
+    bool                    userPerms;
 
 private:
 #ifdef Q_DISABLE_COPY
-    QConfFile(const QConfFile &);
-    QConfFile &operator=(const QConfFile &);
+    QConfFile(const QConfFile&);
+    QConfFile&operator=(const QConfFile&);
 #endif
     QConfFile(const QString &name, bool _userPerms);
 
     friend class QConfFile_createsItself; // silences compiler warning
 };
 
-class Q_AUTOTEST_EXPORT QSettingsPrivate
+class Q_AUTOTEST_EXPORT    QSettingsPrivate
 #ifndef QT_NO_QOBJECT
     : public QObjectPrivate
 #endif
 {
 #ifdef QT_NO_QOBJECT
-    QSettings *q_ptr;
+    QSettings    *q_ptr;
 #endif
     Q_DECLARE_PUBLIC(QSettings)
 
@@ -194,18 +224,18 @@ public:
                      const QString &organization, const QString &application);
     virtual ~QSettingsPrivate();
 
-    virtual void remove(const QString &key) = 0;
+    virtual void remove(const QString &key)                     = 0;
     virtual void set(const QString &key, const QVariant &value) = 0;
     virtual bool get(const QString &key, QVariant *value) const = 0;
 
     enum ChildSpec { AllKeys, ChildKeys, ChildGroups };
     virtual QStringList children(const QString &prefix, ChildSpec spec) const = 0;
 
-    virtual void clear() = 0;
-    virtual void sync() = 0;
-    virtual void flush() = 0;
-    virtual bool isWritable() const = 0;
-    virtual QString fileName() const = 0;
+    virtual void clear()                = 0;
+    virtual void sync()                 = 0;
+    virtual void flush()                = 0;
+    virtual bool isWritable() const     = 0;
+    virtual QString fileName() const    = 0;
 
     QString actualKey(const QString &key) const;
     void beginGroupOrArray(const QSettingsGroup &group);
@@ -214,9 +244,9 @@ public:
     void update();
 
     static QString normalizedKey(const QString &key);
-    static QSettingsPrivate *create(QSettings::Format format, QSettings::Scope scope,
-                                        const QString &organization, const QString &application);
-    static QSettingsPrivate *create(const QString &fileName, QSettings::Format format);
+    static QSettingsPrivate* create(QSettings::Format format, QSettings::Scope scope,
+                                    const QString &organization, const QString &application);
+    static QSettingsPrivate* create(const QString &fileName, QSettings::Format format);
 
     static void processChild(QStringRef key, ChildSpec spec, QStringList &result);
 
@@ -236,18 +266,18 @@ public:
                                        QTextCodec *codec);
     static QStringList splitArgs(const QString &s, int idx);
 
-    QSettings::Format format;
-    QSettings::Scope scope;
-    QString organizationName;
-    QString applicationName;
-    QTextCodec *iniCodec;
+    QSettings::Format       format;
+    QSettings::Scope        scope;
+    QString                 organizationName;
+    QString                 applicationName;
+    QTextCodec              *iniCodec;
 
 protected:
-    QStack<QSettingsGroup> groupStack;
-    QString groupPrefix;
-    bool fallbacks;
-    bool pendingChanges;
-    mutable QSettings::Status status;
+    QStack<QSettingsGroup>          groupStack;
+    QString                         groupPrefix;
+    bool                            fallbacks;
+    bool                            pendingChanges;
+    mutable QSettings::Status       status;
 };
 
 class QConfFileSettingsPrivate : public QSettingsPrivate
@@ -288,12 +318,12 @@ private:
     void ensureAllSectionsParsed(QConfFile *confFile) const;
     void ensureSectionParsed(QConfFile *confFile, const QSettingsKey &key) const;
 
-    QVector<QConfFile *> confFiles;
-    QSettings::ReadFunc readFunc;
-    QSettings::WriteFunc writeFunc;
-    QString extension;
-    Qt::CaseSensitivity caseSensitivity;
-    int nextPosition;
+    QVector<QConfFile*>     confFiles;
+    QSettings::ReadFunc     readFunc;
+    QSettings::WriteFunc    writeFunc;
+    QString                 extension;
+    Qt::CaseSensitivity     caseSensitivity;
+    int                     nextPosition;
 };
 
 QT_END_NAMESPACE

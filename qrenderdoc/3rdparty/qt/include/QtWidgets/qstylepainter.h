@@ -52,13 +52,23 @@ class QStylePainter : public QPainter
 {
 public:
     inline QStylePainter() : QPainter(), widget(Q_NULLPTR), wstyle(Q_NULLPTR) {}
-    inline explicit QStylePainter(QWidget *w) { begin(w, w); }
-    inline QStylePainter(QPaintDevice *pd, QWidget *w) { begin(pd, w); }
-    inline bool begin(QWidget *w) { return begin(w, w); }
-    inline bool begin(QPaintDevice *pd, QWidget *w) {
+    inline explicit QStylePainter(QWidget *w)
+    {
+        begin(w, w);
+    }
+    inline QStylePainter(QPaintDevice *pd, QWidget *w)
+    {
+        begin(pd, w);
+    }
+    inline bool begin(QWidget *w)
+    {
+        return begin(w, w);
+    }
+    inline bool begin(QPaintDevice *pd, QWidget *w)
+    {
         Q_ASSERT_X(w, "QStylePainter::QStylePainter", "Widget must be non-zero");
-        widget = w;
-        wstyle = w->style();
+        widget  = w;
+        wstyle  = w->style();
         return QPainter::begin(pd);
     };
     inline void drawPrimitive(QStyle::PrimitiveElement pe, const QStyleOption &opt);
@@ -67,11 +77,14 @@ public:
     inline void drawItemText(const QRect &r, int flags, const QPalette &pal, bool enabled,
                              const QString &text, QPalette::ColorRole textRole = QPalette::NoRole);
     inline void drawItemPixmap(const QRect &r, int flags, const QPixmap &pixmap);
-    inline QStyle *style() const { return wstyle; }
+    inline QStyle* style() const
+    {
+        return wstyle;
+    }
 
 private:
-    QWidget *widget;
-    QStyle *wstyle;
+    QWidget     *widget;
+    QStyle      *wstyle;
     Q_DISABLE_COPY(QStylePainter)
 };
 

@@ -60,12 +60,12 @@ QT_BEGIN_NAMESPACE
 struct QTextObjectHandler
 {
     QTextObjectHandler() : iface(0) {}
-    QTextObjectInterface *iface;
-    QPointer<QObject> component;
+    QTextObjectInterface    *iface;
+    QPointer<QObject>       component;
 };
 typedef QHash<int, QTextObjectHandler> HandlerHash;
 
-class Q_GUI_EXPORT QAbstractTextDocumentLayoutPrivate : public QObjectPrivate
+class Q_GUI_EXPORT    QAbstractTextDocumentLayoutPrivate : public QObjectPrivate
 {
 public:
     Q_DECLARE_PUBLIC(QAbstractTextDocumentLayout)
@@ -74,25 +74,30 @@ public:
         : paintDevice(0) {}
     ~QAbstractTextDocumentLayoutPrivate();
 
-    inline void setDocument(QTextDocument *doc) {
-        document = doc;
-        docPrivate = 0;
+    inline void setDocument(QTextDocument *doc)
+    {
+        document    = doc;
+        docPrivate  = 0;
         if (doc)
             docPrivate = doc->docHandle();
     }
 
     inline int _q_dynamicPageCountSlot() const
-    { return q_func()->pageCount(); }
+    {
+        return q_func()->pageCount();
+    }
     inline QSizeF _q_dynamicDocumentSizeSlot() const
-    { return q_func()->documentSize(); }
+    {
+        return q_func()->documentSize();
+    }
 
-    HandlerHash handlers;
+    HandlerHash    handlers;
 
     void _q_handlerDestroyed(QObject *obj);
-    QPaintDevice *paintDevice;
+    QPaintDevice    *paintDevice;
 
-    QTextDocument *document;
-    QTextDocumentPrivate *docPrivate;
+    QTextDocument           *document;
+    QTextDocumentPrivate    *docPrivate;
 };
 
 QT_END_NAMESPACE

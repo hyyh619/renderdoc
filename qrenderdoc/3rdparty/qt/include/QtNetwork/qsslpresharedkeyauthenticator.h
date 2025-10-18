@@ -55,13 +55,19 @@ public:
     Q_NETWORK_EXPORT QSslPreSharedKeyAuthenticator();
     Q_NETWORK_EXPORT ~QSslPreSharedKeyAuthenticator();
     Q_NETWORK_EXPORT QSslPreSharedKeyAuthenticator(const QSslPreSharedKeyAuthenticator &authenticator);
-    Q_NETWORK_EXPORT QSslPreSharedKeyAuthenticator &operator=(const QSslPreSharedKeyAuthenticator &authenticator);
+    Q_NETWORK_EXPORT QSslPreSharedKeyAuthenticator&operator=(const QSslPreSharedKeyAuthenticator &authenticator);
 
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslPreSharedKeyAuthenticator &operator=(QSslPreSharedKeyAuthenticator &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslPreSharedKeyAuthenticator&operator=(QSslPreSharedKeyAuthenticator &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
 
-    void swap(QSslPreSharedKeyAuthenticator &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QSslPreSharedKeyAuthenticator &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     Q_NETWORK_EXPORT QByteArray identityHint() const;
 
@@ -77,7 +83,7 @@ private:
     friend Q_NETWORK_EXPORT bool operator==(const QSslPreSharedKeyAuthenticator &lhs, const QSslPreSharedKeyAuthenticator &rhs);
     friend class QSslSocketBackendPrivate;
 
-    QSharedDataPointer<QSslPreSharedKeyAuthenticatorPrivate> d;
+    QSharedDataPointer<QSslPreSharedKeyAuthenticatorPrivate>    d;
 };
 
 inline bool operator!=(const QSslPreSharedKeyAuthenticator &lhs, const QSslPreSharedKeyAuthenticator &rhs)

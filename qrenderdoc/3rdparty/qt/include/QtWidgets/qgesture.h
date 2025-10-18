@@ -58,7 +58,7 @@ QT_BEGIN_NAMESPACE
 
 
 class QGesturePrivate;
-class Q_WIDGETS_EXPORT QGesture : public QObject
+class Q_WIDGETS_EXPORT    QGesture : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QGesture)
@@ -82,7 +82,8 @@ public:
     bool hasHotSpot() const;
     void unsetHotSpot();
 
-    enum GestureCancelPolicy {
+    enum GestureCancelPolicy
+    {
         CancelNone = 0,
         CancelAllInContext
     };
@@ -101,7 +102,7 @@ private:
 };
 
 class QPanGesturePrivate;
-class Q_WIDGETS_EXPORT QPanGesture : public QGesture
+class Q_WIDGETS_EXPORT    QPanGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPanGesture)
@@ -131,16 +132,17 @@ public:
 };
 
 class QPinchGesturePrivate;
-class Q_WIDGETS_EXPORT QPinchGesture : public QGesture
+class Q_WIDGETS_EXPORT    QPinchGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QPinchGesture)
 
 public:
-    enum ChangeFlag {
-        ScaleFactorChanged = 0x1,
-        RotationAngleChanged = 0x2,
-        CenterPointChanged = 0x4
+    enum ChangeFlag
+    {
+        ScaleFactorChanged      = 0x1,
+        RotationAngleChanged    = 0x2,
+        CenterPointChanged      = 0x4
     };
     Q_FLAG(ChangeFlag)
     Q_DECLARE_FLAGS(ChangeFlags, ChangeFlag)
@@ -204,7 +206,7 @@ Q_DECLARE_METATYPE(QPinchGesture::ChangeFlags)
 QT_BEGIN_NAMESPACE
 
 class QSwipeGesturePrivate;
-class Q_WIDGETS_EXPORT QSwipeGesture : public QGesture
+class Q_WIDGETS_EXPORT    QSwipeGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSwipeGesture)
@@ -231,7 +233,7 @@ public:
 };
 
 class QTapGesturePrivate;
-class Q_WIDGETS_EXPORT QTapGesture : public QGesture
+class Q_WIDGETS_EXPORT    QTapGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QTapGesture)
@@ -249,7 +251,7 @@ public:
 };
 
 class QTapAndHoldGesturePrivate;
-class Q_WIDGETS_EXPORT QTapAndHoldGesture : public QGesture
+class Q_WIDGETS_EXPORT    QTapAndHoldGesture : public QGesture
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QTapAndHoldGesture)
@@ -271,27 +273,27 @@ public:
 
 class QGesture;
 class QGestureEventPrivate;
-class Q_WIDGETS_EXPORT QGestureEvent : public QEvent
+class Q_WIDGETS_EXPORT    QGestureEvent : public QEvent
 {
 public:
-    explicit QGestureEvent(const QList<QGesture *> &gestures);
+    explicit QGestureEvent(const QList<QGesture*> &gestures);
     ~QGestureEvent();
 
-    QList<QGesture *> gestures() const;
-    QGesture *gesture(Qt::GestureType type) const;
+    QList<QGesture*> gestures() const;
+    QGesture* gesture(Qt::GestureType type) const;
 
-    QList<QGesture *> activeGestures() const;
-    QList<QGesture *> canceledGestures() const;
+    QList<QGesture*> activeGestures() const;
+    QList<QGesture*> canceledGestures() const;
 
     using QEvent::setAccepted;
     using QEvent::isAccepted;
     using QEvent::accept;
     using QEvent::ignore;
 
-    void setAccepted(QGesture *, bool);
-    void accept(QGesture *);
-    void ignore(QGesture *);
-    bool isAccepted(QGesture *) const;
+    void setAccepted(QGesture*, bool);
+    void accept(QGesture*);
+    void ignore(QGesture*);
+    bool isAccepted(QGesture*) const;
 
     void setAccepted(Qt::GestureType, bool);
     void accept(Qt::GestureType);
@@ -299,25 +301,25 @@ public:
     bool isAccepted(Qt::GestureType) const;
 
     void setWidget(QWidget *widget);
-    QWidget *widget() const;
+    QWidget* widget() const;
 
 #if QT_CONFIG(graphicsview)
     QPointF mapToGraphicsScene(const QPointF &gesturePoint) const;
 #endif
 
 private:
-    QList<QGesture *> m_gestures;
-    QWidget *m_widget;
-    QMap<Qt::GestureType, bool> m_accepted;
-    QMap<Qt::GestureType, QWidget *> m_targetWidgets;
+    QList<QGesture*>                    m_gestures;
+    QWidget                             *m_widget;
+    QMap<Qt::GestureType, bool>         m_accepted;
+    QMap<Qt::GestureType, QWidget*>     m_targetWidgets;
 
     friend class QApplication;
     friend class QGestureManager;
 };
 
 #  ifndef QT_NO_DEBUG_STREAM
-Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QGesture *);
-Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QGestureEvent *);
+Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QGesture*);
+Q_WIDGETS_EXPORT QDebug operator<<(QDebug, const QGestureEvent*);
 #  endif
 
 QT_END_NAMESPACE

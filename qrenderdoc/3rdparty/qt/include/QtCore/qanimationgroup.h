@@ -48,7 +48,7 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_ANIMATION
 
 class QAnimationGroupPrivate;
-class Q_CORE_EXPORT QAnimationGroup : public QAbstractAnimation
+class Q_CORE_EXPORT    QAnimationGroup : public QAbstractAnimation
 {
     Q_OBJECT
 
@@ -56,13 +56,13 @@ public:
     QAnimationGroup(QObject *parent = Q_NULLPTR);
     ~QAnimationGroup();
 
-    QAbstractAnimation *animationAt(int index) const;
+    QAbstractAnimation* animationAt(int index) const;
     int animationCount() const;
     int indexOfAnimation(QAbstractAnimation *animation) const;
     void addAnimation(QAbstractAnimation *animation);
     void insertAnimation(int index, QAbstractAnimation *animation);
     void removeAnimation(QAbstractAnimation *animation);
-    QAbstractAnimation *takeAnimation(int index);
+    QAbstractAnimation* takeAnimation(int index);
     void clear();
 
 protected:
@@ -73,9 +73,8 @@ private:
     Q_DISABLE_COPY(QAnimationGroup)
     Q_DECLARE_PRIVATE(QAnimationGroup)
 };
-
-#endif //QT_NO_ANIMATION
+#endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE
 
-#endif //QANIMATIONGROUP_H
+#endif // QANIMATIONGROUP_H

@@ -59,7 +59,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QOpenGLFunctions_1_1 : public QAbstractOpenGLFunctions
+class Q_GUI_EXPORT    QOpenGLFunctions_1_1 : public QAbstractOpenGLFunctions
 {
 public:
     QOpenGLFunctions_1_1();
@@ -76,7 +76,7 @@ public:
     void glGetTexParameteriv(GLenum target, GLenum pname, GLint *params);
     void glGetTexParameterfv(GLenum target, GLenum pname, GLfloat *params);
     void glGetTexImage(GLenum target, GLint level, GLenum format, GLenum type, GLvoid *pixels);
-    const GLubyte * glGetString(GLenum name);
+    const GLubyte* glGetString(GLenum name);
     void glGetIntegerv(GLenum pname, GLint *params);
     void glGetFloatv(GLenum pname, GLfloat *params);
     GLenum glGetError();
@@ -131,7 +131,7 @@ public:
     void glCopyTexImage2D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLsizei height, GLint border);
     void glCopyTexImage1D(GLenum target, GLint level, GLenum internalformat, GLint x, GLint y, GLsizei width, GLint border);
     void glPolygonOffset(GLfloat factor, GLfloat units);
-    void glGetPointerv(GLenum pname, GLvoid* *params);
+    void glGetPointerv(GLenum pname, GLvoid **params);
     void glDrawElements(GLenum mode, GLsizei count, GLenum type, const GLvoid *indices);
     void glDrawArrays(GLenum mode, GLint first, GLsizei count);
 
@@ -417,10 +417,10 @@ private:
     static bool isContextCompatible(QOpenGLContext *context);
     static QOpenGLVersionProfile versionProfile();
 
-    QOpenGLFunctions_1_0_CoreBackend* d_1_0_Core;
-    QOpenGLFunctions_1_1_CoreBackend* d_1_1_Core;
-    QOpenGLFunctions_1_0_DeprecatedBackend* d_1_0_Deprecated;
-    QOpenGLFunctions_1_1_DeprecatedBackend* d_1_1_Deprecated;
+    QOpenGLFunctions_1_0_CoreBackend            *d_1_0_Core;
+    QOpenGLFunctions_1_1_CoreBackend            *d_1_1_Core;
+    QOpenGLFunctions_1_0_DeprecatedBackend      *d_1_0_Deprecated;
+    QOpenGLFunctions_1_1_DeprecatedBackend      *d_1_1_Deprecated;
 };
 
 // OpenGL 1.0 core functions
@@ -464,7 +464,7 @@ inline void QOpenGLFunctions_1_1::glGetTexImage(GLenum target, GLint level, GLen
     d_1_0_Core->f.GetTexImage(target, level, format, type, pixels);
 }
 
-inline const GLubyte * QOpenGLFunctions_1_1::glGetString(GLenum name)
+inline const GLubyte* QOpenGLFunctions_1_1::glGetString(GLenum name)
 {
     return d_1_0_Core->f.GetString(name);
 }
@@ -731,7 +731,7 @@ inline void QOpenGLFunctions_1_1::glPolygonOffset(GLfloat factor, GLfloat units)
     d_1_1_Core->f.PolygonOffset(factor, units);
 }
 
-inline void QOpenGLFunctions_1_1::glGetPointerv(GLenum pname, GLvoid* *params)
+inline void QOpenGLFunctions_1_1::glGetPointerv(GLenum pname, GLvoid **params)
 {
     d_1_1_Deprecated->f.GetPointerv(pname, params);
 }
@@ -2113,7 +2113,6 @@ inline void QOpenGLFunctions_1_1::glArrayElement(GLint i)
 
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL && !QT_OPENGL_ES_2
 
 #endif

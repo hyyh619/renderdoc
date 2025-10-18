@@ -56,18 +56,20 @@ QT_BEGIN_NAMESPACE
 
 
 class QRawFontPrivate;
-class Q_GUI_EXPORT QRawFont
+class Q_GUI_EXPORT    QRawFont
 {
 public:
-    enum AntialiasingType {
+    enum AntialiasingType
+    {
         PixelAntialiasing,
         SubPixelAntialiasing
     };
 
-    enum LayoutFlag {
-        SeparateAdvances = 0,
-        KernedAdvances = 1,
-        UseDesignMetrics = 2
+    enum LayoutFlag
+    {
+        SeparateAdvances    = 0,
+        KernedAdvances      = 1,
+        UseDesignMetrics    = 2
     };
     Q_DECLARE_FLAGS(LayoutFlags, LayoutFlag)
 
@@ -80,18 +82,26 @@ public:
              QFont::HintingPreference hintingPreference = QFont::PreferDefaultHinting);
     QRawFont(const QRawFont &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    QRawFont &operator=(QRawFont &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QRawFont&operator=(QRawFont &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QRawFont &operator=(const QRawFont &other);
+    QRawFont&operator=(const QRawFont &other);
     ~QRawFont();
 
-    void swap(QRawFont &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QRawFont &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool isValid() const;
 
     bool operator==(const QRawFont &other) const;
     inline bool operator!=(const QRawFont &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
     QString familyName() const;
     QString styleName() const;
@@ -151,7 +161,7 @@ private:
     friend class QTextLayout;
     friend class QTextEngine;
 
-    QExplicitlySharedDataPointer<QRawFontPrivate> d;
+    QExplicitlySharedDataPointer<QRawFontPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QRawFont)
@@ -162,9 +172,10 @@ Q_GUI_EXPORT uint qHash(const QRawFont &font, uint seed = 0) Q_DECL_NOTHROW;
 
 inline QVector<QPointF> QRawFont::advancesForGlyphIndexes(const QVector<quint32> &glyphIndexes, QRawFont::LayoutFlags layoutFlags) const
 {
-    QVector<QPointF> advances(glyphIndexes.size());
+    QVector<QPointF>    advances(glyphIndexes.size());
     if (advancesForGlyphIndexes(glyphIndexes.constData(), advances.data(), glyphIndexes.size(), layoutFlags))
         return advances;
+
     return QVector<QPointF>();
 }
 
@@ -174,7 +185,6 @@ inline QVector<QPointF> QRawFont::advancesForGlyphIndexes(const QVector<quint32>
 }
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_RAWFONT
 
 #endif // QRAWFONT_H

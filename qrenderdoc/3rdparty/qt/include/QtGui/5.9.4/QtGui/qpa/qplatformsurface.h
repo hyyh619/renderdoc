@@ -57,18 +57,18 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_GUI_EXPORT QPlatformSurface
+class Q_GUI_EXPORT    QPlatformSurface
 {
 public:
     virtual ~QPlatformSurface();
     virtual QSurfaceFormat format() const = 0;
 
-    QSurface *surface() const;
+    QSurface* surface() const;
 
 private:
     explicit QPlatformSurface(QSurface *surface);
 
-    QSurface *m_surface;
+    QSurface    *m_surface;
 
     friend class QPlatformWindow;
     friend class QPlatformOffscreenSurface;
@@ -76,4 +76,4 @@ private:
 
 QT_END_NAMESPACE
 
-#endif //QPLATFORMSURFACE_H
+#endif // QPLATFORMSURFACE_H

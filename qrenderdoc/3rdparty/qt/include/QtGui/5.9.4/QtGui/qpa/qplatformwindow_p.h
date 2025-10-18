@@ -59,7 +59,7 @@ QT_BEGIN_NAMESPACE
 class QPlatformWindowPrivate
 {
 public:
-    QRect rect;
+    QRect    rect;
 };
 
 QT_END_NAMESPACE

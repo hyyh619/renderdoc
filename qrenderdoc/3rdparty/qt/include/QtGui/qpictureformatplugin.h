@@ -56,7 +56,7 @@ class QStringList;
 
 #define QPictureFormatInterface_iid "org.qt-project.Qt.QPictureFormatInterface"
 
-class Q_GUI_EXPORT QPictureFormatPlugin : public QObject
+class Q_GUI_EXPORT    QPictureFormatPlugin : public QObject
 {
     Q_OBJECT
 public:
@@ -66,9 +66,7 @@ public:
     virtual bool loadPicture(const QString &format, const QString &filename, QPicture *pic);
     virtual bool savePicture(const QString &format, const QString &filename, const QPicture &pic);
     virtual bool installIOHandler(const QString &format) = 0;
-
 };
-
 #endif // QT_NO_PICTURE
 
 QT_END_NAMESPACE

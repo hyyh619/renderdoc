@@ -56,7 +56,7 @@ class QLineEdit;
 class QComboBoxPrivate;
 class QCompleter;
 
-class Q_WIDGETS_EXPORT QComboBox : public QWidget
+class Q_WIDGETS_EXPORT    QComboBox : public QWidget
 {
     Q_OBJECT
 
@@ -107,12 +107,15 @@ public:
     bool hasFrame() const;
 
     inline int findText(const QString &text,
-                        Qt::MatchFlags flags = static_cast<Qt::MatchFlags>(Qt::MatchExactly|Qt::MatchCaseSensitive)) const
-        { return findData(text, Qt::DisplayRole, flags); }
+                        Qt::MatchFlags flags = static_cast<Qt::MatchFlags>(Qt::MatchExactly | Qt::MatchCaseSensitive)) const
+    {
+        return findData(text, Qt::DisplayRole, flags);
+    }
     int findData(const QVariant &data, int role = Qt::UserRole,
-                 Qt::MatchFlags flags = static_cast<Qt::MatchFlags>(Qt::MatchExactly|Qt::MatchCaseSensitive)) const;
+                 Qt::MatchFlags flags = static_cast<Qt::MatchFlags>(Qt::MatchExactly | Qt::MatchCaseSensitive)) const;
 
-    enum InsertPolicy {
+    enum InsertPolicy
+    {
         NoInsert,
         InsertAtTop,
         InsertAtCurrent,
@@ -126,7 +129,8 @@ public:
     InsertPolicy insertPolicy() const;
     void setInsertPolicy(InsertPolicy policy);
 
-    enum SizeAdjustPolicy {
+    enum SizeAdjustPolicy
+    {
         AdjustToContents,
         AdjustToContentsOnFirstShow,
         AdjustToMinimumContentsLength, // ### Qt 6: remove
@@ -144,21 +148,21 @@ public:
     bool isEditable() const;
     void setEditable(bool editable);
     void setLineEdit(QLineEdit *edit);
-    QLineEdit *lineEdit() const;
+    QLineEdit* lineEdit() const;
 #ifndef QT_NO_VALIDATOR
     void setValidator(const QValidator *v);
-    const QValidator *validator() const;
+    const QValidator* validator() const;
 #endif
 
 #if QT_CONFIG(completer)
     void setCompleter(QCompleter *c);
-    QCompleter *completer() const;
+    QCompleter* completer() const;
 #endif
 
-    QAbstractItemDelegate *itemDelegate() const;
+    QAbstractItemDelegate* itemDelegate() const;
     void setItemDelegate(QAbstractItemDelegate *delegate);
 
-    QAbstractItemModel *model() const;
+    QAbstractItemModel* model() const;
     void setModel(QAbstractItemModel *model);
 
     QModelIndex rootModelIndex() const;
@@ -179,7 +183,9 @@ public:
     inline void addItem(const QIcon &icon, const QString &text,
                         const QVariant &userData = QVariant());
     inline void addItems(const QStringList &texts)
-        { insertItems(count(), texts); }
+    {
+        insertItems(count(), texts);
+    }
 
     inline void insertItem(int index, const QString &text, const QVariant &userData = QVariant());
     void insertItem(int index, const QIcon &icon, const QString &text,
@@ -193,7 +199,7 @@ public:
     void setItemIcon(int index, const QIcon &icon);
     void setItemData(int index, const QVariant &value, int role = Qt::UserRole);
 
-    QAbstractItemView *view() const;
+    QAbstractItemView* view() const;
     void setView(QAbstractItemView *itemView);
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
@@ -214,14 +220,14 @@ public Q_SLOTS:
     void setCurrentText(const QString &text);
 
 Q_SIGNALS:
-    void editTextChanged(const QString &);
+    void editTextChanged(const QString&);
     void activated(int index);
-    void activated(const QString &);
+    void activated(const QString&);
     void highlighted(int index);
-    void highlighted(const QString &);
+    void highlighted(const QString&);
     void currentIndexChanged(int index);
-    void currentIndexChanged(const QString &);
-    void currentTextChanged(const QString &);
+    void currentIndexChanged(const QString&);
+    void currentTextChanged(const QString&);
 
 protected:
     void focusInEvent(QFocusEvent *e) Q_DECL_OVERRIDE;
@@ -241,12 +247,12 @@ protected:
 #ifndef QT_NO_CONTEXTMENU
     void contextMenuEvent(QContextMenuEvent *e) Q_DECL_OVERRIDE;
 #endif // QT_NO_CONTEXTMENU
-    void inputMethodEvent(QInputMethodEvent *) Q_DECL_OVERRIDE;
+    void inputMethodEvent(QInputMethodEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionComboBox *option) const;
 
 
 protected:
-    QComboBox(QComboBoxPrivate &, QWidget *);
+    QComboBox(QComboBoxPrivate&, QWidget*);
 
 private:
     Q_DECLARE_PRIVATE(QComboBox)
@@ -259,8 +265,8 @@ private:
     Q_PRIVATE_SLOT(d_func(), void _q_resetButton())
     Q_PRIVATE_SLOT(d_func(), void _q_dataChanged(const QModelIndex &, const QModelIndex &))
     Q_PRIVATE_SLOT(d_func(), void _q_updateIndexBeforeChange())
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex & parent, int start, int end))
-    Q_PRIVATE_SLOT(d_func(), void _q_rowsRemoved(const QModelIndex & parent, int start, int end))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsInserted(const QModelIndex &parent, int start, int end))
+    Q_PRIVATE_SLOT(d_func(), void _q_rowsRemoved(const QModelIndex &parent, int start, int end))
     Q_PRIVATE_SLOT(d_func(), void _q_modelDestroyed())
     Q_PRIVATE_SLOT(d_func(), void _q_modelReset())
 #if QT_CONFIG(completer)
@@ -269,14 +275,20 @@ private:
 };
 
 inline void QComboBox::addItem(const QString &atext, const QVariant &auserData)
-{ insertItem(count(), atext, auserData); }
+{
+    insertItem(count(), atext, auserData);
+}
 inline void QComboBox::addItem(const QIcon &aicon, const QString &atext,
                                const QVariant &auserData)
-{ insertItem(count(), aicon, atext, auserData); }
+{
+    insertItem(count(), aicon, atext, auserData);
+}
 
 inline void QComboBox::insertItem(int aindex, const QString &atext,
                                   const QVariant &auserData)
-{ insertItem(aindex, QIcon(), atext, auserData); }
+{
+    insertItem(aindex, QIcon(), atext, auserData);
+}
 
 QT_END_NAMESPACE
 

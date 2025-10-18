@@ -61,63 +61,65 @@ QT_BEGIN_NAMESPACE
 
 class QStyle;
 
-class QStylePrivate: public QObjectPrivate
+class QStylePrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QStyle)
 public:
     inline QStylePrivate()
         : layoutSpacingIndex(-1), proxyStyle(0) {}
-    mutable int layoutSpacingIndex;
-    QStyle *proxyStyle;
+    mutable int     layoutSpacingIndex;
+    QStyle          *proxyStyle;
 };
 
 inline QImage styleCacheImage(const QSize &size)
 {
-    const qreal pixelRatio = qApp->devicePixelRatio();
-    QImage cacheImage = QImage(size * pixelRatio, QImage::Format_ARGB32_Premultiplied);
+    const qreal     pixelRatio  = qApp->devicePixelRatio();
+    QImage          cacheImage  = QImage(size * pixelRatio, QImage::Format_ARGB32_Premultiplied);
+
     cacheImage.setDevicePixelRatio(pixelRatio);
     return cacheImage;
 }
 
 inline QPixmap styleCachePixmap(const QSize &size)
 {
-    const qreal pixelRatio = qApp->devicePixelRatio();
-    QPixmap cachePixmap = QPixmap(size * pixelRatio);
+    const qreal     pixelRatio  = qApp->devicePixelRatio();
+    QPixmap         cachePixmap = QPixmap(size * pixelRatio);
+
     cachePixmap.setDevicePixelRatio(pixelRatio);
     return cachePixmap;
 }
 
-#define BEGIN_STYLE_PIXMAPCACHE(a) \
-    QRect rect = option->rect; \
-    QPixmap internalPixmapCache; \
-    QImage imageCache; \
-    QPainter *p = painter; \
-    QString unique = QStyleHelper::uniqueName((a), option, option->rect.size()); \
-    int txType = painter->deviceTransform().type() | painter->worldTransform().type(); \
-    bool doPixmapCache = (!option->rect.isEmpty()) \
-            && ((txType <= QTransform::TxTranslate) || (painter->deviceTransform().type() == QTransform::TxScale)); \
-    if (doPixmapCache && QPixmapCache::find(unique, internalPixmapCache)) { \
-        painter->drawPixmap(option->rect.topLeft(), internalPixmapCache); \
-    } else { \
-        if (doPixmapCache) { \
-            rect.setRect(0, 0, option->rect.width(), option->rect.height()); \
-            imageCache = styleCacheImage(option->rect.size()); \
-            imageCache.fill(0); \
-            p = new QPainter(&imageCache); \
+#define BEGIN_STYLE_PIXMAPCACHE(a)                                                                                                        \
+    QRect rect = option->rect;                                                                                                            \
+    QPixmap     internalPixmapCache;                                                                                                      \
+    QImage      imageCache;                                                                                                               \
+    QPainter    *p              = painter;                                                                                                \
+    QString     unique          = QStyleHelper::uniqueName((a), option, option->rect.size());                                             \
+    int         txType          = painter->deviceTransform().type() | painter->worldTransform().type();                                   \
+    bool        doPixmapCache   = (!option->rect.isEmpty())                                                                               \
+                                  && ((txType <= QTransform::TxTranslate) || (painter->deviceTransform().type() == QTransform::TxScale)); \
+    if (doPixmapCache && QPixmapCache::find(unique, internalPixmapCache)) {                                                               \
+        painter->drawPixmap(option->rect.topLeft(), internalPixmapCache);                                                                 \
+    } else {                                                                                                                              \
+        if (doPixmapCache) {                                                                                                              \
+            rect.setRect(0, 0, option->rect.width(), option->rect.height());                                                              \
+            imageCache = styleCacheImage(option->rect.size());                                                                            \
+            imageCache.fill(0);                                                                                                           \
+            p = new QPainter(&imageCache);                                                                                                \
         }
 
 
 
-#define END_STYLE_PIXMAPCACHE \
-        if (doPixmapCache) { \
-            p->end(); \
-            delete p; \
-            internalPixmapCache = QPixmap::fromImage(imageCache); \
-            painter->drawPixmap(option->rect.topLeft(), internalPixmapCache); \
-            QPixmapCache::insert(unique, internalPixmapCache); \
-        } \
+#define END_STYLE_PIXMAPCACHE                                             \
+    if (doPixmapCache) {                                                  \
+        p->end();                                                         \
+        delete p;                                                         \
+        internalPixmapCache = QPixmap::fromImage(imageCache);             \
+        painter->drawPixmap(option->rect.topLeft(), internalPixmapCache); \
+        QPixmapCache::insert(unique, internalPixmapCache);                \
+    }                                                                     \
     }
 
 QT_END_NAMESPACE
 
-#endif //QSTYLE_P_H
+#endif // QSTYLE_P_H

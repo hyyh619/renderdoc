@@ -91,8 +91,8 @@
 #define QT_EXT_QNX_READDIR_R    ::_readdir_r
 #endif
 
-#define QT_SNPRINTF ::snprintf
-#define QT_VSNPRINTF ::vsnprintf
+#define QT_SNPRINTF     ::snprintf
+#define QT_VSNPRINTF    ::vsnprintf
 
 // QNX6 doesn't have getpagesize()
 inline int getpagesize()

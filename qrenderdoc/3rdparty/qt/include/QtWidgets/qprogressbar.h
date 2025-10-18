@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 class QProgressBarPrivate;
 class QStyleOptionProgressBar;
 
-class Q_WIDGETS_EXPORT QProgressBar : public QWidget
+class Q_WIDGETS_EXPORT    QProgressBar : public QWidget
 {
     Q_OBJECT
     Q_PROPERTY(int minimum READ minimum WRITE setMinimum)
@@ -110,7 +110,7 @@ Q_SIGNALS:
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOptionProgressBar *option) const;
 
 private:

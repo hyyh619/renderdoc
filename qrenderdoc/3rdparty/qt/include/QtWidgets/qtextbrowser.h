@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QTextBrowserPrivate;
 
-class Q_WIDGETS_EXPORT QTextBrowser : public QTextEdit
+class Q_WIDGETS_EXPORT    QTextBrowser : public QTextEdit
 {
     Q_OBJECT
 
@@ -63,7 +63,7 @@ class Q_WIDGETS_EXPORT QTextBrowser : public QTextEdit
     Q_PROPERTY(bool openLinks READ openLinks WRITE setOpenLinks)
 
 public:
-    explicit QTextBrowser(QWidget* parent = Q_NULLPTR);
+    explicit QTextBrowser(QWidget *parent = Q_NULLPTR);
     virtual ~QTextBrowser();
 
     QUrl source() const;
@@ -98,10 +98,10 @@ Q_SIGNALS:
     void backwardAvailable(bool);
     void forwardAvailable(bool);
     void historyChanged();
-    void sourceChanged(const QUrl &);
-    void highlighted(const QUrl &);
-    void highlighted(const QString &);
-    void anchorClicked(const QUrl &);
+    void sourceChanged(const QUrl&);
+    void highlighted(const QUrl&);
+    void highlighted(const QString&);
+    void anchorClicked(const QUrl&);
 
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;

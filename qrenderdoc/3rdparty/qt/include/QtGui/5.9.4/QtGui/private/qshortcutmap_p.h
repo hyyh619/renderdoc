@@ -61,14 +61,14 @@ QT_BEGIN_NAMESPACE
 #ifndef QT_NO_SHORTCUT
 
 // To enable dump output uncomment below
-//#define Dump_QShortcutMap
+// #define Dump_QShortcutMap
 
 class QKeyEvent;
 struct QShortcutEntry;
 class QShortcutMapPrivate;
 class QObject;
 
-class Q_GUI_EXPORT QShortcutMap
+class Q_GUI_EXPORT    QShortcutMap
 {
     Q_DECLARE_PRIVATE(QShortcutMap)
 public:
@@ -98,14 +98,13 @@ private:
 
     QKeySequence::SequenceMatch find(QKeyEvent *e, int ignoredModifiers = 0);
     QKeySequence::SequenceMatch matches(const QKeySequence &seq1, const QKeySequence &seq2) const;
-    QVector<const QShortcutEntry *> matches() const;
+    QVector<const QShortcutEntry*> matches() const;
     void createNewSequences(QKeyEvent *e, QVector<QKeySequence> &ksl, int ignoredModifiers);
     void clearSequence(QVector<QKeySequence> &ksl);
     int translateModifiers(Qt::KeyboardModifiers modifiers);
 
-    QScopedPointer<QShortcutMapPrivate> d_ptr;
+    QScopedPointer<QShortcutMapPrivate>    d_ptr;
 };
-
 #endif // QT_NO_SHORTCUT
 
 QT_END_NAMESPACE

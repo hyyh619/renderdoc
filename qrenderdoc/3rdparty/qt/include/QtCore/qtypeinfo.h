@@ -47,26 +47,27 @@ QT_BEGIN_NAMESPACE
 
 /*
    QTypeInfo     - type trait functionality
-*/
+ */
 
 /*
-  The catch-all template.
-*/
+   The catch-all template.
+ */
 
-template <typename T>
+template<typename T>
 class QTypeInfo
 {
 public:
-    enum {
-        isSpecialized = std::is_enum<T>::value, // don't require every enum to be marked manually
-        isPointer = false,
-        isIntegral = std::is_integral<T>::value,
-        isComplex = !isIntegral && !std::is_enum<T>::value,
-        isStatic = true,
-        isRelocatable = std::is_enum<T>::value,
-        isLarge = (sizeof(T)>sizeof(void*)),
-        isDummy = false, //### Qt6: remove
-        sizeOf = sizeof(T)
+    enum
+    {
+        isSpecialized   = std::is_enum<T>::value, // don't require every enum to be marked manually
+        isPointer       = false,
+        isIntegral      = std::is_integral<T>::value,
+        isComplex       = !isIntegral && !std::is_enum<T>::value,
+        isStatic        = true,
+        isRelocatable   = std::is_enum<T>::value,
+        isLarge         = (sizeof(T)>sizeof(void*)),
+        isDummy         = false, // ### Qt6: remove
+        sizeOf          = sizeof(T)
     };
 };
 
@@ -74,33 +75,35 @@ template<>
 class QTypeInfo<void>
 {
 public:
-    enum {
-        isSpecialized = true,
-        isPointer = false,
-        isIntegral = false,
-        isComplex = false,
-        isStatic = false,
-        isRelocatable = false,
-        isLarge = false,
-        isDummy = false,
-        sizeOf = 0
+    enum
+    {
+        isSpecialized   = true,
+        isPointer       = false,
+        isIntegral      = false,
+        isComplex       = false,
+        isStatic        = false,
+        isRelocatable   = false,
+        isLarge         = false,
+        isDummy         = false,
+        sizeOf          = 0
     };
 };
 
-template <typename T>
+template<typename T>
 class QTypeInfo<T*>
 {
 public:
-    enum {
-        isSpecialized = true,
-        isPointer = true,
-        isIntegral = false,
-        isComplex = false,
-        isStatic = false,
-        isRelocatable = true,
-        isLarge = false,
-        isDummy = false,
-        sizeOf = sizeof(T*)
+    enum
+    {
+        isSpecialized   = true,
+        isPointer       = true,
+        isIntegral      = false,
+        isComplex       = false,
+        isStatic        = false,
+        isRelocatable   = true,
+        isLarge         = false,
+        isDummy         = false,
+        sizeOf          = sizeof(T*)
     };
 };
 
@@ -117,16 +120,16 @@ public:
     \endlist
 
     DO NOT specialize this class elsewhere.
-*/
+ */
 // apply defaults for a generic QTypeInfo<T> that didn't provide the new values
-template <typename T, typename = void>
+template<typename T, typename = void>
 struct QTypeInfoQuery : public QTypeInfo<T>
 {
     enum { isRelocatable = !QTypeInfo<T>::isStatic };
 };
 
 // if QTypeInfo<T>::isRelocatable exists, use it
-template <typename T>
+template<typename T>
 struct QTypeInfoQuery<T, typename std::enable_if<QTypeInfo<T>::isRelocatable || true>::type> : public QTypeInfo<T>
 {};
 
@@ -149,45 +152,46 @@ struct QTypeInfoQuery<T, typename std::enable_if<QTypeInfo<T>::isRelocatable || 
     the following QTypeInfo definition:
 
     \snippet code/src_corelib_global_qglobal.cpp 51
-*/
-template <class T, class T1, class T2 = T1, class T3 = T1, class T4 = T1>
+ */
+template<class T, class T1, class T2 = T1, class T3 = T1, class T4 = T1>
 class QTypeInfoMerger
 {
 public:
-    enum {
-        isSpecialized = true,
-        isComplex = QTypeInfoQuery<T1>::isComplex || QTypeInfoQuery<T2>::isComplex
-                    || QTypeInfoQuery<T3>::isComplex || QTypeInfoQuery<T4>::isComplex,
+    enum
+    {
+        isSpecialized   = true,
+        isComplex       = QTypeInfoQuery<T1>::isComplex || QTypeInfoQuery<T2>::isComplex
+                          || QTypeInfoQuery<T3>::isComplex || QTypeInfoQuery<T4>::isComplex,
         isStatic = QTypeInfoQuery<T1>::isStatic || QTypeInfoQuery<T2>::isStatic
-                    || QTypeInfoQuery<T3>::isStatic || QTypeInfoQuery<T4>::isStatic,
+                   || QTypeInfoQuery<T3>::isStatic || QTypeInfoQuery<T4>::isStatic,
         isRelocatable = QTypeInfoQuery<T1>::isRelocatable && QTypeInfoQuery<T2>::isRelocatable
-                    && QTypeInfoQuery<T3>::isRelocatable && QTypeInfoQuery<T4>::isRelocatable,
-        isLarge = sizeof(T) > sizeof(void*),
-        isPointer = false,
-        isIntegral = false,
-        isDummy = false,
-        sizeOf = sizeof(T)
+                        && QTypeInfoQuery<T3>::isRelocatable && QTypeInfoQuery<T4>::isRelocatable,
+        isLarge     = sizeof(T) > sizeof(void*),
+        isPointer   = false,
+        isIntegral  = false,
+        isDummy     = false,
+        sizeOf      = sizeof(T)
     };
 };
 
-#define Q_DECLARE_MOVABLE_CONTAINER(CONTAINER) \
-template <typename T> class CONTAINER; \
-template <typename T> \
-class QTypeInfo< CONTAINER<T> > \
-{ \
-public: \
-    enum { \
-        isSpecialized = true, \
-        isPointer = false, \
-        isIntegral = false, \
-        isComplex = true, \
-        isRelocatable = true, \
-        isStatic = false, \
-        isLarge = (sizeof(CONTAINER<T>) > sizeof(void*)), \
-        isDummy = false, \
-        sizeOf = sizeof(CONTAINER<T>) \
-    }; \
-}
+#define Q_DECLARE_MOVABLE_CONTAINER(CONTAINER)                         \
+    template<typename T> class CONTAINER;                              \
+    template<typename T>                                               \
+    class QTypeInfo<CONTAINER<T> >                                     \
+    {                                                                  \
+public:                                                                \
+        enum {                                                         \
+            isSpecialized   = true,                                    \
+            isPointer       = false,                                   \
+            isIntegral      = false,                                   \
+            isComplex       = true,                                    \
+            isRelocatable   = true,                                    \
+            isStatic        = false,                                   \
+            isLarge         = (sizeof(CONTAINER<T> ) > sizeof(void*)), \
+            isDummy         = false,                                   \
+            sizeOf          = sizeof(CONTAINER<T> )                    \
+        };                                                             \
+    }
 
 Q_DECLARE_MOVABLE_CONTAINER(QList);
 Q_DECLARE_MOVABLE_CONTAINER(QVector);
@@ -199,24 +203,24 @@ Q_DECLARE_MOVABLE_CONTAINER(QSet);
 #undef Q_DECLARE_MOVABLE_CONTAINER
 
 /* These cannot be movable before ### Qt 6, for BC reasons */
-#define Q_DECLARE_MOVABLE_CONTAINER(CONTAINER) \
-template <typename K, typename V> class CONTAINER; \
-template <typename K, typename V> \
-class QTypeInfo< CONTAINER<K, V> > \
-{ \
-public: \
-    enum { \
-        isSpecialized = true, \
-        isPointer = false, \
-        isIntegral = false, \
-        isComplex = true, \
-        isStatic = (QT_VERSION < QT_VERSION_CHECK(6, 0, 0)), \
-        isRelocatable = true, \
-        isLarge = (sizeof(CONTAINER<K, V>) > sizeof(void*)), \
-        isDummy = false, \
-        sizeOf = sizeof(CONTAINER<K, V>) \
-    }; \
-}
+#define Q_DECLARE_MOVABLE_CONTAINER(CONTAINER)                            \
+    template<typename K, typename V> class CONTAINER;                     \
+    template<typename K, typename V>                                      \
+    class QTypeInfo<CONTAINER<K, V> >                                     \
+    {                                                                     \
+public:                                                                   \
+        enum {                                                            \
+            isSpecialized   = true,                                       \
+            isPointer       = false,                                      \
+            isIntegral      = false,                                      \
+            isComplex       = true,                                       \
+            isStatic        = (QT_VERSION < QT_VERSION_CHECK(6, 0, 0)),   \
+            isRelocatable   = true,                                       \
+            isLarge         = (sizeof(CONTAINER<K, V> ) > sizeof(void*)), \
+            isDummy         = false,                                      \
+            sizeOf          = sizeof(CONTAINER<K, V> )                    \
+        };                                                                \
+    }
 
 Q_DECLARE_MOVABLE_CONTAINER(QMap);
 Q_DECLARE_MOVABLE_CONTAINER(QMultiMap);
@@ -232,37 +236,36 @@ Q_DECLARE_MOVABLE_CONTAINER(QMultiHash);
 
    where 'type' is the name of the type to specialize and 'flags' is
    logically-OR'ed combination of the flags below.
-*/
-enum { /* TYPEINFO flags */
-    Q_COMPLEX_TYPE = 0,
-    Q_PRIMITIVE_TYPE = 0x1,
-    Q_STATIC_TYPE = 0,
-    Q_MOVABLE_TYPE = 0x2,               // ### Qt6: merge movable and relocatable once QList no longer depends on it
-    Q_DUMMY_TYPE = 0x4,
-    Q_RELOCATABLE_TYPE = 0x8
-};
+ */
+enum   /* TYPEINFO flags */
+{Q_COMPLEX_TYPE                                     = 0,
+ Q_PRIMITIVE_TYPE                                   = 0x1,
+ Q_STATIC_TYPE                                      = 0,
+ Q_MOVABLE_TYPE                                     = 0x2, // ### Qt6: merge movable and relocatable once QList no longer depends on it
+ Q_DUMMY_TYPE                                       = 0x4,
+ Q_RELOCATABLE_TYPE                                 = 0x8};
 
-#define Q_DECLARE_TYPEINFO_BODY(TYPE, FLAGS) \
-class QTypeInfo<TYPE > \
-{ \
-public: \
-    enum { \
-        isSpecialized = true, \
-        isComplex = (((FLAGS) & Q_PRIMITIVE_TYPE) == 0), \
-        isStatic = (((FLAGS) & (Q_MOVABLE_TYPE | Q_PRIMITIVE_TYPE)) == 0), \
-        isRelocatable = !isStatic || ((FLAGS) & Q_RELOCATABLE_TYPE), \
-        isLarge = (sizeof(TYPE)>sizeof(void*)), \
-        isPointer = false, \
-        isIntegral = std::is_integral< TYPE >::value, \
-        isDummy = (((FLAGS) & Q_DUMMY_TYPE) != 0), \
-        sizeOf = sizeof(TYPE) \
-    }; \
-    static inline const char *name() { return #TYPE; } \
-}
+#define Q_DECLARE_TYPEINFO_BODY(TYPE, FLAGS)                                         \
+    class QTypeInfo<TYPE>                                                            \
+    {                                                                                \
+public:                                                                              \
+        enum {                                                                       \
+            isSpecialized   = true,                                                  \
+            isComplex       = (((FLAGS) &Q_PRIMITIVE_TYPE) == 0),                    \
+            isStatic        = (((FLAGS) &(Q_MOVABLE_TYPE | Q_PRIMITIVE_TYPE)) == 0), \
+            isRelocatable   = !isStatic || ((FLAGS) &Q_RELOCATABLE_TYPE),            \
+            isLarge         = (sizeof(TYPE)>sizeof(void*)),                          \
+            isPointer       = false,                                                 \
+            isIntegral      = std::is_integral<TYPE>::value,                         \
+            isDummy         = (((FLAGS) &Q_DUMMY_TYPE) != 0),                        \
+            sizeOf          = sizeof(TYPE)                                           \
+        };                                                                           \
+        static inline const char*name() { return #TYPE; }                            \
+    }
 
 #define Q_DECLARE_TYPEINFO(TYPE, FLAGS) \
-template<> \
-Q_DECLARE_TYPEINFO_BODY(TYPE, FLAGS)
+    template<>                          \
+    Q_DECLARE_TYPEINFO_BODY(TYPE, FLAGS)
 
 /* Specialize QTypeInfo for QFlags<T> */
 template<typename T> class QFlags;
@@ -283,20 +286,20 @@ Q_DECLARE_TYPEINFO_BODY(QFlags<T>, Q_PRIMITIVE_TYPE);
    then use Q_DECLARE_SHARED_NOT_MOVABLE_UNTIL_QT6(type) to mark the
    type shared (incl. swap()), without marking it movable (which
    would change the memory layout of QList, a BiC change.
-*/
+ */
 
-#define Q_DECLARE_SHARED_IMPL(TYPE, FLAGS) \
-Q_DECLARE_TYPEINFO(TYPE, FLAGS); \
-inline void swap(TYPE &value1, TYPE &value2) \
+#define Q_DECLARE_SHARED_IMPL(TYPE, FLAGS)              \
+    Q_DECLARE_TYPEINFO(TYPE, FLAGS);                    \
+    inline void swap(TYPE & value1, TYPE & value2)      \
     Q_DECL_NOEXCEPT_EXPR(noexcept(value1.swap(value2))) \
-{ value1.swap(value2); }
+    { value1.swap(value2); }
 #define Q_DECLARE_SHARED(TYPE) Q_DECLARE_SHARED_IMPL(TYPE, Q_MOVABLE_TYPE)
 #define Q_DECLARE_SHARED_NOT_MOVABLE_UNTIL_QT6(TYPE) \
-                               Q_DECLARE_SHARED_IMPL(TYPE, QT_VERSION >= QT_VERSION_CHECK(6,0,0) ? Q_MOVABLE_TYPE : Q_RELOCATABLE_TYPE)
+    Q_DECLARE_SHARED_IMPL(TYPE, QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) ? Q_MOVABLE_TYPE : Q_RELOCATABLE_TYPE)
 
 /*
    QTypeInfo primitive specializations
-*/
+ */
 Q_DECLARE_TYPEINFO(bool, Q_PRIMITIVE_TYPE);
 Q_DECLARE_TYPEINFO(char, Q_PRIMITIVE_TYPE);
 Q_DECLARE_TYPEINFO(signed char, Q_PRIMITIVE_TYPE);
@@ -316,7 +319,7 @@ Q_DECLARE_TYPEINFO(long double, Q_PRIMITIVE_TYPE);
 #endif
 
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
 // ### Qt 6: remove the other branch
 // This was required so that QList<T> for these types allocates out of the array storage
 #  ifdef Q_COMPILER_UNICODE_STRINGS

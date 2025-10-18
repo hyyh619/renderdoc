@@ -69,8 +69,8 @@ public:
     QString currentFileName() const Q_DECL_OVERRIDE;
 
 private:
-    mutable QStringList entries;
-    mutable int index;
+    mutable QStringList     entries;
+    mutable int             index;
 };
 
 QT_END_NAMESPACE

@@ -60,17 +60,17 @@ QT_REQUIRE_CONFIG(iconv);
 
 QT_BEGIN_NAMESPACE
 
-class QIconvCodec: public QTextCodec
+class QIconvCodec : public QTextCodec
 {
 private:
-    mutable QTextCodec *utf16Codec;
+    mutable QTextCodec    *utf16Codec;
 
 public:
     QIconvCodec();
     ~QIconvCodec();
 
-    QString convertToUnicode(const char *, int, ConverterState *) const;
-    QByteArray convertFromUnicode(const QChar *, int, ConverterState *) const;
+    QString convertToUnicode(const char*, int, ConverterState*) const;
+    QByteArray convertFromUnicode(const QChar*, int, ConverterState*) const;
 
     QByteArray name() const;
     int mibEnum() const;
@@ -80,15 +80,15 @@ public:
 
     class IconvState
     {
-    public:
+public:
         IconvState(iconv_t x);
         ~IconvState();
-        ConverterState internalState;
-        char *buffer;
-        int bufferLen;
-        iconv_t cd;
+        ConverterState      internalState;
+        char                *buffer;
+        int                 bufferLen;
+        iconv_t             cd;
 
-        char array[8];
+        char    array[8];
 
         void saveChars(const char *c, int count);
     };

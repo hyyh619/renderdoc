@@ -57,7 +57,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QTextFormatCollection
+class Q_GUI_EXPORT    QTextFormatCollection
 {
 public:
     QTextFormatCollection() {}
@@ -66,9 +66,13 @@ public:
     void clear();
 
     inline QTextFormat objectFormat(int objectIndex) const
-    { return format(objectFormatIndex(objectIndex)); }
+    {
+        return format(objectFormatIndex(objectIndex));
+    }
     inline void setObjectFormat(int objectIndex, const QTextFormat &format)
-    { setObjectFormatIndex(objectIndex, indexForFormat(format)); }
+    {
+        setObjectFormatIndex(objectIndex, indexForFormat(format));
+    }
 
     int objectFormatIndex(int objectIndex) const;
     void setObjectFormatIndex(int objectIndex, int formatIndex);
@@ -80,29 +84,45 @@ public:
 
     QTextFormat format(int idx) const;
     inline QTextBlockFormat blockFormat(int index) const
-    { return format(index).toBlockFormat(); }
+    {
+        return format(index).toBlockFormat();
+    }
     inline QTextCharFormat charFormat(int index) const
-    { return format(index).toCharFormat(); }
+    {
+        return format(index).toCharFormat();
+    }
     inline QTextListFormat listFormat(int index) const
-    { return format(index).toListFormat(); }
+    {
+        return format(index).toListFormat();
+    }
     inline QTextTableFormat tableFormat(int index) const
-    { return format(index).toTableFormat(); }
+    {
+        return format(index).toTableFormat();
+    }
     inline QTextImageFormat imageFormat(int index) const
-    { return format(index).toImageFormat(); }
+    {
+        return format(index).toImageFormat();
+    }
 
-    inline int numFormats() const { return formats.count(); }
+    inline int numFormats() const
+    {
+        return formats.count();
+    }
 
     typedef QVector<QTextFormat> FormatVector;
 
-    FormatVector formats;
-    QVector<qint32> objFormats;
-    QMultiHash<uint,int> hashes;
+    FormatVector                formats;
+    QVector<qint32>             objFormats;
+    QMultiHash<uint, int>       hashes;
 
-    inline QFont defaultFont() const { return defaultFnt; }
+    inline QFont defaultFont() const
+    {
+        return defaultFnt;
+    }
     void setDefaultFont(const QFont &f);
 
 private:
-    QFont defaultFnt;
+    QFont    defaultFnt;
 
     Q_DISABLE_COPY(QTextFormatCollection)
 };

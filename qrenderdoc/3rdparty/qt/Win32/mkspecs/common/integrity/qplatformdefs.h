@@ -75,8 +75,8 @@
 // for htonl
 #include <arpa/inet.h>
 
-#define QT_SNPRINTF ::snprintf
-#define QT_VSNPRINTF ::vsnprintf
+#define QT_SNPRINTF     ::snprintf
+#define QT_VSNPRINTF    ::vsnprintf
 
 // INTEGRITY doesn't have getpagesize()
 inline int getpagesize()
@@ -100,7 +100,7 @@ inline uid_t getuid(void)
 
 #include "../posix/qplatformdefs.h"
 #undef QT_OPEN_LARGEFILE
-#define QT_OPEN_LARGEFILE 0
-#define PATH_MAX 1024
+#define QT_OPEN_LARGEFILE   0
+#define PATH_MAX            1024
 
 #endif // Q_INTEGRITY_PLATFORMDEFS_H

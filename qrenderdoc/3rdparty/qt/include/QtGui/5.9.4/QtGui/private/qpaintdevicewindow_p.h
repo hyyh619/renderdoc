@@ -59,7 +59,7 @@
 
 QT_BEGIN_NAMESPACE
 
-class Q_GUI_EXPORT QPaintDeviceWindowPrivate : public QWindowPrivate
+class Q_GUI_EXPORT    QPaintDeviceWindowPrivate : public QWindowPrivate
 {
     Q_DECLARE_PUBLIC(QPaintDeviceWindow)
 
@@ -70,8 +70,7 @@ public:
     }
 
     virtual void endPaint()
-    {
-    }
+    {}
 
     virtual void flush(const QRegion &region)
     {
@@ -81,7 +80,7 @@ public:
     bool paint(const QRegion &region)
     {
         Q_Q(QPaintDeviceWindow);
-        QRegion toPaint = region & dirtyRegion;
+        QRegion    toPaint = region & dirtyRegion;
         if (toPaint.isEmpty())
             return false;
 
@@ -90,7 +89,7 @@ public:
 
         beginPaint(toPaint);
 
-        QPaintEvent paintEvent(toPaint);
+        QPaintEvent    paintEvent(toPaint);
         q->paintEvent(&paintEvent);
 
         endPaint();
@@ -100,7 +99,8 @@ public:
 
     void doFlush(const QRegion &region)
     {
-        QRegion toFlush = region;
+        QRegion    toFlush = region;
+
         if (paint(toFlush))
             flush(toFlush);
     }
@@ -109,6 +109,7 @@ public:
     {
         if (dirtyRegion.isEmpty())
             return;
+
         doFlush(dirtyRegion);
     }
 
@@ -119,10 +120,10 @@ public:
     }
 
 private:
-    QRegion dirtyRegion;
+    QRegion    dirtyRegion;
 };
 
 
 QT_END_NAMESPACE
 
-#endif //QPAINTDEVICEWINDOW_P_H
+#endif // QPAINTDEVICEWINDOW_P_H

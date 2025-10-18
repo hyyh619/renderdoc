@@ -75,12 +75,15 @@ public:
     QMimeDatabasePrivate();
     ~QMimeDatabasePrivate();
 
-    static QMimeDatabasePrivate *instance();
+    static QMimeDatabasePrivate* instance();
 
-    QMimeProviderBase *provider();
+    QMimeProviderBase* provider();
     void setProvider(QMimeProviderBase *theProvider);
 
-    inline QString defaultMimeType() const { return m_defaultMimeType; }
+    inline QString defaultMimeType() const
+    {
+        return m_defaultMimeType;
+    }
 
     bool inherits(const QString &mime, const QString &parent);
 
@@ -92,12 +95,11 @@ public:
     QMimeType findByData(const QByteArray &data, int *priorityPtr);
     QStringList mimeTypeForFileName(const QString &fileName);
 
-    mutable QMimeProviderBase *m_provider;
-    const QString m_defaultMimeType;
-    QMutex mutex;
+    mutable QMimeProviderBase       *m_provider;
+    const QString                   m_defaultMimeType;
+    QMutex                          mutex;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_MIMETYPE
 #endif // QMIMEDATABASE_P_H

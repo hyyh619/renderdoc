@@ -68,7 +68,7 @@ public:
     QStyleAnimation(QObject *target);
     virtual ~QStyleAnimation();
 
-    QObject *target() const;
+    QObject* target() const;
 
     int duration() const Q_DECL_OVERRIDE;
     void setDuration(int duration);
@@ -79,7 +79,8 @@ public:
     QTime startTime() const;
     void setStartTime(const QTime &time);
 
-    enum FrameRate {
+    enum FrameRate
+    {
         DefaultFps,
         SixtyFps,
         ThirtyFps,
@@ -99,11 +100,11 @@ protected:
     virtual void updateCurrentTime(int time) Q_DECL_OVERRIDE;
 
 private:
-    int _delay;
-    int _duration;
-    QTime _startTime;
-    FrameRate _fps;
-    int _skip;
+    int             _delay;
+    int             _duration;
+    QTime           _startTime;
+    FrameRate       _fps;
+    int             _skip;
 };
 
 class QProgressStyleAnimation : public QStyleAnimation
@@ -123,8 +124,8 @@ protected:
     bool isUpdateNeeded() const Q_DECL_OVERRIDE;
 
 private:
-    int _speed;
-    mutable int _step;
+    int             _speed;
+    mutable int     _step;
 };
 
 class QNumberStyleAnimation : public QStyleAnimation
@@ -146,9 +147,9 @@ protected:
     bool isUpdateNeeded() const Q_DECL_OVERRIDE;
 
 private:
-    qreal _start;
-    qreal _end;
-    mutable qreal _prev;
+    qreal               _start;
+    qreal               _end;
+    mutable qreal       _prev;
 };
 
 class QBlendStyleAnimation : public QStyleAnimation
@@ -161,10 +162,10 @@ public:
     QBlendStyleAnimation(Type type, QObject *target);
 
     QImage startImage() const;
-    void setStartImage(const QImage& image);
+    void setStartImage(const QImage &image);
 
     QImage endImage() const;
-    void setEndImage(const QImage& image);
+    void setEndImage(const QImage &image);
 
     QImage currentImage() const;
 
@@ -172,10 +173,10 @@ protected:
     virtual void updateCurrentTime(int time) Q_DECL_OVERRIDE;
 
 private:
-    Type _type;
-    QImage _start;
-    QImage _end;
-    QImage _current;
+    Type        _type;
+    QImage      _start;
+    QImage      _end;
+    QImage      _current;
 };
 
 class QScrollbarStyleAnimation : public QNumberStyleAnimation
@@ -196,10 +197,9 @@ private slots:
     void updateCurrentTime(int time) Q_DECL_OVERRIDE;
 
 private:
-    Mode _mode;
-    bool _active;
+    Mode    _mode;
+    bool    _active;
 };
-
 #endif // QT_NO_ANIMATION
 
 QT_END_NAMESPACE

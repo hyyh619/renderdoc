@@ -65,8 +65,8 @@
 QT_BEGIN_NAMESPACE
 
 #ifdef HAVE_APPKIT
-Q_GUI_EXPORT NSImage *qt_mac_create_nsimage(const QPixmap &pm);
-Q_GUI_EXPORT NSImage *qt_mac_create_nsimage(const QIcon &icon, int defaultSize = 0);
+Q_GUI_EXPORT NSImage* qt_mac_create_nsimage(const QPixmap &pm);
+Q_GUI_EXPORT NSImage* qt_mac_create_nsimage(const QIcon &icon, int defaultSize = 0);
 Q_GUI_EXPORT QPixmap qt_mac_toQPixmap(const NSImage *image, const QSizeF &size);
 #endif
 Q_GUI_EXPORT CGImageRef qt_mac_toCGImage(const QImage &qImage);
@@ -87,41 +87,59 @@ Q_GUI_EXPORT QBrush qt_mac_toQBrush(const NSColor *color, QPalette::ColorGroup c
 Q_GUI_EXPORT QColor qt_mac_toQColor(CGColorRef color);
 Q_GUI_EXPORT QBrush qt_mac_toQBrush(CGColorRef color);
 
-class Q_GUI_EXPORT QMacCGContext
+class Q_GUI_EXPORT    QMacCGContext
 {
 public:
-    inline QMacCGContext() { context = 0; }
+    inline QMacCGContext()
+    {
+        context = 0;
+    }
     QMacCGContext(QPaintDevice *pdev);
     QMacCGContext(QPainter *p);
-    inline QMacCGContext(CGContextRef cg, bool takeOwnership = false) {
+    inline QMacCGContext(CGContextRef cg, bool takeOwnership = false)
+    {
         context = cg;
         if (!takeOwnership)
             CGContextRetain(context);
     }
-    inline QMacCGContext(const QMacCGContext &copy) : context(0) { *this = copy; }
-    inline ~QMacCGContext() {
+    inline QMacCGContext(const QMacCGContext &copy) : context(0)
+    {
+        *this = copy;
+    }
+    inline ~QMacCGContext()
+    {
         if (context)
             CGContextRelease(context);
     }
-    inline bool isNull() const { return context; }
-    inline operator CGContextRef() { return context; }
-    inline QMacCGContext &operator=(const QMacCGContext &copy) {
+    inline bool isNull() const
+    {
+        return context;
+    }
+    inline operator CGContextRef()
+    {
+        return context;
+    }
+    inline QMacCGContext&operator=(const QMacCGContext &copy)
+    {
         if (context)
             CGContextRelease(context);
+
         context = copy.context;
         CGContextRetain(context);
         return *this;
     }
-    inline QMacCGContext &operator=(CGContextRef cg) {
+    inline QMacCGContext&operator=(CGContextRef cg)
+    {
         if (context)
             CGContextRelease(context);
+
         context = cg;
-        CGContextRetain(context); //we do not take ownership
+        CGContextRetain(context); // we do not take ownership
         return *this;
     }
 
 private:
-    CGContextRef context;
+    CGContextRef    context;
 };
 
 QT_END_NAMESPACE

@@ -59,31 +59,49 @@
 QT_BEGIN_NAMESPACE
 
 static inline int pick(Qt::Orientation o, const QPoint &pos)
-{ return o == Qt::Horizontal ? pos.x() : pos.y(); }
+{
+    return o == Qt::Horizontal ? pos.x() : pos.y();
+}
 
 static inline int pick(Qt::Orientation o, const QSize &size)
-{ return o == Qt::Horizontal ? size.width() : size.height(); }
+{
+    return o == Qt::Horizontal ? size.width() : size.height();
+}
 
-static inline int &rpick(Qt::Orientation o, QPoint &pos)
-{ return o == Qt::Horizontal ? pos.rx() : pos.ry(); }
+static inline int&rpick(Qt::Orientation o, QPoint &pos)
+{
+    return o == Qt::Horizontal ? pos.rx() : pos.ry();
+}
 
-static inline int &rpick(Qt::Orientation o, QSize &size)
-{ return o == Qt::Horizontal ? size.rwidth() : size.rheight(); }
+static inline int&rpick(Qt::Orientation o, QSize &size)
+{
+    return o == Qt::Horizontal ? size.rwidth() : size.rheight();
+}
 
 static inline QSizePolicy::Policy pick(Qt::Orientation o, const QSizePolicy &policy)
-{ return o == Qt::Horizontal ? policy.horizontalPolicy() : policy.verticalPolicy(); }
+{
+    return o == Qt::Horizontal ? policy.horizontalPolicy() : policy.verticalPolicy();
+}
 
 static inline int perp(Qt::Orientation o, const QPoint &pos)
-{ return o == Qt::Vertical ? pos.x() : pos.y(); }
+{
+    return o == Qt::Vertical ? pos.x() : pos.y();
+}
 
 static inline int perp(Qt::Orientation o, const QSize &size)
-{ return o == Qt::Vertical ? size.width() : size.height(); }
+{
+    return o == Qt::Vertical ? size.width() : size.height();
+}
 
-static inline int &rperp(Qt::Orientation o, QPoint &pos)
-{ return o == Qt::Vertical ? pos.rx() : pos.ry(); }
+static inline int&rperp(Qt::Orientation o, QPoint &pos)
+{
+    return o == Qt::Vertical ? pos.rx() : pos.ry();
+}
 
-static inline int &rperp(Qt::Orientation o, QSize &size)
-{ return o == Qt::Vertical ? size.rwidth() : size.rheight(); }
+static inline int&rperp(Qt::Orientation o, QSize &size)
+{
+    return o == Qt::Vertical ? size.rwidth() : size.rheight();
+}
 
 #ifndef QT_NO_TOOLBAR
 
@@ -106,32 +124,39 @@ public:
     void resize(Qt::Orientation o, int newSize)
     {
         newSize = qMax(pick(o, minimumSize()), newSize);
-        int sizeh = pick(o, sizeHint());
-        if (newSize == sizeh) {
-            preferredSize = -1;
-            size = sizeh;
-        } else {
+        int    sizeh = pick(o, sizeHint());
+        if (newSize == sizeh)
+        {
+            preferredSize   = -1;
+            size            = sizeh;
+        }
+        else
+        {
             preferredSize = newSize;
         }
     }
 
     void extendSize(Qt::Orientation o, int extent)
     {
-        int newSize = qMax(pick(o, minimumSize()), (preferredSize > 0 ? preferredSize : pick(o, sizeHint())) + extent);
-        int sizeh = pick(o, sizeHint());
-        if (newSize == sizeh) {
-            preferredSize = -1;
-            size = sizeh;
-        } else {
+        int     newSize = qMax(pick(o, minimumSize()), (preferredSize > 0 ? preferredSize : pick(o, sizeHint())) + extent);
+        int     sizeh   = pick(o, sizeHint());
+
+        if (newSize == sizeh)
+        {
+            preferredSize   = -1;
+            size            = sizeh;
+        }
+        else
+        {
             preferredSize = newSize;
         }
     }
 
-    QLayoutItem *widgetItem;
-    int pos;
-    int size;
-    int preferredSize;
-    bool gap;
+    QLayoutItem     *widgetItem;
+    int             pos;
+    int             size;
+    int             preferredSize;
+    bool            gap;
 };
 Q_DECLARE_TYPEINFO(QToolBarAreaLayoutItem, Q_PRIMITIVE_TYPE);
 
@@ -147,10 +172,10 @@ public:
     void fitLayout();
     bool skip() const;
 
-    QRect rect;
-    Qt::Orientation o;
+    QRect               rect;
+    Qt::Orientation     o;
 
-    QVector<QToolBarAreaLayoutItem> toolBarItems;
+    QVector<QToolBarAreaLayoutItem>    toolBarItems;
 };
 Q_DECLARE_TYPEINFO(QToolBarAreaLayoutLine, Q_MOVABLE_TYPE);
 
@@ -164,7 +189,7 @@ public:
 
     void fitLayout();
 
-    QLayoutItem *insertToolBar(QToolBar *before, QToolBar *toolBar);
+    QLayoutItem* insertToolBar(QToolBar *before, QToolBar *toolBar);
     void insertItem(QToolBar *before, QLayoutItem *item);
     void removeToolBar(QToolBar *toolBar);
     void insertToolBarBreak(QToolBar *before);
@@ -177,26 +202,25 @@ public:
     QRect itemRect(const QList<int> &path) const;
     int distance(const QPoint &pos) const;
 
-    QVector<QToolBarAreaLayoutLine> lines;
-    QRect rect;
-    Qt::Orientation o;
-    QInternal::DockPosition dockPos;
-    bool dirty;
+    QVector<QToolBarAreaLayoutLine>     lines;
+    QRect                               rect;
+    Qt::Orientation                     o;
+    QInternal::DockPosition             dockPos;
+    bool                                dirty;
 };
 Q_DECLARE_TYPEINFO(QToolBarAreaLayoutInfo, Q_MOVABLE_TYPE);
 
 class QToolBarAreaLayout
 {
 public:
-    enum { // sentinel values used to validate state data
-        ToolBarStateMarker = 0xfe,
-        ToolBarStateMarkerEx = 0xfc
-    };
+    enum   // sentinel values used to validate state data
+    {ToolBarStateMarker                                                                 = 0xfe,
+     ToolBarStateMarkerEx                                                               = 0xfc};
 
-    QRect rect;
-    const QMainWindow *mainWindow;
-    QToolBarAreaLayoutInfo docks[4];
-    bool visible;
+    QRect                       rect;
+    const QMainWindow           *mainWindow;
+    QToolBarAreaLayoutInfo      docks[4];
+    bool                        visible;
 
     QToolBarAreaLayout(const QMainWindow *win);
 
@@ -207,13 +231,13 @@ public:
     QSize sizeHint(const QSize &center) const;
     void apply(bool animate);
 
-    QLayoutItem *itemAt(int *x, int index) const;
-    QLayoutItem *takeAt(int *x, int index);
+    QLayoutItem* itemAt(int *x, int index) const;
+    QLayoutItem* takeAt(int *x, int index);
     void deleteAllLayoutItems();
 
-    QLayoutItem *insertToolBar(QToolBar *before, QToolBar *toolBar);
+    QLayoutItem* insertToolBar(QToolBar *before, QToolBar *toolBar);
     void removeToolBar(QToolBar *toolBar);
-    QLayoutItem *addToolBar(QInternal::DockPosition pos, QToolBar *toolBar);
+    QLayoutItem* addToolBar(QInternal::DockPosition pos, QToolBar *toolBar);
     void insertToolBarBreak(QToolBar *before);
     void removeToolBarBreak(QToolBar *before);
     void addToolBarBreak(QInternal::DockPosition pos);
@@ -234,10 +258,10 @@ public:
     void remove(const QList<int> &path);
     void remove(QLayoutItem *item);
     void clear();
-    QToolBarAreaLayoutItem *item(const QList<int> &path);
+    QToolBarAreaLayoutItem* item(const QList<int> &path);
     QRect itemRect(const QList<int> &path) const;
-    QLayoutItem *plug(const QList<int> &path);
-    QLayoutItem *unplug(const QList<int> &path, QToolBarAreaLayout *other);
+    QLayoutItem* plug(const QList<int> &path);
+    QLayoutItem* unplug(const QList<int> &path, QToolBarAreaLayout *other);
 
     void saveState(QDataStream &stream) const;
     bool restoreState(QDataStream &stream, const QList<QToolBar*> &toolBars, uchar tmarker, bool testing = false);

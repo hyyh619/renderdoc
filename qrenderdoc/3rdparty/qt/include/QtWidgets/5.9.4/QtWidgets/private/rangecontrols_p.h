@@ -68,18 +68,18 @@ class QDial;
 class QAccessibleLineEdit;
 
 #if QT_CONFIG(spinbox)
-class QAccessibleAbstractSpinBox:
-        public QAccessibleWidget,
-        public QAccessibleValueInterface,
-        public QAccessibleTextInterface,
-        public QAccessibleEditableTextInterface
+class QAccessibleAbstractSpinBox :
+    public QAccessibleWidget,
+    public QAccessibleValueInterface,
+    public QAccessibleTextInterface,
+    public QAccessibleEditableTextInterface
 {
 public:
     explicit QAccessibleAbstractSpinBox(QWidget *w);
     virtual ~QAccessibleAbstractSpinBox();
 
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleValueInterface
     QVariant currentValue() const Q_DECL_OVERRIDE;
@@ -97,12 +97,12 @@ public:
     int offsetAtPoint(const QPoint &point) const Q_DECL_OVERRIDE;
     void selection(int selectionIndex, int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     QString text(int startOffset, int endOffset) const Q_DECL_OVERRIDE;
-    QString textBeforeOffset (int offset, QAccessible::TextBoundaryType boundaryType,
-            int *endOffset, int *startOffset) const Q_DECL_OVERRIDE;
+    QString textBeforeOffset(int offset, QAccessible::TextBoundaryType boundaryType,
+                             int *endOffset, int *startOffset) const Q_DECL_OVERRIDE;
     QString textAfterOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
+                            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     QString textAtOffset(int offset, QAccessible::TextBoundaryType boundaryType,
-            int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
+                         int *startOffset, int *endOffset) const Q_DECL_OVERRIDE;
     void removeSelection(int selectionIndex) Q_DECL_OVERRIDE;
     void setCursorPosition(int position) Q_DECL_OVERRIDE;
     void setSelection(int selectionIndex, int startOffset, int endOffset) Q_DECL_OVERRIDE;
@@ -115,10 +115,10 @@ public:
     void replaceText(int startOffset, int endOffset, const QString &text) Q_DECL_OVERRIDE;
 
 protected:
-    QAbstractSpinBox *abstractSpinBox() const;
-    QAccessibleInterface *lineEditIface() const;
+    QAbstractSpinBox* abstractSpinBox() const;
+    QAccessibleInterface* lineEditIface() const;
 private:
-    mutable QAccessibleLineEdit *lineEdit;
+    mutable QAccessibleLineEdit    *lineEdit;
 };
 
 class QAccessibleSpinBox : public QAccessibleAbstractSpinBox
@@ -127,7 +127,7 @@ public:
     explicit QAccessibleSpinBox(QWidget *w);
 
 protected:
-    QSpinBox *spinBox() const;
+    QSpinBox* spinBox() const;
 };
 
 class QAccessibleDoubleSpinBox : public QAccessibleAbstractSpinBox
@@ -139,16 +139,16 @@ public:
 
     using QAccessibleAbstractSpinBox::text;
 protected:
-    QDoubleSpinBox *doubleSpinBox() const;
+    QDoubleSpinBox* doubleSpinBox() const;
 };
 #endif // QT_CONFIG(spinbox)
 
 #if QT_CONFIG(slider)
-class QAccessibleAbstractSlider: public QAccessibleWidget, public QAccessibleValueInterface
+class QAccessibleAbstractSlider : public QAccessibleWidget, public QAccessibleValueInterface
 {
 public:
     explicit QAccessibleAbstractSlider(QWidget *w, QAccessible::Role r = QAccessible::Slider);
-    void *interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
+    void* interface_cast(QAccessible::InterfaceType t) Q_DECL_OVERRIDE;
 
     // QAccessibleValueInterface
     QVariant currentValue() const Q_DECL_OVERRIDE;
@@ -158,7 +158,7 @@ public:
     QVariant minimumStepSize() const Q_DECL_OVERRIDE;
 
 protected:
-    QAbstractSlider *abstractSlider() const;
+    QAbstractSlider* abstractSlider() const;
 };
 #endif // QT_CONFIG(slider)
 
@@ -170,7 +170,7 @@ public:
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
 
 protected:
-    QScrollBar *scrollBar() const;
+    QScrollBar* scrollBar() const;
 };
 #endif // QT_CONFIG(scrollbar)
 
@@ -182,7 +182,7 @@ public:
     QString text(QAccessible::Text t) const Q_DECL_OVERRIDE;
 
 protected:
-    QSlider *slider() const;
+    QSlider* slider() const;
 };
 #endif // QT_CONFIG(slider)
 
@@ -195,10 +195,9 @@ public:
     QString text(QAccessible::Text textType) const Q_DECL_OVERRIDE;
 
 protected:
-    QDial *dial() const;
+    QDial* dial() const;
 };
 #endif // QT_CONFIG(dial)
-
 #endif // QT_NO_ACCESSIBILITY
 
 QT_END_NAMESPACE

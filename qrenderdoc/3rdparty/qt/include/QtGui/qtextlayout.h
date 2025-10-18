@@ -65,12 +65,15 @@ class QTextFormat;
 class QPalette;
 class QPainter;
 
-class Q_GUI_EXPORT QTextInlineObject
+class Q_GUI_EXPORT    QTextInlineObject
 {
 public:
     QTextInlineObject(int i, QTextEngine *e) : itm(i), eng(e) {}
     inline QTextInlineObject() : itm(0), eng(Q_NULLPTR) {}
-    inline bool isValid() const { return eng; }
+    inline bool isValid() const
+    {
+        return eng;
+    }
 
     QRectF rect() const;
     qreal width() const;
@@ -91,8 +94,8 @@ public:
 
 private:
     friend class QTextLayout;
-    int itm;
-    QTextEngine *eng;
+    int             itm;
+    QTextEngine     *eng;
 };
 
 class QPaintDevice;
@@ -101,13 +104,13 @@ class QTextLine;
 class QTextBlock;
 class QTextOption;
 
-class Q_GUI_EXPORT QTextLayout
+class Q_GUI_EXPORT    QTextLayout
 {
 public:
     // does itemization
     QTextLayout();
-    QTextLayout(const QString& text);
-    QTextLayout(const QString& text, const QFont &font, QPaintDevice *paintdevice = Q_NULLPTR);
+    QTextLayout(const QString &text);
+    QTextLayout(const QString &text, const QFont &font, QPaintDevice *paintdevice = Q_NULLPTR);
     QTextLayout(const QTextBlock &b);
     ~QTextLayout();
 
@@ -118,25 +121,30 @@ public:
     void setRawFont(const QRawFont &rawFont);
 #endif
 
-    void setText(const QString& string);
+    void setText(const QString &string);
     QString text() const;
 
     void setTextOption(const QTextOption &option);
-    const QTextOption &textOption() const;
+    const QTextOption    &textOption() const;
 
     void setPreeditArea(int position, const QString &text);
     int preeditAreaPosition() const;
     QString preeditAreaText() const;
 
-    struct FormatRange {
-        int start;
-        int length;
+    struct FormatRange
+    {
+        int             start;
+        int             length;
         QTextCharFormat format;
 
         friend bool operator==(const FormatRange &lhs, const FormatRange &rhs)
-        { return lhs.start == rhs.start && lhs.length == rhs.length && lhs.format == rhs.format; }
+        {
+            return lhs.start == rhs.start && lhs.length == rhs.length && lhs.format == rhs.format;
+        }
         friend bool operator!=(const FormatRange &lhs, const FormatRange &rhs)
-        { return !operator==(lhs, rhs); }
+        {
+            return !operator==(lhs, rhs);
+        }
     };
 #if QT_DEPRECATED_SINCE(5, 6)
     QT_DEPRECATED_X("Use setFormats()") void setAdditionalFormats(const QList<FormatRange> &overrides);
@@ -163,7 +171,8 @@ public:
     QTextLine lineAt(int i) const;
     QTextLine lineForTextPosition(int pos) const;
 
-    enum CursorMode {
+    enum CursorMode
+    {
         SkipCharacters,
         SkipWords
     };
@@ -190,7 +199,10 @@ public:
     QList<QGlyphRun> glyphRuns(int from = -1, int length = -1) const;
 #endif
 
-    QTextEngine *engine() const { return d; }
+    QTextEngine* engine() const
+    {
+        return d;
+    }
     void setFlags(int flags);
 private:
     QTextLayout(QTextEngine *e) : d(e) {}
@@ -199,19 +211,22 @@ private:
     friend class QPainter;
     friend class QGraphicsSimpleTextItemPrivate;
     friend class QGraphicsSimpleTextItem;
-    friend void qt_format_text(const QFont &font, const QRectF &_r, int tf, const QTextOption *, const QString& str,
-                               QRectF *brect, int tabstops, int* tabarray, int tabarraylen,
+    friend void qt_format_text(const QFont &font, const QRectF &_r, int tf, const QTextOption*, const QString &str,
+                               QRectF *brect, int tabstops, int *tabarray, int tabarraylen,
                                QPainter *painter);
-    QTextEngine *d;
+    QTextEngine    *d;
 };
 Q_DECLARE_TYPEINFO(QTextLayout::FormatRange, Q_RELOCATABLE_TYPE);
 
 
-class Q_GUI_EXPORT QTextLine
+class Q_GUI_EXPORT    QTextLine
 {
 public:
     inline QTextLine() : index(0), eng(Q_NULLPTR) {}
-    inline bool isValid() const { return eng; }
+    inline bool isValid() const
+    {
+        return eng;
+    }
 
     QRectF rect() const;
     qreal x() const;
@@ -229,19 +244,24 @@ public:
     qreal horizontalAdvance() const;
     QRectF naturalTextRect() const;
 
-    enum Edge {
+    enum Edge
+    {
         Leading,
         Trailing
     };
-    enum CursorPosition {
+    enum CursorPosition
+    {
         CursorBetweenCharacters,
         CursorOnCharacter
     };
 
     /* cursorPos gets set to the valid position */
     qreal cursorToX(int *cursorPos, Edge edge = Leading) const;
-    inline qreal cursorToX(int cursorPos, Edge edge = Leading) const { return cursorToX(&cursorPos, edge); }
-    int xToCursor(qreal x, CursorPosition = CursorBetweenCharacters) const;
+    inline qreal cursorToX(int cursorPos, Edge edge = Leading) const
+    {
+        return cursorToX(&cursorPos, edge);
+    }
+    int    xToCursor(qreal x, CursorPosition = CursorBetweenCharacters) const;
 
     void setLineWidth(qreal width);
     void setNumColumns(int columns);
@@ -253,7 +273,10 @@ public:
     int textStart() const;
     int textLength() const;
 
-    int lineNumber() const { return index; }
+    int lineNumber() const
+    {
+        return index;
+    }
 
     void draw(QPainter *p, const QPointF &point, const QTextLayout::FormatRange *selection = Q_NULLPTR) const;
 
@@ -267,8 +290,8 @@ private:
 
     friend class QTextLayout;
     friend class QTextFragment;
-    int index;
-    QTextEngine *eng;
+    int             index;
+    QTextEngine     *eng;
 };
 
 QT_END_NAMESPACE

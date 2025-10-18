@@ -55,14 +55,15 @@ QT_BEGIN_NAMESPACE
 
 class QValidatorPrivate;
 
-class Q_GUI_EXPORT QValidator : public QObject
+class Q_GUI_EXPORT    QValidator : public QObject
 {
     Q_OBJECT
 public:
-    explicit QValidator(QObject * parent = Q_NULLPTR);
+    explicit QValidator(QObject *parent = Q_NULLPTR);
     ~QValidator();
 
-    enum State {
+    enum State
+    {
         Invalid,
         Intermediate,
         Acceptable
@@ -71,8 +72,8 @@ public:
     void setLocale(const QLocale &locale);
     QLocale locale() const;
 
-    virtual State validate(QString &, int &) const = 0;
-    virtual void fixup(QString &) const;
+    virtual State validate(QString&, int&) const = 0;
+    virtual void fixup(QString&) const;
 
 Q_SIGNALS:
     void changed();
@@ -86,26 +87,32 @@ private:
     Q_DECLARE_PRIVATE(QValidator)
 };
 
-class Q_GUI_EXPORT QIntValidator : public QValidator
+class Q_GUI_EXPORT    QIntValidator : public QValidator
 {
     Q_OBJECT
     Q_PROPERTY(int bottom READ bottom WRITE setBottom NOTIFY bottomChanged)
     Q_PROPERTY(int top READ top WRITE setTop NOTIFY topChanged)
 
 public:
-    explicit QIntValidator(QObject * parent = Q_NULLPTR);
+    explicit QIntValidator(QObject *parent = Q_NULLPTR);
     QIntValidator(int bottom, int top, QObject *parent = Q_NULLPTR);
     ~QIntValidator();
 
-    QValidator::State validate(QString &, int &) const Q_DECL_OVERRIDE;
+    QValidator::State validate(QString&, int&) const Q_DECL_OVERRIDE;
     void fixup(QString &input) const Q_DECL_OVERRIDE;
 
     void setBottom(int);
     void setTop(int);
     virtual void setRange(int bottom, int top);
 
-    int bottom() const { return b; }
-    int top() const { return t; }
+    int bottom() const
+    {
+        return b;
+    }
+    int top() const
+    {
+        return t;
+    }
 Q_SIGNALS:
     void bottomChanged(int bottom);
     void topChanged(int top);
@@ -114,14 +121,14 @@ private:
     Q_DISABLE_COPY(QIntValidator)
 
     int b;
-    int t;
+    int    t;
 };
 
 #ifndef QT_NO_REGEXP
 
 class QDoubleValidatorPrivate;
 
-class Q_GUI_EXPORT QDoubleValidator : public QValidator
+class Q_GUI_EXPORT    QDoubleValidator : public QValidator
 {
     Q_OBJECT
     Q_PROPERTY(double bottom READ bottom WRITE setBottom NOTIFY bottomChanged)
@@ -130,26 +137,36 @@ class Q_GUI_EXPORT QDoubleValidator : public QValidator
     Q_PROPERTY(Notation notation READ notation WRITE setNotation NOTIFY notationChanged)
 
 public:
-    explicit QDoubleValidator(QObject * parent = Q_NULLPTR);
+    explicit QDoubleValidator(QObject *parent = Q_NULLPTR);
     QDoubleValidator(double bottom, double top, int decimals, QObject *parent = Q_NULLPTR);
     ~QDoubleValidator();
 
-    enum Notation {
+    enum Notation
+    {
         StandardNotation,
         ScientificNotation
     };
     Q_ENUM(Notation)
-    QValidator::State validate(QString &, int &) const Q_DECL_OVERRIDE;
+    QValidator::State validate(QString&, int&) const Q_DECL_OVERRIDE;
 
     virtual void setRange(double bottom, double top, int decimals = 0);
     void setBottom(double);
     void setTop(double);
     void setDecimals(int);
-    void setNotation(Notation);
+    void    setNotation(Notation);
 
-    double bottom() const { return b; }
-    double top() const { return t; }
-    int decimals() const { return dec; }
+    double bottom() const
+    {
+        return b;
+    }
+    double top() const
+    {
+        return t;
+    }
+    int decimals() const
+    {
+        return dec;
+    }
     Notation notation() const;
 
 Q_SIGNALS:
@@ -163,42 +180,44 @@ private:
     Q_DISABLE_COPY(QDoubleValidator)
 
     double b;
-    double t;
-    int dec;
+    double      t;
+    int         dec;
 };
 
 
-class Q_GUI_EXPORT QRegExpValidator : public QValidator
+class Q_GUI_EXPORT    QRegExpValidator : public QValidator
 {
     Q_OBJECT
     Q_PROPERTY(QRegExp regExp READ regExp WRITE setRegExp NOTIFY regExpChanged)
 
 public:
     explicit QRegExpValidator(QObject *parent = Q_NULLPTR);
-    explicit QRegExpValidator(const QRegExp& rx, QObject *parent = Q_NULLPTR);
+    explicit QRegExpValidator(const QRegExp &rx, QObject *parent = Q_NULLPTR);
     ~QRegExpValidator();
 
-    virtual QValidator::State validate(QString& input, int& pos) const Q_DECL_OVERRIDE;
+    virtual QValidator::State validate(QString &input, int &pos) const Q_DECL_OVERRIDE;
 
-    void setRegExp(const QRegExp& rx);
-    const QRegExp& regExp() const { return r; }
+    void setRegExp(const QRegExp &rx);
+    const QRegExp    &regExp() const
+    {
+        return r;
+    }
 
 Q_SIGNALS:
-    void regExpChanged(const QRegExp& regExp);
+    void regExpChanged(const QRegExp &regExp);
 
 private:
     Q_DISABLE_COPY(QRegExpValidator)
 
     QRegExp r;
 };
-
 #endif // QT_NO_REGEXP
 
 #ifndef QT_NO_REGULAREXPRESSION
 
 class QRegularExpressionValidatorPrivate;
 
-class Q_GUI_EXPORT QRegularExpressionValidator : public QValidator
+class Q_GUI_EXPORT    QRegularExpressionValidator : public QValidator
 {
     Q_OBJECT
     Q_PROPERTY(QRegularExpression regularExpression READ regularExpression WRITE setRegularExpression NOTIFY regularExpressionChanged)
@@ -222,9 +241,7 @@ private:
     Q_DISABLE_COPY(QRegularExpressionValidator)
     Q_DECLARE_PRIVATE(QRegularExpressionValidator)
 };
-
 #endif // QT_NO_REGULAREXPRESSION
-
 #endif // QT_NO_VALIDATOR
 
 QT_END_NAMESPACE

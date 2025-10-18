@@ -72,29 +72,29 @@ class QAbstractNetworkCache;
 class QNetworkAuthenticationCredential;
 class QNetworkCookieJar;
 
-class QNetworkAccessManagerPrivate: public QObjectPrivate
+class QNetworkAccessManagerPrivate : public QObjectPrivate
 {
 public:
     QNetworkAccessManagerPrivate()
         : networkCache(0), cookieJar(0),
-          thread(0),
+        thread(0),
 #ifndef QT_NO_NETWORKPROXY
-          proxyFactory(0),
+        proxyFactory(0),
 #endif
 #ifndef QT_NO_BEARERMANAGEMENT
-          lastSessionState(QNetworkSession::Invalid),
-          networkConfiguration(networkConfigurationManager.defaultConfiguration()),
-          customNetworkConfiguration(false),
-          networkSessionRequired(networkConfigurationManager.capabilities()
-                                 & QNetworkConfigurationManager::NetworkSessionRequired),
-          activeReplyCount(0),
-          online(false),
-          initializeSession(true),
+        lastSessionState(QNetworkSession::Invalid),
+        networkConfiguration(networkConfigurationManager.defaultConfiguration()),
+        customNetworkConfiguration(false),
+        networkSessionRequired(networkConfigurationManager.capabilities()
+                               & QNetworkConfigurationManager::NetworkSessionRequired),
+        activeReplyCount(0),
+        online(false),
+        initializeSession(true),
 #endif
-          cookieJarCreated(false),
-          defaultAccessControl(true),
-          redirectPolicy(QNetworkRequest::ManualRedirectPolicy),
-          authenticationManager(QSharedPointer<QNetworkAccessAuthenticationManager>::create())
+        cookieJarCreated(false),
+        defaultAccessControl(true),
+        redirectPolicy(QNetworkRequest::ManualRedirectPolicy),
+        authenticationManager(QSharedPointer<QNetworkAccessAuthenticationManager>::create())
     {
 #ifndef QT_NO_BEARERMANAGEMENT
         // we would need all active configurations to check for
@@ -111,14 +111,14 @@ public:
     }
     ~QNetworkAccessManagerPrivate();
 
-    QThread * createThread();
+    QThread* createThread();
     void destroyThread();
 
     void _q_replyFinished();
     void _q_replyEncrypted();
     void _q_replySslErrors(const QList<QSslError> &errors);
     void _q_replyPreSharedKeyAuthenticationRequired(QSslPreSharedKeyAuthenticator *authenticator);
-    QNetworkReply *postProcess(QNetworkReply *reply);
+    QNetworkReply* postProcess(QNetworkReply *reply);
     void createCookieJar() const;
 
     void authenticationRequired(QAuthenticator *authenticator,
@@ -128,22 +128,22 @@ public:
                                 QUrl *urlForLastAuthentication,
                                 bool allowAuthenticationReuse = true);
     void cacheCredentials(const QUrl &url, const QAuthenticator *auth);
-    QNetworkAuthenticationCredential *fetchCachedCredentials(const QUrl &url,
+    QNetworkAuthenticationCredential* fetchCachedCredentials(const QUrl &url,
                                                              const QAuthenticator *auth = 0);
 
 #ifndef QT_NO_NETWORKPROXY
     void proxyAuthenticationRequired(const QUrl &url,
-                                const QNetworkProxy &proxy,
-                                bool synchronous,
-                                QAuthenticator *authenticator,
-                                QNetworkProxy *lastProxyAuthentication);
+                                     const QNetworkProxy &proxy,
+                                     bool synchronous,
+                                     QAuthenticator *authenticator,
+                                     QNetworkProxy *lastProxyAuthentication);
     void cacheProxyCredentials(const QNetworkProxy &proxy, const QAuthenticator *auth);
-    QNetworkAuthenticationCredential *fetchCachedProxyCredentials(const QNetworkProxy &proxy,
-                                                             const QAuthenticator *auth = 0);
+    QNetworkAuthenticationCredential* fetchCachedProxyCredentials(const QNetworkProxy &proxy,
+                                                                  const QAuthenticator *auth = 0);
     QList<QNetworkProxy> queryProxy(const QNetworkProxyQuery &query);
 #endif
 
-    QNetworkAccessBackend *findBackend(QNetworkAccessManager::Operation op, const QNetworkRequest &request);
+    QNetworkAccessBackend* findBackend(QNetworkAccessManager::Operation op, const QNetworkRequest &request);
     QStringList backendSupportedSchemes() const;
 
 #ifndef QT_NO_BEARERMANAGEMENT
@@ -159,59 +159,60 @@ public:
     void _q_configurationChanged(const QNetworkConfiguration &configuration);
     void _q_networkSessionFailed(QNetworkSession::SessionError error);
 
-    QSet<QString> onlineConfigurations;
-
+    QSet<QString>    onlineConfigurations;
 #endif
 
     QNetworkRequest prepareMultipart(const QNetworkRequest &request, QHttpMultiPart *multiPart);
 
     // this is the cache for storing downloaded files
-    QAbstractNetworkCache *networkCache;
+    QAbstractNetworkCache    *networkCache;
 
-    QNetworkCookieJar *cookieJar;
+    QNetworkCookieJar    *cookieJar;
 
-    QThread *thread;
+    QThread    *thread;
 
 
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy proxy;
-    QNetworkProxyFactory *proxyFactory;
+    QNetworkProxy           proxy;
+    QNetworkProxyFactory    *proxyFactory;
 #endif
 
 #ifndef QT_NO_BEARERMANAGEMENT
-    QSharedPointer<QNetworkSession> networkSessionStrongRef;
-    QWeakPointer<QNetworkSession> networkSessionWeakRef;
-    QNetworkSession::State lastSessionState;
-    QNetworkConfigurationManager networkConfigurationManager;
-    QNetworkConfiguration networkConfiguration;
+    QSharedPointer<QNetworkSession>     networkSessionStrongRef;
+    QWeakPointer<QNetworkSession>       networkSessionWeakRef;
+    QNetworkSession::State              lastSessionState;
+    QNetworkConfigurationManager        networkConfigurationManager;
+    QNetworkConfiguration               networkConfiguration;
     // we need to track whether the user set a config or not,
     // because the default config might change
-    bool customNetworkConfiguration;
-    bool networkSessionRequired;
-    QNetworkAccessManager::NetworkAccessibility networkAccessible;
-    int activeReplyCount;
-    bool online;
-    bool initializeSession;
+    bool                                            customNetworkConfiguration;
+    bool                                            networkSessionRequired;
+    QNetworkAccessManager::NetworkAccessibility     networkAccessible;
+    int                                             activeReplyCount;
+    bool                                            online;
+    bool                                            initializeSession;
 #endif
 
-    bool cookieJarCreated;
-    bool defaultAccessControl;
-    QNetworkRequest::RedirectPolicy redirectPolicy;
+    bool                                cookieJarCreated;
+    bool                                defaultAccessControl;
+    QNetworkRequest::RedirectPolicy     redirectPolicy;
 
     // The cache with authorization data:
-    QSharedPointer<QNetworkAccessAuthenticationManager> authenticationManager;
+    QSharedPointer<QNetworkAccessAuthenticationManager>    authenticationManager;
 
     // this cache can be used by individual backends to cache e.g. their TCP connections to a server
     // and use the connections for multiple requests.
-    QNetworkAccessCache objectCache;
-    static inline QNetworkAccessCache *getObjectCache(QNetworkAccessBackend *backend)
-    { return &backend->manager->objectCache; }
+    QNetworkAccessCache    objectCache;
+    static inline QNetworkAccessCache* getObjectCache(QNetworkAccessBackend *backend)
+    {
+        return &backend->manager->objectCache;
+    }
 
     Q_AUTOTEST_EXPORT static void clearAuthenticationCache(QNetworkAccessManager *manager);
     Q_AUTOTEST_EXPORT static void clearConnectionCache(QNetworkAccessManager *manager);
 
-    QHstsCache stsCache;
-    bool stsEnabled = false;
+    QHstsCache      stsCache;
+    bool            stsEnabled = false;
 
 #ifndef QT_NO_BEARERMANAGEMENT
     Q_AUTOTEST_EXPORT static const QWeakPointer<const QNetworkSession> getNetworkSession(const QNetworkAccessManager *manager);

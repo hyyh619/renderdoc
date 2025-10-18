@@ -1,35 +1,35 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_Execute_Indirect, D3D12GraphicsTest)
 {
-  static constexpr const char *Description =
-      "Tests use of ExecuteIndirect() in different edge-case scenarios.";
+    static constexpr const char    *Description =
+        "Tests use of ExecuteIndirect() in different edge-case scenarios.";
 
-  std::string vert = R"EOSHADER(
+    std::string    vert = R"EOSHADER(
 
 struct vertin
 {
@@ -111,7 +111,7 @@ v2f main(vertin IN, uint vid : SV_VertexID)
 
 )EOSHADER";
 
-  std::string vert2 = R"EOSHADER(
+    std::string    vert2 = R"EOSHADER(
 
 struct vertin
 {
@@ -137,7 +137,7 @@ v2f main(vertin IN, uint vid : SV_VertexID)
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 struct v2f
 {
@@ -152,7 +152,7 @@ float4 main(v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string comp = R"EOSHADER(
+    std::string    comp = R"EOSHADER(
 
 RWStructuredBuffer<float4> bufout : register(u0);
 
@@ -247,330 +247,335 @@ void main(uint3 gid : SV_GroupID)
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    ID3DBlobPtr vsblob = Compile(vert, "main", "vs_5_1");
-    ID3DBlobPtr vs2blob = Compile(vert2, "main", "vs_5_0");
-    ID3DBlobPtr psblob = Compile(pixel, "main", "ps_4_0");
-
-    const D3D12_INPUT_CLASSIFICATION vertex = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
-    static const std::vector<D3D12_INPUT_ELEMENT_DESC> layout = {
-        {"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, vertex, 0},
-        {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, vertex, 0},
-    };
-
-    struct A2V
+    int main()
     {
-      Vec4f pos;
-      Vec4f col;
-    };
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-    const A2V tri[9] = {
-        {Vec4f(-0.5f, -0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
-        {Vec4f(0.0f, 0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
-        {Vec4f(0.5f, -0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
-    };
+        ID3DBlobPtr     vsblob  = Compile(vert, "main", "vs_5_1");
+        ID3DBlobPtr     vs2blob = Compile(vert2, "main", "vs_5_0");
+        ID3DBlobPtr     psblob  = Compile(pixel, "main", "ps_4_0");
 
-    float checkdata[1024] = {};
-    checkdata[64 + 7] = 1.234f;
+        const D3D12_INPUT_CLASSIFICATION                        vertex  = D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA;
+        static const std::vector<D3D12_INPUT_ELEMENT_DESC>      layout  =
+        {
+            {"POSITION", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 0, vertex, 0},
+            {"COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 16, vertex, 0},
+        };
 
-    ID3D12ResourcePtr vb = MakeBuffer().Data(tri);
-    ID3D12ResourcePtr cbv = MakeBuffer().Data(checkdata);
-    ID3D12ResourcePtr srv = MakeBuffer().Data(checkdata);
-    ID3D12ResourcePtr uav = MakeBuffer().UAV().Data(checkdata);
+        struct A2V
+        {
+            Vec4f   pos;
+            Vec4f   col;
+        };
 
-    ID3D12RootSignaturePtr patchsig = MakeSig(
-        {cbvParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
-         srvParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
-         uavParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
-         constParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, 4),
-         tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 1, 2, 0)});
+        const A2V    tri[9] =
+        {
+            {Vec4f(-0.5f, -0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
+            {Vec4f(0.0f, 0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
+            {Vec4f(0.5f, -0.5f, 0.0f), Vec4f(0.0f, 1.0f, 0.0f, 1.0f)},
+        };
 
-    ID3D12CommandSignaturePtr patchArgSig = MakeCommandSig(
-        patchsig, {vbArg(0), cbvArg(0), srvArg(1), uavArg(2), constArg(3, 0, 1), drawArg()});
+        float    checkdata[1024] = {};
+        checkdata[64 + 7] = 1.234f;
 
-    struct PatchArgs
-    {
-      D3D12_VERTEX_BUFFER_VIEW vb;
-      D3D12_GPU_VIRTUAL_ADDRESS cbv;
-      D3D12_GPU_VIRTUAL_ADDRESS srv;
-      D3D12_GPU_VIRTUAL_ADDRESS uav;
-      float constData;
-      D3D12_DRAW_ARGUMENTS draw;
-    } patchargs;
+        ID3D12ResourcePtr       vb  = MakeBuffer().Data(tri);
+        ID3D12ResourcePtr       cbv = MakeBuffer().Data(checkdata);
+        ID3D12ResourcePtr       srv = MakeBuffer().Data(checkdata);
+        ID3D12ResourcePtr       uav = MakeBuffer().UAV().Data(checkdata);
 
-    patchargs.vb.BufferLocation = vb->GetGPUVirtualAddress();
-    patchargs.vb.SizeInBytes = sizeof(tri);
-    patchargs.vb.StrideInBytes = sizeof(A2V);
-    patchargs.cbv = cbv->GetGPUVirtualAddress() + 256;
-    patchargs.srv = srv->GetGPUVirtualAddress() + 256;
-    patchargs.uav = uav->GetGPUVirtualAddress() + 256;
-    patchargs.draw.VertexCountPerInstance = 3;
-    patchargs.draw.InstanceCount = 1;
-    patchargs.draw.StartInstanceLocation = 0;
-    patchargs.draw.StartVertexLocation = 0;
-    patchargs.constData = 123.0f;
+        ID3D12RootSignaturePtr    patchsig = MakeSig(
+            {cbvParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
+             srvParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
+             uavParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 0),
+             constParam(D3D12_SHADER_VISIBILITY_VERTEX, 0, 1, 4),
+             tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 1, 2, 0)});
 
-    std::vector<char> patchArgsData;
-    patchArgsData.resize(sizeof(PatchArgs));
+        ID3D12CommandSignaturePtr    patchArgSig = MakeCommandSig(
+            patchsig, {vbArg(0), cbvArg(0), srvArg(1), uavArg(2), constArg(3, 0, 1), drawArg()});
 
-    char *ptr = patchArgsData.data();
-    memcpy(ptr, &patchargs.vb, sizeof(D3D12_VERTEX_BUFFER_VIEW));
-    ptr += sizeof(D3D12_VERTEX_BUFFER_VIEW);
-    memcpy(ptr, &patchargs.cbv, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
-    ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
-    memcpy(ptr, &patchargs.srv, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
-    ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
-    memcpy(ptr, &patchargs.uav, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
-    ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
-    memcpy(ptr, &patchargs.constData, sizeof(float));
-    ptr += sizeof(float);
-    memcpy(ptr, &patchargs.draw, sizeof(D3D12_DRAW_ARGUMENTS));
-    ptr += sizeof(D3D12_DRAW_ARGUMENTS);
+        struct PatchArgs
+        {
+            D3D12_VERTEX_BUFFER_VIEW    vb;
+            D3D12_GPU_VIRTUAL_ADDRESS   cbv;
+            D3D12_GPU_VIRTUAL_ADDRESS   srv;
+            D3D12_GPU_VIRTUAL_ADDRESS   uav;
+            float                       constData;
+            D3D12_DRAW_ARGUMENTS        draw;
+        }    patchargs;
 
-    size_t patchArgsDataSize = ptrdiff_t(ptr - patchArgsData.data());
+        patchargs.vb.BufferLocation             = vb->GetGPUVirtualAddress();
+        patchargs.vb.SizeInBytes                = sizeof(tri);
+        patchargs.vb.StrideInBytes              = sizeof(A2V);
+        patchargs.cbv                           = cbv->GetGPUVirtualAddress() + 256;
+        patchargs.srv                           = srv->GetGPUVirtualAddress() + 256;
+        patchargs.uav                           = uav->GetGPUVirtualAddress() + 256;
+        patchargs.draw.VertexCountPerInstance   = 3;
+        patchargs.draw.InstanceCount            = 1;
+        patchargs.draw.StartInstanceLocation    = 0;
+        patchargs.draw.StartVertexLocation      = 0;
+        patchargs.constData                     = 123.0f;
 
-    ID3D12ResourcePtr patchArgBuf =
-        MakeBuffer().Upload().Size((UINT)patchArgsData.size()).Data(patchArgsData.data());
+        std::vector<char>    patchArgsData;
+        patchArgsData.resize(sizeof(PatchArgs));
 
-    ID3D12PipelineStatePtr patchpso =
-        MakePSO().RootSig(patchsig).InputLayout(layout).VS(vsblob).PS(psblob);
+        char    *ptr = patchArgsData.data();
+        memcpy(ptr, &patchargs.vb, sizeof(D3D12_VERTEX_BUFFER_VIEW));
+        ptr += sizeof(D3D12_VERTEX_BUFFER_VIEW);
+        memcpy(ptr, &patchargs.cbv, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
+        ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
+        memcpy(ptr, &patchargs.srv, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
+        ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
+        memcpy(ptr, &patchargs.uav, sizeof(D3D12_GPU_VIRTUAL_ADDRESS));
+        ptr += sizeof(D3D12_GPU_VIRTUAL_ADDRESS);
+        memcpy(ptr, &patchargs.constData, sizeof(float));
+        ptr += sizeof(float);
+        memcpy(ptr, &patchargs.draw, sizeof(D3D12_DRAW_ARGUMENTS));
+        ptr += sizeof(D3D12_DRAW_ARGUMENTS);
 
-    ID3D12CommandSignaturePtr compArgSig = MakeCommandSig(NULL, {dispatchArg()});
+        size_t    patchArgsDataSize = ptrdiff_t(ptr - patchArgsData.data());
 
-    D3D12_DISPATCH_ARGUMENTS compargs;
+        ID3D12ResourcePtr    patchArgBuf =
+            MakeBuffer().Upload().Size((UINT)patchArgsData.size()).Data(patchArgsData.data());
 
-    compargs.ThreadGroupCountX = 12;
-    compargs.ThreadGroupCountY = 30;
-    compargs.ThreadGroupCountZ = 10;
+        ID3D12PipelineStatePtr    patchpso =
+            MakePSO().RootSig(patchsig).InputLayout(layout).VS(vsblob).PS(psblob);
 
-    ID3D12ResourcePtr compArgBuf = MakeBuffer().Upload().Size(sizeof(compargs)).Data(&compargs);
+        ID3D12CommandSignaturePtr    compArgSig = MakeCommandSig(NULL, {dispatchArg()});
 
-    ID3D12ResourcePtr compuav = MakeBuffer().UAV().Size(1024 * 1024 * 4);
+        D3D12_DISPATCH_ARGUMENTS    compargs;
 
-    MakeUAV(compuav)
+        compargs.ThreadGroupCountX  = 12;
+        compargs.ThreadGroupCountY  = 30;
+        compargs.ThreadGroupCountZ  = 10;
+
+        ID3D12ResourcePtr    compArgBuf = MakeBuffer().Upload().Size(sizeof(compargs)).Data(&compargs);
+
+        ID3D12ResourcePtr    compuav = MakeBuffer().UAV().Size(1024 * 1024 * 4);
+
+        MakeUAV(compuav)
         .Format(DXGI_FORMAT_R32G32B32A32_UINT)
         .FirstElement(4096)
         .NumElements(256000)
         .CreateGPU(1);
 
-    MakeUAV(compuav).Format(DXGI_FORMAT_R32_FLOAT).FirstElement(0).NumElements(1024).CreateGPU(2);
+        MakeUAV(compuav).Format(DXGI_FORMAT_R32_FLOAT).FirstElement(0).NumElements(1024).CreateGPU(2);
 
-    MakeUAV(compuav).Format(DXGI_FORMAT_R32_FLOAT).FirstElement(1024).NumElements(1024).CreateGPU(3);
+        MakeUAV(compuav).Format(DXGI_FORMAT_R32_FLOAT).FirstElement(1024).NumElements(1024).CreateGPU(3);
 
-    ID3D12RootSignaturePtr compsig = MakeSig({
-        tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 0, 1, 0),
-        tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 1, 1, 1),
-    });
+        ID3D12RootSignaturePtr    compsig = MakeSig({
+            tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 0, 1, 0),
+            tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 1, 1, 1),
+        });
 
-    ID3DBlobPtr csblob = Compile(comp, "main", "cs_5_0");
+        ID3DBlobPtr    csblob = Compile(comp, "main", "cs_5_0");
 
-    ID3D12PipelineStatePtr comppso = MakePSO().RootSig(compsig).CS(csblob);
+        ID3D12PipelineStatePtr    comppso = MakePSO().RootSig(compsig).CS(csblob);
 
-    ID3D12ResourcePtr customvbargs = MakeBuffer().Size(1024 * 1024 * 4);
-    const uint32_t countDrawsInFullBuffer = 3;
-    ID3D12ResourcePtr fullargsDrawBuf =
-        MakeBuffer().Size(countDrawsInFullBuffer * sizeof(D3D12_INDIRECT_ARGUMENT_DESC));
+        ID3D12ResourcePtr       customvbargs            = MakeBuffer().Size(1024 * 1024 * 4);
+        const uint32_t          countDrawsInFullBuffer  = 3;
+        ID3D12ResourcePtr       fullargsDrawBuf         =
+            MakeBuffer().Size(countDrawsInFullBuffer * sizeof(D3D12_INDIRECT_ARGUMENT_DESC));
 
-    std::vector<char> fullargsData;
-    fullargsData.resize(countDrawsInFullBuffer * sizeof(PatchArgs));
-    char *fullargsPtr = fullargsData.data();
-    for(uint32_t i = 0; i < countDrawsInFullBuffer; ++i)
-    {
-      memcpy(fullargsPtr, patchArgsData.data(), patchArgsDataSize);
-      fullargsPtr += patchArgsDataSize;
+        std::vector<char>    fullargsData;
+        fullargsData.resize(countDrawsInFullBuffer * sizeof(PatchArgs));
+        char    *fullargsPtr = fullargsData.data();
+
+        for (uint32_t i = 0; i < countDrawsInFullBuffer; ++i)
+        {
+            memcpy(fullargsPtr, patchArgsData.data(), patchArgsDataSize);
+            fullargsPtr += patchArgsDataSize;
+        }
+
+        ID3D12ResourcePtr    fullargsStateDrawBuf =
+            MakeBuffer().Upload().Size((UINT)fullargsData.size()).Data(fullargsData.data());
+
+        ID3D12RootSignaturePtr      plainsig    = MakeSig({});
+        ID3D12PipelineStatePtr      plainpso    =
+            MakePSO().RootSig(plainsig).InputLayout(layout).VS(vs2blob).PS(psblob);
+
+        ID3D12CommandSignaturePtr    plainArgSig = MakeCommandSig(NULL, {drawArg()});
+
+        ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+        ResourceBarrier(
+            customvbargs, D3D12_RESOURCE_STATE_COMMON,
+            D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER | D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
+
+        float    baseConstData[4] = {10.0f, 9.0f, 8.0f, 7.0f};
+
+        while (Running())
+        {
+            std::vector<ID3D12GraphicsCommandListPtr>    cmds;
+
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
+            Reset(cmd);
+            cmds.push_back(cmd);
+
+            cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+
+            uint32_t    zero[4] = {};
+            cmd->ClearUnorderedAccessViewUint(
+                MakeUAV(compuav).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(0),
+                MakeUAV(compuav).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(0), compuav, zero,
+                0, NULL);
+
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            D3D12_CPU_DESCRIPTOR_HANDLE    rtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+
+            pushMarker(cmd, "Multiple draws");
+
+            for (int i = 0; i < 8; i++)
+            {
+                ClearRenderTargetView(cmd, rtv, {0.0f, 0.0f, 0.0f, 1.0f});
+
+                cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+                cmd->SetPipelineState(patchpso);
+                cmd->SetGraphicsRootSignature(patchsig);
+                cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+                cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+                RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+                OMSetRenderTargets(cmd, {rtv}, {});
+
+                cmd->SetGraphicsRoot32BitConstants(3, 4, baseConstData, 0);
+
+                cmd->ExecuteIndirect(patchArgSig, 1, patchArgBuf, 0, NULL, 0);
+            }
+
+            popMarker(cmd);
+
+            setMarker(cmd, "Post draw");
+
+            cmd->Close();
+            cmd = GetCommandBuffer();
+            Reset(cmd);
+            cmds.push_back(cmd);
+
+            setMarker(cmd, "Separate Post draw");
+
+            pushMarker(cmd, "Single dispatch");
+            {
+                cmd->SetPipelineState(comppso);
+                cmd->SetComputeRootSignature(compsig);
+
+                cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+
+                cmd->SetComputeRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                cmd->SetComputeRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+                cmd->ExecuteIndirect(compArgSig, 1, compArgBuf, 0, NULL, 0);
+            }
+            popMarker(cmd);
+
+            setMarker(cmd, "Post Single dispatch");
+
+            cmd->Close();
+
+            cmd = GetCommandBuffer();
+            Reset(cmd);
+            cmds.push_back(cmd);
+
+            setMarker(cmd, "Separate Post Single dispatch");
+
+            D3D12_RESOURCE_BARRIER    barrier;
+            barrier.Type            = D3D12_RESOURCE_BARRIER_TYPE_UAV;
+            barrier.Flags           = D3D12_RESOURCE_BARRIER_FLAG_NONE;
+            barrier.UAV.pResource   = compuav;
+            cmd->ResourceBarrier(1, &barrier);
+
+            ResourceBarrier(cmd, compuav, D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
+                            D3D12_RESOURCE_STATE_COPY_SOURCE);
+
+            cmd->CopyBufferRegion(customvbargs, 0, compuav, 0, 4 * 1024 * 1024);
+
+            ResourceBarrier(
+                cmd, customvbargs, D3D12_RESOURCE_STATE_COPY_DEST,
+                D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER | D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
+
+            cmd->Close();
+
+            cmd = GetCommandBuffer();
+            Reset(cmd);
+            cmds.push_back(cmd);
+
+            pushMarker(cmd, "Custom order draw");
+            {
+                cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                D3D12_VERTEX_BUFFER_VIEW    view;
+                view.BufferLocation = customvbargs->GetGPUVirtualAddress() + 4096 * (sizeof(Vec4f)) + 256;
+                view.StrideInBytes  = sizeof(A2V);
+                view.SizeInBytes    = sizeof(A2V) * 1120;
+                cmd->IASetVertexBuffers(0, 1, &view);
+
+                cmd->SetPipelineState(plainpso);
+                cmd->SetGraphicsRootSignature(plainsig);
+
+                RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+                OMSetRenderTargets(cmd, {rtv}, {});
+
+                cmd->ExecuteIndirect(plainArgSig, 8, customvbargs, 4096 * (sizeof(Vec4f)) + sizeof(Vec4u),
+                                     NULL, 0);
+            }
+            popMarker(cmd);
+
+            pushMarker(cmd, "Full Arg Buffer: Pure Draw");
+            {
+                cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+                D3D12_VERTEX_BUFFER_VIEW    view;
+                view.BufferLocation = customvbargs->GetGPUVirtualAddress() + 4096 * (sizeof(Vec4f)) + 256;
+                view.StrideInBytes  = sizeof(A2V);
+                view.SizeInBytes    = sizeof(A2V) * 1120;
+                cmd->IASetVertexBuffers(0, 1, &view);
+
+                cmd->SetPipelineState(plainpso);
+                cmd->SetGraphicsRootSignature(plainsig);
+
+                RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+                OMSetRenderTargets(cmd, {rtv}, {});
+
+                cmd->ExecuteIndirect(plainArgSig, countDrawsInFullBuffer, fullargsDrawBuf, 0, NULL, 0);
+            }
+            popMarker(cmd);
+
+            pushMarker(cmd, "Full Arg Buffer: State + Draw");
+            {
+                cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+                cmd->SetPipelineState(patchpso);
+                cmd->SetGraphicsRootSignature(patchsig);
+                cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+                cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+                RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+
+                OMSetRenderTargets(cmd, {rtv}, {});
+                cmd->SetGraphicsRoot32BitConstants(3, 4, baseConstData, 0);
+                cmd->ExecuteIndirect(patchArgSig, countDrawsInFullBuffer, fullargsStateDrawBuf, 0, NULL, 0);
+            }
+            popMarker(cmd);
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            cmd->Close();
+
+            Submit(cmds);
+
+            Present();
+        }
+
+        return 0;
     }
-
-    ID3D12ResourcePtr fullargsStateDrawBuf =
-        MakeBuffer().Upload().Size((UINT)fullargsData.size()).Data(fullargsData.data());
-
-    ID3D12RootSignaturePtr plainsig = MakeSig({});
-    ID3D12PipelineStatePtr plainpso =
-        MakePSO().RootSig(plainsig).InputLayout(layout).VS(vs2blob).PS(psblob);
-
-    ID3D12CommandSignaturePtr plainArgSig = MakeCommandSig(NULL, {drawArg()});
-
-    ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-    ResourceBarrier(
-        customvbargs, D3D12_RESOURCE_STATE_COMMON,
-        D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER | D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
-
-    float baseConstData[4] = {10.0f, 9.0f, 8.0f, 7.0f};
-
-    while(Running())
-    {
-      std::vector<ID3D12GraphicsCommandListPtr> cmds;
-
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
-      Reset(cmd);
-      cmds.push_back(cmd);
-
-      cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-
-      uint32_t zero[4] = {};
-      cmd->ClearUnorderedAccessViewUint(
-          MakeUAV(compuav).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(0),
-          MakeUAV(compuav).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(0), compuav, zero,
-          0, NULL);
-
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      D3D12_CPU_DESCRIPTOR_HANDLE rtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
-
-      pushMarker(cmd, "Multiple draws");
-      for(int i = 0; i < 8; i++)
-      {
-        ClearRenderTargetView(cmd, rtv, {0.0f, 0.0f, 0.0f, 1.0f});
-
-        cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        cmd->SetPipelineState(patchpso);
-        cmd->SetGraphicsRootSignature(patchsig);
-        cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-        cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-
-        RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-        RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
-
-        OMSetRenderTargets(cmd, {rtv}, {});
-
-        cmd->SetGraphicsRoot32BitConstants(3, 4, baseConstData, 0);
-
-        cmd->ExecuteIndirect(patchArgSig, 1, patchArgBuf, 0, NULL, 0);
-      }
-      popMarker(cmd);
-
-      setMarker(cmd, "Post draw");
-
-      cmd->Close();
-      cmd = GetCommandBuffer();
-      Reset(cmd);
-      cmds.push_back(cmd);
-
-      setMarker(cmd, "Separate Post draw");
-
-      pushMarker(cmd, "Single dispatch");
-      {
-        cmd->SetPipelineState(comppso);
-        cmd->SetComputeRootSignature(compsig);
-
-        cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-
-        cmd->SetComputeRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-        cmd->SetComputeRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-
-        cmd->ExecuteIndirect(compArgSig, 1, compArgBuf, 0, NULL, 0);
-      }
-      popMarker(cmd);
-
-      setMarker(cmd, "Post Single dispatch");
-
-      cmd->Close();
-
-      cmd = GetCommandBuffer();
-      Reset(cmd);
-      cmds.push_back(cmd);
-
-      setMarker(cmd, "Separate Post Single dispatch");
-
-      D3D12_RESOURCE_BARRIER barrier;
-      barrier.Type = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-      barrier.Flags = D3D12_RESOURCE_BARRIER_FLAG_NONE;
-      barrier.UAV.pResource = compuav;
-      cmd->ResourceBarrier(1, &barrier);
-
-      ResourceBarrier(cmd, compuav, D3D12_RESOURCE_STATE_UNORDERED_ACCESS,
-                      D3D12_RESOURCE_STATE_COPY_SOURCE);
-
-      cmd->CopyBufferRegion(customvbargs, 0, compuav, 0, 4 * 1024 * 1024);
-
-      ResourceBarrier(
-          cmd, customvbargs, D3D12_RESOURCE_STATE_COPY_DEST,
-          D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER | D3D12_RESOURCE_STATE_INDIRECT_ARGUMENT);
-
-      cmd->Close();
-
-      cmd = GetCommandBuffer();
-      Reset(cmd);
-      cmds.push_back(cmd);
-
-      pushMarker(cmd, "Custom order draw");
-      {
-        cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        D3D12_VERTEX_BUFFER_VIEW view;
-        view.BufferLocation = customvbargs->GetGPUVirtualAddress() + 4096 * (sizeof(Vec4f)) + 256;
-        view.StrideInBytes = sizeof(A2V);
-        view.SizeInBytes = sizeof(A2V) * 1120;
-        cmd->IASetVertexBuffers(0, 1, &view);
-
-        cmd->SetPipelineState(plainpso);
-        cmd->SetGraphicsRootSignature(plainsig);
-
-        RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-        RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
-
-        OMSetRenderTargets(cmd, {rtv}, {});
-
-        cmd->ExecuteIndirect(plainArgSig, 8, customvbargs, 4096 * (sizeof(Vec4f)) + sizeof(Vec4u),
-                             NULL, 0);
-      }
-      popMarker(cmd);
-
-      pushMarker(cmd, "Full Arg Buffer: Pure Draw");
-      {
-        cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-        D3D12_VERTEX_BUFFER_VIEW view;
-        view.BufferLocation = customvbargs->GetGPUVirtualAddress() + 4096 * (sizeof(Vec4f)) + 256;
-        view.StrideInBytes = sizeof(A2V);
-        view.SizeInBytes = sizeof(A2V) * 1120;
-        cmd->IASetVertexBuffers(0, 1, &view);
-
-        cmd->SetPipelineState(plainpso);
-        cmd->SetGraphicsRootSignature(plainsig);
-
-        RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-        RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
-
-        OMSetRenderTargets(cmd, {rtv}, {});
-
-        cmd->ExecuteIndirect(plainArgSig, countDrawsInFullBuffer, fullargsDrawBuf, 0, NULL, 0);
-      }
-      popMarker(cmd);
-
-      pushMarker(cmd, "Full Arg Buffer: State + Draw");
-      {
-        cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-        cmd->SetPipelineState(patchpso);
-        cmd->SetGraphicsRootSignature(patchsig);
-        cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-        cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-
-        RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-        RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
-
-        OMSetRenderTargets(cmd, {rtv}, {});
-        cmd->SetGraphicsRoot32BitConstants(3, 4, baseConstData, 0);
-        cmd->ExecuteIndirect(patchArgSig, countDrawsInFullBuffer, fullargsStateDrawBuf, 0, NULL, 0);
-      }
-      popMarker(cmd);
-
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      cmd->Close();
-
-      Submit(cmds);
-
-      Present();
-    }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

@@ -79,10 +79,11 @@ class QKeyEvent;
 class QPlatformOffscreenSurface;
 class QOffscreenSurface;
 
-class Q_GUI_EXPORT QPlatformIntegration
+class Q_GUI_EXPORT    QPlatformIntegration
 {
 public:
-    enum Capability {
+    enum Capability
+    {
         ThreadedPixmaps = 1,
         OpenGL,
         ThreadedOpenGL,
@@ -106,40 +107,44 @@ public:
 
     virtual bool hasCapability(Capability cap) const;
 
-    virtual QPlatformPixmap *createPlatformPixmap(QPlatformPixmap::PixelType type) const;
-    virtual QPlatformWindow *createPlatformWindow(QWindow *window) const = 0;
-    virtual QPlatformWindow *createForeignWindow(QWindow *, WId) const { return 0; }
-    virtual QPlatformBackingStore *createPlatformBackingStore(QWindow *window) const = 0;
+    virtual QPlatformPixmap* createPlatformPixmap(QPlatformPixmap::PixelType type) const;
+    virtual QPlatformWindow* createPlatformWindow(QWindow *window) const = 0;
+    virtual QPlatformWindow* createForeignWindow(QWindow*, WId) const
+    {
+        return 0;
+    }
+    virtual QPlatformBackingStore* createPlatformBackingStore(QWindow *window) const = 0;
 #ifndef QT_NO_OPENGL
-    virtual QPlatformOpenGLContext *createPlatformOpenGLContext(QOpenGLContext *context) const;
+    virtual QPlatformOpenGLContext* createPlatformOpenGLContext(QOpenGLContext *context) const;
 #endif
-    virtual QPlatformSharedGraphicsCache *createPlatformSharedGraphicsCache(const char *cacheId) const;
-    virtual QPaintEngine *createImagePaintEngine(QPaintDevice *paintDevice) const;
+    virtual QPlatformSharedGraphicsCache* createPlatformSharedGraphicsCache(const char *cacheId) const;
+    virtual QPaintEngine* createImagePaintEngine(QPaintDevice *paintDevice) const;
 
 // Event dispatcher:
-    virtual QAbstractEventDispatcher *createEventDispatcher() const = 0;
+    virtual QAbstractEventDispatcher* createEventDispatcher() const = 0;
     virtual void initialize();
     virtual void destroy();
 
-//Deeper window system integrations
-    virtual QPlatformFontDatabase *fontDatabase() const;
+// Deeper window system integrations
+    virtual QPlatformFontDatabase* fontDatabase() const;
 #ifndef QT_NO_CLIPBOARD
-    virtual QPlatformClipboard *clipboard() const;
+    virtual QPlatformClipboard* clipboard() const;
 #endif
 #ifndef QT_NO_DRAGANDDROP
-    virtual QPlatformDrag *drag() const;
+    virtual QPlatformDrag* drag() const;
 #endif
-    virtual QPlatformInputContext *inputContext() const;
+    virtual QPlatformInputContext* inputContext() const;
 #ifndef QT_NO_ACCESSIBILITY
-    virtual QPlatformAccessibility *accessibility() const;
+    virtual QPlatformAccessibility* accessibility() const;
 #endif
 
     // Access native handles. The window handle is already available from Wid;
-    virtual QPlatformNativeInterface *nativeInterface() const;
+    virtual QPlatformNativeInterface* nativeInterface() const;
 
-    virtual QPlatformServices *services() const;
+    virtual QPlatformServices* services() const;
 
-    enum StyleHint {
+    enum StyleHint
+    {
         CursorFlashTime,
         KeyboardInputInterval,
         MouseDoubleClickInterval,
@@ -166,15 +171,15 @@ public:
     virtual Qt::WindowState defaultWindowState(Qt::WindowFlags) const;
 
     virtual Qt::KeyboardModifiers queryKeyboardModifiers() const;
-    virtual QList<int> possibleKeys(const QKeyEvent *) const;
+    virtual QList<int> possibleKeys(const QKeyEvent*) const;
 
     virtual QStringList themeNames() const;
-    virtual QPlatformTheme *createPlatformTheme(const QString &name) const;
+    virtual QPlatformTheme* createPlatformTheme(const QString &name) const;
 
-    virtual QPlatformOffscreenSurface *createPlatformOffscreenSurface(QOffscreenSurface *surface) const;
+    virtual QPlatformOffscreenSurface* createPlatformOffscreenSurface(QOffscreenSurface *surface) const;
 
 #ifndef QT_NO_SESSIONMANAGER
-    virtual QPlatformSessionManager *createPlatformSessionManager(const QString &id, const QString &key) const;
+    virtual QPlatformSessionManager* createPlatformSessionManager(const QString &id, const QString &key) const;
 #endif
 
     virtual void sync();

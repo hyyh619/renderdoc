@@ -59,7 +59,7 @@ QT_REQUIRE_CONFIG(itemviews);
 
 QT_BEGIN_NAMESPACE
 
-class Q_AUTOTEST_EXPORT QAbstractItemDelegatePrivate : public QObjectPrivate
+class Q_AUTOTEST_EXPORT    QAbstractItemDelegatePrivate : public QObjectPrivate
 {
     Q_DECLARE_PUBLIC(QAbstractItemDelegate)
 public:

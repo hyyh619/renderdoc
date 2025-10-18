@@ -64,23 +64,26 @@ class QSvgNode;
 class QPainter;
 class QSvgDefs;
 
-class Q_SVG_PRIVATE_EXPORT QSvgStructureNode : public QSvgNode
+class Q_SVG_PRIVATE_EXPORT    QSvgStructureNode : public QSvgNode
 {
 public:
     QSvgStructureNode(QSvgNode *parent);
     ~QSvgStructureNode();
-    QSvgNode *scopeNode(const QString &id) const;
+    QSvgNode* scopeNode(const QString &id) const;
     void addChild(QSvgNode *child, const QString &id);
     QRectF bounds(QPainter *p, QSvgExtraStates &states) const override;
-    QSvgNode *previousSiblingNode(QSvgNode *n) const;
-    QList<QSvgNode*> renderers() const { return m_renderers; }
+    QSvgNode* previousSiblingNode(QSvgNode *n) const;
+    QList<QSvgNode*> renderers() const
+    {
+        return m_renderers;
+    }
 protected:
-    QList<QSvgNode*>          m_renderers;
-    QHash<QString, QSvgNode*> m_scope;
-    QList<QSvgStructureNode*> m_linkedScopes;
+    QList<QSvgNode*>                m_renderers;
+    QHash<QString, QSvgNode*>       m_scope;
+    QList<QSvgStructureNode*>       m_linkedScopes;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgG : public QSvgStructureNode
+class Q_SVG_PRIVATE_EXPORT    QSvgG : public QSvgStructureNode
 {
 public:
     QSvgG(QSvgNode *parent);
@@ -88,7 +91,7 @@ public:
     Type type() const override;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgDefs : public QSvgStructureNode
+class Q_SVG_PRIVATE_EXPORT    QSvgDefs : public QSvgStructureNode
 {
 public:
     QSvgDefs(QSvgNode *parent);
@@ -96,7 +99,7 @@ public:
     Type type() const override;
 };
 
-class Q_SVG_PRIVATE_EXPORT QSvgSwitch : public QSvgStructureNode
+class Q_SVG_PRIVATE_EXPORT    QSvgSwitch : public QSvgStructureNode
 {
 public:
     QSvgSwitch(QSvgNode *parent);
@@ -105,8 +108,8 @@ public:
 private:
     void init();
 private:
-    QString m_systemLanguage;
-    QString m_systemLanguagePrefix;
+    QString     m_systemLanguage;
+    QString     m_systemLanguagePrefix;
 };
 
 QT_END_NAMESPACE

@@ -93,7 +93,7 @@ class QStyle;
 class QStyleOptionGraphicsItem;
 
 class QGraphicsScenePrivate;
-class Q_WIDGETS_EXPORT QGraphicsScene : public QObject
+class Q_WIDGETS_EXPORT    QGraphicsScene : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(QBrush backgroundBrush READ backgroundBrush WRITE setBackgroundBrush)
@@ -108,16 +108,18 @@ class Q_WIDGETS_EXPORT QGraphicsScene : public QObject
     Q_PROPERTY(qreal minimumRenderSize READ minimumRenderSize WRITE setMinimumRenderSize)
 
 public:
-    enum ItemIndexMethod {
+    enum ItemIndexMethod
+    {
         BspTreeIndex,
         NoIndex = -1
     };
 
-    enum SceneLayer {
-        ItemLayer = 0x1,
+    enum SceneLayer
+    {
+        ItemLayer       = 0x1,
         BackgroundLayer = 0x2,
         ForegroundLayer = 0x4,
-        AllLayers = 0xffff
+        AllLayers       = 0xffff
     };
     Q_DECLARE_FLAGS(SceneLayers, SceneLayer)
 
@@ -127,11 +129,19 @@ public:
     virtual ~QGraphicsScene();
 
     QRectF sceneRect() const;
-    inline qreal width() const { return sceneRect().width(); }
-    inline qreal height() const { return sceneRect().height(); }
+    inline qreal width() const
+    {
+        return sceneRect().width();
+    }
+    inline qreal height() const
+    {
+        return sceneRect().height();
+    }
     void setSceneRect(const QRectF &rect);
     inline void setSceneRect(qreal x, qreal y, qreal w, qreal h)
-    { setSceneRect(QRectF(x, y, w, h)); }
+    {
+        setSceneRect(QRectF(x, y, w, h));
+    }
 
     void render(QPainter *painter,
                 const QRectF &target = QRectF(), const QRectF &source = QRectF(),
@@ -148,66 +158,80 @@ public:
 
     QRectF itemsBoundingRect() const;
 
-    QList<QGraphicsItem *> items(Qt::SortOrder order = Qt::DescendingOrder) const;
+    QList<QGraphicsItem*> items(Qt::SortOrder order = Qt::DescendingOrder) const;
 
-    QList<QGraphicsItem *> items(const QPointF &pos, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
-    QList<QGraphicsItem *> items(const QRectF &rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
-    QList<QGraphicsItem *> items(const QPolygonF &polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
-    QList<QGraphicsItem *> items(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
+    QList<QGraphicsItem*> items(const QPointF &pos, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
+    QList<QGraphicsItem*> items(const QRectF &rect, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
+    QList<QGraphicsItem*> items(const QPolygonF &polygon, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
+    QList<QGraphicsItem*> items(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, Qt::SortOrder order = Qt::DescendingOrder, const QTransform &deviceTransform = QTransform()) const;
 
-    QList<QGraphicsItem *> collidingItems(const QGraphicsItem *item, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
+    QList<QGraphicsItem*> collidingItems(const QGraphicsItem *item, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const;
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline QGraphicsItem *itemAt(const QPointF &position) const {
-        QList<QGraphicsItem *> itemsAtPoint = items(position);
+    QT_DEPRECATED inline QGraphicsItem* itemAt(const QPointF &position) const
+    {
+        QList<QGraphicsItem*>    itemsAtPoint = items(position);
         return itemsAtPoint.isEmpty() ? Q_NULLPTR : itemsAtPoint.first();
     }
 #endif
-    QGraphicsItem *itemAt(const QPointF &pos, const QTransform &deviceTransform) const;
+    QGraphicsItem* itemAt(const QPointF &pos, const QTransform &deviceTransform) const;
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline QList<QGraphicsItem *> items(qreal x, qreal y, qreal w, qreal h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
-    { return items(QRectF(x, y, w, h), mode); }
+    QT_DEPRECATED inline QList<QGraphicsItem*> items(qreal x, qreal y, qreal w, qreal h, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape) const
+    {
+        return items(QRectF(x, y, w, h), mode);
+    }
 #endif
-    inline QList<QGraphicsItem *> items(qreal x, qreal y, qreal w, qreal h, Qt::ItemSelectionMode mode, Qt::SortOrder order,
-                                        const QTransform &deviceTransform = QTransform()) const
-    { return items(QRectF(x, y, w, h), mode, order, deviceTransform); }
+    inline QList<QGraphicsItem*> items(qreal x, qreal y, qreal w, qreal h, Qt::ItemSelectionMode mode, Qt::SortOrder order,
+                                       const QTransform &deviceTransform = QTransform()) const
+    {
+        return items(QRectF(x, y, w, h), mode, order, deviceTransform);
+    }
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline QGraphicsItem *itemAt(qreal x, qreal y) const {
-        QList<QGraphicsItem *> itemsAtPoint = items(QPointF(x, y));
+    QT_DEPRECATED inline QGraphicsItem* itemAt(qreal x, qreal y) const
+    {
+        QList<QGraphicsItem*>    itemsAtPoint = items(QPointF(x, y));
         return itemsAtPoint.isEmpty() ? Q_NULLPTR : itemsAtPoint.first();
     }
 #endif
-    inline QGraphicsItem *itemAt(qreal x, qreal y, const QTransform &deviceTransform) const
-    { return itemAt(QPointF(x, y), deviceTransform); }
+    inline QGraphicsItem* itemAt(qreal x, qreal y, const QTransform &deviceTransform) const
+    {
+        return itemAt(QPointF(x, y), deviceTransform);
+    }
 
-    QList<QGraphicsItem *> selectedItems() const;
+    QList<QGraphicsItem*> selectedItems() const;
     QPainterPath selectionArea() const;
     void setSelectionArea(const QPainterPath &path, const QTransform &deviceTransform);
     void setSelectionArea(const QPainterPath &path, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, const QTransform &deviceTransform = QTransform());
     void setSelectionArea(const QPainterPath &path, Qt::ItemSelectionOperation selectionOperation, Qt::ItemSelectionMode mode = Qt::IntersectsItemShape, const QTransform &deviceTransform = QTransform());
     // ### Qt6 merge the last 2 functions and add a default: Qt::ItemSelectionOperation selectionOperation = Qt::ReplaceSelection
 
-    QGraphicsItemGroup *createItemGroup(const QList<QGraphicsItem *> &items);
+    QGraphicsItemGroup* createItemGroup(const QList<QGraphicsItem*> &items);
     void destroyItemGroup(QGraphicsItemGroup *group);
 
     void addItem(QGraphicsItem *item);
-    QGraphicsEllipseItem *addEllipse(const QRectF &rect, const QPen &pen = QPen(), const QBrush &brush = QBrush());
-    QGraphicsLineItem *addLine(const QLineF &line, const QPen &pen = QPen());
-    QGraphicsPathItem *addPath(const QPainterPath &path, const QPen &pen = QPen(), const QBrush &brush = QBrush());
-    QGraphicsPixmapItem *addPixmap(const QPixmap &pixmap);
-    QGraphicsPolygonItem *addPolygon(const QPolygonF &polygon, const QPen &pen = QPen(), const QBrush &brush = QBrush());
-    QGraphicsRectItem *addRect(const QRectF &rect, const QPen &pen = QPen(), const QBrush &brush = QBrush());
-    QGraphicsTextItem *addText(const QString &text, const QFont &font = QFont());
-    QGraphicsSimpleTextItem *addSimpleText(const QString &text, const QFont &font = QFont());
-    QGraphicsProxyWidget *addWidget(QWidget *widget, Qt::WindowFlags wFlags = Qt::WindowFlags());
-    inline QGraphicsEllipseItem *addEllipse(qreal x, qreal y, qreal w, qreal h, const QPen &pen = QPen(), const QBrush &brush = QBrush())
-    { return addEllipse(QRectF(x, y, w, h), pen, brush); }
-    inline QGraphicsLineItem *addLine(qreal x1, qreal y1, qreal x2, qreal y2, const QPen &pen = QPen())
-    { return addLine(QLineF(x1, y1, x2, y2), pen); }
-    inline QGraphicsRectItem *addRect(qreal x, qreal y, qreal w, qreal h, const QPen &pen = QPen(), const QBrush &brush = QBrush())
-    { return addRect(QRectF(x, y, w, h), pen, brush); }
+    QGraphicsEllipseItem* addEllipse(const QRectF &rect, const QPen &pen = QPen(), const QBrush &brush = QBrush());
+    QGraphicsLineItem* addLine(const QLineF &line, const QPen &pen = QPen());
+    QGraphicsPathItem* addPath(const QPainterPath &path, const QPen &pen = QPen(), const QBrush &brush = QBrush());
+    QGraphicsPixmapItem* addPixmap(const QPixmap &pixmap);
+    QGraphicsPolygonItem* addPolygon(const QPolygonF &polygon, const QPen &pen = QPen(), const QBrush &brush = QBrush());
+    QGraphicsRectItem* addRect(const QRectF &rect, const QPen &pen = QPen(), const QBrush &brush = QBrush());
+    QGraphicsTextItem* addText(const QString &text, const QFont &font = QFont());
+    QGraphicsSimpleTextItem* addSimpleText(const QString &text, const QFont &font = QFont());
+    QGraphicsProxyWidget* addWidget(QWidget *widget, Qt::WindowFlags wFlags = Qt::WindowFlags());
+    inline QGraphicsEllipseItem* addEllipse(qreal x, qreal y, qreal w, qreal h, const QPen &pen = QPen(), const QBrush &brush = QBrush())
+    {
+        return addEllipse(QRectF(x, y, w, h), pen, brush);
+    }
+    inline QGraphicsLineItem* addLine(qreal x1, qreal y1, qreal x2, qreal y2, const QPen &pen = QPen())
+    {
+        return addLine(QLineF(x1, y1, x2, y2), pen);
+    }
+    inline QGraphicsRectItem* addRect(qreal x, qreal y, qreal w, qreal h, const QPen &pen = QPen(), const QBrush &brush = QBrush())
+    {
+        return addRect(QRectF(x, y, w, h), pen, brush);
+    }
     void removeItem(QGraphicsItem *item);
 
-    QGraphicsItem *focusItem() const;
+    QGraphicsItem* focusItem() const;
     void setFocusItem(QGraphicsItem *item, Qt::FocusReason focusReason = Qt::OtherFocusReason);
     bool hasFocus() const;
     void setFocus(Qt::FocusReason focusReason = Qt::OtherFocusReason);
@@ -216,7 +240,7 @@ public:
     void setStickyFocus(bool enabled);
     bool stickyFocus() const;
 
-    QGraphicsItem *mouseGrabberItem() const;
+    QGraphicsItem* mouseGrabberItem() const;
 
     QBrush backgroundBrush() const;
     void setBackgroundBrush(const QBrush &brush);
@@ -226,14 +250,18 @@ public:
 
     virtual QVariant inputMethodQuery(Qt::InputMethodQuery query) const;
 
-    QList <QGraphicsView *> views() const;
+    QList<QGraphicsView*> views() const;
 
     inline void update(qreal x, qreal y, qreal w, qreal h)
-    { update(QRectF(x, y, w, h)); }
+    {
+        update(QRectF(x, y, w, h));
+    }
     inline void invalidate(qreal x, qreal y, qreal w, qreal h, SceneLayers layers = AllLayers)
-    { invalidate(QRectF(x, y, w, h), layers); }
+    {
+        invalidate(QRectF(x, y, w, h), layers);
+    }
 
-    QStyle *style() const;
+    QStyle* style() const;
     void setStyle(QStyle *style);
 
     QFont font() const;
@@ -243,9 +271,9 @@ public:
     void setPalette(const QPalette &palette);
 
     bool isActive() const;
-    QGraphicsItem *activePanel() const;
+    QGraphicsItem* activePanel() const;
     void setActivePanel(QGraphicsItem *item);
-    QGraphicsWidget *activeWindow() const;
+    QGraphicsWidget* activeWindow() const;
     void setActiveWindow(QGraphicsWidget *widget);
 
     bool sendEvent(QGraphicsItem *item, QEvent *event);

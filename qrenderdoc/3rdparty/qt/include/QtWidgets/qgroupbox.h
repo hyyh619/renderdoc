@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QGroupBoxPrivate;
 class QStyleOptionGroupBox;
-class Q_WIDGETS_EXPORT QGroupBox : public QWidget
+class Q_WIDGETS_EXPORT    QGroupBox : public QWidget
 {
     Q_OBJECT
 

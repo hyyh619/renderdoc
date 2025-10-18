@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QFontComboBoxPrivate;
 
-class Q_WIDGETS_EXPORT QFontComboBox : public QComboBox
+class Q_WIDGETS_EXPORT    QFontComboBox : public QComboBox
 {
     Q_OBJECT
     Q_PROPERTY(QFontDatabase::WritingSystem writingSystem READ writingSystem WRITE setWritingSystem)
@@ -64,12 +64,13 @@ public:
     void setWritingSystem(QFontDatabase::WritingSystem);
     QFontDatabase::WritingSystem writingSystem() const;
 
-    enum FontFilter {
-        AllFonts = 0,
-        ScalableFonts = 0x1,
-        NonScalableFonts = 0x2,
-        MonospacedFonts = 0x4,
-        ProportionalFonts = 0x8
+    enum FontFilter
+    {
+        AllFonts            = 0,
+        ScalableFonts       = 0x1,
+        NonScalableFonts    = 0x2,
+        MonospacedFonts     = 0x4,
+        ProportionalFonts   = 0x8
     };
     Q_DECLARE_FLAGS(FontFilters, FontFilter)
     Q_FLAG(FontFilters)

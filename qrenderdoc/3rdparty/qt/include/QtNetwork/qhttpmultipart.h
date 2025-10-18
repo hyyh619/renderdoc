@@ -52,22 +52,30 @@ QT_BEGIN_NAMESPACE
 class QHttpPartPrivate;
 class QHttpMultiPart;
 
-class Q_NETWORK_EXPORT QHttpPart
+class Q_NETWORK_EXPORT    QHttpPart
 {
 public:
     QHttpPart();
     QHttpPart(const QHttpPart &other);
     ~QHttpPart();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QHttpPart &operator=(QHttpPart &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QHttpPart&operator=(QHttpPart &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QHttpPart &operator=(const QHttpPart &other);
+    QHttpPart&operator=(const QHttpPart &other);
 
-    void swap(QHttpPart &other) Q_DECL_NOTHROW { qSwap(d, other.d); }
+    void swap(QHttpPart &other) Q_DECL_NOTHROW
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QHttpPart &other) const;
     inline bool operator!=(const QHttpPart &other) const
-    { return !operator==(other); }
+    {
+        return !operator==(other);
+    }
 
     void setHeader(QNetworkRequest::KnownHeaders header, const QVariant &value);
     void setRawHeader(const QByteArray &headerName, const QByteArray &headerValue);
@@ -76,7 +84,7 @@ public:
     void setBodyDevice(QIODevice *device);
 
 private:
-    QSharedDataPointer<QHttpPartPrivate> d;
+    QSharedDataPointer<QHttpPartPrivate>    d;
 
     friend class QHttpMultiPartIODevice;
 };
@@ -85,13 +93,14 @@ Q_DECLARE_SHARED(QHttpPart)
 
 class QHttpMultiPartPrivate;
 
-class Q_NETWORK_EXPORT QHttpMultiPart : public QObject
+class Q_NETWORK_EXPORT    QHttpMultiPart : public QObject
 {
     Q_OBJECT
 
 public:
 
-    enum ContentType {
+    enum ContentType
+    {
         MixedType,
         RelatedType,
         FormDataType,

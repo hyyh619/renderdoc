@@ -94,28 +94,28 @@ public:
 #endif
     }
 
-    bool null;
-    QByteArray versionString;
-    QByteArray serialNumberString;
+    bool            null;
+    QByteArray      versionString;
+    QByteArray      serialNumberString;
 
-    QMap<QByteArray, QString> issuerInfo;
-    QMap<QByteArray, QString> subjectInfo;
-    QDateTime notValidAfter;
-    QDateTime notValidBefore;
+    QMap<QByteArray, QString>       issuerInfo;
+    QMap<QByteArray, QString>       subjectInfo;
+    QDateTime                       notValidAfter;
+    QDateTime                       notValidBefore;
 
 #ifdef QT_NO_OPENSSL
-    bool subjectMatchesIssuer;
-    QSsl::KeyAlgorithm publicKeyAlgorithm;
-    QByteArray publicKeyDerData;
-    QMultiMap<QSsl::AlternativeNameEntryType, QString> subjectAlternativeNames;
-    QList<QSslCertificateExtension> extensions;
+    bool                                                    subjectMatchesIssuer;
+    QSsl::KeyAlgorithm                                      publicKeyAlgorithm;
+    QByteArray                                              publicKeyDerData;
+    QMultiMap<QSsl::AlternativeNameEntryType, QString>      subjectAlternativeNames;
+    QList<QSslCertificateExtension>                         extensions;
 
-    QByteArray derData;
+    QByteArray    derData;
 
     bool parse(const QByteArray &data);
     bool parseExtension(const QByteArray &data, QSslCertificateExtension *extension);
 #endif
-    X509 *x509;
+    X509    *x509;
 
     void init(const QByteArray &data, QSsl::EncodingFormat format);
 
@@ -132,10 +132,10 @@ public:
 
     friend class QSslSocketBackendPrivate;
 
-    QAtomicInt ref;
+    QAtomicInt    ref;
 
 #ifdef Q_OS_WINRT
-    Microsoft::WRL::ComPtr<ABI::Windows::Security::Cryptography::Certificates::ICertificate> certificate;
+    Microsoft::WRL::ComPtr<ABI::Windows::Security::Cryptography::Certificates::ICertificate>    certificate;
 
     static QSslCertificate QSslCertificate_from_Certificate(ABI::Windows::Security::Cryptography::Certificates::ICertificate *iCertificate);
 #endif

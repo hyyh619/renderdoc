@@ -62,25 +62,25 @@ class QHttpNetworkReply;
 class QAbstractSocket;
 class QHttpNetworkConnection;
 
-class QAbstractProtocolHandler {
+class QAbstractProtocolHandler
+{
 public:
     QAbstractProtocolHandler(QHttpNetworkConnectionChannel *channel);
     virtual ~QAbstractProtocolHandler();
 
-    virtual void _q_receiveReply() = 0;
-    virtual void _q_readyRead() = 0;
-    virtual bool sendRequest() = 0;
+    virtual void _q_receiveReply()  = 0;
+    virtual void _q_readyRead()     = 0;
+    virtual bool sendRequest()      = 0;
     void setReply(QHttpNetworkReply *reply);
 
 protected:
-    QHttpNetworkConnectionChannel *m_channel;
-    QHttpNetworkReply *m_reply;
-    QAbstractSocket *m_socket;
-    QHttpNetworkConnection *m_connection;
+    QHttpNetworkConnectionChannel       *m_channel;
+    QHttpNetworkReply                   *m_reply;
+    QAbstractSocket                     *m_socket;
+    QHttpNetworkConnection              *m_connection;
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_HTTP
 
 #endif // QABSTRACTPROTOCOLHANDLER_H

@@ -64,7 +64,7 @@ class QToolBar;
 class QToolBarSeparator : public QWidget
 {
     Q_OBJECT
-    Qt::Orientation orient;
+    Qt::Orientation    orient;
 
 public:
     explicit QToolBarSeparator(QToolBar *parent);
@@ -73,13 +73,12 @@ public:
 
     QSize sizeHint() const Q_DECL_OVERRIDE;
 
-    void paintEvent(QPaintEvent *) Q_DECL_OVERRIDE;
+    void paintEvent(QPaintEvent*) Q_DECL_OVERRIDE;
     void initStyleOption(QStyleOption *option) const;
 
 public Q_SLOTS:
     void setOrientation(Qt::Orientation orientation);
 };
-
 #endif // QT_NO_TOOLBAR
 
 QT_END_NAMESPACE

@@ -60,16 +60,15 @@ QT_BEGIN_NAMESPACE
 
 /* Internal helper class - exposes the data through data_ptr (legacy from QShared).
    Required for some internal Qt classes, do not use otherwise. */
-template <typename T, typename Cleanup = QScopedPointerDeleter<T> >
+template<typename T, typename Cleanup = QScopedPointerDeleter<T> >
 class QCustomScopedPointer : public QScopedPointer<T, Cleanup>
 {
 public:
     explicit inline QCustomScopedPointer(T *p = 0)
         : QScopedPointer<T, Cleanup>(p)
-    {
-    }
+    {}
 
-    inline T *&data_ptr()
+    inline T*&data_ptr()
     {
         return this->d;
     }
@@ -89,7 +88,7 @@ private:
 };
 
 /* Internal helper class - a handler for QShared* classes, to be used in QCustomScopedPointer */
-template <typename T>
+template<typename T>
 class QScopedPointerSharedDeleter
 {
 public:
@@ -103,14 +102,13 @@ public:
 /* Internal.
    This class is basically a scoped pointer pointing to a ref-counted object
  */
-template <typename T>
+template<typename T>
 class QScopedSharedPointer : public QCustomScopedPointer<T, QScopedPointerSharedDeleter<T> >
 {
 public:
     explicit inline QScopedSharedPointer(T *p = 0)
         : QCustomScopedPointer<T, QScopedPointerSharedDeleter<T> >(p)
-    {
-    }
+    {}
 
     inline void detach()
     {
@@ -121,9 +119,11 @@ public:
     {
         if (this->d == other)
             return;
+
         if (other)
             other->ref.ref();
-        T *oldD = this->d;
+
+        T    *oldD = this->d;
         this->d = other;
         QScopedPointerSharedDeleter<T>::cleanup(oldD);
     }
@@ -144,5 +144,4 @@ private:
 
 
 QT_END_NAMESPACE
-
 #endif

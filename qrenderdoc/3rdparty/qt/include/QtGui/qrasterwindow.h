@@ -47,7 +47,7 @@ QT_BEGIN_NAMESPACE
 
 class QRasterWindowPrivate;
 
-class Q_GUI_EXPORT QRasterWindow : public QPaintDeviceWindow
+class Q_GUI_EXPORT    QRasterWindow : public QPaintDeviceWindow
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QRasterWindow)
@@ -58,7 +58,7 @@ public:
 
 protected:
     int metric(PaintDeviceMetric metric) const Q_DECL_OVERRIDE;
-    QPaintDevice *redirected(QPoint *) const Q_DECL_OVERRIDE;
+    QPaintDevice* redirected(QPoint*) const Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QRasterWindow)

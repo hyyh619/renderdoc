@@ -80,45 +80,47 @@ public:
     ~QRasterPaintEngineState();
 
 
-    QPen lastPen;
-    QSpanData penData;
-    QStrokerOps *stroker;
-    uint strokeFlags;
+    QPen            lastPen;
+    QSpanData       penData;
+    QStrokerOps     *stroker;
+    uint            strokeFlags;
 
-    QBrush lastBrush;
-    QSpanData brushData;
-    uint fillFlags;
+    QBrush          lastBrush;
+    QSpanData       brushData;
+    uint            fillFlags;
 
-    uint pixmapFlags;
-    int intOpacity;
+    uint    pixmapFlags;
+    int     intOpacity;
 
-    qreal txscale;
+    qreal    txscale;
 
-    QClipData *clip;
+    QClipData    *clip;
 //     QRect clipRect;
 //     QRegion clipRegion;
 
 //     QPainter::RenderHints hints;
 //     QPainter::CompositionMode compositionMode;
 
-    uint dirty;
+    uint    dirty;
 
-    struct Flags {
-        uint has_clip_ownership : 1;        // should delete the clip member..
-        uint fast_pen : 1;                  // cosmetic 1-width pens, using midpoint drawlines
-        uint non_complex_pen : 1;           // can use rasterizer, rather than stroker
-        uint antialiased : 1;
-        uint bilinear : 1;
-        uint legacy_rounding : 1;
-        uint fast_text : 1;
-        uint int_xform : 1;
-        uint tx_noshear : 1;
-        uint fast_images : 1;
+    struct Flags
+    {
+        uint    has_clip_ownership : 1;     // should delete the clip member..
+        uint    fast_pen : 1;               // cosmetic 1-width pens, using midpoint drawlines
+        uint    non_complex_pen : 1;        // can use rasterizer, rather than stroker
+        uint    antialiased : 1;
+        uint    bilinear : 1;
+        uint    legacy_rounding : 1;
+        uint    fast_text : 1;
+        uint    int_xform : 1;
+        uint    tx_noshear : 1;
+        uint    fast_images : 1;
     };
 
-    union {
-        Flags flags;
-        uint flag_bits;
+    union
+    {
+        Flags   flags;
+        uint    flag_bits;
     };
 };
 
@@ -128,7 +130,7 @@ public:
 /*******************************************************************************
  * QRasterPaintEngine
  */
-class Q_GUI_EXPORT QRasterPaintEngine : public QPaintEngineEx
+class Q_GUI_EXPORT    QRasterPaintEngine : public QPaintEngineEx
 {
     Q_DECLARE_PRIVATE(QRasterPaintEngine)
 public:
@@ -148,12 +150,14 @@ public:
     void clipEnabledChanged() Q_DECL_OVERRIDE;
 
     void setState(QPainterState *s) Q_DECL_OVERRIDE;
-    QPainterState *createState(QPainterState *orig) const Q_DECL_OVERRIDE;
-    inline QRasterPaintEngineState *state() {
-        return static_cast<QRasterPaintEngineState *>(QPaintEngineEx::state());
+    QPainterState* createState(QPainterState *orig) const Q_DECL_OVERRIDE;
+    inline QRasterPaintEngineState* state()
+    {
+        return static_cast<QRasterPaintEngineState*>(QPaintEngineEx::state());
     }
-    inline const QRasterPaintEngineState *state() const {
-        return static_cast<const QRasterPaintEngineState *>(QPaintEngineEx::state());
+    inline const QRasterPaintEngineState* state() const
+    {
+        return static_cast<const QRasterPaintEngineState*>(QPaintEngineEx::state());
     }
 
     void updateBrush(const QBrush &brush);
@@ -195,13 +199,14 @@ public:
     void clip(const QVectorPath &path, Qt::ClipOperation op) Q_DECL_OVERRIDE;
     void clip(const QRect &rect, Qt::ClipOperation op) Q_DECL_OVERRIDE;
     void clip(const QRegion &region, Qt::ClipOperation op) Q_DECL_OVERRIDE;
-    inline const QClipData *clipData() const;
+    inline const QClipData* clipData() const;
 
     void drawStaticTextItem(QStaticTextItem *textItem) Q_DECL_OVERRIDE;
     virtual bool drawCachedGlyphs(int numGlyphs, const glyph_t *glyphs, const QFixedPoint *positions,
                                   QFontEngine *fontEngine);
 
-    enum ClipType {
+    enum ClipType
+    {
         RectClip,
         ComplexClip
     };
@@ -224,10 +229,13 @@ public:
     static bool clearTypeFontsEnabled();
 #endif
 
-    QRasterBuffer *rasterBuffer();
-    void alphaPenBlt(const void* src, int bpl, int depth, int rx,int ry,int w,int h, bool useGammaCorrection);
+    QRasterBuffer* rasterBuffer();
+    void alphaPenBlt(const void *src, int bpl, int depth, int rx, int ry, int w, int h, bool useGammaCorrection);
 
-    Type type() const Q_DECL_OVERRIDE { return Raster; }
+    Type type() const Q_DECL_OVERRIDE
+    {
+        return Raster;
+    }
 
     QPoint coordinateOffset() const Q_DECL_OVERRIDE;
 
@@ -235,7 +243,7 @@ public:
     bool shouldDrawCachedGlyphs(QFontEngine *fontEngine, const QTransform &m) const Q_DECL_OVERRIDE;
 
 protected:
-    QRasterPaintEngine(QRasterPaintEnginePrivate &d, QPaintDevice *);
+    QRasterPaintEngine(QRasterPaintEnginePrivate &d, QPaintDevice*);
 private:
     friend struct QSpanData;
     friend class QBlitterPaintEngine;
@@ -249,23 +257,32 @@ private:
 
     QRect toNormalizedFillRect(const QRectF &rect);
 
-    inline void ensureBrush(const QBrush &brush) {
+    inline void ensureBrush(const QBrush &brush)
+    {
         if (!qbrush_fast_equals(state()->lastBrush, brush) || state()->fillFlags)
             updateBrush(brush);
     }
-    inline void ensureBrush() { ensureBrush(state()->brush); }
+    inline void ensureBrush()
+    {
+        ensureBrush(state()->brush);
+    }
 
-    inline void ensurePen(const QPen &pen) {
+    inline void ensurePen(const QPen &pen)
+    {
         if (!qpen_fast_equals(state()->lastPen, pen) || (pen.style() != Qt::NoPen && state()->strokeFlags))
             updatePen(pen);
     }
-    inline void ensurePen() { ensurePen(state()->pen); }
+    inline void ensurePen()
+    {
+        ensurePen(state()->pen);
+    }
 
     void updateOutlineMapper();
     inline void ensureOutlineMapper();
 
     void updateRasterState();
-    inline void ensureRasterState() {
+    inline void ensureRasterState()
+    {
         if (state()->dirty)
             updateRasterState();
     }
@@ -292,10 +309,11 @@ public:
     void drawImage(const QPointF &pt, const QImage &img, SrcOverBlendFunc func,
                    const QRect &clip, int alpha, const QRect &sr = QRect());
 
-    QTransform brushMatrix() const {
+    QTransform brushMatrix() const
+    {
         Q_Q(const QRasterPaintEngine);
-        const QRasterPaintEngineState *s = q->state();
-        QTransform m(s->matrix);
+        const QRasterPaintEngineState       *s = q->state();
+        QTransform                          m(s->matrix);
         m.translate(s->brushOrigin.x(), s->brushOrigin.y());
         return m;
     }
@@ -307,84 +325,90 @@ public:
     ProcessSpans getBrushFunc(const QRect &rect, const QSpanData *data) const;
     ProcessSpans getBrushFunc(const QRectF &rect, const QSpanData *data) const;
 
-    inline const QClipData *clip() const;
+    inline const QClipData* clip() const;
 
     void initializeRasterizer(QSpanData *data);
 
     void recalculateFastImages();
     bool canUseFastImageBlending(QPainter::CompositionMode mode, const QImage &image) const;
 
-    QPaintDevice *device;
-    QScopedPointer<QOutlineMapper> outlineMapper;
-    QScopedPointer<QRasterBuffer>  rasterBuffer;
+    QPaintDevice                        *device;
+    QScopedPointer<QOutlineMapper>      outlineMapper;
+    QScopedPointer<QRasterBuffer>       rasterBuffer;
 
 #if defined (Q_OS_WIN)
-    HDC hdc;
+    HDC    hdc;
 #endif
 
-    QRect deviceRect;
-    QRect deviceRectUnclipped;
+    QRect       deviceRect;
+    QRect       deviceRectUnclipped;
 
-    QStroker basicStroker;
-    QScopedPointer<QDashStroker> dashStroker;
+    QStroker                        basicStroker;
+    QScopedPointer<QDashStroker>    dashStroker;
 
-    QScopedPointer<QT_FT_Raster> grayRaster;
+    QScopedPointer<QT_FT_Raster>    grayRaster;
 
-    QDataBuffer<QLineF> cachedLines;
-    QSpanData image_filler;
-    QSpanData image_filler_xform;
-    QSpanData solid_color_filler;
+    QDataBuffer<QLineF>     cachedLines;
+    QSpanData               image_filler;
+    QSpanData               image_filler_xform;
+    QSpanData               solid_color_filler;
 
 
-    QFontEngine::GlyphFormat glyphCacheFormat;
+    QFontEngine::GlyphFormat    glyphCacheFormat;
 
-    QScopedPointer<QClipData> baseClip;
+    QScopedPointer<QClipData>    baseClip;
 
-    int deviceDepth;
+    int    deviceDepth;
 
-    uint mono_surface : 1;
-    uint outlinemapper_xform_dirty : 1;
+    uint    mono_surface : 1;
+    uint    outlinemapper_xform_dirty : 1;
 
-    QScopedPointer<QRasterizer> rasterizer;
+    QScopedPointer<QRasterizer>    rasterizer;
 };
 
 
-class QClipData {
+class QClipData
+{
 public:
     QClipData(int height);
     ~QClipData();
 
-    int clipSpanHeight;
-    struct ClipLine {
-        int count;
-        QSpan *spans;
-    } *m_clipLines;
+    int    clipSpanHeight;
+    struct ClipLine
+    {
+        int     count;
+        QSpan   *spans;
+    }    *m_clipLines;
 
     void initialize();
 
-    inline ClipLine *clipLines() {
+    inline ClipLine* clipLines()
+    {
         if (!m_clipLines)
             initialize();
+
         return m_clipLines;
     }
 
-    inline QSpan *spans() {
+    inline QSpan* spans()
+    {
         if (!m_spans)
             initialize();
+
         return m_spans;
     }
 
-    int allocated;
-    int count;
-    QSpan *m_spans;
-    int xmin, xmax, ymin, ymax;
+    int         allocated;
+    int         count;
+    QSpan       *m_spans;
+    int         xmin, xmax, ymin, ymax;
 
-    QRect clipRect;
-    QRegion clipRegion;
+    QRect       clipRect;
+    QRegion     clipRegion;
 
-    uint enabled : 1;
-    uint hasRectClip : 1;
-    uint hasRegionClip : 1;
+    uint    enabled : 1;
+    uint    hasRectClip : 1;
+    uint    hasRegionClip : 1;
 
     void appendSpan(int x, int length, int y, int coverage);
     void appendSpans(const QSpan *s, int num);
@@ -401,13 +425,15 @@ inline void QClipData::appendSpan(int x, int length, int y, int coverage)
 {
     Q_ASSERT(m_spans); // initialize() has to be called prior to adding spans..
 
-    if (count == allocated) {
-        allocated *= 2;
-        m_spans = (QSpan *)realloc(m_spans, allocated*sizeof(QSpan));
+    if (count == allocated)
+    {
+        allocated   *= 2;
+        m_spans     = (QSpan*)realloc(m_spans, allocated * sizeof(QSpan));
     }
-    m_spans[count].x = x;
-    m_spans[count].len = length;
-    m_spans[count].y = y;
+
+    m_spans[count].x        = x;
+    m_spans[count].len      = length;
+    m_spans[count].y        = y;
     m_spans[count].coverage = coverage;
     ++count;
 }
@@ -416,13 +442,18 @@ inline void QClipData::appendSpans(const QSpan *s, int num)
 {
     Q_ASSERT(m_spans);
 
-    if (count + num > allocated) {
-        do {
+    if (count + num > allocated)
+    {
+        do
+        {
             allocated *= 2;
-        } while (count + num > allocated);
-        m_spans = (QSpan *)realloc(m_spans, allocated*sizeof(QSpan));
+        }
+        while (count + num > allocated);
+
+        m_spans = (QSpan*)realloc(m_spans, allocated * sizeof(QSpan));
     }
-    memcpy(m_spans+count, s, num*sizeof(QSpan));
+
+    memcpy(m_spans + count, s, num * sizeof(QSpan));
     count += num;
 }
 
@@ -432,7 +463,10 @@ inline void QClipData::appendSpans(const QSpan *s, int num)
 class QRasterBuffer
 {
 public:
-    QRasterBuffer() : m_width(0), m_height(0), m_buffer(0) { init(); }
+    QRasterBuffer() : m_width(0), m_height(0), m_buffer(0)
+    {
+        init();
+    }
 
     ~QRasterBuffer();
 
@@ -443,9 +477,12 @@ public:
     void prepare(int w, int h);
     void prepareBuffer(int w, int h);
 
-    void resetBuffer(int val=0);
+    void resetBuffer(int val= 0);
 
-    uchar *scanLine(int y) { Q_ASSERT(y>=0); Q_ASSERT(y<m_height); return m_buffer + y * bytes_per_line; }
+    uchar* scanLine(int y)
+    {
+        Q_ASSERT(y>=0); Q_ASSERT(y<m_height); return m_buffer + y * bytes_per_line;
+    }
 
 #ifndef QT_NO_DEBUG
     QImage bufferImage() const;
@@ -453,46 +490,66 @@ public:
 
     void flushToARGBImage(QImage *image) const;
 
-    int width() const { return m_width; }
-    int height() const { return m_height; }
-    int bytesPerLine() const { return bytes_per_line; }
-    int bytesPerPixel() const { return bytes_per_pixel; }
+    int width() const
+    {
+        return m_width;
+    }
+    int height() const
+    {
+        return m_height;
+    }
+    int bytesPerLine() const
+    {
+        return bytes_per_line;
+    }
+    int bytesPerPixel() const
+    {
+        return bytes_per_pixel;
+    }
 
-    uchar *buffer() const { return m_buffer; }
+    uchar* buffer() const
+    {
+        return m_buffer;
+    }
 
-    bool monoDestinationWithClut;
-    QRgb destColor0;
-    QRgb destColor1;
+    bool    monoDestinationWithClut;
+    QRgb    destColor0;
+    QRgb    destColor1;
 
-    QPainter::CompositionMode compositionMode;
-    QImage::Format format;
-    DrawHelper *drawHelper;
+    QPainter::CompositionMode       compositionMode;
+    QImage::Format                  format;
+    DrawHelper                      *drawHelper;
     QImage colorizeBitmap(const QImage &image, const QColor &color);
 
 private:
-    int m_width;
-    int m_height;
-    int bytes_per_line;
-    int bytes_per_pixel;
-    uchar *m_buffer;
+    int         m_width;
+    int         m_height;
+    int         bytes_per_line;
+    int         bytes_per_pixel;
+    uchar       *m_buffer;
 };
 
-inline void QRasterPaintEngine::ensureOutlineMapper() {
+inline void QRasterPaintEngine::ensureOutlineMapper()
+{
     if (d_func()->outlinemapper_xform_dirty)
         updateOutlineMapper();
 }
 
-inline const QClipData *QRasterPaintEnginePrivate::clip() const {
+inline const QClipData* QRasterPaintEnginePrivate::clip() const
+{
     Q_Q(const QRasterPaintEngine);
     if (q->state() && q->state()->clip && q->state()->clip->enabled)
         return q->state()->clip;
+
     return baseClip.data();
 }
 
-inline const QClipData *QRasterPaintEngine::clipData() const {
+inline const QClipData* QRasterPaintEngine::clipData() const
+{
     Q_D(const QRasterPaintEngine);
     if (state() && state()->clip && state()->clip->enabled)
         return state()->clip;
+
     return d->baseClip.data();
 }
 

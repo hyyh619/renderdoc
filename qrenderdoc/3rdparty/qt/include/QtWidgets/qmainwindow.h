@@ -57,7 +57,7 @@ class QStatusBar;
 class QToolBar;
 class QMenu;
 
-class Q_WIDGETS_EXPORT QMainWindow : public QWidget
+class Q_WIDGETS_EXPORT    QMainWindow : public QWidget
 {
     Q_OBJECT
 
@@ -79,13 +79,14 @@ class Q_WIDGETS_EXPORT QMainWindow : public QWidget
 #endif
 
 public:
-    enum DockOption {
-        AnimatedDocks = 0x01,
-        AllowNestedDocks = 0x02,
-        AllowTabbedDocks = 0x04,
-        ForceTabbedDocks = 0x08,  // implies AllowTabbedDocks, !AllowNestedDocks
-        VerticalTabs = 0x10,      // implies AllowTabbedDocks
-        GroupedDragging = 0x20    // implies AllowTabbedDocks
+    enum DockOption
+    {
+        AnimatedDocks       = 0x01,
+        AllowNestedDocks    = 0x02,
+        AllowTabbedDocks    = 0x04,
+        ForceTabbedDocks    = 0x08, // implies AllowTabbedDocks, !AllowNestedDocks
+        VerticalTabs        = 0x10, // implies AllowTabbedDocks
+        GroupedDragging     = 0x20 // implies AllowTabbedDocks
     };
     Q_ENUM(DockOption)
     Q_DECLARE_FLAGS(DockOptions, DockOption)
@@ -123,22 +124,22 @@ public:
     bool isSeparator(const QPoint &pos) const;
 
 #if QT_CONFIG(menubar)
-    QMenuBar *menuBar() const;
+    QMenuBar* menuBar() const;
     void setMenuBar(QMenuBar *menubar);
 
-    QWidget  *menuWidget() const;
+    QWidget* menuWidget() const;
     void setMenuWidget(QWidget *menubar);
 #endif
 
 #if QT_CONFIG(statusbar)
-    QStatusBar *statusBar() const;
+    QStatusBar* statusBar() const;
     void setStatusBar(QStatusBar *statusbar);
 #endif
 
-    QWidget *centralWidget() const;
+    QWidget* centralWidget() const;
     void setCentralWidget(QWidget *widget);
 
-    QWidget *takeCentralWidget();
+    QWidget* takeCentralWidget();
 
 #if QT_CONFIG(dockwidget)
     void setCorner(Qt::Corner corner, Qt::DockWidgetArea area);
@@ -151,7 +152,7 @@ public:
 
     void addToolBar(Qt::ToolBarArea area, QToolBar *toolbar);
     void addToolBar(QToolBar *toolbar);
-    QToolBar *addToolBar(const QString &title);
+    QToolBar* addToolBar(const QString &title);
     void insertToolBar(QToolBar *before, QToolBar *toolbar);
     void removeToolBar(QToolBar *toolbar);
     void removeToolBarBreak(QToolBar *before);
@@ -174,7 +175,7 @@ public:
 
     Qt::DockWidgetArea dockWidgetArea(QDockWidget *dockwidget) const;
 
-    void resizeDocks(const QList<QDockWidget *> &docks,
+    void resizeDocks(const QList<QDockWidget*> &docks,
                      const QList<int> &sizes, Qt::Orientation orientation);
 #endif // QT_CONFIG(dockwidget)
 
@@ -182,7 +183,7 @@ public:
     bool restoreState(const QByteArray &state, int version = 0);
 
 #if QT_CONFIG(menu)
-    virtual QMenu *createPopupMenu();
+    virtual QMenu* createPopupMenu();
 #endif
 
 public Q_SLOTS:

@@ -64,7 +64,8 @@ QT_BEGIN_NAMESPACE
 class QFutureCallOutEvent : public QEvent
 {
 public:
-    enum CallOutType {
+    enum CallOutType
+    {
         Started,
         Finished,
         Canceled,
@@ -87,18 +88,18 @@ public:
 
     QFutureCallOutEvent(CallOutType callOutType, int index1, const QString &text)
         : QEvent(QEvent::FutureCallOut),
-          callOutType(callOutType),
-          index1(index1),
-          index2(-1),
-          text(text)
+        callOutType(callOutType),
+        index1(index1),
+        index2(-1),
+        text(text)
     { }
 
-    CallOutType callOutType;
-    int index1;
-    int index2;
-    QString text;
+    CallOutType     callOutType;
+    int             index1;
+    int             index2;
+    QString         text;
 
-    QFutureCallOutEvent *clone() const
+    QFutureCallOutEvent* clone() const
     {
         return new QFutureCallOutEvent(callOutType, index1, index2, text);
     }
@@ -109,10 +110,10 @@ private:
                         int index2,
                         const QString &text)
         : QEvent(QEvent::FutureCallOut),
-          callOutType(callOutType),
-          index1(index1),
-          index2(index2),
-          text(text)
+        callOutType(callOutType),
+        index1(index1),
+        index2(index2),
+        text(text)
     { }
 };
 
@@ -120,8 +121,8 @@ class QFutureCallOutInterface
 {
 public:
     virtual ~QFutureCallOutInterface() {}
-    virtual void postCallOutEvent(const QFutureCallOutEvent &) = 0;
-    virtual void callOutInterfaceDisconnected() = 0;
+    virtual void postCallOutEvent(const QFutureCallOutEvent&)   = 0;
+    virtual void callOutInterfaceDisconnected()                 = 0;
 };
 
 class QFutureInterfaceBasePrivate
@@ -136,45 +137,65 @@ public:
     // to keep track of QFuture<T> objects.
     class RefCount
     {
-    public:
+public:
         inline RefCount(int r = 0, int rt = 0)
             : m_refCount(r), m_refCountT(rt) {}
         // Default ref counter for QFIBP
-        inline bool ref() { return m_refCount.ref(); }
-        inline bool deref() { return m_refCount.deref(); }
-        inline int load() const { return m_refCount.load(); }
+        inline bool ref()
+        {
+            return m_refCount.ref();
+        }
+        inline bool deref()
+        {
+            return m_refCount.deref();
+        }
+        inline int load() const
+        {
+            return m_refCount.load();
+        }
         // Ref counter for type T
-        inline bool refT() { return m_refCountT.ref(); }
-        inline bool derefT() { return m_refCountT.deref(); }
-        inline int loadT() const { return m_refCountT.load(); }
+        inline bool refT()
+        {
+            return m_refCountT.ref();
+        }
+        inline bool derefT()
+        {
+            return m_refCountT.deref();
+        }
+        inline int loadT() const
+        {
+            return m_refCountT.load();
+        }
 
-    private:
-        QAtomicInt m_refCount;
-        QAtomicInt m_refCountT;
+private:
+        QAtomicInt      m_refCount;
+        QAtomicInt      m_refCountT;
     };
 
     // T: accessed from executing thread
     // Q: accessed from the waiting/querying thread
-    RefCount refCount;
-    mutable QMutex m_mutex;
-    QWaitCondition waitCondition;
-    QList<QFutureCallOutInterface *> outputConnections;
-    int m_progressValue; // TQ
-    int m_progressMinimum; // TQ
-    int m_progressMaximum; // TQ
-    QAtomicInt state; // reads and writes can happen unprotected, both must be atomic
-    QElapsedTimer progressTime;
-    QWaitCondition pausedWaitCondition;
-    QtPrivate::ResultStoreBase m_results;
-    bool manualProgress; // only accessed from executing thread
-    int m_expectedResultCount;
-    QtPrivate::ExceptionStore m_exceptionStore;
-    QString m_progressText;
-    QRunnable *runnable;
-    QThreadPool *m_pool;
+    RefCount                            refCount;
+    mutable QMutex                      m_mutex;
+    QWaitCondition                      waitCondition;
+    QList<QFutureCallOutInterface*>     outputConnections;
+    int                                 m_progressValue; // TQ
+    int                                 m_progressMinimum; // TQ
+    int                                 m_progressMaximum; // TQ
+    QAtomicInt                          state; // reads and writes can happen unprotected, both must be atomic
+    QElapsedTimer                       progressTime;
+    QWaitCondition                      pausedWaitCondition;
+    QtPrivate::ResultStoreBase          m_results;
+    bool                                manualProgress; // only accessed from executing thread
+    int                                 m_expectedResultCount;
+    QtPrivate::ExceptionStore           m_exceptionStore;
+    QString                             m_progressText;
+    QRunnable                           *runnable;
+    QThreadPool                         *m_pool;
 
-    inline QThreadPool *pool() const
-    { return m_pool ? m_pool : QThreadPool::globalInstance(); }
+    inline QThreadPool* pool() const
+    {
+        return m_pool ? m_pool : QThreadPool::globalInstance();
+    }
 
     // Internal functions that does not change the mutex state.
     // The mutex must be locked when calling these.

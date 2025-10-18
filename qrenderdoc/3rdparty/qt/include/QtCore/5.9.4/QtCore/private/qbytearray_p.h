@@ -56,7 +56,8 @@
 
 QT_BEGIN_NAMESPACE
 
-enum {
+enum
+{
     // Define as enum to force inlining. Don't expose MaxAllocSize in a public header.
     MaxByteArraySize = MaxAllocSize - sizeof(std::remove_pointer<QByteArray::DataPtr>::type)
 };

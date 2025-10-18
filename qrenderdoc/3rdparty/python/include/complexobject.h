@@ -7,9 +7,10 @@ extern "C" {
 #endif
 
 #ifndef Py_LIMITED_API
-typedef struct {
-    double real;
-    double imag;
+typedef struct
+{
+    double  real;
+    double  imag;
 } Py_complex;
 
 /* Operations on complex numbers from complexmodule.c */
@@ -26,11 +27,12 @@ PyAPI_FUNC(double) _Py_c_abs(Py_complex);
 /* Complex object interface */
 
 /*
-PyComplexObject represents a complex number with double-precision
-real and imaginary parts.
-*/
+   PyComplexObject represents a complex number with double-precision
+   real and imaginary parts.
+ */
 #ifndef Py_LIMITED_API
-typedef struct {
+typedef struct
+{
     PyObject_HEAD
     Py_complex cval;
 } PyComplexObject;
@@ -38,27 +40,27 @@ typedef struct {
 
 PyAPI_DATA(PyTypeObject) PyComplex_Type;
 
-#define PyComplex_Check(op) PyObject_TypeCheck(op, &PyComplex_Type)
-#define PyComplex_CheckExact(op) (Py_TYPE(op) == &PyComplex_Type)
+#define PyComplex_Check(op)         PyObject_TypeCheck(op, &PyComplex_Type)
+#define PyComplex_CheckExact(op)    (Py_TYPE(op) == &PyComplex_Type)
 
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(PyObject *) PyComplex_FromCComplex(Py_complex);
+PyAPI_FUNC(PyObject*) PyComplex_FromCComplex(Py_complex);
 #endif
-PyAPI_FUNC(PyObject *) PyComplex_FromDoubles(double real, double imag);
+PyAPI_FUNC(PyObject*) PyComplex_FromDoubles(double real, double imag);
 
-PyAPI_FUNC(double) PyComplex_RealAsDouble(PyObject *op);
-PyAPI_FUNC(double) PyComplex_ImagAsDouble(PyObject *op);
+PyAPI_FUNC(double) PyComplex_RealAsDouble(PyObject * op);
+PyAPI_FUNC(double) PyComplex_ImagAsDouble(PyObject * op);
 #ifndef Py_LIMITED_API
-PyAPI_FUNC(Py_complex) PyComplex_AsCComplex(PyObject *op);
+PyAPI_FUNC(Py_complex) PyComplex_AsCComplex(PyObject * op);
 #endif
 
 /* Format the object based on the format_spec, as defined in PEP 3101
    (Advanced String Formatting). */
 #ifndef Py_LIMITED_API
 PyAPI_FUNC(int) _PyComplex_FormatAdvancedWriter(
-    _PyUnicodeWriter *writer,
-    PyObject *obj,
-    PyObject *format_spec,
+    _PyUnicodeWriter * writer,
+    PyObject * obj,
+    PyObject * format_spec,
     Py_ssize_t start,
     Py_ssize_t end);
 #endif

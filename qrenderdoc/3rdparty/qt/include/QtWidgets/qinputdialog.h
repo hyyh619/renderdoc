@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QInputDialogPrivate;
 
-class Q_WIDGETS_EXPORT QInputDialog : public QDialog
+class Q_WIDGETS_EXPORT    QInputDialog : public QDialog
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QInputDialog)
@@ -76,15 +76,17 @@ class Q_WIDGETS_EXPORT QInputDialog : public QDialog
     QDOC_PROPERTY(QString cancelButtonText READ cancelButtonText WRITE setCancelButtonText)
 
 public:
-    enum InputDialogOption {
-        NoButtons                    = 0x00000001,
-        UseListViewForComboBoxItems  = 0x00000002,
-        UsePlainTextEditForTextInput = 0x00000004
+    enum InputDialogOption
+    {
+        NoButtons                       = 0x00000001,
+        UseListViewForComboBoxItems     = 0x00000002,
+        UsePlainTextEditForTextInput    = 0x00000004
     };
 
     Q_DECLARE_FLAGS(InputDialogOptions, InputDialogOption)
 
-    enum InputMode {
+    enum InputMode
+    {
         TextInput,
         IntInput,
         DoubleInput
@@ -181,8 +183,8 @@ public:
 
 #if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED static inline int getInteger(QWidget *parent, const QString &title, const QString &label, int value = 0,
-                          int minValue = -2147483647, int maxValue = 2147483647,
-                          int step = 1, bool *ok = Q_NULLPTR, Qt::WindowFlags flags = Qt::WindowFlags())
+                                               int minValue = -2147483647, int maxValue = 2147483647,
+                                               int step = 1, bool *ok = Q_NULLPTR, Qt::WindowFlags flags = Qt::WindowFlags())
     {
         return getInt(parent, title, label, value, minValue, maxValue, step, ok, flags);
     }
@@ -202,9 +204,9 @@ public:
 
 private:
     Q_DISABLE_COPY(QInputDialog)
-    Q_PRIVATE_SLOT(d_func(), void _q_textChanged(const QString&))
+    Q_PRIVATE_SLOT(d_func(), void _q_textChanged(const QString &))
     Q_PRIVATE_SLOT(d_func(), void _q_plainTextEditTextChanged())
-    Q_PRIVATE_SLOT(d_func(), void _q_currentRowChanged(const QModelIndex&, const QModelIndex&))
+    Q_PRIVATE_SLOT(d_func(), void _q_currentRowChanged(const QModelIndex &, const QModelIndex &))
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(QInputDialog::InputDialogOptions)

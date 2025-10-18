@@ -63,7 +63,8 @@ class QWidget;
 
 struct QEffects
 {
-    enum Direction {
+    enum Direction
+    {
         LeftScroll  = 0x0001,
         RightScroll = 0x0002,
         UpScroll    = 0x0004,

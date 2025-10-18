@@ -58,15 +58,16 @@ class QAbstractAnimation;
 #endif
 
 class QAbstractTransitionPrivate;
-class Q_CORE_EXPORT QAbstractTransition : public QObject
+class Q_CORE_EXPORT    QAbstractTransition : public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(QState* sourceState READ sourceState)
-    Q_PROPERTY(QAbstractState* targetState READ targetState WRITE setTargetState NOTIFY targetStateChanged)
+    Q_PROPERTY(QState*sourceState READ sourceState)
+    Q_PROPERTY(QAbstractState * targetState READ targetState WRITE setTargetState NOTIFY targetStateChanged)
     Q_PROPERTY(QList<QAbstractState*> targetStates READ targetStates WRITE setTargetStates NOTIFY targetStatesChanged)
     Q_PROPERTY(TransitionType transitionType READ transitionType WRITE setTransitionType REVISION 1)
 public:
-    enum TransitionType {
+    enum TransitionType
+    {
         ExternalTransition,
         InternalTransition
     };
@@ -75,16 +76,16 @@ public:
     QAbstractTransition(QState *sourceState = Q_NULLPTR);
     virtual ~QAbstractTransition();
 
-    QState *sourceState() const;
-    QAbstractState *targetState() const;
-    void setTargetState(QAbstractState* target);
+    QState* sourceState() const;
+    QAbstractState* targetState() const;
+    void setTargetState(QAbstractState *target);
     QList<QAbstractState*> targetStates() const;
     void setTargetStates(const QList<QAbstractState*> &targets);
 
     TransitionType transitionType() const;
     void setTransitionType(TransitionType type);
 
-    QStateMachine *machine() const;
+    QStateMachine* machine() const;
 
 #ifndef QT_NO_ANIMATION
     void addAnimation(QAbstractAnimation *animation);
@@ -93,9 +94,9 @@ public:
 #endif
 
 Q_SIGNALS:
-    void triggered(QPrivateSignal);
-    void targetStateChanged(QPrivateSignal);
-    void targetStatesChanged(QPrivateSignal);
+    void    triggered(QPrivateSignal);
+    void    targetStateChanged(QPrivateSignal);
+    void    targetStatesChanged(QPrivateSignal);
 
 protected:
     virtual bool eventTest(QEvent *event) = 0;

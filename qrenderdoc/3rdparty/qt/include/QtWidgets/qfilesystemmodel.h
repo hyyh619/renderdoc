@@ -55,7 +55,7 @@ class ExtendedInformation;
 class QFileSystemModelPrivate;
 class QFileIconProvider;
 
-class Q_WIDGETS_EXPORT QFileSystemModel : public QAbstractItemModel
+class Q_WIDGETS_EXPORT    QFileSystemModel : public QAbstractItemModel
 {
     Q_OBJECT
     Q_PROPERTY(bool resolveSymlinks READ resolveSymlinks WRITE setResolveSymlinks)
@@ -68,10 +68,11 @@ Q_SIGNALS:
     void directoryLoaded(const QString &path);
 
 public:
-    enum Roles {
-        FileIconRole = Qt::DecorationRole,
-        FilePathRole = Qt::UserRole + 1,
-        FileNameRole = Qt::UserRole + 2,
+    enum Roles
+    {
+        FileIconRole    = Qt::DecorationRole,
+        FilePathRole    = Qt::UserRole + 1,
+        FileNameRole    = Qt::UserRole + 2,
         FilePermissions = Qt::UserRole + 3
     };
 
@@ -101,7 +102,7 @@ public:
     void sort(int column, Qt::SortOrder order = Qt::AscendingOrder) Q_DECL_OVERRIDE;
 
     QStringList mimeTypes() const Q_DECL_OVERRIDE;
-    QMimeData *mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
+    QMimeData* mimeData(const QModelIndexList &indexes) const Q_DECL_OVERRIDE;
     bool dropMimeData(const QMimeData *data, Qt::DropAction action,
                       int row, int column, const QModelIndex &parent) Q_DECL_OVERRIDE;
     Qt::DropActions supportedDropActions() const Q_DECL_OVERRIDE;
@@ -112,7 +113,7 @@ public:
     QDir rootDirectory() const;
 
     void setIconProvider(QFileIconProvider *provider);
-    QFileIconProvider *iconProvider() const;
+    QFileIconProvider* iconProvider() const;
 
     void setFilter(QDir::Filters filters);
     QDir::Filters filter() const;
@@ -144,7 +145,7 @@ public:
     bool remove(const QModelIndex &index);
 
 protected:
-    QFileSystemModel(QFileSystemModelPrivate &, QObject *parent = Q_NULLPTR);
+    QFileSystemModel(QFileSystemModelPrivate&, QObject *parent = Q_NULLPTR);
     void timerEvent(QTimerEvent *event) Q_DECL_OVERRIDE;
     bool event(QEvent *event) Q_DECL_OVERRIDE;
 
@@ -161,9 +162,13 @@ private:
 };
 
 inline QString QFileSystemModel::fileName(const QModelIndex &aindex) const
-{ return aindex.data(Qt::DisplayRole).toString(); }
+{
+    return aindex.data(Qt::DisplayRole).toString();
+}
 inline QIcon QFileSystemModel::fileIcon(const QModelIndex &aindex) const
-{ return qvariant_cast<QIcon>(aindex.data(Qt::DecorationRole)); }
+{
+    return qvariant_cast<QIcon>(aindex.data(Qt::DecorationRole));
+}
 
 QT_END_NAMESPACE
 

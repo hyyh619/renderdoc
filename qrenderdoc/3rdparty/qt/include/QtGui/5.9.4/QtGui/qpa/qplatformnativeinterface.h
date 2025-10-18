@@ -63,24 +63,24 @@ class QWindow;
 class QPlatformWindow;
 class QBackingStore;
 
-class Q_GUI_EXPORT QPlatformNativeInterface : public QObject
+class Q_GUI_EXPORT    QPlatformNativeInterface : public QObject
 {
     Q_OBJECT
 public:
-    virtual void *nativeResourceForIntegration(const QByteArray &resource);
-    virtual void *nativeResourceForContext(const QByteArray &resource, QOpenGLContext *context);
-    virtual void *nativeResourceForScreen(const QByteArray &resource, QScreen *screen);
-    virtual void *nativeResourceForWindow(const QByteArray &resource, QWindow *window);
-    virtual void *nativeResourceForBackingStore(const QByteArray &resource, QBackingStore *backingStore);
+    virtual void* nativeResourceForIntegration(const QByteArray &resource);
+    virtual void* nativeResourceForContext(const QByteArray &resource, QOpenGLContext *context);
+    virtual void* nativeResourceForScreen(const QByteArray &resource, QScreen *screen);
+    virtual void* nativeResourceForWindow(const QByteArray &resource, QWindow *window);
+    virtual void* nativeResourceForBackingStore(const QByteArray &resource, QBackingStore *backingStore);
 #ifndef QT_NO_CURSOR
-    virtual void *nativeResourceForCursor(const QByteArray &resource, const QCursor &cursor);
+    virtual void* nativeResourceForCursor(const QByteArray &resource, const QCursor &cursor);
 #endif
 
-    typedef void * (*NativeResourceForIntegrationFunction)();
-    typedef void * (*NativeResourceForContextFunction)(QOpenGLContext *context);
-    typedef void * (*NativeResourceForScreenFunction)(QScreen *screen);
-    typedef void * (*NativeResourceForWindowFunction)(QWindow *window);
-    typedef void * (*NativeResourceForBackingStoreFunction)(QBackingStore *backingStore);
+    typedef void*(*NativeResourceForIntegrationFunction)();
+    typedef void*(*NativeResourceForContextFunction)(QOpenGLContext *context);
+    typedef void*(*NativeResourceForScreenFunction)(QScreen *screen);
+    typedef void*(*NativeResourceForWindowFunction)(QWindow *window);
+    typedef void*(*NativeResourceForBackingStoreFunction)(QBackingStore *backingStore);
     virtual NativeResourceForIntegrationFunction nativeResourceFunctionForIntegration(const QByteArray &resource);
     virtual NativeResourceForContextFunction nativeResourceFunctionForContext(const QByteArray &resource);
     virtual NativeResourceForScreenFunction nativeResourceFunctionForScreen(const QByteArray &resource);

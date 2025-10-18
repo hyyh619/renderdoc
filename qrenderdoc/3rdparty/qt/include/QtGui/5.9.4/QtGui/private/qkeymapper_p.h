@@ -62,19 +62,19 @@
 QT_BEGIN_NAMESPACE
 
 class QKeyMapperPrivate;
-class Q_GUI_EXPORT QKeyMapper : public QObject
+class Q_GUI_EXPORT    QKeyMapper : public QObject
 {
     Q_OBJECT
 public:
     explicit QKeyMapper();
     ~QKeyMapper();
 
-    static QKeyMapper *instance();
+    static QKeyMapper* instance();
     static void changeKeyboard();
     static QList<int> possibleKeys(QKeyEvent *e);
 
 private:
-    friend QKeyMapperPrivate *qt_keymapper_private();
+    friend QKeyMapperPrivate* qt_keymapper_private();
     Q_DECLARE_PRIVATE(QKeyMapper)
     Q_DISABLE_COPY(QKeyMapper)
 };
@@ -92,11 +92,11 @@ public:
     void clearMappings();
     QList<int> possibleKeys(QKeyEvent *e);
 
-    QLocale keyboardInputLocale;
-    Qt::LayoutDirection keyboardInputDirection;
+    QLocale                 keyboardInputLocale;
+    Qt::LayoutDirection     keyboardInputDirection;
 };
 
-QKeyMapperPrivate *qt_keymapper_private(); // from qkeymapper.cpp
+QKeyMapperPrivate* qt_keymapper_private(); // from qkeymapper.cpp
 
 QT_END_NAMESPACE
 

@@ -1,43 +1,43 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2020-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2020-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d12_test.h"
 
 RD_TEST(D3D12_Shader_Debug_Zoo, D3D12GraphicsTest)
 {
-  static constexpr const char *Description = "Tests shader debugging in different edge cases";
+    static constexpr const char    *Description = "Tests shader debugging in different edge cases";
 
-  struct ConstsA2V
-  {
-    Vec3f pos;
-    float zero;
-    float one;
-    float negone;
-    float texDim;
-  };
+    struct ConstsA2V
+    {
+        Vec3f   pos;
+        float   zero;
+        float   one;
+        float   negone;
+        float   texDim;
+    };
 
-  std::string vertexSampleVS = R"EOSHADER(
+    std::string    vertexSampleVS = R"EOSHADER(
 
 Texture2D<float4> intex : register(t0);
 
@@ -60,7 +60,7 @@ v2f main(uint vid : SV_VertexID)
 
 )EOSHADER";
 
-  std::string vertexSamplePS = R"EOSHADER(
+    std::string    vertexSamplePS = R"EOSHADER(
 
 struct v2f { float4 pos : SV_Position; float4 col : COL; };
 
@@ -71,7 +71,7 @@ float4 main(v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string pixelBlit = R"EOSHADER(
+    std::string    pixelBlit = R"EOSHADER(
 
 cbuffer rootconsts : register(b0)
 {
@@ -87,7 +87,7 @@ float4 main(float4 pos : SV_Position) : SV_Target0
 
 )EOSHADER";
 
-  std::string common = R"EOSHADER(
+    std::string    common = R"EOSHADER(
 
 struct consts
 {
@@ -112,7 +112,7 @@ struct v2f
 
 )EOSHADER";
 
-  std::string vertex = R"EOSHADER(
+    std::string    vertex = R"EOSHADER(
 
 v2f main(consts IN, uint tri : SV_InstanceID)
 {
@@ -144,7 +144,7 @@ v2f main(consts IN, uint tri : SV_InstanceID)
 
 )EOSHADER";
 
-  std::string pixel = R"EOSHADER(
+    std::string    pixel = R"EOSHADER(
 
 // error X3556: integer divides may be much slower, try using uints if possible.
 // we want to do this on purpose
@@ -517,7 +517,7 @@ float4 main(v2f IN) : SV_Target0
     return float4(read.a, read.e, read.d.b[z+0], read.d.c);
   }
 )EOSHADER"
-                      R"EOSHADER(
+                           R"EOSHADER(
 
   // storing in bounds
   if(IN.tri == 52)
@@ -1043,7 +1043,7 @@ float4 main(v2f IN) : SV_Target0
 
 )EOSHADER";
 
-  std::string noResourcesPixel = R"EOSHADER(
+    std::string    noResourcesPixel = R"EOSHADER(
 
 float4 main(v2f IN) : SV_Target0
 {
@@ -1086,7 +1086,7 @@ float4 main(v2f IN) : SV_Target0
 };
 )EOSHADER";
 
-  std::string msaaPixel = R"EOSHADER(
+    std::string    msaaPixel = R"EOSHADER(
 
 struct v2f
 {
@@ -1116,7 +1116,7 @@ float4 main(v2f IN, uint samp : SV_SampleIndex) : SV_Target0
 
 )EOSHADER";
 
-  std::string compute = R"EOSHADER(
+    std::string    compute = R"EOSHADER(
 
 // error X3556: integer divides may be much slower, try using uints if possible.
 // we want to do this on purpose
@@ -1200,143 +1200,145 @@ void main(int3 inTestIndex : SV_GroupID)
 
 )EOSHADER";
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
-
-    bool supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
-    bool supportSM62 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_2) && m_DXILSupport;
-    bool supportSM66 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_6) && m_DXILSupport;
-    TEST_ASSERT(!supportSM62 || supportSM60, "SM 6.2 requires SM 6.0 support");
-    TEST_ASSERT(!supportSM66 || supportSM62, "SM 6.6 requires SM 6.2 support");
-
-    std::string shaderDefines =
-        opts4.Native16BitShaderOpsSupported ? "#define HAS_16BIT_SHADER_OPS 1\n" : "";
-
-    size_t lastTest = pixel.rfind("IN.tri == ");
-    lastTest += sizeof("IN.tri == ") - 1;
-
-    const uint32_t numResTests = atoi(pixel.c_str() + lastTest) + 1;
-
-    std::string undefined_tests = "Undefined tests:";
-
-    size_t undef = pixel.find("undefined-test");
-    while(undef != std::string::npos)
+    int main()
     {
-      size_t testNumStart = pixel.rfind("IN.tri == ", undef);
-      testNumStart += sizeof("IN.tri == ") - 1;
-      size_t testNumEnd = pixel.find_first_not_of("0123456789", testNumStart);
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-      undefined_tests += " ";
-      undefined_tests += pixel.substr(testNumStart, testNumEnd - testNumStart);
+        bool    supportSM60 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_0) && m_DXILSupport;
+        bool    supportSM62 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_2) && m_DXILSupport;
+        bool    supportSM66 = (m_HighestShaderModel >= D3D_SHADER_MODEL_6_6) && m_DXILSupport;
+        TEST_ASSERT(!supportSM62 || supportSM60, "SM 6.2 requires SM 6.0 support");
+        TEST_ASSERT(!supportSM66 || supportSM62, "SM 6.6 requires SM 6.2 support");
 
-      undef = pixel.find("undefined-test", undef + 1);
-    }
+        std::string    shaderDefines =
+            opts4.Native16BitShaderOpsSupported ? "#define HAS_16BIT_SHADER_OPS 1\n" : "";
 
-    lastTest = noResourcesPixel.rfind("IN.tri == ");
-    lastTest += sizeof("IN.tri == ") - 1;
-    const uint32_t numNoResTests = atoi(noResourcesPixel.c_str() + lastTest) + 1;
+        size_t    lastTest = pixel.rfind("IN.tri == ");
+        lastTest += sizeof("IN.tri == ") - 1;
 
-    std::vector<D3D12_INPUT_ELEMENT_DESC> inputLayout;
-    inputLayout.reserve(4);
-    inputLayout.push_back({
-        "POSITION",
-        0,
-        DXGI_FORMAT_R32G32B32_FLOAT,
-        0,
-        0,
-        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-        0,
-    });
-    inputLayout.push_back({
-        "ZERO",
-        0,
-        DXGI_FORMAT_R32_FLOAT,
-        0,
-        D3D12_APPEND_ALIGNED_ELEMENT,
-        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-        0,
-    });
-    inputLayout.push_back({
-        "ONE",
-        0,
-        DXGI_FORMAT_R32_FLOAT,
-        0,
-        D3D12_APPEND_ALIGNED_ELEMENT,
-        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-        0,
-    });
-    inputLayout.push_back({
-        "NEGONE",
-        0,
-        DXGI_FORMAT_R32_FLOAT,
-        0,
-        D3D12_APPEND_ALIGNED_ELEMENT,
-        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-        0,
-    });
-    inputLayout.push_back({
-        "TEXDIM",
-        0,
-        DXGI_FORMAT_R32_FLOAT,
-        0,
-        D3D12_APPEND_ALIGNED_ELEMENT,
-        D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
-        0,
-    });
+        const uint32_t    numResTests = atoi(pixel.c_str() + lastTest) + 1;
 
-    D3D12_STATIC_SAMPLER_DESC staticSamp = {};
-    staticSamp.Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-    staticSamp.AddressU = staticSamp.AddressV = staticSamp.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-    staticSamp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+        std::string    undefined_tests = "Undefined tests:";
 
-    D3D12_DESCRIPTOR_RANGE1 multiRanges[4] = {
+        size_t    undef = pixel.find("undefined-test");
+
+        while (undef != std::string::npos)
         {
-            D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-            2,
-            30,
-            0,
-            D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
-                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
-            30,
-        },
-        {
-            D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
-            3,
-            32,
-            0,
-            D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
-                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
-            D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND,
-        },
-        {
-            D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-            2,
-            40,
-            0,
-            D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
-                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
-            D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND,
-        },
-        {
-            D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
-            2,
-            42,
-            0,
-            D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
-                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
-            42,
-        },
-    };
-    D3D12_ROOT_PARAMETER1 multiRangeParam;
-    multiRangeParam.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-    multiRangeParam.ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
-    multiRangeParam.DescriptorTable.NumDescriptorRanges = ARRAY_COUNT(multiRanges);
-    multiRangeParam.DescriptorTable.pDescriptorRanges = multiRanges;
+            size_t    testNumStart = pixel.rfind("IN.tri == ", undef);
+            testNumStart += sizeof("IN.tri == ") - 1;
+            size_t    testNumEnd = pixel.find_first_not_of("0123456789", testNumStart);
 
-    ID3D12RootSignaturePtr sig = MakeSig(
+            undefined_tests += " ";
+            undefined_tests += pixel.substr(testNumStart, testNumEnd - testNumStart);
+
+            undef = pixel.find("undefined-test", undef + 1);
+        }
+
+        lastTest    = noResourcesPixel.rfind("IN.tri == ");
+        lastTest    += sizeof("IN.tri == ") - 1;
+        const uint32_t    numNoResTests = atoi(noResourcesPixel.c_str() + lastTest) + 1;
+
+        std::vector<D3D12_INPUT_ELEMENT_DESC>    inputLayout;
+        inputLayout.reserve(4);
+        inputLayout.push_back({
+            "POSITION",
+            0,
+            DXGI_FORMAT_R32G32B32_FLOAT,
+            0,
+            0,
+            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+            0,
+        });
+        inputLayout.push_back({
+            "ZERO",
+            0,
+            DXGI_FORMAT_R32_FLOAT,
+            0,
+            D3D12_APPEND_ALIGNED_ELEMENT,
+            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+            0,
+        });
+        inputLayout.push_back({
+            "ONE",
+            0,
+            DXGI_FORMAT_R32_FLOAT,
+            0,
+            D3D12_APPEND_ALIGNED_ELEMENT,
+            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+            0,
+        });
+        inputLayout.push_back({
+            "NEGONE",
+            0,
+            DXGI_FORMAT_R32_FLOAT,
+            0,
+            D3D12_APPEND_ALIGNED_ELEMENT,
+            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+            0,
+        });
+        inputLayout.push_back({
+            "TEXDIM",
+            0,
+            DXGI_FORMAT_R32_FLOAT,
+            0,
+            D3D12_APPEND_ALIGNED_ELEMENT,
+            D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,
+            0,
+        });
+
+        D3D12_STATIC_SAMPLER_DESC    staticSamp = {};
+        staticSamp.Filter           = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+        staticSamp.AddressU         = staticSamp.AddressV = staticSamp.AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+        staticSamp.ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+        D3D12_DESCRIPTOR_RANGE1    multiRanges[4] =
+        {
+            {
+                D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
+                2,
+                30,
+                0,
+                D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
+                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
+                30,
+            },
+            {
+                D3D12_DESCRIPTOR_RANGE_TYPE_UAV,
+                3,
+                32,
+                0,
+                D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
+                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
+                D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND,
+            },
+            {
+                D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
+                2,
+                40,
+                0,
+                D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
+                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
+                D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND,
+            },
+            {
+                D3D12_DESCRIPTOR_RANGE_TYPE_SRV,
+                2,
+                42,
+                0,
+                D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE |
+                D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE,
+                42,
+            },
+        };
+        D3D12_ROOT_PARAMETER1    multiRangeParam;
+        multiRangeParam.ShaderVisibility                    = D3D12_SHADER_VISIBILITY_PIXEL;
+        multiRangeParam.ParameterType                       = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+        multiRangeParam.DescriptorTable.NumDescriptorRanges = ARRAY_COUNT(multiRanges);
+        multiRangeParam.DescriptorTable.pDescriptorRanges   = multiRanges;
+
+        ID3D12RootSignaturePtr    sig = MakeSig(
         {
             tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 0, 8, 0),
             tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 1, 3, 10),
@@ -1347,838 +1349,858 @@ void main(int3 inTestIndex : SV_GroupID)
             srvParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 20),
             tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 9, 3, 100),
         },
-        D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT, 1, &staticSamp);
+            D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT, 1, &staticSamp);
 
-    const int numShaderModels = 5;    // 5.0, 5.1, 6.0, 6.2, 6.6
-    ID3D12PipelineStatePtr psos[numShaderModels * 2] = {};
+        const int                   numShaderModels             = 5; // 5.0, 5.1, 6.0, 6.2, 6.6
+        ID3D12PipelineStatePtr      psos[numShaderModels * 2]   = {};
 
-    ID3DBlobPtr vs5blob = Compile(common + vertex, "main", "vs_5_0");
+        ID3DBlobPtr    vs5blob = Compile(common + vertex, "main", "vs_5_0");
 
-    psos[0] = MakePSO()
+        psos[0] = MakePSO()
                   .RootSig(sig)
                   .InputLayout(inputLayout)
                   .VS(vs5blob)
                   .PS(Compile(common + pixel, "main", "ps_5_0", CompileOptionFlags::SkipOptimise))
                   .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    psos[0]->SetName(L"ps_5_0");
-    psos[1] = MakePSO()
+        psos[0]->SetName(L"ps_5_0");
+        psos[1] = MakePSO()
                   .RootSig(sig)
                   .InputLayout(inputLayout)
                   .VS(vs5blob)
                   .PS(Compile(common + pixel, "main", "ps_5_0", CompileOptionFlags::None))
                   .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    psos[1]->SetName(L"ps_5_0_opt");
+        psos[1]->SetName(L"ps_5_0_opt");
 
-    // Recompile the same PS with SM 5.1 to test shader debugging with the different bytecode
-    psos[2] = MakePSO()
+        // Recompile the same PS with SM 5.1 to test shader debugging with the different bytecode
+        psos[2] = MakePSO()
                   .RootSig(sig)
                   .InputLayout(inputLayout)
                   .VS(vs5blob)
                   .PS(Compile(common + "\n#define SM_5_1 1\n" + pixel, "main", "ps_5_1",
                               CompileOptionFlags::SkipOptimise))
                   .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    psos[2]->SetName(L"ps_5_1");
-    psos[3] = MakePSO()
+        psos[2]->SetName(L"ps_5_1");
+        psos[3] = MakePSO()
                   .RootSig(sig)
                   .InputLayout(inputLayout)
                   .VS(vs5blob)
                   .PS(Compile(common + "\n#define SM_5_1 1\n" + pixel, "main", "ps_5_1",
                               CompileOptionFlags::None))
                   .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    psos[3]->SetName(L"ps_5_1_opt");
+        psos[3]->SetName(L"ps_5_1_opt");
 
-    // Recompile with SM 6.0, SM 6.2 and SM 6.6
-    const uint32_t compileOptions = (opts4.Native16BitShaderOpsSupported)
-                                        ? CompileOptionFlags::Enable16BitTypes
-                                        : CompileOptionFlags::None;
-    if(supportSM60)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_0");
-      psos[4] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_0", CompileOptionFlags::SkipOptimise))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[4]->SetName(L"ps_6_0");
-      psos[5] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_0", CompileOptionFlags::None))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[5]->SetName(L"ps_6_0_opt");
-    }
-    if(supportSM62)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_2");
-      psos[6] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_2", compileOptions | CompileOptionFlags::SkipOptimise))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[6]->SetName(L"ps_6_2");
-      psos[7] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_2", compileOptions))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[7]->SetName(L"ps_6_2_opt");
-    }
-    if(supportSM66)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_6");
-      psos[8] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_6", compileOptions | CompileOptionFlags::SkipOptimise))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[8]->SetName(L"ps_6_6");
-      psos[9] = MakePSO()
-                    .RootSig(sig)
-                    .InputLayout(inputLayout)
-                    .VS(vsblob)
-                    .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + pixel, "main",
-                                "ps_6_6", compileOptions))
-                    .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      psos[9]->SetName(L"ps_6_6_opt");
-    }
+        // Recompile with SM 6.0, SM 6.2 and SM 6.6
+        const uint32_t    compileOptions = (opts4.Native16BitShaderOpsSupported)
+                                           ? CompileOptionFlags::Enable16BitTypes
+                                           : CompileOptionFlags::None;
+        if (supportSM60)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_0");
+            psos[4] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_0", CompileOptionFlags::SkipOptimise))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[4]->SetName(L"ps_6_0");
+            psos[5] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_0", CompileOptionFlags::None))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[5]->SetName(L"ps_6_0_opt");
+        }
 
-    ID3D12PipelineStatePtr noResPSOs[numShaderModels * 2] = {};
-    noResPSOs[0] = MakePSO()
+        if (supportSM62)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_2");
+            psos[6] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_2", compileOptions | CompileOptionFlags::SkipOptimise))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[6]->SetName(L"ps_6_2");
+            psos[7] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_2", compileOptions))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[7]->SetName(L"ps_6_2_opt");
+        }
+
+        if (supportSM66)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_6");
+            psos[8] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_6", compileOptions | CompileOptionFlags::SkipOptimise))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[8]->SetName(L"ps_6_6");
+            psos[9] = MakePSO()
+                      .RootSig(sig)
+                      .InputLayout(inputLayout)
+                      .VS(vsblob)
+                      .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + pixel, "main",
+                                  "ps_6_6", compileOptions))
+                      .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            psos[9]->SetName(L"ps_6_6_opt");
+        }
+
+        ID3D12PipelineStatePtr    noResPSOs[numShaderModels * 2] = {};
+        noResPSOs[0] = MakePSO()
                        .RootSig(sig)
                        .InputLayout(inputLayout)
                        .VS(vs5blob)
                        .PS(Compile(common + noResourcesPixel, "main", "ps_5_0",
                                    CompileOptionFlags::SkipOptimise))
                        .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    noResPSOs[0]->SetName(L"ps_5_0");
-    noResPSOs[1] =
-        MakePSO()
+        noResPSOs[0]->SetName(L"ps_5_0");
+        noResPSOs[1] =
+            MakePSO()
             .RootSig(sig)
             .InputLayout(inputLayout)
             .VS(vs5blob)
             .PS(Compile(common + noResourcesPixel, "main", "ps_5_0", CompileOptionFlags::None))
             .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    noResPSOs[1]->SetName(L"ps_5_0_opt");
+        noResPSOs[1]->SetName(L"ps_5_0_opt");
 
-    // Recompile the same PS with SM 5.1 to test shader debugging with the different bytecode
-    noResPSOs[2] = MakePSO()
+        // Recompile the same PS with SM 5.1 to test shader debugging with the different bytecode
+        noResPSOs[2] = MakePSO()
                        .RootSig(sig)
                        .InputLayout(inputLayout)
                        .VS(vs5blob)
                        .PS(Compile(common + "\n#define SM_5_1 1\n" + noResourcesPixel, "main",
                                    "ps_5_1", CompileOptionFlags::SkipOptimise))
                        .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    noResPSOs[2]->SetName(L"ps_5_1");
-    noResPSOs[3] = MakePSO()
+        noResPSOs[2]->SetName(L"ps_5_1");
+        noResPSOs[3] = MakePSO()
                        .RootSig(sig)
                        .InputLayout(inputLayout)
                        .VS(vs5blob)
                        .PS(Compile(common + "\n#define SM_5_1 1\n" + noResourcesPixel, "main",
                                    "ps_5_1", CompileOptionFlags::None))
                        .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    noResPSOs[3]->SetName(L"ps_5_1_opt");
+        noResPSOs[3]->SetName(L"ps_5_1_opt");
 
-    // Recompile with SM 6.0, SM 6.2 and SM 6.6
-    if(supportSM60)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_0");
-      noResPSOs[4] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_0", CompileOptionFlags::SkipOptimise))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[4]->SetName(L"ps_6_0");
-      noResPSOs[5] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_0", CompileOptionFlags::None))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[5]->SetName(L"ps_6_0_opt");
-    }
-    if(supportSM62)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_2");
-      noResPSOs[6] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_2", compileOptions | CompileOptionFlags::SkipOptimise))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[6]->SetName(L"ps_6_2");
-      noResPSOs[7] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_2", compileOptions))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[7]->SetName(L"ps_6_2_opt");
-    }
-    if(supportSM66)
-    {
-      ID3DBlobPtr vsblob = Compile(common + vertex, "main", "vs_6_6");
-      noResPSOs[8] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_6", compileOptions | CompileOptionFlags::SkipOptimise))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[8]->SetName(L"ps_6_6");
-      noResPSOs[9] =
-          MakePSO()
-              .RootSig(sig)
-              .InputLayout(inputLayout)
-              .VS(vsblob)
-              .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + noResourcesPixel,
-                          "main", "ps_6_6", compileOptions))
-              .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-      noResPSOs[9]->SetName(L"ps_6_6_opt");
-    }
+        // Recompile with SM 6.0, SM 6.2 and SM 6.6
+        if (supportSM60)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_0");
+            noResPSOs[4] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_0", CompileOptionFlags::SkipOptimise))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[4]->SetName(L"ps_6_0");
+            noResPSOs[5] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_0 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_0", CompileOptionFlags::None))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[5]->SetName(L"ps_6_0_opt");
+        }
 
-    static_assert(ARRAY_COUNT(psos) == ARRAY_COUNT(noResPSOs), "Mismatched PSO counts");
+        if (supportSM62)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_2");
+            noResPSOs[6] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_2", compileOptions | CompileOptionFlags::SkipOptimise))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[6]->SetName(L"ps_6_2");
+            noResPSOs[7] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_2 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_2", compileOptions))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[7]->SetName(L"ps_6_2_opt");
+        }
 
-    static const uint32_t texDim = AlignUp(std::max(numResTests, numNoResTests), 64U) * 4;
+        if (supportSM66)
+        {
+            ID3DBlobPtr    vsblob = Compile(common + vertex, "main", "vs_6_6");
+            noResPSOs[8] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_6", compileOptions | CompileOptionFlags::SkipOptimise))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[8]->SetName(L"ps_6_6");
+            noResPSOs[9] =
+                MakePSO()
+                .RootSig(sig)
+                .InputLayout(inputLayout)
+                .VS(vsblob)
+                .PS(Compile(common + "\n#define SM_6_6 1\n" + shaderDefines + noResourcesPixel,
+                            "main", "ps_6_6", compileOptions))
+                .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+            noResPSOs[9]->SetName(L"ps_6_6_opt");
+        }
 
-    ID3D12ResourcePtr fltTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, texDim, 4)
-                                   .RTV()
-                                   .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
-    D3D12_CPU_DESCRIPTOR_HANDLE fltRTV = MakeRTV(fltTex).CreateCPU(0);
-    D3D12_GPU_DESCRIPTOR_HANDLE fltSRV = MakeSRV(fltTex).CreateGPU(8);
+        static_assert(ARRAY_COUNT(psos) == ARRAY_COUNT(noResPSOs), "Mismatched PSO counts");
 
-    float triWidth = 8.0f / float(texDim);
+        static const uint32_t    texDim = AlignUp(std::max(numResTests, numNoResTests), 64U) * 4;
 
-    ConstsA2V triangle[] = {
-        {Vec3f(-1.0f, -1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
-        {Vec3f(-1.0f, 1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
-        {Vec3f(-1.0f + triWidth, 1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
-    };
+        ID3D12ResourcePtr    fltTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, texDim, 4)
+                                      .RTV()
+                                      .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
+        D3D12_CPU_DESCRIPTOR_HANDLE     fltRTV  = MakeRTV(fltTex).CreateCPU(0);
+        D3D12_GPU_DESCRIPTOR_HANDLE     fltSRV  = MakeSRV(fltTex).CreateGPU(8);
 
-    ID3D12ResourcePtr vb = MakeBuffer().Data(triangle);
-    ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+        float    triWidth = 8.0f / float(texDim);
 
-    union
-    {
-      float f;
-      uint32_t u;
-    } pun;
+        ConstsA2V    triangle[] =
+        {
+            {Vec3f(-1.0f, -1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
+            {Vec3f(-1.0f, 1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
+            {Vec3f(-1.0f + triWidth, 1.0f, triWidth), 0.0f, 1.0f, -1.0f, (float)texDim},
+        };
 
-    pun.u = 0xdead;
+        ID3D12ResourcePtr    vb = MakeBuffer().Data(triangle);
+        ResourceBarrier(vb, D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 
-    float testdata[] = {
-        1.0f,  2.0f,  3.0f,  4.0f,  1.234567f, pun.f, 7.0f,  8.0f,  9.0f,  10.0f,
-        11.0f, 12.0f, 13.0f, 14.0f, 15.0f,     16.0f, 17.0f, 18.0f, 19.0f, 20.0f,
-    };
+        union
+        {
+            float       f;
+            uint32_t    u;
+        }    pun;
 
-    ID3D12ResourcePtr srvBuf = MakeBuffer().Data(testdata);
-    srvBuf->SetName(L"srvBuf");
-    MakeSRV(srvBuf).Format(DXGI_FORMAT_R32_FLOAT).CreateGPU(0);
+        pun.u = 0xdead;
 
-    int16_t test16data[] = {
-        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    };
+        float    testdata[] =
+        {
+            1.0f,  2.0f,  3.0f,  4.0f,  1.234567f, pun.f, 7.0f,  8.0f,  9.0f,  10.0f,
+            11.0f, 12.0f, 13.0f, 14.0f, 15.0f,     16.0f, 17.0f, 18.0f, 19.0f, 20.0f,
+        };
 
-    ID3D12ResourcePtr srv16Buf = MakeBuffer().Data(test16data);
-    srv16Buf->SetName(L"srv16Buf");
+        ID3D12ResourcePtr    srvBuf = MakeBuffer().Data(testdata);
+        srvBuf->SetName(L"srvBuf");
+        MakeSRV(srvBuf).Format(DXGI_FORMAT_R32_FLOAT).CreateGPU(0);
 
-    MakeSRV(srv16Buf)
+        int16_t    test16data[] =
+        {
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+        };
+
+        ID3D12ResourcePtr    srv16Buf = MakeBuffer().Data(test16data);
+        srv16Buf->SetName(L"srv16Buf");
+
+        MakeSRV(srv16Buf)
         .Format(DXGI_FORMAT_UNKNOWN)
         .FirstElement(3)
         .NumElements(5)
         .StructureStride(2)
         .CreateGPU(42);
-    MakeSRV(srv16Buf).Format(DXGI_FORMAT_R16_SINT).CreateGPU(43);
+        MakeSRV(srv16Buf).Format(DXGI_FORMAT_R16_SINT).CreateGPU(43);
 
-    ID3D12ResourcePtr testTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 16, 16).Mips(3);
+        ID3D12ResourcePtr    testTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 16, 16).Mips(3);
 
-    D3D12_CPU_DESCRIPTOR_HANDLE cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-    cpu.ptr += dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 3;
-    dev->CreateShaderResourceView(testTex, NULL, cpu);
+        D3D12_CPU_DESCRIPTOR_HANDLE    cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+        cpu.ptr += dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 3;
+        dev->CreateShaderResourceView(testTex, NULL, cpu);
 
-    {
-      cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-      cpu.ptr += dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 36;
+        {
+            cpu     = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+            cpu.ptr += dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * 36;
 
-      D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
-      desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-      desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
-      desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-      desc.Texture2DArray.ArraySize = ~0U;
-      desc.Texture2DArray.MipLevels = ~0U;
+            D3D12_SHADER_RESOURCE_VIEW_DESC    desc = {};
+            desc.Format                     = DXGI_FORMAT_R32G32B32A32_FLOAT;
+            desc.ViewDimension              = D3D12_SRV_DIMENSION_TEXTURE2DARRAY;
+            desc.Shader4ComponentMapping    = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+            desc.Texture2DArray.ArraySize   = ~0U;
+            desc.Texture2DArray.MipLevels   = ~0U;
 
-      dev->CreateShaderResourceView(testTex, &desc, cpu);
-    }
+            dev->CreateShaderResourceView(testTex, &desc, cpu);
+        }
 
-    ID3D12ResourcePtr rawBuf = MakeBuffer().Data(testdata);
-    rawBuf->SetName(L"rawBuf");
-    MakeSRV(rawBuf)
+        ID3D12ResourcePtr    rawBuf = MakeBuffer().Data(testdata);
+        rawBuf->SetName(L"rawBuf");
+        MakeSRV(rawBuf)
         .Format(DXGI_FORMAT_R32_TYPELESS)
         .ByteAddressed()
         .FirstElement(4)
         .NumElements(12)
         .CreateGPU(1);
 
-    ID3D12ResourcePtr msTex = MakeTexture(DXGI_FORMAT_R32_FLOAT, 32, 32).Multisampled(4).RTV();
-    MakeSRV(msTex).CreateGPU(4);
+        ID3D12ResourcePtr    msTex = MakeTexture(DXGI_FORMAT_R32_FLOAT, 32, 32).Multisampled(4).RTV();
+        MakeSRV(msTex).CreateGPU(4);
 
-    Texture rgba8;
-    LoadXPM(SmileyTexture, rgba8);
+        Texture    rgba8;
+        LoadXPM(SmileyTexture, rgba8);
 
-    ID3D12ResourcePtr smiley = MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, 48, 48)
-                                   .Mips(1)
-                                   .InitialState(D3D12_RESOURCE_STATE_COPY_DEST);
+        ID3D12ResourcePtr    smiley = MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, 48, 48)
+                                      .Mips(1)
+                                      .InitialState(D3D12_RESOURCE_STATE_COPY_DEST);
 
-    ID3D12ResourcePtr uploadBuf = MakeBuffer().Size(1024 * 1024).Upload();
-    ID3D12ResourcePtr constBuf = MakeBuffer().Size(256).Upload();
-    ID3D12ResourcePtr outUAV = MakeBuffer().Size(256).UAV();
-    {
-      byte *mapptr = NULL;
-      constBuf->Map(0, NULL, (void **)&mapptr);
-      uint32_t value = 6;
-      memcpy(mapptr, &value, sizeof(uint32_t));
-      constBuf->Unmap(0, NULL);
-    }
-
-    {
-      D3D12_PLACED_SUBRESOURCE_FOOTPRINT layout = {};
-
-      D3D12_RESOURCE_DESC desc = smiley->GetDesc();
-
-      dev->GetCopyableFootprints(&desc, 0, 1, 0, &layout, NULL, NULL, NULL);
-
-      byte *srcptr = (byte *)rgba8.data.data();
-      byte *mapptr = NULL;
-      uploadBuf->Map(0, NULL, (void **)&mapptr);
-
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
-
-      Reset(cmd);
-
-      {
-        D3D12_TEXTURE_COPY_LOCATION dst, src;
-
-        dst.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
-        dst.pResource = smiley;
-        dst.SubresourceIndex = 0;
-
-        byte *dstptr = mapptr + layout.Offset;
-
-        for(UINT row = 0; row < rgba8.height; row++)
+        ID3D12ResourcePtr       uploadBuf   = MakeBuffer().Size(1024 * 1024).Upload();
+        ID3D12ResourcePtr       constBuf    = MakeBuffer().Size(256).Upload();
+        ID3D12ResourcePtr       outUAV      = MakeBuffer().Size(256).UAV();
         {
-          memcpy(dstptr, srcptr, rgba8.width * sizeof(uint32_t));
-          srcptr += rgba8.width * sizeof(uint32_t);
-          dstptr += layout.Footprint.RowPitch;
+            byte    *mapptr = NULL;
+            constBuf->Map(0, NULL, (void**)&mapptr);
+            uint32_t    value = 6;
+            memcpy(mapptr, &value, sizeof(uint32_t));
+            constBuf->Unmap(0, NULL);
         }
 
-        src.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
-        src.pResource = uploadBuf;
-        src.PlacedFootprint = layout;
+        {
+            D3D12_PLACED_SUBRESOURCE_FOOTPRINT    layout = {};
 
-        cmd->CopyTextureRegion(&dst, 0, 0, 0, &src, NULL);
+            D3D12_RESOURCE_DESC    desc = smiley->GetDesc();
 
-        D3D12_RESOURCE_BARRIER b = {};
-        b.Transition.pResource = smiley;
-        b.Transition.Subresource = 0;
-        b.Transition.StateBefore = D3D12_RESOURCE_STATE_COPY_DEST;
-        b.Transition.StateAfter = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
-                                  D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
-        cmd->ResourceBarrier(1, &b);
-      }
+            dev->GetCopyableFootprints(&desc, 0, 1, 0, &layout, NULL, NULL, NULL);
 
-      cmd->Close();
+            byte    *srcptr = (byte*)rgba8.data.data();
+            byte    *mapptr = NULL;
+            uploadBuf->Map(0, NULL, (void**)&mapptr);
 
-      uploadBuf->Unmap(0, NULL);
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
 
-      Submit({cmd});
-      GPUSync();
-    }
+            Reset(cmd);
 
-    MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UNORM).CreateGPU(5);
-    MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_SINT).CreateGPU(6);
-    MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UINT).CreateGPU(7);
+            {
+                D3D12_TEXTURE_COPY_LOCATION    dst, src;
 
-    ID3D12ResourcePtr rawBuf2 = MakeBuffer().Size(1024).UAV();
-    rawBuf2->SetName(L"rawBuf2");
-    D3D12ViewCreator uavView1 =
-        MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).ByteAddressed().FirstElement(4).NumElements(24);
-    D3D12_CPU_DESCRIPTOR_HANDLE uav1cpu = uavView1.CreateClearCPU(10);
-    D3D12_GPU_DESCRIPTOR_HANDLE uav1gpu = uavView1.CreateGPU(10);
+                dst.Type                = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+                dst.pResource           = smiley;
+                dst.SubresourceIndex    = 0;
 
-    uavView1 =
-        MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).ByteAddressed().FirstElement(40).NumElements(24);
-    D3D12_CPU_DESCRIPTOR_HANDLE uav3cpu = uavView1.CreateClearCPU(12);
-    D3D12_GPU_DESCRIPTOR_HANDLE uav3gpu = uavView1.CreateGPU(12);
+                byte    *dstptr = mapptr + layout.Offset;
 
-    uint16_t narrowdata[32];
-    for(size_t i = 0; i < ARRAY_COUNT(narrowdata); i++)
-      narrowdata[i] = MakeHalf(float(i));
+                for (UINT row = 0; row < rgba8.height; row++)
+                {
+                    memcpy(dstptr, srcptr, rgba8.width * sizeof(uint32_t));
+                    srcptr  += rgba8.width * sizeof(uint32_t);
+                    dstptr  += layout.Footprint.RowPitch;
+                }
 
-    ID3D12ResourcePtr narrowtypedbuf = MakeBuffer().UAV().Data(narrowdata);
-    narrowtypedbuf->SetName(L"narrowtypedbuf");
-    MakeSRV(narrowtypedbuf).Format(DXGI_FORMAT_R16_FLOAT).CreateGPU(22);
-    MakeUAV(narrowtypedbuf).Format(DXGI_FORMAT_R16_FLOAT).CreateGPU(32);
+                src.Type            = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT;
+                src.pResource       = uploadBuf;
+                src.PlacedFootprint = layout;
 
-    ID3D12ResourcePtr smileyUAV = MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, 48, 48)
-                                      .Mips(1)
-                                      .InitialState(D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
-                                      .UAV();
+                cmd->CopyTextureRegion(&dst, 0, 0, 0, &src, NULL);
 
-    MakeUAV(smileyUAV).Format(DXGI_FORMAT_R8G8B8A8_UNORM).CreateGPU(33);
-    ID3D12ResourcePtr atomicBuffer = MakeBuffer().Size(1024).UAV();
-    atomicBuffer->SetName(L"atomicBuffer");
-    MakeUAV(atomicBuffer).Format(DXGI_FORMAT_R32_UINT).CreateGPU(34);
-    ID3D12ResourcePtr oneIntBuffer = MakeBuffer().Size(4).UAV();
-    oneIntBuffer->SetName(L"oneIntBuffer");
-    MakeUAV(oneIntBuffer).Format(DXGI_FORMAT_R32_SINT).CreateGPU(100);
-    ID3D12ResourcePtr typedBuffer = MakeBuffer().Size(1024).UAV();
-    typedBuffer->SetName(L"typedBuffer");
-    MakeUAV(typedBuffer).Format(DXGI_FORMAT_R32G32B32A32_FLOAT).CreateGPU(101);
+                D3D12_RESOURCE_BARRIER    b = {};
+                b.Transition.pResource      = smiley;
+                b.Transition.Subresource    = 0;
+                b.Transition.StateBefore    = D3D12_RESOURCE_STATE_COPY_DEST;
+                b.Transition.StateAfter     = D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE |
+                                              D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE;
+                cmd->ResourceBarrier(1, &b);
+            }
 
-    // Typed texture with UAV of UNKNOWN format
-    ID3D12ResourcePtr typedTexture = MakeTexture(DXGI_FORMAT_R8G8B8A8_UNORM, 48, 48)
+            cmd->Close();
+
+            uploadBuf->Unmap(0, NULL);
+
+            Submit({cmd});
+            GPUSync();
+        }
+
+        MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UNORM).CreateGPU(5);
+        MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_SINT).CreateGPU(6);
+        MakeSRV(smiley).Format(DXGI_FORMAT_R8G8B8A8_UINT).CreateGPU(7);
+
+        ID3D12ResourcePtr    rawBuf2 = MakeBuffer().Size(1024).UAV();
+        rawBuf2->SetName(L"rawBuf2");
+        D3D12ViewCreator    uavView1 =
+            MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).ByteAddressed().FirstElement(4).NumElements(24);
+        D3D12_CPU_DESCRIPTOR_HANDLE     uav1cpu = uavView1.CreateClearCPU(10);
+        D3D12_GPU_DESCRIPTOR_HANDLE     uav1gpu = uavView1.CreateGPU(10);
+
+        uavView1 =
+            MakeUAV(rawBuf2).Format(DXGI_FORMAT_R32_TYPELESS).ByteAddressed().FirstElement(40).NumElements(24);
+        D3D12_CPU_DESCRIPTOR_HANDLE     uav3cpu = uavView1.CreateClearCPU(12);
+        D3D12_GPU_DESCRIPTOR_HANDLE     uav3gpu = uavView1.CreateGPU(12);
+
+        uint16_t    narrowdata[32];
+
+        for (size_t i = 0; i < ARRAY_COUNT(narrowdata); i++)
+            narrowdata[i] = MakeHalf(float(i));
+
+        ID3D12ResourcePtr    narrowtypedbuf = MakeBuffer().UAV().Data(narrowdata);
+        narrowtypedbuf->SetName(L"narrowtypedbuf");
+        MakeSRV(narrowtypedbuf).Format(DXGI_FORMAT_R16_FLOAT).CreateGPU(22);
+        MakeUAV(narrowtypedbuf).Format(DXGI_FORMAT_R16_FLOAT).CreateGPU(32);
+
+        ID3D12ResourcePtr    smileyUAV = MakeTexture(DXGI_FORMAT_R8G8B8A8_TYPELESS, 48, 48)
                                          .Mips(1)
                                          .InitialState(D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
                                          .UAV();
-    typedTexture->SetName(L"typedTexture");
-    MakeUAV(typedTexture).Format(DXGI_FORMAT_UNKNOWN).CreateGPU(102);
 
-    float structdata[220];
-    for(int i = 0; i < 220; i++)
-      structdata[i] = float(i);
+        MakeUAV(smileyUAV).Format(DXGI_FORMAT_R8G8B8A8_UNORM).CreateGPU(33);
+        ID3D12ResourcePtr    atomicBuffer = MakeBuffer().Size(1024).UAV();
+        atomicBuffer->SetName(L"atomicBuffer");
+        MakeUAV(atomicBuffer).Format(DXGI_FORMAT_R32_UINT).CreateGPU(34);
+        ID3D12ResourcePtr    oneIntBuffer = MakeBuffer().Size(4).UAV();
+        oneIntBuffer->SetName(L"oneIntBuffer");
+        MakeUAV(oneIntBuffer).Format(DXGI_FORMAT_R32_SINT).CreateGPU(100);
+        ID3D12ResourcePtr    typedBuffer = MakeBuffer().Size(1024).UAV();
+        typedBuffer->SetName(L"typedBuffer");
+        MakeUAV(typedBuffer).Format(DXGI_FORMAT_R32G32B32A32_FLOAT).CreateGPU(101);
 
-    ID3D12ResourcePtr rgbbuf = MakeBuffer().Data(structdata);
-    rgbbuf->SetName(L"rgbbuf");
-    MakeSRV(rgbbuf).Format(DXGI_FORMAT_R32G32B32_FLOAT).CreateGPU(23);
+        // Typed texture with UAV of UNKNOWN format
+        ID3D12ResourcePtr    typedTexture = MakeTexture(DXGI_FORMAT_R8G8B8A8_UNORM, 48, 48)
+                                            .Mips(1)
+                                            .InitialState(D3D12_RESOURCE_STATE_UNORDERED_ACCESS)
+                                            .UAV();
+        typedTexture->SetName(L"typedTexture");
+        MakeUAV(typedTexture).Format(DXGI_FORMAT_UNKNOWN).CreateGPU(102);
 
-    ID3D12ResourcePtr structBuf = MakeBuffer().Data(structdata);
-    structBuf->SetName(L"structBuf");
-    MakeSRV(structBuf)
+        float    structdata[220];
+
+        for (int i = 0; i < 220; i++)
+            structdata[i] = float(i);
+
+        ID3D12ResourcePtr    rgbbuf = MakeBuffer().Data(structdata);
+        rgbbuf->SetName(L"rgbbuf");
+        MakeSRV(rgbbuf).Format(DXGI_FORMAT_R32G32B32_FLOAT).CreateGPU(23);
+
+        ID3D12ResourcePtr    structBuf = MakeBuffer().Data(structdata);
+        structBuf->SetName(L"structBuf");
+        MakeSRV(structBuf)
         .Format(DXGI_FORMAT_UNKNOWN)
         .FirstElement(3)
         .NumElements(5)
         .StructureStride(11 * sizeof(float))
         .CreateGPU(2);
 
-    ID3D12ResourcePtr rootStruct = MakeBuffer().Data(structdata);
-    rootStruct->SetName(L"rootStruct");
-    MakeSRV(rootStruct)
+        ID3D12ResourcePtr    rootStruct = MakeBuffer().Data(structdata);
+        rootStruct->SetName(L"rootStruct");
+        MakeSRV(rootStruct)
         .Format(DXGI_FORMAT_UNKNOWN)
         .FirstElement(3)
         .NumElements(5)
         .StructureStride(11 * sizeof(float))
         .CreateGPU(35);
-    ID3D12ResourcePtr rootDummy = MakeBuffer().Data(structdata);
-    rootDummy->SetName(L"rootDummy");
+        ID3D12ResourcePtr    rootDummy = MakeBuffer().Data(structdata);
+        rootDummy->SetName(L"rootDummy");
 
-    ID3D12ResourcePtr structBuf2 = MakeBuffer().Size(880).UAV();
-    structBuf2->SetName(L"structBuf2");
-    D3D12ViewCreator uavView2 = MakeUAV(structBuf2)
-                                    .Format(DXGI_FORMAT_UNKNOWN)
-                                    .FirstElement(3)
-                                    .NumElements(6)
-                                    .StructureStride(11 * sizeof(float));
-    D3D12_CPU_DESCRIPTOR_HANDLE uav2cpu = uavView2.CreateClearCPU(11);
-    D3D12_GPU_DESCRIPTOR_HANDLE uav2gpu = uavView2.CreateGPU(11);
+        ID3D12ResourcePtr    structBuf2 = MakeBuffer().Size(880).UAV();
+        structBuf2->SetName(L"structBuf2");
+        D3D12ViewCreator    uavView2 = MakeUAV(structBuf2)
+                                       .Format(DXGI_FORMAT_UNKNOWN)
+                                       .FirstElement(3)
+                                       .NumElements(6)
+                                       .StructureStride(11 * sizeof(float));
+        D3D12_CPU_DESCRIPTOR_HANDLE     uav2cpu = uavView2.CreateClearCPU(11);
+        D3D12_GPU_DESCRIPTOR_HANDLE     uav2gpu = uavView2.CreateGPU(11);
 
-    // need to create non-structured version for clearing
-    uavView2 = MakeUAV(structBuf2).Format(DXGI_FORMAT_R32_UINT);
-    uav2cpu = uavView2.CreateClearCPU(9);
-    uav2gpu = uavView2.CreateGPU(9);
+        // need to create non-structured version for clearing
+        uavView2    = MakeUAV(structBuf2).Format(DXGI_FORMAT_R32_UINT);
+        uav2cpu     = uavView2.CreateClearCPU(9);
+        uav2gpu     = uavView2.CreateGPU(9);
 
-    // Create resources for MSAA draw
-    ID3DBlobPtr vsmsaablob = Compile(D3DDefaultVertex, "main", "vs_5_0");
-    ID3DBlobPtr psmsaablob = Compile(msaaPixel, "main", "ps_5_0");
+        // Create resources for MSAA draw
+        ID3DBlobPtr     vsmsaablob  = Compile(D3DDefaultVertex, "main", "vs_5_0");
+        ID3DBlobPtr     psmsaablob  = Compile(msaaPixel, "main", "ps_5_0");
 
-    ID3D12RootSignaturePtr sigmsaa = MakeSig({});
+        ID3D12RootSignaturePtr    sigmsaa = MakeSig({});
 
-    ID3D12PipelineStatePtr psomsaa = MakePSO()
-                                         .RootSig(sigmsaa)
-                                         .InputLayout()
-                                         .VS(vsmsaablob)
-                                         .PS(psmsaablob)
-                                         .SampleCount(4)
-                                         .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
-    ID3D12ResourcePtr vbmsaa = MakeBuffer().Data(DefaultTri);
+        ID3D12PipelineStatePtr    psomsaa = MakePSO()
+                                            .RootSig(sigmsaa)
+                                            .InputLayout()
+                                            .VS(vsmsaablob)
+                                            .PS(psmsaablob)
+                                            .SampleCount(4)
+                                            .RTVs({DXGI_FORMAT_R32G32B32A32_FLOAT});
+        ID3D12ResourcePtr    vbmsaa = MakeBuffer().Data(DefaultTri);
 
-    ID3D12ResourcePtr msaaTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 8, 8)
-                                    .RTV()
-                                    .Multisampled(4)
-                                    .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
-    D3D12_CPU_DESCRIPTOR_HANDLE msaaRTV = MakeRTV(msaaTex).CreateCPU(1);
+        ID3D12ResourcePtr    msaaTex = MakeTexture(DXGI_FORMAT_R32G32B32A32_FLOAT, 8, 8)
+                                       .RTV()
+                                       .Multisampled(4)
+                                       .InitialState(D3D12_RESOURCE_STATE_RENDER_TARGET);
+        D3D12_CPU_DESCRIPTOR_HANDLE    msaaRTV = MakeRTV(msaaTex).CreateCPU(1);
 
-    ID3D12RootSignaturePtr blitSig = MakeSig({
-        constParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 0, 1),
-        tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 0, 1, 8),
-    });
-    ID3D12PipelineStatePtr blitpso = MakePSO()
-                                         .RootSig(blitSig)
-                                         .VS(Compile(D3DFullscreenQuadVertex, "main", "vs_4_0"))
-                                         .PS(Compile(pixelBlit, "main", "ps_5_0"));
+        ID3D12RootSignaturePtr    blitSig = MakeSig({
+            constParam(D3D12_SHADER_VISIBILITY_PIXEL, 0, 0, 1),
+            tableParam(D3D12_SHADER_VISIBILITY_PIXEL, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 0, 1, 8),
+        });
+        ID3D12PipelineStatePtr    blitpso = MakePSO()
+                                            .RootSig(blitSig)
+                                            .VS(Compile(D3DFullscreenQuadVertex, "main", "vs_4_0"))
+                                            .PS(Compile(pixelBlit, "main", "ps_5_0"));
 
-    ID3D12RootSignaturePtr vertexSampleSig = MakeSig(
+        ID3D12RootSignaturePtr    vertexSampleSig = MakeSig(
         {
             tableParam(D3D12_SHADER_VISIBILITY_VERTEX, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0, 0, 1, 8),
         },
-        D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+            D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
 
-    ID3D12PipelineStatePtr vertexSamplePSO_5_0 = MakePSO()
-                                                     .RootSig(vertexSampleSig)
-                                                     .VS(Compile(vertexSampleVS, "main", "vs_5_0"))
-                                                     .PS(Compile(vertexSamplePS, "main", "ps_5_0"));
+        ID3D12PipelineStatePtr    vertexSamplePSO_5_0 = MakePSO()
+                                                        .RootSig(vertexSampleSig)
+                                                        .VS(Compile(vertexSampleVS, "main", "vs_5_0"))
+                                                        .PS(Compile(vertexSamplePS, "main", "ps_5_0"));
 
-    ID3D12PipelineStatePtr vertexSamplePSOs[3] = {vertexSamplePSO_5_0, NULL};
-    if(supportSM60)
-    {
-      vertexSamplePSOs[1] = MakePSO()
-                                .RootSig(vertexSampleSig)
-                                .VS(Compile(vertexSampleVS, "main", "vs_6_0"))
-                                .PS(Compile(vertexSamplePS, "main", "ps_6_0"));
-    }
-
-    if(supportSM66)
-    {
-      vertexSamplePSOs[2] = MakePSO()
-                                .RootSig(vertexSampleSig)
-                                .VS(Compile(vertexSampleVS, "main", "vs_6_6"))
-                                .PS(Compile(vertexSamplePS, "main", "ps_6_6"));
-    }
-
-    // set the NULL descriptors
-    UINT inc = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-
-    {
-      D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc = {};
-      srvdesc.Format = DXGI_FORMAT_R32_FLOAT;
-      srvdesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-      srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-      srvdesc.Buffer.NumElements = 10;
-
-      cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-      cpu.ptr += inc * 20;
-      dev->CreateShaderResourceView(NULL, &srvdesc, cpu);
-    }
-
-    {
-      D3D12_SHADER_RESOURCE_VIEW_DESC srvdesc = {};
-      srvdesc.Format = DXGI_FORMAT_R32_FLOAT;
-      srvdesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-      srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-      srvdesc.Texture2D.MipLevels = 1;
-
-      cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-      cpu.ptr += inc * 21;
-      dev->CreateShaderResourceView(NULL, &srvdesc, cpu);
-    }
-
-    {
-      D3D12_UNORDERED_ACCESS_VIEW_DESC uavdesc = {};
-      uavdesc.Format = DXGI_FORMAT_R32_FLOAT;
-      uavdesc.ViewDimension = D3D12_UAV_DIMENSION_BUFFER;
-      uavdesc.Buffer.NumElements = 10;
-
-      cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-      cpu.ptr += inc * 30;
-      dev->CreateUnorderedAccessView(NULL, NULL, &uavdesc, cpu);
-    }
-
-    {
-      D3D12_UNORDERED_ACCESS_VIEW_DESC uavdesc = {};
-      uavdesc.Format = DXGI_FORMAT_R32_FLOAT;
-      uavdesc.ViewDimension = D3D12_UAV_DIMENSION_TEXTURE2D;
-
-      cpu = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
-      cpu.ptr += inc * 31;
-      dev->CreateUnorderedAccessView(NULL, NULL, &uavdesc, cpu);
-    }
-
-    ID3D12RootSignaturePtr bannedSig =
-        MakeSig({}, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-                        D3D12_ROOT_SIGNATURE_FLAG_DENY_VERTEX_SHADER_ROOT_ACCESS |
-                        D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
-    ID3D12PipelineStatePtr bannedPSO = MakePSO()
-                                           .InputLayout()
-                                           .RootSig(bannedSig)
-                                           .VS(Compile(D3DDefaultVertex, "main", "vs_5_0"))
-                                           .PS(Compile(D3DDefaultPixel, "main", "ps_5_0"));
-
-    const uint32_t renderDataSize = sizeof(float) * 22;
-    // Create resources for compute shader
-    const uint32_t computeDataStart = AlignUp(renderDataSize, 1024U);
-    ID3D12RootSignaturePtr sigCompute = MakeSig({
-        uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0),
-        uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 1),
-        constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0, 4),
-        constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 1, 12),
-        tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 2, 1, 3),
-    });
-
-    const uint32_t countComputeSMs = 3;
-    ID3D12PipelineStatePtr computePSOs[countComputeSMs] = {NULL, NULL, NULL};
-    std::string computeSMs[countComputeSMs] = {"cs_5_0", "cs_6_0", "cs_6_6"};
-    ID3DBlobPtr csblob = Compile(compute, "main", "cs_5_0");
-    computePSOs[0] = MakePSO().RootSig(sigCompute).CS(csblob);
-
-    if(supportSM60)
-    {
-      csblob = Compile(compute, "main", "cs_6_0");
-      computePSOs[1] = MakePSO().RootSig(sigCompute).CS(csblob);
-    }
-
-    if(supportSM66)
-    {
-      csblob = Compile(compute, "main", "cs_6_6");
-      computePSOs[2] = MakePSO().RootSig(sigCompute).CS(csblob);
-    }
-
-    const uint32_t uavSize = 1024;
-    ID3D12ResourcePtr bufIn = MakeBuffer().Size(uavSize).UAV();
-    ID3D12ResourcePtr bufOut = MakeBuffer().Size(uavSize).UAV();
-    bufIn->SetName(L"bufIn");
-    bufOut->SetName(L"bufOut");
-
-    D3D12_GPU_DESCRIPTOR_HANDLE bufInGPU =
-        MakeUAV(bufIn).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(computeDataStart);
-    D3D12_CPU_DESCRIPTOR_HANDLE bufInClearCPU =
-        MakeUAV(bufIn).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(computeDataStart);
-    D3D12_GPU_DESCRIPTOR_HANDLE bufOutGPU =
-        MakeUAV(bufOut).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(computeDataStart + 1);
-    D3D12_CPU_DESCRIPTOR_HANDLE bufOutClearCPU =
-        MakeUAV(bufOut).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(computeDataStart + 1);
-
-    D3D12_GPU_VIRTUAL_ADDRESS bufInVA = bufIn->GetGPUVirtualAddress();
-    D3D12_GPU_VIRTUAL_ADDRESS bufOutVA = bufOut->GetGPUVirtualAddress();
-
-    uint32_t bufInInitData[uavSize];
-    uint32_t bufOutInitData[uavSize];
-    for(uint32_t i = 0; i < uavSize; ++i)
-    {
-      bufInInitData[i] = 111 + i / 4;
-      bufOutInitData[i] = 222 + i / 4;
-    }
-
-    D3D12_RECT uavClearRect = {};
-    uavClearRect.right = uavSize;
-    uavClearRect.bottom = 1;
-
-    while(Running())
-    {
-      ID3D12GraphicsCommandListPtr cmd = GetCommandBuffer();
-      Reset(cmd);
-
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-      D3D12_CPU_DESCRIPTOR_HANDLE rtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(2);
-      ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
-
-      setMarker(cmd, undefined_tests);
-
-      const char *markers[] = {
-          "sm_5_0",     "sm_5_0_opt", "sm_5_1",     "sm_5_1_opt", "sm_6_0",
-          "sm_6_0_opt", "sm_6_2",     "sm_6_2_opt", "sm_6_6",     "sm_6_6_opt",
-      };
-      static_assert(ARRAY_COUNT(markers) == ARRAY_COUNT(psos), "mismatched array dimension");
-
-      // Clear, draw, and blit to backbuffer - once for each SM 5.0, 5.1, 6.0, 6.2, 6.6
-      size_t countGraphicsPasses = 4;
-      if(supportSM60)
-        countGraphicsPasses += 2;
-      if(supportSM62)
-        countGraphicsPasses += 2;
-      if(supportSM66)
-        countGraphicsPasses += 2;
-      TEST_ASSERT(countGraphicsPasses <= ARRAY_COUNT(psos), "More graphic passes than psos");
-      for(size_t i = 0; i < countGraphicsPasses; ++i)
-      {
-        float blitOffset = 8.0f * i;
-        D3D12_RECT scissor = {};
-        scissor.left = 0;
-        scissor.top = (int)(8 * i);
-        scissor.right = (int)texDim;
-
-        for(size_t j = 0; j < 2; ++j)
+        ID3D12PipelineStatePtr    vertexSamplePSOs[3] = {vertexSamplePSO_5_0, NULL};
+        if (supportSM60)
         {
-          OMSetRenderTargets(cmd, {fltRTV}, {});
-          ClearRenderTargetView(cmd, fltRTV, {0.2f, 0.2f, 0.2f, 1.0f});
-
-          IASetVertexBuffer(cmd, vb, sizeof(ConstsA2V), 0);
-          cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-          cmd->SetGraphicsRootSignature(sig);
-          cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
-          cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->SetGraphicsRootDescriptorTable(2, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->SetGraphicsRootDescriptorTable(3, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->SetGraphicsRootUnorderedAccessView(5, rootDummy->GetGPUVirtualAddress());
-          cmd->SetGraphicsRootShaderResourceView(
-              6, rootStruct->GetGPUVirtualAddress() + renderDataSize);
-          cmd->SetGraphicsRootDescriptorTable(7, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-
-          // Add a marker so we can easily locate this draw
-          std::string markerName = markers[i];
-          uint32_t numTests = 0;
-          ID3D12PipelineStatePtr pso = NULL;
-          if(j == 0)
-          {
-            pso = psos[i];
-            numTests = numResTests;
-          }
-          else
-          {
-            markerName = "NoResources " + markerName;
-            pso = noResPSOs[i];
-            numTests = numNoResTests;
-          }
-          cmd->SetPipelineState(pso);
-
-          RSSetViewport(cmd, {0.0f, 0.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
-          RSSetScissorRect(cmd, {0, 0, (int)texDim, 4});
-
-          UINT zero[4] = {};
-          cmd->ClearUnorderedAccessViewUint(uav1gpu, uav1cpu, rawBuf2, zero, 0, NULL);
-          cmd->ClearUnorderedAccessViewUint(uav2gpu, uav2cpu, structBuf2, zero, 0, NULL);
-          cmd->ClearUnorderedAccessViewUint(uav3gpu, uav3cpu, rawBuf2, zero, 0, NULL);
-
-          setMarker(cmd, markerName.c_str());
-          cmd->DrawInstanced(3, numTests, 0, 0);
-
-          ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_RENDER_TARGET,
-                          D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
-
-          scissor.bottom = scissor.top + 4;
-          OMSetRenderTargets(cmd, {rtv}, {});
-          RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-          RSSetScissorRect(cmd, scissor);
-
-          cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-          cmd->SetGraphicsRootSignature(blitSig);
-          cmd->SetPipelineState(blitpso);
-          cmd->SetGraphicsRoot32BitConstant(0, *(UINT *)&blitOffset, 0);
-          cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-          cmd->DrawInstanced(4, 1, 0, 0);
-
-          ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
-                          D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-          scissor.top += 4;
-          blitOffset += 4.0f;
+            vertexSamplePSOs[1] = MakePSO()
+                                  .RootSig(vertexSampleSig)
+                                  .VS(Compile(vertexSampleVS, "main", "vs_6_0"))
+                                  .PS(Compile(vertexSamplePS, "main", "ps_6_0"));
         }
-      }
 
-      // Render MSAA test
-      OMSetRenderTargets(cmd, {msaaRTV}, {});
-      ClearRenderTargetView(cmd, msaaRTV, {0.2f, 0.2f, 0.2f, 1.0f});
-      IASetVertexBuffer(cmd, vbmsaa, sizeof(DefaultA2V), 0);
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+        if (supportSM66)
+        {
+            vertexSamplePSOs[2] = MakePSO()
+                                  .RootSig(vertexSampleSig)
+                                  .VS(Compile(vertexSampleVS, "main", "vs_6_6"))
+                                  .PS(Compile(vertexSamplePS, "main", "ps_6_6"));
+        }
 
-      cmd->SetGraphicsRootSignature(sigmsaa);
-      cmd->SetPipelineState(psomsaa);
-      RSSetViewport(cmd, {0.0f, 0.0f, 8.0f, 8.0f, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {0, 0, 8, 8});
+        // set the NULL descriptors
+        UINT    inc = dev->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
-      // Add a marker so we can easily locate this draw
-      setMarker(cmd, "MSAA");
-      cmd->DrawInstanced(3, 1, 0, 0);
+        {
+            D3D12_SHADER_RESOURCE_VIEW_DESC    srvdesc = {};
+            srvdesc.Format                  = DXGI_FORMAT_R32_FLOAT;
+            srvdesc.ViewDimension           = D3D12_SRV_DIMENSION_BUFFER;
+            srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+            srvdesc.Buffer.NumElements      = 10;
 
-      OMSetRenderTargets(cmd, {fltRTV}, {});
-      ClearRenderTargetView(cmd, fltRTV, {0.3f, 0.5f, 0.8f, 1.0f});
+            cpu     = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+            cpu.ptr += inc * 20;
+            dev->CreateShaderResourceView(NULL, &srvdesc, cpu);
+        }
 
-      ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_RENDER_TARGET,
-                      D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+        {
+            D3D12_SHADER_RESOURCE_VIEW_DESC    srvdesc = {};
+            srvdesc.Format                  = DXGI_FORMAT_R32_FLOAT;
+            srvdesc.ViewDimension           = D3D12_SRV_DIMENSION_TEXTURE2D;
+            srvdesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+            srvdesc.Texture2D.MipLevels     = 1;
 
-      OMSetRenderTargets(cmd, {rtv}, {});
-      RSSetViewport(cmd, {50.0f, 50.0f, 10.0f, 10.0f, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {50, 50, 60, 60});
+            cpu     = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+            cpu.ptr += inc * 21;
+            dev->CreateShaderResourceView(NULL, &srvdesc, cpu);
+        }
 
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
-      cmd->SetGraphicsRootSignature(vertexSampleSig);
+        {
+            D3D12_UNORDERED_ACCESS_VIEW_DESC    uavdesc = {};
+            uavdesc.Format              = DXGI_FORMAT_R32_FLOAT;
+            uavdesc.ViewDimension       = D3D12_UAV_DIMENSION_BUFFER;
+            uavdesc.Buffer.NumElements  = 10;
 
-      const char *vs_markers[3] = {
-          "VertexSample sm_5_0",
-          "VertexSample sm_6_0",
-          "VertexSample sm_6_6",
-      };
-      size_t countVertexSamplePasses = supportSM66 ? 3 : (supportSM60 ? 2 : 1);
-      TEST_ASSERT(countVertexSamplePasses <= ARRAY_COUNT(vertexSamplePSOs),
-                  "More vertex sample passes than psos");
-      for(int i = 0; i < countVertexSamplePasses; ++i)
-      {
-        cmd->SetPipelineState(vertexSamplePSOs[i]);
-        cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
-        setMarker(cmd, vs_markers[i]);
-        cmd->DrawInstanced(4, 1, 0, 0);
-      }
+            cpu     = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+            cpu.ptr += inc * 30;
+            dev->CreateUnorderedAccessView(NULL, NULL, &uavdesc, cpu);
+        }
 
-      setMarker(cmd, "BannedSig");
-      RSSetViewport(cmd, {60.0f, 60.0f, 10.0f, 10.0f, 0.0f, 1.0f});
-      RSSetScissorRect(cmd, {60, 60, 70, 70});
-      cmd->SetGraphicsRootSignature(bannedSig);
-      cmd->SetPipelineState(bannedPSO);
-      cmd->DrawInstanced(3, 1, 0, 0);
+        {
+            D3D12_UNORDERED_ACCESS_VIEW_DESC    uavdesc = {};
+            uavdesc.Format          = DXGI_FORMAT_R32_FLOAT;
+            uavdesc.ViewDimension   = D3D12_UAV_DIMENSION_TEXTURE2D;
 
-      ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
-                      D3D12_RESOURCE_STATE_RENDER_TARGET);
+            cpu     = m_CBVUAVSRV->GetCPUDescriptorHandleForHeapStart();
+            cpu.ptr += inc * 31;
+            dev->CreateUnorderedAccessView(NULL, NULL, &uavdesc, cpu);
+        }
 
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+        ID3D12RootSignaturePtr    bannedSig =
+            MakeSig({}, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+                    D3D12_ROOT_SIGNATURE_FLAG_DENY_VERTEX_SHADER_ROOT_ACCESS |
+                    D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+        ID3D12PipelineStatePtr    bannedPSO = MakePSO()
+                                              .InputLayout()
+                                              .RootSig(bannedSig)
+                                              .VS(Compile(D3DDefaultVertex, "main", "vs_5_0"))
+                                              .PS(Compile(D3DDefaultPixel, "main", "ps_5_0"));
 
-      pushMarker(cmd, "Compute");
-      size_t countComputePasses = supportSM66 ? 3 : (supportSM60 ? 2 : 1);
-      TEST_ASSERT(countComputePasses <= ARRAY_COUNT(computePSOs), "More compute passes than psos");
-      for(size_t i = 0; i < countComputePasses; ++i)
-      {
-        cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+        const uint32_t    renderDataSize = sizeof(float) * 22;
+        // Create resources for compute shader
+        const uint32_t              computeDataStart    = AlignUp(renderDataSize, 1024U);
+        ID3D12RootSignaturePtr      sigCompute          = MakeSig({
+            uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0),
+            uavParam(D3D12_SHADER_VISIBILITY_ALL, 0, 1),
+            constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 0, 4),
+            constParam(D3D12_SHADER_VISIBILITY_ALL, 0, 1, 12),
+            tableParam(D3D12_SHADER_VISIBILITY_ALL, D3D12_DESCRIPTOR_RANGE_TYPE_UAV, 0, 2, 1, 3),
+        });
 
-        cmd->ClearUnorderedAccessViewUint(bufInGPU, bufInClearCPU, bufIn, bufInInitData, 1,
-                                          &uavClearRect);
-        cmd->ClearUnorderedAccessViewUint(bufOutGPU, bufOutClearCPU, bufOut, bufOutInitData, 1,
-                                          &uavClearRect);
+        const uint32_t              countComputeSMs                 = 3;
+        ID3D12PipelineStatePtr      computePSOs[countComputeSMs]    = {NULL, NULL, NULL};
+        std::string                 computeSMs[countComputeSMs]     = {"cs_5_0", "cs_6_0", "cs_6_6"};
+        ID3DBlobPtr                 csblob                          = Compile(compute, "main", "cs_5_0");
+        computePSOs[0] = MakePSO().RootSig(sigCompute).CS(csblob);
 
-        cmd->SetComputeRootSignature(sigCompute);
-        cmd->SetComputeRootUnorderedAccessView(0, bufInVA);
-        cmd->SetComputeRootUnorderedAccessView(1, bufOutVA);
-        cmd->SetComputeRoot32BitConstant(2, 5, 0);
-        cmd->SetComputeRoot32BitConstant(2, 6, 1);
-        cmd->SetComputeRoot32BitConstant(2, 7, 2);
-        cmd->SetComputeRoot32BitConstant(2, 8, 3);
-        cmd->SetComputeRoot32BitConstant(3, 10, 4 + 2);    // col1z
-        cmd->SetComputeRoot32BitConstant(3, 11, 8 + 3);    // col2w
-        cmd->SetComputeRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+        if (supportSM60)
+        {
+            csblob          = Compile(compute, "main", "cs_6_0");
+            computePSOs[1]  = MakePSO().RootSig(sigCompute).CS(csblob);
+        }
 
-        cmd->SetPipelineState(computePSOs[i]);
-        setMarker(cmd, computeSMs[i]);
-        cmd->Dispatch(3, 2, 1);
-      }
-      popMarker(cmd);
+        if (supportSM66)
+        {
+            csblob          = Compile(compute, "main", "cs_6_6");
+            computePSOs[2]  = MakePSO().RootSig(sigCompute).CS(csblob);
+        }
 
-      cmd->Close();
-      Submit({cmd});
-      Present();
+        const uint32_t          uavSize = 1024;
+        ID3D12ResourcePtr       bufIn   = MakeBuffer().Size(uavSize).UAV();
+        ID3D12ResourcePtr       bufOut  = MakeBuffer().Size(uavSize).UAV();
+        bufIn->SetName(L"bufIn");
+        bufOut->SetName(L"bufOut");
+
+        D3D12_GPU_DESCRIPTOR_HANDLE    bufInGPU =
+            MakeUAV(bufIn).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(computeDataStart);
+        D3D12_CPU_DESCRIPTOR_HANDLE    bufInClearCPU =
+            MakeUAV(bufIn).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(computeDataStart);
+        D3D12_GPU_DESCRIPTOR_HANDLE    bufOutGPU =
+            MakeUAV(bufOut).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateGPU(computeDataStart + 1);
+        D3D12_CPU_DESCRIPTOR_HANDLE    bufOutClearCPU =
+            MakeUAV(bufOut).Format(DXGI_FORMAT_R32G32B32A32_UINT).CreateClearCPU(computeDataStart + 1);
+
+        D3D12_GPU_VIRTUAL_ADDRESS       bufInVA     = bufIn->GetGPUVirtualAddress();
+        D3D12_GPU_VIRTUAL_ADDRESS       bufOutVA    = bufOut->GetGPUVirtualAddress();
+
+        uint32_t    bufInInitData[uavSize];
+        uint32_t    bufOutInitData[uavSize];
+
+        for (uint32_t i = 0; i < uavSize; ++i)
+        {
+            bufInInitData[i]    = 111 + i / 4;
+            bufOutInitData[i]   = 222 + i / 4;
+        }
+
+        D3D12_RECT    uavClearRect = {};
+        uavClearRect.right  = uavSize;
+        uavClearRect.bottom = 1;
+
+        while (Running())
+        {
+            ID3D12GraphicsCommandListPtr    cmd = GetCommandBuffer();
+            Reset(cmd);
+
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            D3D12_CPU_DESCRIPTOR_HANDLE    rtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(2);
+            ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
+
+            setMarker(cmd, undefined_tests);
+
+            const char    *markers[] =
+            {
+                "sm_5_0",     "sm_5_0_opt", "sm_5_1",     "sm_5_1_opt", "sm_6_0",
+                "sm_6_0_opt", "sm_6_2",     "sm_6_2_opt", "sm_6_6",     "sm_6_6_opt",
+            };
+            static_assert(ARRAY_COUNT(markers) == ARRAY_COUNT(psos), "mismatched array dimension");
+
+            // Clear, draw, and blit to backbuffer - once for each SM 5.0, 5.1, 6.0, 6.2, 6.6
+            size_t    countGraphicsPasses = 4;
+            if (supportSM60)
+                countGraphicsPasses += 2;
+
+            if (supportSM62)
+                countGraphicsPasses += 2;
+
+            if (supportSM66)
+                countGraphicsPasses += 2;
+
+            TEST_ASSERT(countGraphicsPasses <= ARRAY_COUNT(psos), "More graphic passes than psos");
+
+            for (size_t i = 0; i < countGraphicsPasses; ++i)
+            {
+                float           blitOffset  = 8.0f * i;
+                D3D12_RECT      scissor     = {};
+                scissor.left    = 0;
+                scissor.top     = (int)(8 * i);
+                scissor.right   = (int)texDim;
+
+                for (size_t j = 0; j < 2; ++j)
+                {
+                    OMSetRenderTargets(cmd, {fltRTV}, {});
+                    ClearRenderTargetView(cmd, fltRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+
+                    IASetVertexBuffer(cmd, vb, sizeof(ConstsA2V), 0);
+                    cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+                    cmd->SetGraphicsRootSignature(sig);
+                    cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+                    cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->SetGraphicsRootDescriptorTable(2, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->SetGraphicsRootDescriptorTable(3, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->SetGraphicsRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->SetGraphicsRootUnorderedAccessView(5, rootDummy->GetGPUVirtualAddress());
+                    cmd->SetGraphicsRootShaderResourceView(
+                        6, rootStruct->GetGPUVirtualAddress() + renderDataSize);
+                    cmd->SetGraphicsRootDescriptorTable(7, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+                    // Add a marker so we can easily locate this draw
+                    std::string                 markerName  = markers[i];
+                    uint32_t                    numTests    = 0;
+                    ID3D12PipelineStatePtr      pso         = NULL;
+                    if (j == 0)
+                    {
+                        pso         = psos[i];
+                        numTests    = numResTests;
+                    }
+                    else
+                    {
+                        markerName  = "NoResources " + markerName;
+                        pso         = noResPSOs[i];
+                        numTests    = numNoResTests;
+                    }
+
+                    cmd->SetPipelineState(pso);
+
+                    RSSetViewport(cmd, {0.0f, 0.0f, (float)texDim, 4.0f, 0.0f, 1.0f});
+                    RSSetScissorRect(cmd, {0, 0, (int)texDim, 4});
+
+                    UINT    zero[4] = {};
+                    cmd->ClearUnorderedAccessViewUint(uav1gpu, uav1cpu, rawBuf2, zero, 0, NULL);
+                    cmd->ClearUnorderedAccessViewUint(uav2gpu, uav2cpu, structBuf2, zero, 0, NULL);
+                    cmd->ClearUnorderedAccessViewUint(uav3gpu, uav3cpu, rawBuf2, zero, 0, NULL);
+
+                    setMarker(cmd, markerName.c_str());
+                    cmd->DrawInstanced(3, numTests, 0, 0);
+
+                    ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_RENDER_TARGET,
+                                    D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
+
+                    scissor.bottom = scissor.top + 4;
+                    OMSetRenderTargets(cmd, {rtv}, {});
+                    RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                    RSSetScissorRect(cmd, scissor);
+
+                    cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+                    cmd->SetGraphicsRootSignature(blitSig);
+                    cmd->SetPipelineState(blitpso);
+                    cmd->SetGraphicsRoot32BitConstant(0, *(UINT*)&blitOffset, 0);
+                    cmd->SetGraphicsRootDescriptorTable(1, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                    cmd->DrawInstanced(4, 1, 0, 0);
+
+                    ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE,
+                                    D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+                    scissor.top += 4;
+                    blitOffset  += 4.0f;
+                }
+            }
+
+            // Render MSAA test
+            OMSetRenderTargets(cmd, {msaaRTV}, {});
+            ClearRenderTargetView(cmd, msaaRTV, {0.2f, 0.2f, 0.2f, 1.0f});
+            IASetVertexBuffer(cmd, vbmsaa, sizeof(DefaultA2V), 0);
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+            cmd->SetGraphicsRootSignature(sigmsaa);
+            cmd->SetPipelineState(psomsaa);
+            RSSetViewport(cmd, {0.0f, 0.0f, 8.0f, 8.0f, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {0, 0, 8, 8});
+
+            // Add a marker so we can easily locate this draw
+            setMarker(cmd, "MSAA");
+            cmd->DrawInstanced(3, 1, 0, 0);
+
+            OMSetRenderTargets(cmd, {fltRTV}, {});
+            ClearRenderTargetView(cmd, fltRTV, {0.3f, 0.5f, 0.8f, 1.0f});
+
+            ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_RENDER_TARGET,
+                            D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+
+            OMSetRenderTargets(cmd, {rtv}, {});
+            RSSetViewport(cmd, {50.0f, 50.0f, 10.0f, 10.0f, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {50, 50, 60, 60});
+
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
+            cmd->SetGraphicsRootSignature(vertexSampleSig);
+
+            const char    *vs_markers[3] =
+            {
+                "VertexSample sm_5_0",
+                "VertexSample sm_6_0",
+                "VertexSample sm_6_6",
+            };
+            size_t    countVertexSamplePasses = supportSM66 ? 3 : (supportSM60 ? 2 : 1);
+            TEST_ASSERT(countVertexSamplePasses <= ARRAY_COUNT(vertexSamplePSOs),
+                        "More vertex sample passes than psos");
+
+            for (int i = 0; i < countVertexSamplePasses; ++i)
+            {
+                cmd->SetPipelineState(vertexSamplePSOs[i]);
+                cmd->SetGraphicsRootDescriptorTable(0, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+                setMarker(cmd, vs_markers[i]);
+                cmd->DrawInstanced(4, 1, 0, 0);
+            }
+
+            setMarker(cmd, "BannedSig");
+            RSSetViewport(cmd, {60.0f, 60.0f, 10.0f, 10.0f, 0.0f, 1.0f});
+            RSSetScissorRect(cmd, {60, 60, 70, 70});
+            cmd->SetGraphicsRootSignature(bannedSig);
+            cmd->SetPipelineState(bannedPSO);
+            cmd->DrawInstanced(3, 1, 0, 0);
+
+            ResourceBarrier(cmd, fltTex, D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE,
+                            D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+
+            pushMarker(cmd, "Compute");
+            size_t    countComputePasses = supportSM66 ? 3 : (supportSM60 ? 2 : 1);
+            TEST_ASSERT(countComputePasses <= ARRAY_COUNT(computePSOs), "More compute passes than psos");
+
+            for (size_t i = 0; i < countComputePasses; ++i)
+            {
+                cmd->SetDescriptorHeaps(1, &m_CBVUAVSRV.GetInterfacePtr());
+
+                cmd->ClearUnorderedAccessViewUint(bufInGPU, bufInClearCPU, bufIn, bufInInitData, 1,
+                                                  &uavClearRect);
+                cmd->ClearUnorderedAccessViewUint(bufOutGPU, bufOutClearCPU, bufOut, bufOutInitData, 1,
+                                                  &uavClearRect);
+
+                cmd->SetComputeRootSignature(sigCompute);
+                cmd->SetComputeRootUnorderedAccessView(0, bufInVA);
+                cmd->SetComputeRootUnorderedAccessView(1, bufOutVA);
+                cmd->SetComputeRoot32BitConstant(2, 5, 0);
+                cmd->SetComputeRoot32BitConstant(2, 6, 1);
+                cmd->SetComputeRoot32BitConstant(2, 7, 2);
+                cmd->SetComputeRoot32BitConstant(2, 8, 3);
+                cmd->SetComputeRoot32BitConstant(3, 10, 4 + 2); // col1z
+                cmd->SetComputeRoot32BitConstant(3, 11, 8 + 3); // col2w
+                cmd->SetComputeRootDescriptorTable(4, m_CBVUAVSRV->GetGPUDescriptorHandleForHeapStart());
+
+                cmd->SetPipelineState(computePSOs[i]);
+                setMarker(cmd, computeSMs[i]);
+                cmd->Dispatch(3, 2, 1);
+            }
+
+            popMarker(cmd);
+
+            cmd->Close();
+            Submit({cmd});
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

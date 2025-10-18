@@ -71,10 +71,11 @@ class QSslCertificate;
 Q_NETWORK_EXPORT uint qHash(const QSslCertificate &key, uint seed = 0) Q_DECL_NOTHROW;
 
 class QSslCertificatePrivate;
-class Q_NETWORK_EXPORT QSslCertificate
+class Q_NETWORK_EXPORT    QSslCertificate
 {
 public:
-    enum SubjectInfo {
+    enum SubjectInfo
+    {
         Organization,
         CommonName,
         LocalityName,
@@ -91,20 +92,30 @@ public:
     QSslCertificate(const QSslCertificate &other);
     ~QSslCertificate();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslCertificate &operator=(QSslCertificate &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslCertificate&operator=(QSslCertificate &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslCertificate &operator=(const QSslCertificate &other);
+    QSslCertificate&operator=(const QSslCertificate &other);
 
     void swap(QSslCertificate &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QSslCertificate &other) const;
-    inline bool operator!=(const QSslCertificate &other) const { return !operator==(other); }
+    inline bool operator!=(const QSslCertificate &other) const
+    {
+        return !operator==(other);
+    }
 
     bool isNull() const;
-#if QT_DEPRECATED_SINCE(5,0)
-    QT_DEPRECATED inline bool isValid() const {
-        const QDateTime currentTime = QDateTime::currentDateTimeUtc();
+#if QT_DEPRECATED_SINCE(5, 0)
+    QT_DEPRECATED inline bool isValid() const
+    {
+        const QDateTime    currentTime = QDateTime::currentDateTimeUtc();
+
         return currentTime >= effectiveDate() &&
                currentTime <= expiryDate() &&
                !isBlacklisted();
@@ -124,9 +135,12 @@ public:
     QStringList subjectInfo(const QByteArray &attribute) const;
     QList<QByteArray> subjectInfoAttributes() const;
     QList<QByteArray> issuerInfoAttributes() const;
-#if QT_DEPRECATED_SINCE(5,0)
+#if QT_DEPRECATED_SINCE(5, 0)
     QT_DEPRECATED inline QMultiMap<QSsl::AlternateNameEntryType, QString>
-                  alternateSubjectNames() const { return subjectAlternativeNames(); }
+    alternateSubjectNames() const
+    {
+        return subjectAlternativeNames();
+    }
 #endif
     QMultiMap<QSsl::AlternativeNameEntryType, QString> subjectAlternativeNames() const;
     QDateTime effectiveDate() const;
@@ -146,7 +160,7 @@ public:
     static QList<QSslCertificate> fromData(
         const QByteArray &data, QSsl::EncodingFormat format = QSsl::Pem);
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     static QList<QSslError> verify(const QList<QSslCertificate> &certificateChain, const QString &hostName = QString());
 #else
     static QList<QSslError> verify(QList<QSslCertificate> certificateChain, const QString &hostName = QString());
@@ -155,12 +169,12 @@ public:
     static bool importPkcs12(QIODevice *device,
                              QSslKey *key, QSslCertificate *cert,
                              QList<QSslCertificate> *caCertificates = Q_NULLPTR,
-                             const QByteArray &passPhrase=QByteArray());
+                             const QByteArray &passPhrase= QByteArray());
 
     Qt::HANDLE handle() const;
 
 private:
-    QExplicitlySharedDataPointer<QSslCertificatePrivate> d;
+    QExplicitlySharedDataPointer<QSslCertificatePrivate>    d;
     friend class QSslCertificatePrivate;
     friend class QSslSocketBackendPrivate;
 

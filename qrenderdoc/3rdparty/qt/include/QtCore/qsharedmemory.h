@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 
 class QSharedMemoryPrivate;
 
-class Q_CORE_EXPORT QSharedMemory : public QObject
+class Q_CORE_EXPORT    QSharedMemory : public QObject
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QSharedMemory)
@@ -90,9 +90,9 @@ public:
     bool isAttached() const;
     bool detach();
 
-    void *data();
+    void* data();
     const void* constData() const;
-    const void *data() const;
+    const void* data() const;
 
 #ifndef QT_NO_SYSTEMSEMAPHORE
     bool lock();
@@ -105,10 +105,8 @@ public:
 private:
     Q_DISABLE_COPY(QSharedMemory)
 };
-
 #endif // QT_NO_SHAREDMEMORY
 
 QT_END_NAMESPACE
 
 #endif // QSHAREDMEMORY_H
-

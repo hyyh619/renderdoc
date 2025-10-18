@@ -73,23 +73,30 @@ class QSslEllipticCurve;
 class QSslDiffieHellmanParameters;
 
 class QSslConfigurationPrivate;
-class Q_NETWORK_EXPORT QSslConfiguration
+class Q_NETWORK_EXPORT    QSslConfiguration
 {
 public:
     QSslConfiguration();
     QSslConfiguration(const QSslConfiguration &other);
     ~QSslConfiguration();
 #ifdef Q_COMPILER_RVALUE_REFS
-    QSslConfiguration &operator=(QSslConfiguration &&other) Q_DECL_NOTHROW { swap(other); return *this; }
+    QSslConfiguration&operator=(QSslConfiguration &&other) Q_DECL_NOTHROW
+    {
+        swap(other); return *this;
+    }
 #endif
-    QSslConfiguration &operator=(const QSslConfiguration &other);
+    QSslConfiguration&operator=(const QSslConfiguration &other);
 
     void swap(QSslConfiguration &other) Q_DECL_NOTHROW
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     bool operator==(const QSslConfiguration &other) const;
     inline bool operator!=(const QSslConfiguration &other) const
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     bool isNull() const;
 
@@ -152,13 +159,14 @@ public:
     static QSslConfiguration defaultConfiguration();
     static void setDefaultConfiguration(const QSslConfiguration &configuration);
 
-    enum NextProtocolNegotiationStatus {
+    enum NextProtocolNegotiationStatus
+    {
         NextProtocolNegotiationNone,
         NextProtocolNegotiationNegotiated,
         NextProtocolNegotiationUnsupported
     };
 
-#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
     void setAllowedNextProtocols(const QList<QByteArray> &protocols);
 #else
     void setAllowedNextProtocols(QList<QByteArray> protocols);
@@ -168,9 +176,9 @@ public:
     QByteArray nextNegotiatedProtocol() const;
     NextProtocolNegotiationStatus nextProtocolNegotiationStatus() const;
 
-    static const char ALPNProtocolHTTP2[];
-    static const char NextProtocolSpdy3_0[];
-    static const char NextProtocolHttp1_1[];
+    static const char       ALPNProtocolHTTP2[];
+    static const char       NextProtocolSpdy3_0[];
+    static const char       NextProtocolHttp1_1[];
 
 private:
     friend class QSslSocket;
@@ -178,7 +186,7 @@ private:
     friend class QSslSocketBackendPrivate;
     friend class QSslContext;
     QSslConfiguration(QSslConfigurationPrivate *dd);
-    QSharedDataPointer<QSslConfigurationPrivate> d;
+    QSharedDataPointer<QSslConfigurationPrivate>    d;
 };
 
 Q_DECLARE_SHARED(QSslConfiguration)

@@ -70,22 +70,22 @@ public:
     QTcpServerPrivate();
     ~QTcpServerPrivate();
 
-    QList<QTcpSocket *> pendingConnections;
+    QList<QTcpSocket*>    pendingConnections;
 
-    quint16 port;
-    QHostAddress address;
+    quint16         port;
+    QHostAddress    address;
 
-    QAbstractSocket::SocketType socketType;
-    QAbstractSocket::SocketState state;
-    QAbstractSocketEngine *socketEngine;
+    QAbstractSocket::SocketType     socketType;
+    QAbstractSocket::SocketState    state;
+    QAbstractSocketEngine           *socketEngine;
 
-    QAbstractSocket::SocketError serverSocketError;
-    QString serverSocketErrorString;
+    QAbstractSocket::SocketError    serverSocketError;
+    QString                         serverSocketErrorString;
 
-    int maxConnections;
+    int    maxConnections;
 
 #ifndef QT_NO_NETWORKPROXY
-    QNetworkProxy proxy;
+    QNetworkProxy    proxy;
     QNetworkProxy resolveProxy(const QHostAddress &address, quint16 port);
 #endif
 
@@ -93,14 +93,16 @@ public:
 
     // from QAbstractSocketEngineReceiver
     void readNotification() Q_DECL_OVERRIDE;
-    void closeNotification() Q_DECL_OVERRIDE { readNotification(); }
+    void closeNotification() Q_DECL_OVERRIDE
+    {
+        readNotification();
+    }
     void writeNotification() Q_DECL_OVERRIDE {}
     void exceptionNotification() Q_DECL_OVERRIDE {}
     void connectionNotification() Q_DECL_OVERRIDE {}
 #ifndef QT_NO_NETWORKPROXY
-    void proxyAuthenticationRequired(const QNetworkProxy &, QAuthenticator *) Q_DECL_OVERRIDE {}
+    void proxyAuthenticationRequired(const QNetworkProxy&, QAuthenticator*) Q_DECL_OVERRIDE {}
 #endif
-
 };
 
 QT_END_NAMESPACE

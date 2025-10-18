@@ -54,12 +54,12 @@ class QScroller;
 class QScrollerPrivate;
 class QScrollerPropertiesPrivate;
 
-class Q_WIDGETS_EXPORT QScrollerProperties
+class Q_WIDGETS_EXPORT    QScrollerProperties
 {
 public:
     QScrollerProperties();
     QScrollerProperties(const QScrollerProperties &sp);
-    QScrollerProperties &operator=(const QScrollerProperties &sp);
+    QScrollerProperties&operator=(const QScrollerProperties &sp);
     virtual ~QScrollerProperties();
 
     bool operator==(const QScrollerProperties &sp) const;
@@ -75,7 +75,8 @@ public:
         OvershootAlwaysOn
     };
 
-    enum FrameRates {
+    enum FrameRates
+    {
         Standard,
         Fps60,
         Fps30,
@@ -118,7 +119,7 @@ public:
     void setScrollMetric(ScrollMetric metric, const QVariant &value);
 
 protected:
-    QScopedPointer<QScrollerPropertiesPrivate> d;
+    QScopedPointer<QScrollerPropertiesPrivate>    d;
 
 private:
     QScrollerProperties(QScrollerPropertiesPrivate &dd);

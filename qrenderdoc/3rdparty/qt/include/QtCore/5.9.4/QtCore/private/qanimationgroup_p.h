@@ -71,11 +71,11 @@ public:
     }
 
     virtual void animationInsertedAt(int) { }
-    virtual void animationRemoved(int, QAbstractAnimation *);
+    virtual void animationRemoved(int, QAbstractAnimation*);
 
     void disconnectUncontrolledAnimation(QAbstractAnimation *anim)
     {
-        //0 for the signal here because we might be called from the animation destructor
+        // 0 for the signal here because we might be called from the animation destructor
         QObject::disconnect(anim, 0, q_func(), SLOT(_q_uncontrolledAnimationFinished()));
     }
 
@@ -84,11 +84,10 @@ public:
         QObject::connect(anim, SIGNAL(finished()), q_func(), SLOT(_q_uncontrolledAnimationFinished()));
     }
 
-    QList<QAbstractAnimation *> animations;
+    QList<QAbstractAnimation*>    animations;
 };
 
 QT_END_NAMESPACE
+#endif // QT_NO_ANIMATION
 
-#endif //QT_NO_ANIMATION
-
-#endif //QANIMATIONGROUP_P_H
+#endif // QANIMATIONGROUP_P_H

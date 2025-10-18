@@ -55,11 +55,12 @@ QT_BEGIN_NAMESPACE
 class QOpenGLFramebufferObjectPrivate;
 class QOpenGLFramebufferObjectFormat;
 
-class Q_GUI_EXPORT QOpenGLFramebufferObject
+class Q_GUI_EXPORT    QOpenGLFramebufferObject
 {
     Q_DECLARE_PRIVATE(QOpenGLFramebufferObject)
 public:
-    enum Attachment {
+    enum Attachment
+    {
         NoAttachment,
         CombinedDepthStencil,
         Depth
@@ -69,9 +70,9 @@ public:
     QOpenGLFramebufferObject(int width, int height, GLenum target = GL_TEXTURE_2D);
 
     QOpenGLFramebufferObject(const QSize &size, Attachment attachment,
-                         GLenum target = GL_TEXTURE_2D, GLenum internalFormat = 0);
+                             GLenum target = GL_TEXTURE_2D, GLenum internalFormat = 0);
     QOpenGLFramebufferObject(int width, int height, Attachment attachment,
-                         GLenum target = GL_TEXTURE_2D, GLenum internalFormat = 0);
+                             GLenum target = GL_TEXTURE_2D, GLenum internalFormat = 0);
 
     QOpenGLFramebufferObject(const QSize &size, const QOpenGLFramebufferObjectFormat &format);
     QOpenGLFramebufferObject(int width, int height, const QOpenGLFramebufferObjectFormat &format);
@@ -88,8 +89,14 @@ public:
     bool bind();
     bool release();
 
-    int width() const { return size().width(); }
-    int height() const { return size().height(); }
+    int width() const
+    {
+        return size().width();
+    }
+    int height() const
+    {
+        return size().height();
+    }
 
     GLuint texture() const;
     QVector<GLuint> textures() const;
@@ -115,7 +122,8 @@ public:
 
     static bool hasOpenGLFramebufferBlit();
 
-    enum FramebufferRestorePolicy {
+    enum FramebufferRestorePolicy
+    {
         DontRestoreFramebufferBinding,
         RestoreFramebufferBindingToDefault,
         RestoreFrameBufferBinding
@@ -151,12 +159,12 @@ private:
 };
 
 class QOpenGLFramebufferObjectFormatPrivate;
-class Q_GUI_EXPORT QOpenGLFramebufferObjectFormat
+class Q_GUI_EXPORT    QOpenGLFramebufferObjectFormat
 {
 public:
     QOpenGLFramebufferObjectFormat();
     QOpenGLFramebufferObjectFormat(const QOpenGLFramebufferObjectFormat &other);
-    QOpenGLFramebufferObjectFormat &operator=(const QOpenGLFramebufferObjectFormat &other);
+    QOpenGLFramebufferObjectFormat&operator=(const QOpenGLFramebufferObjectFormat &other);
     ~QOpenGLFramebufferObjectFormat();
 
     void setSamples(int samples);
@@ -174,17 +182,16 @@ public:
     void setInternalTextureFormat(GLenum internalTextureFormat);
     GLenum internalTextureFormat() const;
 
-    bool operator==(const QOpenGLFramebufferObjectFormat& other) const;
-    bool operator!=(const QOpenGLFramebufferObjectFormat& other) const;
+    bool operator==(const QOpenGLFramebufferObjectFormat &other) const;
+    bool operator!=(const QOpenGLFramebufferObjectFormat &other) const;
 
 private:
-    QOpenGLFramebufferObjectFormatPrivate *d;
+    QOpenGLFramebufferObjectFormatPrivate    *d;
 
     void detach();
 };
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_OPENGL
 
 #endif // QOPENGLFRAMEBUFFEROBJECT_H

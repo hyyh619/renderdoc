@@ -66,7 +66,7 @@ QT_BEGIN_NAMESPACE
 class QBearerEngine;
 class QTimer;
 
-class Q_NETWORK_EXPORT QNetworkConfigurationManagerPrivate : public QObject
+class Q_NETWORK_EXPORT    QNetworkConfigurationManagerPrivate : public QObject
 {
     Q_OBJECT
 
@@ -84,7 +84,7 @@ public:
 
     void performAsyncConfigurationUpdate();
 
-    QList<QBearerEngine *> engines() const;
+    QList<QBearerEngine*> engines() const;
 
     void enablePolling();
     void disablePolling();
@@ -113,29 +113,28 @@ private Q_SLOTS:
 
 private:
     Q_INVOKABLE void startPolling();
-    QTimer *pollTimer;
-    QThread *bearerThread;
+    QTimer      *pollTimer;
+    QThread     *bearerThread;
 
 private:
-    mutable QMutex mutex;
+    mutable QMutex    mutex;
 
-    QFactoryLoader loader;
-    QList<QBearerEngine *> sessionEngines;
+    QFactoryLoader              loader;
+    QList<QBearerEngine*>       sessionEngines;
 
-    QSet<QString> onlineConfigurations;
+    QSet<QString>    onlineConfigurations;
 
-    QSet<QBearerEngine *> pollingEngines;
-    QSet<QBearerEngine *> updatingEngines;
-    int forcedPolling;
-    bool updating;
+    QSet<QBearerEngine*>    pollingEngines;
+    QSet<QBearerEngine*>    updatingEngines;
+    int                     forcedPolling;
+    bool                    updating;
 
-    bool firstUpdate;
+    bool    firstUpdate;
 };
 
-Q_NETWORK_EXPORT QNetworkConfigurationManagerPrivate *qNetworkConfigurationManagerPrivate();
+Q_NETWORK_EXPORT QNetworkConfigurationManagerPrivate* qNetworkConfigurationManagerPrivate();
 
 QT_END_NAMESPACE
-
 #endif // QT_NO_BEARERMANAGEMENT
 
 #endif // QNETWORKCONFMANAGER_P_H

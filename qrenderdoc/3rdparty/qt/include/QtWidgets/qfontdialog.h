@@ -52,7 +52,7 @@ QT_BEGIN_NAMESPACE
 
 class QFontDialogPrivate;
 
-class Q_WIDGETS_EXPORT QFontDialog : public QDialog
+class Q_WIDGETS_EXPORT    QFontDialog : public QDialog
 {
     Q_OBJECT
     Q_DECLARE_PRIVATE(QFontDialog)
@@ -60,7 +60,8 @@ class Q_WIDGETS_EXPORT QFontDialog : public QDialog
     Q_PROPERTY(FontDialogOptions options READ options WRITE setOptions)
 
 public:
-    enum FontDialogOption {
+    enum FontDialogOption
+    {
         NoButtons           = 0x00000001,
         DontUseNativeDialog = 0x00000002,
         ScalableFonts       = 0x00000004,

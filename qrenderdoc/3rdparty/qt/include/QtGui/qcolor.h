@@ -54,14 +54,14 @@ class QColormap;
 class QVariant;
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QColor &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QColor&);
 #endif
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QColor &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QColor &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QColor&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QColor&);
 #endif
 
-class Q_GUI_EXPORT QColor
+class Q_GUI_EXPORT    QColor
 {
 public:
     enum Spec { Invalid, Rgb, Hsv, Cmyk, Hsl };
@@ -72,22 +72,24 @@ public:
     inline QColor(int r, int g, int b, int a = 255);
     QColor(QRgb rgb) Q_DECL_NOTHROW;
     QColor(QRgba64 rgba64) Q_DECL_NOTHROW;
-    inline QColor(const QString& name);
+    inline QColor(const QString &name);
     inline QColor(const char *aname) : QColor(QLatin1String(aname)) {}
     inline QColor(QLatin1String name);
     QColor(Spec spec) Q_DECL_NOTHROW;
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     inline QColor(const QColor &color) Q_DECL_NOTHROW; // ### Qt 6: remove all of these, the trivial ones are fine.
 # ifdef Q_COMPILER_RVALUE_REFS
     QColor(QColor &&other) Q_DECL_NOTHROW : cspec(other.cspec), ct(other.ct) {}
-    QColor &operator=(QColor &&other) Q_DECL_NOTHROW
-    { cspec = other.cspec; ct = other.ct; return *this; }
+    QColor&operator=(QColor &&other) Q_DECL_NOTHROW
+    {
+        cspec = other.cspec; ct = other.ct; return *this;
+    }
 # endif
-    QColor &operator=(const QColor &) Q_DECL_NOTHROW;
+    QColor&operator=(const QColor&) Q_DECL_NOTHROW;
 #endif // Qt < 6
 
-    QColor &operator=(Qt::GlobalColor color) Q_DECL_NOTHROW;
+    QColor&operator=(Qt::GlobalColor color) Q_DECL_NOTHROW;
 
     bool isValid() const Q_DECL_NOTHROW;
 
@@ -95,13 +97,15 @@ public:
     QString name() const;
     QString name(NameFormat format) const;
 
-    void setNamedColor(const QString& name);
+    void setNamedColor(const QString &name);
     void setNamedColor(QLatin1String name);
 
     static QStringList colorNames();
 
     inline Spec spec() const Q_DECL_NOTHROW
-    { return cspec; }
+    {
+        return cspec;
+    }
 
     int alpha() const Q_DECL_NOTHROW;
     void setAlpha(int alpha);
@@ -222,81 +226,102 @@ public:
     operator QVariant() const;
 
     static bool isValidColor(const QString &name);
-    static bool isValidColor(QLatin1String) Q_DECL_NOTHROW;
+    static bool    isValidColor(QLatin1String) Q_DECL_NOTHROW;
 
 private:
 
     void invalidate() Q_DECL_NOTHROW;
-    template <typename String>
+    template<typename String>
     bool setColorFromString(const String &name);
 
-    Spec cspec;
-    union {
-        struct {
-            ushort alpha;
-            ushort red;
-            ushort green;
-            ushort blue;
-            ushort pad;
+    Spec    cspec;
+    union
+    {
+        struct
+        {
+            ushort  alpha;
+            ushort  red;
+            ushort  green;
+            ushort  blue;
+            ushort  pad;
         } argb;
-        struct {
-            ushort alpha;
-            ushort hue;
-            ushort saturation;
-            ushort value;
-            ushort pad;
+        struct
+        {
+            ushort  alpha;
+            ushort  hue;
+            ushort  saturation;
+            ushort  value;
+            ushort  pad;
         } ahsv;
-        struct {
-            ushort alpha;
-            ushort cyan;
-            ushort magenta;
-            ushort yellow;
-            ushort black;
+        struct
+        {
+            ushort  alpha;
+            ushort  cyan;
+            ushort  magenta;
+            ushort  yellow;
+            ushort  black;
         } acmyk;
-        struct {
-            ushort alpha;
-            ushort hue;
-            ushort saturation;
-            ushort lightness;
-            ushort pad;
-        } ahsl;
-        ushort array[5];
-    } ct;
+        struct
+        {
+            ushort  alpha;
+            ushort  hue;
+            ushort  saturation;
+            ushort  lightness;
+            ushort  pad;
+        }       ahsl;
+        ushort  array[5];
+    }    ct;
 
     friend class QColormap;
 #ifndef QT_NO_DATASTREAM
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QColor &);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QColor &);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QColor&);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QColor&);
 #endif
 };
-Q_DECLARE_TYPEINFO(QColor, QT_VERSION >= QT_VERSION_CHECK(6,0,0) ? Q_MOVABLE_TYPE : Q_RELOCATABLE_TYPE);
+Q_DECLARE_TYPEINFO(QColor, QT_VERSION >= QT_VERSION_CHECK(6, 0, 0) ? Q_MOVABLE_TYPE : Q_RELOCATABLE_TYPE);
 
 inline QColor::QColor() Q_DECL_NOTHROW
-{ invalidate(); }
+{
+    invalidate();
+}
 
 inline QColor::QColor(int r, int g, int b, int a)
-{ setRgb(r, g, b, a); }
+{
+    setRgb(r, g, b, a);
+}
 
 inline QColor::QColor(QLatin1String aname)
-{ setNamedColor(aname); }
+{
+    setNamedColor(aname);
+}
 
-inline QColor::QColor(const QString& aname)
-{ setNamedColor(aname); }
+inline QColor::QColor(const QString &aname)
+{
+    setNamedColor(aname);
+}
 
-#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 inline QColor::QColor(const QColor &acolor) Q_DECL_NOTHROW
     : cspec(acolor.cspec)
-{ ct.argb = acolor.ct.argb; }
+{
+    ct.argb = acolor.ct.argb;
+}
 #endif
 
 inline bool QColor::isValid() const Q_DECL_NOTHROW
-{ return cspec != Invalid; }
+{
+    return cspec != Invalid;
+}
 
 inline QColor QColor::lighter(int f) const Q_DECL_NOTHROW
-{ return light(f); }
+{
+    return light(f);
+}
 
 inline QColor QColor::darker(int f) const Q_DECL_NOTHROW
-{ return dark(f); }
+{
+    return dark(f);
+}
 
 QT_END_NAMESPACE
 

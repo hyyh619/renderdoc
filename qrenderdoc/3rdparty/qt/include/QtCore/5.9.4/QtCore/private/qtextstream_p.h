@@ -73,14 +73,18 @@ public:
         disconnect();
         if (device)
             connect(device, SIGNAL(aboutToClose()), this, SLOT(flushStream()));
+
         this->stream = stream;
     }
 
 public Q_SLOTS:
-    inline void flushStream() { stream->flush(); }
+    inline void flushStream()
+    {
+        stream->flush();
+    }
 
 private:
-    QTextStream *stream;
+    QTextStream    *stream;
 };
 #endif
 
@@ -91,16 +95,16 @@ public:
     // streaming parameters
     class Params
     {
-    public:
+public:
         void reset();
 
-        int realNumberPrecision;
-        int integerBase;
-        int fieldWidth;
-        QChar padChar;
-        QTextStream::FieldAlignment fieldAlignment;
-        QTextStream::RealNumberNotation realNumberNotation;
-        QTextStream::NumberFlags numberFlags;
+        int                                 realNumberPrecision;
+        int                                 integerBase;
+        int                                 fieldWidth;
+        QChar                               padChar;
+        QTextStream::FieldAlignment         fieldAlignment;
+        QTextStream::RealNumberNotation     realNumberNotation;
+        QTextStream::NumberFlags            numberFlags;
     };
 
     QTextStreamPrivate(QTextStream *q_ptr);
@@ -108,45 +112,46 @@ public:
     void reset();
 
     // device
-    QIODevice *device;
+    QIODevice    *device;
 #ifndef QT_NO_QOBJECT
-    QDeviceClosedNotifier deviceClosedNotifier;
+    QDeviceClosedNotifier    deviceClosedNotifier;
 #endif
 
     // string
-    QString *string;
-    int stringOffset;
-    QIODevice::OpenMode stringOpenMode;
+    QString                 *string;
+    int                     stringOffset;
+    QIODevice::OpenMode     stringOpenMode;
 
 #ifndef QT_NO_TEXTCODEC
     // codec
-    QTextCodec *codec;
-    QTextCodec::ConverterState readConverterState;
-    QTextCodec::ConverterState writeConverterState;
-    QTextCodec::ConverterState *readConverterSavedState;
+    QTextCodec                      *codec;
+    QTextCodec::ConverterState      readConverterState;
+    QTextCodec::ConverterState      writeConverterState;
+    QTextCodec::ConverterState      *readConverterSavedState;
 #endif
 
-    QString writeBuffer;
-    QString readBuffer;
-    int readBufferOffset;
-    int readConverterSavedStateOffset; //the offset between readBufferStartDevicePos and that start of the buffer
-    qint64 readBufferStartDevicePos;
+    QString     writeBuffer;
+    QString     readBuffer;
+    int         readBufferOffset;
+    int         readConverterSavedStateOffset; // the offset between readBufferStartDevicePos and that start of the buffer
+    qint64      readBufferStartDevicePos;
 
-    Params params;
+    Params    params;
 
     // status
-    QTextStream::Status status;
-    QLocale locale;
-    QTextStream *q_ptr;
+    QTextStream::Status     status;
+    QLocale                 locale;
+    QTextStream             *q_ptr;
 
-    int lastTokenSize;
-    bool deleteDevice;
+    int     lastTokenSize;
+    bool    deleteDevice;
 #ifndef QT_NO_TEXTCODEC
-    bool autoDetectUnicode;
+    bool    autoDetectUnicode;
 #endif
 
     // i/o
-    enum TokenDelimiter {
+    enum TokenDelimiter
+    {
         Space,
         NotSpace,
         EndOfLine
@@ -155,14 +160,15 @@ public:
     QString read(int maxlen);
     bool scan(const QChar **ptr, int *tokenLength,
               int maxlen, TokenDelimiter delimiter);
-    inline const QChar *readPtr() const;
+    inline const QChar* readPtr() const;
     inline void consumeLastToken();
     inline void consume(int nchars);
     void saveConverterState(qint64 newPos);
     void restoreToSavedConverterState();
 
     // Return value type for getNumber()
-    enum NumberParsingStatus {
+    enum NumberParsingStatus
+    {
         npsOk,
         npsMissingDigit,
         npsInvalidPrefix
@@ -173,18 +179,25 @@ public:
     NumberParsingStatus getNumber(qulonglong *l);
     bool getReal(double *f);
 
-    inline void write(const QString &data) { write(data.begin(), data.length()); }
+    inline void write(const QString &data)
+    {
+        write(data.begin(), data.length());
+    }
     inline void write(QChar ch);
     void write(const QChar *data, int len);
     void write(QLatin1String data);
     void writePadding(int len);
-    inline void putString(const QString &ch, bool number = false) { putString(ch.constData(), ch.length(), number); }
+    inline void putString(const QString &ch, bool number = false)
+    {
+        putString(ch.constData(), ch.length(), number);
+    }
     void putString(const QChar *data, int len, bool number = false);
     void putString(QLatin1String data, bool number = false);
     inline void putChar(QChar ch);
     void putNumber(qulonglong number, bool negative);
 
-    struct PaddingResult {
+    struct PaddingResult
+    {
         int left, right;
     };
     PaddingResult padding(int len) const;

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QSplashScreenPrivate;
 
-class Q_WIDGETS_EXPORT QSplashScreen : public QWidget
+class Q_WIDGETS_EXPORT    QSplashScreen : public QWidget
 {
     Q_OBJECT
 public:
@@ -66,7 +66,7 @@ public:
 
 public Q_SLOTS:
     void showMessage(const QString &message, int alignment = Qt::AlignLeft,
-                  const QColor &color = Qt::black);
+                     const QColor &color = Qt::black);
     void clearMessage();
 
 Q_SIGNALS:
@@ -75,7 +75,7 @@ Q_SIGNALS:
 protected:
     bool event(QEvent *e) Q_DECL_OVERRIDE;
     virtual void drawContents(QPainter *painter);
-    void mousePressEvent(QMouseEvent *) Q_DECL_OVERRIDE;
+    void mousePressEvent(QMouseEvent*) Q_DECL_OVERRIDE;
 
 private:
     Q_DISABLE_COPY(QSplashScreen)

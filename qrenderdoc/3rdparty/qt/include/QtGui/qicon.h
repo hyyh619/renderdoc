@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QIconPrivate;
 class QIconEngine;
 
-class Q_GUI_EXPORT QIcon
+class Q_GUI_EXPORT    QIcon
 {
 public:
     enum Mode { Normal, Disabled, Active, Selected };
@@ -63,26 +63,36 @@ public:
 #ifdef Q_COMPILER_RVALUE_REFS
     QIcon(QIcon &&other) Q_DECL_NOEXCEPT
         : d(other.d)
-    { other.d = Q_NULLPTR; }
+    {
+        other.d = Q_NULLPTR;
+    }
 #endif
     explicit QIcon(const QString &fileName); // file or resource name
     explicit QIcon(QIconEngine *engine);
     ~QIcon();
-    QIcon &operator=(const QIcon &other);
+    QIcon&operator=(const QIcon &other);
 #ifdef Q_COMPILER_RVALUE_REFS
-    inline QIcon &operator=(QIcon &&other) Q_DECL_NOEXCEPT
-    { swap(other); return *this; }
+    inline QIcon&operator=(QIcon &&other) Q_DECL_NOEXCEPT
+    {
+        swap(other); return *this;
+    }
 #endif
     inline void swap(QIcon &other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); }
+    {
+        qSwap(d, other.d);
+    }
 
     operator QVariant() const;
 
     QPixmap pixmap(const QSize &size, Mode mode = Normal, State state = Off) const;
     inline QPixmap pixmap(int w, int h, Mode mode = Normal, State state = Off) const
-        { return pixmap(QSize(w, h), mode, state); }
+    {
+        return pixmap(QSize(w, h), mode, state);
+    }
     inline QPixmap pixmap(int extent, Mode mode = Normal, State state = Off) const
-        { return pixmap(QSize(extent, extent), mode, state); }
+    {
+        return pixmap(QSize(extent, extent), mode, state);
+    }
     QPixmap pixmap(QWindow *window, const QSize &size, Mode mode = Normal, State state = Off) const;
 
     QSize actualSize(const QSize &size, Mode mode = Normal, State state = Off) const;
@@ -92,14 +102,19 @@ public:
 
     void paint(QPainter *painter, const QRect &rect, Qt::Alignment alignment = Qt::AlignCenter, Mode mode = Normal, State state = Off) const;
     inline void paint(QPainter *painter, int x, int y, int w, int h, Qt::Alignment alignment = Qt::AlignCenter, Mode mode = Normal, State state = Off) const
-        { paint(painter, QRect(x, y, w, h), alignment, mode, state); }
+    {
+        paint(painter, QRect(x, y, w, h), alignment, mode, state);
+    }
 
     bool isNull() const;
     bool isDetached() const;
     void detach();
 
 #if QT_DEPRECATED_SINCE(5, 0)
-    QT_DEPRECATED inline int serialNumber() const { return cacheKey() >> 32; }
+    QT_DEPRECATED inline int serialNumber() const
+    {
+        return cacheKey() >> 32;
+    }
 #endif
     qint64 cacheKey() const;
 
@@ -124,26 +139,29 @@ public:
     Q_DUMMY_COMPARISON_OPERATOR(QIcon)
 
 private:
-    QIconPrivate *d;
+    QIconPrivate    *d;
 #if !defined(QT_NO_DATASTREAM)
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QIcon &);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QIcon &);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QIcon&);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QIcon&);
 #endif
 
 public:
-    typedef QIconPrivate * DataPtr;
-    inline DataPtr &data_ptr() { return d; }
+    typedef QIconPrivate*DataPtr;
+    inline DataPtr    &data_ptr()
+    {
+        return d;
+    }
 };
 
 Q_DECLARE_SHARED(QIcon)
 
 #if !defined(QT_NO_DATASTREAM)
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QIcon &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QIcon &);
+Q_GUI_EXPORT QDataStream & operator<<(QDataStream &, const QIcon    &);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QIcon&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug dbg, const QIcon &);
+Q_GUI_EXPORT QDebug operator<<(QDebug dbg, const QIcon&);
 #endif
 
 Q_GUI_EXPORT QString qt_findAtNxFile(const QString &baseFileName, qreal targetDevicePixelRatio,

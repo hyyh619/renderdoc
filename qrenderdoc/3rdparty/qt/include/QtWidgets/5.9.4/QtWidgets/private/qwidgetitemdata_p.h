@@ -61,28 +61,30 @@ class QWidgetItemData
 public:
     inline QWidgetItemData() : role(-1) {}
     inline QWidgetItemData(int r, const QVariant &v) : role(r), value(v) {}
-    int role;
-    QVariant value;
-    inline bool operator==(const QWidgetItemData &other) const { return role == other.role && value == other.value; }
+    int         role;
+    QVariant    value;
+    inline bool operator==(const QWidgetItemData &other) const
+    {
+        return role == other.role && value == other.value;
+    }
 };
 Q_DECLARE_TYPEINFO(QWidgetItemData, Q_MOVABLE_TYPE);
 
 #ifndef QT_NO_DATASTREAM
 
-inline QDataStream &operator>>(QDataStream &in, QWidgetItemData &data)
+inline QDataStream    &operator>>(QDataStream &in, QWidgetItemData &data)
 {
     in >> data.role;
     in >> data.value;
     return in;
 }
 
-inline QDataStream &operator<<(QDataStream &out, const QWidgetItemData &data)
+inline QDataStream    &operator<<(QDataStream &out, const QWidgetItemData &data)
 {
     out << data.role;
     out << data.value;
     return out;
 }
-
 #endif // QT_NO_DATASTREAM
 
 QT_END_NAMESPACE

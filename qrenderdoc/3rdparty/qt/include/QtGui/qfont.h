@@ -53,15 +53,16 @@ class QFontPrivate;                                     /* don't touch */
 class QStringList;
 class QVariant;
 
-class Q_GUI_EXPORT QFont
+class Q_GUI_EXPORT    QFont
 {
     Q_GADGET
 public:
-    enum StyleHint {
-        Helvetica,  SansSerif = Helvetica,
-        Times,      Serif = Times,
-        Courier,    TypeWriter = Courier,
-        OldEnglish, Decorative = OldEnglish,
+    enum StyleHint
+    {
+        Helvetica,  SansSerif   = Helvetica,
+        Times,      Serif       = Times,
+        Courier,    TypeWriter  = Courier,
+        OldEnglish, Decorative  = OldEnglish,
         System,
         AnyStyle,
         Cursive,
@@ -69,7 +70,8 @@ public:
         Fantasy
     };
 
-    enum StyleStrategy {
+    enum StyleStrategy
+    {
         PreferDefault       = 0x0001,
         PreferBitmap        = 0x0002,
         PreferDevice        = 0x0004,
@@ -86,46 +88,51 @@ public:
     };
     Q_ENUM(StyleStrategy)
 
-    enum HintingPreference {
-        PreferDefaultHinting        = 0,
-        PreferNoHinting             = 1,
-        PreferVerticalHinting       = 2,
-        PreferFullHinting           = 3
+    enum HintingPreference
+    {
+        PreferDefaultHinting    = 0,
+        PreferNoHinting         = 1,
+        PreferVerticalHinting   = 2,
+        PreferFullHinting       = 3
     };
 
     // Mapping OpenType weight value.
-    enum Weight {
-        Thin     = 0,    // 100
-        ExtraLight = 12, // 200
-        Light    = 25,   // 300
-        Normal   = 50,   // 400
-        Medium   = 57,   // 500
-        DemiBold = 63,   // 600
-        Bold     = 75,   // 700
-        ExtraBold = 81,  // 800
-        Black    = 87    // 900
+    enum Weight
+    {
+        Thin        = 0, // 100
+        ExtraLight  = 12, // 200
+        Light       = 25, // 300
+        Normal      = 50, // 400
+        Medium      = 57, // 500
+        DemiBold    = 63, // 600
+        Bold        = 75, // 700
+        ExtraBold   = 81, // 800
+        Black       = 87 // 900
     };
 
-    enum Style {
+    enum Style
+    {
         StyleNormal,
         StyleItalic,
         StyleOblique
     };
 
-    enum Stretch {
-        AnyStretch     =   0,
-        UltraCondensed =  50,
-        ExtraCondensed =  62,
-        Condensed      =  75,
-        SemiCondensed  =  87,
-        Unstretched    = 100,
-        SemiExpanded   = 112,
-        Expanded       = 125,
-        ExtraExpanded  = 150,
-        UltraExpanded  = 200
+    enum Stretch
+    {
+        AnyStretch      = 0,
+        UltraCondensed  = 50,
+        ExtraCondensed  = 62,
+        Condensed       = 75,
+        SemiCondensed   = 87,
+        Unstretched     = 100,
+        SemiExpanded    = 112,
+        Expanded        = 125,
+        ExtraExpanded   = 150,
+        UltraExpanded   = 200
     };
 
-    enum Capitalization {
+    enum Capitalization
+    {
         MixedCase,
         AllUppercase,
         AllLowercase,
@@ -133,12 +140,14 @@ public:
         Capitalize
     };
 
-    enum SpacingType {
+    enum SpacingType
+    {
         PercentageSpacing,
         AbsoluteSpacing
     };
 
-    enum ResolveProperties {
+    enum ResolveProperties
+    {
         FamilyResolved              = 0x0001,
         SizeResolved                = 0x0002,
         StyleHintResolved           = 0x0004,
@@ -161,23 +170,25 @@ public:
 
     QFont();
     QFont(const QString &family, int pointSize = -1, int weight = -1, bool italic = false);
-    QFont(const QFont &, QPaintDevice *pd);
-    QFont(const QFont &);
+    QFont(const QFont&, QPaintDevice *pd);
+    QFont(const QFont&);
     ~QFont();
 
     void swap(QFont &other)
-    { qSwap(d, other.d); qSwap(resolve_mask, other.resolve_mask); }
+    {
+        qSwap(d, other.d); qSwap(resolve_mask, other.resolve_mask);
+    }
 
     QString family() const;
-    void setFamily(const QString &);
+    void setFamily(const QString&);
 
     QString styleName() const;
-    void setStyleName(const QString &);
+    void setStyleName(const QString&);
 
     int pointSize() const;
     void setPointSize(int);
     qreal pointSizeF() const;
-    void setPointSizeF(qreal);
+    void    setPointSizeF(qreal);
 
     int pixelSize() const;
     void setPixelSize(int);
@@ -211,7 +222,7 @@ public:
 
     StyleHint styleHint() const;
     StyleStrategy styleStrategy() const;
-    void setStyleHint(StyleHint, StyleStrategy = PreferDefault);
+    void    setStyleHint(StyleHint, StyleStrategy = PreferDefault);
     void setStyleStrategy(StyleStrategy s);
 
     int stretch() const;
@@ -224,7 +235,7 @@ public:
     qreal wordSpacing() const;
     void setWordSpacing(qreal spacing);
 
-    void setCapitalization(Capitalization);
+    void    setCapitalization(Capitalization);
     Capitalization capitalization() const;
 
     void setHintingPreference(HintingPreference hintingPreference);
@@ -238,36 +249,41 @@ public:
     // dupicated from QFontInfo
     bool exactMatch() const;
 
-    QFont &operator=(const QFont &);
-    bool operator==(const QFont &) const;
-    bool operator!=(const QFont &) const;
-    bool operator<(const QFont &) const;
+    QFont&operator=(const QFont&);
+    bool operator==(const QFont&) const;
+    bool operator!=(const QFont&) const;
+    bool operator<(const QFont&) const;
     operator QVariant() const;
-    bool isCopyOf(const QFont &) const;
+    bool isCopyOf(const QFont&) const;
 #ifdef Q_COMPILER_RVALUE_REFS
-    inline QFont &operator=(QFont &&other) Q_DECL_NOEXCEPT
-    { qSwap(d, other.d); qSwap(resolve_mask, other.resolve_mask);  return *this; }
+    inline QFont&operator=(QFont &&other) Q_DECL_NOEXCEPT
+    {
+        qSwap(d, other.d); qSwap(resolve_mask, other.resolve_mask);  return *this;
+    }
 #endif
 
 #if QT_DEPRECATED_SINCE(5, 3)
     // needed for X11
-    QT_DEPRECATED void setRawName(const QString &);
+    QT_DEPRECATED void setRawName(const QString&);
     QT_DEPRECATED QString rawName() const;
 #endif
 
     QString key() const;
 
     QString toString() const;
-    bool fromString(const QString &);
+    bool fromString(const QString&);
 
-    static QString substitute(const QString &);
-    static QStringList substitutes(const QString &);
+    static QString substitute(const QString&);
+    static QStringList substitutes(const QString&);
     static QStringList substitutions();
-    static void insertSubstitution(const QString&, const QString &);
-    static void insertSubstitutions(const QString&, const QStringList &);
-    static void removeSubstitutions(const QString &);
+    static void insertSubstitution(const QString&, const QString&);
+    static void insertSubstitutions(const QString&, const QStringList&);
+    static void removeSubstitutions(const QString&);
 #if QT_DEPRECATED_SINCE(5, 0)
-    static QT_DEPRECATED void removeSubstitution(const QString &family) { removeSubstitutions(family); }
+    static QT_DEPRECATED void removeSubstitution(const QString &family)
+    {
+        removeSubstitutions(family);
+    }
 #endif
     static void initialize();
     static void cleanup();
@@ -277,12 +293,18 @@ public:
     QString lastResortFamily() const;
     QString lastResortFont() const;
 
-    QFont resolve(const QFont &) const;
-    inline uint resolve() const { return resolve_mask; }
-    inline void resolve(uint mask) { resolve_mask = mask; }
+    QFont resolve(const QFont&) const;
+    inline uint resolve() const
+    {
+        return resolve_mask;
+    }
+    inline void resolve(uint mask)
+    {
+        resolve_mask = mask;
+    }
 
 private:
-    explicit QFont(QFontPrivate *);
+    explicit QFont(QFontPrivate*);
 
     void detach();
 
@@ -314,12 +336,12 @@ private:
     friend class QFontEngine;
 
 #ifndef QT_NO_DATASTREAM
-    friend Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QFont &);
-    friend Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QFont &);
+    friend Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QFont&);
+    friend Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QFont&);
 #endif
 
-    QExplicitlySharedDataPointer<QFontPrivate> d;
-    uint resolve_mask;
+    QExplicitlySharedDataPointer<QFontPrivate>      d;
+    uint                                            resolve_mask;
 };
 
 Q_DECLARE_SHARED(QFont)
@@ -327,33 +349,38 @@ Q_DECLARE_SHARED(QFont)
 Q_GUI_EXPORT uint qHash(const QFont &font, uint seed = 0) Q_DECL_NOTHROW;
 
 inline bool QFont::bold() const
-{ return weight() > Medium; }
+{
+    return weight() > Medium;
+}
 
 
 inline void QFont::setBold(bool enable)
-{ setWeight(enable ? Bold : Normal); }
+{
+    setWeight(enable ? Bold : Normal);
+}
 
 inline bool QFont::italic() const
 {
     return (style() != StyleNormal);
 }
 
-inline void QFont::setItalic(bool b) {
+inline void QFont::setItalic(bool b)
+{
     setStyle(b ? StyleItalic : StyleNormal);
 }
 
 
 /*****************************************************************************
-  QFont stream functions
- *****************************************************************************/
+   QFont stream functions
+*****************************************************************************/
 
 #ifndef QT_NO_DATASTREAM
-Q_GUI_EXPORT QDataStream &operator<<(QDataStream &, const QFont &);
-Q_GUI_EXPORT QDataStream &operator>>(QDataStream &, QFont &);
+Q_GUI_EXPORT QDataStream&operator<<(QDataStream&, const QFont&);
+Q_GUI_EXPORT QDataStream&operator>>(QDataStream&, QFont&);
 #endif
 
 #ifndef QT_NO_DEBUG_STREAM
-Q_GUI_EXPORT QDebug operator<<(QDebug, const QFont &);
+Q_GUI_EXPORT QDebug operator<<(QDebug, const QFont&);
 #endif
 
 QT_END_NAMESPACE

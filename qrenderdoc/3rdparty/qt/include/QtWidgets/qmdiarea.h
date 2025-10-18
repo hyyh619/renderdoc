@@ -53,7 +53,7 @@ QT_BEGIN_NAMESPACE
 class QMdiSubWindow;
 
 class QMdiAreaPrivate;
-class Q_WIDGETS_EXPORT QMdiArea : public QAbstractScrollArea
+class Q_WIDGETS_EXPORT    QMdiArea : public QAbstractScrollArea
 {
     Q_OBJECT
     Q_PROPERTY(QBrush background READ background WRITE setBackground)
@@ -69,19 +69,22 @@ class Q_WIDGETS_EXPORT QMdiArea : public QAbstractScrollArea
     Q_PROPERTY(QTabWidget::TabPosition tabPosition READ tabPosition WRITE setTabPosition)
 #endif
 public:
-    enum AreaOption {
+    enum AreaOption
+    {
         DontMaximizeSubWindowOnActivation = 0x1
     };
     Q_DECLARE_FLAGS(AreaOptions, AreaOption)
 
-    enum WindowOrder {
+    enum WindowOrder
+    {
         CreationOrder,
         StackingOrder,
         ActivationHistoryOrder
     };
     Q_ENUM(WindowOrder)
 
-    enum ViewMode {
+    enum ViewMode
+    {
         SubWindowView,
         TabbedView
     };
@@ -93,11 +96,11 @@ public:
     QSize sizeHint() const Q_DECL_OVERRIDE;
     QSize minimumSizeHint() const Q_DECL_OVERRIDE;
 
-    QMdiSubWindow *currentSubWindow() const;
-    QMdiSubWindow *activeSubWindow() const;
-    QList<QMdiSubWindow *> subWindowList(WindowOrder order = CreationOrder) const;
+    QMdiSubWindow* currentSubWindow() const;
+    QMdiSubWindow* activeSubWindow() const;
+    QList<QMdiSubWindow*> subWindowList(WindowOrder order = CreationOrder) const;
 
-    QMdiSubWindow *addSubWindow(QWidget *widget, Qt::WindowFlags flags = Qt::WindowFlags());
+    QMdiSubWindow* addSubWindow(QWidget *widget, Qt::WindowFlags flags = Qt::WindowFlags());
     void removeSubWindow(QWidget *widget);
 
     QBrush background() const;
@@ -131,7 +134,7 @@ public:
 #endif
 
 Q_SIGNALS:
-    void subWindowActivated(QMdiSubWindow *);
+    void subWindowActivated(QMdiSubWindow*);
 
 public Q_SLOTS:
     void setActiveSubWindow(QMdiSubWindow *window);

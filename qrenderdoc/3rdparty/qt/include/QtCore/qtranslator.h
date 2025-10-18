@@ -51,7 +51,7 @@ QT_BEGIN_NAMESPACE
 class QLocale;
 class QTranslatorPrivate;
 
-class Q_CORE_EXPORT QTranslator : public QObject
+class Q_CORE_EXPORT    QTranslator : public QObject
 {
     Q_OBJECT
 public:
@@ -63,22 +63,21 @@ public:
 
     virtual bool isEmpty() const;
 
-    bool load(const QString & filename,
-              const QString & directory = QString(),
-              const QString & search_delimiters = QString(),
-              const QString & suffix = QString());
-    bool load(const QLocale & locale,
-              const QString & filename,
-              const QString & prefix = QString(),
-              const QString & directory = QString(),
-              const QString & suffix = QString());
+    bool load(const QString &filename,
+              const QString &directory = QString(),
+              const QString &search_delimiters = QString(),
+              const QString &suffix = QString());
+    bool load(const QLocale &locale,
+              const QString &filename,
+              const QString &prefix = QString(),
+              const QString &directory = QString(),
+              const QString &suffix = QString());
     bool load(const uchar *data, int len, const QString &directory = QString());
 
 private:
     Q_DISABLE_COPY(QTranslator)
     Q_DECLARE_PRIVATE(QTranslator)
 };
-
 #endif // QT_NO_TRANSLATION
 
 QT_END_NAMESPACE

@@ -50,7 +50,7 @@ QT_BEGIN_NAMESPACE
 
 class QToolBoxPrivate;
 
-class Q_WIDGETS_EXPORT QToolBox : public QFrame
+class Q_WIDGETS_EXPORT    QToolBox : public QFrame
 {
     Q_OBJECT
     Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentChanged)
@@ -82,8 +82,8 @@ public:
 #endif
 
     int currentIndex() const;
-    QWidget *currentWidget() const;
-    QWidget *widget(int index) const;
+    QWidget* currentWidget() const;
+    QWidget* widget(int index) const;
     int indexOf(QWidget *widget) const;
     int count() const;
 
@@ -99,7 +99,7 @@ protected:
     virtual void itemInserted(int index);
     virtual void itemRemoved(int index);
     void showEvent(QShowEvent *e) Q_DECL_OVERRIDE;
-    void changeEvent(QEvent *) Q_DECL_OVERRIDE;
+    void changeEvent(QEvent*) Q_DECL_OVERRIDE;
 
 
 private:
@@ -111,12 +111,18 @@ private:
 
 
 inline int QToolBox::addItem(QWidget *item, const QString &text)
-{ return insertItem(-1, item, QIcon(), text); }
+{
+    return insertItem(-1, item, QIcon(), text);
+}
 inline int QToolBox::addItem(QWidget *item, const QIcon &iconSet,
-                              const QString &text)
-{ return insertItem(-1, item, iconSet, text); }
+                             const QString &text)
+{
+    return insertItem(-1, item, iconSet, text);
+}
 inline int QToolBox::insertItem(int index, QWidget *item, const QString &text)
-{ return insertItem(index, item, QIcon(), text); }
+{
+    return insertItem(index, item, QIcon(), text);
+}
 
 QT_END_NAMESPACE
 

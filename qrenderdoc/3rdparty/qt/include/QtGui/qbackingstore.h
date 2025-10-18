@@ -56,15 +56,15 @@ class QImage;
 class QBackingStorePrivate;
 class QPlatformBackingStore;
 
-class Q_GUI_EXPORT QBackingStore
+class Q_GUI_EXPORT    QBackingStore
 {
 public:
     explicit QBackingStore(QWindow *window);
     ~QBackingStore();
 
-    QWindow *window() const;
+    QWindow* window() const;
 
-    QPaintDevice *paintDevice();
+    QPaintDevice* paintDevice();
 
     // 'window' can be a child window, in which case 'region' is in child window coordinates and
     // offset is the (child) window's offset in relation to the window surface.
@@ -75,17 +75,17 @@ public:
 
     bool scroll(const QRegion &area, int dx, int dy);
 
-    void beginPaint(const QRegion &);
+    void beginPaint(const QRegion&);
     void endPaint();
 
     void setStaticContents(const QRegion &region);
     QRegion staticContents() const;
     bool hasStaticContents() const;
 
-    QPlatformBackingStore *handle() const;
+    QPlatformBackingStore* handle() const;
 
 private:
-    QScopedPointer<QBackingStorePrivate> d_ptr;
+    QScopedPointer<QBackingStorePrivate>    d_ptr;
 };
 
 QT_END_NAMESPACE

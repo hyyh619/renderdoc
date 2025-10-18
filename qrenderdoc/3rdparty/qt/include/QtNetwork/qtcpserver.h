@@ -54,7 +54,7 @@ class QNetworkProxy;
 #endif
 class QTcpSocket;
 
-class Q_NETWORK_EXPORT QTcpServer : public QObject
+class Q_NETWORK_EXPORT    QTcpServer : public QObject
 {
     Q_OBJECT
 public:
@@ -77,7 +77,7 @@ public:
 
     bool waitForNewConnection(int msec = 0, bool *timedOut = Q_NULLPTR);
     virtual bool hasPendingConnections() const;
-    virtual QTcpSocket *nextPendingConnection();
+    virtual QTcpSocket* nextPendingConnection();
 
     QAbstractSocket::SocketError serverError() const;
     QString errorString() const;
@@ -92,7 +92,7 @@ public:
 
 protected:
     virtual void incomingConnection(qintptr handle);
-    void addPendingConnection(QTcpSocket* socket);
+    void addPendingConnection(QTcpSocket *socket);
 
     QTcpServer(QAbstractSocket::SocketType socketType, QTcpServerPrivate &dd,
                QObject *parent = Q_NULLPTR);

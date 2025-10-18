@@ -1,24 +1,24 @@
 /*
-// Copyright (c) 2018 Intel Corporation
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-*/
+   // Copyright (c) 2018 Intel Corporation
+   //
+   // Permission is hereby granted, free of charge, to any person obtaining a copy
+   // of this software and associated documentation files (the "Software"), to deal
+   // in the Software without restriction, including without limitation the rights
+   // to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   // copies of the Software, and to permit persons to whom the Software is
+   // furnished to do so, subject to the following conditions:
+   //
+   // The above copyright notice and this permission notice shall be included in all
+   // copies or substantial portions of the Software.
+   //
+   // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   // FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   // AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   // SOFTWARE.
+ */
 #pragma once
 
 #include <initguid.h>
@@ -47,14 +47,14 @@
 /*                                                                                          */
 /********************************************************************************************/
 static bool GetPropertyFromDevice(
-    void* pDevInfo,
+    void *pDevInfo,
     PSP_DEVINFO_DATA pDevInfoData,
-    const DEVPROPKEY* pPropertyKey,
-    unsigned char** ppStringOut,
-    unsigned long* pStringOutSize)
+    const DEVPROPKEY *pPropertyKey,
+    unsigned char **ppStringOut,
+    unsigned long *pStringOutSize)
 {
-    unsigned long propertyType = 0;
-    unsigned long propertySize = 0;
+    unsigned long       propertyType    = 0;
+    unsigned long       propertySize    = 0;
 
     // request a size, in bytes, required for a buffer in which property value will be stored
     // SetupDiGetDeviceProperty() returns false and ERROR_INSUFFICIENT_BUFFER for the call
@@ -107,36 +107,37 @@ static bool GetPropertyFromDevice(
 /* GetIntelDriverStoreFullPath                                          */
 /************************************************************************/
 static bool GetIntelDriverStoreFullPath(
-    wchar_t* pDriverStorePath,
+    wchar_t *pDriverStorePath,
     unsigned long driverStorePathSizeInCharacters,
-    unsigned long* pDriverStorePathLengthInCharacters)
+    unsigned long *pDriverStorePathLengthInCharacters)
 {
-    bool result = false;
+    bool    result = false;
     // allocated memory must be freed with delete operation
-    unsigned char* pPropertyInfName = NULL;
+    unsigned char    *pPropertyInfName = NULL;
     // allocated memory must be freed with delete operation
-    unsigned char* pPropertyDevServiceName = NULL;
+    unsigned char    *pPropertyDevServiceName = NULL;
 
     // guid defined for display adapters
-    const GUID guid = GUID_DISPLAY_DEVICE_ARRIVAL;
+    const GUID    guid = GUID_DISPLAY_DEVICE_ARRIVAL;
 
     // create device information set containing display adapters which support interfaces and are currently present in the system
-    void* pDevInfo = SetupDiGetClassDevs(&guid, NULL, NULL, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
+    void    *pDevInfo = SetupDiGetClassDevs(&guid, NULL, NULL, DIGCF_DEVICEINTERFACE | DIGCF_PRESENT);
+
     if (pDevInfo == INVALID_HANDLE_VALUE)
     {
         DBG(stderr, "%s [%d] ---> SetupDiGetClassDevs() failed with the error code 0x%02x, pDevInfo = INVALID_HANDLE_VALUE\n", __FUNCTION__, __LINE__, GetLastError());
         goto END;
     }
 
-    unsigned long deviceIndex = 0;
-    SP_DEVINFO_DATA devInfoData;
+    unsigned long       deviceIndex = 0;
+    SP_DEVINFO_DATA     devInfoData;
     ZeroMemory(&devInfoData, sizeof(SP_DEVINFO_DATA));
-    unsigned long interfaceIndex = 0;
-    SP_DEVICE_INTERFACE_DATA deviceInterfaceData;
+    unsigned long               interfaceIndex = 0;
+    SP_DEVICE_INTERFACE_DATA    deviceInterfaceData;
     ZeroMemory(&deviceInterfaceData, sizeof(SP_DEVICE_INTERFACE_DATA));
-    DEVPROPKEY devPropKey;
+    DEVPROPKEY    devPropKey;
     ZeroMemory(&devPropKey, sizeof(DEVPROPKEY));
-    unsigned long driverStorePathLengthInCharacters = 0;
+    unsigned long    driverStorePathLengthInCharacters = 0;
 
     // enumerate display adapters
     while (true)
@@ -184,10 +185,10 @@ static bool GetIntelDriverStoreFullPath(
             }
 
             // to read DEVPKEY_Device_DriverInfPath property value correctly just cast unsigned char* (means PBYTE) to const wchar_t*
-            const wchar_t* pInfName = reinterpret_cast<const wchar_t*>(pPropertyInfName);
+            const wchar_t    *pInfName = reinterpret_cast<const wchar_t*>(pPropertyInfName);
             DBG(stdout, "\n");
             DBG(stdout, "pPropertyInfName = %ws\n", pInfName);
-            wchar_t driverStorePath[MAX_PATH];
+            wchar_t    driverStorePath[MAX_PATH];
             ZeroMemory(driverStorePath, sizeof(driverStorePath));
 
             // get a fully qualified name of an inf file (directory path and file name)
@@ -211,7 +212,7 @@ static bool GetIntelDriverStoreFullPath(
             }
 
             // to read DEVPKEY_Device_Service property value correctly just cast unsigned char* (means PBYTE) to const wchar_t*
-            const wchar_t* pDevServiceName = reinterpret_cast<const wchar_t*>(pPropertyDevServiceName);
+            const wchar_t    *pDevServiceName = reinterpret_cast<const wchar_t*>(pPropertyDevServiceName);
             DBG(stdout, "pDevServiceName = %ws\n", pDevServiceName);
 
             // check if a given display adapter is from Intel based on driver device service name "igfx"
@@ -246,6 +247,7 @@ static bool GetIntelDriverStoreFullPath(
                     SetLastError(ERROR_BAD_LENGTH);
                     DBG(stderr, "%s [%d] ---> Error: driverStorePathLengthInCharacters = 0, result = false\n", __FUNCTION__, __LINE__);
                 }
+
                 goto END;
             }
             else
@@ -299,18 +301,18 @@ END:
 /************************************************************************/
 /* LoadDynamicLibrary                                                   */
 /************************************************************************/
-static HMODULE LoadDynamicLibrary(const wchar_t* pFileName, HANDLE hFile = NULL, unsigned long flags = 0)
+static HMODULE LoadDynamicLibrary(const wchar_t *pFileName, HANDLE hFile = NULL, unsigned long flags = 0)
 {
-    HMODULE hModule = NULL;
-    unsigned long driverStorePathLengthInCharacters = 0;
+    HMODULE             hModule                             = NULL;
+    unsigned long       driverStorePathLengthInCharacters   = 0;
     // contains fully qualified name of DriverStore (directory path only without backslash at the end) for Intel display driver
     // for example: C:\Windows\System32\DriverStore\FileRepository\igdlh64.inf_amd64_1d1d318ad2d391db
-    wchar_t driverStorePath[MAX_PATH] = { 0 };
+    wchar_t    driverStorePath[MAX_PATH] = { 0 };
 
     // find fully qualified name of DriverStore for Intel graphics driver
     if (GetIntelDriverStoreFullPath(driverStorePath, ARRAYSIZE(driverStorePath), &driverStorePathLengthInCharacters) == true)
     {
-        std::wstring driverStoreFullPath(driverStorePath);
+        std::wstring    driverStoreFullPath(driverStorePath);
 
         if (driverStorePathLengthInCharacters)
         {

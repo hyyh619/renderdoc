@@ -47,8 +47,8 @@
 
 #define QT_NO_SOCKET_H
 
-#define DIR void *
-#define PATH_MAX 256
+#define DIR         void*
+#define PATH_MAX    256
 
 #include "qfunctions_nacl.h"
 #include <pthread.h>

@@ -73,7 +73,7 @@ public:
     operator SSLContextRef () const;
     void reset(SSLContextRef newContext);
 private:
-    SSLContextRef context;
+    SSLContextRef    context;
 
     Q_DISABLE_COPY(QSecureTransportContext)
 };
@@ -120,7 +120,7 @@ private:
     bool checkSslErrors();
     bool startHandshake();
 
-    QSecureTransportContext context;
+    QSecureTransportContext    context;
 
     Q_DISABLE_COPY(QSslSocketBackendPrivate)
 };

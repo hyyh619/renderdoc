@@ -63,7 +63,7 @@ class QScrollBar;
 class QAbstractScrollAreaScrollBarContainer;
 
 // ### Qt 6: is the export still needed? If not, unexport QFramePrivate, too.
-class Q_WIDGETS_EXPORT QAbstractScrollAreaPrivate: public QFramePrivate
+class Q_WIDGETS_EXPORT    QAbstractScrollAreaPrivate : public QFramePrivate
 {
     Q_DECLARE_PUBLIC(QAbstractScrollArea)
 
@@ -73,32 +73,32 @@ public:
 
     void replaceScrollBar(QScrollBar *scrollBar, Qt::Orientation orientation);
 
-    QAbstractScrollAreaScrollBarContainer *scrollBarContainers[Qt::Vertical + 1];
-    QScrollBar *hbar, *vbar;
-    Qt::ScrollBarPolicy vbarpolicy, hbarpolicy;
+    QAbstractScrollAreaScrollBarContainer       *scrollBarContainers[Qt::Vertical + 1];
+    QScrollBar                                  *hbar, *vbar;
+    Qt::ScrollBarPolicy                         vbarpolicy, hbarpolicy;
 
-    bool shownOnce;
-    bool inResize;
-    mutable QSize sizeHint;
-    QAbstractScrollArea::SizeAdjustPolicy sizeAdjustPolicy;
+    bool                                        shownOnce;
+    bool                                        inResize;
+    mutable QSize                               sizeHint;
+    QAbstractScrollArea::SizeAdjustPolicy       sizeAdjustPolicy;
 
-    QWidget *viewport;
-    QWidget *cornerWidget;
-    QRect cornerPaintingRect;
+    QWidget     *viewport;
+    QWidget     *cornerWidget;
+    QRect       cornerPaintingRect;
 #if 0 // Used to be included in Qt4 for Q_WS_MAC
-    QRect reverseCornerPaintingRect;
+    QRect    reverseCornerPaintingRect;
 #endif
-    int left, top, right, bottom; // viewport margin
+    int    left, top, right, bottom; // viewport margin
 
-    int xoffset, yoffset;
-    QPoint overshoot;
+    int         xoffset, yoffset;
+    QPoint      overshoot;
 
     void init();
     void layoutChildren();
     void layoutChildren_helper(bool *needHorizontalScrollbar, bool *needVerticalScrollbar);
     // ### Fix for 4.4, talk to Bjoern E or Girish.
     virtual void scrollBarPolicyChanged(Qt::Orientation, Qt::ScrollBarPolicy) {}
-    bool canStartScrollingAt( const QPoint &startPos );
+    bool canStartScrollingAt(const QPoint &startPos);
 
     void flashScrollBars();
     void setScrollBarTransient(QScrollBar *scrollBar, bool transient);
@@ -110,11 +110,13 @@ public:
     virtual QPoint contentsOffset() const;
 
     inline bool viewportEvent(QEvent *event)
-    { return q_func()->viewportEvent(event); }
-    QScopedPointer<QObject> viewportFilter;
+    {
+        return q_func()->viewportEvent(event);
+    }
+    QScopedPointer<QObject>    viewportFilter;
 
 #if 0 // Used to be included in Qt4 for Q_WS_WIN
-    bool singleFingerPanEnabled;
+    bool    singleFingerPanEnabled;
     void setSingleFingerPanEnabled(bool on = true);
 #endif
 };
@@ -124,11 +126,15 @@ class QAbstractScrollAreaFilter : public QObject
     Q_OBJECT
 public:
     QAbstractScrollAreaFilter(QAbstractScrollAreaPrivate *p) : d(p)
-    { setObjectName(QLatin1String("qt_abstractscrollarea_filter")); }
+    {
+        setObjectName(QLatin1String("qt_abstractscrollarea_filter"));
+    }
     bool eventFilter(QObject *o, QEvent *e) Q_DECL_OVERRIDE
-    { return (o == d->viewport ? d->viewportEvent(e) : false); }
+    {
+        return (o == d->viewport ? d->viewportEvent(e) : false);
+    }
 private:
-    QAbstractScrollAreaPrivate *d;
+    QAbstractScrollAreaPrivate    *d;
 };
 
 class QBoxLayout;
@@ -142,14 +148,13 @@ public:
     QWidgetList widgets(LogicalPosition position);
     void removeWidget(QWidget *widget);
 
-    QScrollBar *scrollBar;
-    QBoxLayout *layout;
+    QScrollBar      *scrollBar;
+    QBoxLayout      *layout;
 private:
     int scrollBarLayoutIndex() const;
 
-    Qt::Orientation orientation;
+    Qt::Orientation    orientation;
 };
-
 #endif // QT_CONFIG(scrollarea)
 
 QT_END_NAMESPACE

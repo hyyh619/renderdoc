@@ -45,10 +45,11 @@
 QT_BEGIN_NAMESPACE
 
 
-class Q_CORE_EXPORT QElapsedTimer
+class Q_CORE_EXPORT    QElapsedTimer
 {
 public:
-    enum ClockType {
+    enum ClockType
+    {
         SystemTime,
         MonotonicClock,
         TickCounter,
@@ -58,9 +59,8 @@ public:
 
     Q_DECL_CONSTEXPR QElapsedTimer()
         : t1(Q_INT64_C(0x8000000000000000)),
-          t2(Q_INT64_C(0x8000000000000000))
-    {
-    }
+        t2(Q_INT64_C(0x8000000000000000))
+    {}
 
     static ClockType clockType() Q_DECL_NOTHROW;
     static bool isMonotonic() Q_DECL_NOTHROW;
@@ -79,15 +79,19 @@ public:
     qint64 secsTo(const QElapsedTimer &other) const Q_DECL_NOTHROW;
 
     bool operator==(const QElapsedTimer &other) const Q_DECL_NOTHROW
-    { return t1 == other.t1 && t2 == other.t2; }
+    {
+        return t1 == other.t1 && t2 == other.t2;
+    }
     bool operator!=(const QElapsedTimer &other) const Q_DECL_NOTHROW
-    { return !(*this == other); }
+    {
+        return !(*this == other);
+    }
 
     friend bool Q_CORE_EXPORT operator<(const QElapsedTimer &v1, const QElapsedTimer &v2) Q_DECL_NOTHROW;
 
 private:
-    qint64 t1;
-    qint64 t2;
+    qint64      t1;
+    qint64      t2;
 };
 
 QT_END_NAMESPACE

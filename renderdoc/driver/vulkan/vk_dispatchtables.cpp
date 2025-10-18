@@ -1,26 +1,26 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2019-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2019-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include <unordered_map>
 #include "common/threading.h"
@@ -29,245 +29,248 @@
 #include "vk_hookset_defs.h"
 #include "vk_resources.h"
 
-static VkDevDispatchTable replayDeviceTable;
-static VkInstDispatchTable replayInstanceTable;
+static VkDevDispatchTable       replayDeviceTable;
+static VkInstDispatchTable      replayInstanceTable;
 
-static bool replay = false;
+static bool    replay = false;
 
 void InitReplayTables(void *vulkanModule)
 {
-  replay = true;
+    replay = true;
 
-  // not all functions will succeed - some need to be fetched through the below
-  // InitDeviceReplayTable()
+    // not all functions will succeed - some need to be fetched through the below
+    // InitDeviceReplayTable()
 
 #undef HookInit
 #define HookInit(name) \
-  table.name =         \
-      (CONCAT(PFN_vk, name))Process::GetFunctionAddress(vulkanModule, STRINGIZE(CONCAT(vk, name)))
+    table.name =       \
+        (CONCAT(PFN_vk, name)) Process::GetFunctionAddress(vulkanModule, STRINGIZE(CONCAT(vk, name)))
 
-  {
-    VkDevDispatchTable &table = replayDeviceTable;
-    memset(&table, 0, sizeof(table));
-    HookInit(GetDeviceProcAddr);
-    HookInit(CreateDevice);
-    HookInitVulkanDevice();
-  }
+    {
+        VkDevDispatchTable    &table = replayDeviceTable;
+        memset(&table, 0, sizeof(table));
+        HookInit(GetDeviceProcAddr);
+        HookInit(CreateDevice);
+        HookInitVulkanDevice();
+    }
 
-  {
-    VkInstDispatchTable &table = replayInstanceTable;
-    memset(&table, 0, sizeof(table));
-    HookInit(GetInstanceProcAddr);
-    HookInit(EnumerateInstanceExtensionProperties);
-    HookInit(EnumerateInstanceLayerProperties);
-    HookInitVulkanInstance();
-  }
+    {
+        VkInstDispatchTable    &table = replayInstanceTable;
+        memset(&table, 0, sizeof(table));
+        HookInit(GetInstanceProcAddr);
+        HookInit(EnumerateInstanceExtensionProperties);
+        HookInit(EnumerateInstanceLayerProperties);
+        HookInitVulkanInstance();
+    }
 }
 
 #define InstanceGPA(func) \
-  table->func =           \
-      (CONCAT(PFN_vk, func))table->GetInstanceProcAddr(instance, STRINGIZE(CONCAT(vk, func)))
+    table->func =         \
+        (CONCAT(PFN_vk, func))table->GetInstanceProcAddr(instance, STRINGIZE(CONCAT(vk, func)))
 
 void InitInstanceExtensionTables(VkInstance instance, InstanceDeviceInfo *info)
 {
-  VkInstDispatchTable *table = GetInstanceDispatchTable(instance);
-  RDCASSERT(table);
+    VkInstDispatchTable    *table = GetInstanceDispatchTable(instance);
 
-  instance = Unwrap(instance);
+    RDCASSERT(table);
+
+    instance = Unwrap(instance);
 
 #undef DeclExt
-#define DeclExt(name) \
-  bool name = false;  \
-  (void)name;
+#define DeclExt(name)  \
+    bool name = false; \
+    (void)name;
 
 #undef CheckExt
 #define CheckExt(name, ver) name = info->ext_##name;
 
 #undef HookInitExtension
 #define HookInitExtension(cond, func) \
-  if(cond)                            \
-  {                                   \
-    InstanceGPA(func);                \
-  }
+    if (cond)                         \
+    {                                 \
+        InstanceGPA(func);            \
+    }
 
 #undef HookInitPromotedExtension
-#define HookInitPromotedExtension(cond, func, suffix) \
-  if(cond)                                            \
-  {                                                   \
-    InstanceGPA(func);                                \
-    InstanceGPA(CONCAT(func, suffix));                \
-    if(table->func == NULL)                           \
-      table->func = table->CONCAT(func, suffix);      \
-    if(table->CONCAT(func, suffix) == NULL)           \
-      table->CONCAT(func, suffix) = table->func;      \
-  }
+#define HookInitPromotedExtension(cond, func, suffix)   \
+    if (cond)                                           \
+    {                                                   \
+        InstanceGPA(func);                              \
+        InstanceGPA(CONCAT(func, suffix));              \
+        if (table->func == NULL)                        \
+            table->func = table->CONCAT(func, suffix);  \
+        if (table->CONCAT(func, suffix) == NULL)        \
+            table->CONCAT(func, suffix) = table->func;  \
+    }
 
 #undef HookInitExtensionEXTtoKHR
-#define HookInitExtensionEXTtoKHR(func)                    \
-  {                                                        \
-    if(table->CONCAT(func, EXT) == NULL)                   \
-      table->CONCAT(func, EXT) = table->CONCAT(func, KHR); \
-    if(table->CONCAT(func, KHR) == NULL)                   \
-      table->CONCAT(func, KHR) = table->CONCAT(func, EXT); \
-  }
+#define HookInitExtensionEXTtoKHR(func)                           \
+    {                                                             \
+        if (table->CONCAT(func, EXT) == NULL)                     \
+            table->CONCAT(func, EXT) = table->CONCAT(func, KHR);  \
+        if (table->CONCAT(func, KHR) == NULL)                     \
+            table->CONCAT(func, KHR) = table->CONCAT(func, EXT);  \
+    }
 
-  DeclExts();
+    DeclExts();
 
-  CheckInstanceExts();
+    CheckInstanceExts();
 
-  InstanceGPA(EnumerateDeviceExtensionProperties);
-  InstanceGPA(EnumerateDeviceLayerProperties);
+    InstanceGPA(EnumerateDeviceExtensionProperties);
+    InstanceGPA(EnumerateDeviceLayerProperties);
 
-  HookInitVulkanInstanceExts();
+    HookInitVulkanInstanceExts();
 }
 
 #undef InstanceGPA
 
 #define DeviceGPA(func) \
-  table->func = (CONCAT(PFN_vk, func))table->GetDeviceProcAddr(device, STRINGIZE(CONCAT(vk, func)));
+    table->func = (CONCAT(PFN_vk, func))table->GetDeviceProcAddr(device, STRINGIZE(CONCAT(vk, func)));
 
 void InitDeviceExtensionTables(VkDevice device, InstanceDeviceInfo *info)
 {
-  VkDevDispatchTable *table = GetDeviceDispatchTable(device);
-  RDCASSERT(table);
+    VkDevDispatchTable    *table = GetDeviceDispatchTable(device);
 
-  device = Unwrap(device);
+    RDCASSERT(table);
+
+    device = Unwrap(device);
 
 #undef HookInitExtension
 #define HookInitExtension(cond, func) \
-  if(cond)                            \
-  {                                   \
-    DeviceGPA(func);                  \
-  }
+    if (cond)                         \
+    {                                 \
+        DeviceGPA(func);              \
+    }
 
 #undef HookInitPromotedExtension
-#define HookInitPromotedExtension(cond, func, suffix) \
-  if(cond)                                            \
-  {                                                   \
-    DeviceGPA(func);                                  \
-    DeviceGPA(CONCAT(func, suffix));                  \
-    if(table->func == NULL)                           \
-      table->func = table->CONCAT(func, suffix);      \
-    if(table->CONCAT(func, suffix) == NULL)           \
-      table->CONCAT(func, suffix) = table->func;      \
-  }
+#define HookInitPromotedExtension(cond, func, suffix)   \
+    if (cond)                                           \
+    {                                                   \
+        DeviceGPA(func);                                \
+        DeviceGPA(CONCAT(func, suffix));                \
+        if (table->func == NULL)                        \
+            table->func = table->CONCAT(func, suffix);  \
+        if (table->CONCAT(func, suffix) == NULL)        \
+            table->CONCAT(func, suffix) = table->func;  \
+    }
 
 #undef HookInitExtensionEXTtoKHR
-#define HookInitExtensionEXTtoKHR(func)                    \
-  {                                                        \
-    if(table->CONCAT(func, EXT) == NULL)                   \
-      table->CONCAT(func, EXT) = table->CONCAT(func, KHR); \
-    if(table->CONCAT(func, KHR) == NULL)                   \
-      table->CONCAT(func, KHR) = table->CONCAT(func, EXT); \
-  }
+#define HookInitExtensionEXTtoKHR(func)                           \
+    {                                                             \
+        if (table->CONCAT(func, EXT) == NULL)                     \
+            table->CONCAT(func, EXT) = table->CONCAT(func, KHR);  \
+        if (table->CONCAT(func, KHR) == NULL)                     \
+            table->CONCAT(func, KHR) = table->CONCAT(func, EXT);  \
+    }
 
-  DeclExts();
+    DeclExts();
 
-  CheckInstanceExts();
-  CheckDeviceExts();
+    CheckInstanceExts();
+    CheckDeviceExts();
 
-  HookInitVulkanDeviceExts();
+    HookInitVulkanDeviceExts();
 }
 
 #undef DeviceGPA
 
-static Threading::CriticalSection devlock;
-std::map<void *, VkDevDispatchTable> devlookup;
+static Threading::CriticalSection       devlock;
+std::map<void*, VkDevDispatchTable>     devlookup;
 
-static Threading::CriticalSection instlock;
-std::map<void *, VkInstDispatchTable> instlookup;
+static Threading::CriticalSection       instlock;
+std::map<void*, VkInstDispatchTable>    instlookup;
 
-static void *GetKey(void *obj)
+static void* GetKey(void *obj)
 {
-  VkDevDispatchTable **tablePtr = (VkDevDispatchTable **)obj;
-  return (void *)*tablePtr;
+    VkDevDispatchTable    **tablePtr = (VkDevDispatchTable**)obj;
+
+    return (void*)*tablePtr;
 }
 
 void InitDeviceTable(VkDevice dev, PFN_vkGetDeviceProcAddr gpa)
 {
-  void *key = GetKey(dev);
+    void    *key = GetKey(dev);
 
-  VkDevDispatchTable *table = NULL;
+    VkDevDispatchTable    *table = NULL;
 
-  {
-    SCOPED_LOCK(devlock);
-    RDCEraseEl(devlookup[key]);
-    table = &devlookup[key];
-  }
+    {
+        SCOPED_LOCK(devlock);
+        RDCEraseEl(devlookup[key]);
+        table = &devlookup[key];
+    }
 
-  table->GetDeviceProcAddr = gpa;
+    table->GetDeviceProcAddr = gpa;
 
 // fetch the rest of the functions
 #undef HookInit
-#define HookInit(name)    \
-  if(table->name == NULL) \
-  table->name = (CONCAT(PFN_vk, name))gpa(dev, STRINGIZE(CONCAT(vk, name)))
+#define HookInit(name)       \
+    if (table->name == NULL) \
+        table->name = (CONCAT(PFN_vk, name))gpa(dev, STRINGIZE(CONCAT(vk, name)))
 
-  HookInitVulkanDevice();
+    HookInitVulkanDevice();
 }
 
 void InitInstanceTable(VkInstance inst, PFN_vkGetInstanceProcAddr gpa)
 {
-  void *key = GetKey(inst);
+    void    *key = GetKey(inst);
 
-  VkInstDispatchTable *table = NULL;
+    VkInstDispatchTable    *table = NULL;
 
-  {
-    SCOPED_LOCK(instlock);
-    RDCEraseEl(instlookup[key]);
-    table = &instlookup[key];
-  }
+    {
+        SCOPED_LOCK(instlock);
+        RDCEraseEl(instlookup[key]);
+        table = &instlookup[key];
+    }
 
-  // init the GetInstanceProcAddr function first
-  table->GetInstanceProcAddr = gpa;
+    // init the GetInstanceProcAddr function first
+    table->GetInstanceProcAddr = gpa;
 
 // fetch the rest of the functions
 #undef HookInit
-#define HookInit(name)    \
-  if(table->name == NULL) \
-  table->name = (CONCAT(PFN_vk, name))gpa(inst, STRINGIZE(CONCAT(vk, name)))
+#define HookInit(name)       \
+    if (table->name == NULL) \
+        table->name = (CONCAT(PFN_vk, name))gpa(inst, STRINGIZE(CONCAT(vk, name)))
 
-  HookInitVulkanInstance();
+    HookInitVulkanInstance();
 
-  // we also need these functions for layer handling
-  HookInit(EnumerateDeviceExtensionProperties);
-  HookInit(EnumerateDeviceLayerProperties);
+    // we also need these functions for layer handling
+    HookInit(EnumerateDeviceExtensionProperties);
+    HookInit(EnumerateDeviceLayerProperties);
 }
 
-VkDevDispatchTable *GetDeviceDispatchTable(void *device)
+VkDevDispatchTable* GetDeviceDispatchTable(void *device)
 {
-  if(replay)
-    return &replayDeviceTable;
+    if (replay)
+        return &replayDeviceTable;
 
-  void *key = GetKey(device);
+    void    *key = GetKey(device);
 
-  {
-    SCOPED_LOCK(devlock);
+    {
+        SCOPED_LOCK(devlock);
 
-    auto it = devlookup.find(key);
+        auto    it = devlookup.find(key);
 
-    if(it == devlookup.end())
-      RDCFATAL("Bad device pointer");
+        if (it == devlookup.end())
+            RDCFATAL("Bad device pointer");
 
-    return &it->second;
-  }
+        return &it->second;
+    }
 }
 
-VkInstDispatchTable *GetInstanceDispatchTable(void *instance)
+VkInstDispatchTable* GetInstanceDispatchTable(void *instance)
 {
-  if(replay)
-    return &replayInstanceTable;
+    if (replay)
+        return &replayInstanceTable;
 
-  void *key = GetKey(instance);
+    void    *key = GetKey(instance);
 
-  {
-    SCOPED_LOCK(instlock);
+    {
+        SCOPED_LOCK(instlock);
 
-    auto it = instlookup.find(key);
+        auto    it = instlookup.find(key);
 
-    if(it == instlookup.end())
-      RDCFATAL("Bad device pointer");
+        if (it == instlookup.end())
+            RDCFATAL("Bad device pointer");
 
-    return &it->second;
-  }
+        return &it->second;
+    }
 }

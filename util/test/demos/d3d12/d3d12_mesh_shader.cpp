@@ -1,80 +1,80 @@
 /******************************************************************************
- * The MIT License (MIT)
- *
- * Copyright (c) 2024-2025 Baldur Karlsson
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
- ******************************************************************************/
+* The MIT License (MIT)
+*
+* Copyright (c) 2024-2025 Baldur Karlsson
+*
+* Permission is hereby granted, free of charge, to any person obtaining a copy
+* of this software and associated documentation files (the "Software"), to deal
+* in the Software without restriction, including without limitation the rights
+* to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+* copies of the Software, and to permit persons to whom the Software is
+* furnished to do so, subject to the following conditions:
+*
+* The above copyright notice and this permission notice shall be included in
+* all copies or substantial portions of the Software.
+*
+* THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+* IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+* FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+* AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+* LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+* OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+* THE SOFTWARE.
+******************************************************************************/
 
 #include "d3d12_test.h"
 
 // subobject headers have to be aligned to pointer boundaries
-#define SUBOBJECT_HEADER(subobj)                                               \
-  D3D12_PIPELINE_STATE_SUBOBJECT_TYPE alignas(void *) CONCAT(header, subobj) = \
-      CONCAT(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_, subobj);
+#define SUBOBJECT_HEADER(subobj)                                                \
+    D3D12_PIPELINE_STATE_SUBOBJECT_TYPE alignas(void*) CONCAT(header, subobj) = \
+        CONCAT(D3D12_PIPELINE_STATE_SUBOBJECT_TYPE_, subobj);
 
 struct GraphicsStreamData
 {
-  // graphics properties
-  SUBOBJECT_HEADER(ROOT_SIGNATURE);
-  ID3D12RootSignature *pRootSignature = NULL;
-  SUBOBJECT_HEADER(VS);
-  D3D12_SHADER_BYTECODE VS = {};
-  SUBOBJECT_HEADER(AS);
-  D3D12_SHADER_BYTECODE AS = {};
-  SUBOBJECT_HEADER(MS);
-  D3D12_SHADER_BYTECODE MS = {};
-  SUBOBJECT_HEADER(PS);
-  D3D12_SHADER_BYTECODE PS = {};
-  SUBOBJECT_HEADER(DS);
-  D3D12_SHADER_BYTECODE DS = {};
-  SUBOBJECT_HEADER(HS);
-  D3D12_SHADER_BYTECODE HS = {};
-  SUBOBJECT_HEADER(GS);
-  D3D12_SHADER_BYTECODE GS = {};
-  SUBOBJECT_HEADER(RENDER_TARGET_FORMATS);
-  D3D12_RT_FORMAT_ARRAY RTVFormats = {};
-  SUBOBJECT_HEADER(DEPTH_STENCIL_FORMAT);
-  DXGI_FORMAT DSVFormat = DXGI_FORMAT_UNKNOWN;
-  SUBOBJECT_HEADER(PRIMITIVE_TOPOLOGY);
-  D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
-  SUBOBJECT_HEADER(IB_STRIP_CUT_VALUE);
-  D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
-  SUBOBJECT_HEADER(NODE_MASK);
-  UINT NodeMask = 0;
-  SUBOBJECT_HEADER(SAMPLE_MASK);
-  UINT SampleMask = 0;
-  SUBOBJECT_HEADER(RASTERIZER);
-  D3D12_RASTERIZER_DESC RasterizerState;
-  SUBOBJECT_HEADER(FLAGS);
-  D3D12_PIPELINE_STATE_FLAGS Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
-  SUBOBJECT_HEADER(BLEND);
-  D3D12_BLEND_DESC BlendState = {};
-  UINT pad0;
-  SUBOBJECT_HEADER(SAMPLE_DESC);
-  DXGI_SAMPLE_DESC SampleDesc = {};
-  UINT pad1;
+    // graphics properties
+    SUBOBJECT_HEADER(ROOT_SIGNATURE);
+    ID3D12RootSignature *pRootSignature = NULL;
+    SUBOBJECT_HEADER(VS);
+    D3D12_SHADER_BYTECODE VS = {};
+    SUBOBJECT_HEADER(AS);
+    D3D12_SHADER_BYTECODE AS = {};
+    SUBOBJECT_HEADER(MS);
+    D3D12_SHADER_BYTECODE MS = {};
+    SUBOBJECT_HEADER(PS);
+    D3D12_SHADER_BYTECODE PS = {};
+    SUBOBJECT_HEADER(DS);
+    D3D12_SHADER_BYTECODE DS = {};
+    SUBOBJECT_HEADER(HS);
+    D3D12_SHADER_BYTECODE HS = {};
+    SUBOBJECT_HEADER(GS);
+    D3D12_SHADER_BYTECODE GS = {};
+    SUBOBJECT_HEADER(RENDER_TARGET_FORMATS);
+    D3D12_RT_FORMAT_ARRAY RTVFormats = {};
+    SUBOBJECT_HEADER(DEPTH_STENCIL_FORMAT);
+    DXGI_FORMAT DSVFormat = DXGI_FORMAT_UNKNOWN;
+    SUBOBJECT_HEADER(PRIMITIVE_TOPOLOGY);
+    D3D12_PRIMITIVE_TOPOLOGY_TYPE PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED;
+    SUBOBJECT_HEADER(IB_STRIP_CUT_VALUE);
+    D3D12_INDEX_BUFFER_STRIP_CUT_VALUE IBStripCutValue = D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
+    SUBOBJECT_HEADER(NODE_MASK);
+    UINT NodeMask = 0;
+    SUBOBJECT_HEADER(SAMPLE_MASK);
+    UINT SampleMask = 0;
+    SUBOBJECT_HEADER(RASTERIZER);
+    D3D12_RASTERIZER_DESC RasterizerState;
+    SUBOBJECT_HEADER(FLAGS);
+    D3D12_PIPELINE_STATE_FLAGS Flags = D3D12_PIPELINE_STATE_FLAG_NONE;
+    SUBOBJECT_HEADER(BLEND);
+    D3D12_BLEND_DESC    BlendState = {};
+    UINT                pad0;
+    SUBOBJECT_HEADER(SAMPLE_DESC);
+    DXGI_SAMPLE_DESC    SampleDesc = {};
+    UINT                pad1;
 };
 
 #undef SUBOBJECT_HEADER
 
-std::string GlobalPayload_Shaders = R"EOSHADER(
+std::string    GlobalPayload_Shaders = R"EOSHADER(
 
 struct Payload
 {
@@ -123,7 +123,7 @@ void ms_amplify(uint gtid : SV_GroupThreadID, uint dtid : SV_DispatchThreadID, i
 
 )EOSHADER";
 
-std::string LocalPayload_Shaders = R"EOSHADER(
+std::string    LocalPayload_Shaders = R"EOSHADER(
 
 struct Payload
 {
@@ -174,7 +174,7 @@ void ms_amplify(uint gtid : SV_GroupThreadID, uint dtid : SV_DispatchThreadID, i
 
 )EOSHADER";
 
-std::string SimpleMeshShader = R"EOSHADER(
+std::string    SimpleMeshShader = R"EOSHADER(
 
 struct m2f
 {
@@ -215,126 +215,130 @@ void ms_simple(in uint gid : SV_GroupID, out indices uint3 triangles[2], out ver
 
 RD_TEST(D3D12_Mesh_Shader, D3D12GraphicsTest)
 {
-  static constexpr const char *Description = "Draws geometry using mesh shader pipeline.";
+    static constexpr const char    *Description = "Draws geometry using mesh shader pipeline.";
 
-  void Prepare(int argc, char **argv)
-  {
-    D3D12GraphicsTest::Prepare(argc, argv);
+    void Prepare(int argc, char **argv)
+    {
+        D3D12GraphicsTest::Prepare(argc, argv);
 
-    if(!Avail.empty())
-      return;
+        if (!Avail.empty())
+            return;
 
-    if(opts7.MeshShaderTier == D3D12_MESH_SHADER_TIER_NOT_SUPPORTED)
-      Avail = "Mesh Shaders are not supported";
-  }
+        if (opts7.MeshShaderTier == D3D12_MESH_SHADER_TIER_NOT_SUPPORTED)
+            Avail = "Mesh Shaders are not supported";
+    }
 
-  ID3D12PipelineStatePtr CreatePipeline(const D3D12PSOCreator &psoData) const
-  {
-    GraphicsStreamData graphicsStreamData;
-    const D3D12_GRAPHICS_PIPELINE_STATE_DESC &GraphicsDesc = psoData.GraphicsDesc;
+    ID3D12PipelineStatePtr CreatePipeline(const D3D12PSOCreator &psoData) const
+    {
+        GraphicsStreamData                          graphicsStreamData;
+        const D3D12_GRAPHICS_PIPELINE_STATE_DESC    &GraphicsDesc = psoData.GraphicsDesc;
 
-    graphicsStreamData.pRootSignature = GraphicsDesc.pRootSignature;
-    graphicsStreamData.VS = GraphicsDesc.VS;
-    graphicsStreamData.AS = psoData.GetAS();
-    graphicsStreamData.MS = psoData.GetMS();
-    graphicsStreamData.PS = GraphicsDesc.PS;
-    graphicsStreamData.DS = GraphicsDesc.DS;
-    graphicsStreamData.HS = GraphicsDesc.HS;
-    graphicsStreamData.GS = GraphicsDesc.GS;
-    graphicsStreamData.BlendState = GraphicsDesc.BlendState;
-    graphicsStreamData.SampleMask = GraphicsDesc.SampleMask;
-    graphicsStreamData.IBStripCutValue = GraphicsDesc.IBStripCutValue;
-    graphicsStreamData.PrimitiveTopologyType = GraphicsDesc.PrimitiveTopologyType;
-    for(uint32_t i = 0; i < 8; ++i)
-      graphicsStreamData.RTVFormats.RTFormats[i] = GraphicsDesc.RTVFormats[i];
-    graphicsStreamData.RTVFormats.NumRenderTargets = GraphicsDesc.NumRenderTargets;
+        graphicsStreamData.pRootSignature           = GraphicsDesc.pRootSignature;
+        graphicsStreamData.VS                       = GraphicsDesc.VS;
+        graphicsStreamData.AS                       = psoData.GetAS();
+        graphicsStreamData.MS                       = psoData.GetMS();
+        graphicsStreamData.PS                       = GraphicsDesc.PS;
+        graphicsStreamData.DS                       = GraphicsDesc.DS;
+        graphicsStreamData.HS                       = GraphicsDesc.HS;
+        graphicsStreamData.GS                       = GraphicsDesc.GS;
+        graphicsStreamData.BlendState               = GraphicsDesc.BlendState;
+        graphicsStreamData.SampleMask               = GraphicsDesc.SampleMask;
+        graphicsStreamData.IBStripCutValue          = GraphicsDesc.IBStripCutValue;
+        graphicsStreamData.PrimitiveTopologyType    = GraphicsDesc.PrimitiveTopologyType;
 
-    graphicsStreamData.DSVFormat = GraphicsDesc.DSVFormat;
-    graphicsStreamData.SampleDesc = GraphicsDesc.SampleDesc;
-    graphicsStreamData.NodeMask = GraphicsDesc.NodeMask;
-    graphicsStreamData.Flags = GraphicsDesc.Flags;
+        for (uint32_t i = 0; i < 8; ++i)
+            graphicsStreamData.RTVFormats.RTFormats[i] = GraphicsDesc.RTVFormats[i];
 
-    graphicsStreamData.RasterizerState = GraphicsDesc.RasterizerState;
+        graphicsStreamData.RTVFormats.NumRenderTargets = GraphicsDesc.NumRenderTargets;
 
-    D3D12_PIPELINE_STATE_STREAM_DESC streamDesc;
-    streamDesc.pPipelineStateSubobjectStream = &graphicsStreamData;
-    streamDesc.SizeInBytes = sizeof(GraphicsStreamData);
+        graphicsStreamData.DSVFormat    = GraphicsDesc.DSVFormat;
+        graphicsStreamData.SampleDesc   = GraphicsDesc.SampleDesc;
+        graphicsStreamData.NodeMask     = GraphicsDesc.NodeMask;
+        graphicsStreamData.Flags        = GraphicsDesc.Flags;
 
-    ID3D12PipelineStatePtr pso;
-    dev2->CreatePipelineState(&streamDesc, __uuidof(ID3D12PipelineState), (void **)&pso);
+        graphicsStreamData.RasterizerState = GraphicsDesc.RasterizerState;
 
-    return pso;
-  }
+        D3D12_PIPELINE_STATE_STREAM_DESC    streamDesc;
+        streamDesc.pPipelineStateSubobjectStream    = &graphicsStreamData;
+        streamDesc.SizeInBytes                      = sizeof(GraphicsStreamData);
 
-  int main()
-  {
-    // initialise, create window, create device, etc
-    if(!Init())
-      return 3;
+        ID3D12PipelineStatePtr    pso;
+        dev2->CreatePipelineState(&streamDesc, __uuidof(ID3D12PipelineState), (void**)&pso);
 
-    ID3DBlobPtr as_globalpayload_blob = Compile(GlobalPayload_Shaders, "as_amplify", "as_6_5");
-    ID3DBlobPtr ms_globalpayload_blob = Compile(GlobalPayload_Shaders, "ms_amplify", "ms_6_5");
-    ID3DBlobPtr as_localpayload_blob = Compile(LocalPayload_Shaders, "as_amplify", "as_6_5");
-    ID3DBlobPtr ms_localpayload_blob = Compile(LocalPayload_Shaders, "ms_amplify", "ms_6_5");
-    ID3DBlobPtr msblob = Compile(SimpleMeshShader, "ms_simple", "ms_6_5");
-    ID3DBlobPtr psblob = Compile(D3DDefaultPixel, "main", "ps_6_5");
+        return pso;
+    }
 
-    ID3D12RootSignaturePtr sig = MakeSig({});
+    int main()
+    {
+        // initialise, create window, create device, etc
+        if (!Init())
+            return 3;
 
-    ID3D12PipelineStatePtr psos[] = {
-        CreatePipeline(MakePSO().RootSig(sig).InputLayout().MS(msblob).PS(psblob)),
-        CreatePipeline(MakePSO()
+        ID3DBlobPtr     as_globalpayload_blob   = Compile(GlobalPayload_Shaders, "as_amplify", "as_6_5");
+        ID3DBlobPtr     ms_globalpayload_blob   = Compile(GlobalPayload_Shaders, "ms_amplify", "ms_6_5");
+        ID3DBlobPtr     as_localpayload_blob    = Compile(LocalPayload_Shaders, "as_amplify", "as_6_5");
+        ID3DBlobPtr     ms_localpayload_blob    = Compile(LocalPayload_Shaders, "ms_amplify", "ms_6_5");
+        ID3DBlobPtr     msblob                  = Compile(SimpleMeshShader, "ms_simple", "ms_6_5");
+        ID3DBlobPtr     psblob                  = Compile(D3DDefaultPixel, "main", "ps_6_5");
+
+        ID3D12RootSignaturePtr    sig = MakeSig({});
+
+        ID3D12PipelineStatePtr    psos[] =
+        {
+            CreatePipeline(MakePSO().RootSig(sig).InputLayout().MS(msblob).PS(psblob)),
+            CreatePipeline(MakePSO()
                            .RootSig(sig)
                            .InputLayout()
                            .AS(as_globalpayload_blob)
                            .MS(ms_globalpayload_blob)
                            .PS(psblob)),
-        CreatePipeline(
-            MakePSO().RootSig(sig).InputLayout().AS(as_localpayload_blob).MS(ms_localpayload_blob).PS(psblob)),
-    };
+            CreatePipeline(
+                MakePSO().RootSig(sig).InputLayout().AS(as_localpayload_blob).MS(ms_localpayload_blob).PS(psblob)),
+        };
 
-    while(Running())
-    {
-      ID3D12GraphicsCommandList6Ptr cmd = GetCommandBuffer();
+        while (Running())
+        {
+            ID3D12GraphicsCommandList6Ptr    cmd = GetCommandBuffer();
 
-      Reset(cmd);
+            Reset(cmd);
 
-      ID3D12ResourcePtr bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+            ID3D12ResourcePtr    bb = StartUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-      D3D12_CPU_DESCRIPTOR_HANDLE rtv =
-          MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
+            D3D12_CPU_DESCRIPTOR_HANDLE    rtv =
+                MakeRTV(bb).Format(DXGI_FORMAT_R8G8B8A8_UNORM_SRGB).CreateCPU(0);
 
-      ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
+            ClearRenderTargetView(cmd, rtv, {0.2f, 0.2f, 0.2f, 1.0f});
 
-      cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+            cmd->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-      setMarker(cmd, "Mesh Shaders");
-      for(size_t i = 0; i < ARRAY_COUNT(psos); i++)
-      {
-        cmd->SetPipelineState(psos[i]);
-        cmd->SetGraphicsRootSignature(sig);
+            setMarker(cmd, "Mesh Shaders");
 
-        RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
-        RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
+            for (size_t i = 0; i < ARRAY_COUNT(psos); i++)
+            {
+                cmd->SetPipelineState(psos[i]);
+                cmd->SetGraphicsRootSignature(sig);
 
-        OMSetRenderTargets(cmd, {rtv}, {});
-        if(i < 2)
-          cmd->DispatchMesh(2, 1, 1);
-        else
-          cmd->DispatchMesh(1, 1, 1);
-      }
+                RSSetViewport(cmd, {0.0f, 0.0f, (float)screenWidth, (float)screenHeight, 0.0f, 1.0f});
+                RSSetScissorRect(cmd, {0, 0, screenWidth, screenHeight});
 
-      FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
+                OMSetRenderTargets(cmd, {rtv}, {});
+                if (i < 2)
+                    cmd->DispatchMesh(2, 1, 1);
+                else
+                    cmd->DispatchMesh(1, 1, 1);
+            }
 
-      cmd->Close();
+            FinishUsingBackbuffer(cmd, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
-      Submit({cmd});
+            cmd->Close();
 
-      Present();
+            Submit({cmd});
+
+            Present();
+        }
+
+        return 0;
     }
-
-    return 0;
-  }
 };
 
 REGISTER_TEST();

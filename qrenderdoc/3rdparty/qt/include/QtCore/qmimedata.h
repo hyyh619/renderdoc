@@ -49,7 +49,7 @@ QT_BEGIN_NAMESPACE
 class QUrl;
 class QMimeDataPrivate;
 
-class Q_CORE_EXPORT QMimeData : public QObject
+class Q_CORE_EXPORT    QMimeData : public QObject
 {
     Q_OBJECT
 public:
@@ -86,7 +86,7 @@ public:
     void clear();
 protected:
     virtual QVariant retrieveData(const QString &mimetype,
-                                      QVariant::Type preferredType) const;
+                                  QVariant::Type preferredType) const;
 private:
     Q_DISABLE_COPY(QMimeData)
     Q_DECLARE_PRIVATE(QMimeData)
