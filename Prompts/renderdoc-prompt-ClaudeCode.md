@@ -5,14 +5,14 @@
 3. 分析需要指明具体的代码实现，以及详细的源代码在什么位置，主要的实现函数的解释
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 ## Git commit: cc9cab5c9856b84eb2a2f78fa734c73c86e3d0ff
 
 ## Claude Code Session
 
-分析报告: [Sessions/hlsl-interpreter-1-dx11-shader-debug.md](../Sessions/hlsl-interpreter-1-dx11-shader-debug.md)
+分析报告: [Sessions/rdc-1-dx11-shader-debug.md](../Sessions/rdc-1-dx11-shader-debug.md)
 
 ### Summary
 
@@ -39,8 +39,8 @@ RenderDoc 的 DX11 (HLSL/DXBC) shader 单步调试并非在 GPU 上真正单步�
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -51,8 +51,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -63,8 +63,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -75,8 +75,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -87,8 +87,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -99,8 +99,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -111,8 +111,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -123,8 +123,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -135,8 +135,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -147,8 +147,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -159,8 +159,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -171,8 +171,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -183,8 +183,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -195,8 +195,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -207,8 +207,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -219,8 +219,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -231,8 +231,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -243,8 +243,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -255,8 +255,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -267,8 +267,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -279,8 +279,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -291,8 +291,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -303,8 +303,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -315,8 +315,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -327,8 +327,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -339,8 +339,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -351,8 +351,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -363,8 +363,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -375,8 +375,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -387,8 +387,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -399,8 +399,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -411,8 +411,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -423,8 +423,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -435,8 +435,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -447,8 +447,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -459,8 +459,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -471,8 +471,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -483,8 +483,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -495,8 +495,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -507,8 +507,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -519,8 +519,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -531,8 +531,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -543,8 +543,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -555,8 +555,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -567,8 +567,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -579,8 +579,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -591,8 +591,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -603,8 +603,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -615,8 +615,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -627,8 +627,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -639,8 +639,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -651,8 +651,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -663,8 +663,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -675,8 +675,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -687,8 +687,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -699,8 +699,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -711,8 +711,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -723,8 +723,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -735,8 +735,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -747,8 +747,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -759,8 +759,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -771,8 +771,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -783,8 +783,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -795,8 +795,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -807,8 +807,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -819,8 +819,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -831,8 +831,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -843,8 +843,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -855,8 +855,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -867,8 +867,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -879,8 +879,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -891,8 +891,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -903,8 +903,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -915,8 +915,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -927,8 +927,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -939,8 +939,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -951,8 +951,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -963,8 +963,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -975,8 +975,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -987,8 +987,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -999,8 +999,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1011,8 +1011,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1023,8 +1023,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1035,8 +1035,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1047,8 +1047,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1059,8 +1059,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1071,8 +1071,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1083,8 +1083,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1095,8 +1095,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1107,8 +1107,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1119,8 +1119,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
@@ -1131,8 +1131,8 @@ Notice:
 ## Prompts
 
 Notice:
-把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照hlsl-interpreter-stepnum-***.md，stepnum请根据当step的值来填写
-把summary填入hlsl-interpreter-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
+把你思考，执行和结果都写入到一份md文件中，该文件放到Sessions目录下面，命名按照rdc-stepnum-***.md，stepnum请根据当step的值来填写
+把summary填入rdc-prompt-ClaudeCode.md的Prompts的对应的Claude Code Session中
 
 
 ## Git commit: 
